@@ -5,8 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
 <link href="spec.css" rel="stylesheet" type="text/css"/>
-<link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" type="text/css" href="./editors.css" />
 <script class="remove">
       var propIndex = "";
       var roleIndex = "";
@@ -58,7 +56,7 @@
                         var p = item.parentNode ;
                         var con = item.innerHTML ;
                         var sp = document.createElement( 'a' ) ;
-                        sp.className = 'aref' ;
+                        sp.className = 'property-reference' ;
                         sp.href='#'+con ;
                         sp.setAttribute('title', con);
                         sp.innerHTML = con ;
@@ -73,14 +71,14 @@
                         var con = item.innerHTML ;
                         var dRef = item.nextElementSibling;
                         var desc = dRef.firstElementChild.innerHTML;
-                        var sp = document.createElement( 'dfn' ) ;
+                        var sp = document.createElement( 'h4' ) ;
                         var tit = item.getAttribute('title') ;
                         if (!tit) {
                             tit = con;
                         }
                         sp.className = 'role-definition' ;
                         sp.title=tit ;
-                        sp.innerHTML = con ;
+                        sp.innerHTML = "<code>"+con+"</code>" + " (role)" ;
                         sp.id=tit ;
                         p.replaceChild(sp, item) ;
                         roleIndex += "<dt><a href='#" 
@@ -109,7 +107,10 @@
                         var sp = document.createElement( 'code' ) ;
                         sp.className = 'role-reference' ;
                         sp.innerHTML = con ;
-                        p.replaceChild(sp, item) ;
+                        var l = document.createElement( 'a' ) ;
+                        l.href="#"+con;
+                        l.appendChild(sp);
+                        p.replaceChild(l, item) ;
                     }
                     // now attributes
                     refs = document.querySelectorAll('aref') ;
@@ -447,7 +448,7 @@
 		<p>In the following example, a list item (<code>html:li</code>) has been used to create a checkable menu item, and JavaScript <a title="event">events</a> will capture mouse and keyboard events to toggle <a>value</a> of  <code class="state-reference">aria-checked</code>. A role is used to make the behavior of this simple <a>widget</a> known to the user agent. <a title="attribute">Attributes</a> that change with user actions (such as <code class="state-reference">aria-checked</code>) are defined in the <a href="#states_and_properties">states and properties</a> section.</p>
 		<pre class="example highlight">&lt;li role=&quot;menuitemcheckbox&quot; aria-checked=&quot;true&quot;&gt;Sort by Last Modified&lt;/li&gt;</pre>
 		<p>Some accessibility states, called <em><a title="managed state">managed states</a></em>, are controlled by the user agent. Examples of managed state include keyboard focus and selection. Managed states often have corresponding <abbr title="Cascading Style Sheets">CSS</abbr> pseudo-classes (such as <code>:focus</code> and <code>::selection</code>) to define style changes. In contrast, the states in this specification are typically controlled by the author and are called <em>unmanaged states.</em> Some states are managed by the user agent, such as<pref>aria-setsize</pref>, but the author can override them if the <abbr title="Document Object Model">DOM</abbr> is incomplete and would cause the user agent calculation to be incorrect. User agents map both managed and unmanaged states to the platform accessibility <abbr title="Application Programing Interfaces">APIs</abbr>.</p>
-		<p>Most modern user agents support <cite><a href="http://www.w3.org/TR/CSS2/selector.html#attribute-selectors"><abbr title="Cascading Style Sheets">CSS</abbr> attribute selectors</a></cite> ([[CSS2]]), and can allow the author to create <abbr title="User Interface">UI</abbr> changes based on <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute information, reducing the amount of scripts necessary to achieve equivalent functionality. In the following example, a <abbr title="Cascading Style Sheets">CSS</abbr> selector is used to determine whether or not the text is bold and an image of a check mark is shown, based on the value of the<code class="state-reference">aria-checked</code> attribute.</p>
+		<p>Most modern user agents support <cite><a href="http://www.w3.org/TR/CSS2/selector.html#attribute-selectors"><abbr title="Cascading Style Sheets">CSS</abbr> attribute selectors</a></cite> ([[CSS2]]), and can allow the author to create <abbr title="User Interface">UI</abbr> changes based on <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute information, reducing the amount of scripts necessary to achieve equivalent functionality. In the following example, a <abbr title="Cascading Style Sheets">CSS</abbr> selector is used to determine whether or not the text is bold and an image of a check mark is shown, based on the value of the <code class="state-reference">aria-checked</code> attribute.</p>
 		<pre class="example highlight lang-css">[aria-checked=&quot;true&quot;] { font-weight: bold; }
 [aria-checked=&quot;true&quot;]:before { background-image: url(checked.gif); }</pre>
 
@@ -1343,7 +1344,7 @@
 			<div class="role-description">
 				<p>An input that allows for user-triggered actions when clicked or pressed. See related <rref>link</rref>.</p>
 				<p>Buttons are mostly used for discrete actions. Standardizing the appearance of buttons enhances the user's recognition of the <a title="widget">widgets</a> as buttons and allows for a more compact display in toolbars.</p>
-				<p>Buttons support the optional <a>attribute</a><code class="state-reference">aria-pressed</code>. Buttons with a non-empty<code class="state-reference">aria-pressed</code> attribute are toggle buttons. When<code class="state-reference">aria-pressed</code> is <code>true</code> the button is in a "pressed" <a>state</a>, when<code class="state-reference">aria-pressed</code> is <code>false</code> it is not pressed. If the attribute is not present, the button is a simple command button.</p>
+				<p>Buttons support the optional <a>attribute</a><code class="state-reference">aria-pressed</code>. Buttons with a non-empty <code class="state-reference">aria-pressed</code> attribute are toggle buttons. When <code class="state-reference">aria-pressed</code> is <code>true</code> the button is in a "pressed" <a>state</a>, when <code class="state-reference">aria-pressed</code> is <code>false</code> it is not pressed. If the attribute is not present, the button is a simple command button.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -4183,7 +4184,7 @@
 			<rdef>menuitemradio</rdef>
 			<div class="role-description">
 				<p>A checkable <rref>menuitem</rref> in a set of elements with <a>role</a> <code>menuitemradio</code>, only one of which can be checked at a time.</p>
-				<p>Authors SHOULD enforce that only one <code>menuitemradio</code> in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes unchecked (its<code class="state-reference">aria-checked</code> <a>attribute</a> becomes <code>false</code>).</p>
+				<p>Authors SHOULD enforce that only one <code>menuitemradio</code> in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes unchecked (its <code class="state-reference">aria-checked</code> <a>attribute</a> becomes <code>false</code>).</p>
 				<!-- keep previous sentence synced with radiogroup, etc. -->
 				<p>Authors MUST ensure that menu item radios are <a title="owned element">owned</a> by an element with role <rref>menubar</rref> in order to identify that they are related widgets. Authors MAY separate menu items into sets by use of a <rref>separator</rref> or an element with an equivalent role from the native markup language.</p>
 				<p>If a <rref>separator</rref> role.</p>
@@ -4680,7 +4681,7 @@
 			<rdef>progressbar</rdef>
 			<div class="role-description">
 				<p>An <a>element</a> that displays the progress status for tasks that take a long time.</p>
-				<p>A progressbar indicates that the user's request has been received and the application is making progress toward completing the requested action. The author SHOULD supply <a title="value">values</a> for<pref>aria-valuenow</pref> attribute. Authors SHOULD update these values when the visual progress indicator is updated. If the <pref>aria-describedby</pref> to point to the status, and set the<code class="state-reference">aria-busy</code> attribute to <code>true</code> on the region until it is finished loading. It is not possible for the user to alter the value of a <code>progressbar</code> because it is always readonly.</p>
+				<p>A progressbar indicates that the user's request has been received and the application is making progress toward completing the requested action. The author SHOULD supply <a title="value">values</a> for<pref>aria-valuenow</pref> attribute. Authors SHOULD update these values when the visual progress indicator is updated. If the <pref>aria-describedby</pref> to point to the status, and set the <code class="state-reference">aria-busy</code> attribute to <code>true</code> on the region until it is finished loading. It is not possible for the user to alter the value of a <code>progressbar</code> because it is always readonly.</p>
 				<p class="note">Assistive technologies generally will render the value of <pref>aria-valuetext</pref> is specified. It is best to set the values for aria-valuemin, aria-valuemax, and aria-valuenow in a manner that is appropriate for this calculation.</p>
 				<p class="note">Elements with the role <code>progressbar</code> have an implicit <code>aria-readonly</code> value of <code>true</code>.</p>
 			</div>
@@ -4856,7 +4857,7 @@
 			<rdef>radiogroup</rdef>
 			<div class="role-description">
 				<p>A group of <rref>radio</rref> buttons.</p>
-				<p>A <rref>select</rref> list that can only have a single entry checked at any one time. Authors SHOULD enforce that only one radio button in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes unchecked (its<code class="state-reference">aria-checked</code> <a>attribute</a> becomes <code>false</code>).</p>
+				<p>A <rref>select</rref> list that can only have a single entry checked at any one time. Authors SHOULD enforce that only one radio button in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes unchecked (its <code class="state-reference">aria-checked</code> <a>attribute</a> becomes <code>false</code>).</p>
 				<!-- keep previous sentence synced with menuitemradio, etc. -->
 			</div>
 			<table class="role-features">
@@ -5185,7 +5186,7 @@
 			<div class="role-description">
 				<p>A row of cells in a grid.</p>
 				<p>Rows contain <rref>grid</rref>.</p>
-				<p>In a <rref>treegrid</rref>, authors MAY mark rows as expandable, using the<code class="state-reference">aria-expanded</code> <a>attribute</a> to indicate the present status. This is not the case for an ordinary <rref>grid</rref>, in which the<code class="state-reference">aria-expanded</code> attribute is not present.</p>
+				<p>In a <rref>treegrid</rref>, authors MAY mark rows as expandable, using the <code class="state-reference">aria-expanded</code> <a>attribute</a> to indicate the present status. This is not the case for an ordinary <rref>grid</rref>, in which the <code class="state-reference">aria-expanded</code> attribute is not present.</p>
 				<p>Authors MUST ensure <a title="element">elements</a> with <a>role</a> <rref>treegrid</rref>.</p>
 			</div>
 			<table class="role-features">
@@ -6326,9 +6327,9 @@
 				<p>Authors SHOULD ensure the <rref>tabpanel</rref> associated with the currently active tab is <a>perceivable</a> to the user.</p>
 				
 				<!-- keep following para synced with its counterpart in #tablist -->
-				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a title="element">elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure each visible <span class="role-reference">tabpanel</span> has its<code class="state-reference">aria-expanded</code> <a>attribute</a> set to <code>true</code>, and that the remaining hidden <code>tabpanel</code> elements have their <code>aria-expanded</code> attributes set to <code>false</code>.</p>
+				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a title="element">elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure each visible <rref>tabpanel</rref> has its <code class="state-reference">aria-expanded</code> <a>attribute</a> set to <code>true</code>, and that the remaining hidden <code>tabpanel</code> elements have their <code>aria-expanded</code> attributes set to <code>false</code>.</p>
 				
-				<p>In either case, authors SHOULD ensure that a selected tab has its<code class="state-reference">aria-selected</code> attribute set to <code>true</code>, that inactive tab elements have their <code>aria-selected</code> attribute set to <code>false</code>, and that the currently selected tab provides a visual indication that it is selected. In the absence of an <code>aria-selected</code> attribute on the current tab, <a title="user agent">user agents</a> SHOULD indicate to <a>assistive technologies</a> through the platform <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> that the currently focused tab is selected.</p>
+				<p>In either case, authors SHOULD ensure that a selected tab has its <code class="state-reference">aria-selected</code> attribute set to <code>true</code>, that inactive tab elements have their <code>aria-selected</code> attribute set to <code>false</code>, and that the currently selected tab provides a visual indication that it is selected. In the absence of an <code>aria-selected</code> attribute on the current tab, <a title="user agent">user agents</a> SHOULD indicate to <a>assistive technologies</a> through the platform <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> that the currently focused tab is selected.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -6424,7 +6425,7 @@
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 				
 				<!-- keep following para synced with its counterpart in #tab -->
-				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a title="element">elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure each visible <span class="role-reference">tabpanel</span> has its<code class="state-reference">aria-expanded</code> <a>attribute</a> set to <code>true</code>, and that the remaining hidden <code>tabpanel</code> elements have their <code>aria-expanded</code> attributes set to <code>false</code>.</p>
+				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a title="element">elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure each visible <rref>tabpanel</rref> has its <code class="state-reference">aria-expanded</code> <a>attribute</a> set to <code>true</code>, and that the remaining hidden <code>tabpanel</code> elements have their <code>aria-expanded</code> attributes set to <code>false</code>.</p>
 				
 				<!-- keep following para synced with its counterpart in #tabpanel -->
 				<p><rref>tabpanel</rref> elements. See the <cite><a href="../aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite> [[wai-aria-practices]] for details on implementing a tab set design pattern.</p>
@@ -7983,7 +7984,7 @@
 			<div class="state-description">
 				<p>Indicates that the <a>element</a> is <a>perceivable</a> but disabled, so it is not editable or otherwise <a>operable</a>. See related <code class="state-reference">aria-hidden</code> and <code class="state-reference">aria-readonly</code>.</p>
 				<p>For example, irrelevant options in a radio group may be disabled. Disabled elements might not receive focus from the tab order. For some disabled elements, applications might choose not to support navigation to descendants. In addition to setting the <code>aria-disabled</code> attribute, authors SHOULD change the appearance (grayed out, etc.) to indicate that the item has been disabled.</p>
-				<p>The <a>state</a> of being disabled applies to the current element and all focusable descendant elements of the element on which the<code class="state-reference">aria-disabled</code> <a>attribute</a> is applied.</p>
+				<p>The <a>state</a> of being disabled applies to the current element and all focusable descendant elements of the element on which the <code class="state-reference">aria-disabled</code> <a>attribute</a> is applied.</p>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
@@ -8597,7 +8598,7 @@
 				<p>Politeness levels are essentially an ordering mechanism for updates and serve as a strong suggestion to user agents or assistive technologies. The value may be overridden by user agents, assistive technologies, or the user. For example, if assistive technologies can determine that a change occurred in response to a key press or a mouse click, the assistive technologies may present that change immediately even if the value of the <code>aria-live</code> attribute states otherwise.</p>
 				<p>Since different users have different needs, it is up to the user to tweak his or her assistive technologies' response to a live region with a certain politeness level from the commonly defined baseline. Assistive technologies may choose to implement increasing and decreasing levels of granularity so that the user can exercise control over queues and interruptions.</p>
 				<p>When the <a>property</a> is not set on an <a>object</a> that needs to send updates, the politeness level is the value of the nearest ancestor that sets the <code>aria-live</code> attribute.</p>
-				<p>The <code>aria-live</code> attribute is the primary determination for the order of presentation of changes to live regions. Implementations will also consider the default level of politeness in a <a>role</a> when the <code>aria-live</code> attribute is not set in the ancestor chain (e.g., <span class="role-reference">log</span> changes are <code>polite</code> by default). Items which are <code>assertive</code> will be presented immediately, followed by <code>polite</code> items. User agents or assistive technologies MAY choose to clear queued changes when an assertive change occurs. (e.g., changes in an assertive region may remove all currently queued changes)</p>
+				<p>The <code>aria-live</code> attribute is the primary determination for the order of presentation of changes to live regions. Implementations will also consider the default level of politeness in a <a>role</a> when the <code>aria-live</code> attribute is not set in the ancestor chain (e.g., <rref>log</rref> changes are <code>polite</code> by default). Items which are <code>assertive</code> will be presented immediately, followed by <code>polite</code> items. User agents or assistive technologies MAY choose to clear queued changes when an assertive change occurs. (e.g., changes in an assertive region may remove all currently queued changes)</p>
 				<p>When live regions are marked as <code>polite</code>, assistive technologies SHOULD announce updates at the next graceful opportunity, such as at the end of speaking the current sentence or when the user pauses typing. When live regions are marked as <code>assertive</code>, assistive technologies SHOULD notify the user immediately. Because an interruption may disorient users or cause them to not complete their current task, authors SHOULD NOT use the assertive value unless the interruption is imperative.</p>
 			</div>
 			<table class="property-features">
@@ -8711,7 +8712,7 @@
 			<pdef>aria-multiselectable</pdef>
 			<div class="property-description">
 				<p>Indicates that the user may select more than one item from the current selectable descendants.</p>
-				<p>Authors SHOULD ensure that selected descendants have the<code class="state-reference">aria-selected</code> <a>attribute</a> set to <code>true</code>, and selectable descendant have the<code class="state-reference">aria-selected</code> attribute set to <code>false</code>. Authors SHOULD NOT use the<code class="state-reference">aria-selected</code> attribute on descendants that are not selectable.</p>
+				<p>Authors SHOULD ensure that selected descendants have the <code class="state-reference">aria-selected</code> <a>attribute</a> set to <code>true</code>, and selectable descendant have the <code class="state-reference">aria-selected</code> attribute set to <code>false</code>. Authors SHOULD NOT use the <code class="state-reference">aria-selected</code> attribute on descendants that are not selectable.</p>
 				<p class="note">Lists and trees are examples of roles that might allow users to select more than one item at a time.</p>
 			</div>
 			<table class="property-features">
@@ -8918,7 +8919,7 @@
 			<div class="state-description">
 				<p>Indicates the current "pressed" <a>state</a> of toggle buttons. See related <code class="state-reference">aria-checked</code> and <code class="state-reference">aria-selected</code>.</p>
 				<p>Toggle buttons require a full press-and-release cycle to change their <a>value</a>. Activating it once changes the value to <code>true</code>, and activating it another time changes the value back to <code>false</code>. A value of <code>mixed</code> means that the values of more than one item controlled by the button do not all share the same value. Examples of mixed-state buttons are described in <cite><a href="../aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[wai-aria-practices]]. If the <a>attribute</a> is not present, the button is not a toggle button.</p>
-				<p>The <code>aria-pressed</code> attribute is similar but not identical to the<code class="state-reference">aria-checked</code> attribute. Operating systems support <code>pressed</code> on buttons and <code>checked</code> on checkboxes.</p>
+				<p>The <code>aria-pressed</code> attribute is similar but not identical to the <code class="state-reference">aria-checked</code> attribute. Operating systems support <code>pressed</code> on buttons and <code>checked</code> on checkboxes.</p>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
