@@ -11,8 +11,6 @@ var preProc = {
                 var item = refs[i];
                 var p = item.parentNode ;
                 var con = item.innerHTML ;
-                var dRef = item.nextElementSibling;
-                var desc = dRef.firstElementChild.innerHTML;
                 var sp = document.createElement( 'dfn' ) ;
                 var tit = item.getAttribute('title') ;
                 if (!tit) {
@@ -22,7 +20,11 @@ var preProc = {
                 sp.title=tit ;
                 sp.innerHTML = con ;
                 sp.id=tit ;
+                sp.setAttribute('role', 'definition');
                 sp.setAttribute('aria-describedby', tit+"_desc");
+                var dRef = item.nextElementSibling;
+                var desc = dRef.firstElementChild.innerHTML;
+                dRef.id = tit+"_desc";
                 var h = document.createElement( 'h4' ) ;
                 h.appendChild(sp) ;
                 p.replaceChild(h, item) ;
@@ -36,8 +38,6 @@ var preProc = {
                 var item = refs[i];
                 var p = item.parentNode ;
                 var con = item.innerHTML ;
-                var dRef = item.nextElementSibling;
-                var desc = dRef.firstElementChild.innerHTML;
                 var sp = document.createElement( 'dfn' ) ;
                 var tit = item.getAttribute('title') ;
                 if (!tit) {
@@ -47,7 +47,11 @@ var preProc = {
                 sp.title=tit ;
                 sp.innerHTML = con ;
                 sp.id=tit ;
+                sp.setAttribute('role', 'definition');
                 sp.setAttribute('aria-describedby', tit+"_desc");
+                var dRef = item.nextElementSibling;
+                var desc = dRef.firstElementChild.innerHTML;
+                dRef.id = tit+"_desc";
                 var h = document.createElement( 'h4' ) ;
                 h.appendChild(sp) ;
                 p.replaceChild(h, item) ;
@@ -110,8 +114,6 @@ var preProc = {
                 var item = refs[i];
                 var p = item.parentNode ;
                 var con = item.innerHTML ;
-                var dRef = item.nextElementSibling;
-                var desc = dRef.firstElementChild.innerHTML;
                 var sp = document.createElement( 'h4' ) ;
                 var tit = item.getAttribute('title') ;
                 if (!tit) {
@@ -121,6 +123,11 @@ var preProc = {
                 sp.title=tit ;
                 sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(role)</span>" ;
                 sp.id=tit ;
+                sp.setAttribute('role', 'definition');
+                sp.setAttribute('aria-describedby', tit+"_desc");
+                var dRef = item.nextElementSibling;
+                var desc = dRef.firstElementChild.innerHTML;
+                dRef.id = tit+"_desc";
                 p.replaceChild(sp, item) ;
                 roleIndex += "<dt><a href='#" 
                     + tit 
