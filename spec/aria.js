@@ -1,7 +1,9 @@
-var propList = [];
-var roleIndex = "";
 var preProc = {
   apply:  function(c) {
+            PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
+            ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
+            var propList = [];
+            var roleIndex = "";
             // process the document before anything else is done
             // first get the properties
             var refs = document.querySelectorAll('pdef') ;
@@ -20,6 +22,7 @@ var preProc = {
                 sp.title=tit ;
                 sp.innerHTML = con ;
                 sp.id=tit ;
+                sp.setAttribute('aria-describedby', tit+"_desc");
                 var h = document.createElement( 'h4' ) ;
                 h.appendChild(sp) ;
                 p.replaceChild(h, item) ;
@@ -44,6 +47,7 @@ var preProc = {
                 sp.title=tit ;
                 sp.innerHTML = con ;
                 sp.id=tit ;
+                sp.setAttribute('aria-describedby', tit+"_desc");
                 var h = document.createElement( 'h4' ) ;
                 h.appendChild(sp) ;
                 p.replaceChild(h, item) ;
@@ -115,7 +119,7 @@ var preProc = {
                 }
                 sp.className = 'role-definition' ;
                 sp.title=tit ;
-                sp.innerHTML = "<code>" + con + "</code> <span class='type-indicatpr'>(role)</span>" ;
+                sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(role)</span>" ;
                 sp.id=tit ;
                 p.replaceChild(sp, item) ;
                 roleIndex += "<dt><a href='#" 
