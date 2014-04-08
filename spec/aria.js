@@ -3,6 +3,7 @@ var preProc = {
             PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
             var propList = [];
+            var globalSP = [];
             var roleIndex = "";
             // process the document before anything else is done
             // first get the properties
@@ -30,6 +31,10 @@ var preProc = {
                 p.replaceChild(h, item) ;
                 // add this item to the index
                 propList.push({ is: "property", title: tit, name: con, desc: desc });
+                var abs = p.querySelectorAll('.property-applicability');
+                if (abs[0] && abs[0].innerText == "All elements of the base markup") {
+                    globalSP.push({ is: "property", title: tit, name: con, desc: desc });
+                }
             }
             
             // and states
@@ -57,6 +62,10 @@ var preProc = {
                 p.replaceChild(h, item) ;
                 // add this item to the index
                 propList.push( { is: "state", title: tit, name: con, desc: desc });
+                var abs = p.querySelectorAll('.state-applicability');
+                if (abs[0].innerText == "All elements of the base markup") {
+                    globalSP.push({ is: "state", title: tit, name: con, desc: desc });
+                }
             }
 
 
@@ -77,6 +86,28 @@ var preProc = {
             l.className = "compact";
             l.innerHTML = propIndex;
             p.replaceChild(l, n);
+
+            var globalSPIndex = "";
+            sortedList = globalSP.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
+            for (var i = 0; i < sortedList.length; i++) {
+                var item = sortedList[i];
+                globalSPIndex += "<li>" ;
+                if (item.is == "state") {
+                    globalSPIndex += "<sref title='" + item.name + "'>"+item.name+" (state)</sref>";
+                } else {
+                    globalSPIndex += "<pref>"+item.name+"</pref>";
+                }
+                globalSPIndex += "</li>\n";
+            }
+            p = document.querySelector("#global_states ");
+            if (p) {
+                n = p.querySelector(".placeholder");
+                if (n) {
+                    var l = document.createElement( 'ul' );
+                    l.innerHTML = globalSPIndex;
+                    p.replaceChild(l, n);
+                }
+            }
 
             // update references to properties
 
@@ -100,9 +131,13 @@ var preProc = {
                 var item = refs[i];
                 var p = item.parentNode ;
                 var con = item.innerHTML ;
+                var ref = con ;
+                if (item.title) {
+                    ref = item.title;
+                }
                 var sp = document.createElement( 'a' ) ;
                 sp.className = 'state-reference' ;
-                sp.href='#'+con ;
+                sp.href='#'+ref ;
                 sp.setAttribute('title', con);
                 sp.innerHTML = con ;
                 p.replaceChild(sp, item) ;
@@ -121,7 +156,13 @@ var preProc = {
                 }
                 sp.className = 'role-definition' ;
                 sp.title=tit ;
-                sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(role)</span>" ;
+                // is this a role or an abstract role
+                var type = "role" ;
+                var abs = p.querySelectorAll('.role-abstract');
+                if (abs[0].innerText == "True") {
+                    type = "abstract role";
+                }
+                sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(" + type + ")</span>" ;
                 sp.id=tit ;
                 sp.setAttribute('role', 'definition');
                 sp.setAttribute('aria-describedby', tit+"_desc");
@@ -216,6 +257,16 @@ var preProc = {
                 sp.title = ref ;
                 sp.innerHTML = con ;
                 p.replaceChild(sp, item) ;
+            }
+            // prune out rows in the roles
+            refs = document.querySelectorAll('.role-abstract,.role-base,.role-related,.role-scope,.role-mustcontain,.role-required-properties,.role-properties,.role-namefrom,.role-namerequired,.role-namerequired-inherited,.role-childpresentational,.role-presentational-inherited') ;
+            for (var i=0; i < refs.length; i++) {
+                var item = refs[i];
+                var content = item.innerText || item.textContent ;
+                if (content.length == 1) {
+                    // there is no item - remove the row
+                    item.parentNode.remove();
+                }
             }
         }
 } ;
