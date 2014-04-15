@@ -11,7 +11,7 @@ $(document).ready(function() {
             //array to store table rows' @ids
             var ids = [];
 			//add switch to view as single table or details/summary
-			$viewSwitch = $('<button class="switch-view">View as a single table</button>').on('click', function() {
+			$viewSwitch = $('<button class="switch-view removeOnSave">View as a single table</button>').on('click', function() {
 				//array to store summary/tr @ids
 				//if current view is details/summary
 				if ($detailsContainer.is(':visible')) {
@@ -102,8 +102,8 @@ $(document).ready(function() {
 				$detailsContainer.append(details);
 			});
 			//add 'expand/collapse all' functionality
-			var $expandAllButton = $('<button class="expand">Expand All</button>');
-			var $collapseAllButton = $('<button disabled="disabled" class="collapse">Collapse All</button>');
+			var $expandAllButton = $('<button class="expand removeOnSave">Expand All</button>');
+			var $collapseAllButton = $('<button disabled="disabled" class="collapse removeOnSave">Collapse All</button>');
 			$detailsContainer.prepend($expandAllButton, $collapseAllButton);
 			var expandCollapseDetails = function($detCont, action) {
 				$detCont.find('details').each(function() {
@@ -132,7 +132,7 @@ $(document).ready(function() {
 				$detailsContainer.find('button.expand').removeAttr('disabled');
 			});
 			//add collapsible table columns functionality
-			var $showHideCols = $('<div class="show-hide-cols"><span>Show/Hide Columns: </span></div>');
+			var $showHideCols = $('<div class="show-hide-cols removeOnSave"><span>Show/Hide Columns: </span></div>');
 			for(var i=0, len=colHeaders.length; i < len; i++) {
 				var toggleLabel = colHeaders[i].replace(/<a [^<]+>|<\/a>/g,'').replace(/<sup>\[Note [0-9]+\]<\/sup>/g, '');
 				var $showHideColButton = $('<button class="hide-col" aria-pressed="false" title="Hide column"><span class="action">Hide</span> ' + toggleLabel + '</button>').on('click', function() {
