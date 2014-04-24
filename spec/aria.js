@@ -348,99 +348,9 @@ var preProc = {
                     }
                 }) ;
             }
-            
-            // update references to properties
 
-            $.each(document.querySelectorAll('pref'), function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'property-reference' ;
-                sp.href='#'+con ;
-                sp.setAttribute('title', con);
-                sp.innerHTML = con ;
-                p.replaceChild(sp, item) ;
-            });
+            updateReferences(document) ;
 
-            // update references to states
-
-            $.each(document.querySelectorAll('sref'), function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var ref = con ;
-                if (item.title) {
-                    ref = item.title;
-                }
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'state-reference' ;
-                sp.href='#'+ref ;
-                sp.setAttribute('title', con);
-                sp.innerHTML = con ;
-                p.replaceChild(sp, item) ;
-            });
-
-
-            // update references to roles
-
-            $.each(document.querySelectorAll('rref'), function(i,item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'role-reference' ;
-                sp.innerHTML = con ;
-                sp.href="#"+con;
-                p.replaceChild(sp, item) ;
-            });
-
-            // now attributes
-            $.each(document.querySelectorAll('aref'), function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'aref' ;
-                sp.href='#'+con ;
-                sp.setAttribute('title', con);
-                sp.innerHTML = '@'+con ;
-                p.replaceChild(sp, item) ;
-            });
-
-            // local datatype references
-            $.each(document.querySelectorAll('ldtref'), function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var ref = item.getAttribute('title') ;
-                if (!ref) {
-                    ref = item.textContent ;
-                }
-                if (ref) {
-                    ref = ref.replace(/\n/g, '_') ;
-                    ref = ref.replace(/\s+/g, '_') ;
-                }
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'datatype';
-                sp.title = ref ;
-                sp.innerHTML = con ;
-                p.replaceChild(sp, item) ;
-            });
-            // external datatype references
-            $.each(document.querySelectorAll('dtref') , function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var ref = item.getAttribute('title') ;
-                if (!ref) {
-                    ref = item.textContent ;
-                }
-                if (ref) {
-                    ref = ref.replace(/\n/g, '_') ;
-                    ref = ref.replace(/\s+/g, '_') ;
-                }
-                var sp = document.createElement( 'a' ) ;
-                sp.className = 'externalDFN';
-                sp.title = ref ;
-                sp.innerHTML = con ;
-                p.replaceChild(sp, item) ;
-            });
-            
             // prune out unused rows throughout the document
             
             $.each(document.querySelectorAll('.role-abstract,.role-parent,.role-base,.role-related,.role-scope,.role-mustcontain,.role-required-properties,.role-properties,.role-namefrom,.role-namerequired,.role-namerequired-inherited,.role-childpresentational,.role-presentational-inherited,.state-related,.property-related'), function(i, item) {
@@ -462,3 +372,78 @@ var preProc = {
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
         }
 } ;
+
+function updateReferences(base) {
+    // update references to properties
+
+    $.each(base.querySelectorAll('pref, sref, rref'), function(i, item) {
+        var p = item.parentNode ;
+        var con = item.innerHTML ;
+        var sp = document.createElement( 'a' ) ;
+        sp.className = (item.localName == 'pref' ? 'property-reference' : (item.localName == 'sref' ? 'state-reference' : 'role-reference')) ;
+        sp.href='#'+con ;
+        sp.setAttribute('title', con);
+        sp.innerHTML = con ;
+        p.replaceChild(sp, item) ;
+    });
+
+
+    // now attributes
+    $.each(base.querySelectorAll('aref'), function(i, item) {
+        var p = item.parentNode ;
+        var con = item.innerHTML ;
+        var sp = document.createElement( 'a' ) ;
+        sp.className = 'aref' ;
+        sp.href='#'+con ;
+        sp.setAttribute('title', con);
+        sp.innerHTML = '@'+con ;
+        p.replaceChild(sp, item) ;
+    });
+
+    // local datatype references
+    $.each(base.querySelectorAll('ldtref'), function(i, item) {
+        var p = item.parentNode ;
+        var con = item.innerHTML ;
+        var ref = item.getAttribute('title') ;
+        if (!ref) {
+            ref = item.textContent ;
+        }
+        if (ref) {
+            ref = ref.replace(/\n/g, '_') ;
+            ref = ref.replace(/\s+/g, '_') ;
+        }
+        var sp = document.createElement( 'a' ) ;
+        sp.className = 'datatype';
+        sp.title = ref ;
+        sp.innerHTML = con ;
+        p.replaceChild(sp, item) ;
+    });
+    // external datatype references
+    $.each(base.querySelectorAll('dtref') , function(i, item) {
+        var p = item.parentNode ;
+        var con = item.innerHTML ;
+        var ref = item.getAttribute('title') ;
+        if (!ref) {
+            ref = item.textContent ;
+        }
+        if (ref) {
+            ref = ref.replace(/\n/g, '_') ;
+            ref = ref.replace(/\s+/g, '_') ;
+        }
+        var sp = document.createElement( 'a' ) ;
+        sp.className = 'externalDFN';
+        sp.title = ref ;
+        sp.innerHTML = con ;
+        p.replaceChild(sp, item) ;
+    });
+}
+
+// included files are brought in after proProc.  Create a DOM tree
+// of content then call the updateReferences method above on it.  Return
+// the transformed content
+function fixIncludes(utils, content) {
+    var base = document.createElement('div');
+    base.innerHTML = content ;
+    updateReferences(base) ;
+    return (base.innerHTML) ;
+}
