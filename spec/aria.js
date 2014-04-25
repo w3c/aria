@@ -12,7 +12,8 @@ var preProc = {
 
             // process the document before anything else is done
             // first get the properties
-            $.each(document.querySelectorAll('pdef'), function(i, item) {
+            $.each(document.querySelectorAll('pdef,sdef'), function(i, item) {
+                var type = (item.localName == "pdef" ? "property" : "state") ;
                 var p = item.parentNode ;
                 var con = item.innerHTML ;
                 var sp = document.createElement( 'span' ) ;
@@ -20,9 +21,9 @@ var preProc = {
                 if (!tit) {
                     tit = con;
                 }
-                sp.className = 'property-name' ;
+                sp.className = type + '-name' ;
                 sp.title=tit ;
-                sp.innerHTML = "<code>"+con + "</code> <span class='type-indicator'>(property)</span>" ;
+                sp.innerHTML = "<code>"+con + "</code> <span class='type-indicator'>(" + type + ")</span>" ;
                 sp.setAttribute('aria-describedby', "desc-"+tit);
                 var dRef = item.nextElementSibling;
                 var desc = dRef.firstElementChild.innerHTML;
@@ -32,44 +33,14 @@ var preProc = {
                 h.appendChild(sp) ;
                 p.replaceChild(h, item) ;
                 // add this item to the index
-                propList[tit] = { is: "property", title: tit, name: con, desc: desc, roles: new Array };
-                var abs = p.querySelector('.property-applicability');
+                propList[tit] = { is: type, title: tit, name: con, desc: desc, roles: new Array };
+                var abs = p.querySelector('.'+type+'-applicability');
                 if (abs.innerText == "All elements of the base markup") {
-                    globalSP.push({ is: "property", title: tit, name: con, desc: desc });
+                    globalSP.push({ is: type, title: tit, name: con, desc: desc });
                 }
 
             });
             
-            // and states
-            $.each(document.querySelectorAll('sdef') , function(i, item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'span' ) ;
-                var tit = item.getAttribute('title') ;
-                if (!tit) {
-                    tit = con;
-                }
-                sp.className = 'state-name' ;
-                sp.title=tit ;
-                sp.innerHTML = "<code>"+con + "</code> <span class='type-indicator'>(state)</span>" ;
-                // sp.id=tit ;
-                sp.setAttribute('aria-describedby', "desc-"+tit);
-                var dRef = item.nextElementSibling;
-                var desc = dRef.firstElementChild.innerHTML;
-                dRef.id = "desc-"+tit;
-                dRef.setAttribute('role', 'definition');
-                var h = document.createElement( 'h3' ) ;
-                h.appendChild(sp) ;
-                p.replaceChild(h, item) ;
-                // add this item to the index
-                propList[tit] = { is: "state", title: tit, name: con, desc: desc, roles: new Array };
-                var abs = p.querySelector('.state-applicability');
-                if (abs.innerText == "All elements of the base markup") {
-                    globalSP.push({ is: "state", title: tit, name: con, desc: desc });
-                }
-            });
-
-
             if (!skipIndex) {
                 // we have all the properties and states - spit out the
                 // index
@@ -153,7 +124,7 @@ var preProc = {
                 // is this a role or an abstract role
                 var type = "role" ;
                 var abs = p.querySelectorAll('.role-abstract');
-                if (abs[0].innerText == "True") {
+                if ($(abs).text() == "True") {
                     type = "abstract role";
                 }
                 sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(" + type + ")</span>" ;
@@ -198,11 +169,8 @@ var preProc = {
                         if (!name) {
                             name = item.innerText;
                         }
-                        if (item.nodeName == "SREF") {
-                            SPs.push( { is: "state", name: name } );
-                        } else {
-                            SPs.push( { is: "property", name: name } );
-                        }
+                        var type = (item.localName == "pref" ? "property" : "state") ;
+                        SPs.push( { is: type, name: name } );
                         // remember that the state or property is
                         // referenced by this role
                         propList[name].roles.push(tit) ;
@@ -266,10 +234,14 @@ var preProc = {
                 var getAllSubRoles = function(role) {
                     var ref = subRoles[role];
                     if (ref && ref.length) {
-                        var myList = $.merge([], ref);
+                        var myList = new Array() ;
                         $.each(ref, function(j, item) {
-                            var childList = getAllSubRoles(item);
-                            $.merge(myList, childList);
+                            if (!myList.item) {
+                                myList[item] = 1;
+                                myList.push(item);
+                                var childList = getAllSubRoles(item);
+                                $.merge(myList, childList);
+                            }
                         });
                         return myList;
                     } else {
@@ -301,9 +273,14 @@ var preProc = {
                         placeholder = section.querySelector(".state-descendants, .property-descendants");
                         if (placeholder && myList.length) {
                             sortedList = myList.sort();
+                            output = "";
+                            var last = "";
                             for (var j = 0; j < sortedList.length; j++) {
                                 var item = sortedList[j];
-                                output += "<li><rref>"+item+"</rref></li>\n" ;
+                                if (last != item) {
+                                    output += "<li><rref>"+item+"</rref></li>\n" ;
+                                    last = item;
+                                }
                             }
                             if (output != "") {
                                 output = "<ul>\n" + output + "</ul>\n";
@@ -341,29 +318,23 @@ var preProc = {
                     }
                 }
 
-                // if there are any placeholders left, deal with it
-                $.each(document.querySelectorAll(".role-children"), function(i, ref) {
-                    if (ref.innerHTML == "Placeholder") {
-                        ref.parentNode.remove();
-                    }
-                }) ;
             }
 
             updateReferences(document) ;
 
             // prune out unused rows throughout the document
             
-            $.each(document.querySelectorAll('.role-abstract,.role-parent,.role-base,.role-related,.role-scope,.role-mustcontain,.role-required-properties,.role-properties,.role-namefrom,.role-namerequired,.role-namerequired-inherited,.role-childpresentational,.role-presentational-inherited,.state-related,.property-related'), function(i, item) {
-                var content = item.innerText || item.textContent ;
+            $.each(document.querySelectorAll('.role-abstract,.role-parent,.role-base,.role-related,.role-scope,.role-mustcontain,.role-required-properties,.role-properties,.role-namefrom,.role-namerequired,.role-namerequired-inherited,.role-childpresentational,.role-presentational-inherited,.state-related,.property-related,.role-inherited,.role-children,.property-descendants,.state-descendants'), function(i, item) {
+                var content = $(item).text();
                 if (content.length == 1) {
                     // there is no item - remove the row
                     item.parentNode.remove();
-                }
-            });
-            $.each(document.querySelectorAll('.role-inherited'), function(i, item) {
-                var content = item.innerText || item.textContent ;
-                if (content === "Placeholder") {
-                    // there is no item - remove the row
+                } else if (content == "Placeholder" 
+                           && !skipIndex 
+                           && (item.className == "role-inherited" 
+                               || item.className == 'role-children'
+                               || item.className == 'property-descendants'
+                               || item.className == 'state-descendants' )) {
                     item.parentNode.remove();
                 }
             });
