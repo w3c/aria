@@ -309,7 +309,7 @@ var preProc = {
                     }
                     output += "</ul>\n";
                     // put it somewhere
-                    var d = document.querySelector("div#"+subRoles[i]);
+                    var d = document.querySelector("section#"+subRoles[i]);
                     if (d) {
                         var l = d.querySelector(".role-children") ;
                         if (l) {
