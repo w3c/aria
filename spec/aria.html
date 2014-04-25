@@ -7401,7 +7401,7 @@
 			<div class="property-description">
 				<p>Identifies the currently active descendant of a <rref>composite</rref> <a>widget</a>.</p>
 				<p>This is used when a composite widget is responsible for managing its current active child to reduce the overhead of having all children be focusable. Examples include: multi-level lists, trees, and grids. In some implementations the <a>user agent</a> may use <aref>aria-activedescendant</aref> to tell <a>assistive technologies</a> that the active descendant has focus. Authors MAY use the <aref>aria-activedescendant</aref> attribute on the focused descendant of a composite widget; for example, on a textbox descendant of a combo box.</p>
-				<p>Authors SHOULD ensure that the <a>element</a> targeted by the <pref>aria-owns</pref> attribute. The user agent is not expected to validate that the active descendant is a descendant of the container. Authors SHOULD ensure that the currently active descendant is visible and in view (or scrolls into view) when focused.</p>
+				<p>Authors SHOULD ensure that the <a>element</a> targeted by the <aref>aria-activedescendant</aref> attribute is either a descendant of the container in the DOM, or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute. The user agent is not expected to validate that the active descendant is a descendant of the container. Authors SHOULD ensure that the currently active descendant is visible and in view (or scrolls into view) when focused.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -7613,8 +7613,8 @@
 			<sdef>aria-checked</sdef>
 			<div class="state-description">
 				<p>Indicates the current "checked" <a>state</a> of checkboxes, radio buttons, and other <a title="widget">widgets</a>. See related <sref>aria-pressed</sref> and <sref>aria-selected</sref>.</p>
-				<p>The <sref>aria-checked</sref> <a>attribute</a> indicates whether the <a>element</a> is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of other elements that have a mixture of checked and unchecked <a title="value">values</a> (<code>mixed</code>). Most inputs only support values of <rref>menuitemcheckbox</rref>.</p>
-				<p>The <rref>menuitemradio</rref> or any element that inherits from these in the <a>taxonomy</a>, and <a title="user agent">user agents</a> MUST treat a <code>mixed</code> value as equivalent to <code>false</code> for those <a title="role">roles</a>.</p>
+				<p>The <sref>aria-checked</sref> <a>attribute</a> indicates whether the <a>element</a> is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of other elements that have a mixture of checked and unchecked <a title="value">values</a> (<code>mixed</code>). Most inputs only support values of <code>true</code> and <code>false</code>, but the <code>mixed</code> value is supported by certain tri-state inputs such as a <rref>checkbox</rref> or <rref>menuitemcheckbox</rref>.</p>
+				<p>The <code>mixed</code> value is <em>not</em> supported on <rref>radio</rref> or <rref>menuitemradio</rref> or any element that inherits from these in the <a>taxonomy</a>, and <a title="user agent">user agents</a> MUST treat a <code>mixed</code> value as equivalent to <code>false</code> for those <a title="role">roles</a>.</p>
 				<p>Examples using the <code>mixed</code> value of tri-state inputs are covered in <cite><a href="../aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[WAI-ARIA-PRACTICES]]</p>
 			</div>
 			<table class="state-features">
@@ -7994,7 +7994,7 @@
 			<div class="state-description">
 				<p>Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.</p>
 				<p>For example, this indicates whether a portion of a tree is expanded or collapsed. In other instances, this may be applied to page sections to mark expandable and collapsible regions that are flexible for managing content density. Simplifying the user interface by collapsing sections may improve usability for all, including those with cognitive or developmental disabilities.</p>
-				<p>If the element with the <pref>aria-controls</pref> attribute.</p>
+				<p>If the element with the <pref>aria-expanded</pref> attribute controls the expansion of another grouping container that is not 'owned by' the element, the author SHOULD reference the container by using the <pref>aria-controls</pref> attribute.</p>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
@@ -8347,7 +8347,7 @@
 			<pdef>aria-label</pdef>
 			<div class="property-description">
 				<p>Defines a string <a>value</a> that labels the current element. See related <pref>aria-labelledby</pref>.</p>
-				<p>The purpose of <pref>aria-labelledby</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
+				<p>The purpose of <pref>aria-label</pref> is the same as that of <pref>aria-labelledby</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
 				<p>If the label text is visible on screen, authors SHOULD use <pref>aria-labelledby</pref> and SHOULD NOT use <aref>aria-label</aref>. There may be instances where the name of an element cannot be determined programmatically from the content of the element, and there are cases where providing a visible label is not the desired user experience. Most host languages provide an attribute that could be used to name the element (e.g., the <cite><a href="http://www.w3.org/TR/html401/struct/global.html#adef-title">title attribute in HTML</a></cite> [[HTML401]]), yet this could present a browser tooltip. In the cases where a visible label or visible tooltip is undesirable, authors MAY set the accessible name of the element using <aref>aria-label</aref>. As required by the <a href="#textalternativecomputation">text alternative computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <aref>aria-label</aref> when computing the accessible name property.</p>
 			</div>
 			<table class="property-features">
@@ -8383,9 +8383,9 @@
 			<pdef>aria-labelledby</pdef>
 			<div class="property-description">
 				<p>Identifies the <a>element</a> (or elements) that labels the current element. See related <pref>aria-describedby</pref>.</p>
-				<p>The purpose of <pref>aria-label</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
+				<p>The purpose of <pref>aria-labelledby</pref> is the same as that of <pref>aria-label</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
 				<p>If the label text is visible on screen, authors SHOULD use <pref>aria-label</pref>. Use <pref>aria-label</pref> only if the interface is such that it is not possible to have a visible label on the screen. As required by the <a href="#textalternativecomputation">text alternative computation</a>, user agents give precedence to <pref>aria-label</pref> when computing the accessible name property.</p>
-				<p>The <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative, but a label should be concise, where a description is intended to provide more verbose information.</p>
+				<p>The <pref>aria-labelledby</pref> attribute is similar to <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative, but a label should be concise, where a description is intended to provide more verbose information.</p>
 				<!-- keep previous sentence synced with the associated description in #aria-describedby -->
 				<p class="note">The expected spelling of this property in <abbr title="United States">U.S.</abbr> English is "labeledby." However, the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> features to which this property is mapped have established the "labelledby" spelling. This property is spelled that way to match the convention and minimize the difficulty for developers.</p>
 			</div>
@@ -8424,9 +8424,9 @@
 				<p>Defines the hierarchical level of an <a>element</a> within a structure.</p>
 				<p>This can be applied inside trees to tree items, to headings inside a document, to nested grids, nested tablists and to other structural items that may appear inside a container or participate in an ownership hierarchy. The <a>value</a> for <aref>aria-level</aref> is an integer greater than or equal to 1.</p>
 				<p>Levels increase with depth. If the <abbr title="Document Object Model">DOM</abbr> ancestry does not accurately represent the level, authors SHOULD explicitly define the <aref>aria-level</aref> <a>attribute</a>.</p>
-				<p>This attribute is applied to elements that act as leaf nodes within the orientation of the set, for example, on elements with role <rref>group</rref>. This means that multiple elements in a set may have the same value for this attribute. Although it would be less repetitive to provide a single value on the container, restricting this to leaf nodes ensures that there is a single way for <a>assistive technologies</a> to use the attribute.</p>
+				<p>This attribute is applied to elements that act as leaf nodes within the orientation of the set, for example, on elements with role <rref>treeitem</rref> rather than elements with role <rref>group</rref>. This means that multiple elements in a set may have the same value for this attribute. Although it would be less repetitive to provide a single value on the container, restricting this to leaf nodes ensures that there is a single way for <a>assistive technologies</a> to use the attribute.</p>
 				<p>If the <abbr title="Document Object Model">DOM</abbr> ancestry accurately represents the level, the <a>user agent</a> can calculate the level of an item from the document structure. This attribute can be used to provide an explicit indication of the level when that is not possible to calculate from the document structure or the <pref>aria-owns</pref> attribute. User agent support for automatic calculation of level may vary; authors SHOULD test with <a title="user agent">user agents</a> and assistive technologies to determine whether this attribute is needed. If the author intends for the user agent to calculate the level, the author SHOULD omit this attribute.</p>
-				<p class="note">In the case of a <rref>gridcell</rref>. At first glance, this may seem inconsistent with the application of <rref>row</rref>. Level is not supported on sets of cells within rows, so the <rref>row</rref>.</p>
+                <p class="note"> In the case of a <rref>treegrid</rref>, <pref>aria-level</pref> is supported on elements with the role <rref>row</rref>, not elements with role <rref>gridcell</rref>. At first glance, this may seem inconsistent with the application of <pref>aria-level</pref> on <rref>treeitem</rref> elements, but it is consistent in that the <rref>row</rref> acts as the leaf node within the vertical orientation of the <rref>grid</rref>, whereas the <rref>gridcell</rref> is a leaf node within the horizontal orientation of each <rref>row</rref>. Level is not supported on sets of cells within rows, so the <pref>aria-level</pref> attribute is applied to the element with the role <rref>row</rref>.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
