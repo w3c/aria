@@ -1,3 +1,79 @@
+
+function updateReferences(base) {
+    // update references to properties
+
+    $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var sp = document.createElement("a");
+        sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
+        sp.href = "#" + content;
+        sp.setAttribute("title", content);
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
+    });
+
+
+    // now attributes
+    $.each(base.querySelectorAll("aref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var sp = document.createElement("a");
+        sp.className = "aref";
+        sp.href = "#" + content;
+        sp.setAttribute("title", content);
+        sp.innerHTML = "@" + content;
+        parentNode.replaceChild(sp, item);
+    });
+
+    // local datatype references
+    $.each(base.querySelectorAll("ldtref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var ref = item.getAttribute("title");
+        if (!ref) {
+            ref = item.textContent || item.innerText;
+        }
+        if (ref) {
+            ref = ref.replace(/\n/g, "_");
+            ref = ref.replace(/\s+/g, "_");
+        }
+        var sp = document.createElement("a");
+        sp.className = "datatype";
+        sp.title = ref;
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
+    });
+    // external datatype references
+    $.each(base.querySelectorAll("dtref") , function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var ref = item.getAttribute("title");
+        if (!ref) {
+            ref = item.textContent;
+        }
+        if (ref) {
+            ref = ref.replace(/\n/g, "_");
+            ref = ref.replace(/\s+/g, "_");
+        }
+        var sp = document.createElement("a");
+        sp.className = "externalDFN";
+        sp.title = ref;
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
+    });
+}
+
+// included files are brought in after proProc.  Create a DOM tree
+// of content then call the updateReferences method above on it.  Return
+// the transformed content
+function fixIncludes(utils, content) {
+    var base = document.createElement("div");
+    base.innerHTML = content;
+    updateReferences(base);
+    return (base.innerHTML);
+}
+
 var preProc = {
   apply:  function(c) {
             var propList = {};
@@ -339,77 +415,4 @@ var preProc = {
         }
 };
 
-function updateReferences(base) {
-    // update references to properties
-
-    $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var sp = document.createElement("a");
-        sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
-        sp.href = "#" + content;
-        sp.setAttribute("title", content);
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-
-
-    // now attributes
-    $.each(base.querySelectorAll("aref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var sp = document.createElement("a");
-        sp.className = "aref";
-        sp.href = "#" + content;
-        sp.setAttribute("title", content);
-        sp.innerHTML = "@" + content;
-        parentNode.replaceChild(sp, item);
-    });
-
-    // local datatype references
-    $.each(base.querySelectorAll("ldtref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var ref = item.getAttribute("title");
-        if (!ref) {
-            ref = item.textContent || item.innerText;
-        }
-        if (ref) {
-            ref = ref.replace(/\n/g, "_");
-            ref = ref.replace(/\s+/g, "_");
-        }
-        var sp = document.createElement("a");
-        sp.className = "datatype";
-        sp.title = ref;
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-    // external datatype references
-    $.each(base.querySelectorAll("dtref") , function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var ref = item.getAttribute("title");
-        if (!ref) {
-            ref = item.textContent;
-        }
-        if (ref) {
-            ref = ref.replace(/\n/g, "_");
-            ref = ref.replace(/\s+/g, "_");
-        }
-        var sp = document.createElement("a");
-        sp.className = "externalDFN";
-        sp.title = ref;
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-}
-
-// included files are brought in after proProc.  Create a DOM tree
-// of content then call the updateReferences method above on it.  Return
-// the transformed content
-function fixIncludes(utils, content) {
-    var base = document.createElement("div");
-    base.innerHTML = content;
-    updateReferences(base);
-    return (base.innerHTML);
-}
+// Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
