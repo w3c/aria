@@ -1,6 +1,6 @@
 var preProc = {
   apply:  function(c) {
-            var propList = new Object;
+            var propList = {};
             var globalSP = [];
 
             var skipIndex = 0;
@@ -12,31 +12,31 @@ var preProc = {
 
             // process the document before anything else is done
             // first get the properties
-            $.each(document.querySelectorAll('pdef,sdef'), function(i, item) {
-                var type = (item.localName == "pdef" ? "property" : "state") ;
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'span' ) ;
-                var tit = item.getAttribute('title') ;
-                if (!tit) {
-                    tit = con;
+            $.each(document.querySelectorAll("pdef, sdef"), function(i, item) {
+                var type = (item.localName === "pdef" ? "property" : "state");
+                var parentNode = item.parentNode;
+                var content = item.innerHTML;
+                var sp = document.createElement("span");
+                var title = item.getAttribute("title");
+                if (!title) {
+                    title = content;
                 }
-                sp.className = type + '-name' ;
-                sp.title=tit ;
-                sp.innerHTML = "<code>"+con + "</code> <span class='type-indicator'>(" + type + ")</span>" ;
-                sp.setAttribute('aria-describedby', "desc-"+tit);
+                sp.className = type + "-name";
+                sp.title = title;
+                sp.innerHTML = "<code>" + content + "</code> <span class=\"type-indicator\">(" + type + ")</span>";
+                sp.setAttribute("aria-describedby", "desc-" + title);
                 var dRef = item.nextElementSibling;
                 var desc = dRef.firstElementChild.innerHTML;
-                dRef.id = "desc-" +tit;
-                dRef.setAttribute('role', 'definition');
-                var h = document.createElement( 'h3' ) ;
-                h.appendChild(sp) ;
-                p.replaceChild(h, item) ;
+                dRef.id = "desc-" + title;
+                dRef.setAttribute("role", "definition");
+                var heading = document.createElement("h3");
+                heading.appendChild(sp);
+                parentNode.replaceChild(heading, item);
                 // add this item to the index
-                propList[tit] = { is: type, title: tit, name: con, desc: desc, roles: new Array };
-                var abs = p.querySelector('.'+type+'-applicability');
-                if (abs.innerText == "All elements of the base markup") {
-                    globalSP.push({ is: type, title: tit, name: con, desc: desc });
+                propList[title] = { is: type, title: title, name: content, desc: desc, roles: [] };
+                var abstract = parentNode.querySelector("." + type + "-applicability");
+                if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
+                    globalSP.push({ is: type, title: title, name: content, desc: desc });
                 }
 
             });
@@ -45,7 +45,7 @@ var preProc = {
                 // we have all the properties and states - spit out the
                 // index
                 var propIndex = "";
-                var sortedList = new Array();
+                var sortedList = [];
                 $.each(propList, function(i) {
                     sortedList.push(i);
                 });
@@ -53,47 +53,46 @@ var preProc = {
 
                 for (var i = 0; i < sortedList.length; i++) {
                     var item = propList[sortedList[i]];
-                    propIndex += "<dt><a href='#"+item.title+"' class='"+item.is+"-reference'>"
-                        + item.name + "</a></dt>\n"
-                        + "<dd>" + item.desc + "</dd>\n";
+                    propIndex += "<dt><a href=\"#" + item.title + "\" class=\"" + item.is + "-reference\">" + item.name + "</a></dt>\n";
+                    propIndex += "<dd>" + item.desc + "</dd>\n";
                 }
-                var n = document.getElementById('index_state_prop');
-                var p = n.parentNode;
-                var l = document.createElement( 'dl' );
+                var node = document.getElementById("index_state_prop");
+                var parentNode = node.parentNode;
+                var l = document.createElement("dl");
                 l.id = "index_state_prop";
                 l.className = "compact";
                 l.innerHTML = propIndex;
-                p.replaceChild(l, n);
+                parentNode.replaceChild(l, node);
 
                 var globalSPIndex = "";
                 sortedList = globalSP.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
                 for (var i = 0; i < sortedList.length; i++) {
                     var item = sortedList[i];
-                    globalSPIndex += "<li>" ;
-                    if (item.is == "state") {
-                        globalSPIndex += "<sref title='" + item.name + "'>"+item.name+" (state)</sref>";
+                    globalSPIndex += "<li>";
+                    if (item.is === "state") {
+                        globalSPIndex += "<sref title=\"" + item.name + "\">" + item.name + " (state)</sref>";
                     } else {
-                        globalSPIndex += "<pref>"+item.name+"</pref>";
+                        globalSPIndex += "<pref>" + item.name + "</pref>";
                     }
                     globalSPIndex += "</li>\n";
                 }
-                p = document.querySelector("#global_states");
-                if (p) {
-                    n = p.querySelector(".placeholder");
-                    if (n) {
-                        var l = document.createElement( 'ul' );
+                parentNode = document.querySelector("#global_states");
+                if (parentNode) {
+                    node = parentNode.querySelector(".placeholder");
+                    if (node) {
+                        var l = document.createElement("ul");
                         l.innerHTML = globalSPIndex;
-                        p.replaceChild(l, n);
+                        parentNode.replaceChild(l, node);
                     }
                 }
                 // there is only one role that uses the global properties
-                p = document.querySelector("#roletype td.role-properties span.placeholder");
-                if (p) {
-                    n = p.parentNode;
-                    if (p.innerText == "Placeholder for global states and properties") {
-                        var l = document.createElement( 'ul' );
+                parentNode = document.querySelector("#roletype td.role-properties span.placeholder");
+                if (parentNode) {
+                    node = parentNode.parentNode;
+                    if ((parentNode.textContent || parentNode.innerText) === "Placeholder for global states and properties") {
+                        var l = document.createElement("ul");
                         l.innerHTML = globalSPIndex;
-                        n.replaceChild(l, p);
+                        node.replaceChild(l, parentNode);
                     }
                 }
             }
@@ -107,86 +106,82 @@ var preProc = {
             //   4. grab any local states and properties so we can hand those down to the children
             //
 
-            var roleInfo = new Object ;
-            var subRoles = new Array ;
+            var roleInfo = {};
+            var subRoles = [];
             var roleIndex = "";
 
-            $.each(document.querySelectorAll('rdef'), function(i,item) {
-                var p = item.parentNode ;
-                var con = item.innerHTML ;
-                var sp = document.createElement( 'h3' ) ;
-                var tit = item.getAttribute('title') ;
-                if (!tit) {
-                    tit = con;
+            $.each(document.querySelectorAll("rdef"), function(i,item) {
+                var parentNode = item.parentNode;
+                var content = item.innerHTML;
+                var sp = document.createElement("h3");
+                var title = item.getAttribute("title");
+                if (!title) {
+                    title = content;
                 }
-                sp.className = 'role-name' ;
-                sp.title=tit ;
+                sp.className = "role-name";
+                sp.title = title;
                 // is this a role or an abstract role
-                var type = "role" ;
-                var abs = p.querySelectorAll('.role-abstract');
-                if ($(abs).text() == "True") {
+                var type = "role";
+                var abstract = parentNode.querySelectorAll(".role-abstract");
+                if ($(abstract).text() === "True") {
                     type = "abstract role";
                 }
-                sp.innerHTML = "<code>" + con + "</code> <span class='type-indicator'>(" + type + ")</span>" ;
-                // sp.id=tit ;
-                sp.setAttribute('aria-describedby', "desc-"+tit);
+                sp.innerHTML = "<code>" + content + "</code> <span class=\"type-indicator\">(" + type + ")</span>";
+                // sp.id = title;
+                sp.setAttribute("aria-describedby", "desc-" + title);
                 var dRef = item.nextElementSibling;
                 var desc = dRef.firstElementChild.innerHTML;
-                dRef.id = "desc-"+tit;
-                dRef.setAttribute('role', 'definition');
-                p.replaceChild(sp, item) ;
-                roleIndex += "<dt><a href='#" 
-                    + tit 
-                    + "' class='role-reference'>" 
-                    + con
-                    + "</a></dt>\n"
-                    + "<dd>"+desc+"</dd>\n";
+                dRef.id = "desc-" + title;
+                dRef.setAttribute("role", "definition");
+                parentNode.replaceChild(sp, item);
+                roleIndex += "<dt><a href=\"#" + title + "\" class=\"role-reference\">" + content + "</a></dt>\n";
+                roleIndex += "<dd>" + desc + "</dd>\n";
                 // grab info about this role
                 // do we have a parent class?  if so, put us in that parents list
-                var n = p.querySelectorAll(".role-parent rref");
+                var node = parentNode.querySelectorAll(".role-parent rref");
                 // s will hold the name of the parent role if any
-                var s = null ;
-                var parentRoles = new Array();
-                if (n) {
-                    $.each(n, function(foo, roleref) {
-                        s = roleref.innerText;
+                var s = null;
+                var parentRoles = [];
+                if (node) {
+                    $.each(node, function(foo, roleref) {
+                        s = roleref.textContent || roleref.innerText;
 
                         if (!subRoles[s]) {
                             subRoles.push(s);
-                            subRoles[s] = [] ;
+                            subRoles[s] = [];
                         }
-                        subRoles[s].push(tit);
+                        subRoles[s].push(title);
                         parentRoles.push(s);
                     });
                 }
                 // are there supported states / properties in this role?  
-                var SPs = new Array;
-                n = p.querySelector(".role-properties") ;
-                if (n.innerText.length != 1) {
+                var attrs = [];
+                node = parentNode.querySelector(".role-properties");
+                if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                     // looks like we do
-                    $.each(n.querySelectorAll("pref,sref"), function(i, item) {
+                    $.each(node.querySelectorAll("pref,sref"), function(i, item) {
                         var name = item.getAttribute("title");
                         if (!name) {
-                            name = item.innerText;
+                            name = item.textContent || item.innerText;
                         }
-                        var type = (item.localName == "pref" ? "property" : "state") ;
-                        SPs.push( { is: type, name: name } );
+                        var type = (item.localName === "pref" ? "property" : "state");
+                        attrs.push( { is: type, name: name } );
                         // remember that the state or property is
                         // referenced by this role
-                        propList[name].roles.push(tit) ;
+                        propList[name].roles.push(title);
                     });
                 }
-                roleInfo[tit] = { "name": tit, "parentRoles": parentRoles, "localprops":SPs };
+                roleInfo[title] = { "name": title, "parentRoles": parentRoles, "localprops": attrs };
             });
 
             var getStates = function(role) {
                 var ref = roleInfo[role];
                 if (!ref) {
-                    msg.pub("error", "No role definition for " + role) ;
+                    msg.pub("error", "No role definition for " + role);
                 } else if (ref.allprops) {
                     return ref.allprops;
                 } else {
-                    var myList = new Array;
+                    var myList = [];
                     $.merge(myList, ref.localprops);
                     $.each(ref.parentRoles, function(i, item) {
                         var pList = getStates(item);
@@ -203,21 +198,21 @@ var preProc = {
                     var output = "";
                     var placeholder = document.querySelector("#" + item.name + " .role-inherited");
                     if (placeholder) {
-                        var myList = new Array() ;
+                        var myList = [];
                         $.each(item.parentRoles, function(j, role) {
                             $.merge(myList, getStates(role));
                         });
-                        var sortedList = new Array ;
+                        var sortedList = [];
                         sortedList = myList.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
                         var prev;
                         for (var j = 0; j < sortedList.length; j++) {
                             var role = sortedList[j];
                             if (prev != role.name) {
-                                output += "<li>" ;
-                                if (role.is == "state") {
-                                    output += "<sref title='" + role.name + "'>"+role.name+" (state)</sref>";
+                                output += "<li>";
+                                if (role.is === "state") {
+                                    output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>";
                                 } else {
-                                    output += "<pref>"+role.name+"</pref>";
+                                    output += "<pref>" + role.name + "</pref>";
                                 }
                                 output += "</li>\n";
                                 prev = role.name;
@@ -234,7 +229,7 @@ var preProc = {
                 var getAllSubRoles = function(role) {
                     var ref = subRoles[role];
                     if (ref && ref.length) {
-                        var myList = new Array() ;
+                        var myList = [];
                         $.each(ref, function(j, item) {
                             if (!myList.item) {
                                 myList[item] = 1;
@@ -251,21 +246,21 @@ var preProc = {
                     
                 $.each(propList, function(i, item) {
                     var output = "";
-                    var section = document.querySelector("#"+item.name) ;
+                    var section = document.querySelector("#" + item.name);
                     var placeholder = section.querySelector(".state-applicability, .property-applicability");
-                    if (placeholder && placeholder.innerText == "Placeholder" && item.roles.length) {
+                    if (placeholder && ((placeholder.textContent || placeholder.innerText) === "Placeholder") && item.roles.length) {
                         // update the used in roles list
-                        var sortedList = new Array ;
+                        var sortedList = [];
                         sortedList = item.roles.sort();
                         for (var j = 0; j < sortedList.length; j++) {
-                            output += "<li><rref>"+sortedList[j]+"</rref></li>\n" ;
+                            output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                         }
                         if (output != "") {
                             output = "<ul>\n" + output + "</ul>\n";
                         }
                         placeholder.innerHTML = output;
                         // also update any inherited roles
-                        var myList = new Array();
+                        var myList = [];
                         $.each(item.roles, function(j, role) {
                             var children = getAllSubRoles(role);
                             $.merge(myList, children);
@@ -278,7 +273,7 @@ var preProc = {
                             for (var j = 0; j < sortedList.length; j++) {
                                 var item = sortedList[j];
                                 if (last != item) {
-                                    output += "<li><rref>"+item+"</rref></li>\n" ;
+                                    output += "<li><rref>" + item + "</rref></li>\n";
                                     last = item;
                                 }
                             }
@@ -291,13 +286,13 @@ var preProc = {
                 });
                 
                 // spit out the index
-                var n = document.getElementById('index_role');
-                var p = n.parentNode;
-                var l = document.createElement( 'dl' );
-                l.id = "index_role";
-                l.className = "compact";
-                l.innerHTML = roleIndex;
-                p.replaceChild(l, n);
+                var node = document.getElementById("index_role");
+                var parentNode = node.parentNode;
+                var list = document.createElement("dl");
+                list.id = "index_role";
+                list.className = "compact";
+                list.innerHTML = roleIndex;
+                parentNode.replaceChild(list, node);
 
                 // assuming we found some parent roles, update those parents with their children
                 for (var i=0; i < subRoles.length; i++) {
@@ -309,32 +304,32 @@ var preProc = {
                     }
                     output += "</ul>\n";
                     // put it somewhere
-                    var d = document.querySelector("div#"+subRoles[i]);
-                    if (d) {
-                        var l = d.querySelector(".role-children") ;
-                        if (l) {
-                            l.innerHTML = output;
+                    var subRolesContainer = document.querySelector("div#" + subRoles[i]);
+                    if (subRolesContainer) {
+                        var subRolesListContainer = subRolesContainer.querySelector(".role-children");
+                        if (subRolesListContainer) {
+                            subRolesListContainer.innerHTML = output;
                         }
                     }
                 }
 
             }
 
-            updateReferences(document) ;
+            updateReferences(document);
 
             // prune out unused rows throughout the document
             
-            $.each(document.querySelectorAll('.role-abstract,.role-parent,.role-base,.role-related,.role-scope,.role-mustcontain,.role-required-properties,.role-properties,.role-namefrom,.role-namerequired,.role-namerequired-inherited,.role-childpresentational,.role-presentational-inherited,.state-related,.property-related,.role-inherited,.role-children,.property-descendants,.state-descendants'), function(i, item) {
+            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants"), function(i, item) {
                 var content = $(item).text();
-                if (content.length == 1) {
+                if (content.length === 1) {
                     // there is no item - remove the row
                     item.parentNode.remove();
-                } else if (content == "Placeholder" 
+                } else if (content === "Placeholder" 
                            && !skipIndex 
-                           && (item.className == "role-inherited" 
-                               || item.className == 'role-children'
-                               || item.className == 'property-descendants'
-                               || item.className == 'state-descendants' )) {
+                           && (item.className === "role-inherited" 
+                               || item.className === "role-children"
+                               || item.className === "property-descendants"
+                               || item.className === "state-descendants" )) {
                     item.parentNode.remove();
                 }
             });
@@ -342,70 +337,70 @@ var preProc = {
             PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
         }
-} ;
+};
 
 function updateReferences(base) {
     // update references to properties
 
-    $.each(base.querySelectorAll('pref, sref, rref'), function(i, item) {
-        var p = item.parentNode ;
-        var con = item.innerHTML ;
-        var sp = document.createElement( 'a' ) ;
-        sp.className = (item.localName == 'pref' ? 'property-reference' : (item.localName == 'sref' ? 'state-reference' : 'role-reference')) ;
-        sp.href='#'+con ;
-        sp.setAttribute('title', con);
-        sp.innerHTML = con ;
-        p.replaceChild(sp, item) ;
+    $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var sp = document.createElement("a");
+        sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
+        sp.href = "#" + content;
+        sp.setAttribute("title", content);
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
     });
 
 
     // now attributes
-    $.each(base.querySelectorAll('aref'), function(i, item) {
-        var p = item.parentNode ;
-        var con = item.innerHTML ;
-        var sp = document.createElement( 'a' ) ;
-        sp.className = 'aref' ;
-        sp.href='#'+con ;
-        sp.setAttribute('title', con);
-        sp.innerHTML = '@'+con ;
-        p.replaceChild(sp, item) ;
+    $.each(base.querySelectorAll("aref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var sp = document.createElement("a");
+        sp.className = "aref";
+        sp.href = "#" + content;
+        sp.setAttribute("title", content);
+        sp.innerHTML = "@" + content;
+        parentNode.replaceChild(sp, item);
     });
 
     // local datatype references
-    $.each(base.querySelectorAll('ldtref'), function(i, item) {
-        var p = item.parentNode ;
-        var con = item.innerHTML ;
-        var ref = item.getAttribute('title') ;
+    $.each(base.querySelectorAll("ldtref"), function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var ref = item.getAttribute("title");
         if (!ref) {
-            ref = item.textContent ;
+            ref = item.textContent || item.innerText;
         }
         if (ref) {
-            ref = ref.replace(/\n/g, '_') ;
-            ref = ref.replace(/\s+/g, '_') ;
+            ref = ref.replace(/\n/g, "_");
+            ref = ref.replace(/\s+/g, "_");
         }
-        var sp = document.createElement( 'a' ) ;
-        sp.className = 'datatype';
-        sp.title = ref ;
-        sp.innerHTML = con ;
-        p.replaceChild(sp, item) ;
+        var sp = document.createElement("a");
+        sp.className = "datatype";
+        sp.title = ref;
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
     });
     // external datatype references
-    $.each(base.querySelectorAll('dtref') , function(i, item) {
-        var p = item.parentNode ;
-        var con = item.innerHTML ;
-        var ref = item.getAttribute('title') ;
+    $.each(base.querySelectorAll("dtref") , function(i, item) {
+        var parentNode = item.parentNode;
+        var content = item.innerHTML;
+        var ref = item.getAttribute("title");
         if (!ref) {
-            ref = item.textContent ;
+            ref = item.textContent;
         }
         if (ref) {
-            ref = ref.replace(/\n/g, '_') ;
-            ref = ref.replace(/\s+/g, '_') ;
+            ref = ref.replace(/\n/g, "_");
+            ref = ref.replace(/\s+/g, "_");
         }
-        var sp = document.createElement( 'a' ) ;
-        sp.className = 'externalDFN';
-        sp.title = ref ;
-        sp.innerHTML = con ;
-        p.replaceChild(sp, item) ;
+        var sp = document.createElement("a");
+        sp.className = "externalDFN";
+        sp.title = ref;
+        sp.innerHTML = content;
+        parentNode.replaceChild(sp, item);
     });
 }
 
@@ -413,8 +408,8 @@ function updateReferences(base) {
 // of content then call the updateReferences method above on it.  Return
 // the transformed content
 function fixIncludes(utils, content) {
-    var base = document.createElement('div');
-    base.innerHTML = content ;
-    updateReferences(base) ;
-    return (base.innerHTML) ;
+    var base = document.createElement("div");
+    base.innerHTML = content;
+    updateReferences(base);
+    return (base.innerHTML);
 }
