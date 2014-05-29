@@ -1,6 +1,6 @@
 function linkCrossReferences() {
 
-  var baseURL = respecConfig.ariaSpecURL[respecConfig.specStatus];
+  var baseURL = respecConfig.ariaSpecURLs[respecConfig.specStatus];
 
   $ ('a.role-reference, a.property-reference, a.state-reference, a.specref').each (
     function (idx, el) {
