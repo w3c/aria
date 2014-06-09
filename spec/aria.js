@@ -4,10 +4,14 @@ function updateReferences(base) {
 
     $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
         var parentNode = item.parentNode;
-        var content = item.innerHTML;
+        var content = item.textContent || item.innerText;
         var sp = document.createElement("a");
         sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
-        sp.href = "#" + content;
+        var ref = item.getAttribute("title");
+        if (!ref) {
+            ref = content;
+        }
+        sp.href = "#" + ref;
         sp.setAttribute("title", content);
         sp.innerHTML = content;
         parentNode.replaceChild(sp, item);
@@ -416,3 +420,4 @@ var preProc = {
 };
 
 // Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
+
