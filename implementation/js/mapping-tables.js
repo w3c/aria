@@ -95,10 +95,10 @@ $(document).ready(function() {
 				//create content for each <details> element; add row header's content to summary
 				var details;
 				if (id && id.length > 0) {
-				  details = '<details class="map"><summary id="' + id + '">' + $summary;
+				  details = '<details class="map removeOnSave"><summary id="' + id + '">' + $summary;
 				}
 				else {
-          details = '<details class="map"><summary>' + $summary;
+          details = '<details class="map removeOnSave"><summary>' + $summary;
         }
 				//if attributes mapping table, append relevant elements to summary
 				if ($table.hasClass('attributes')) {
