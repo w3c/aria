@@ -15,15 +15,18 @@ $(document).ready(function() {
 				//array to store summary/tr @ids
 				//if current view is details/summary
 				if ($detailsContainer.is(':visible')) {
-					$detailsContainer.hide();
+          $detailsContainer.hide();
 					//add <summary> @id to ids array and remove @id from summary
 					$('summary', $detailsContainer).each(function() {
-						$(this).attr('id', '');
+						$(this).removeAttr('id');
 					});
 					$tableContainer.show();
 					//add relevant @id to tr
 					$('tbody tr', $tableContainer).each(function() {
-						$(this).attr('id', ids[$(this).index()]);
+					  var anId = ids[$(this).index()];
+					  if (anId && anId.length > 0) {
+              $(this).attr('id', anId);
+            }
 					});
 					if ($table.attr('id') == 'role-mapping-table') {
 						$(this).text('View by role');
@@ -33,13 +36,16 @@ $(document).ready(function() {
 				} else {
 					$tableContainer.hide();
 					//add tr @id to ids array and remove @id from tr
-					$('tbody tr', $tableContainer).each(function() {
-						$(this).attr('id', '');
-					});
+//					$('tbody tr', $tableContainer).each(function() {
+//						$(this).attr('id', '');
+//					});
 					$detailsContainer.show();
 					//add relevant @id to summary
 					$('summary', $detailsContainer).each(function() {
-						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
+            var anId = ids[$('details', $detailsContainer).index($(this).parent())];
+            if (anId && anId.length > 0) {
+  						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
+  					}
 					});
 					$(this).text('View as a single table');
 				}
@@ -62,10 +68,14 @@ $(document).ready(function() {
 				$summary = $caption.replace(/<a [^>]+>|<\/a>/g,'');
 				//get the tr's @id
 				var id = $row.attr('id');
+				if (id) {
                 //store the row's @id
                 ids.push(id);
                 //empty the tr's @id since same id will be used in the relevant summary element
-                $row.attr('id','');
+                if (id.length == 0) {
+                  $row.removeAttr('id','');
+                }
+        }
 				//store the row's cells in array rowCells
 				rowCells = [];
 				//add row cells to array rowCells for use in the details' table
@@ -83,7 +93,13 @@ $(document).ready(function() {
 					relevantElsSummary = relevantElsCaption.replace(/<a [^>]+>|<\/a>/g,'');
 				}
 				//create content for each <details> element; add row header's content to summary
-				var details = '<details class="map"><summary id="' + id + '">' + $summary;
+				var details;
+				if (id && id.length > 0) {
+				  details = '<details class="map"><summary id="' + id + '">' + $summary;
+				}
+				else {
+          details = '<details class="map"><summary>' + $summary;
+        }
 				//if attributes mapping table, append relevant elements to summary
 				if ($table.hasClass('attributes')) {
 					details += ' [' + relevantElsSummary + ']';
