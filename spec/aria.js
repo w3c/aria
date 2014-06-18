@@ -26,7 +26,7 @@ function updateReferences(base) {
         sp.className = "aref";
         sp.href = "#" + content;
         sp.setAttribute("title", content);
-        sp.innerHTML = "@" + content;
+        sp.innerHTML = content;
         parentNode.replaceChild(sp, item);
     });
 
