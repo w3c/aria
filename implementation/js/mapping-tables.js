@@ -8,8 +8,8 @@ $(document).ready(function() {
 			$detailsContainer = $('<div class="details" id="' + $table.attr('id') + '-details"></div>');
 			//insert $detailsContainer after the table
 			$tableContainer.after($detailsContainer);
-            //array to store table rows' @ids
-            var ids = [];
+			//array to store table rows' @ids
+			var ids = [];
 			//add switch to view as single table or details/summary
 			$viewSwitch = $('<button class="switch-view removeOnSave">View as a single table</button>').on('click', function() {
 				//array to store summary/tr @ids
@@ -36,16 +36,13 @@ $(document).ready(function() {
 				} else {
 					$tableContainer.hide();
 					//add tr @id to ids array and remove @id from tr
-//					$('tbody tr', $tableContainer).each(function() {
-//						$(this).attr('id', '');
-//					});
+					$('tbody tr', $tableContainer).each(function() {
+						$(this).removeAttr('id');
+					});
 					$detailsContainer.show();
 					//add relevant @id to summary
 					$('summary', $detailsContainer).each(function() {
-            var anId = ids[$('details', $detailsContainer).index($(this).parent())];
-            if (anId && anId.length > 0) {
   						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
-  					}
 					});
 					$(this).text('View as a single table');
 				}
@@ -68,14 +65,10 @@ $(document).ready(function() {
 				$summary = $caption.replace(/<a [^>]+>|<\/a>/g,'');
 				//get the tr's @id
 				var id = $row.attr('id');
-				if (id) {
-                //store the row's @id
-                ids.push(id);
-                //empty the tr's @id since same id will be used in the relevant summary element
-                if (id.length == 0) {
-                  $row.removeAttr('id','');
-                }
-        }
+				//store the row's @id
+				ids.push(id);
+				//empty the tr's @id since same id will be used in the relevant summary element
+				$row.removeAttr('id');
 				//store the row's cells in array rowCells
 				rowCells = [];
 				//add row cells to array rowCells for use in the details' table
