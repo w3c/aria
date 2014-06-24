@@ -15,7 +15,7 @@ $(document).ready(function() {
 				//array to store summary/tr @ids
 				//if current view is details/summary
 				if ($detailsContainer.is(':visible')) {
-          $detailsContainer.hide();
+					$detailsContainer.hide();
 					//add <summary> @id to ids array and remove @id from summary
 					$('summary', $detailsContainer).each(function() {
 						$(this).removeAttr('id');
@@ -23,10 +23,7 @@ $(document).ready(function() {
 					$tableContainer.show();
 					//add relevant @id to tr
 					$('tbody tr', $tableContainer).each(function() {
-					  var anId = ids[$(this).index()];
-					  if (anId && anId.length > 0) {
-              $(this).attr('id', anId);
-            }
+						$(this).attr('id', ids[$(this).index()]);
 					});
 					if ($table.attr('id') == 'role-mapping-table') {
 						$(this).text('View by role');
@@ -42,7 +39,7 @@ $(document).ready(function() {
 					$detailsContainer.show();
 					//add relevant @id to summary
 					$('summary', $detailsContainer).each(function() {
-  						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
+						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
 					});
 					$(this).text('View as a single table');
 				}
@@ -67,7 +64,7 @@ $(document).ready(function() {
 				var id = $row.attr('id');
 				//store the row's @id
 				ids.push(id);
-				//empty the tr's @id since same id will be used in the relevant summary element
+				//remove the tr's @id since same id will be used in the relevant summary element
 				$row.removeAttr('id');
 				//store the row's cells in array rowCells
 				rowCells = [];
@@ -86,13 +83,7 @@ $(document).ready(function() {
 					relevantElsSummary = relevantElsCaption.replace(/<a [^>]+>|<\/a>/g,'');
 				}
 				//create content for each <details> element; add row header's content to summary
-				var details;
-				if (id && id.length > 0) {
-				  details = '<details class="map removeOnSave"><summary id="' + id + '">' + $summary;
-				}
-				else {
-          details = '<details class="map removeOnSave"><summary>' + $summary;
-        }
+				var details = '<details class="map removeOnSave"><summary id="' + id + '">' + $summary;
 				//if attributes mapping table, append relevant elements to summary
 				if ($table.hasClass('attributes')) {
 					details += ' [' + relevantElsSummary + ']';
