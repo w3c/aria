@@ -11,7 +11,7 @@ $(document).ready(function() {
 			//array to store table rows' @ids
 			var ids = [];
 			//add switch to view as single table or details/summary
-			$viewSwitch = $('<button class="switch-view removeOnSave">View as a single table</button>').on('click', function() {
+			$viewSwitch = $('<button class="switch-view removeOnSave">' + mappingTableLabels.viewByTable + '</button>').on('click', function() {
 				//array to store summary/tr @ids
 				//if current view is details/summary
 				if ($detailsContainer.is(':visible')) {
@@ -25,11 +25,8 @@ $(document).ready(function() {
 					$('tbody tr', $tableContainer).each(function() {
 						$(this).attr('id', ids[$(this).index()]);
 					});
-					if ($table.attr('id') == 'role-mapping-table') {
-						$(this).text('View by role');
-					} else {
-						$(this).text('View by state/property');
-					}
+					// toggle the $viewSwitch label from view-as-single-table to view-by-X
+					$(this).text(mappingTableLabels.viewByLabels[$table.attr('id')]);
 				} else {
 					$tableContainer.hide();
 					//add tr @id to ids array and remove @id from tr
@@ -41,7 +38,7 @@ $(document).ready(function() {
 					$('summary', $detailsContainer).each(function() {
 						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
 					});
-					$(this).text('View as a single table');
+					$(this).text(mappingTableLabels.viewByTable);
 				}
 			});
 			$tableContainer.before($viewSwitch);
@@ -102,8 +99,8 @@ $(document).ready(function() {
 				$detailsContainer.append(details);
 			});
 			//add 'expand/collapse all' functionality
-			var $expandAllButton = $('<button class="expand removeOnSave">Expand All</button>');
-			var $collapseAllButton = $('<button disabled="disabled" class="collapse removeOnSave">Collapse All</button>');
+			var $expandAllButton = $('<button class="expand removeOnSave">' + mappingTableLabels.expand + '</button>');
+			var $collapseAllButton = $('<button disabled="disabled" class="collapse removeOnSave">' + mappingTableLabels.collapse + '</button>');
 			$detailsContainer.prepend($expandAllButton, $collapseAllButton);
 			var expandCollapseDetails = function($detCont, action) {
 				$detCont.find('details').each(function() {
@@ -132,21 +129,21 @@ $(document).ready(function() {
 				$detailsContainer.find('button.expand').removeAttr('disabled');
 			});
 			//add collapsible table columns functionality
-			var $showHideCols = $('<div class="show-hide-cols removeOnSave"><span>Show/Hide Columns: </span></div>');
+			var $showHideCols = $('<div class="show-hide-cols removeOnSave"><span>' + mappingTableLabels.showHideCols + '</span></div>');
 			for(var i=0, len=colHeaders.length; i < len; i++) {
 				var toggleLabel = colHeaders[i].replace(/<a [^<]+>|<\/a>/g,'').replace(/<sup>\[Note [0-9]+\]<\/sup>/g, '');
-				var $showHideColButton = $('<button class="hide-col" aria-pressed="false" title="Hide column"><span class="action">Hide</span> ' + toggleLabel + '</button>').on('click', function() {
+				var $showHideColButton = $('<button class="hide-col" aria-pressed="false" title="' + mappingTableLabels.hideToolTipText + '"><span class="action">' + mappingTableLabels.hideActionText + '</span> ' + toggleLabel + '</button>').on('click', function() {
 					var index = $(this).index() + 1;
 					if ($(this).attr('class') == 'hide-col') {
 						$('tr>th:nth-child('+index+')', $table).hide();
 						$('tr>td:nth-child('+index+')', $table).hide();
-						$(this).attr({'class': 'show-col', 'aria-pressed': 'true', 'title': 'Show column'});
-						$('span', $(this)).text('Show');
+						$(this).attr({'class': 'show-col', 'aria-pressed': 'true', 'title': mappingTableLabels.showToolTipText});
+						$('span', $(this)).text(mappingTableLabels.showActionText);
 					} else {
 						$('tr>th:nth-child('+index+')', $table).show();
 						$('tr>td:nth-child('+index+')', $table).show();
-						$(this).attr({'class': 'hide-col', 'aria-pressed': 'false', 'title': 'Hide column'});
-						$('span', $(this)).text('Hide');
+						$(this).attr({'class': 'hide-col', 'aria-pressed': 'false', 'title': mappingTableLabels.hideToolTipText});
+						$('span', $(this)).text(mappingTableLabels.hideActionText);
 					}
 				});
 				$('span:not(.action)', $showHideColButton).remove();
