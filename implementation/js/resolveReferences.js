@@ -1,13 +1,39 @@
 function linkCrossReferences() {
 
-  var baseURL = respecConfig.ariaSpecURLs[respecConfig.specStatus];
+  var specBaseURL = ( respecConfig.ariaSpecURLs ?
+    respecConfig.ariaSpecURLs[respecConfig.specStatus] : null
+  );
 
-  $ ('a.role-reference, a.property-reference, a.state-reference, a.specref').each (
-    function (idx, el) {
-      var href = $ (el).attr ('href');
-      $ (el).attr ('href', baseURL + href);
-    }
-  ); 
+  var coreMappingURL = (respecConfig.coreMappingURLs ?
+    respecConfig.coreMappingURLs[respecConfig.specStatus] : null
+  );
+
+  // First the links to the definitions of roles, states, and properties.
+  if (!!specBaseURL) {
+    $ ('a.role-reference, a.property-reference, a.state-reference, a.specref').each (
+      function (idx, el) {
+        var href = $ (el).attr ('href');
+        $ (el).attr ('href', specBaseURL + href);
+      }
+    );
+  }
+  else {
+    console.log ("linkCrossReferences():  specBareURL is not defined.");
+  }
+
+  // Second, for links to role, state, and property mappings in the core mapping
+  // doc.
+  if (!!coreMappingURL) {
+    $ ('a.core-mapping').each (
+      function (idx, el) {
+        var href = $ (el).attr ('href');
+        $ (el).attr ('href', coreMappingURL + href);
+      }
+    );
+  }
+  else {
+    console.log ("linkCrossReferences():  Note -- coreBaseURL is not defined.");
+  }
 }
 
 function updateReferences(base) {
