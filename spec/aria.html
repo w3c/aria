@@ -3485,26 +3485,58 @@
 		<div class="role" id="math">
 			<rdef>math</rdef>
 			<div class="role-description">
-				<p>Content that represents a mathematical expression. </p>
-				<p>Content with the role <code>math</code> is intended to be marked up in an accessible format such as <cite><a href="http://www.w3.org/TR/MathML2/">MathML</a></cite> [[MathML]], or with another type of textual representation such as TeX or LaTeX, which can be readily converted to an accessible format by assistive technologies. </p>
-				<p>This role provides a hook whereby a plug-in mechanism can provide multi-modal access to compliant MathML, as well as enabling support for MathML in &quot;mainstream&quot; user agents.</p>
-				<p>While it is inappropriate to use an image of a mathematical expression in the <code>math</code> role, there exists a significant amount of legacy content where images are used to represent mathematical expressions. For purposes of repair, if an image has been used to represent a mathematical expression, the text equivalent defined for that image SHOULD be valid MathML or TeX. Such images SHOULD also be labeled by text that describes the mathematical expression as it might be spoken, using the	<pref>aria-describedby</pref> attribute.</p>
-				<p><abbr title="Mathematical Markup Language">MathML</abbr> example:</p>
-				<pre class="example highlight">&lt;div role="math" aria-label="6 divided by 4 equals 1.5"&gt;
-  &lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
-	&lt;mfrac&gt;
-	  &lt;mn&gt;6&lt;/mn&gt;
-	  &lt;mn&gt;4&lt;/mn&gt;
-	&lt;/mfrac&gt;
-	&lt;mo&gt;=&lt;/mo&gt;
-	&lt;mn&gt;1.5&lt;/mn&gt;
-  &lt;/math&gt;
-&lt;/div&gt;</pre>
-				<p><abbr>TeX</abbr> example:</p>
-				<pre class="example highlight">&lt;div role="math" aria-label="6 divided by 4 equals 1.5"&gt;
-  \frac{6}{4}=1.5
-&lt;/div&gt;</pre>
-				
+				<p>Content that represents a mathematical expression.</p>
+				<p>Content with the role <code>math</code> is intended to be marked up in an accessible format such as <cite><a href="http://www.w3.org/TR/MathML2/">MathML</a></cite> [[MathML]], or with another type of textual representation such as TeX or LaTeX, which can be converted to an accessible format by native browser implementations or a polyfill library.</p>
+				<p>While it is not ideal to use an image of a mathematical expression, there exists a significant amount of legacy content where images are used to represent mathematical expressions. Authors SHOULD ensure that images of math are labeled by text that describes the mathematical expression as it might be spoken.</p>
+				<div class="note">
+					<p>Browsers that support native implementations of MathML are able to provide a more robust, accessible math experience than can be accomplished with plain text approximations of math. Some rendering engines have close integration with screen readers that allow spacial touch exploration of the formula and refreshable braille display output in the <a>Nemeth Braille</a> format. This level of integration is not supported with images of mathematical formulas, even if the author provides a plain text approximation.</p>
+					<p>At the time of this writing, some mainstream browsers do not support MathML natively, and must be retrofit using a JavaScript polyfill library. When authoring math content, use native MathML wherever possible, and test thoroughly. Use a polyfill library or provide a fallback image with a text alternative approximation if necessary.</p>
+				</div>
+				<h4><abbr title="Mathematical Markup Language">MathML</abbr> Example with Embedded TeX Annotation</h4>
+				<pre class="example highlight">
+					&lt;!-- Note: Use a JavaScript polyfill library to ensure
+					     this renders in user agents that do not support MathML. --&gt;
+					&lt;!-- The math element has an implicit role="math". --&gt;
+					&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
+					  &lt;mrow&gt;
+					    &lt;mi&gt;x&lt;/mi&gt;
+					    &lt;mo&gt;=&lt;/mo&gt;
+					    &lt;mfrac&gt;
+					      &lt;mrow&gt;
+					        &lt;mo form="prefix"&gt;&#x2212;&lt;/mo&gt;
+					        &lt;mi&gt;b&lt;/mi&gt;
+					        &lt;mo&gt;&#x00B1;&lt;/mo&gt;
+					        &lt;msqrt&gt;
+					          &lt;msup&gt;
+					            &lt;mi&gt;b&lt;/mi&gt;
+					            &lt;mn&gt;2&lt;/mn&gt;
+					          &lt;/msup&gt;
+					          &lt;mo&gt;&#x2212;&lt;/mo&gt;
+					          &lt;mn&gt;4&lt;/mn&gt;
+					          &lt;mo&gt;&amp;#x2062;&lt;!-- &amp;InvisibleTimes; --&gt;&lt;/mo&gt;
+					          &lt;mi&gt;a&lt;/mi&gt;
+					          &lt;mo&gt;&amp;#x2062;&lt;!-- &amp;InvisibleTimes; --&gt;&lt;/mo&gt;
+					          &lt;mi&gt;c&lt;/mi&gt;
+					        &lt;/msqrt&gt;
+					      &lt;/mrow&gt;
+					      &lt;mrow&gt;
+					        &lt;mn&gt;2&lt;/mn&gt;
+					        &lt;mo&gt;&amp;#x2062;&lt;!-- &amp;InvisibleTimes; --&gt;&lt;/mo&gt;
+					        &lt;mi&gt;a&lt;/mi&gt;
+					      &lt;/mrow&gt;
+					    &lt;/mfrac&gt;
+					  &lt;/mrow&gt;
+					  &lt;annotation encoding="TeX"&gt;
+					    x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}
+					  &lt;/annotation&gt;
+					&lt;/math&gt;
+				</pre>
+				<h4>Plain HTML or Polyfill DOM Result of the MathML Quadratic Formula</h4>
+				<p>If a rendering engine does not support a native math format such as MathML, authors MAY use JavaScript to downgrade the content to a format the browser can display, such as this HTML image using a data URI and plain text alternative.
+				<pre class="example highlight">
+					&lt;img role="math" src="..." alt="x=(&#x2212;b&#x00B1;&radic;(b²&#x2212;4ac))&divide;2a"&gt;
+				</pre>
+				<p class="ednote">Editor's note: Might need an RFC-2119 "should" requirement here to encourage AT to speak math approximations with high punctuation verbosity. Otherwise ambiguous characters like a forward slash (/) may not be spoken even when intended to be used interchangeably with the division sign character (&divide;).</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
