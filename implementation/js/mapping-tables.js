@@ -1,4 +1,8 @@
-$(document).ready(function() {
+var respecEvents = respecEvents || false;
+
+(function() {
+
+  function mappingTables() {
 		$('.table-container').each(function() {
 			//store a reference to the container and hide it
 			var $tableContainer = $(this).hide();
@@ -193,13 +197,31 @@ $(document).ready(function() {
     {
       $(this).on('click', expandReferredItem);
     });
-});
+  };
 
-function expandReferredItem()
-{
-  var href = $(this).attr("href");
-  var header = $(document).find(href);
-  var details = header.parent();
-  if (!details.prop('open'))
-    details.find('summary').first().click();
-}
+	function expandReferredItem()
+	{
+		var href = $(this).attr("href");
+		var header = $(document).find(href);
+		var details = header.parent();
+		if (!details.prop('open'))
+			details.find('summary').first().click();
+	}
+
+	// Fix the scroll-to-fragID:
+	// - if running with ReSpec, do not invoke the mapping tables script until
+	//   ReSpec executes its own scroll-to-fragID.
+	// - if running on a published document (no ReSpec), invoke the mapping tables
+	//   script on document ready.
+	if (respecEvents) {
+		respecEvents.sub ("start", function (details) {
+			if (details === "core/location-hash") {
+				mappingTables();
+			}
+		});
+	}
+	else {
+		$(document).ready(mappingTables);
+	}
+
+}());
