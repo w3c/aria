@@ -476,7 +476,7 @@ var mappingTableLabels = {
 			</li>
 			<li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of  the base markup for the element with the role attribute. For example,  for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the element name <code>table</code> to determine what  platform accessibility <abbr title="application programming interface">API</abbr> role to use according to the host language's role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the platform accessibility <abbr title="application programming interface">API</abbr> for a text input.</li>
       <li>When an explicit or inherited role of <code>presentation</code> is applied to an element, the user agent MUST implement  the rules for <a class="role-reference" href="#presentation"><code>presentation</code></a> <a class="termref">role</a> defined in <cite><a class="specref" href="">Accessible Rich Internet Applications (WAI-ARIA) 1.0</a></cite> [[!WAI-ARIA]]. </li>
-      <li>User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. 
+      <li id="exposeRoleString">User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. 
         <ul>
           <li>
             <abbr title="Microsoft Active Accessibility">MSAA</abbr>: <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd373608(v=vs.85).aspx" title="Object Roles (Windows)">not supported</a>. User agents SHOULD NOT expose a custom role in MSAA's <code>accRole</code> property.</li>
@@ -693,15 +693,14 @@ var mappingTableLabels = {
 		  </tr>
 				<tr id="role-map-grid">
 					<th><a class="role-reference" href="#grid"><code>grid</code></a></th>
-					<td><code>ROLE_SYSTEM_TABLE</code></td>
-					<td><code>ROLE_SYSTEM_TABLE</code>
+					<td><code>ROLE_SYSTEM_TABLE</code> + <code>AriaRole = "grid"</code> <strong>OR</strong> Localized Control Type is <code>grid</code>. <strong>? - Need to verify which. (<a href="https://www.w3.org/WAI/PF/Group/track/actions/1396">ACTION-1396</a>)</strong>.</td>
+					<td><code>ROLE_SYSTEM_TABLE</code> + object attribute <code>xml-roles:grid</code>.
 	          <p>IAccessible2: Use <code>IAccessibleTable2</code> interface</p></td>
-          <td><p><code>DataGrid</code></p>
-              <p>Also requires <code>selection</code> pattern</p></td>
-          <td><code>ROLE_TABLE</code></td>
+          <td><code>DataGrid</code> with <code>selection</code> pattern.</td>
+          <td><code>ROLE_TABLE</code> + object attribute <code>xml-roles:grid</code>.</td>
 					<td>AXRole: <code>AXTable</code><br />
               AXSubrole: <code>&lt;nil&gt;</code><br />
-              AXRoleDescription: <code>'table'</code></td>
+              AXRoleDescription: <code>'grid'</code></td>
 				</tr>
 				<tr id="role-map-gridcell">
 					<th><a class="role-reference" href="#gridcell"><code>gridcell</code></a></th>
