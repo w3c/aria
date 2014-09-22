@@ -2,60 +2,74 @@ var respecEvents = respecEvents || false;
 
 (function() {
 
+	var mappingTableInfos = [];
+
+	function viewAsSingleTable (mappingTableInfo) {
+		mappingTableInfo.detailsContainer.hide();
+		//add <summary> @id to ids array and remove @id from summary
+		$('summary', mappingTableInfo.detailsContainer).each(function() {
+			$(this).removeAttr('id');
+		});
+		mappingTableInfo.tableContainer.show();
+		//add relevant @id to tr
+		$('tbody tr',mappingTableInfo.tableContainer).each(function() {
+			$(this).attr('id', mappingTableInfo.ids[$(this).index()]);
+		});
+	}
+
+	function viewAsDetails (mappingTableInfo) {
+		mappingTableInfo.tableContainer.hide();
+		//add tr @id to ids array and remove @id from tr
+		$('tbody tr', mappingTableInfo.tableContainer).each(function() {
+			$(this).removeAttr('id');
+		});
+		mappingTableInfo.detailsContainer.show();
+		//add relevant @id to summary
+		$('summary', mappingTableInfo.detailsContainer).each(function() {
+			$(this).attr('id', mappingTableInfo.ids[$('details', mappingTableInfo.detailsContainer).index($(this).parent())]);
+		});
+	}
+
   function mappingTables() {
 		$('.table-container').each(function() {
+			// object to store information about a mapping table.
+			var tableInfo = {};
+			mappingTableInfos.push (tableInfo);
 			//store a reference to the container and hide it
-			var $tableContainer = $(this).hide();
+			tableInfo.tableContainer = $(this).hide();
 			//store a reference to the table
-			var $table = $('table', $tableContainer),
+			tableInfo.table = $('table', tableInfo.tableContainer);
 			//create a container div to hold all the details element and insert after table
-			$detailsContainer = $('<div class="details removeOnSave" id="' + $table.attr('id') + '-details"></div>');
-			//insert $detailsContainer after the table
-			$tableContainer.after($detailsContainer);
-			//array to store table rows' @ids
-			var ids = [];
+			tableInfo.detailsContainer = $('<div class="details removeOnSave" id="' + tableInfo.table.attr('id') + '-details"></div>');
+		  tableInfo.tableContainer.after(tableInfo.detailsContainer);
+		  // array to store @id attributes for rows and summaries.
+		  tableInfo.ids = [];
+
 			//add switch to view as single table or details/summary
-			$viewSwitch = $('<button class="switch-view removeOnSave">' + mappingTableLabels.viewByTable + '</button>').on('click', function() {
+			var $viewSwitch = $('<button class="switch-view removeOnSave">' + mappingTableLabels.viewByTable + '</button>').on('click', function() {
 				//array to store summary/tr @ids
 				//if current view is details/summary
-				if ($detailsContainer.is(':visible')) {
-					$detailsContainer.hide();
-					//add <summary> @id to ids array and remove @id from summary
-					$('summary', $detailsContainer).each(function() {
-						$(this).removeAttr('id');
-					});
-					$tableContainer.show();
-					//add relevant @id to tr
-					$('tbody tr', $tableContainer).each(function() {
-						$(this).attr('id', ids[$(this).index()]);
-					});
+				if (tableInfo.detailsContainer.is(':visible')) {
+					viewAsSingleTable (tableInfo);
 					// toggle the $viewSwitch label from view-as-single-table to view-by-X
-					$(this).text(mappingTableLabels.viewByLabels[$table.attr('id')]);
+					$(this).text(mappingTableLabels.viewByLabels[tableInfo.table.attr('id')]);
 				} else {
-					$tableContainer.hide();
-					//add tr @id to ids array and remove @id from tr
-					$('tbody tr', $tableContainer).each(function() {
-						$(this).removeAttr('id');
-					});
-					$detailsContainer.show();
-					//add relevant @id to summary
-					$('summary', $detailsContainer).each(function() {
-						$(this).attr('id', ids[$('details', $detailsContainer).index($(this).parent())]);
-					});
+					viewAsDetails (tableInfo);
+					// toggle the $viewSwitch label from view-by-X to view-as-single-table.
 					$(this).text(mappingTableLabels.viewByTable);
 				}
 			});
-			$tableContainer.before($viewSwitch);
+			tableInfo.tableContainer.before($viewSwitch);
 			//store the table's column headers in array colHeaders
 			var colHeaders = [];
-			$('thead th', $table).each(function() {
+			$('thead th', tableInfo.table).each(function() {
 				var colHead = $(this).html();
 				colHeaders.push(colHead);
 			});
 			//remove first column header from array
 			colHeaders.shift();
 			//for each row in the table, create details/summary..
-			$('tbody tr', $table).each(function() {
+			$('tbody tr', tableInfo.table).each(function() {
 				//store a reference to the row
 				var $row = $(this),
 				//store a reference to the row header for use in details' summary and table caption
@@ -64,7 +78,7 @@ var respecEvents = respecEvents || false;
 				//get the tr's @id
 				var id = $row.attr('id');
 				//store the row's @id
-				ids.push(id);
+				tableInfo.ids.push(id);
 				//remove the tr's @id since same id will be used in the relevant summary element
 				$row.removeAttr('id');
 				//store the row's cells in array rowCells
@@ -76,7 +90,7 @@ var respecEvents = respecEvents || false;
 				//clone colHeaders array for use in details table row headers
 				var rowHeaders = colHeaders.slice(0);
 				//if attributes mapping table...
-				if ($table.hasClass('attributes')) {
+				if (tableInfo.table.hasClass('attributes')) {
 					//remove second column header from array
 					rowHeaders.shift();
 					//remove and store "HTML elements" cell from rowCells array for use in details' summary and table caption
@@ -86,11 +100,11 @@ var respecEvents = respecEvents || false;
 				//create content for each <details> element; add row header's content to summary
 				var details = '<details class="map removeOnSave"><summary id="' + id + '">' + $summary;
 				//if attributes mapping table, append relevant elements to summary
-				if ($table.hasClass('attributes')) {
+				if (tableInfo.table.hasClass('attributes')) {
 					details += ' [' + relevantElsSummary + ']';
 				}
 				details += '</summary><table><caption>' + $caption;
-				if ($table.hasClass('attributes')) {
+				if (tableInfo.table.hasClass('attributes')) {
 					details += ' [' + relevantElsCaption + ']';
 				}
 				details += '</caption><tbody>';
@@ -100,12 +114,12 @@ var respecEvents = respecEvents || false;
 				}
 				details += '</tbody></table></details>';
 				//append the <details> element to the detailsContainer div
-				$detailsContainer.append(details);
+				tableInfo.detailsContainer.append(details);
 			});
 			//add 'expand/collapse all' functionality
 			var $expandAllButton = $('<button class="expand removeOnSave">' + mappingTableLabels.expand + '</button>');
 			var $collapseAllButton = $('<button disabled="disabled" class="collapse removeOnSave">' + mappingTableLabels.collapse + '</button>');
-			$detailsContainer.prepend($expandAllButton, $collapseAllButton);
+			tableInfo.detailsContainer.prepend($expandAllButton, $collapseAllButton);
 			var expandCollapseDetails = function($detCont, action) {
 				$detCont.find('details').each(function() {
 					var $details = $(this), 
@@ -123,14 +137,14 @@ var respecEvents = respecEvents || false;
 				});
 			};
 			$expandAllButton.on('click', function() {
-				expandCollapseDetails($detailsContainer, 'expand');
+				expandCollapseDetails(tableInfo.detailsContainer, 'expand');
 				$(this).attr('disabled', 'disabled');
-				$detailsContainer.find('button.collapse').removeAttr('disabled');
+				tableInfo.detailsContainer.find('button.collapse').removeAttr('disabled');
 			});
 			$collapseAllButton.on('click', function() {
-				expandCollapseDetails($detailsContainer, 'collapse');
+				expandCollapseDetails(tableInfo.detailsContainer, 'collapse');
 				$(this).attr('disabled', 'disabled');
-				$detailsContainer.find('button.expand').removeAttr('disabled');
+				tableInfo.detailsContainer.find('button.expand').removeAttr('disabled');
 			});
 			//add collapsible table columns functionality
 			var $showHideCols = $('<div class="show-hide-cols removeOnSave"><span>' + mappingTableLabels.showHideCols + '</span></div>');
@@ -139,13 +153,13 @@ var respecEvents = respecEvents || false;
 				var $showHideColButton = $('<button class="hide-col" aria-pressed="false" title="' + mappingTableLabels.hideToolTipText + '"><span class="action">' + mappingTableLabels.hideActionText + '</span> ' + toggleLabel + '</button>').on('click', function() {
 					var index = $(this).index() + 1;
 					if ($(this).attr('class') == 'hide-col') {
-						$('tr>th:nth-child('+index+')', $table).hide();
-						$('tr>td:nth-child('+index+')', $table).hide();
+						$('tr>th:nth-child('+index+')', tableInfo.table).hide();
+						$('tr>td:nth-child('+index+')', tableInfo.table).hide();
 						$(this).attr({'class': 'show-col', 'aria-pressed': 'true', 'title': mappingTableLabels.showToolTipText});
 						$('span', $(this)).text(mappingTableLabels.showActionText);
 					} else {
-						$('tr>th:nth-child('+index+')', $table).show();
-						$('tr>td:nth-child('+index+')', $table).show();
+						$('tr>th:nth-child('+index+')', tableInfo.table).show();
+						$('tr>td:nth-child('+index+')', tableInfo.table).show();
 						$(this).attr({'class': 'hide-col', 'aria-pressed': 'false', 'title': mappingTableLabels.hideToolTipText});
 						$('span', $(this)).text(mappingTableLabels.hideActionText);
 					}
@@ -153,7 +167,7 @@ var respecEvents = respecEvents || false;
 				$('span:not(.action)', $showHideColButton).remove();
 				$showHideCols.append($showHideColButton);
 			}
-			$tableContainer.prepend($showHideCols);
+			tableInfo.tableContainer.prepend($showHideCols);
 		});
 		//call the jquery-details plugin
 		var nativeDetailsSupport = $.fn.details.support;
@@ -208,16 +222,23 @@ var respecEvents = respecEvents || false;
 			details.find('summary').first().click();
 	}
 
-	// Fix the scroll-to-fragID:
-	// - if running with ReSpec, do not invoke the mapping tables script until
-	//   ReSpec executes its own scroll-to-fragID.
-	// - if running on a published document (no ReSpec), invoke the mapping tables
-	//   script on document ready.
 	if (respecEvents) {
+		// Fix the scroll-to-fragID:
+		// - if running with ReSpec, do not invoke the mapping tables script until
+		//   ReSpec executes its own scroll-to-fragID.
+		// - if running on a published document (no ReSpec), invoke the mapping tables
+		//   script on document ready.
 		respecEvents.sub ("start", function (details) {
 			if (details === "core/location-hash") {
 				mappingTables();
 			}
+		});
+		// Subscribe to ReSpec "save" message to set the mapping tables to
+		// view-as-single-table state.
+		respecEvents.sub ("save", function (details) {
+			mappingTableInfos.forEach (function (item) {
+				viewAsSingleTable (item);
+			});
 		});
 	}
 	else {
