@@ -180,7 +180,7 @@
 	<h2>Introduction</h2>
       <p>This section is <a class="termref">informative</a>.</p>
       <p><a class="termref" title="user agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref" title="accessible object">accessible objects</a>.  The structure of an accessible object includes its <a class="termref">role</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a>.  An example of these three aspects is an accesible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property (indicating that it leads to a sub-menu).  </p>
-      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  Keeping with the menuitem example above, an example of an accesible name is <code>New</code>, indicating that the menu item allows for the creation of new documents, windows, and so on.  </p>
+      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  Keeping with the menu item example above, an example of an accesible name is <code>New</code>, indicating that the menu item allows for the creation of new documents, windows, and so on.  </p>
       <p>The description is a longer string that provides a short explanation that furthers understanding of the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
       <p><a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and desriptions.  The result of the name/description computation is thus a flat string. </p>      
       <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref" title="accessible object">accessible objects</a> as exposed by <a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".
@@ -267,7 +267,7 @@
           </li>
           <li>Text elements are often visited because they are children of an element that uses rule 2C to collect text from its children. However, because it is possible to specify textual content using <abbr title="Cascading Style Sheets">CSS</abbr> rules, it is necessary for user agents to combine such content, when appropriate, with the text referenced by the text elements to produce a complete text alternative.  
               <p>An example is the "bullet" character or "number" associated with a list item in a list. The bullet or number text is not present in the <abbr title="Document Object Model">DOM</abbr>, but is provided by the <a class="termref" title="user agent">user agent's</a> style engine.  <a class="termref" title="user agent">User agents</a> MUST include the list item indicator text with the item's text, if the <abbr title="Cascading Style Sheets">CSS</abbr> specifies the indicator. </p>
-              <p>Another example is the use of <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo-elements as applied to <a class="termref" title="element">elements</a> with a content model.  <a class="termref" title="user agent">User agents</a> MUST combine any textual content specified by their style engine with that given in the <abbr title="Document Object Model">DOM</abbr>.  </p>
+              <p>Another example is the use of <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo-elements as applied to <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST combine any textual content specified by their style engine with that given in the <abbr title="Document Object Model">DOM</abbr>.  </p>
             
             <p class="ednote">Editoral Note:  (Joseph) Check that the following CSS repleacment rules are still relevant. </p>
             <ul>
@@ -277,7 +277,55 @@
             </ul>
           </li>
         </ol>
-    <p>Each step of the algorithm generates a flat text string.  An implementation trims the text and concatentates it with the text alternative computed by previous steps.  The result is a single flat string name or description associated with the <a class="termref">element</a> for which the text alternative computation was executed.  The computed string is used to set the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> <a class="termref">property</a> of the <a class="termref">accessible object</a> corresponding to the <a class="termref">element</a>.  How the name and description properties are mapped is specified in the <a href="../implementation/aria-implementation.html">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> document [[!CORE-AAM]].  For the <a class="termref">accessible name</a> property, see the mapping table entries for <a href="../implementation/aria-implementation.html#ariaLabel"><code>aria-label</code></a> and <a href="../implementation/aria-implementation.html#ariaLabelledBy"><code>aria-labelledby</code></a>.  For the <a class="termref">accessible description</a> property, see the mapping table entry for <a href="../implementation/aria-implementation.html#ariaDescribedBy"><code>aria-describedby</code></a>.  </p>
+    <p>Each step of the algorithm generates a flat text string.  An implementation trims the text and concatentates it with the text alternative computed by previous steps.  The result is a single flat string name or description associated with the <a class="termref">element</a> for which the text alternative computation was executed.  The computed string is used to set the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> <a class="termref">property</a> of the <a class="termref">accessible object</a> corresponding to the <a class="termref">element</a>.  The specifics of  each <a class="termref" title="accessibility api">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> mapping is given in the following table.
+    <table id="nameMappingTable">
+      <caption>
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> accessible name and description mapping table
+      </caption>
+      <thead>
+        <tr>
+          <th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Property</th>
+          <th><abbr title="Microsoft Active Accessibility">MSAA + UIA Express</abbr></th>
+          <th>MSAA + IAccessible2 </th>
+          <th><abbr title="User Interface Automation">UIA</abbr></th>
+          <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
+          <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr id="accName">
+        <th><a class="termref"><code>accessible name</code></a></th>
+        <td>Expose in <code>accName</code> property.</td>
+        <td>Expose in <code>accName</code> property.</td>
+        <td>Expose in <code>Name</code> property.</td>
+        <td>Expose in the name property of the accessible object.</td>
+        <td>Expose value as <code>string AXDescription</code>.
+        <p>Note: <code>AXDescription</code> is recommended for accessible name values that are not exposed visually, such as <code>@alt</code> and <code>@aria-label</code>. Accessible name values that are exposed visually, as in the case of a button, should be exposed as string <code>AXTitle</code>. For example, with <code>&lt;input type=&quot;button&quot; value=&quot;Feb&quot; aria-label=&quot;February&quot;&gt;</code>, expose both <code>AXTitle:&quot;Feb&quot;</code> and <code>AXDescription:&quot;February&quot;</code>.</p></td>
+      </tr>
+      <tr id="accDesc">
+        <th><a class="termref"><code>accessible description</code></a></th>
+        <td>Expose in <code>accDescription</code> property.</td>
+        <td>Expose in <code>accDescription</code> property.
+          <!-- 
+          <p>IAccessible2: </p>
+          <p>If the referenced object is in the accessibility tree, expose pointer to it in <code>IA2_RELATION_DESCRIBED_BY</code> and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p>
+          -->
+        </td>
+        <td>TBD (See <a href="https://www.w3.org/WAI/PF/Group/track/actions/1104"><strong>ACTION-1104</strong></a>).
+        <!--
+          <p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>.</p>
+          <p>If the referenced object is in the accessibility tree, expose pointer to the referenced accessible object in <code>DescribedBy</code> property.</p>
+          --></td>
+        <td>Expose in the description property of the accessible object.
+        <!--
+        <p>If the referenced object is in the accessibility tree,  expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p>
+        --> </td>
+        <td>Expose  value as <code>string AXHelp</code>.</td>
+      </tr>
+    </tbody>
+    </table>
+     <p>More information concerning accessibility API mappings, including relationships amond accessible objects, such as labelled-by/label-for and described-by/description-for, is documented in the <a href="../implementation/aria-implementation.html">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> document [[!CORE-AAM]].  See the mapping table entries for <a href="../implementation/aria-implementation.html#ariaLabel"><code>aria-label</code></a> and <a href="../implementation/aria-implementation.html#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a href="../implementation/aria-implementation.html#ariaDescribedBy"><code>aria-describedby</code></a>.  </p>
+     <p class="ednote">Editorial Note:  (Joseph) Consider saying more about relationships here (labelled-by/label-for and described-by/description-for).</p>
     </section>
 	</section>
 	<section id="events">
