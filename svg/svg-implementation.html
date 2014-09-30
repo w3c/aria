@@ -769,152 +769,28 @@ e></a></td>
 
 	<section id="mapping_state-property">
 		<h2>State and Property Mapping</h2>
-	  <p>This section describes how to expose <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#def_state" class="termref">states</a> and <a href="#def_object" class="termref">object</a> <a href="#def_property" class="termref">properties</a>. The mapping of this information in SVG must comply with the Core Accessibility Mapping Specification State and Propertyin Mappings except for specific WAI-ARIA attribues called out in this section due to features specific to the SVG specification.
+	  <p>This section describes how to expose <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#def_state" class="termref">states</a> and <a href="#def_object" class="termref">object</a> <a href="#def_property" class="termref">properties</a>. SVG user agents <span class="rfc2119">must</span> conform to the <a href="#mapping_state-property" class="core-mapping">State and Property Mapping</a> accessibility API computational requirements in [Core].
 </p>
-
-  <section id="mapping_state-property_table">
-
-    <h3>State and Property Mapping Table</h3>
-<p>
-     WAI-ARIA states and properties only apply to specific SVG elements. For those SVG elements where WAI-ARIA states and properties are allowed the user agent must support the <a class="core-mapping" href="state-property-mapping-table">Core Accessibility Mapping API States and Properties Mapping Table</a> except where those mappings are redefined here.</p>  
-    <div class="table-container">
-            <table class="map-table elements" id="state-property-mapping-table">
-              <caption>
-                <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> state and property mapping rule table
-              </caption>
-              <thead>
-                <tr>
-                  <th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> State or Property</th>
-                  <th><abbr title="Microsoft Active Accessibility">MSAA + UIA Express</abbr></th>
-                  <th>MSAA + IAccessible2 </th>
-                  <th><abbr title="User Interface Automation">UIA</abbr></th>
-                  <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-                  <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
-                </tr>
-              </thead>
-              <tbody>
-                  <th><a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a></th>
-                	<td>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accDescription</code> property.</td>
-                	<td>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accDescription</code> property.
-                    <p>IAccessible2: </p>
-                  <p>If the referenced object is in the accessibility tree, expose pointer to it in <code>IA2_RELATION_DESCRIBED_BY</code> and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p></td>
-                  <td><p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>.</p>
-                  <p>If the referenced object is in the accessibility tree, expose pointer to the referenced accessible object in <code>DescribedBy</code> property.</p></td>
-                  <td><p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in the description property of the accessible object.</p>
-                    <p>If the referenced object is in the accessibility tree,  expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p></td>
-                  <td>Use in calculating the accessible description as described in <a href="#mapping_additional_nd">Name Computation</a> and expose  value as <code>string AXHelp</code>.</td>
-                </tr>
-                <tr>
-                  <th><a class="property-reference" href="#aria-label"><code>aria-label</code></a></th>
-                  <td>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accName</code> property.</td>
-                  <td>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accName</code> property.</td>
-                  <td>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>Name</code> property.</td>
-                  <td>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in the name property of the accessible object.</td>
-                  <td><p>Calculate accessible name as described in <a href="#mapping_additional_nd">Name Computation</a> and expose value as <code>string AXDescription</code>. </p>
-                  <p>Note: <code>AXDescription</code> is recommended for accessible name values that are not exposed visually, such as <code>@alt</code> and <code>@aria-label</code>. Accessible name values that are exposed visually, as in the case of a button, should be exposed as string <code>AXTitle</code>. For example, with <code>&lt;input type=&quot;button&quot; value=&quot;Feb&quot; aria-label=&quot;February&quot;&gt;</code>, expose both <code>AXTitle:&quot;Feb&quot;</code> and <code>AXDescription:&quot;February&quot;</code>.</p></td>
-                </tr>
-                <tr>
-                  <th><a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a></th>
-                  <td>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accName</code> property.</td>
-                  <td><p>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accName</code> property.</p>
-                    <p>IAccessible2: </p>
-                    <p>If the referenced object is in the accessibility tree expose a pointer to it in <code>IA2_RELATION_LABELLED_BY</code> and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>. </p></td>
-                  <td><p>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>Name</code> property.</p>
-                      <p>If the referenced object is in the accessibility tree, expose a pointer to it in the <code>LabeledBy</code> property.</p></td>
-                  <td><p>Use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in the name property of the accessible object.</p>
-                    <p>If the referenced object is in the accessibility tree, expose a pointer to it in <code>RELATION_LABELLED_BY</code>
-                    and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>. </p></td>
-                  <td><p>If <code>aria-labelledby</code> references a single element, expose the labeling relationship as element <code>AXTitleUIElement</code>. </p>
-                  <p>If <code>aria-labelledby</code> references multiple elements, or if the labeling element is invisible or otherwise not exposed in the accessibility tree, use in calculating the accessible name as described in <a href="#mapping_additional_nd">Name Computation</a> and expose value as <code>string AXDescription</code>. </p></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-  </section>
 	</section>
 	<section id="mapping_additional">
 		<h2>Special Processing Requiring Additional Computation</h2>
 		<section id="mapping_additional_nd">
 			<h3>Name and Description</h3>
-                        <p>Name and Description computation must follow <a href="accname-aam-1.1">Core Accessible Name and Description Computation and API Accessibility API Mapping</a> specification with the following exceptions for the SVG host language:
+                        <p>Name and Description computation <span class="rfc2119">must</span> conform to the <a href="accname-aam-1.1">Core Accessible Name and Description Computation and API Accessibility API Mapping</a> specification with the following exceptions for the SVG host language:
                         <ol>
-                            <li>Replace Step D in <a href="accname-aam-1.1#mapping_additional_nd_te">Text Alternative Computation for any non-skipped elements</a> such that the last resort is to use text from an element's descendant &lt;title&gt element if performing a text alternative computation for an accessible name or the text from an element's descendant &lt;desc&gt; element for aan accessible description computation.  
+                            <li>Replace Step D in <a class="property-reference" href="#mapping_additional_nd_te">Text Alternative Computation for any non-skipped elements</a> such that the last resort is to use text from an element's descendant &lt;title&gt element if performing a text alternative computation for an accessible name or the text from an element's descendant &lt;desc&gt; element for aan accessible description computation.  
                             </li>
-                            <li>Skip step 3 in <a href="accname-aam-1.1#mapping_additional_nd_te">Text Alternative Computation</a></li>
+                            <li>Skip step 3 in <a class=href="property-reference" href="#mapping_additional_nd_te">Text Alternative Computation</a></li>
                         </ol>
                           
                 </section>
 		<section id="mapping_additional_widget-value">
 			<h3>Widget Values</h3>
-      <p>Some <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles are <a href="#def_widget" class="termref">widgets</a> that have a particular <a href="#def_value" class="termref">value</a> within a range of values. For example  <a class="role-reference" href="#progressbar"><code>progressbar</code></a>, <a class="role-reference" href="#spinbutton"><code>spinbutton</code></a>, and <a class="role-reference" href="#slider"><code>slider</code></a> use <a class="property-reference" href="#aria-valuemin"><code>aria-valuemin</code></a> and <a class="property-reference" href="#aria-valuemax"><code>aria-valuemax</code></a> to specify the range of valid values, <a class="property-reference" href="#aria-valuenow"><code>aria-valuenow</code></a> to specify the current value, and optionally <a class="property-reference" href="#aria-valuetext"><code>aria-valuetext</code></a> to specify a text string equivalent for the current value.</p>
-      <p>If the value is not set on a control that requires value, then <a href="#def_useragent" class="termref">user agents</a> <span class="rfc2119">should</span> return an error when the current value is requested.</p>
-			<p>When assistive technology requests the current value, user agents are not required to ensure that <a class="property-reference" href="#aria-valuenow"><code>aria-valuenow</code></a> is greater than <a class="property-reference" href="#aria-valuemin"><code>aria-valuemin</code></a> and less than <a class="property-reference" href="#aria-valuemax"><code>aria-valuemax</code></a>.</p>
-      <p>If an <a class="termref" href="#def_element">element</a> has the <a class="property-reference" href="#aria-valuetext"><code>aria-valuetext</code></a> <a href="#def_property" class="termref">property</a> set, but not <a class="property-reference" href="#aria-valuenow"><code>aria-valuenow</code></a>, user agents <span class="rfc2119">must</span> expose the string value of <a class="property-reference" href="#aria-valuetext"><code>aria-valuetext</code></a> as specified in <a href="#mapping_state-property">State and Property Mapping</a>.</p>
-    </section>
+                        <p>SVG user agents <span class="rfc2119">must</span> conform to the <a href="#mapping_additional_widget-value" class="core-mapping">Widget Values</a> accessibility API computational requirements in [Core].</p>
+                </section>
 	  <section id="mapping_additional_relations">
 		    <h3>Relations</h3>
-	      <p>Often in a <abbr title="Graphical User Interface">GUI</abbr>, there are <a href="#def_relationship" class="termref">relationships</a> between the <a href="#def_widget" class="termref">widgets</a> that can be exposed programmatically to <a class="termref" href="#def_at">assistive technology</a>. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> provides several relationship <a href="#def_property" class="termref">properties</a> which are globally applicable to any <a class="termref" href="#def_element">element</a>: <a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>, <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>, <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a>, <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>, <a class="property-reference" href="#aria-posinset"><code>aria-posinset</code></a>, and <a class="property-reference" href="#aria-setsize"><code>aria-setsize</code></a>. Therefore, it is not important to check the <a href="#def_role" class="termref">role</a> before computing them. <a href="#def_useragent" class="termref">User agents</a> can simply map these relations to <a class="termref" href="#def_accessibility_api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> as defined in the section titled <a href="#mapping_state-property">State and Property Mapping</a>. </p>
-	      <section id="mapping_additional_relations_error_processing">
-	        <h4>ID Reference Error Processing</h4>
-	        <p><a href="#def_useragent" class="termref">User agents</a> <span class="rfc2119">should</span> ignore ID references that do not match the ID of another <a class="termref" href="#def_element">element</a> in the same document.</p>
-	        <p>It is the web author's responsibility to ensure that IDs are unique. If more than one element has the same ID, the user agent <span class="rfc2119">should</span> use the first element found with the given ID. The behavior will be the same as <code>getElementById</code>.</p>
-	        <p>If the same element is specified multiple times in a single <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> relation, user agents <span class="rfc2119">should</span> return multiple pointers to the same <a href="#def_object" class="termref">object</a>.</p>
-	        <p><a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> is defined as referencing only a single ID reference. Any <code>aria-activedescendant</code> <a href="#def_value" class="termref">value</a> that does not match an existing IDREF exactly is  an author error and will not match any element in the <abbr title="Document Object Model">DOM</abbr>.</p>
-        </section>
-	      <section id="mapping_additional_relations_reverse_relations">
-	        <h4>Reverse Relations</h4>
-		      <p>A reverse relation exists when an element's ID is referenced by a <a href="#def_property" class="termref">property</a> in another <a class="termref" href="#def_element">element</a>. For <abbr title="Application Programming Interfaces">APIs</abbr> that support reverse relations, <a href="#def_useragent" class="termref">user agents</a> <span class="rfc2119">must</span> use the mapping defined in the following table when an element's ID is referenced by a relation property of another element and the referenced element is in the accessibility tree according to the rules in <a href="#mapping_general">General rules for exposing WAI-ARIA semantics</a>. All WAI-ARIA references must point to an element that is exposed as an accessible object in the accessibility tree. When the referenced object is not exposed in the accessibility tree (e.g. because it is <a class="termref" href="#def_hidden">hidden</a>), the reference is null. <code>aria-labelledby</code> and <code>aria-described</code> by have an additional feature, which allows them to pull a flattened string from the referenced element to populate the name or description fields of the accessibility API. This feature is described in the <a href="#mapping_additional_nd">Name and Description</a> section.</p>
-            <table>
-              <caption> Reverse relation mapping table</caption>
-			        <tbody>
-                <tr>
-                  <th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Relation</th>
-                  <th>IAccessible2</th>
-                  <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-				        </tr>
-                <tr>
-                  <td><a class="property-reference" href="#aria-controls"><code>aria-controls</code></a> references the element's ID</td>
-                  <td><code>IA2_RELATION_CONTROLLED_BY</code></td>
-                  <td><code>RELATION_CONTROLLED_BY</code></td>
-                </tr>
-                <tr>
-                  <td><a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> references the element's ID</td>
-                  <td><code>IA2_RELATION_DESCRIPTION_FOR</code></td>
-                  <td><code>RELATION_DESCRIPTION_FOR</code></td>
-                </tr>
-                <tr>
-                  <td><a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a> references the element's ID</td>
-                  <td><code>IA2_RELATION_FLOW_FROM</code></td>
-                  <td><code>RELATION_FLOW-FROM</code></td>
-                </tr>
-                <tr>
-                  <td><a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> references the element's ID</td>
-                  <td><code>IA2_RELATION_LABEL_FOR</code></td>
-                  <td><code>RELATION_LABEL_FOR</code></td>
-                </tr>
-                <tr>
-                  <td><a class="property-reference" href="#aria-owns"><code>aria-owns</code></a> references the element's ID</td>
-                  <td><code>IA2_RELATION_NODE_CHILD_OF/IA2_RELATION_NODE_PARENT_OF</code></td>
-                  <td><code>RELATION_NODE_CHILD_OF/RELATION_NODE_PARENT_OF</code></td>
-                </tr>
-              </tbody>
-            </table>
-            <p class="note"><abbr title="Hypertext Markup Language">Special Case</abbr>: If both <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> and <abbr title="Hypertext Markup Language">HTML</abbr> <code>&lt;label for=&gt;</code> are used, the user agent <span class="rfc2119">must</span> use the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation and <span class="rfc2119">must</span> ignore the <abbr title="Hypertext Markup Language">HTML</abbr> label relation.</p>
-            <p>Note that <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> may reference structured or interactive information where users would want to be able to navigate to different sections of content. User agents <span class="rfc2119">may</span> provide a way for the user to navigate to structured information referenced by <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> and <a class="termref" href="#def_at">assistive technology</a> <span class="rfc2119">should</span> provide such a method.</p>
-        </section>
-        <section id="mapping_additional_relations_implied">
-          <h4>Implied reverse relations</h4>
-			    <p>In addition to the explicit relations defined by <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#def_property" class="termref">properties</a>, reverse relations are implied in two other situations: <a class="termref" href="#def_element">elements</a> with <code>role=&quot;treeitem&quot;</code> where the ancestor does not have an <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a> property and descendants of elements with <a class="property-reference" href="#aria-atomic"><code>aria-atomic</code></a> property.</p>  
-          <p>In the case of <code>role=&quot;<a class="role-reference" href="#treeitem">treeitem</a>&quot;</code>, when <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a> is not used, <a href="#def_useragent" class="termref">user agents</a> <span class="rfc2119">should</span> do the following where reverse relations are supported by the <abbr title="application programming interface">API</abbr>:</p>
-          <ul>
-				    <li>If the current <a class="role-reference" href="#treeitem"><code>treeitem</code></a> uses <a class="property-reference" href="#aria-level"><code>aria-level</code></a>, then walk backwards in the tree until a <a class="role-reference" href="#treeitem"><code>treeitem</code></a> is found with a lower <a class="property-reference" href="#aria-level"><code>aria-level</code></a>, then set <code>RELATION_NODE_CHILD_OF</code> to that element. If the top of the tree is reached, then set <code>RELATION_NODE_CHILD_OF</code> to the tree element itself.</li>
-				    <li>If the parent of the <a class="role-reference" href="#treeitem"><code>treeitem</code></a> has a <a href="#def_role" class="termref">role</a> of <a class="role-reference" href="#group"><code>group</code></a>, then walk backwards from the <a class="role-reference" href="#group"><code>group</code></a> until an element with a role of  <a class="role-reference" href="#treeitem"><code>treeitem</code></a> is found, then set <code>RELATION_NODE_CHILD_OF</code> to that element.</li>
-			    </ul>
-          <p>In the case of <a class="property-reference" href="#aria-atomic"><code>aria-atomic</code></a>, where reverse relations are supported by the <abbr title="application programming interface">API</abbr>:</p> 
-          <ul>
-            <li>User agents <span class="rfc2119">should</span> check the chain of ancestor elements for <a class="property-reference" href="#aria-atomic"><code>aria-atomic</code></a><code>=&quot;true&quot;</code>. If found, user agents <span class="rfc2119">should</span> set the <code>RELATION_MEMBER_OF</code> relation to point to the ancestor that sets  <a class="property-reference" href="#aria-atomic"><code>aria-atomic</code></a><code>=&quot;true&quot;</code>.</li>
-			    </ul>
-        </section>
+              <p>SVG user agents <span class="rfc2119">must</span> conform to the <a href="#mapping_additional_relations" class="core-mapping">Relation</a> accessibility API computational requirements in [Core].</p>
 	  </section>
 	  <section id="mapping_additional_position">
 			<h3>Group Position</h3>
