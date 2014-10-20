@@ -8929,13 +8929,12 @@
 		<div class="property" id="aria-relevant">
 			<pdef>aria-relevant</pdef>
 			<div class="property-description">
-				<p>Indicates what user agent change notifications (additions, removals, etc.) assistive technologies will receive within a <a>live region</a>. See related <pref>aria-atomic</pref>.</p>
+				<p>Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified. See related <pref>aria-atomic</pref>.</p>
 				<p>The <a>attribute</a> is represented as a space delimited list of the following <a title="value">values</a>: <code>additions</code>, <code>removals</code>, <code>text</code>; or a single catch-all value <code>all</code>.</p>
 				<p>This is used to describe <a title="semantics">semantically</a> meaningful changes, as opposed to merely presentational ones. For example, nodes that are removed from the top of a log are merely removed for purposes of creating room for other entries, and the removal of them does not have meaning. However, in the case of a buddy list, removal of a buddy name indicates that they are no longer online, and this is a meaningful <a>event</a>. In that case <aref>aria-relevant</aref> will be set to <code>all</code>. When the <aref>aria-relevant</aref> attribute is not provided, the default value, <code>additions text</code>, indicates that text modifications and node additions are relevant, but that node removals are irrelevant.</p>
 				<p class="note"><aref>aria-relevant</aref> values of removals or all are to be used sparingly. Assistive technologies only need to be informed of content removal when its removal represents an important change, such as a buddy leaving a chat room.</p>
 				<p class="note">Text removals should only be considered relevant if one of the specified values is 'removals' or 'all'. For example, for a text change from 'foo' to 'bar' in a live region with a default <aref>aria-relevant</aref> value, the text addition ('bar') would be spoken, but the text removal ('foo') would not.</p>
 				<p><aref>aria-relevant</aref> is an optional attribute of live regions. This is a suggestion to <a>assistive technologies</a>, but assistive technologies are not required to present changes of all the relevant types.</p>
-				<p>Both <a title="accessibility api">accessibility <abbr title="Application Programing Interfaces">APIs</abbr></a> and <cite><a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-mutationevents">Document Object Model Level 2 Events</a></cite> [[DOM-Level-2-Events]] provides events to allow assistive technologies to determine changed areas of the document.</p>
 				<p>When <aref>aria-relevant</aref> is not defined, an element's value is inherited from the nearest ancestor with a defined value. Although the value is a <a href="#valuetype_token_list">token list</a>, inherited values are not additive; the value provided on a descendant element completely overrides any inherited value from an ancestor element.</p>
 				<p>When text changes are denoted as relevant, user agents MUST monitor any descendant node change that affects the <a href="#textalternativecomputation">text alternative computation</a> of the live region as if the accessible name were determined from contents (<a href="#namecalculation">nameFrom: contents</a>). For example, a text change would be triggered if the HTML <code>alt</code> attribute of a contained image changed. However, no change would be triggered if there was a text change to a node outside the live region, even if that node was referenced (via <pref>aria-labelledby</pref>) by an element contained in the live region.</p>
 			</div>
@@ -8977,7 +8976,7 @@
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">additions</th>
-						<td class="value-description">Element nodes are added to the <abbr title="Document Object Model">DOM</abbr> within the live region.</td>
+						<td class="value-description">Element nodes are added to the accessibility tree within the live region.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">additions text</strong></th>
@@ -8989,11 +8988,11 @@
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">removals</th>
-						<td class="value-description">Text or element nodes within the live region are removed from the <abbr title="Document Object Model">DOM</abbr>.</td>
+						<td class="value-description">Text content, a text alternative, or an element node within the live region is removed from the accessibility tree.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">text</th>
-						<td class="value-description">Text is added to any <abbr title="Document Object Model">DOM</abbr> descendant nodes of the live region.</td>
+						<td class="value-description">Text content or a text alternative is added to any descendant in the accessibility tree of the live region.</td>
 					</tr>
 				</tbody>
 			</table>
