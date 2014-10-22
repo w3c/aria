@@ -75,7 +75,7 @@
 	
 	<xsl:template match="html:td[@class='role-parent']//html:rref">
 		<xsl:variable name="id" select="generate-id()"/>
-		<UML:Generalization xmi.id="{$id}" isSpecification="false">
+		<UML:Generalization xmi.id="{$id}" isSpecification="false" name="{ancestor::html:*[@class='role']/@id} to {.}">
 			<UML:Generalization.child>
 				<UML:Class xmi.idref="{ancestor::html:*[@class='role']/@id}"/>
 			</UML:Generalization.child>
