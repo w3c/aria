@@ -179,8 +179,8 @@
 <section id="intro">
 	<h2>Introduction</h2>
       <p>This section is <a class="termref">informative</a>.</p>
-      <p><a class="termref" title="user agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref" title="accessible object">accessible objects</a>.  An accessible object provides information about its <a class="termref">role</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a>.  An example is an accesible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property (indicating that it leads to a sub-menu).  </p>
-      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  Keeping with the menu item example above, an example of an accesible name is <code>New</code>, indicating that the menu item allows for the creation of new documents, windows, and so on.  </p>
+      <p><a class="termref" title="user agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref" title="accessible object">accessible objects</a>.  An accessible object provides information about its <a class="termref">role</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a>.  An example is an accesible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu.  </p>
+      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accesible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
       <p>The description is a short explanation that further clarifies the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
       <p><a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>      
       <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref" title="accessible object">accessible objects</a> as exposed by <a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".
@@ -201,7 +201,7 @@
     <dt>author</dt>
     <dd>name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> <a class="termref" title="attribute">attribute</a>, or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> <a class="termref" title="attribute">attribute</a> in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> <a class="termref">element</a> in <abbr title="Scalable Vector Graphics">SVG</abbr>. </dd>
     <dt>contents</dt>
-    <dd>name is generated from the text value of the <a class="termref">element</a>. Although this may be allowed in addition to "author" in some <a class="termref" title="role">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#textalternativecomputation">text alternative computation</a> algorithm.</dd>
+    <dd>name is generated from the <a class="termref" title="Text node">Text nodes</a> associated with the <a class="termref">element</a>. Although this may be allowed in addition to "author" in some <a class="termref" title="role">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#textalternativecomputation">text alternative computation</a> algorithm.</dd>
   </dl>
   <p class="ednote">Editorial Note:  (Joseph) Need links into ARIA spec to (1) a list of nameFrom:author roles, and (2) a list of nameFrom:contents roles.  Reference these again in rule 2C below. </p>
   <section id="mapping_additional_nd_name">
@@ -216,130 +216,191 @@
   </section>
   <section id="mapping_additional_nd_te">
     <h3>Text Alternative Computation</h3>
-    <p>The text alternative computation is relevant to both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" title="element">elements</a> and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a class="termref">element</a>. This is accomplished via rule 2C (which is recursive), using the full set of rules to retrieve text from its own children.</p>
-    <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations. At each step of the algorithm, an implementation trims the existing text alternative string and the string to be added, then joins the two strings with a single space. For example, a space character may be inserted between the text of two elements used one after the other in a description. </p>
-    <p>The text alternative for a given element is computed as follows:</p>
-    <ol>
-      <li>Skip <a class="termref">hidden</a> <a class="termref" title="element">elements</a> unless they are referenced by an <code>aria-labelledby</code> or <code>aria-describedby</code> in the context of the current computation. By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include the hidden text alternative as part of the name or description property exposed by the <a class="termref">accessibility <abbr title="Application Programming Interface">API</abbr></a>.</li>
-      <li>For any non-skipped elements:
-        <ol>
-          <li>Authors specify an <a class="termref">element</a>'s text alternative in content <a class="termref" title="attribute">attributes</a>, used in this order of precedence:
-            <ul>
-              <li>The <code>aria-labelledby</code> attribute takes precedence as the element's text alternative unless this computation is already occurring as the result of a recursive <code>aria-labelledby</code> declaration.  In other words, <code>aria-labelledby</code> is not recursive when referenced from another element, so it will not cause loops. However, the element's <code>aria-labelledby</code> attribute can reference the element's own IDREF in order to concatenate a string provided by the element's <code>aria-label</code> attribute or another feature lower in precedence. The text alternatives for all the elements referenced will be computed using this same set of rules. <a class="termref" title="user agent">User agents</a> will then trim whitespace and join the substrings using a single space character. Substrings will be joined in the order given by the author as specified by the order of the IDREFs in the <code>aria-labelledby</code> attribute.
-              
-                <p>In the following example, the <code>&lt;span&gt;</code> elements would have text alternatives of "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
-                 <p class="ednote">Editorial Note: (Joseph) Pro:  the <strong>example</strong> shows the interaction of aria-labelledby and aria-label when on the same element.  Con:  it uses HTML. </p>
-                <p><code>&lt;h1&gt;Files&lt;/h1&gt;<br />
-  &lt;ul&gt;<br />
-  &lt;li&gt;<br />
-  &lt;a id=&quot;file_row1&quot; href=&quot;./files/Documentation.pdf&quot;&gt;Documentation.pdf&lt;/a&gt;<br />
-  &lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row1&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row1 file_row1&quot;&gt;&lt;/span&gt;<br />
-  &lt;/li&gt;<br />
-  &lt;li&gt;<br />
-  &lt;a id=&quot;file_row2&quot; href=&quot;./files/HolidayLetter.pdf&quot;&gt;HolidayLetter.pdf&lt;/a&gt;<br />
-  &lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;<br />
-  &lt;/li&gt;<br />
-  &lt;/ul&gt;</code></p>
-                  </li>
-                  <li>If <code>aria-labelledby</code> is empty or undefined, the <code>aria-label</code> attribute, which defines an explicit text string, is used. However, if this computation is already occurring as the result of a recursive text alternative computation <strong>and</strong> the current element is an embedded control as defined in rule 2B, ignore the <code>aria-label</code> attribute and skip directly to rule 2B.</li>
-                  <li>If <code>aria-labelledby</code> and <code>aria-label</code> are both empty or undefined, and if the element is not marked as presentational (<code>role=&quot;<a class="role-reference" href="#presentation">presentation</a>&quot;</code>, check for the presence of an equivalent host language attribute or element for associating a label, and use those mechanisms to determine a text alternative. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a label string and the <code>label</code> element references the form element it labels; in <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </li>
-                </ul>
-                <p class="ednote">Editorial Note: We've asked the <abbr title="Hypertext Markup Language 5">HTML5</abbr> WG to remove or reduce the section references in the following note, so we may remove the reference to it.</p>
-                <p class="ednote">Editorial Note: (Joseph)  Likely time to remove the following note/reference.</p>
-                <p class="note">See <cite><a href="http://www.w3.org/TR/REC-html40/struct/objects.html#h-13.8">How to Specify Alternate Text</a></cite> ([[HTML401]], section 13.8) and 
-                  <abbr title="Hypertext Markup Language 5">HTML5</abbr> <cite><a href="http://www.w3.org/TR/2010/WD-html5-20100624/embedded-content-1.html#alt">Requirements for providing text to act as an alternative for images</a></cite> ([[HTML5]], section 4.8.1.1). 
-                  In the case of <abbr title="Hypertext Markup Language">HTML</abbr> <code>frame</code> and <code>iframe</code> elements, the <code>title</code> element in the <code>head</code> element of the document inside a <code>frame</code> or <code>iframe</code> is used in this step of the calculation of the name of the <code>frame</code> or <code>iframe</code>.
-                </p>
-              </li>
-              <li>Authors sometimes embed a control within the label of another <a class="termref">widget</a>, where the user can adjust the embedded control's <a class="termref">value</a>. For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". For such cases, include the value of the embedded control as part of the text alternative in the following manner:
-    						<ul>
-                  <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, use its value.</li>
-                  <li>If the embedded control has role menu <a class="role-reference" href="#button">button</a>, use the text alternative of the button.</li>
-                  <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a>, use the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
-                  <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>), use the value of the <code>aria-valuetext</code> attribute if available; otherwise use the value of the <code>aria-valuenow</code> attribute; otherwise, use the value as specified by a host language attribute. </li>
-                </ul>
-              </li>
-              <li>Otherwise, if the attributes checked in rules A and B did not provide results, text is collected from descendant content if the current element's <a class="termref">role</a> allows "Name From: contents." The text alternatives for child elements is concatenated, using this same set of rules. This same rule may apply to a child, which means the computation is recursive and can result in text being collected in all the elements in this subtree, no matter how deep they are. However, any given descendant subtree may instead collect their part of the text alternative from the higher precedent markup described in A and B above. These author-specified attributes provide the correct text alternative for the entire subtree.
-                  <p>All in all, the element rules are applied consistently as text alternatives are collected from descendants, and each containing element in those descendants may or may not allow their contents to be used. </p>
-                  <p><strong>Important</strong>:  Each element in the subtree is consulted only once. If text has been collected from a child element, and is referenced by another IDREF in some descendant element, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p></li>
-              <li>The last resort is to use text from a tooltip <a class="termref">attribute</a>. This is used only if nothing else, including subtree content, has provided results.</li>
-            </ol>
-          </li>
-          <li>Text elements are often visited because they are children of an element that uses rule 2C to collect text from its children. However, because it is possible to specify textual content using <abbr title="Cascading Style Sheets">CSS</abbr> rules, it is necessary for user agents to combine such content, when appropriate, with the text referenced by the text elements to produce a complete text alternative.  
-              <p>An example is the "bullet" character or "number" associated with a list item in a list. The bullet or number text is not present in the <abbr title="Document Object Model">DOM</abbr>, but is provided by the <a class="termref" title="user agent">user agent's</a> style engine.  <a class="termref" title="user agent">User agents</a> MUST include the list item indicator text with the item's text, if the <abbr title="Cascading Style Sheets">CSS</abbr> specifies the indicator. </p>
-              <p>Another example is the use of <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo-elements as applied to <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST combine any textual content specified by their style engine with that given in the <abbr title="Document Object Model">DOM</abbr>.  </p>
-            
-            <p class="ednote">Editorial Note:  (Joseph) Check that the following CSS replacement rules are still relevant. </p>
-            <ul>
-              <li>If an image replaces text, then the <a class="termref">user agent</a> MUST use the original text.</li>
-              <li>If text replaces an image, then the <a class="termref">user agent</a> MUST use the text.</li>
-              <li>If new text replaces old, then the <a class="termref">user agent</a>  MUST use the new text.</li>
-            </ul>
-          </li>
-        </ol>
-    <p>Each step of the algorithm generates a flat text string.  An implementation trims the text and concatenates it with the text alternative computed by previous steps.  The result is a single flat string name or description associated with the <a class="termref">element</a> for which the text alternative computation was executed.  The computed string is used to set the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> <a class="termref">property</a> of the <a class="termref">accessible object</a> corresponding to the <a class="termref">element</a>.  The specifics of  each <a class="termref" title="accessibility api">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> mapping is given in the following table.
-    <section>
-      <h3>Accessible Name and Description Mapping</h3>
-      <table id="nameMappingTable">
-      <caption>
-        Accessible name and accessible description mapping table
-      </caption>
-      <thead>
-        <tr>
-          <th>Accessibility <abbr title="Application Programming Interfaces">API</abbr> Property</th>
-          <th><abbr title="Microsoft Active Accessibility">MSAA + UIA Express</abbr></th>
-          <th>MSAA + IAccessible2 </th>
-          <th><abbr title="User Interface Automation">UIA</abbr></th>
-          <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-          <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr id="accName">
-        <th><a class="termref"><code>accessible name</code></a></th>
-        <td>Expose in <code>accName</code> property.</td>
-        <td>Expose in <code>accName</code> property.
-        <p><code>aria-labelledby</code>:  If the referenced object is in the accessibility tree expose a pointer to it in <code>IA2_RELATION_LABELLED_BY</code> and expose reverse relations as described in <a href="../implementation/aria-implementation.html#mapping_additional_relations">Relations</a>. </p>
-        </td>
-        <td>Expose in <code>Name</code> property.
-          <p><code>aria-labelledby</code>:  If the referenced object is in the accessibility tree, expose a pointer to it in the <code>LabeledBy</code> property.</p>
-        </td>
-        <td>Expose in the name property of the accessible object.
-          <p><code>aria-labelledby</code>: If the referenced object is in the accessibility tree, expose a pointer to it in <code>RELATION_LABELLED_BY</code> and expose reverse relations as described in <a href="../implementation/aria-implementation.html#mapping_additional_relations">Relations</a>. </p>
-        </td>
-        <td>Expose as <code>string AXTitle</code>, <code>AXDescription</code>, or <code>AXTitleUIElement</code>:
+    <p>The text alternative computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" title="element">elements</a>, <a class="termref" title="node">nodes</a>, and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a class="termref">element</a>. This is accomplished via rule 2C (which is recursive), using the full set of rules to retrieve text from its own children.</p>
+    <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual tokens. </p>
+    <section id="terminology">
+      <h4>Terminology</h4>
+      <dl>
+        <dt>Root node</dt>
+        <dd>The <a class="termref">DOM</a> <a class="termref">node</a> or <a class="termref">element</a> for which the text alterative is sought.</dd>
+        <dt>Current node</dt>
+        <dd>The <a class="termref">DOM</a> <a class="termref" title="Node">node</a> currently traversed to compute its text equivalent.  Initially, this is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, and another referenced node.</dd>
+        <dt>Flat string</dt>
+        <dd>A string of characters where all carriage returns, newlines, tabs, and formfeeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd> 
+        <dt>Total Accumulated text</dt>
+        <dd>The text equivalent computed up to, but not including the <code>current node</code>.</dd>
+        <dt>Accumulated text</dt>
+        <dd>Text accumulated at a step or sequence of steps described below.  It is temporary storage for those steps.</dd>
+        <dt>Result</dt>
+        <dd>The text equivalent computed at one of the steps described below.</dd>
+        <dt>Append the result to X</dt>
+        <dd>
           <ul>
-          <li>Accessible name values that are exposed visually, as in the case of a button, should be exposed as string <code>AXTitle</code>. </li>
-          <li><code>AXDescription</code> is recommended for accessible name values that are not exposed visually, such as <code>@alt</code> and <code>@aria-label</code>. </li>
+            <li>If X is empty, copy the <code>result</code> to X.</li>
+            <li>If X is non-empty, append a space to X, then copy the <code>result</code> to X.</li>
           </ul>
-          <p><code>aria-labelledby</code>: </p>
-          <ul>
-            <li>If <code>aria-labelledby</code> references a single element, expose the labeling relationship as element <code>AXTitleUIElement</code>. </li>
-            <li>If <code>aria-labelledby</code> references multiple elements, or if the labeling element is invisible or otherwise not exposed in the accessibility tree, expose as <code>string AXDescription</code>. </li>
-          </ul>
-        </td>
-      </tr>
-      <tr id="accDesc">
-        <th><a class="termref"><code>accessible description</code></a></th>
-        <td>Expose in <code>accDescription</code> property.</td>
-        <td>Expose in <code>accDescription</code> property.
-          <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree, expose pointer to it in <code>IA2_RELATION_DESCRIBED_BY</code> and expose reverse relations as described in <a href="../implementation/aria-implementation.html#mapping_additional_relations">Relations</a>.</p>
-        </td>
-        <td>TBD.
-          <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree, expose pointer to the referenced accessible object in <code>DescribedBy</code> property.</p>
-          <p>(See <a href="https://www.w3.org/WAI/PF/Group/track/actions/1104"><strong>ACTION-1104</strong></a>)</p>
-        </td>
-        <td>Expose in the description property of the accessible object.
-          <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree,  expose reverse relations as described in <a href="../implementation/aria-implementation.html#mapping_additional_relations">Relations</a>.</p>
-        </td>
-        <td>Expose as <code>string AXHelp</code>.</td>
-      </tr>
-    </tbody>
-    </table>
-      <p>More information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the <a href="../implementation/aria-implementation.html">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> document [[!CORE-AAM]].  See the mapping table entries for <a href="../implementation/aria-implementation.html#ariaLabel"><code>aria-label</code></a>, <a href="../implementation/aria-implementation.html#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a href="../implementation/aria-implementation.html#ariaDescribedBy"><code>aria-describedby</code></a>.  </p>
+        </dd>
+      </dl>
     </section>
+      <p>The text alternative for a given element is computed as follows:</p>
+      <ol>
+        <li>Initialize:  Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumlated text</code> to the empty string ("").</li>
+        <li>Compute the text alternative for the <code>current node</code>:
+          <ol>
+            <li>If the <code>current node</code> is <a class="termref">hidden</a> <strong>and not</strong> referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, return the empty string.
+              <p>Comment: By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
+            </li>
+            <li>Otherwise, if the <code>current node</code> has a non-empty <code>aria-labelledby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur:
+              <ol>
+                <li>Set the <code>accumulated text</code> to the empty string.</li>
+                <li>For each IDREF:
+                  <ol>
+                    <li>Set the <code>current node</code> to the node referenced by the IDREF.</li>
+                    <li>Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alernative.</li>
+                    <li>Append the <code>result</code> to the <code>accumulated text</code>.</li>
+                  </ol>
+                </li>
+                <li>Return the <code>accumulated text</code>.</li>
+              </ol>
+              <p>The following example shows the meaning of the clause "&hellip; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &hellip;" .</p>
+              <ul>
+                <li><code>element1</code>'s <a class="termref">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to <code>element3</code>.</li>
+                <li><code>element2</code> has no <a class="termref">accessible name</a>.  The computation starts with a first traversal of its <code>aria-labelledby</code> leading to <code>element2</code>, but <code>element2</code>'s  <code>aria-labelledby</code> is not followed since it is already part of the first <code>aria-labelledby</code> traversal. </li>
+              </ul>
+              <p><samp><code>
+&lt;element1 id="el1" aria-labelledby="el3" /&gt; <br>
+&lt;element2 id="el2" aria-labelledby="el1" /&gt; <br>
+&lt;element3 id="el3"&gt; hello /&lt;element3&gt;</code></samp></p>
+            </li>
+            <li>Otherwise, if the <code>current node</code> has a non-empty <code>aria-label</code> <a class="termref">attribute</a>:
+              <ul>
+                <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
+                <li>Otherwise, return the value of <code>aria-label</code>.</li>
+              </ul>
+            <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a <a class="termref">node</a> has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref" title="accessible name">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
+                   <p class="ednote">Editorial Note: (Joseph) Pro:  the <strong>example</strong> shows the interaction of aria-labelledby and aria-label when on the same element.  Con:  it uses HTML. </p>
+                   <p><samp><code>&lt;h1&gt;Files&lt;/h1&gt;<br/>
+&lt;ul&gt;<br />
+&lt;li&gt;<br />
+&lt;a id=&quot;file_row1&quot; href=&quot;./files/Documentation.pdf&quot;&gt;Documentation.pdf&lt;/a&gt;<br />
+<strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row1&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row1 file_row1&quot;&gt;&lt;/span&gt;</strong><br />
+&lt;/li&gt;<br />
+&lt;li&gt;<br />
+&lt;a id=&quot;file_row2&quot; href=&quot;./files/HolidayLetter.pdf&quot;&gt;HolidayLetter.pdf&lt;/a&gt;<br />
+<strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;</strong><br />
+&lt;/li&gt;<br />
+&lt;/ul&gt;</code></samp></p>
+        </li>
+            <li>Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> or <a class="termref">element</a> that defines a text alternative, return that alternative as a <code>flat string</code>, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
+              <p>Comment:  For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
+            </li>
+            <li>Otherwise, if the <code>current node</code> is a control embedded within the label of another <a class="termref">widget</a>, where the user can adjust the embedded control's <a class="termref">value</a>, then include the value of the embedded control as part of the text alternative in the following manner:
+              <ul>
+                <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
+                <li>If the embedded control has role menu <a class="role-reference" href="#button">button</a>, return the text alternative of the button.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a>, return the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>):
+                  <ul>
+                    <li>If the <code>aria-valuetext</code> property is present, return its value, </li>
+                    <li>Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
+                    <li>Otherwise, use the value as specified by a host language attribute. </li>
+                  </ul>
+              </ul>
+              <p>For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". </p>
+              </li>
+            <li>Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows "Name From: contents":
+              <ol>
+                <li>Set the <code>accumulated text</code> to the empty string.</li>
+                <li>Check for <a class="termref">CSS</a> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>:
+                  <ul>
+                    <li>The "bullet" character or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.</li>
+                    <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST prepend (<code>:before</code>) or append (<code>:after</code>) CSS textual content to the textual content of the <code>current node</code>.</li>
+                  </ul>
+                </li>
+                <li>For each child node of the <code>current node</code>:
+                  <ol>
+                    <li>Set the <code>current node</code> to the child node.</li>
+                    <li>Compute the text alternative of the  <code>current node</code> beginning with step 2.  Set the <code>result</code> to that text alternative.</li>
+                    <li>Apppend the <code>result</code> to the <code>accumulated text</code>.
+                  </ol>
+                </li>
+                <li>Return the <code>accumulated text</code>.</li>
+              </ol>
+                <p>Comment:  This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant <a class="termref">node</a>'s text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
+                <p><strong>Important</strong>:  Each <a class="termref">node</a> in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
+            </li>
+            <li>Otherwise, if the <code>current node</code> is a <a class="termref">Text node</a>, return its textual contents.</li>
+            <li>Otherwise, if the <code>current node</code> has a tooltip <a class="termref">attribute</a>, return its value. <span class="ednote">Editorial Note: (Joseph) Define "tooltip attribute".</span>
+                  <p>Comment:  Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
+                </li>
+          </ol>
+          <p>Append the <code>result</code> of each step above to the <code>total accumlated text</code>.</p>
+        </li>
+      </ol>
+      <p>After all steps are completed, the <code>total accumlated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
     </section>
-	</section>
+  </section>
+  <section>
+    <h3>Accessible Name and Description Mapping</h3>
+    <p>Each step of the algorithm generates a <code>flat text string</code>.  An implementation trims the text and concatenates it with the text alternative computed by previous steps.  The result is a single flat string name or description associated with the <a class="termref">element</a> for which the text alternative computation was executed.  The computed string is used to set the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> <a class="termref">property</a> of the <a class="termref">accessible object</a> corresponding to the <a class="termref">element</a>.  The specifics of  each <a class="termref" title="accessibility api">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> mapping is given in the following table.
+    <table id="nameMappingTable">
+    <caption>
+      Accessible name and accessible description mapping table
+    </caption>
+    <thead>
+      <tr>
+        <th>Accessibility <abbr title="Application Programming Interfaces">API</abbr> Property</th>
+        <th><abbr title="Microsoft Active Accessibility">MSAA + UIA Express</abbr></th>
+        <th>MSAA + IAccessible2 </th>
+        <th><abbr title="User Interface Automation">UIA</abbr></th>
+        <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
+        <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr id="accName">
+      <th><a class="termref"><code>accessible name</code></a></th>
+      <td>Expose in <code>accName</code> property.</td>
+      <td>Expose in <code>accName</code> property.
+      <p><code>aria-labelledby</code>:  If the referenced object is in the accessibility tree expose a pointer to it in <code>IA2_RELATION_LABELLED_BY</code> and expose reverse relations as described in <a href="../core-aam/core-aam.html#mapping_additional_relations">Relations</a>. </p>
+      </td>
+      <td>Expose in <code>Name</code> property.
+        <p><code>aria-labelledby</code>:  If the referenced object is in the accessibility tree, expose a pointer to it in the <code>LabeledBy</code> property.</p>
+      </td>
+      <td>Expose in the name property of the accessible object.
+        <p><code>aria-labelledby</code>: If the referenced object is in the accessibility tree, expose a pointer to it in <code>RELATION_LABELLED_BY</code> and expose reverse relations as described in <a href="../core-aam/core-aam.html#mapping_additional_relations">Relations</a>. </p>
+      </td>
+      <td>Expose as <code>string AXTitle</code>, <code>AXDescription</code>, or <code>AXTitleUIElement</code>:
+        <ul>
+        <li>Accessible name values that are exposed visually, as in the case of a button, should be exposed as string <code>AXTitle</code>. </li>
+        <li><code>AXDescription</code> is recommended for accessible name values that are not exposed visually, such as <code>@alt</code> and <code>@aria-label</code>. </li>
+        </ul>
+        <p><code>aria-labelledby</code>: </p>
+        <ul>
+          <li>If <code>aria-labelledby</code> references a single element, expose the labeling relationship as element <code>AXTitleUIElement</code>. </li>
+          <li>If <code>aria-labelledby</code> references multiple elements, or if the labeling element is invisible or otherwise not exposed in the accessibility tree, expose as <code>string AXDescription</code>. </li>
+        </ul>
+      </td>
+    </tr>
+    <tr id="accDesc">
+      <th><a class="termref"><code>accessible description</code></a></th>
+      <td>Expose in <code>accDescription</code> property.</td>
+      <td>Expose in <code>accDescription</code> property.
+        <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree, expose pointer to it in <code>IA2_RELATION_DESCRIBED_BY</code> and expose reverse relations as described in <a href="../core-aam/core-aam.html#mapping_additional_relations">Relations</a>.</p>
+      </td>
+      <td>TBD.
+        <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree, expose pointer to the referenced accessible object in <code>DescribedBy</code> property.</p>
+        <p>(See <a href="https://www.w3.org/WAI/PF/Group/track/actions/1104"><strong>ACTION-1104</strong></a>)</p>
+      </td>
+      <td>Expose in the description property of the accessible object.
+        <p><code>aria-describedby</code>: If the referenced object is in the accessibility tree,  expose reverse relations as described in <a href="../core-aam/core-aam.html#mapping_additional_relations">Relations</a>.</p>
+      </td>
+      <td>Expose as <code>string AXHelp</code>.</td>
+    </tr>
+  </tbody>
+  </table>
+    <p>More information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the <a href="../core-aam/core-aam.html">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> document [[!CORE-AAM]].  See the mapping table entries for <a href="../core-aam/core-aam.html#ariaLabel"><code>aria-label</code></a>, <a href="../core-aam/core-aam.html#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a href="../core-aam/core-aam.html#ariaDescribedBy"><code>aria-describedby</code></a>.  </p>
+  </section>
 	<section id="events">
 	<h2>Name and Description Change Events</h2>
     <p>TBD.</p>
