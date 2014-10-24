@@ -171,7 +171,7 @@
 <section id="abstract">
 	<p>This document describes how <a class="termref" title="user agent">user agents</a> determine <a class="termref" title="accessible name">names</a> and <a class="termref" title="accessible description">descriptions</a> of <a class="termref" title="accessible object">accessible objects</a> from web content languages and expose them in <a class="termref" title="accessibility api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. This allows <a class="termref" title="assistive technologies">assistive technologies</a> to associate and relay the name or description of objects to users. Documenting the algorithm and mappings promotes interoperable exposure of these properties and events as implemented by different accessibility APIs, and helps to ensure that this information appears in a manner consistent with author intent. </p>
 	<p>The accessible name and description computation and mappings specification defines support that applies across multiple content technologies, including  mapping of general-purpose <a class="termref" title="role">roles</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a> provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]] and documented in <cite><a href="http://www.w3.org/TR/core-aam-1.1/"><abbr title="Core Accessibility API Mappings 1.1">CORE-AAM</abbr></a></cite> [[!CORE-AAM]]. Other Accessibility API Mappings specifications depend on and extend this specification for specific technologies, including native technology features and WAI-ARIA extensions.  </p>
-	<p>This document updates and will eventually supercede the guidance in the <a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a> [[!WAI-ARIA-IMPLEMENTATION]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
+	<p>This document updates and will eventually supersede the guidance in the <a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a> [[!WAI-ARIA-IMPLEMENTATION]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
 			<p>This is an Editor's Draft of the Protocols and Formats Working Group. It is not stable and may change at any time. Implementers should not use this for anything other than experimental implementations.</p>
@@ -179,8 +179,8 @@
 <section id="intro">
 	<h2>Introduction</h2>
       <p>This section is <a class="termref">informative</a>.</p>
-      <p><a class="termref" title="user agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref" title="accessible object">accessible objects</a>.  An accessible object provides information about its <a class="termref">role</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a>.  An example is an accesible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu.  </p>
-      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accesible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
+      <p><a class="termref" title="user agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref" title="accessible object">accessible objects</a>.  An accessible object provides information about its <a class="termref">role</a>, <a class="termref" title="state">states</a>, and <a class="termref" title="property">properties</a>.  An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu.  </p>
+      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accessible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
       <p>The description is a short explanation that further clarifies the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
       <p><a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>      
       <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref" title="accessible object">accessible objects</a> as exposed by <a class="termref" title="accessibility api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".
@@ -222,11 +222,11 @@
       <h4>Terminology</h4>
       <dl>
         <dt>Root node</dt>
-        <dd>The <a class="termref">DOM</a> <a class="termref">node</a> or <a class="termref">element</a> for which the text alterative is sought.</dd>
+        <dd>The <a class="termref">DOM</a> <a class="termref">node</a> or <a class="termref">element</a> for which the text alternative is sought.</dd>
         <dt>Current node</dt>
-        <dd>The <a class="termref">DOM</a> <a class="termref" title="Node">node</a> currently traversed to compute its text equivalent.  Initially, this is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, and another referenced node.</dd>
+        <dd>The <a class="termref">DOM</a> <a class="termref" title="Node">node</a> currently traversed to compute its text equivalent.  Initially, this is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
         <dt>Flat string</dt>
-        <dd>A string of characters where all carriage returns, newlines, tabs, and formfeeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd> 
+        <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd> 
         <dt>Total Accumulated text</dt>
         <dd>The text equivalent computed up to, but not including the <code>current node</code>.</dd>
         <dt>Accumulated text</dt>
@@ -244,7 +244,7 @@
     </section>
       <p>The text alternative for a given element is computed as follows:</p>
       <ol>
-        <li>Initialize:  Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumlated text</code> to the empty string ("").</li>
+        <li>Initialize:  Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumulated text</code> to the empty string ("").</li>
         <li>Compute the text alternative for the <code>current node</code>:
           <ol>
             <li>If the <code>current node</code> is <a class="termref">hidden</a> <strong>and not</strong> referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, return the empty string.
@@ -256,7 +256,7 @@
                 <li>For each IDREF:
                   <ol>
                     <li>Set the <code>current node</code> to the node referenced by the IDREF.</li>
-                    <li>Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alernative.</li>
+                    <li>Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alternative.</li>
                     <li>Append the <code>result</code> to the <code>accumulated text</code>.</li>
                   </ol>
                 </li>
@@ -321,7 +321,7 @@
                   <ol>
                     <li>Set the <code>current node</code> to the child node.</li>
                     <li>Compute the text alternative of the  <code>current node</code> beginning with step 2.  Set the <code>result</code> to that text alternative.</li>
-                    <li>Apppend the <code>result</code> to the <code>accumulated text</code>.
+                    <li>Append the <code>result</code> to the <code>accumulated text</code>.
                   </ol>
                 </li>
                 <li>Return the <code>accumulated text</code>.</li>
@@ -334,10 +334,10 @@
                   <p>Comment:  Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
                 </li>
           </ol>
-          <p>Append the <code>result</code> of each step above to the <code>total accumlated text</code>.</p>
+          <p>Append the <code>result</code> of each step above to the <code>total accumulated text</code>.</p>
         </li>
       </ol>
-      <p>After all steps are completed, the <code>total accumlated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
+      <p>After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
     </section>
   </section>
   <section>
