@@ -3,10 +3,11 @@
 <head>
 <title>Accessible Name and Description: Computation and API Mappings 1.1</title>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<!-- <script src="js/jquery-1.9.0.min.js"></script> -->
+<script src="../common/script/jquery-1.9.0.min.js"></script>
 <script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
 <script src="../common/script/resolveReferences.js" class="remove"></script>
 <link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css"/>
+<link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css"/>
 <link href="../common/css/common.css" rel="stylesheet" type="text/css"/>
 
 <script class="remove">
@@ -166,6 +167,16 @@
     preProcess: [ linkCrossReferences ]
   }
 </script>
+<script src="../common/script/jquery.details.min.js"></script>
+<script>
+ $(document).ready (function() {
+  	var nativeDetailsSupport = $.fn.details.support;
+		if (!nativeDetailsSupport) {
+			$('html').addClass('no-details');
+		}
+		$('details').details();
+});
+</script>
 </head>
 <body>
 <section id="abstract">
@@ -222,9 +233,9 @@
       <h4>Terminology</h4>
       <dl>
         <dt>Root node</dt>
-        <dd>The <a class="termref">DOM</a> <a class="termref">node</a> or <a class="termref">element</a> for which the text alternative is sought.</dd>
+        <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref">node</a> or <a class="termref">element</a> for which the text alternative is sought.</dd>
         <dt>Current node</dt>
-        <dd>The <a class="termref">DOM</a> <a class="termref" title="Node">node</a> currently traversed to compute its text equivalent.  Initially, this is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
+        <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref" title="Node">node</a> currently traversed to compute its text equivalent.  Initially, this is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
         <dt>Flat string</dt>
         <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd> 
         <dt>Total Accumulated text</dt>
@@ -248,7 +259,10 @@
         <li>Compute the text alternative for the <code>current node</code>:
           <ol>
             <li>If the <code>current node</code> is <a class="termref">hidden</a> <strong>and not</strong> referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, return the empty string.
-              <p>Comment: By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
+              <div><details>
+                <summary>Comment:</summary>
+                <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
+              </details></div>
             </li>
             <li>Otherwise, if the <code>current node</code> has a non-empty <code>aria-labelledby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur:
               <ol>
@@ -262,24 +276,30 @@
                 </li>
                 <li>Return the <code>accumulated text</code>.</li>
               </ol>
-              <p>The following example shows the meaning of the clause "&hellip; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &hellip;" .</p>
-              <ul>
-                <li><code>element1</code>'s <a class="termref">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to <code>element3</code>.</li>
-                <li><code>element2</code> has no <a class="termref">accessible name</a>.  The computation starts with a first traversal of its <code>aria-labelledby</code> leading to <code>element2</code>, but <code>element2</code>'s  <code>aria-labelledby</code> is not followed since it is already part of the first <code>aria-labelledby</code> traversal. </li>
-              </ul>
-              <p><samp><code>
+              <div><details>
+                <summary>Example:</summary>
+                <p>The following example shows the meaning of the clause "&hellip; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &hellip;" .</p>
+                <ul>
+                  <li><code>element1</code>'s <a class="termref">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to <code>element3</code>.</li>
+                  <li><code>element2</code> has no <a class="termref">accessible name</a>.  The computation starts with a first traversal of its <code>aria-labelledby</code> leading to <code>element2</code>, but <code>element2</code>'s  <code>aria-labelledby</code> is not followed since it is already part of the first <code>aria-labelledby</code> traversal. </li>
+                </ul>
+                <p><samp><code>
 &lt;element1 id="el1" aria-labelledby="el3" /&gt; <br>
 &lt;element2 id="el2" aria-labelledby="el1" /&gt; <br>
-&lt;element3 id="el3"&gt; hello /&lt;element3&gt;</code></samp></p>
+&lt;element3 id="el3"&gt; hello /&lt;element3&gt;</code></samp>
+                </p>
+              </details></div>
             </li>
             <li>Otherwise, if the <code>current node</code> has a non-empty <code>aria-label</code> <a class="termref">attribute</a>:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
               </ul>
-            <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a <a class="termref">node</a> has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref" title="accessible name">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
-                   <p class="ednote">Editorial Note: (Joseph) Pro:  the <strong>example</strong> shows the interaction of aria-labelledby and aria-label when on the same element.  Con:  it uses HTML. </p>
-                   <p><samp><code>&lt;h1&gt;Files&lt;/h1&gt;<br/>
+              <div><details>
+                <summary>Example:</summary>
+                  <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a <a class="termref">node</a> has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref" title="accessible name">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
+                  <p class="ednote">Editorial Note: (Joseph) Pro:  the <strong>example</strong> shows the interaction of aria-labelledby and aria-label when on the same element.  Con:  it uses HTML. </p>
+                  <p><samp><code>&lt;h1&gt;Files&lt;/h1&gt;<br/>
 &lt;ul&gt;<br />
 &lt;li&gt;<br />
 &lt;a id=&quot;file_row1&quot; href=&quot;./files/Documentation.pdf&quot;&gt;Documentation.pdf&lt;/a&gt;<br />
@@ -289,10 +309,15 @@
 &lt;a id=&quot;file_row2&quot; href=&quot;./files/HolidayLetter.pdf&quot;&gt;HolidayLetter.pdf&lt;/a&gt;<br />
 <strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;</strong><br />
 &lt;/li&gt;<br />
-&lt;/ul&gt;</code></samp></p>
-        </li>
+&lt;/ul&gt;</code></samp>
+                  </p>
+                </details></div>
+            </li>
             <li>Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> or <a class="termref">element</a> that defines a text alternative, return that alternative as a <code>flat string</code>, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
-              <p>Comment:  For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
+              <div><details>
+                <summary>Comment:</summary>
+                <p>For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
+              </details></div>
             </li>
             <li>Otherwise, if the <code>current node</code> is a control embedded within the label of another <a class="termref">widget</a>, where the user can adjust the embedded control's <a class="termref">value</a>, then include the value of the embedded control as part of the text alternative in the following manner:
               <ul>
@@ -306,15 +331,18 @@
                     <li>Otherwise, use the value as specified by a host language attribute. </li>
                   </ul>
               </ul>
-              <p>For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". </p>
+              <div><details>
+                <summary>Comment:</summary>
+                <p>For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". </p>
+              </details></div>
               </li>
             <li>Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows "Name From: contents":
               <ol>
                 <li>Set the <code>accumulated text</code> to the empty string.</li>
-                <li>Check for <a class="termref">CSS</a> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>:
+                <li>Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>:
                   <ul>
                     <li>The "bullet" character or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.</li>
-                    <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST prepend (<code>:before</code>) or append (<code>:after</code>) CSS textual content to the textual content of the <code>current node</code>.</li>
+                    <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST prepend (<code>:before</code>) or append (<code>:after</code>) <abbr title="Cascading Style Sheets">CSS</abbr> textual content to the textual content of the <code>current node</code>.</li>
                   </ul>
                 </li>
                 <li>For each child node of the <code>current node</code>:
@@ -326,13 +354,20 @@
                 </li>
                 <li>Return the <code>accumulated text</code>.</li>
               </ol>
-                <p>Comment:  This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant <a class="termref">node</a>'s text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
-                <p><strong>Important</strong>:  Each <a class="termref">node</a> in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
+              <p><strong>Important</strong>:  Each <a class="termref">node</a> in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
+              <div><details>
+                <summary>Comment:</summary>
+                <p>This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant <a class="termref">node</a>'s text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
+              </details></div>
             </li>
             <li>Otherwise, if the <code>current node</code> is a <a class="termref">Text node</a>, return its textual contents.</li>
-            <li>Otherwise, if the <code>current node</code> has a tooltip <a class="termref">attribute</a>, return its value. <span class="ednote">Editorial Note: (Joseph) Define "tooltip attribute".</span>
-                  <p>Comment:  Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
-                </li>
+            <li>Otherwise, if the <code>current node</code> has a tooltip <a class="termref">attribute</a>, return its value. 
+              <div><details>
+                <summary>Comment:</summary>
+                <p>Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
+                <p class="ednote">Editorial Note: (Joseph) Define "tooltip attribute"?</p>
+              </details></div>
+            </li>
           </ol>
           <p>Append the <code>result</code> of each step above to the <code>total accumulated text</code>.</p>
         </li>
