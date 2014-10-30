@@ -206,11 +206,11 @@
     <dt>contents</dt>
     <dd>name is generated from the <a class="termref" title="Text node">Text nodes</a> associated with the <a class="termref">element</a>. Although this may be allowed in addition to "author" in some <a class="termref" title="role">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#textalternativecomputation">text alternative computation</a> algorithm.</dd>
   </dl>
-  <p class="ednote">Editorial Note:  (Joseph) Need links into ARIA spec to (1) a list of nameFrom:author roles, and (2) a list of nameFrom:contents roles.  Reference these again in rule 2C below. </p>
+  <p class="ednote">Editorial Note:  (Joseph) Need links into ARIA spec to (1) a list of nameFrom:author roles, and (2) a list of nameFrom:contents roles.  Reference these at step 2F below. </p>
   <section id="mapping_additional_nd_name">
     <h3>Name Computation</h3>
     <p><a class="termref" title="user agent">User agents</a> MUST compute an <a class="termref">accessible name</a> using the rules outlined below in the section titled <a href="#mapping_additional_nd_te">Text Alternative Computation</a>.</p>
-	  <p class="ednote">Editorial Note (Joseph): The following special case is specific to HTML, and should be moved to the HTML section. </p>
+	  <p class="ednote">Editorial Note (Joseph): The following special case is specific to HTML, and should be moved elsewhere. </p>
     <p><abbr title="Hypertext Markup Language">Special Case</abbr>: If the <a class="termref">element</a> is an <code>img</code> element that is exposed in the accessibility tree; and the computed text alternative is empty, then check for the presence of <a class="termref">role</a> <a class="role-reference" href="#presentation"><code>presentation</code></a> or any labeling attribute that specifies an empty label, specifically <a class="property-reference" href="#aria-label"><code>aria-label</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a>, <code>alt</code> or <code>title</code>. The presence of any of these indicates the author's intention to indicate that the <code>img</code> is decorative or redundant. In this case, the user agent MUST set the name to an empty string. If none of these <a class="termref" title="attribute">attributes</a> are present, this indicates the author simply did not provide an accessible label for the image, and the implementation MUST return an  accessible name of NULL instead of an empty string if the <abbr title="Application Programming Interface">API</abbr> supports it. This hints to the assistive technology to do its  own heuristic processing to repair the missing accessible name.</p>
   </section>
   <section id="mapping_additional_nd_description">
@@ -219,7 +219,7 @@
   </section>
   <section id="mapping_additional_nd_te">
     <h3>Text Alternative Computation</h3>
-    <p>The text alternative computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" title="element">elements</a>, <a class="termref" title="node">nodes</a>, and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a class="termref">element</a>. This is accomplished via rule 2C (which is recursive), using the full set of rules to retrieve text from its own children.</p>
+    <p>The text alternative computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" title="element">elements</a>, <a class="termref" title="node">nodes</a>, and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a class="termref">element</a>. This is accomplished via steps 2B and 2F, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references. </p>
     <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual tokens. </p>
     <section id="terminology">
       <h4>Terminology</h4>
@@ -324,8 +324,9 @@
                   </ul>
               </ul>
               <div><details>
-                <summary>Comment:</summary>
-                <p>For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". </p>
+                <summary>Example:</summary>
+                <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
+                <p><samp><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt;5&lt;/span&gt; times&lt;/div&gt;</code></samp></p>
               </details></div>
               </li>
             <li>Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows "Name From: contents":
@@ -333,7 +334,7 @@
                 <li>Set the <code>accumulated text</code> to the empty string.</li>
                 <li>Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>:
                   <ul>
-                    <li>The "bullet" character or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.</li>
+                    <li>The "bullet" or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.</li>
                     <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST prepend (<code>:before</code>) or append (<code>:after</code>) <abbr title="Cascading Style Sheets">CSS</abbr> textual content to the textual content of the <code>current node</code>.</li>
                   </ul>
                 </li>
