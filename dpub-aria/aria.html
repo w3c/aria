@@ -828,7 +828,7 @@
 			<rdef>alertdialog</rdef>
 			<div class="role-description">
 				<p>A type of dialog that contains an alert message, where initial focus goes to an <a>element</a> within the dialog. See related <rref>alert</rref> and <rref>dialog</rref>.</p>
-				<p>Alert dialogs are used to convey messages to alert the user. The <code>alertdialog</code> <a>role</a> goes on the node containing both the alert message and the rest of the dialog. Content authors SHOULD make alert dialogs modal by ensuring that, while the <code>alertdialog</code> is shown, keyboard and mouse interactions only operate within the dialog.</p>
+				<p>Alert dialogs are used to convey messages to alert the user. The <code>alertdialog</code> <a>role</a> goes on the node containing both the alert message and the rest of the dialog. Content authors SHOULD make alert dialogs modal by ensuring that, while the <code>alertdialog</code> is shown, keyboard and mouse interactions only operate within the dialog. See <pref>aria-modal</pref>.</p>
 				<p>Unlike <rref>alert</rref>, <code>alertdialog</code> can receive a response from the user. For example, to confirm that the user understands the alert being generated. When the alert dialog is displayed, authors SHOULD set focus to an active element within the alert dialog, such as a form edit field or an OK button. The <a>user agent</a> SHOULD fire a system alert <a>event</a> through the accessibility API when the alert is created, provided one is specified by the intended <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
 				<p>Authors SHOULD use <pref>aria-describedby</pref> on an <code>alertdialog</code> to reference the alert message element in the dialog. If they do not, an <a title="assistive technologies">assistive technology</a> can resort to its internal recovery mechanism to determine the contents of the alert message.</p>
 			</div>
@@ -2016,7 +2016,7 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties"> </td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -7267,7 +7267,12 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"><sref>aria-expanded</sref></td>
+						<td class="role-properties">
+							<ul>
+								<li><sref>aria-expanded</sref></li>
+								<li><pref>aria-modal</pref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -7384,6 +7389,7 @@
 				<li><sref>aria-invalid</sref></li>
 				<li><pref>aria-label</pref></li>
 				<li><pref>aria-level</pref></li>
+				<li><pref>aria-modal</pref></li>
 				<li><pref>aria-multiline</pref></li>
 				<li><pref>aria-multiselectable</pref></li>
 				<li><pref>aria-orientation</pref></li>
@@ -8554,6 +8560,62 @@
 			</table>
 		</div>
 		<hr/>
+		<div class="property" id="aria-modal">
+			<pdef>aria-modal</pdef>
+			<div class="property-description">
+				<p>Indicates whether an <a>element</a> is modal when displayed.</p>
+				<p>The <pref>aria-modal</pref> <a>attribute</a> is used to indicate that the presence of a "modal" element precludes usage of other content on the page. For example, when a modal dialog is displayed, it is expected that the user's interaction is limited to the contents of the dialog, until the modal dialog loses focus or is no longer displayed.</p>
+				<p>When a modal element is displayed, assistive technologies SHOULD navigate to the element unless focus has explicitly been set elsewhere. Assistive technologies MAY limit navigation to the modal element's contents. If focus moves to an element outside the modal element, assistive technologies SHOULD NOT limit navigation to to the modal element.</p>
+				<p>When a modal element is displayed, authors MUST ensure the interface can be controlled using only decendants of the modal element. In other words, if a modal dialog has a close button, the button should be a descendant of the dialog. When a modal element is displayed, authors SHOULD mark all other contents as inert (such as "inert subtrees" in HTML) if the ability to do so exists in the host language.</p>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="value-descriptions">
+				<caption>Values:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Value</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="value-name" scope="row"><strong class="default">false</strong></th>
+						<td class="value-description">Element is not modal.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">true</th>
+						<td class="value-description">Element is modal.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
 		<div class="property" id="aria-multiline">
 			<pdef>aria-multiline</pdef>
 			<div class="property-description">
@@ -9601,6 +9663,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 		<ul>
 			<li>03-Aug-2014: Moved <sref>aria-selected</sref> from "supported" to "required" attribute list for <rref>option</rref> role.</li>
 			<li>05-Aug-2014: Changed <rref>rowgroup</rref> to subclass <rref>structure</rref> instead of <rref>group</rref>.</li>
+			<li>11-Nov-2014: Added <pref>aria-modal</pref></li>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
 		</ul>
 	</section>
