@@ -6530,21 +6530,42 @@
 			<rdef>text</rdef>
 			<div class="role-description">
 				<p>[ARIA 1.1] An element whose entire subtree should be exposed to accessibility APIs as plain text.</p>
-				<p>The <rref>text</rref> role allows authors to mark an element and all of its subtree contents as plain text. Authors SHOULD NOT use the <rref>text</rref> role on interactive controls (buttons, links, etc.) or ancestors of those controls, because it could prevent users of assistive technologies from accessing the controls. Authors wishing to retain the semantics of subtree contents could consider the ARIA 1.0 <rref>presentation</rref> or ARIA 1.1 <rref>none</rref> role instead.</p>
+				<p>The <rref>text</rref> role allows authors to mark an element and all of its subtree contents as plain text.</p>
+				<p>Authors SHOULD NOT use the <rref>text</rref> role on interactive controls (buttons, links, etc.) or ancestors of those controls, because it could prevent users of assistive technologies from accessing the controls. Authors wishing to retain the semantics of subtree contents could consider the ARIA 1.0 <rref>presentation</rref> or ARIA 1.1 <rref>none</rref> role instead.</p>
 				<div class="note">
 					<p>As with any ARIA 1.1 role, authors may provide a fallback ARIA 1.0 role.</p>
 					<pre class="example highlight">
 						&lt;p&gt;I &lt;span role="text img" aria-label="love"&gt;♥︎&lt;/span&gt; New York.&lt;/p&gt;
 						&lt;p&gt;My &lt;span role="text img" aria-label="heart"&gt;♥︎&lt;/span&gt; bleeds.&lt;/p&gt;
-						&lt;span role="text" aria-label="3 of 5 stars"&gt;★★★☆☆︎&lt;/span&gt;
+						&lt;p&gt;&lt;span role="text img" aria-label="3 of 5 stars"&gt;★★★☆☆︎&lt;/span&gt;&lt;/p&gt;
 					</pre>
-					<p>In a screen reader using an ARIA 1.1-capable browsers, the user would hear "I love New York." On an ARIA 1.0 capable browser, the user might hear "I, love image, New York."</p>
-					<p>It should not be necessary to use the fallback role if it's the implicit role for the element, though you may need to duplicate the tag-specific label (like this case, both <code>alt</code> and <code>aria-label</code> on <code>img</code>).</p>
+					<p>In a screen reader using an ARIA 1.1-capable browsers, the user would hear "I love New York." In an ARIA 1.0-capable browser, the user might hear "I, love image, New York."</p>
+				</div>
+				<div class="note">
+					<p>It is not necessary to use the fallback role if the implicit role for the element provides sufficient fallback. In this example, an ARIA 1.0-capable browser would not recognize the "text" role token, and fall back to the default image role.</p>
 					<pre class="example highlight">
-						&lt;p&gt;I &lt;img src="icon.gif" alt="love" role="text" aria-label="love"&gt; New York.︎&lt;/p&gt;
-						&lt;p&gt;My &lt;img src="icon.gif" alt="heart" role="text" aria-label="heart"&gt; bleeds.︎&lt;/p&gt;
+						&lt;p&gt;I &lt;img src="icon.gif" alt="love" role="text"&gt; New York.︎&lt;/p&gt;
+						&lt;p&gt;My &lt;img src="icon.gif" alt="heart" role="text"&gt; bleeds.︎&lt;/p&gt;
 					</pre>
-					<p>Because the element is no longer an image, the role-specific host language labeling mechanism (e.g. <code>img@alt</code>) no longer applies.</p>
+				</div>
+				<div class="note">
+					<p>The text role can also be used to flatten structural semantics without providing an explicit label. The following example would be presented to assistive technolgies as one static text element ("I like turtles") rather than three separate paragraphs.</p>
+					<pre class="example highlight">
+						&lt;div role="text"&gt;
+						  &lt;p&gt;I&lt;/p&gt;
+						  &lt;p&gt;like&lt;/p&gt;
+						  &lt;p&gt;turtles&lt;/p&gt;
+						&lt;/div&gt;
+					</pre>
+					<p>Use caution when using the text role on structural elements. In particular, avoid using the text role on elements with interactive descendants.</p>
+					<pre class="example highlight">
+						&lt;p role="text"&gt;
+						  &lt;!-- Example of incorrect usage. --&gt;
+						  This &lt;a href="#"&gt;link&lt;/a&gt; becomes presentational, so
+						  it is no longer a link. The paragraph is just plain text.
+						  This is probably not what the author intended.
+						&lt;/p&gt;
+					</pre>
 				</div>
 			</div>
 			<table class="role-features">
