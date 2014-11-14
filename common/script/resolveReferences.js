@@ -8,31 +8,41 @@ function linkCrossReferences() {
     respecConfig.coreMappingURLs[respecConfig.specStatus] : null
   );
 
-  // First the links to the definitions of roles, states, and properties.
-  if (!!specBaseURL) {
-    $ ('a.role-reference, a.property-reference, a.state-reference, a.specref').each (
+  var accNameURL = (respecConfig.accNameURLs ?
+    respecConfig.accNameURLs[respecConfig.specStatus] : null
+  );
+
+  function setHrefs (selString, baseUrl) {
+    $ (selString).each (
       function (idx, el) {
         var href = $ (el).attr ('href');
-        $ (el).attr ('href', specBaseURL + href);
-      }
-    );
+        $ (el).attr ('href', baseUrl + href);
+    });
+  }
+
+  // First the links to the definitions of roles, states, and properties.
+  if (!!specBaseURL) {
+    setHrefs ('a.role-reference, a.property-reference, a.state-reference, a.specref', specBaseURL);
   }
   else {
-    console.log ("linkCrossReferences():  specBareURL is not defined.");
+    console.log ("linkCrossReferences():  specBaseURL is not defined.");
   }
 
   // Second, for links to role, state, and property mappings in the core mapping
   // doc.
   if (!!coreMappingURL) {
-    $ ('a.core-mapping').each (
-      function (idx, el) {
-        var href = $ (el).attr ('href');
-        $ (el).attr ('href', coreMappingURL + href);
-      }
-    );
+    setHrefs ('a.core-mapping', coreMappingURL);
   }
   else {
-    console.log ("linkCrossReferences():  Note -- coreBaseURL is not defined.");
+    console.log ("linkCrossReferences():  Note -- coreMappingURL is not defined.");
+  }
+
+  // Third, for links into the accname document.
+  if (!!accNameURL) {
+    setHrefs ('a.accname', accNameURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  Note -- accNameURL is not defined.");
   }
 }
 
