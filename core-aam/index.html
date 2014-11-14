@@ -103,7 +103,13 @@
       "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
       "REC": "http://www.w3.org/TR/wai-aria/"
     },
-    
+    accNameURLs: {
+      "ED": "http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html",
+      "WD" : "http://www.w3.org/TR/accname-1.1/",
+      "FPWD": "http://www.w3.org/TR/accname-1.1/",
+      "REC": "http://www.w3.org/TR/accname-aam/"
+    },
+
     localBiblio: {
       "WAI-ARIA": {
         "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
@@ -280,7 +286,7 @@ var mappingTableLabels = {
   <ul>
     <li>If the context is <a href="#keyboard-focus_tabindex">controlling focus with <code>tabindex</code></a>, the <abbr title="Document Object Model">DOM</abbr> focus (<code>document.activeElement</code>) is in sync with the focus states and events listed in the table. </li>
     <li>If the context is <a href="#keyboard-focus_aria-activedescendant">controlling focus with <code>aria-activedescendant</code></a>, the <abbr title="Document Object Model">DOM</abbr> focus is separate from the focus states and events for the <abbr title="Microsoft Active Accessibility">MSAA</abbr>, Microsoft <abbr title="User Interface Automation">UIA</abbr>, and <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> columns of the table. 
-      <p class="note">Note: An example is a single-selection <code>listbox</code> that controls focus using <code>aria-activedescendent</code> instead of <code>tabindex</code>.  The <code>option</code> children are all marked with the focusable state in the accessibility <abbr title="Application Programming Interface">API</abbr>.  As the user navigates from one <code>option</code> child to the next, DOM focus is maintained on the <code>listbox</code> parent, but the accessibility <abbr title="Application Programming Interface">API</abbr> emits a focus event and exposes the focused state for the <code>option</code> child that the <code>listbox</code> references as the active descendant.</p>
+      <p class="note">An example is a single-selection <code>listbox</code> that controls focus using <code>aria-activedescendent</code> instead of <code>tabindex</code>.  The <code>option</code> children are all marked with the focusable state in the accessibility <abbr title="Application Programming Interface">API</abbr>.  As the user navigates from one <code>option</code> child to the next, DOM focus is maintained on the <code>listbox</code> parent, but the accessibility <abbr title="Application Programming Interface">API</abbr> emits a focus event and exposes the focused state for the <code>option</code> child that the <code>listbox</code> references as the active descendant.</p>
     </li>
   </ul>
   <table>
@@ -319,7 +325,7 @@ var mappingTableLabels = {
 	  <h3>Controlling focus with <code>tabindex</code></h3>
     <p><a class="termref" title="user agent">User agents</a> that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow  them on all <a class="termref" title="element">elements</a>. Authors may add any element such as a <code>div</code>, <code>span</code> or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item  with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is not supported in the <abbr title="Hypertext Markup Language version 4">HTML4</abbr> specification but is in compliance with <abbr title="Hypertext Markup Language version 5">HTML5</abbr> and <abbr title="Scalable Vector Graphics verions 2">SVG2</abbr>.</p>
 		<p>The <code>tabindex</code> system provides one way to develop custom <a class="termref" title="widget">widgets</a> which  are <a class="termref">keyboard accessible</a>, from simple widgets like a <code>slider</code> to container widgets like a <code>menubar</code>, <code>treeview</code> or <code>grid</code>.</p>
-		<p class="note">Note: refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
+		<p class="note">Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
 	  <p>The user agent MUST do the following to enable accessible <code>tabindex</code> usage on all elements:</p>
 		<ol>
 			<li>Where <code>tabindex</code> equals a negative integer, set the focusable state, but do not include the element in the sequential tab order.</li>
@@ -354,7 +360,7 @@ var mappingTableLabels = {
         <p>When implementing <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> as described below, the user agent keeps the <abbr title="Document Object Model">DOM</abbr> focus on the container element but communicates <a class="termref" title="desktop focus event">desktop focus events</a> and states to the assistive technology as if the active descendant has focus. It is the responsibility of the user agent to ensure that keyboard events are processed at the container <a class="termref">element</a> that has <abbr title="Document Object Model">DOM</abbr> focus. Any keyboard events directed at the active descendant bubble up to the <abbr title="Document Object Model">DOM</abbr> element with focus, the container element, for processing.</p>
         <p>The <code>aria-activedescendant</code> <a class="termref">property</a> may be used to enable  keyboard accessibility on  <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref" title="element">elements</a> that support this <a class="termref">attribute</a>. It is often a more  convenient way of creating container <a class="termref">widget</a> keyboard navigation (where  the entire widget is in the tab order just once, but the user can use  other keys, typically <kbd>arrow</kbd> keys, to navigate to descendant items of the container).</p>
 	  <p>Typically, the author will use host language <a class="termref">semantics</a> to put the container element in the sequential tab order (e.g., <code>tabindex=&quot;0&quot;</code> in <abbr title="Hypertext Markup Language">HTML</abbr>)  and <code>aria-activedescendant</code> to  point to the ID of the currently active descendant. The author, not the <a class="termref">user agent</a>, is responsible for styling the currently active descendant  to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since actual focus is on  the container.</p>
-	  <p class="note">Note: Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
+	  <p class="note">Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
     <p>The user agent MUST do the following to implement <code>aria-activedescendant</code>:</p>
 		<ol>
 	    <li>Implement the host language method for keyboard navigation so that the container widget may be included in the tab order. See <a href="#keyboard-focus_tabindex">Controlling focus with <code>tabindex</code></a>. </li>
@@ -377,14 +383,14 @@ var mappingTableLabels = {
 		  <li>ATK/AT-SPI: <code>AtkComponent::grab_focus</code></li>
 		  <li><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr>: Notification: <code>AXFocusedUIElementChanged</code></li>
 	  </ul>
-    <p class="note">Note: Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
+    <p class="note">Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
     <p>When an assistive technology requests a change of focus using one of the above <abbr title="Application Programming Interfaces">APIs</abbr>, user agents MUST do the following:</p>  
     <ul>
 	    <li>Remove  the focused state from the previously focused object.</li>
       <li>If the  <a class="termref">element</a> can take <abbr title="Document Object Model">DOM</abbr> focus, the <a class="termref">user agent</a> MUST set the <abbr title="Document Object Model">DOM</abbr> focus to it. Otherwise,  if the current element has an ID and an ancestor with the <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> <a class="termref">attribute</a> present, the user agent MUST set <abbr title="Document Object Model">DOM</abbr> focus to that  ancestor. When it is not possible for the user agent to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element with <code>aria-activedescendant</code>, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the child element itself.</li>
       <li>If the current element has an ID and an ancestor with the <code>aria-activedescendant</code> attribute present, the user agent MUST set the accessibility <abbr title="Application Programming Interface">API</abbr> focused state and fire an accessibility <abbr title="Application Programming Interface">API</abbr> <a class="termref">desktop focus event</a> on the new active descendant.</li>
     </ul>  
-    <p class="note">Note: the inability to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element indicates an author error.</p>
+    <p class="note">The inability to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element indicates an author error.</p>
   </section>
 </section>
 <section id="mapping">
@@ -427,7 +433,7 @@ var mappingTableLabels = {
           <li>Elements that have a mappable role in the role attribute string (see <a href="#mapping_role">Role Mapping</a> below). </li>
           <li>Elements that have a global <abbr title="Accessible Rich Internet Application">WAI-ARIA attribute </abbr> but do not have <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a><code>=&quot;true&quot;</code>. (See  <a href="#exclude_elements2">Excluding Elements in the Accessibility Tree</a> for additional guidance on <code>aria-hidden</code>.)</li>
           <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation (<a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>, <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>, <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> or <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>) and are not <a class="termref">hidden</a>.
-            <p class="note">Note: Text equivalents for hidden referenced objects may still be used in the <a href="#mapping_additional_nd">name and description calculation</a> even when not included in the accessibility tree. </p>
+            <p class="note">Text equivalents for hidden referenced objects may still be used in the <a href="#mapping_additional_nd">name and description calculation</a> even when not included in the accessibility tree. </p>
           </li>
         </ul>
     </section>
@@ -2030,7 +2036,7 @@ var mappingTableLabels = {
 		<h2>Special Processing Requiring Additional Computation</h2>
 		<section id="mapping_additional_nd">
 			<h3>Name and Description</h3>
-				<p>When computing an <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, <a class="termref" title="user agent">user agents</a> MUST conform to the section titled <a href="../accname-aam/accname-aam.html#mapping_additional_nd_te">Text Alternative Computation</a> of the <a href="../accname-aam/accname-aam.html">Accessible Name and Description Computation and API Mappings</a> specification. </p>
+				<p>When computing an <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, <a class="termref" title="user agent">user agents</a> MUST conform to the section titled <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a> of the <a class="accname" href="">Accessible Name and Description Computation and API Mappings</a> specification. </p>
 		</section>
 		<section id="mapping_additional_widget-value">
 			<h3>Widget Values</h3>
@@ -2132,7 +2138,7 @@ var mappingTableLabels = {
             <li><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr>: If an <abbr title="Assistive Technology">AT</abbr> calls an action on an accessible object, the user agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to  that accessible object.</li>
             <li><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr>: If an <abbr title="Assistive Technology">AT</abbr> triggers an <code>AXPress</code> action on an accessible object, the user   agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to that   accessible object.</li>
           </ul>
-      <p class="note">Note: Authors will need to create handlers for those click events that update  <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties in the <abbr title="Document Object Model">DOM</abbr> accordingly, so that those updated states  can be populated by the user agent in the Accessibility <abbr title="Application Programming Interface">API</abbr>.</p>
+      <p class="note">Authors will need to create handlers for those click events that update  <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties in the <abbr title="Document Object Model">DOM</abbr> accordingly, so that those updated states  can be populated by the user agent in the Accessibility <abbr title="Application Programming Interface">API</abbr>.</p>
   </section>
   <section id="mapping_events">
 		<h2>Events</h2>
@@ -2140,7 +2146,7 @@ var mappingTableLabels = {
     <section id="mapping_events_state-change">
 		  <h3>State and Property Change Events</h3>   
         <p><a class="termref" title="user agent">User agents</a> MUST notify <a class="termref" title="assistive technologies">assistive technology</a> of <a class="termref">state</a> changes as defined in the table below, SHOULD notify assistive technology of <a class="termref">property</a> changes if the <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="application programming interface">API</abbr></a> defines a change <a class="termref">event</a> for the property, and SHOULD NOT notify assistive technology of property changes if the accessibility <abbr title="application programming interface">API</abbr> does not define a change event for the property. For example, IAccessible2 defines an event to be used when <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> changes. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> properties that are expected to change include <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a>, <a class="property-reference" href="#aria-valuenow"><code>aria-valuenow</code></a>, and <a class="property-reference" href="#aria-valuetext"><code>aria-valuetext</code></a>.</p>
-        <p class="note">Note:  In some <abbr title="Application Programming Interfaces">APIs</abbr>, AT will only be notified of events to which it has  subscribed.</p>
+        <p class="note">In some <abbr title="Application Programming Interfaces">APIs</abbr>, AT will only be notified of events to which it has  subscribed.</p>
         <p>For simplicity and  performance the user agent MAY trim out change events for state or property changes that <a class="termref">assistive technologies</a> typically ignore, such as events that are happening in a window that does not currently have focus.        </p>
         <p class="ednote">Editorial Note: <em>Translators</em>: For label text associated with the following table and its toggle buttons, see the <code>mappingTableLabels</code> object in the <code>&lt;head&gt;</code> section of this document.</p>
         <div class="table-container">
@@ -2558,7 +2564,7 @@ var mappingTableLabels = {
         <li> When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean <a class="termref">state</a>, treat &quot;&quot;,  &quot;undefined&quot; or no <a class="termref">attribute</a> present as false. Treat any other value as  true.</li>
         <li>Otherwise, ignore the value and treat the property as not present</li>
       </ul>
-      <p class="note">Note: In <abbr title="User Interface Automation">UIA</abbr> and <abbr title="User Interface Automation">UIA</abbr> Express, the user agent might leave the corresponding property set to &quot;unsupported.&quot;</p>
+      <p class="note">In <abbr title="User Interface Automation">UIA</abbr> and <abbr title="User Interface Automation">UIA</abbr> Express, the user agent might leave the corresponding property set to &quot;unsupported.&quot;</p>
       <p>User agent MUST NOT expose <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes that reference unresolved ID's. For example:</p>
       <ul>
         <li>When the state or property has only one ID reference that cannot be resolved, treat as if the state or property is not present.</li>
