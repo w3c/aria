@@ -478,110 +478,17 @@
 		</section>
 		<section id="namecalculation">
 			<h3>Accessible Name Calculation</h3>
-			<dl class="runin">
-				<dt><abbr title="Resource Description Framework">RDF</abbr> Property</dt>
-				<dd>role:nameFrom</dd>
-				<dt>Values</dt>
-				<dd>One of the following values:
-					<ol>
-						<li>author: name comes from values provided by the author in explicit markup features such as the <pref>aria-label</pref> attribute, the <pref>aria-labelledby</pref> attribute, or the host language labeling mechanism, such as the <code>alt</code> or <code>title</code> attributes in <abbr title="Hypertext Markup Language">HTML</abbr>, with HTML <code>title</code> attribute having the lowest precedence for specifying a text alternative.</li>
-						<li>contents: name comes from the text value of the <a>element</a> node. Although this may be allowed in addition to "author" in some <a title="role">roles</a>, this is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="#textalternativecomputation">text alternative computation</a> algorithm.</li>
-					</ol>
-				</dd>
-			</dl>
 			<section id="namecomputation">
 				<h4>Name Computation</h4>
-				<p>An <a>accessible name</a> is computed using a number of methods, outlined below in the section titled <a href="#textalternativecomputation">Text Alternative Computation</a>.</p>
+				<p><a href="http://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_name">Name Computation</a> is defined in the Accessible Name and Description specification [ACCNAME-AAM].</p>
 			</section>
-				<section id="descriptioncomputation">
+			<section id="descriptioncomputation">
 				<h4>Description Computation</h4>
-				<p>An accessible description may be computed by concatenating the text alternatives for nodes referenced by an <aref>aria-describedby</aref> attribute on the current node. The text alternatives for the referenced nodes are computed using a number of methods, outlined below in the section titled <a href="#textalternativecomputation">Text Alternative Computation</a>.</p>
+				<p><a href="http://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> is defined in the Accessible Name and Description specification [ACCNAME-AAM].</p>
 			</section>
 			<section id="textalternativecomputation">
 				<h4>Text Alternative Computation</h4>
-				<p>The text equivalent computation outlined below is a description of how user agents acquire a name or description that they then publish through the accessibility API. Authors can use the current section as a guide for creating names and descriptions in their markup. Accessibility checker tools can implement a name and/or description generator based on this algorithm such that authors can use the generated text equivalent to confirm that names and descriptions are as the author intended.</p>
-				<p>The text alternative is reused in both the name and description computation, as described above. There are different rules provided for several different types of nodes and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a>element</a>. This is accomplished via rule 2C (which is recursive), using the full set of rules to retrieve text from its own children.</p>
-				<p>The text alternative for a given node is computed as follows:</p>
-					<ol>
-					<li id="tac_skiphidden">Skip <a>hidden</a> elements unless the author specifies to use them via an <aref>aria-labelledby</aref> or <aref>aria-describedby</aref> being used in the current computation. By default, users of <a>assistive technologies</a> won't receive the hidden information, but an author will be able to explicitly override that and include the hidden text alternative as part of the label string sent to the <a title="accessibility api">accessibility <abbr title="Application Programing Interface">API</abbr></a>.</li>
-					<li id="tac_nonskipped">For any non-skipped elements:
-						<ol>
-							<li id="tac_author">Authors MAY specify an element's text alternative in content <a title="attribute">attributes</a>, used in this order of preference:
-								<ul>
-									<li id="tac_author_arialabelledby">The <aref>aria-labelledby</aref> attribute takes precedence as the element's text alternative unless this computation is already occurring as the result of a recursive <aref>aria-labelledby</aref> declaration (in other words, <aref>aria-labelledby</aref> is not recursive when referenced from another element, so it will not cause loops). However, the element's <aref>aria-labelledby</aref> attribute can reference the element's own IDREF in order to concatentate a string provided by the element's <aref>aria-label</aref> attribute or another feature lower in this preference list. The text alternatives for all the elements referenced will be computed using this same set of rules. User agents will then trim whitespace and join the substrings using a single space character. Substrings will be joined in the order specified by the author (IDREF order in the <aref>aria-labelledby</aref> attribute).</li>
-									<li id="tac_author_arialabel">If <aref>aria-labelledby</aref> is empty or undefined, the <aref>aria-label</aref> attribute, which defines an explicit text string, is used. However, if this computation is already occurring as the result of a recursive text alternative computation <strong>and</strong> the current element is an embedded control as defined in rule 2B, ignore the <aref>aria-label</aref> attribute and skip directly to rule 2B.</li>
-									<li id="tac_author_hostlabel">If <aref>aria-labelledby</aref> and <aref>aria-label</aref> are both empty or undefined, and if the element is not marked as presentational (<code class="highlight">role="presentation"</code>), check for the presence of an equivalent host language attribute or element for associating a label, and use those mechanisms to determine a text alternative. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a label string and the <code>label</code> element references the form element it labels. See <a href="http://www.w3.org/TR/REC-html40/struct/objects.html#h-13.8">How to Specify Alternate Text</a> ([[HTML401]], section 13.8) and HTML 5 <a href="http://www.w3.org/TR/2010/WD-html5-20100624/embedded-content-1.html#alt">Requirements for providing text to act as an alternative for images</a> ([[HTML5]], section 4.8.1.1).</li>
-								</ul>
-								<p class="ednote">Editorial We've asked the HTML5 WG to remove or reduce this section, so we may remove the reference to it from ARIA.</p>
-							</li>
-							<li id="tac_embed">Authors sometimes embed a control within the label of another widget, where the user can adjust the embedded control's value. For example, consider a check box label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded text input, the complete label is "Flash the screen 5 times". For such cases, include the value of the embedded control as part of the text alternative in the following manner:
-								<ul>
-									<li id="tac_embed_textfield">If the embedded control is a text field, use its value.</li>
-									<li id="tac_embed_select">If the embedded control is a select or combobox, use the chosen option.</li>
-									<li id="tac_embed_range">If the embedded control is a range (e.g., a <code>spinbutton</code> or <code>slider</code>), use the value of the <aref>aria-valuetext</aref> attribute if available, or otherwise the value of the <aref>aria-valuenow</aref> attribute.</li>
-								</ul>
-							</li>
-							<li id="tac_contents">Otherwise, if the attributes checked in rules A and B didn't provide results, text is collected from descendant content if the current element's <a>role</a> allows "Name From: contents." The text alternatives for child nodes will be concatenated, using this same set of rules. This same rule may apply to a child, which means the computation becomes recursive and can result in text being collected in all the nodes in this subtree, no matter how deep they are. However, any given descendant subtree may instead collect their part of the text alternative from the preferred markup described in A and B above. These author-specified attributes are assumed to provide the correct text alternative for the entire subtree. All in all, the node rules are applied consistently as text alternatives are collected from descendants, and each containing element in those descendants may or may not allow their contents to be used. Each node in the subtree is consulted only once. If text has been collected from a child node, and is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.</li>
-							<li id="tac_tooltip">The last resort is to use text from a tooltip attribute (such as the <code>title</code> attribute in <abbr title="Hypertext Markup Language">HTML</abbr>). This is used only if nothing else, including subtree content, has provided results.</li>
-						</ol>
-					</li>
-					<li id="tac_gencss">Text nodes are often visited because they are children of an element that uses rule 2C to collect text from its children. However, because it is possible to specify or alter textual content using CSS rules, it is necessary for user agents to combine such content, as appropriate, with the text referenced by the text nodes to produce a complete text alternative. An example is the use of <abbr title="Cascading Style Sheets">CSS</abbr> <code>::before</code> and <code>::after</code> pseudo-elements, where the user agent combines the textual content specified in the style sheet with that given in the DOM.
-						<ul>
-							<li id="tac_gencss_imagetext">When an image replaces text, then the UA should use the original text, since that text is presumably the equivalent.</li>
-							<li id="tac_gencss_textimage">When text replaces an image, then the UA should provide that text.</li>
-							<li id="tac_gencss_texttext">When new text replaces old, then the UA should include the new text, since that is what is rendered on screen.</li>
-						</ul>
-					</li>
-				</ol>
-				<p class="note">Though the user agent may make efforts to compute a text alternative from CSS-generated text in the absence of text content determinable from the DOM, authors should not provide text through a style sheet, as the user agent may incorrectly determine the text alternative.</p>
-				<p>The purpose of the flat text alternative string is to create a perceivable label in alternative presentations. At each step of the algorithm, an implementation will trim the existing text equivalent string and the string to be added, then join those two strings with a single space. For example, a space character may be inserted between the text of two elements used one after the other in a description.</p>
-			</section>
-			<section id="tac_example1">
-				<h4>Text Alternative Computation Example #1</h4>
-				<ul>
-					<li><strong>aria-labelledby (Rule 2A):</strong> The label of the first menuitem in the menubar example markup above is "File" based on rule 2A. The element has an <aref>aria-labelledby</aref> attribute that picks out the <code>span</code> element with <code>id="fileLabel"</code> The <code>span</code> contains the label text.</li>
-					<li><strong>Namefrom: contents (Rule 2C):</strong> The label of the first item in the file menu is "New" based on rule 2C. Since <code>menuitem</code> elements can acquire their label by the "Namefrom: content" technique, the textual content of the <code>menuitem</code> element itself is sufficient. Note that this element has no attributes such as <aref>aria-labelledby</aref>, <aref>aria-label</aref>, or <code>alt</code>, from which to acquire a label.</li>
-				</ul>
-				<pre class="example highlight">&lt;ul role="menubar"&gt;
- 
- <span class="comment">&lt;!-- Rule 2A: "File" label via aria-labelledby --&gt;</span>
-  &lt;li role="menuitem" aria-haspopup="true" aria-labelledby="fileLabel"&gt;&lt;span id="fileLabel"&gt;File&lt;/span&gt;
-    &lt;ul role="menu"&gt;
-
-      <span class="comment">&lt;!-- Rule 2C: "New" label via Namefrom:contents --&gt;</span>
-      &lt;li role="menuitem"&gt;New&lt;/li&gt;
-      &lt;li role="menuitem"&gt;Open…&lt;/li&gt;
-      …
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  …
-&lt;/ul&gt;</pre>
-			</section>
-			<section id="tac_example2">
-				<h4>Text Alternative Computation Example #2</h4>
-				<ul>
-					<li><strong>native <code>label</code> element (Rule 2A):</strong> Use of a native element is illustrated by the first checkbox where its label is defined by the HTML <code>label</code> element.</li>
-					<li><strong>embedded input (Rule 2C):</strong> The third checkbox illustrates an embedded control adding to a larger label (Rule 2B). Here the label is "Flash the screen 3 times", where "3" is taken from the value of the embedded text <code>input</code>.</li>
-					<li><strong>aria-label (Rule 2A):</strong> Rule 2A, using aria-label, is shown for this embedded text <code>input</code>. The rationale is to give a label to this element, but in a way that does not interfere with the enclosing label of the checkbox. The label is needed by a screen reader when focus is on the text input.</li>
-				</ul>
-				<pre class="example highlight">&lt;fieldset&gt;
-  &lt;legend&gt;Meeting alarms&lt;/legend&gt;
-
-  <span class="comment">&lt;!-- Rule 2A: "Beep" label given by native HTML label element --&gt;</span>
-  &lt;input type="checkbox" id="beep"&gt; &lt;label for="beep"&gt;Beep&lt;/label&gt; &lt;br&gt;
-  &lt;input type="checkbox" id="mtgTitle"&gt; &lt;label for="mtgTitle"&gt;Display the meeting title&lt;/label&gt; &lt;br&gt;
-
-  <span class="comment">&lt;!-- Rule 2B: Full label of checkbox includes value ("3") of embedded text input, "Flash the screen 3 times" --&gt;</span>
-  &lt;input type="checkbox" id="flash"&gt;
-  &lt;label for="flash"&gt;
-	Flash the screen
-
-	<span class="comment">&lt;!-- Rule 2A: label of text input given by aria-label, "Number of times to flash screen" --&gt;</span>
-	&lt;input type="text" value="3" size="2" id="numTimes" aria-label="Number of times to flash screen"&gt;
-	times
-  &lt;/label&gt;
-&lt;/fieldset&gt;</pre>
-				<!-- This note is irrelevant. <p class="note">these examples were tested with a screen reader.</p> -->
+				<p><a href="http://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">Text Alternative Computation</a> is defined in the Accessible Name and Description specification [ACCNAME-AAM].</p>
 			</section>
 		</section>
 		<section id="childrenArePresentational">
