@@ -199,27 +199,34 @@ var respecEvents = respecEvents || false;
 				$detCont.find('button.collapse').attr('disabled', 'disabled');
 				$detCont.find('button.expand').removeAttr('disabled');
 			}
-		};
-		//if URL links to frag id, reset location to frag id once details/summary view is set
+		}
+		//if page URL links to frag id, reset location to frag id once details/summary view is set
 		if(window.location.hash) {
-			window.location = window.location.hash;
+			var hash = window.location.hash;
+			window.location = hash;
+			//if frag id is for a summary element, expand the parent details element
+			if ($(hash).prop('tagName') == "SUMMARY") {
+				expandReferredDetails(hash);
+			}
 		}
 
-  // Add a hook to expand referred items when clicked.
-  $('a[href|="#el"],a[href|="#att"]').each(
-    function()
-    {
-      $(this).on('click', expandReferredItem);
-    });
-  };
+	  // Add a hook to expand referred details element when <a> whose @href is fragid of a <summary> is clicked.
+	  $('a[href^="#"]').each(function() {
+	  	var fragId = $(this).attr('href');
+	  	if ($(fragId).prop('tagName') == "SUMMARY") {
+	  		$(this).on('click', function() {  			
+		  		expandReferredDetails(fragId);
+		  	});
+	  	}
+	  });
 
-	function expandReferredItem()
-	{
-		var href = $(this).attr("href");
-		var header = $(document).find(href);
-		var details = header.parent();
-		if (!details.prop('open'))
-			details.find('summary').first().click();
+	};
+
+	function expandReferredDetails(summaryFragId)	{
+		//if details element is not open, activate click on summary
+		if (!$(summaryFragId).parent().prop('open')) {
+			$(summaryFragId).click();
+		}
 	}
 
 	if (respecEvents) {
@@ -240,9 +247,7 @@ var respecEvents = respecEvents || false;
 				viewAsSingleTable (item);
 			});
 		});
-	}
-	else {
+	} else {
 		$(document).ready(mappingTables);
 	}
-
 }());
