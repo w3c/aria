@@ -247,26 +247,26 @@
         <dd>Text accumulated at a step or sequence of steps described below.  It is temporary storage for those steps.</dd>
         <dt>Result</dt>
         <dd>The text equivalent computed at one of the steps described below.</dd>
-        <dt>Append the result to X, without a space</dt>
+        <dt>Append the result, without a space, to X</dt>
         <dd>
           <ul>
             <li>If X is empty, copy the <code>result</code> to X.</li>
             <li>If X is non-empty, copy the <code>result</code> to the end of X.</li>
           </ul>
-        <dt>Append the result to X, with a space</dt>
+        <dt>Append the result, with a space, to X</dt>
         <dd>
           <ul>
             <li>If X is empty, copy the <code>result</code> to X.</li>
             <li>If X is non-empty, add a space to the end of X and then copy the <code>result</code> to X after the space.</li>
           </ul>
         </dd>
-        <dt>Prepend result to X, without a space</dt>
+        <dt>Prepend result, without a space, to X</dt>
         <dd>
           <ul>
             <li>If X is empty, copy the <code>result</code> to X.</li>
             <li>If X is non-empty, copy the <code>result</code> to the start of X.</li>
           </ul>
-        <dt>Prepend the result to X, with a space</dt>
+        <dt>Prepend the result, without a space, to X</dt>
         <dd>
           <ul>
             <li>If X is empty, copy the <code>result</code> to X.</li>
@@ -293,7 +293,7 @@
                   <ol>
                     <li id="step2B.ii.a">Set the <code>current node</code> to the node referenced by the IDREF.</li>
                     <li id="step2B.ii.b">Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alternative.</li>
-                    <li id="step2B.ii.c">Append the <code>result</code> to the <code>accumulated text</code>.</li>
+                    <li id="step2B.ii.c">Append the <code>result</code>, with a space, to the <code>accumulated text</code>.</li>
                   </ol>
                 </li>
                 <li id="step2B.iii">Return the <code>accumulated text</code>.</li>
@@ -363,16 +363,22 @@
                 <li id="step2F.i">Set the <code>accumulated text</code> to the empty string.</li>
                 <li id="step2F.ii">Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>:
                   <ul>
-                    <li>The "bullet" or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.</li>
-                    <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.  <a class="termref" title="user agent">User agents</a> MUST prepend (<code>:before</code>) or append (<code>:after</code>) <abbr title="Cascading Style Sheets">CSS</abbr> textual content to the textual content of the <code>current node</code>.</li>
+                    <li>The "bullet" or "number" characters associated with a list item are not present in the <abbr title="Document Object Model">DOM</abbr>, but are provided by the <a class="termref" title="user agent">user agent's</a> style engine.  If the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#propdef-list-style-type"><code>list-style-type</code></a> is not <code>"none"</code>, <a class="termref" title="user agent">user agents</a> MUST prepend the list item indicator text to the item's text.  If the list item indicator text includes a space, prepend the indicator text without a space; otherwise prepend with a space.</li>
+                    <li>Similarly, the <abbr title="Cascading Style Sheets">CSS</abbr> <a href="http://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements can provide textual content for <a class="termref" title="element">elements</a> that have a content model.
+                      <ul>
+                        <li>For <code>:before</code> pseudo elements, <a class="termref" title="user agent">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to the textual content of the <code>current node</code>. </li>
+                        <li>For <code>:after</code> pseudo elements, <a class="termref" title="user agent">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr>  textual content, without a space, to the textual content of the <code>current node</code>. </li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
                 <li id="step2F.iii">For each child node of the <code>current node</code>:
                   <ol>
                     <li id="step2F.iii.a">Set the <code>current node</code> to the child node.</li>
                     <li id="step2F.iii.b">Compute the text alternative of the  <code>current node</code> beginning with step 2.  Set the <code>result</code> to that text alternative.</li>
-                    <li id="step2F.iii.c">Append the <code>result</code> to the <code>accumulated text</code>.
+                    <li id="step2F.iii.c">Append the <code>result</code> to the <code>accumulated text</code>. </li>
                   </ol>
+                  <p class="ednote">Editorial Note: (Joseph) the last step above needs work since there are cases where you "append with a space" and others where you "append without a space".  Example of the latter:  <code>&lt;label&gt; &lt;input type="checkbox"&gt; Make this the &lt;em&gt;top&lt;/em&gt;most element&lt;/label&gt;</code>.  The result is "Make this the topmost element", not "Make this the top most element" &ndash; do not append a space after "top".</p>
                 </li>
                 <li id="step2F.iv">Return the <code>accumulated text</code>.</li>
               </ol>
@@ -391,7 +397,7 @@
               </details></div>
             </li>
           </ol>
-          <p>Append the <code>result</code> of each step above to the <code>total accumulated text</code>.</p>
+          <p>Append the <code>result</code> of each step above, with a space, to the <code>total accumulated text</code>.</p>
         </li>
       </ol>
       <p>After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
