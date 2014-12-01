@@ -42,6 +42,12 @@
 
         tocIntroductory: true,
 
+        ariaSpecURLs: {
+          "ED": "http://rawgit.com/w3c/aria/master/aria/aria.html",
+          "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
+          "REC": "http://www.w3.org/TR/wai-aria/"
+        },
+
         coreMappingURLs: {
           "ED":   "http://rawgithub.com/w3c/aria/master/core-aam/core-aam.html",
           "WD":   "http://www.w3.org/TR/core-aam-1.1/",
@@ -106,6 +112,12 @@
             "href": "http://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
             "title": "The IAccessibleEx Interface",
             "publisher": "Microsoft Corporation"
+          },
+          // Custom reference for GTK+ (GNOME GUI Toolkit) (not available from SpecRef biblio)
+          "GTK": {
+            "href": "https://developer.gnome.org/gtk3/stable/",
+            "title": "GTK+ 3 Reference Manual",
+            "publisher": "The GNOME Project"
           }
         },
 
@@ -134,43 +146,67 @@
 </head>
 <body>
   <section id='abstract'>
-    <p>This document describes how <a href="#def_useragent" class="termref">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr>5.1 [[!HTML51]] elements and attributes to platform accessibility <abbr title="Application Programming Interface">API</abbr> roles, states and properties on a variety of platforms, based on the <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/">Core Accessibility API Mappings</a> [[!CORE-AAM]] specification for user agents. This document is designed to leverage these core mappings for the HTML5.1 host language. Like the core specification, this document defines how the HTML user agent must respond to keyboard focus, <a href="#def_role" class="termref">roles</a>, <a href="def_state" class="termref">states</a>, and <a href="#def_property" class="termref">properties</a> provided in Web content via <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [[!WAI-ARIA]]. Users often access the content using assistive technologies that rely on platform <a href="#def_accessibility_api" class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> to obtain and interact with information from the page. The <abbr title="HTML Accessibility API Mappings">HTML-AAM</abbr> 1.1 specification defines how HTML user agent implementations must expose content to accessibility APIs, helping to ensure that this information appears in a manner consistent with author intent in HTML documents. It provides recommendations on deriving the accessible names and descriptions for HTML5.1 elements. It also provides accessible feature implementation examples. This document is part of a suite of Accessibility API mapping specifications for content rendered by user agents as shown here: xxxx. </p>
+    <p>This document describes how <a class="termref" title="user agent">user agents</a> should map <abbr title="HyperText Markup Language">HTML</abbr>5.1 [[!HTML51]] elements and attributes to platform <a class="termref" title="accessibility api">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a> roles, states and properties on a variety of platforms, based on the <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/">Core Accessibility API Mappings</a> [[!CORE-AAM]] specification for <a class="termref" title="user agent">user agents</a>. This document is designed to leverage these core mappings for the HTML5.1 host language. Like the core specification, this document defines how the HTML <a class="termref">user agent</a> must respond to keyboard focus, <a href="#def_role" class="termref">roles</a>, <a href="def_state" class="termref">states</a>, and <a href="#def_property" class="termref">properties</a> provided in Web content via <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [[!WAI-ARIA]]. Users often access the content using assistive technologies that rely on platform <a class="termref" title="accessibility api">Accessibility application programming interfaces (APIs)</a> to obtain and interact with information from the page. The <abbr title="HTML Accessibility API Mappings">HTML-AAM</abbr> 1.1 specification defines how HTML <a class="termref">user agent</a> implementations must expose content to <a class="termref" title="accessibility API">accessibility APIs</a>, helping to ensure that this information appears in a manner consistent with author intent in HTML documents. It provides recommendations on deriving the accessible names and descriptions for HTML5.1 elements. It also provides accessible feature implementation examples. This document is part of a suite of Accessibility <abbr title="Application Programming Interface">API</abbr> mapping specifications for content rendered by <a class="termref" title="user agent">user agents</a> as shown here: xxxx. </p>
   </section>
   <section id="sotd">
   	<p class="warning"><strong>This document is subject to change without notice.</strong></p>
     <p class="note">You can <a href="https://www.w3.org/Bugs/Public/enter_bug.cgi?product=ARIA&component=HTML%20AAM">file a bug</a> on this specification</p>
     <p>This document was developed by and with the approval of the <a href="http://www.w3.org/WAI/PF/html-accessibility-tf.html">HTML Accessibility Taskforce</a>, a joint task force of the <a href="http://www.w3.org/WAI/PF/">Protocols and Formats Working Group</a> and the <a href="http://www.w3.org/html/wg/">HTML Working Group</a>.</p>
   </section>
-  <section class='informative'>
-    <h2>Introduction: Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
-    <p>To provide access to desktop GUI applications, assistive technologies originally used heuristic techniques to determine the meaning of the user interface and built an alternative off screen model. For example, a row of labels displayed horizontally near the top of an application window might be a menu. Labels with a border drawn around them might be buttons. Heuristic techniques are not always accurate, however, and require assistive technologies to be updated whenever the software application is updated.</p>
-    <p>A much better technique is for the software application to   provide the necessary information for interoperability with assistive technology. To meet this need, platform owners have developed specialized interfaces, called accessibility APIs, which can be used to communicate accessibility information about user interfaces to assistive technologies. </p>
-    <p>In the case of static Web pages, the Document Object Model (DOM) is used to represent the structure and state of the elements in the document being rendered by a user agent. The elements of the document are organized into a hierarchy of nodes known as the <abbr title="Document Object Model">DOM</abbr> tree. For traditional static Web pages, assistive technologies, such as screen readers, interact with user agents using the DOM. For UI elements that are known to be interactive, such as HTML form elements and desktop applications, assistive technologies may use platform accessibility APIs.</p>
-    <p>Accessibility APIs covered by this document are:</p>
-    <ul>
-      <li><cite><a href="http://msdn.microsoft.com/en-us/library/ms697707.aspx">Microsoft Active Accessibility 2.0</a></cite> [[MSAA]] with <cite><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd561898(v=vs.85).aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></cite> [[UIA-EXPRESS]]</li>
-      <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
-      <li><cite><a href="http://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]</li>
-      <li><cite>Linux/GNOME <a href="https://developer.gnome.org/atk/stable/">ATK - Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]]</li>
-      <li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/Reference/Reference.html">Mac OS X Accessibility Protocol Mac OS 10.9</a></cite> [[AXAPI]]</li>
-    </ul>
-    <p>If User Agent developers need to expose to other accessibility APIs, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.</p>
+  <section id="intro">
+    <h2>Introduction</h2>
+      <p>This section is <a class="termref">informative</a>.</p>
+      <p>In traditional desktop graphical user interface (<abbr title="graphical user interface">GUI</abbr>) applications, components of the user interface (<abbr title="user interface">UI</abbr>) are displayed when needed and hidden when not needed based on user interactions. <a class="termref" title="accessibility API">Accessibility APIs</a> are used to communicate <a class="termref" title="semantics">semantic</a> information about the UI to <a class="termref" title="assistive technologies">assistive technology</a> software used by people with disabilities. These APIs constitute a contract between applications and assistive technologies, such as screen readers, magnifiers, alternate input devices, and speech command and control, to enable them to access the appropriate semantics needed to produce a usable alternative to interactive applications. For example, screen reading software for blind users can determine whether a particular UI component is a menu, button, text field, list box, etc.</p> 
+      
+    <section id="intro_aapi">
+      <h3>Accessibility APIs</h3>
+      <p>To provide access to desktop GUI applications, <a class="termref">assistive technologies</a> originally used heuristic techniques to determine the meaning of the user interface and build an alternative off-screen model. For example, a row of labels displayed horizontally near the top of an application window might be a menu. Labels with a border drawn around them might be buttons. Heuristic techniques are not always accurate, however, and require assistive technologies to be updated whenever the software application is updated.</p>
+      <p>A much better technique is for the software application to provide the necessary information for interoperability with <a class="termref" title="assistive technologies">assistive technology</a>. To meet this need, platform owners have developed specialized interfaces, called <a class="termref" title="accessibility API">accessibility APIs</a>, which can be used to communicate accessibility information about user interfaces to assistive technologies. </p>
+      <p>In the case of static Web pages, the Document Object Model (<abbr title="document object model">DOM</abbr>) is used to represent the structure and <a class="termref">state</a> of the <a class="termref" title="element">elements</a> in the document being rendered by a <a class="termref">user agent</a>. The elements of the document are organized into a hierarchy of nodes known as the DOM tree. For traditional static Web pages, assistive technologies, such as screen readers, interact with <a class="termref" title="user agent">user agents</a> using the DOM. For UI elements that are known to be interactive, such as HTML form elements and desktop applications, assistive technologies may use platform <a class="termref" title="accessibility API">accessibility APIs</a>.</p>
+      <p><a class="termref" title="accessibility API">Accessibility APIs</a> covered by this document are:</p>
+      <ul>
+        <li><cite><a href="http://msdn.microsoft.com/en-us/library/ms697707.aspx">Microsoft Active Accessibility 2.0</a></cite> [[MSAA]] with <cite><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd561898(v=vs.85).aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></cite> [[UIA-EXPRESS]]</li>
+        <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
+        <li><cite><a href="http://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]</li>
+        <li><cite>Linux/GNOME <a href="https://developer.gnome.org/atk/stable/">ATK - Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI" <sup>[<a href="#ftn.AtkAtspiNote">Note</a>]</sup></li>
+        <li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/Reference/Reference.html">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
+      </ul>
+      <p>If user agent developers need to expose information using other <a class="termref" title="accessibility API">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.</p>
+      <div class="note" id="ftn.AtkAtspiNote">
+        <p>The reason that two Linux/GNOME <a class="termref" title="accessibility API">accessibility APIs</a>, <abbr title="Accessibility Toolkit">ATK</abbr> and <abbr title="Assistive Technology Service Provider Interface">AT-SPI</abbr>, are referenced is due to the different purposes that they serve. ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.  </p>
+        <p>For example, the GNOME GUI toolkit [[GTK]], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that <abbr title="GNOME toolkit">GTK</abbr> widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties. </p>
+        <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers.  In the context of mapping WAI-ARIA roles, states and properties, <a class="termref" title="user agent">user agents</a> are implementors and use ATK. Asisstive technologies are consumers, and use AT-SPI. </p>
+      </div>
+    </section>
   </section>
-  <section class="informative">
-    <h2>Mapping HTML to Accessibility APIs</h2>
+  <section id="normative" class="normative">
+    <h2>Normative <a class="termref">Accessibility API</a> Mapping Requirements for HTML5.1 [[!HTML51]]</h2>
+    <p>This section is <a class="termref">normative</a>.</p>
+    <p>This specification indicates whether a section is <a class="termref">normative</a> or <a class="termref">informative</a> and the classification applies to the entire section. A statement "This section is normative" or "This section is informative" applies to all sub-sections of that section.</p>
+    <p>Normative sections provide requirements that <a class="termref" title="user agent">user agents</a> must follow for an implementation to conform to this specification. The keywords MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, RECOMMENDED, MAY, and OPTIONAL in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
+    <p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+  </section>
+  <section id="glossary">
+    <h2>Important Terms</h2>
+    <p>This section is <a class="termref">normative</a>.</p>
+    <div data-include="../common/terms.html" data-oninclude="fixIncludes"></div>
+  </section>
+  <section>
+    <h2>Mapping HTML to <a class="termref" title="Accessibility API">Accessibility APIs</a></h2>
+    <p>This section is <a class="termref">normative</a>.</p>
     <section>
-      <h3>Relation to Core Accessibility API Mappings</h3>
+      <h3>Relation to Core <a class="termref">Accessibility API</a> Mappings</h3>
       <p class="ednote">to do</p>
     </section>
     <section>
-      <h3>Exposing HTML Features That Do Not Directly Map to Accessibility APIs</h3>
-      <p>HTML may have features that are not supported by accessibility APIs at the time of publication. There is not a one to one relationship between all features and platform accessibility APIs. When HTML roles, states and properties do not directly map to an accessibility API, and there is a method in the API to expose a text string, expose the undefined role, states and properties via that method.</p>
-      <p>IAccessible2 and ATK use object attributes to expose semantics that are not directly supported in the APIs. Object attributes are name-value pairs that are loosely specified, and very flexible for exposing things where there is no specific interface in an accessibility API. For example, at this time, the HTML5 <code><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-header-element">header</a></code> element can be exposed via an object attribute because accessibility APIs have no such role available. <!--Specific rules for exposing object   attribute name-value pairs are described throughout this document, and rules for the general cases not covered are in State and Property Mapping.    --></p>
-      <p>For accessibility APIs that do not have "object attributes" per se, it is useful to find a similar mechanism or develop a new interface to expose name/value pairs. Under the Mac OS X Accessibility Protocol, all getters are already simply name-value pairs and it is possible to  expose new semantics whenever necessary. Keep in mind, this also requires working with the assistive technology developers to gain support for the new semantics.</p>
+      <h3>Exposing HTML Features That Do Not Directly Map to <a class="termref" title="Accessibility API">Accessibility APIs</a></h3>
+      <p>HTML may have features that are not supported by <a class="termref" title="accessibility API">accessibility APIs</a> at the time of publication. There is not a one to one relationship between all features and platform <a class="termref" title="accessibility API">accessibility APIs</a>. When HTML roles, states and properties do not directly map to an <a class="termref">accessibility API</a>, and there is a method in the API to expose a text string, expose the undefined role, states and properties via that method.</p>
+      <p>IAccessible2 and ATK use object attributes to expose semantics that are not directly supported in the APIs. Object attributes are name-value pairs that are loosely specified, and very flexible for exposing things where there is no specific interface in an <a class="termref">accessibility API</a>. For example, at this time, the HTML5 <code><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-header-element">header</a></code> element can be exposed via an object attribute because <a class="termref" title="accessibility API">accessibility APIs</a> have no such role available. <!--Specific rules for exposing object   attribute name-value pairs are described throughout this document, and rules for the general cases not covered are in State and Property Mapping.    --></p>
+      <p>For <a class="termref" title="accessibility API">accessibility APIs</a> that do not have "object attributes" per se, it is useful to find a similar mechanism or develop a new interface to expose name/value pairs. Under the Mac OS X Accessibility Protocol, all getters are already simply name-value pairs and it is possible to  expose new semantics whenever necessary. Keep in mind, this also requires working with the assistive technology developers to gain support for the new semantics.</p>
       <section>
         <h4>Other Accessibility Implementations</h4>
         <section>
-          <h5>Use of MSAA VARIANT by Some User Agents</h5>
+          <h5>Use of MSAA VARIANT by Some <a class="termref" title="User Agent">User Agents</a></h5>
           <p>In MSAA, the VARIANT returned by the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd318485%28v=vs.85%29.aspx">IAccessible::get_accRole method</a> is limited to a finite number of <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd373608%28v=vs.85%29.aspx">integer role constants</a> insufficient for describing every HTML element, especially new elements introduced by HTML5. To address this limitation, some user agents, e.g., Firefox and Chrome in cooperation with some screen readers, have elected to expose new roles by returning a string value (BSTR) in that VARIANT in a way that is not described by the MSAA specification.</p>
           <p>For example, Firefox returns the element's tag name as a BSTR for the following: <code>a</code> (no href), <code>abbr</code>, <code>address</code>, <code>area</code> (no href), <code>aside</code>, <code>blockquote</code>, <code>canvas</code>, <code>caption</code>, <code>dd</code>, <code>div</code>, <code>embed</code>, <code>figcaption</code>, <code>footer</code>, <code>form</code>, <code>h1</code>–<code>h6</code>, <code>header</code>, <code>iframe</code>, <code>input type="file"</code>, <code>main</code>, <code>map</code>, <code>nav</code>, <code>object</code>, <code>output</code>, <code>p</code>, <code>pre</code>, <code>q</code>, <code>ruby</code>, <code>section</code>.</p>
         </section>
@@ -184,7 +220,7 @@
       <h3>Mapping HTML Elements to Roles</h3>
       <section>
         <h4>Mapping to Existing <abbr title="Web Accessibility Initiative">WAI</abbr>-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> Role Semantics</h4>
-        <p>HTML elements with default WAI-ARIA role semantics <span class="rfc2119">must</span> be mapped to platform accessibility APIs according to those WAI-ARIA roles' mappings as defined in the Core Accessibility API Mappings specification.</p>
+        <p>HTML elements with default WAI-ARIA role semantics <span class="rfc2119">must</span> be mapped to platform <a class="termref" title="accessibility API">accessibility APIs</a> according to those WAI-ARIA roles' mappings as defined in the Core Accessibility API Mappings specification.</p>
         <div class="table-container-no-transform">
           <table class="map-table no-transform elements-core" id="element-core-mapping-table">
             <caption>Mappings of HTML elements based on their default WAI-ARIA roles</caption>
@@ -405,13 +441,13 @@
       	<p><strong>Notes:</strong> </p>
       	<ul>
       		<li>A '?' in a cell indicates the data has yet to be provided.</li>
-      		<li>"Not mapped" (Not Aplicable) means the element does not need to be exposed via an accessibility API. This is usually because the element is not displayed as part of the user interface.</li>
+      		<li>"Not mapped" (Not Aplicable) means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user interface.</li>
       		<li>User agents should return a user-presentable, localized string value for the Mac Accessibility AXRoleDescription.</li>
           <li>All elements having an accessible object in IAccessible2 mapping are supposed to implement IAccessible, IAccessible2 and IAccessible2_2 interfaces</li>
       	</ul>
       	<div class="table-container">
         	<table class="map-table elements" id="element-mapping-table">
-        		<caption>Mappings of HTML elements to platform accessibility APIs: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX</caption>
+        		<caption>Mappings of HTML elements to platform <a class="termref" title="accessibility API">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX</caption>
         		<thead>
         			<tr>
         				<th>Element</th>
@@ -6554,7 +6590,7 @@
         <h4>HTML Attribute State and Property Mappings</h4>
         <div class="table-container">
           <table class="map-table attributes" id="attribute-mapping-table">
-            <caption>Mappings of HTML attributes (excluding event handler content attributes) to platform accessibility APIs: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
+            <caption>Mappings of HTML attributes (excluding event handler content attributes) to platform <a class="termref" title="accessibility API">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
             <thead>
               <tr>
                 <th>Attribute</th>
@@ -9252,7 +9288,7 @@
   </section>
   <section>
     <h2>Accessible Name and Description Calculation</h2>
-    <p>The terms <a href="http://www.w3.org/WAI/PF/aria-implementation/#def_accessible_name">accessible name</a> and accessible description are properties provided in all accessibility APIs. The name of the properties may differ across APIs but they serve the same function: as a container for a short (name) or longer (description) string of text. </p>
+    <p>The terms <a href="http://www.w3.org/WAI/PF/aria-implementation/#def_accessible_name">accessible name</a> and accessible description are properties provided in all <a class="termref" title="accessibility API">accessibility APIs</a>. The name of the properties may differ across APIs but they serve the same function: as a container for a short (name) or longer (description) string of text. </p>
     <section>
       <h3><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="url"</code> and <code>textarea</code> Element</h3>
       <p> If the control has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>.	</p>
@@ -9479,11 +9515,11 @@
       </section>
       <section>
         <h4>Role, Name, State and Property Mapping</h4>
-        <p>The <code>summary</code> element should be mapped to a disclosure triangle role in accessibility APIs that have such a role. For example the Mac accessibility API includes the <code>AXDisclosureTriangle</code> role. In accessibility APIs that do not have such a fine grained role, the <code>summary</code> element should be mapped to a <code>button</code> role. The role mapping table contains <a href="#el-summary">recommended mappings for the summary element</a>.</p>
+        <p>The <code>summary</code> element should be mapped to a disclosure triangle role in <a class="termref" title="accessibility API">accessibility APIs</a> that have such a role. For example the Mac <a class="termref">accessibility API</a> includes the <code>AXDisclosureTriangle</code> role. In <a class="termref" title="accessibility API">accessibility APIs</a> that do not have such a fine grained role, the <code>summary</code> element should be mapped to a <code>button</code> role. The role mapping table contains <a href="#el-summary">recommended mappings for the summary element</a>.</p>
         <p>The default accessible name for the <code>summary</code> element is the text content of the <code>summary</code> element. </p>
         <p>When the <code>details</code> element content is hidden, the state of the content should be reflected by an accessible state or property. </p>
-        <p><strong>Example 1:</strong> In the Mac accessibility API on the <code>summary</code> element (<code>AXDisclosureTriangle</code>), set <code>AXExpanded</code> property to <code>NO</code>.  When the <code>details</code> element content is shown, on the <code>summary</code> element (<code>AXDisclosureTriangle</code>), set the<code>AXExpanded</code> property to <code>YES</code>. The hidden and shown states of the <code>details</code> element content is reflected by the absence or presence of the <a href='#att-open-details'><code>open</code></a> attribute.</p>
-        <p><strong>Example 2:</strong> In the IA2 accessibility API on the <code>summary</code> element (<code>ROLE_SYSTEM_PUSHBUTTON</code>), set <code>STATE_SYSTEM_COLLAPSED</code>.  When the <code>details</code> element content is shown, on the <code>summary</code> element (<code>ROLE_SYSTEM_PUSHBUTTON</code>), set <code>STATE_SYSTEM_EXPANDED</code>. The hidden and shown states of the <code>details</code> element content is reflected by the absence or presence of the <a href='#att-open-details'><code>open</code></a> attribute. </p>
+        <p><strong>Example 1:</strong> In the Mac <a class="termref">accessibility API</a> on the <code>summary</code> element (<code>AXDisclosureTriangle</code>), set <code>AXExpanded</code> property to <code>NO</code>.  When the <code>details</code> element content is shown, on the <code>summary</code> element (<code>AXDisclosureTriangle</code>), set the<code>AXExpanded</code> property to <code>YES</code>. The hidden and shown states of the <code>details</code> element content is reflected by the absence or presence of the <a href='#att-open-details'><code>open</code></a> attribute.</p>
+        <p><strong>Example 2:</strong> In the IA2 <a class="termref">accessibility API</a> on the <code>summary</code> element (<code>ROLE_SYSTEM_PUSHBUTTON</code>), set <code>STATE_SYSTEM_COLLAPSED</code>.  When the <code>details</code> element content is shown, on the <code>summary</code> element (<code>ROLE_SYSTEM_PUSHBUTTON</code>), set <code>STATE_SYSTEM_EXPANDED</code>. The hidden and shown states of the <code>details</code> element content is reflected by the absence or presence of the <a href='#att-open-details'><code>open</code></a> attribute. </p>
       </section>
     </section>
     <section>
