@@ -8287,11 +8287,13 @@
 		<div class="state" id="aria-hidden">
 			<sdef>aria-hidden</sdef>
 			<div class="state-description">
-				<p>Indicates that the <a>element</a> and all of its descendants are not visible or <a>perceivable</a> to <em>any</em> user as implemented by the author. See related <sref>aria-disabled</sref>.</p>
-				<p class="note">It is recommended that authors key visibility of elements off this attribute, rather than change visibility and separately update this <a>property</a>. <abbr title="Cascading Style Sheets">CSS</abbr> 2 provides a way to <cite><a href="http://www.w3.org/TR/1998/REC-CSS2-19980512/selector.html#q10">select on attribute values</a></cite> ([[CSS2]]). The following <abbr title="Cascading Style Sheets">CSS</abbr> declaration makes content visible unless the <aref>aria-hidden</aref> attribute is <code>true</code>; scripts need only update the <a>value</a> of this attribute to change visibility:</p>
-				<pre class="example highlight lang-css">[aria-hidden="true"] { visibility: hidden; }</pre>
+				<p>Indicates whether the <a>element</a> is exposed to an accessibility API. See related <sref>aria-disabled</sref>.</p>
+				<p>User agents determine an element's <a>hidden</a> status based on whether it is rendered, and the rendering is usually controlled by CSS. For example, an element whose <code>display</code> property is set to <code>none</code> is not rendered. An element is considered <a>hidden</a> if it, or any of its ancestors are not rendered or have their <code>aria-hidden</code> attribute value set to <code>true</code>.</p>
 				<p>Authors MAY, with caution, use aria-hidden to hide visibly rendered content from assistive technologies <em>only</em> if the act of hiding this content is intended to improve the experience for users of assistive technologies by removing redundant or extraneous content. Authors using aria-hidden to hide visible content from screen readers MUST ensure that identical or equivalent meaning and functionality is exposed to assistive technologies.</p>
 				<p class="note">Authors are advised to use extreme caution and consider a wide range of disabilities when hiding visibly rendered content from assistive technologies. For example, a sighted, dexterity-impaired individual may use voice-controlled assistive technologies to access a visual interface. If an author hides visible link text "Go to checkout" and exposes similar, yet non-identical link text "Check out now" to the accessibility API, the user may be unable to access the interface they perceive using voice control. Similar problems may also arise for screen reader users. For example, a sighted telephone support technician may attempt to have the blind screen reader user click the "Go to checkout" link, which they may be unable to find using a type-ahead item search ("Go to…").</p>
+				<p class="note">At the time of this writing, <code><aref>aria-hidden</aref>="false"</code> is known to work inconsistently in browsers. As future implementations improve, use caution and test thoroughly before relying on this approach.</p>
+				<p class="note">It is recommended that authors key visibility of elements off this attribute, rather than change visibility and separately update this <a>property</a>. <abbr title="Cascading Style Sheets">CSS</abbr> 2 provides a way to <cite><a href="http://www.w3.org/TR/1998/REC-CSS2-19980512/selector.html#q10">select on attribute values</a></cite> ([[CSS2]]). The following <abbr title="Cascading Style Sheets">CSS</abbr> declaration makes content visible unless the <aref>aria-hidden</aref> attribute is <code>true</code>; scripts need only update the <a>value</a> of this attribute to change visibility:</p>
+				<pre class="example highlight lang-css">[aria-hidden="true"] { visibility: hidden; }</pre>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
@@ -8316,7 +8318,7 @@
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="state-value"><a href="#valuetype_true-false-undefined">true/false/undefined</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -8330,16 +8332,19 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
-						<td class="value-description">Indicates that this section of the document is rendered.</td>
+						<th class="value-name" scope="row">false</th>
+						<td class="value-description">The element is exposed to the accessibility API as if it was rendered.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
-						<td class="value-description">Indicates that this section of the document and its children are hidden from the rendered view.</td>
+						<td class="value-description">The element is hidden from the accessibility API.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
+						<td class="value-description">The element's hidden state is determined by the user agent based on whether it is rendered.</td>
 					</tr>
 				</tbody>
 			</table>
-			<p class="note">Authors are advised to avoid using <aref>aria-hidden</aref><code>="false"</code> with styles or attributes that have historically prevented rendering in all modalities, such as <code>display:none</code> or <code>visibility:hidden</code> in CSS, or the <code>hidden</code> attribute in HTML 5. At the time of this writing, <aref>aria-hidden</aref><code>="false"</code> is known to work inconsistently when used in conjunction with such features. As future implementations improve, use caution and test thoroughly before relying on this approach.</p>
 		</div>
 		<hr/>
 		<div class="state" id="aria-invalid">
