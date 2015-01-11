@@ -6543,76 +6543,80 @@
           </table>
         </div>
         <section>
-<h4 id="thmap">th role mapping details - <em>for review</em></h4>
-        <p>Tentative Firefox <code>th</code> mapping, from review of <a href="https://github.com/mozilla/gecko-dev/blob/master/accessible/html/HTMLTableAccessible.cpp">HTMLTableAccessible.cpp</a> by     <a href="https://code.google.com/u/106099844470764255506/">je_julie.kim@samsung.com</a> source: Chromium Issue <a href="https://code.google.com/p/chromium/issues/detail?id=435081">435081</a>: 
-               html table column and rowheaders not exposed in accessibility layer
-</p>
-        <p><strong>case 1) </strong>
-        </p>
-        <pre>
-       &lt;tr&gt;  
-       &lt;th&gt;data1&lt;/th&gt; //It has row header role.     
-       &lt;td&gt;data2&lt;/td&gt;     
-       &lt;td&gt;data3&lt;/td&gt;   
-       &lt;/tr&gt;</pre>
-        <strong>case 2)</strong>
-        <pre>&lt;tr&gt;
-&lt;td&gt;data1&lt;/td&gt;     
-&lt;th&gt;data2&lt;/th&gt; //It has row header role.     
-&lt;td&gt;data3&lt;/td&gt;   
+          <h5 id="thmap"><code>th</code> role mapping details — <em>for review</em></h5>
+          <p>Tentative Firefox <code>th</code> mapping, from review of <a href="https://github.com/mozilla/gecko-dev/blob/master/accessible/html/HTMLTableAccessible.cpp">HTMLTableAccessible.cpp</a> by <a href="https://code.google.com/u/106099844470764255506/">je_julie.kim@samsung.com</a> for Chromium Issue <a href="https://code.google.com/p/chromium/issues/detail?id=435081">435081</a>: HTML table column and rowheaders not exposed in accessibility layer.</p>
+          <p><b>case 1)</b></p>
+            <pre>
+&lt;tr&gt;  
+  &lt;th&gt;data1&lt;/th&gt; //It has row header role.     
+  &lt;td&gt;data2&lt;/td&gt;     
+  &lt;td&gt;data3&lt;/td&gt;   
+&lt;/tr&gt;</pre></section>
+          <p><b>case 2)</b></p>
+            <pre>
+&lt;tr&gt;
+  &lt;td&gt;data1&lt;/td&gt;     
+  &lt;th&gt;data2&lt;/th&gt; //It has row header role.     
+  &lt;td&gt;data3&lt;/td&gt;   
 &lt;/tr&gt;</pre>
-       <strong>case 3)</strong>
-        <pre>&lt;tr&gt;     
-&lt;td&gt;data1&lt;/td&gt;     
-&lt;td&gt;data2&lt;/td&gt;     
-&lt;th&gt;data3&lt;/th&gt; //It heas row headr role.   
+          <p><b>case 3)</b></p>
+            <pre>
+&lt;tr&gt;     
+  &lt;td&gt;data1&lt;/td&gt;     
+  &lt;td&gt;data2&lt;/td&gt;     
+  &lt;th&gt;data3&lt;/th&gt; //It has row header role.   
 &lt;/tr&gt; </pre>
-        <strong>case 4) </strong>
-        <pre>&lt;tr&gt;     
-&lt;th&gt;data1&lt;/th&gt; //It heas column headr role.     
-&lt;th&gt;data2&lt;/th&gt; //It heas column headr role.     
-&lt;td&gt;data3&lt;/td&gt;    
+          <p><b>case 4)</b></p>
+            <pre>
+&lt;tr&gt;     
+  &lt;th&gt;data1&lt;/th&gt; //It has column header role.     
+  &lt;th&gt;data2&lt;/th&gt; //It has column header role.     
+  &lt;td&gt;data3&lt;/td&gt;    
 &lt;/tr&gt;</pre>
-       <p><strong>case 5)       </strong></p>
-       <pre>&lt;tr&gt;     
-&lt;th&gt;data1&lt;/th&gt; //It heas row headr role.     
-&lt;td&gt;data2&lt;/td&gt;     
-&lt;th&gt;data3&lt;/th&gt; //It heas row headr role.   
+          <p><b>case 5)</b></p>
+           <pre>
+&lt;tr&gt;     
+  &lt;th&gt;data1&lt;/th&gt; //It has row header role.     
+  &lt;td&gt;data2&lt;/td&gt;     
+  &lt;th&gt;data3&lt;/th&gt; //It has row header role.   
 &lt;/tr&gt; </pre>
-       <strong>case 6) </strong>
-       <pre>&lt;tr&gt;&lt;td&gt;data1&lt;/td&gt;     
-&lt;th&gt;data2&lt;/th&gt; //It heas row headr role.     
-&lt;th&gt;data3&lt;/th&gt; //It heas column headr role.   
+          <p><b>case 6)</b></p>
+           <pre>
+&lt;tr&gt;
+  &lt;td&gt;data1&lt;/td&gt;     
+  &lt;th&gt;data2&lt;/th&gt; //It has row header role.     
+  &lt;th&gt;data3&lt;/th&gt; //It has column header role.   
 &lt;/tr&gt; </pre>
-        <strong>case 7) </strong>
-        <pre>&lt;tr&gt;     
-&lt;th&gt;data1&lt;/th&gt; //It heas column headr role.     
-&lt;th&gt;data2&lt;/th&gt; //It heas column headr role.     
-&lt;th&gt;data3&lt;/th&gt; //It heas column headr role.   
+          <p><b>case 7)</b></p>
+<pre>
+&lt;tr&gt;     
+  &lt;th&gt;data1&lt;/th&gt; //It has column header role.     
+  &lt;th&gt;data2&lt;/th&gt; //It has column header role.     
+  &lt;th&gt;data3&lt;/th&gt; //It has column header role.   
 &lt;/tr&gt;  </pre>
-        
-       <div class="note"> <ul>
-          <li>1) I checked the first row case and the second row case with those cells above and they had same results. It means that row number don't decide header role. </li>
-          <li>2) If there is just one th in the row, it is always row header role. (case 1, case 2, case 3) </li>
-          <li>3) If cells in the row are only th type, they are column header role. (case 7) <br>
-         </li>
-          <li>4) For mixed cases, 
-            <ul>
-              <li>4-1) if it is the first cell in the row (row index is 0) and it has adjacent th, it has column header role. (case 4) </li>
-              <li>4-2) Otherwise, if it's the first th cell in the row,      
-                <ul>
-                  <li>4-2-1) it has row header role. (case 5, case 6) </li>
-                  <li>4-2-2) If the next th cell is adjacent to the previous th, it assigns column header. (case 6)</li>
-                  <li>otherwise, it assigns row header again. (case 5) </li>
-                </ul>
+            
+           <div class="note"> 
+            <ol>
+              <li>I checked the first row case and the second row case with those cells above and they had same results. It means that row number doesn't decide header role. </li>
+              <li>If there is just one <code>th</code> in the row, it is always row header role (case 1, case 2, case 3). </li>
+              <li>If cells in the row are only <code>th</code> type, they have column header role (case 7).</li>
+              <li>For mixed cases, 
+                <ol>
+                  <li>If it is the first cell in the row (row index is 0) and it has adjacent <code>th</code>, it has column header role (case 4). </li>
+                  <li>Otherwise, if it's the first <code>th</code> cell in the row,      
+                    <ol>
+                      <li>it has row header role (case 5, case 6). </li>
+                      <li>if the next <code>th</code> cell is adjacent to the previous <code>th</code>, it assigns column header. (case 6)</li>
+                      <li>otherwise, it assigns row header again. (case 5) </li>
+                    </ol>
+                  </li>
+                </ol>
               </li>
-            </ul>
-          </li>
-          </ul>
-     </div>
+            </ol>
+          </div>
         </section>
-        </section>
-      
+      </section>
+    </section>
     <section>
       <h3>Mapping HTML Attributes to States and Properties</h3>
       <section>
