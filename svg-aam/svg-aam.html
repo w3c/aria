@@ -205,6 +205,43 @@
         ]
       },
 
+      "SVG1": {
+        "title": "Scalable Vector Graphics (SVG) 1.0 Specification",
+        "href": "http://www.w3.org/TR/SVG10/",
+        "status": "REC",
+        "publisher": "W3C",
+        "authors": [
+              "John Ferraiolo",
+        ],
+        "etAl": true,
+        "deliveredBy": [
+          "http://www.w3.org/SVG"
+        ]
+      },
+
+      "SVG11": {
+        "title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
+        "href": "http://www.w3.org/TR/SVG11/",
+        "status": "REC",
+        "publisher": "W3C",
+        "authors": [
+              "Erik Dahlström",
+              "Patrick Dengler",
+              "Anthony Grasso",
+              "Chris Lilley",
+              "Cameron McCormack",
+              "Doug Schepers",
+              "Jonathan Watt",
+              "John Ferraiolo",
+              "藤沢 淳 (FUJISAWA Jun)",
+              "Dean Jackson",
+        ],
+        "etAl": true,
+        "deliveredBy": [
+          "http://www.w3.org/SVG"
+        ]
+      },
+
       "ACCNAME-AAM": {
         "title": "Accessible Name and Description: Computation and API Mappings 1.1",
         "href": "http://www.w3.org/TR/accname-aam-1.1/",
@@ -266,6 +303,7 @@
     preProcess: [ linkCrossReferences ] 
   }
 </script>
+
 <script src="../common/script/jquery.details.min.js"></script>
 <script src="../common/script/mapping-tables.js"></script>
 <script type="text/javascript">
@@ -291,7 +329,10 @@ var mappingTableLabels = {
 </head>
 <body>
 <section id="abstract">
-	<p> This document, the <cite><a href="http://www.w3.org/TR/svg2-aam/">SVG Accessibility API Mappings</a></cite> [[SVG-AAM]] specification, defines how <a href="#def_useragent" class="termref">user agents</a> map <cite><a href="http://www.w3.org/TR/SVG2/">"Scalable Vector Graphics</a></cite> [[!SVG]] markup to platform <a class="termref" title="accessibility api">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a> based on the <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> [[!CORE-AAM]] and the <cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> [[!ACCNAME-AAM]] specifications for user agents. This document is designed to leverage these core mappings for the [[!SVG]] host language. Like the [[!CORE-AAM]] specification, this document defines how the SVG user agent must respond to: keyboard focus; and <a class="termref" title="Role">Role</a>; <a class="termref" title="State">State</a> and <a class="termref" title="Property">Property</a> attributes provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]].  These features are used by authors creating accessible rich internet applications, including charts, graphs, and other drawings commonly produced using SVG. Users often access the content using assistive technologies that rely on platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> to obtain and interact with information from the page. This document is part of a suite of accessibility API mapping specifications for content rendered by user agents as shown here: </p>
+	<p> This document, the <cite><a href="http://www.w3.org/TR/svg2-aam/">SVG Accessibility API Mappings</a></cite> [[SVG-AAM]] specification, defines how <a href="#def_useragent" class="termref">user agents</a> map <cite><a href="http://www.w3.org/TR/SVG2/">"Scalable Vector Graphics</a></cite> [[!SVG]] markup to platform <a class="termref" title="accessibility api">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It is intended for [[SVG]] user agent developers responsible responsible for [[SVG]] in their user agent. 
+</p>
+<p>
+This specification is based on the <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> [[!CORE-AAM]] and the <cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> [[!ACCNAME-AAM]] specifications for user agents. This document is designed to leverage these core mappings for the [[!SVG]] host language. Like the [[!CORE-AAM]] specification, this document defines how the SVG user agent must respond to: keyboard focus; and <a class="termref" title="Role">Role</a>; <a class="termref" title="State">State</a> and <a class="termref" title="Property">Property</a> attributes provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]]. This document also adapts the [[!ACCNAME-AAM]] to make use of standard [[SVG]] features used to compute accessible names and description information exposed by platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>. The combined accessibility features of [[SVG]] are used by authors creating accessible rich internet applications, including charts, graphs, and other drawings provided [[SVG]] user agents support this specification. Users often access the content using assistive technologies that rely on platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> to obtain and interact with information from the page. This document is part of a suite of accessibility API mapping specifications for content rendered by user agents as shown here: </p>
 <ul>
    <li><cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> [[!ACCNAME-AAM]]</li>
    <li><cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[!CORE-AAM]]</li>
@@ -305,6 +346,7 @@ var mappingTableLabels = {
 	<h2>Introduction</h2>
       <p>In traditional Graphical User Interface (GUI) applications, components of the User Interface (UI) are displayed when needed and hidden when not needed based on user interactions. <a class="termref">Accessibility API</a>s are used to communicate <a href="#def_semantics" class="termref">semantic</a> information about the user interface to <a class="termref" href="#def_at">assistive technology</a> software used by people with disabilities. These <abbr title="application programming interfaces">APIs</abbr> constitute a contract between applications and assistive technologies, such as screen readers, magnifiers, alternate input devices, and speech command and control, to enable them to access the appropriate semantics needed to produce a usable alternative to interactive applications. For example, screen reading software for blind users can determine whether a particular <abbr title="user interface">UI</abbr> component is a menu, button, text field, list box, etc.</p> 
       <p>In traditional <abbr title="Scalable Vector Graphics">SVG</abbr> documents most SVG <a class="termref" href="#def_element">elements</a> do not provide semantic information of value to assistive technologies as they represent low level vector graphics drawing directives. Consequently, it is when the author provides alternative text, descriptions, or WAI-ARIA semantics when that element has meaning to assistive technologies. SVG 2 now incorporates traditional keyboard navigation from HTML 5. Therefore, the <a href="#def_useragent" class="termref">user agent</a> provides focus navigation to <abbr title="Scalable Vector Graphics">SVG</abbr> elements known to receive focus by default or to that may receive focus through the use of tabindex. Assistive technologies obtain the essential semantic information from the Document Object Model (<abbr title="Document Object Model">DOM</abbr>) through user agent mappings to platform Accessibility <abbr title="Application Programming Interface">API</abbr>.</p>
+      <p>Both Scalable Vector Graphics (SVG) 1 [[SVG1]] and Scalable Vector Graphics (SVG) 1.1 [[SVG11]] included elements for accessibility purposes, such as <code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code> , but prior to this specification there was no normative guidance as to how user agents should expose this information to assistive technologies, or how to integrate it with host languages and validators that support WAI-ARIA.</p>
       <p>SVG closely aligns with the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a> and HTML5 events to facilitate JavaScript use. Through the use of technologies such as JavaScript, Ajax, and <abbr title="cascading style sheets">CSS</abbr> authors can make SVG look and behave more interactive without having to reload the page with each user interaction. In SVG, authors are able to produce accessible rich interactive charts, and drawings allowing the author to dynamically supply their intended semantics through through the use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>. WAI-ARIA enables rich SVG drawn Internet applications to have the same accessibility features as <abbr title="graphical user interface">GUI</abbr> applications. Authors may include <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> in their markup and user agents translate the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup to the platform accessibility <abbr title="application programming interfaces">APIs</abbr>.</p>
       <p>For an introduction to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>, see the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Overview</a>. The Core Accessibility API Mappings specification how <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#def_role" class="termref">roles</a>, <a href="#def_state" class="termref">states</a>, and <a href="#def_property" class="termref">properties</a> should be supported in user agents using platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>. It is part of a set of resources that define and support the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> specification which includes the following documents: </p>
       <ul>
