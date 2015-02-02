@@ -265,16 +265,31 @@ var mappingTableLabels = {
 			<li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
 		</ul>
 		<p>If user agent developers need to expose information using other accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, it is recommended that they work closely with the developer of the platform where the <abbr title="application programming interface">API</abbr> runs, and assistive technology developers on that platform.</p>
-		<div class="note" id="ftn.AtkAtspiNote">
-		  <p>The reason that two Linux/GNOME accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, <abbr title="Accessibility Toolkit">ATK</abbr> and <abbr title="Assistive Technology Service Provider Interface">AT-SPI</abbr>, are referenced is due to the different purposes that they serve. ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.  </p>
-		  <p>For example, the GNOME GUI toolkit [[GTK]], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that <abbr title="GNOME toolkit">GTK</abbr> widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties. </p>
-		  <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers.  In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK.  Asisstive Technologies are consumers, and use AT-SPI. </p>
-		</div>
+
 	</section>
 	<section id="intro_treetypes">
 		<h3>The Accessibility Tree and the <abbr title="Document Object Model">DOM</abbr> Tree</h3>
         <p>The <a class="termref">accessibility tree</a> and the <abbr title="Document Object Model">DOM</abbr> tree are parallel structures.  Roughly speaking the accessibility tree is a subset of the <abbr title="Document Object Model">DOM</abbr> tree.  It includes the user interface <a class="termref" title="object">objects</a> of the <a class="termref">user agent</a> and the objects of the document. <a class="termref" title="accessible object">Accessible objects</a> are created in the accessibility tree for every <abbr title="Document Object Model">DOM</abbr>  <a class="termref">element</a> that should be exposed to an <a class="termref" title="assistive technologies">assistive technology</a>, either  because it may fire an accessibility <a class="termref">event</a> or because it has a <a class="termref">property</a>, relationship or feature which needs to be exposed. Generally if  something can be trimmed out it will be, for reasons of performance and  simplicity. For example, a <code>&lt;span&gt;</code> with just a style change and no <a class="termref">semantics</a> may not get its own accessible object, but the style change  will be exposed by other means.</p>
   </section>
+  <section>
+      <h4>Comparing Accessibility APIs</h4>
+      <p>For various technological and historical reasons, accessibility APIs do not all work in the same way. In many cases, there is no simple one-to-one relationship between how each of them names or exposes roles, states, and properties to user agents. The following subsections describe a few of the distinguising characteristics of some of the APIs.</p>
+      <section>
+        <h5>ATK/AT-SPI</h5>
+        <p>MSAA, IAccessible2, UIA, and AXAPI each define an API that is shared by both the software application exposing information about its content and interactive components, and the user agent (assistive technology) consuming that information. Conversely, Linux/GNOME separates that shared interface into its two aspects, each represented by a different accessibility API, ATK or AT-SPI.</p>
+        <p>ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.</p>
+        <p>For example, the GNOME GUI toolkit [GTK], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that GTK widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties.</p>
+        <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers. In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK. Asisstive Technologies are consumers, and use AT-SPI.</p>
+      </section>
+      <section>
+        <h5>Accessible Names and Descriptions</h5>
+        <p>Each platform accessibility API includes a way to assign and retrieve <a class="termref">accessible name</a> and <a class="termref">accessible description</a> properties for each <a class="termref">accessible object</a> created in the <a class="termref">accessibility tree</a>. How these the relevant properties are implemented and what they are called vary depending on the API.</p>
+        <p>For instance, in MSAA, all <a class="termref" title="accessible object">accessible objects</a> support the <code>accName</code> property, which stores the object's <a class="termref">accessible name</a>. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>accDescription</code> property.</p>
+        <p>Software using ATK can read and write to an object's <code>accessible-name</code> and <code>accessible-description</code> properties. In turn, AT-SPI can query the values of those properties through its <code>atspi_accessible_get_name</code> and <code>atspi_accessible_get_description</code> functions.</p>
+        <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. [what about description in UIA?].</p>
+        <p>The approach to <a class="termref">accessible names</a> and <a class="termref">accessible descriptions</a> in AXAPI is somewhat different to the other platform APIs. <a class="termref" title="accessible name">Accessible names</a> are exposed using the <code>AXTitle</code> property when the name is visually rendered, while the <code>AXDescription</code> property is used when the object's name is not rendered visually. An object's <a class="termref">accessible description</a>, where provided, should always be exposed in the <code>AXHelp</code> property.</p>
+      </section>
+    </section>
 </section>
 <section id="normative" class="normative">
 	<h2>Normative User Agent Implementation Requirements for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></h2>
