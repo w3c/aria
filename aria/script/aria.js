@@ -1,3 +1,4 @@
+var roleInfo = {};
 
 function updateReferences(base) {
     // update references to properties
@@ -10,6 +11,11 @@ function updateReferences(base) {
         var ref = item.getAttribute("title");
         if (!ref) {
             ref = content;
+            if (item.localName == 'rref') {
+                if (roleInfo[ref]) {
+                    ref = roleInfo[ref].fragID;
+                }
+            }
         }
         sp.href = "#" + ref;
         sp.setAttribute("title", content);
@@ -186,18 +192,19 @@ var preProc = {
             //   4. grab any local states and properties so we can hand those down to the children
             //
 
-            var roleInfo = {};
             var subRoles = [];
             var roleIndex = "";
 
             $.each(document.querySelectorAll("rdef"), function(i,item) {
                 var parentNode = item.parentNode;
+                var $pn = $(parentNode) ;
                 var content = item.innerHTML;
                 var sp = document.createElement("h3");
                 var title = item.getAttribute("title");
                 if (!title) {
                     title = content;
                 }
+                var pnID = $pn.makeID("", title) ;
                 sp.className = "role-name";
                 sp.title = title;
                 // is this a role or an abstract role
@@ -214,7 +221,7 @@ var preProc = {
                 dRef.id = "desc-" + title;
                 dRef.setAttribute("role", "definition");
                 parentNode.replaceChild(sp, item);
-                roleIndex += "<dt><a href=\"#" + title + "\" class=\"role-reference\">" + content + "</a></dt>\n";
+                roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\">" + content + "</a></dt>\n";
                 roleIndex += "<dd>" + desc + "</dd>\n";
                 // grab info about this role
                 // do we have a parent class?  if so, put us in that parents list
@@ -251,7 +258,7 @@ var preProc = {
                         propList[name].roles.push(title);
                     });
                 }
-                roleInfo[title] = { "name": title, "parentRoles": parentRoles, "localprops": attrs };
+                roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
             });
 
             var getStates = function(role) {
