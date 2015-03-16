@@ -118,6 +118,51 @@
             "href": "https://developer.gnome.org/gtk3/stable/",
             "title": "GTK+ 3 Reference Manual",
             "publisher": "The GNOME Project"
+          },
+          "ACCNAME-AAM": {
+            "title": "Accessible Name and Description: Computation and API Mappings 1.1",
+            "href": "http://www.w3.org/TR/accname-aam-1.1/",
+            "status": "WD",
+            "publisher": "W3C",
+            "authors": [
+              "Joseph Scheuhammer",
+              "Michael Cooper",
+              "Andi Snow-Weaver",
+              "Aaron Leventhal"
+            ],
+            "etAl": true,
+            "deliveredBy": [
+              "http://www.w3.org/WAI/PF/"
+            ]
+          },
+          "HTML-AAM": {
+            "authors": [
+              "Steve Faulkner",
+              "Jason Kiss",
+              "Cynthia Shelly",
+              "Alexander Surkov"
+            ],
+            "etAl": true,
+            "href": "http://www.w3.org/TR/html-aam/",
+            "title": "HTML Accessibility API Mappings 1.0",
+            "status": "ED",
+            "publisher": "W3C",
+            "deliveredBy": [
+              "http://www.w3.org/html"
+            ]
+          },
+          "SVG-AAM": {
+            "title": "SVG Accessibility API Mappings 1.1",
+            "href": "http://www.w3.org/TR/svg-aam-1.1/",
+            "status": "WD",
+            "publisher": "W3C",
+            "authors": [
+              "Richard Schwerdtfeger",
+            ],
+            "etAl": true,
+            "deliveredBy": [
+              "http://www.w3.org/WAI/PF/"
+            ]
           }
         },
 
@@ -146,7 +191,7 @@
 </head>
 <body>
   <section id='abstract'>
-    <p>This document describes how <a class="termref" title="user agent">user agents</a> should map <abbr title="HyperText Markup Language">HTML</abbr>5.1 [[!HTML51]] elements and attributes to platform <a class="termref" title="accessibility api">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a> roles, states and properties on a variety of platforms, based on the <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/">Core Accessibility API Mappings</a> [[!CORE-AAM]] specification for <a class="termref" title="user agent">user agents</a>. This document is designed to leverage these core mappings for the HTML5.1 host language. Like the core specification, this document defines how the HTML <a class="termref">user agent</a> must respond to keyboard focus, <a href="#def_role" class="termref">roles</a>, <a href="def_state" class="termref">states</a>, and <a href="#def_property" class="termref">properties</a> provided in Web content via <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [[!WAI-ARIA]]. Users often access the content using assistive technologies that rely on platform <a class="termref" title="accessibility api">Accessibility application programming interfaces (APIs)</a> to obtain and interact with information from the page. The <abbr title="HTML Accessibility API Mappings">HTML-AAM</abbr> 1.1 specification defines how HTML <a class="termref">user agent</a> implementations must expose content to <a class="termref" title="accessibility API">accessibility APIs</a>, helping to ensure that this information appears in a manner consistent with author intent in HTML documents. It provides recommendations on deriving the accessible names and descriptions for HTML5.1 elements. It also provides accessible feature implementation examples. This document is part of a suite of Accessibility <abbr title="Application Programming Interface">API</abbr> mapping specifications for content rendered by <a class="termref" title="user agent">user agents</a> as shown here: xxxx. </p>
+    <p>This document defines how <a class="termref" title="user agent">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr> 5.1 [[!HTML51]] elements and attributes to platform <a class="termref" title="Accessibility API">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It leverages and extends the <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> [[!CORE-AAM]] and the <cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> [[!ACCNAME-AAM]] for use with the HTML 5.1 host language.</p>
   </section>
   <section id="sotd">
   	<p class="warning"><strong>This document is subject to change without notice.</strong></p>
@@ -155,14 +200,18 @@
   </section>
   <section id="intro" class="informative">
     <h2>Introduction</h2>
-      <p>In traditional desktop graphical user interface (<abbr title="graphical user interface">GUI</abbr>) applications, components of the user interface (<abbr title="user interface">UI</abbr>) are displayed when needed and hidden when not needed based on user interactions. <a class="termref" title="accessibility API">Accessibility APIs</a> are used to communicate <a class="termref" title="semantics">semantic</a> information about the UI to <a class="termref" title="assistive technologies">assistive technology</a> software used by people with disabilities. These APIs constitute a contract between applications and assistive technologies, such as screen readers, magnifiers, alternate input devices, and speech command and control, to enable them to access the appropriate semantics needed to produce a usable alternative to interactive applications. For example, screen reading software for blind users can determine whether a particular UI component is a menu, button, text field, list box, etc.</p> 
-      
+    <p>Like the <a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> specification, this document defines how HTML user agents must respond to keyboard focus, as well as <a class="termref">role</a>, <a class="termref">state</a> and <a class="termref">property</a> information provided for Web content. Where an HTML element or attribute has default <cite><a href="http://www.w3.org/TR/wai-aria-1.1/">Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Applications ">WAI-ARIA</abbr>) 1.1</a></cite> [[!WAI-ARIA]] semantics, it must be exposed to the platform <a class="termref" title="Accessibility API">accessibility APIs</a> according to the relevant WAI-ARIA mappings defined in the <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/">Core Accessibility API Mappings</a> specification. Where an HTML element or attribute does not have default WAI-ARIA semantics, the applicable mapping for each platform <a class="termref" title="Accessibility API">accessibility API</a> is defined by this specification.</p>
+    <p>This document also adapts the <a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings</a> [[!ACCNAME-AAM]] for deriving the <a class="termref" title="Accessible Name">accessible names</a> and <a class="termref" title="Accessible Description">accessible descriptions</a> of HTML 5.1 [[!HTML51]] elements, and provides accessible implementation examples for specific HTML 5.1 elements and features.</p>
+    <p>Users often access HTML content using assistive technologies that rely on platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> to obtain and interact with information from the page. This document is part of the following suite of accessibility API mapping specifications for content rendered by user agents: </p>
+    <ul>
+       <li><cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings</a></cite> [[!ACCNAME-AAM]]</li>
+       <li><cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[!CORE-AAM]]</li>
+       <li><cite><a href="http://www.w3.org/TR/html-aam/">HTML Accessibility API Mappings</a></cite> [[HTML-AAM]]</li>
+       <li><cite><a href="http://www.w3.org/TR/svg2-aam/">SVG Accessibility API Mappings</a></cite> [[SVG-AAM]]</li>
+    </ul>      
     <section id="intro_aapi">
       <h3>Accessibility APIs</h3>
-      <p>To provide access to desktop GUI applications, <a class="termref">assistive technologies</a> originally used heuristic techniques to determine the meaning of the user interface and build an alternative off-screen model. For example, a row of labels displayed horizontally near the top of an application window might be a menu. Labels with a border drawn around them might be buttons. Heuristic techniques are not always accurate, however, and require assistive technologies to be updated whenever the software application is updated.</p>
-      <p>A much better technique is for the software application to provide the necessary information for interoperability with <a class="termref" title="assistive technologies">assistive technology</a>. To meet this need, platform owners have developed specialized interfaces, called <a class="termref" title="accessibility API">accessibility APIs</a>, which can be used to communicate accessibility information about user interfaces to assistive technologies. </p>
-      <p>In the case of static Web pages, the Document Object Model (<abbr title="document object model">DOM</abbr>) is used to represent the structure and <a class="termref">state</a> of the <a class="termref" title="element">elements</a> in the document being rendered by a <a class="termref">user agent</a>. The elements of the document are organized into a hierarchy of nodes known as the DOM tree. For traditional static Web pages, assistive technologies, such as screen readers, interact with <a class="termref" title="user agent">user agents</a> using the DOM. For UI elements that are known to be interactive, such as HTML form elements and desktop applications, assistive technologies may use platform <a class="termref" title="accessibility API">accessibility APIs</a>.</p>
-      <p><a class="termref" title="accessibility API">Accessibility APIs</a> covered by this document are:</p>
+      <p><a class="termref" title="Accessibility API">Accessibility APIs</a> covered by this document are:</p>
       <ul>
         <li><cite><a href="http://msdn.microsoft.com/en-us/library/ms697707.aspx">Microsoft Active Accessibility 2.0</a></cite> [[MSAA]] with <cite><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd561898(v=vs.85).aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></cite> [[UIA-EXPRESS]]</li>
         <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
@@ -171,11 +220,7 @@
         <li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/Reference/Reference.html">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
       </ul>
       <p>If user agent developers need to expose information using other <a class="termref" title="accessibility API">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.</p>
-      <div class="note" id="ftn.AtkAtspiNote">
-        <p>The reason that two Linux/GNOME <a class="termref" title="accessibility API">accessibility APIs</a>, <abbr title="Accessibility Toolkit">ATK</abbr> and <abbr title="Assistive Technology Service Provider Interface">AT-SPI</abbr>, are referenced is due to the different purposes that they serve. ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.  </p>
-        <p>For example, the GNOME GUI toolkit [[GTK]], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that <abbr title="GNOME toolkit">GTK</abbr> widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties. </p>
-        <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers.  In the context of mapping WAI-ARIA roles, states and properties, <a class="termref" title="user agent">user agents</a> are implementors and use ATK. Asisstive technologies are consumers, and use AT-SPI. </p>
-      </div>
+      <p>For more information regarding <a class="termref" title="Accessibility API">accessibility APIs</a>, refer to <a href="http://www.w3.org/TR/core-aam-1.1/#intro_aapi">section 1.1 Accessibility APIs</a> of the <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[!CORE-AAM]].</p>
     </section>
   </section>
   <section id="conformance">
@@ -189,16 +234,19 @@
     <div data-include="../common/terms.html" data-oninclude="fixIncludes"></div>
   </section>
   <section>
-    <h2>Mapping HTML to <a class="termref" title="Accessibility API">Accessibility APIs</a></h2>
-    <section>
-      <h3>Relation to <a href="http://www.w3.org/TR/2002/REC-UAAG10-20021217/">Core Accessibility API Mappings</a> [[!CORE-AAM]]</h3>
-      <p class="ednote">to do</p>
+    <h2>Mapping HTML to Accessibility APIs</h2>
+    <section id="mapping_general">
+      <h3>General Rules for Exposing WAI-ARIA Semantics</h3>
+      <p>WAI-ARIA support was first introduced to HTML in HTML5 [[!HTML5]]. Where an HTML element or attribute has default WAI-ARIA semantics, it <span class="rfc2119">MUST</span> be exposed to the platform <a class="termref" title="Accessibility API">accessibility APIs</a> in a way that conforms to <a class="core-mapping" href="#mapping_general">General rules for exposing WAI-ARIA semantics</a> in the <a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[!CORE-AAM]].</p>
     </section>
-    <section>
-      <h3>Exposing HTML Features That Do Not Directly Map to <a class="termref" title="Accessibility API">Accessibility APIs</a></h3>
-      <p>HTML may have features that are not supported by <a class="termref" title="accessibility API">accessibility APIs</a> at the time of publication. There is not a one to one relationship between all features and platform <a class="termref" title="accessibility API">accessibility APIs</a>. When HTML roles, states and properties do not directly map to an <a class="termref">accessibility API</a>, and there is a method in the API to expose a text string, expose the undefined role, states and properties via that method.</p>
-      <p>IAccessible2 and ATK use object attributes to expose semantics that are not directly supported in the APIs. Object attributes are name-value pairs that are loosely specified, and very flexible for exposing things where there is no specific interface in an <a class="termref">accessibility API</a>. For example, at this time, the HTML5 <code><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-header-element">header</a></code> element can be exposed via an object attribute because <a class="termref" title="accessibility API">accessibility APIs</a> have no such role available. <!--Specific rules for exposing object   attribute name-value pairs are described throughout this document, and rules for the general cases not covered are in State and Property Mapping.    --></p>
-      <p>For <a class="termref" title="accessibility API">accessibility APIs</a> that do not have "object attributes" per se, it is useful to find a similar mechanism or develop a new interface to expose name/value pairs. Under the Mac OS X Accessibility Protocol, all getters are already simply name-value pairs and it is possible to  expose new semantics whenever necessary. Keep in mind, this also requires working with the assistive technology developers to gain support for the new semantics.</p>
+    <section id="mapping_conflicts">
+      <h3>Conflicts Between Native Markup Semantics and WAI-ARIA</h3>
+      <p>Where the host language is HTML 5.1 [[!HTML51]], user agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> in the <a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[!CORE-AAM]]. 
+    </section>
+    <section id="mapping_nodirect">
+      <h3>Exposing HTML Features That Do Not Directly Map to Accessibility APIs</h3>
+      <p>HTML may have features that are not supported by <a class="termref" title="accessibility API">accessibility APIs</a> at the time of publication. There is not a one to one relationship between all features and platform <a class="termref" title="accessibility API">accessibility APIs</a>. When HTML roles, states and properties do not directly map to an <a class="termref">accessibility API</a>, and there is a method in the API to expose a text string, user agents <span class="rfc2119">MUST</span> expose the undefined role, states and properties via that method.</p>
+      <p>For HTML elements or attributes with default WAI-ARIA semantics, user agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a> in the <a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[!CORE-AAM]].</p>
       <section>
         <h4>Other Accessibility Implementations</h4>
         <section>
@@ -249,7 +297,7 @@
               </tr>
               <tr tabindex="-1" id="el-a-nohref">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-a-element"><code>a</code></a> <span class="el-context">(no <a href="http://www.w3.org/html/wg/drafts/html/master/links.html#attr-hyperlink-href"><code>href</code></a> attribute)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -295,7 +343,7 @@
               </tr>
               <tr tabindex="-1" id="el-abbr">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-abbr-element"><code>abbr</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -351,7 +399,7 @@
               </tr>
               <tr tabindex="-1" id="el-address">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-address-element"><code>address</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -407,7 +455,7 @@
               </tr>
               <tr tabindex="-1" id="el-area-nohref">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-area-element"><code>area</code></a> <span class="el-context">(no <a href="http://www.w3.org/html/wg/drafts/html/master/links.html#attr-hyperlink-href"><code>href</code></a> attribute)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -455,7 +503,7 @@
               </tr>
               <tr tabindex="-1" id="el-audio">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-audio-element"><code>audio</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -493,7 +541,7 @@
               </tr>
               <tr tabindex="-1" id="el-b">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-b-element"><code>b</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Doesn't have an accessible. Exposed by <code>UIA_FontWeightAttributeId</code> of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -529,7 +577,7 @@
               </tr>
               <tr tabindex="-1" id="el-base">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-base-element"><code>base</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -548,7 +596,7 @@
               </tr>
               <tr tabindex="-1" id="el-bdi">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-bdi-element"><code>bdi</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">?</td>
                   <td class="ia2">
                     <div class="general">
@@ -567,7 +615,7 @@
               </tr>
               <tr tabindex="-1" id="el-bdo">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-bdo-element"><code>bdo</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -605,7 +653,7 @@
               </tr>
               <tr tabindex="-1" id="el-blockquote">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-blockquote-element"><code>blockquote</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -660,7 +708,7 @@
               </tr>
               <tr tabindex="-1" id="el-br">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-br-element"><code>br</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_WHITESPACE</code>
@@ -694,7 +742,7 @@
               </tr>
               <tr tabindex="-1" id="el-canvas">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-canvas-element"><code>canvas</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GRAPHIC</code>
@@ -735,7 +783,7 @@
               </tr>
               <tr tabindex="-1" id="el-caption">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-caption-element"><code>caption</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -795,7 +843,7 @@
               </tr>
               <tr tabindex="-1" id="el-cite">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-cite-element"><code>cite</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -830,7 +878,7 @@
               </tr>
               <tr tabindex="-1" id="el-code">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-code-element"><code>code</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -865,7 +913,7 @@
               </tr>
               <tr tabindex="-1" id="el-col">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-col-element"><code>col</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -884,7 +932,7 @@
               </tr>
               <tr tabindex="-1" id="el-colgroup">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-colgroup-element"><code>colgroup</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -963,7 +1011,7 @@
               </tr>
               <tr tabindex="-1" id="el-dd">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-dd-element"><code>dd</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -1004,7 +1052,7 @@
               </tr>
               <tr tabindex="-1" id="el-del">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/edits.html#the-del-element"><code>del</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -1066,7 +1114,7 @@
               </tr>
               <tr tabindex="-1" id="el-dfn">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-dfn-element"><code>dfn</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -1124,7 +1172,7 @@
               </tr>
              <tr tabindex="-1" id="el-div">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-div-element"><code>div</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -1171,7 +1219,7 @@
               </tr> 
               <tr tabindex="-1" id="el-dl">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-dl-element"><code>dl</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_LIST</code>
@@ -1216,7 +1264,7 @@
               </tr>
               <tr tabindex="-1" id="el-dt">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-dt-element"><code>dt</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_LISTITEM</code>
@@ -1268,7 +1316,7 @@
               </tr>
               <tr tabindex="-1" id="el-em">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-em-element"><code>em</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -1303,7 +1351,7 @@
               </tr>
               <tr tabindex="-1" id="el-embed">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-embed-element"><code>embed</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_CLIENT</code>
@@ -1334,7 +1382,7 @@
               </tr>
               <tr tabindex="-1" id="el-fieldset">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-fieldset-element"><code>fieldset</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -1380,7 +1428,7 @@
               </tr>
               <tr tabindex="-1" id="el-figcaption">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-figcaption-element"><code>figcaption</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -1434,7 +1482,7 @@
               </tr>
               <tr tabindex="-1" id="el-figure">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-figure-element"><code>figure</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -1488,7 +1536,7 @@
               </tr>
               <tr tabindex="-1" id="el-footer">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-footer-element"><code>footer</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -1577,7 +1625,7 @@
               </tr>
               <tr tabindex="-1" id="el-head">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-head-element"><code>head</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -1596,7 +1644,7 @@
               </tr>
               <tr tabindex="-1" id="el-header">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/sections.html#the-header-element"><code>header</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -1681,7 +1729,7 @@
               </tr>
               <tr tabindex="-1" id="el-html">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/the-root-element.html#the-html-element"><code>html</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -1700,7 +1748,7 @@
               </tr>
               <tr tabindex="-1" id="el-i">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-i-element"><code>i</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Exposed by <code>UIA_IsItalicAttributeId</code> of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -1735,7 +1783,7 @@
               </tr>
               <tr tabindex="-1" id="el-iframe">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-iframe-element"><code>iframe</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DOCUMENT</code> ??pane??
@@ -1914,7 +1962,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-date">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#date-state-(type=date)">Date</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DROPLIST</code>
@@ -1952,7 +2000,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-dateandtime">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#date-and-time-state-(type=datetime)">Date and Time</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DROPLIST</code>
@@ -1990,7 +2038,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-localdateandtime">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#local-date-and-time-state-(type=datetime-local)">Local Date and Time</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DROPLIST</code>
@@ -2037,7 +2085,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-file">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#file-upload-state-(type=file)">File Upload</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_PUSHBUTTON</code>
@@ -2082,7 +2130,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-hidden">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#hidden-state-(type=hidden)">Hidden</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Do not expose this object</div>
                       </td>
@@ -2117,7 +2165,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-input-month">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#month-state-(type=month)">Month</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DROPLIST</code>
@@ -2254,7 +2302,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-time">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#time-state-(type=time)">Time</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_SPINBUTTON</code>
@@ -2300,7 +2348,7 @@
               </tr>
               <tr tabindex="-1" id="el-input-week">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-input-element"><code>input</code></a> <span class="el-context">(<a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#attr-input-type"><code>type</code></a> attribute in the <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#week-state-(type=week)">Week</a> state)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_DROPLIST</code>
@@ -2338,7 +2386,7 @@
               </tr>
               <tr tabindex="-1" id="el-ins">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/edits.html#the-ins-element"><code>ins</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                       </div>
@@ -2373,7 +2421,7 @@
               </tr>
               <tr tabindex="-1" id="el-kbd">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-kbd-element"><code>kbd</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -2419,7 +2467,7 @@
               </tr>
               <tr tabindex="-1" id="el-label">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-label-element"><code>label</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -2486,7 +2534,7 @@
               </tr>
                   <tr tabindex="-1" id="el-legend">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-legend-element"><code>legend</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -2563,7 +2611,7 @@
               </tr>
               <tr tabindex="-1" id="el-link">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-link-element"><code>link</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Not mapped</div>
                   </td>
@@ -2591,7 +2639,7 @@
               </tr>
               <tr tabindex="-1" id="el-map">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-map-element"><code>map</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -2622,7 +2670,7 @@
               </tr>
               <tr tabindex="-1" id="el-mark">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-mark-element"><code>mark</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -2713,7 +2761,7 @@
               </tr>
               <tr tabindex="-1" id="el-meta">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-meta-element"><code>meta</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -2732,7 +2780,7 @@
               </tr>
               <tr tabindex="-1" id="el-meter">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-meter-element"><code>meter</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -2791,7 +2839,7 @@
               </tr>
               <tr tabindex="-1" id="el-noscript">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/scripting-1.html#the-noscript-element"><code>noscript</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -2810,7 +2858,7 @@
               </tr>
               <tr tabindex="-1" id="el-object">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-object-element"><code>object</code></a></th>
-                  <td class="aria">no role</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">?? would pane or window work??<br><br>depends on format of data file. examples include document, client, graphic and unknown (tested using <a href="http://www.student.oulu.fi/%7Esairwas/object-test/">object</a> test suite).<br><br>
                     <div class="general">Use MSAA or UIA guidance</div>
                   </td>
@@ -2879,7 +2927,7 @@
               </tr>
               <tr tabindex="-1" id="el-p">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-p-element"><code>p</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -2925,7 +2973,7 @@
               </tr>
               <tr tabindex="-1" id="el-param">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-param-element"><code>param</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -2944,7 +2992,7 @@
               </tr>
               <tr id="el-picture" tabindex="-1">
                 <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#the-picture-element"><code>picture</code></a></th>
-                <td class="aria">None</td>
+                <td class="aria">No corresponding role</td>
                 <td class="uia-express"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -2953,7 +3001,7 @@
               </tr>
               <tr tabindex="-1" id="el-pre">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/grouping-content.html#the-pre-element"><code>pre</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code> ??group?
@@ -3014,7 +3062,7 @@
               </tr>
               <tr tabindex="-1" id="el-q">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-q-element"><code>q</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code> ??group??
@@ -3064,7 +3112,7 @@
               </tr>
               <tr tabindex="-1" id="el-rp">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-rp-element"><code>rp</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code> ??group??
@@ -3092,7 +3140,7 @@
               </tr>
               <tr tabindex="-1" id="el-rt">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-rt-element"><code>rt</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -3118,7 +3166,7 @@
               </tr>
               <tr tabindex="-1" id="el-ruby">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-ruby-element"><code>ruby</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code> ??group??
@@ -3146,7 +3194,7 @@
               </tr>
               <tr tabindex="-1" id="el-s">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-s-element"><code>s</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3181,7 +3229,7 @@
               </tr>
               <tr tabindex="-1" id="el-samp">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-samp-element"><code>samp</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3216,7 +3264,7 @@
               </tr>
               <tr tabindex="-1" id="el-script">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/scripting-1.html#the-script-element"><code>script</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -3274,7 +3322,7 @@
               </tr>
               <tr tabindex="-1" id="el-small">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-small-element"><code>small</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Exposed by <code>UIA_FontSizeAttributeId</code> of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3309,7 +3357,7 @@
               </tr>
               <tr tabindex="-1" id="el-source">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-source-element"><code>source</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Do not expose this object</div>
                   </td>
@@ -3328,7 +3376,7 @@
               </tr>
               <tr tabindex="-1" id="el-span">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-span-element"><code>span</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -3360,7 +3408,7 @@
               </tr>
               <tr tabindex="-1" id="el-strong">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-strong-element"><code>strong</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                      <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3395,7 +3443,7 @@
               </tr>
               <tr tabindex="-1" id="el-style">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-style-element"><code>style</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Do not expose this object</div>
                   </td>
@@ -3414,7 +3462,7 @@
               </tr>
               <tr tabindex="-1" id="el-sub">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-sub-and-sup-elements"><code>sub</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Exposed by <code>UIA_IsSubscriptAttributeId</code> of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3449,7 +3497,7 @@
               </tr>
               <tr tabindex="-1" id="el-summary">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/interactive-elements.html#the-summary-element"><code>summary</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_PUSHBUTTON</code>
@@ -3492,7 +3540,7 @@
               </tr>
               <tr tabindex="-1" id="el-sup">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-sub-and-sup-elements"><code>sup</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Exposed by <code>UIA_IsSuperscriptAttributeId</code> of the <code>TextRange</code> control pattern implemented on a parent accessible.
                     </div>
@@ -3527,7 +3575,7 @@
               </tr>
               <tr tabindex="-1" id="el-svg">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#svg"><code>svg</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GRAPHIC</code>
@@ -3563,7 +3611,7 @@
               </tr>
               <tr tabindex="-1" id="el-table">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-table-element"><code>table</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TABLE</code>
@@ -3618,7 +3666,7 @@
               </tr>
               <tr tabindex="-1" id="el-tbody">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-tbody-element"><code>tbody</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -3642,7 +3690,7 @@
               </tr>
               <tr tabindex="-1" id="el-td">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-td-element"><code>td</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_CELL</code>
@@ -3709,7 +3757,7 @@
               </tr>
               <tr tabindex="-1" id="el-tfoot">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-tfoot-element"><code>tfoot</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -3733,7 +3781,7 @@
               </tr>
               <tr tabindex="-1" id="el-th">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-th-element"><code>th</code></a> <span class="el-context">(is neither a column header nor a row header)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_CELL</code>
@@ -3779,7 +3827,7 @@
               </tr>
               <tr tabindex="-1" id="el-th-columnheader">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-th-element"><code>th</code></a> <span class="el-context">(is a column header)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_COLUMNHEADER</code>
@@ -3832,7 +3880,7 @@
               </tr>
               <tr tabindex="-1" id="el-th-rowheader">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-th-element"><code>th</code></a> <span class="el-context">(is a row header)</span></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_ROWHEADER</code>
@@ -3885,7 +3933,7 @@
               </tr>
               <tr tabindex="-1" id="el-thead">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-thead-element"><code>thead</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_GROUPING</code>
@@ -3908,7 +3956,7 @@
               </tr>
               <tr tabindex="-1" id="el-time">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-time-element"><code>time</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
@@ -3943,7 +3991,7 @@
               </tr>
               <tr tabindex="-1" id="el-title">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#the-title-element"><code>title</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -3962,7 +4010,7 @@
               </tr>
               <tr tabindex="-1" id="el-tr">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/tabular-data.html#the-tr-element"><code>tr</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="role">
                           <span class="type">Role: </span><code>ROLE_SYSTEM_ROW</code>
@@ -4046,7 +4094,7 @@
               </tr>
               <tr tabindex="-1" id="el-var">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-var-element"><code>var</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                     <div class="general">Doesn't have an accessible. Styles used are exposed by UIA text attribute identifiers of the <code>TextRange</code> control pattern implemented on a parent accessible. 
                     </div>
@@ -4081,7 +4129,7 @@
               </tr>
               <tr tabindex="-1" id="el-video">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-video-element"><code>video</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">?</td>
                   <td class="ia2">
                     <div class="role">
@@ -4111,7 +4159,7 @@
               </tr>
               <tr tabindex="-1" id="el-wbr">
                   <th><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-wbr-element"><code>wbr</code></a></th>
-                  <td class="aria">None</td>
+                  <td class="aria">No corresponding role</td>
                   <td class="uia-express">
                       <div class="general">Not mapped</div>
                   </td>
@@ -6876,7 +6924,7 @@
     </section>
     <section>
       <h3><code>input type="button"</code>, <code>input type="submit"</code> and <code>input type="reset"</code></h3>
-      <p>If the control has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the control has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <p>Otherwise the accessible name is derived from the following sources;  a non-empty  <code>value</code> attribute, or a non-empty <a href="http://www.w3.org/html/wg/drafts/html/master/dom.html#attr-title"><code>title</code></a> attribute.</p>
       <h4><code>input type="button"</code> ,<code> input type="submit"</code> and <code>input type="reset"</code> Accessible Name Calculation</h4>
       <ol>
@@ -6919,7 +6967,7 @@
     </section>
     <section>
       <h3><code>button</code> Element</h3>
-      <p>If the <code>button</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the <code>button</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <p>Otherwise the accessible name is derived from the following sources; non-empty <code>button</code> element  subtree or a non-empty <a href="http://www.w3.org/html/wg/drafts/html/master/dom.html#attr-title"><code>title</code></a> attribute.</p>
       <h4><code>button</code> Element Accessible Name Calculation</h4>
       <ol>
@@ -6937,7 +6985,7 @@
     </section>
     <section>
       <h3>Other Form Elements</h3>
-      <p>If the control has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the control has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <p>Otherwise the accessible name is derived from the following sources;  a non-empty associated <a href="http://www.w3.org/html/wg/drafts/html/master/forms.html#the-label-element"><code>label</code></a> element  or a non-empty <a href="http://www.w3.org/html/wg/drafts/html/master/dom.html#attr-title"><code>title</code></a> attribute.</p>
       <h4>Other Form Elements Accessible Name Calculation</h4>
       <ol>
@@ -6956,7 +7004,7 @@
     </section>
     <section>
       <h3><code>summary</code> Element </h3>
-      <p>If the <code>summary</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the <code>summary</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <p>Otherwise the accessible name is derived from the following sources;   non-empty  <code>summary</code> element  subtree or a non-empty <a href="http://www.w3.org/html/wg/drafts/html/master/dom.html#attr-title"><code>title</code></a> attribute or the default text string inserted by the browser</p>
       <h4><code>summary</code> Element Accessible Name Calculation</h4>
       <ol>
@@ -6976,7 +7024,7 @@
     </section>
     <section>
       <h3><code>figure</code> and <code>figcaption</code> Elements </h3>
-      <p>If the <code>figure</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the <code>figure</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <h4><code>figure</code> Element Accessible Name Calculation</h4>
       <ol>
         <li>Use <code>aria-labelledby</code></li>
@@ -6994,7 +7042,7 @@
     </section>
     <section>
       <h3><code>img</code> Element</h3>
-      <p>If the <code>img</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the <code>img</code> element  has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <h4><code>img</code> element Accessible Name Calculation</h4>
       <ol>
         <li>Use <code>aria-labelledby</code></li>
@@ -7011,7 +7059,7 @@
     </section>
     <section>
       <h3><code>table</code> Element</h3>
-      <p>If the table element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>.</p>
+      <p>If the table element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <h4><code>table</code> Element Accessible Name Calculation</h4>
       <ol>
         <li>Use <code>aria-labelledby</code></li>
@@ -7032,7 +7080,7 @@
     </section>
     <section>
       <h3><code>a</code> Element</h3>
-      <p>If the <code>a</code> element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the <code>a</code> element  has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <h4><code>a</code> Element Accessible Name Calculation</h4>
       <ol>
         <li>Use <code>aria-labelledby</code></li>
@@ -7051,7 +7099,7 @@
     <section>
       <h3>Text Level Elements Not listed Elsewhere</h3>
       <p><a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-em-element"><code>em</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-strong-element"><code>strong</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-small-element"><code>small</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-s-element"><code>s</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-cite-element"><code>cite</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-q-element"><code>q</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-dfn-element"><code>dfn</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-abbr-element"><code>abbr</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-time-element"><code>time</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-code-element"><code>code</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-var-element"><code>var</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-samp-element"><code>samp</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-kbd-element"><code>kbd</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-sub-and-sup-elements"><code>sub</code> and <code>sup</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-i-element"><code>i</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-b-element"><code>b</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-u-element"><code>u</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-mark-element"><code>mark</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-ruby-element"><code>ruby</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-rt-element"><code>rt</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-rp-element"><code>rp</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-bdi-element"><code>bdi</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-bdo-element"><code>bdo</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-br-element"><code>br</code></a>, <a href="http://www.w3.org/html/wg/drafts/html/master/text-level-semantics.html#the-wbr-element"><code>wbr</code></a></p>
-      <p>If the  element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in  section <a href="http://www.w3.org/TR/wai-aria/roles#namecalculation">5.2.7.  Accessible Name Calculation</a> of the <a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0 specification</a>. </p>
+      <p>If the element has an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby"><code>aria-labelledby</code></a> attribute the accessible name is to be calculated using the algorithm defined in <a href="http://rawgit.com/w3c/aria/master/accname-aam/accname-aam.html">Accessible Name and Description: Computation and API Mappings 1.1</a>. </p>
       <h4>Text Level Element Accessible Name Calculation</h4>
       <ol>
         <li>Use <code>aria-labelledby</code></li>
@@ -7094,10 +7142,8 @@
   <section id="acknowledgements" class="appendix">
     <h2>Acknowledgements</h2>
     <section>
-      <h3 id="funders">Enabling Funders</h3>
-      <p>The development of this publication is being funded in part by <a href="http://www.adobe.com">Adobe Systems</a>. The content  of this publication does not necessarily reflect the views or policies of  Adobe, nor does mention of trade names, commercial products, or organizations imply endorsement by Adobe. </p>
-      <p>The development of this publication is being funded in part by <a href="http://www.paciellogroup.com">The Paciello Group</a>. The content  of this publication does not necessarily reflect the views or policies of  The Paciello Group, nor does mention of trade names, commercial products, or organizations imply endorsement by The Paciello Group. </p>
-    </section>
+     ...
+</section>
   </section>
 </body>
 </html>
