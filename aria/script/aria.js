@@ -1,5 +1,119 @@
 var roleInfo = {};
 
+respecEvents.sub("end-all", function() {
+    var m = document.URL;
+    if (m.match(/\?saveRoles/)) {
+        window.alert("would have saved the serialized roles");
+        var $modal
+        ,   $overlay
+        ,   buttons = {}
+        ;
+        var conf, doc, msg;
+        var ui = {
+            closeModal: function () {
+                if ($overlay) $overlay.fadeOut(200, function () { $overlay.remove(); $overlay = null; });
+                if (!$modal) return;
+                $modal.remove();
+                $modal = null;
+            }
+        ,   freshModal: function (title, content) {
+                if ($modal) $modal.remove();
+                if ($overlay) $overlay.remove();
+                var width = 500;
+                $overlay = $("<div id='respec-overlay' class='removeOnSave'></div>").hide();
+                $modal = $("<div id='respec-modal' class='removeOnSave'><h3></h3><div class='inside'></div></div>").hide();
+                $modal.find("h3").text(title);
+                $modal.find(".inside").append(content);
+                $("body")
+                    .append($overlay)
+                    .append($modal);
+                $overlay
+                    .click(this.closeModal)
+                    .css({
+                        display:    "block"
+                    ,   opacity:    0
+                    ,   position:   "fixed"
+                    ,   zIndex:     10000
+                    ,   top:        "0px"
+                    ,   left:       "0px"
+                    ,   height:     "100%"
+                    ,   width:      "100%"
+                    ,   background: "#000"
+                    })
+                    .fadeTo(200, 0.5)
+                    ;
+                $modal
+                    .css({
+                        display:        "block"
+                    ,   position:       "fixed"
+                    ,   opacity:        0
+                    ,   zIndex:         11000
+                    ,   left:           "50%"
+                    ,   marginLeft:     -(width/2) + "px"
+                    ,   top:            "100px"
+                    ,   background:     "#fff"
+                    ,   border:         "5px solid #666"
+                    ,   borderRadius:   "5px"
+                    ,   width:          width + "px"
+                    ,   padding:        "0 20px 20px 20px"
+                    ,   maxHeight:      ($(window).height() - 150) + "px"
+                    ,   overflowY:      "auto"
+                    })
+                    .fadeTo(200, 1)
+                    ;
+            }
+        };
+        var supportsDownload = $("<a href='foo' download='x'>A</a>")[0].download === "x"
+        ;
+        var $div = $("<div></div>")
+        ,   buttonCSS = {
+                background:     "#eee"
+            ,   border:         "1px solid #000"
+            ,   borderRadius:   "5px"
+            ,   padding:        "5px"
+            ,   margin:         "5px"
+            ,   display:        "block"
+            ,   width:          "100%"
+            ,   color:          "#000"
+            ,   textDecoration: "none"
+            ,   textAlign:      "center"
+            ,   fontSize:       "inherit"
+            }
+        ,   addButton = function (title, content, fileName, popupContent) {
+                if (supportsDownload) {
+                    $("<a></a>")
+                        .appendTo($div)
+                        .text(title)
+                        .css(buttonCSS)
+                        .attr({
+                            href:   "data:text/html;charset=utf-8," + encodeURIComponent(content)
+                        ,   download:   fileName
+                        })
+                        .click(function () {
+                            ui.closeModal();
+                        })
+                        ;
+                }
+                else {
+                    $("<button></button>")
+                        .appendTo($div)
+                        .text(title)
+                        .css(buttonCSS)
+                        .click(function () {
+                            popupContent();
+                            ui.closeModal();
+                        })
+                        ;
+                }
+                
+            }
+        ;
+        var s = JSON.stringify(roleInfo, null, '\t') ;
+        addButton("Save Role Values", s, "roleInfo.js", s) ;
+        ui.freshModal("Save Roles, States, and Properties", $div);
+    }
+});
+
 function updateReferences(base) {
     // update references to properties
 
