@@ -3,7 +3,6 @@ var roleInfo = {};
 respecEvents.sub("end-all", function() {
     var m = document.URL;
     if (m.match(/\?saveRoles/)) {
-        window.alert("would have saved the serialized roles");
         var $modal
         ,   $overlay
         ,   buttons = {}
