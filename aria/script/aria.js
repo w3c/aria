@@ -107,7 +107,7 @@ respecEvents.sub("end-all", function() {
                 
             }
         ;
-        var s = JSON.stringify(roleInfo, null, '\t') ;
+        var s = "var roleInfo = " + JSON.stringify(roleInfo, null, '\t') ;
         addButton("Save Role Values", s, "roleInfo.js", s) ;
         ui.freshModal("Save Roles, States, and Properties", $div);
     }
