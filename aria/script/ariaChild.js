@@ -239,7 +239,7 @@ var preProc = {
                 // build up the complete inherited SP lists for each role
                 $.each(localRoleInfo, function(i, item) {
                     var output = "";
-                    var placeholder = document.querySelector("#" + item.name + " .role-inherited");
+                    var placeholder = document.querySelector("#" + item.fragID + " .role-inherited");
                     if (placeholder) {
                         var myList = [];
                         $.each(item.parentRoles, function(j, role) {
