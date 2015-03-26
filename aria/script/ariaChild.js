@@ -83,7 +83,7 @@ function updateReferences(base) {
     });
 }
 
-// included files are brought in after proProc.  Create a DOM tree
+// included files are brought in after preProc.  Create a DOM tree
 // of content then call the updateReferences method above on it.  Return
 // the transformed content
 function fixIncludes(utils, content) {
@@ -93,8 +93,8 @@ function fixIncludes(utils, content) {
     return (base.innerHTML);
 }
 
-var preProc = {
-  apply:  function(c) {
+respecEvents.sub("end", function( msg ) {
+    if (msg == "w3c/conformance") {
             var propList = {};
             var globalSP = [];
 
@@ -239,7 +239,7 @@ var preProc = {
                 // build up the complete inherited SP lists for each role
                 $.each(localRoleInfo, function(i, item) {
                     var output = "";
-                    var placeholder = document.querySelector("#" + item.name + " .role-inherited");
+                    var placeholder = document.querySelector("#" + item.fragID + " .role-inherited");
                     if (placeholder) {
                         var myList = [];
                         $.each(item.parentRoles, function(j, role) {
@@ -362,9 +362,9 @@ var preProc = {
 
             // prune out unused rows throughout the document
             
-            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants"), function(i, item) {
+            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                 var content = $(item).text();
-                if (content.length === 1) {
+                if (content.length === 1 || content.length === 0) {
                     // there is no item - remove the row
                     item.parentNode.remove();
                 } else if (content === "Placeholder" 
@@ -380,7 +380,7 @@ var preProc = {
             PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
         }
-};
+});
 
 // Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
 
