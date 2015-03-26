@@ -362,9 +362,9 @@ var preProc = {
 
             // prune out unused rows throughout the document
             
-            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants"), function(i, item) {
+            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                 var content = $(item).text();
-                if (content.length === 1) {
+                if (content.length === 1 || content.length === 0) {
                     // there is no item - remove the row
                     item.parentNode.remove();
                 } else if (content === "Placeholder" 
