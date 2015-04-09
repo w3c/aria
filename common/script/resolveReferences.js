@@ -62,7 +62,7 @@ function updateReferences(base) {
             ref = content;
         }
         if (item.localName == 'rref') {
-            if (localRoleInfo && localRoleInfo[ref]) {
+            if (typeof localRoleInfo !== 'undefined' && localRoleInfo[ref]) {
                 ref = localRoleInfo[ref].fragID;
             } else if (baseURL && roleInfo[ref]) {
                 ref = roleInfo[ref].fragID;
