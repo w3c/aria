@@ -56,24 +56,74 @@ function updateReferences(base) {
         var content = item.textContent || item.innerText;
         var sp = document.createElement("a");
         sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
+        var URL = (item.localName === "pref" || item.localName === "sref") ? baseURL+"#" : "#";
         var ref = item.getAttribute("title");
         if (!ref) {
             ref = content;
         }
-        sp.href = baseURL + "#" + ref;
+        if (item.localName == 'rref') {
+            if (localRoleInfo && localRoleInfo[ref]) {
+                ref = localRoleInfo[ref].fragID;
+            } else if (baseURL && roleInfo[ref]) {
+                ref = roleInfo[ref].fragID;
+                URL = baseURL + "#";
+            } else {
+                // no roleInfo structure.  Make an assumption
+                URL = baseURL + "#";
+            }
+        }
+        sp.href = URL + ref;
         sp.setAttribute("title", content);
         sp.innerHTML = content;
         parentNode.replaceChild(sp, item);
     });
 }
 
-// included files are brought in after proProc.  Create a DOM tree
-// of content then call the updateReferences method above on it.  Return
-// the transformed content
-function fixIncludes(utils, content) {
+// We should be able to remove terms that are not actually
+// referenced from the common definitions
+var termNames = [] ;
+
+function restrictReferences(utils, content) {
     var base = document.createElement("div");
     base.innerHTML = content;
     updateReferences(base);
+
+    // strategy: Traverse the content finding all of the terms defined
+    $.each(base.querySelectorAll("dfn"), function(i, item) {
+        var $t = $(item) ;
+        var title = $t.dfnTitle();
+        var n = $t.makeID("dfn", title);
+        if (n) {
+            termNames[n] = $t.parent() ;
+        }
+    });
+
+    // add a handler to come in after all the definitions are resolved
+
+    respecEvents.sub('end', function(message) {
+        if (message == 'core/link-to-dfn') {
+            // all definitions are linked
+            $("a.internalDFN").each(function () {
+                var $item = $(this) ;
+                var r = $item.attr('href').replace(/^#/,"") ;
+                if (termNames[r]) {
+                    delete termNames[r] ;
+                }
+            });
+    // delete any terms that were not referenced.
+            Object.keys(termNames).forEach(function(term) {
+                var $p = $("#"+term) ;
+                if ($p) {
+                    var t = $p.dfnTitle();
+                    $p.next().remove();
+                    $p.remove() ;
+                    if (respecConfig.definitionMap[t]) {
+                        delete respecConfig.definitionMap[t];
+                    }
+                }
+            });
+        }
+    });
     return (base.innerHTML);
 }
 
