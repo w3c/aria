@@ -127,3 +127,13 @@ function restrictReferences(utils, content) {
     return (base.innerHTML);
 }
 
+// included files are brought in after proProc.  Create a DOM tree
+// of content then call the updateReferences method above on it.  Return
+// the transformed content
+function fixIncludes(utils, content) {
+    var base = document.createElement("div");
+    base.innerHTML = content;
+    updateReferences(base);
+    return (base.innerHTML);
+}
+
