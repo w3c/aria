@@ -1,117 +1,9 @@
-var roleInfo = {};
+// ariaChild.js - script for aria child specifications to use
+// when integrating content.  Requires a roleInfo.js file in the
+// same directory that contains the roleInfo data structure.
+//
 
-respecEvents.sub("end-all", function() {
-    var m = document.URL;
-    if (m.match(/\?saveRoles/)) {
-        var $modal
-        ,   $overlay
-        ,   buttons = {}
-        ;
-        var conf, doc, msg;
-        var ui = {
-            closeModal: function () {
-                if ($overlay) $overlay.fadeOut(200, function () { $overlay.remove(); $overlay = null; });
-                if (!$modal) return;
-                $modal.remove();
-                $modal = null;
-            }
-        ,   freshModal: function (title, content) {
-                if ($modal) $modal.remove();
-                if ($overlay) $overlay.remove();
-                var width = 500;
-                $overlay = $("<div id='respec-overlay' class='removeOnSave'></div>").hide();
-                $modal = $("<div id='respec-modal' class='removeOnSave'><h3></h3><div class='inside'></div></div>").hide();
-                $modal.find("h3").text(title);
-                $modal.find(".inside").append(content);
-                $("body")
-                    .append($overlay)
-                    .append($modal);
-                $overlay
-                    .click(this.closeModal)
-                    .css({
-                        display:    "block"
-                    ,   opacity:    0
-                    ,   position:   "fixed"
-                    ,   zIndex:     10000
-                    ,   top:        "0px"
-                    ,   left:       "0px"
-                    ,   height:     "100%"
-                    ,   width:      "100%"
-                    ,   background: "#000"
-                    })
-                    .fadeTo(200, 0.5)
-                    ;
-                $modal
-                    .css({
-                        display:        "block"
-                    ,   position:       "fixed"
-                    ,   opacity:        0
-                    ,   zIndex:         11000
-                    ,   left:           "50%"
-                    ,   marginLeft:     -(width/2) + "px"
-                    ,   top:            "100px"
-                    ,   background:     "#fff"
-                    ,   border:         "5px solid #666"
-                    ,   borderRadius:   "5px"
-                    ,   width:          width + "px"
-                    ,   padding:        "0 20px 20px 20px"
-                    ,   maxHeight:      ($(window).height() - 150) + "px"
-                    ,   overflowY:      "auto"
-                    })
-                    .fadeTo(200, 1)
-                    ;
-            }
-        };
-        var supportsDownload = $("<a href='foo' download='x'>A</a>")[0].download === "x"
-        ;
-        var $div = $("<div></div>")
-        ,   buttonCSS = {
-                background:     "#eee"
-            ,   border:         "1px solid #000"
-            ,   borderRadius:   "5px"
-            ,   padding:        "5px"
-            ,   margin:         "5px"
-            ,   display:        "block"
-            ,   width:          "100%"
-            ,   color:          "#000"
-            ,   textDecoration: "none"
-            ,   textAlign:      "center"
-            ,   fontSize:       "inherit"
-            }
-        ,   addButton = function (title, content, fileName, popupContent) {
-                if (supportsDownload) {
-                    $("<a></a>")
-                        .appendTo($div)
-                        .text(title)
-                        .css(buttonCSS)
-                        .attr({
-                            href:   "data:text/html;charset=utf-8," + encodeURIComponent(content)
-                        ,   download:   fileName
-                        })
-                        .click(function () {
-                            ui.closeModal();
-                        })
-                        ;
-                }
-                else {
-                    $("<button></button>")
-                        .appendTo($div)
-                        .text(title)
-                        .css(buttonCSS)
-                        .click(function () {
-                            popupContent();
-                            ui.closeModal();
-                        })
-                        ;
-                }
-                
-            }
-        ;
-        var s = "var roleInfo = " + JSON.stringify(roleInfo, null, '\t') ;
-        addButton("Save Role Values", s, "roleInfo.js", s) ;
-        ui.freshModal("Save Roles, States, and Properties", $div);
-    }
-});
+var localRoleInfo = {} ;
 
 respecEvents.sub("end", function( msg ) {
     if (msg == "w3c/conformance") {
@@ -156,62 +48,6 @@ respecEvents.sub("end", function( msg ) {
 
             });
             
-            if (!skipIndex) {
-                // we have all the properties and states - spit out the
-                // index
-                var propIndex = "";
-                var sortedList = [];
-                $.each(propList, function(i) {
-                    sortedList.push(i);
-                });
-                sortedList = sortedList.sort();
-
-                for (var i = 0; i < sortedList.length; i++) {
-                    var item = propList[sortedList[i]];
-                    propIndex += "<dt><a href=\"#" + item.title + "\" class=\"" + item.is + "-reference\">" + item.name + "</a></dt>\n";
-                    propIndex += "<dd>" + item.desc + "</dd>\n";
-                }
-                var node = document.getElementById("index_state_prop");
-                var parentNode = node.parentNode;
-                var l = document.createElement("dl");
-                l.id = "index_state_prop";
-                l.className = "compact";
-                l.innerHTML = propIndex;
-                parentNode.replaceChild(l, node);
-
-                var globalSPIndex = "";
-                sortedList = globalSP.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
-                for (var i = 0; i < sortedList.length; i++) {
-                    var item = sortedList[i];
-                    globalSPIndex += "<li>";
-                    if (item.is === "state") {
-                        globalSPIndex += "<sref title=\"" + item.name + "\">" + item.name + " (state)</sref>";
-                    } else {
-                        globalSPIndex += "<pref>" + item.name + "</pref>";
-                    }
-                    globalSPIndex += "</li>\n";
-                }
-                parentNode = document.querySelector("#global_states");
-                if (parentNode) {
-                    node = parentNode.querySelector(".placeholder");
-                    if (node) {
-                        var l = document.createElement("ul");
-                        l.innerHTML = globalSPIndex;
-                        parentNode.replaceChild(l, node);
-                    }
-                }
-                // there is only one role that uses the global properties
-                parentNode = document.querySelector("#roletype td.role-properties span.placeholder");
-                if (parentNode) {
-                    node = parentNode.parentNode;
-                    if ((parentNode.textContent || parentNode.innerText) === "Placeholder for global states and properties") {
-                        var l = document.createElement("ul");
-                        l.innerHTML = globalSPIndex;
-                        node.replaceChild(l, parentNode);
-                    }
-                }
-            }
-
             // what about roles?
             //
             // we need to do a few things here:
@@ -287,11 +123,14 @@ respecEvents.sub("end", function( msg ) {
                         propList[name].roles.push(title);
                     });
                 }
-                roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
+                localRoleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
             });
 
             var getStates = function(role) {
-                var ref = roleInfo[role];
+                var ref = localRoleInfo[role];
+                if (!ref) {
+                    ref = roleInfo[role];
+                }
                 if (!ref) {
                     msg.pub("error", "No role definition for " + role);
                 } else if (ref.allprops) {
@@ -310,7 +149,7 @@ respecEvents.sub("end", function( msg ) {
                 
             if (!skipIndex) {
                 // build up the complete inherited SP lists for each role
-                $.each(roleInfo, function(i, item) {
+                $.each(localRoleInfo, function(i, item) {
                     var output = "";
                     var placeholder = document.querySelector("#" + item.fragID + " .role-inherited");
                     if (placeholder) {
@@ -437,7 +276,7 @@ respecEvents.sub("end", function( msg ) {
             
             $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                 var content = $(item).text();
-                if (content.length === 1 || content === 0) {
+                if (content.length === 1 || content.length === 0) {
                     // there is no item - remove the row
                     item.parentNode.remove();
                 } else if (content === "Placeholder" 
@@ -453,7 +292,7 @@ respecEvents.sub("end", function( msg ) {
             PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
         }
-};
+});
 
 // Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
 

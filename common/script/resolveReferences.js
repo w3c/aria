@@ -56,11 +56,23 @@ function updateReferences(base) {
         var content = item.textContent || item.innerText;
         var sp = document.createElement("a");
         sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
+        var URL = (item.localName === "pref" || item.localName === "sref") ? baseURL+"#" : "#";
         var ref = item.getAttribute("title");
         if (!ref) {
             ref = content;
         }
-        sp.href = baseURL + "#" + ref;
+        if (item.localName == 'rref') {
+            if (localRoleInfo && localRoleInfo[ref]) {
+                ref = localRoleInfo[ref].fragID;
+            } else if (baseURL && roleInfo[ref]) {
+                ref = roleInfo[ref].fragID;
+                URL = baseURL + "#";
+            } else {
+                // no roleInfo structure.  Make an assumption
+                URL = baseURL + "#";
+            }
+        }
+        sp.href = URL + ref;
         sp.setAttribute("title", content);
         sp.innerHTML = content;
         parentNode.replaceChild(sp, item);
