@@ -2313,9 +2313,11 @@ value of  <sref>aria-checked</sref>. A role is used to make the behavior of this
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
+								<li><pref>aria-colcount</pref></li>
 								<li><pref>aria-level</pref></li>
 								<li><pref>aria-multiselectable</pref></li>
 								<li><pref>aria-readonly</pref></li>
+								<li><pref>aria-rowcount</pref></li>
 							</ul>
 						</td>
 					</tr>
@@ -2406,8 +2408,12 @@ value of  <sref>aria-checked</sref>. A role is used to make the behavior of this
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
+								<li><pref>aria-colindex</pref></li>
+								<li><pref>aria-colspan</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
+								<li><pref>aria-rowindex</pref></li>
+								<li><pref>aria-rowspan</pref></li>
 								<li><sref>aria-selected</sref></li>
 							</ul>
 						</td>
@@ -5109,7 +5115,9 @@ value), activating the link causes the <a>user agent</a> to navigate to that res
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
+								<li><pref>aria-colindex</pref></li>
 								<li><pref>aria-level</pref></li>
+								<li><pref>aria-rowindex</pref></li>
 								<li><sref>aria-selected</sref></li>
 							</ul>
 						</td>
@@ -7661,12 +7669,18 @@ value for the <pref>aria-live</pref> attribute specific to that role. An example
 			<p>This section lists <a title="attribute">attributes</a> that indicate <a title="relationship">relationships</a> or associations between <a title="element">elements</a> which cannot be readily determined from the document structure.</p>
 			<ul>
 				<li><pref>aria-activedescendant</pref></li>
+				<li><pref>aria-colcount</pref></li>
+				<li><pref>aria-colindex</pref></li>
+				<li><pref>aria-colspan</pref></li>
 				<li><pref>aria-controls</pref></li>
 				<li><pref>aria-describedby</pref></li>
 				<li><pref>aria-flowto</pref></li>
 				<li><pref>aria-labelledby</pref></li>
 				<li><pref>aria-owns</pref></li>
 				<li><pref>aria-posinset</pref></li>
+				<li><pref>aria-rowcount</pref></li>
+				<li><pref>aria-rowindex</pref></li>
+				<li><pref>aria-rowspan</pref></li>
 				<li><pref>aria-setsize</pref></li>
 			</ul>
 		</section>
@@ -7949,6 +7963,221 @@ value for the <pref>aria-live</pref> attribute specific to that role. An example
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
 						<td class="value-description">The element does not support being checked.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-colcount">
+			<pdef>aria-colcount</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines the total number of columns in a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colindex</pref>.</p>
+				<p>If all of the columns are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the total number of columns. However, if only a portion of the columns is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the number of columns in the full table.</p>
+				<p>Authors MUST set the value of <aref>aria-colcount</aref> to an integer equal to the number of columns in the full table. If the total number of columns is unknown, authors MUST set the value of <aref>aria-colcount</aref> to <code>-1</code> to indicate that the value should not be calculated by the user agent.</p>
+				<p>The following example shows a grid with 16 columns, of which columns 2, 3, 4, and 9 are displayed to the user.</p>
+				<pre class="example highlight">
+&lt;div role="grid" <strong>aria-colcount="16"</strong>&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row"&gt;
+      &lt;span role="columnheader" aria-colindex="2"&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader" aria-colindex="3"&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader" aria-colindex="4"&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader" aria-colindex="9"&gt;Phone&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row"&gt;
+      &lt;span role="gridcell" aria-colindex="2"&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="3"&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="4"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="9"&gt;555-1234&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row"&gt;
+      &lt;span role="gridcell" aria-colindex="2"&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="3"&gt;James&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="4"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" aria-colindex="9"&gt;555-1235&lt;/span&gt;
+    &lt;/div&gt;
+   &hellip;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-colindex">
+			<pdef>aria-colindex</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines an <a title="element">element's</a> column index or position with respect to the total number of columns within a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colcount</pref> and <pref>aria-colspan</pref>.</p>
+				<p>If all of the columns are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the column index of each cell or <rref>gridcell</rref>. However, if only a portion of the columns is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the column of each cell or gridcell with respect to the full table.</p>
+				<p>Authors MUST set the <a>value</a> for <aref>aria-colindex</aref> to an integer greater than or equal to 1, greater than the <aref>aria-colindex</aref> value of any previous elements within the same row, and less than or equal to the number of columns in the full table. For a cell or gridcell which spans multiple columns, authors MUST set the value of <aref>aria-colindex</aref> to the start of the span.</p>
+				<p>If the set of columns which is present in the <abbr title="Document Object Model">DOM</abbr> is contiguous, and if there are no cells which span more than one row or column in that set, then authors MAY place <aref>aria-colindex</aref> on each row, setting the value to the index of the first column of the set. Otherwise, authors SHOULD place <aref>aria-colindex</aref> on all of the children or <a title="owned element">owned</a> elements of each row.</p>
+				<p>The following example shows a grid with 16 columns, of which columns 2 through 5 are displayed to the user. Because the set of columns is contiguous, <aref>aria-colindex</aref> can be placed on each row.</p>
+				<pre class="example highlight">
+&lt;div role="grid" aria-colcount="16"&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" <strong>aria-colindex="2"</strong>&gt;
+      &lt;span role="columnheader"&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Address&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" <strong>aria-colindex="2"</strong>&gt;
+      &lt;span role="gridcell"&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"&gt;123 Broad St.&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" <strong>aria-colindex="2"</strong>&gt;
+      &lt;span role="gridcell"&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell"&gt;James&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"&gt;123 Broad St.&lt;/span&gt;
+    &lt;/div&gt;
+   &hellip;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+				<p>The following example shows a grid with 16 columns, of which columns 2 through 5 are displayed to the user. While the set of columns is contiguous, some of the cells span multiple rows. As a result, <aref>aria-colindex</aref> needs to be placed on all of the owned elements of each row.</p>
+				<pre class="example highlight">
+&lt;div role="grid" aria-colcount="16"&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="2"</strong>&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="3"</strong>&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="4"</strong>&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="5"</strong>&gt;Address&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="2"</strong>&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="3"</strong>&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="4"</strong> aria-rowspan="2"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="5"</strong> aria-rowspan="2"&gt;123 Broad St.&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="2"</strong>&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="3"</strong>&gt;James&lt;/span&gt;
+    &lt;/div&gt;
+   &hellip;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+				<p>The following example shows a grid with 16 columns, of which columns 2, 3, 4, and 9 are displayed to the user. Because the set of columns is non-contiguous, <aref>aria-colindex</aref> needs to be placed on all of the owned elements of each row.</p>
+				<pre class="example highlight">
+&lt;div role="grid" aria-colcount="16"&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="2"</strong>&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="3"</strong>&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="4"</strong>&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-colindex="9"</strong>&gt;Phone&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="2"</strong>&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="3"</strong>&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="4"</strong>&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="9"</strong>&gt;555-1234&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="2"</strong>&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="3"</strong>&gt;James&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="4"</strong>&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-colindex="9"</strong>&gt;555-1235&lt;/span&gt;
+    &lt;/div&gt;
+   &hellip;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-colspan">
+			<pdef>aria-colspan</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines the number of columns spanned by a cell or gridcell within a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colindex</pref> and <pref>aria-rowspan</pref>.</p>
+				<p>This <a>attribute</a> is intended for cells and gridcells which are not contained in a native table. When defining the column span of cells or gridcells in a native table, authors SHOULD use the host language's attribute instead of <aref>aria-colspan</aref>. If <aref>aria-colspan</aref> is used on an element for which the host language provides an equivalent attribute, <a title="user agent">user agents</a> MUST ignore the value of <aref>aria-colspan</aref> and instead expose the value of the host language's attribute to <a>assistive technologies</a>.</p>
+				<p>Authors MUST set the <a>value</a> of <aref>aria-colspan</aref> to an integer greater than or equal to 1 and less than the value which would cause the cell or gridcell to overlap the next cell or gridcell in the same row.</p>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -9483,6 +9712,211 @@ value. Activating it once changes the value to <code>true</code>, and activating
 			</table>
 		</div>
 		<hr/>
+		<div class="property" id="aria-rowcount">
+			<pdef>aria-rowcount</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines the total number of rows in a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-rowindex</pref>.</p>
+				<p>If all of the rows are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the total number of rows. However, if only a portion of the rows is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the number of rows in the full table.</p>
+				<p>Authors MUST set the value of <aref>aria-rowcount</aref> to an integer equal to the number of rows in the full table. If the total number of rows is unknown, authors MUST set the value of <aref>aria-rowcount</aref> to <code>-1</code> to indicate that the value should not be calculated by the user agent.</p>
+				<p>The following example shows a grid with 2000 rows, of which the first row and rows 100 through 102 are displayed to the user.</p>
+				<pre class="example highlight">
+&lt;div role="grid" <strong>aria-rowcount="2000"</strong>&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" aria-rowindex="1"&gt;
+      &lt;span role="columnheader"&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader"&gt;Phone&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" aria-rowindex="100"&gt;
+      &lt;span role="gridcell"&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"&gt;555-1234&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" aria-rowindex="101"&gt;
+      &lt;span role="gridcell"&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell"&gt;James&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"&gt;555-1235&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" aria-rowindex="102"&gt;
+      &lt;span role="gridcell"&gt;Taylor&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Johnson&lt;/span&gt;
+      &lt;span role="gridcell"&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"&gt;555-1236&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-rowindex">
+			<pdef>aria-rowindex</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines an <a title="element">element's</a> row index or position with respect to the total number of rows within a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-rowcount</pref> and <pref>aria-rowspan</pref>.</p>
+				<p>If all of the rows are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the index of each row. However, if only a portion of the rows is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of each row's position with respect to the full table.</p>
+				<p>Authors MUST set the <a>value</a> for <aref>aria-rowindex</aref> to an integer greater than or equal to 1, greater than the <aref>aria-rowindex</aref> value of any previous rows, and less than or equal to the number of rows in the full table. For a cell or gridcell which spans multiple rows, authors MUST set the value of <aref>aria-rowindex</aref> to the start of the span.</p>
+				<p>Authors SHOULD place <aref>aria-rowindex</aref> on each row. Authors MAY also place <aref>aria-rowindex</aref> on all of the children or <a title="owned element">owned elements</a> of each row.</p>
+				<p>The following example shows a grid with 2000 rows, of which the first row and rows 100 through 102 are displayed to the user.</p>
+				<pre class="example highlight">
+&lt;div role="grid" aria-rowcount="2000"&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row" <strong>aria-rowindex="1"</strong>&gt;
+      &lt;span role="columnheader"</strong>&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader"</strong>&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader"</strong>&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader"</strong>&gt;Phone&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"</strong>&gt;
+    &lt;div role="row" <strong>aria-rowindex="100"</strong>&gt;
+      &lt;span role="gridcell"</strong>&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;555-1234&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" <strong>aria-rowindex="101"</strong>&gt;
+      &lt;span role="gridcell"</strong>&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;James&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;555-1235&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" <strong>aria-rowindex="102"</strong>&gt;
+      &lt;span role="gridcell"</strong>&gt;Taylor&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;Johnson&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell"</strong>&gt;555-1236&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+				<p>The following example shows the grid from the previous example with <aref>aria-rowindex</aref> also placed on all of the owned elements of each row.</p>
+				<pre class="example highlight">
+&lt;div role="grid" aria-rowcount="2000"&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" <strong>aria-rowindex="1"</strong>&gt;
+      &lt;span role="columnheader" <strong>aria-rowindex="1"</strong>&gt;First Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-rowindex="1"</strong>&gt;Last Name&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-rowindex="1"</strong>&gt;Company&lt;/span&gt;
+      &lt;span role="columnheader" <strong>aria-rowindex="1"</strong>&gt;Phone&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div role="rowgroup"&gt;
+    &lt;div role="row" <strong>aria-rowindex="100"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="100"</strong>&gt;Fred&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="100"</strong>&gt;Jackson&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="100"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="100"</strong>&gt;555-1234&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" <strong>aria-rowindex="101"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="101"</strong>&gt;Sara&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="101"</strong>&gt;James&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="101"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="101"</strong>&gt;555-1235&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div role="row" <strong>aria-rowindex="102"</strong>&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="102"</strong>&gt;Taylor&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="102"</strong>&gt;Johnson&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="102"</strong>&gt;&gt;Acme, Inc.&lt;/span&gt;
+      &lt;span role="gridcell" <strong>aria-rowindex="102"</strong>&gt;555-1236&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-rowspan">
+			<pdef>aria-rowspan</pdef>
+			<div class="property-description">
+				<p>[ARIA 1.1] Defines the number of rows spanned by a cell or gridcell within a table, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-rowindex</pref> and <pref>aria-colspan</pref>.</p>
+				<p>This <a>attribute</a> is intended for cells and gridcells which are not contained in a native table. When defining the row span of cells or gridcells in a native table, authors SHOULD use the host language's attribute instead of <aref>aria-rowspan</aref>. If <aref>aria-rowspan</aref> is used on an element for which the host language provides an equivalent attribute, <a title="user agent">user agents</a> MUST ignore the value of <aref>aria-rowspan</aref> and instead expose the value of the host language's attribute to <a>assistive technologies</a>.</p>
+				<p>Authors MUST set the <a>value</a> of <aref>aria-rowspan</aref> to an integer greater than or equal to 0 and less than the value which would cause the cell or gridcell to overlap the next cell or gridcell in the same column. Setting the value to 0 indicates that the cell or gridcell is to span all the remaining rows in the row group.</p>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_integer">integer</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
 		<div class="state" id="aria-selected">
 			<sdef>aria-selected</sdef>
 			<div class="state-description">
@@ -10041,6 +10475,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>22-Jan-2015: Added <sref>aria-current</sref> attribute.</li>
 			<li>29-Jan-2015: Made <rref>region</rref> a type of <rref>landmark</rref>. Add requirement that authors MUST give a <rref>region</rref> a brief label that describes the purpose of the content it contains. Remove the <a>accessible name</a> property from the <rref>section</rref> role. Change the superclass role from <rref>region</rref> to <rref>section</rref> for the following roles: <rref>alert</rref>, <rref>grid</rref>, <rref>landmark</rref>, <rref>list</rref>, <rref>log</rref>, <rref>status</rref>, and <rref>tabpanel</rref>. Remove <rref>region</rref> as a superclass role of <rref>article</rref>, making <rref>document</rref> the only superclass role of <rref>article</rref>.</li>
 			<li>09-Apr-2015: Added <pref>aria-placeholder</pref> attribute.</li>
+			<li>23-Apr-2015: Added <pref>aria-colcount</pref>, <pref>aria-rowcount</pref>, <pref>aria-colindex</pref>, <pref>aria-rowindex</pref>, <pref>aria-colspan</pref>, and <pref>aria-rowspan</pref>.
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
 		</ul>
 	</section>
