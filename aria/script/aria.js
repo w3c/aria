@@ -380,6 +380,12 @@ respecEvents.sub("end", function( msg ) {
                         var myList = [];
                         $.each(item.roles, function(j, role) {
                             var children = getAllSubRoles(role);
+                            // Some subroles have required properties which are also required by the superclass.
+                            // Example: The checked state of radio, which is also required by superclass checkbox.
+                            // We only want to include these one time, so filter out the subroles.
+                            children = jQuery.grep(children, function(subrole) {
+                                return jQuery.inArray(subrole, propList[item.name].roles) == -1;
+                            });
                             $.merge(myList, children);
                         });
                         placeholder = section.querySelector(".state-descendants, .property-descendants");
