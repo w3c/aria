@@ -272,21 +272,22 @@ respecEvents.sub("end", function( msg ) {
                 }
                 // are there supported states / properties in this role?  
                 var attrs = [];
-                node = parentNode.querySelector(".role-properties");
-                if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
-                    // looks like we do
-                    $.each(node.querySelectorAll("pref,sref"), function(i, item) {
-                        var name = item.getAttribute("title");
-                        if (!name) {
-                            name = item.textContent || item.innerText;
-                        }
-                        var type = (item.localName === "pref" ? "property" : "state");
-                        attrs.push( { is: type, name: name } );
-                        // remember that the state or property is
-                        // referenced by this role
-                        propList[name].roles.push(title);
-                    });
-                }
+                $.each(parentNode.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
+                    if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
+			// looks like we do
+			$.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            var name = item.getAttribute("title");
+                            if (!name) {
+				name = item.textContent || item.innerText;
+                            }
+                            var type = (item.localName === "pref" ? "property" : "state");
+                            attrs.push( { is: type, name: name } );
+                            // remember that the state or property is
+                            // referenced by this role
+                            propList[name].roles.push(title);
+			});
+                    }
+		});
                 roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
             });
 
