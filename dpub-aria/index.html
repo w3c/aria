@@ -218,6 +218,15 @@
 	<p>This document is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
+	<div class="warning" id="ext-warn">
+		<p>The extensibility of ARIA roles is currently under active discussion and the outcome will affect the way that this module gets implemented. As a result, content authors and assistive technology developers MUST NOT implement the roles defined in this module at this time.</p>
+		<p>At the time of publishing, two models are under consideration:</p>
+		<ol>
+			<li>The use of hyphenated labels (e.g., "dpub-") prepended to every role name to differentiate their domains, with a different label for each vocabulary.</li>
+			<li>The use of an attribute (e.g., "aria-vocab") that would indicate the default vocabulary that roles are defined in, allowing roles to be used without prefixes while retaining separation of domains to avoid conflicts (e.g., a part in a book being different from a part in an SVG drawing).</li>
+		</ol>
+		<p>This draft is being published in part to continue these discussions with the broader ARIA community.</p>
+	</div>
 </section>
 <section id="toc">
 </section>
@@ -298,6 +307,7 @@
 <section class="normative" id="roles">
 	<h1>Digital Publishing Roles</h1>
 	<p>This section defines additions to the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>role</a> <a>taxonomy</a> and describes the characteristics and properties of all <a title="role">roles</a>. See <a href="aria.html#roles">ARIA Roles</a> for descriptions of the fields provided by this module.</p>
+	<p class="warning">The following roles are not stable. Important issues have been noted inline in their definitions, but discussions are also ongoing about the inclusion of some roles. These discussions are not noted in this document. Please refer to the <a href="https://github.com/w3c/aria/issues">issue tracker</a> for more information. See also the <a href="#ext-warn">warning about use of these roles</a> in the status of this document section.</p>
 	<section id="role_definitions">
 		<h2>Definition of Roles</h2>
 		<p>Below is an alphabetical list of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a title="role">roles</a> to be used by rich internet application authors.</p>
@@ -307,6 +317,7 @@
 			<rdef>abstract</rdef>
 			<div class="role-description">
 				<p>A short summary of the principle ideas, concepts and conclusions of the work, or of a section or excerpt within it.</p>
+				<p class="issue">The name "abstract" is also used to define a set of roles in ARIA that are not for use in content (abstract roles). The ARIA specification may be updated to remove this ambiguity, but this role is considered problematic until such changes can be made and could be changed in a future update.</p>
 				<pre class="example highlight">&lt;section role="abstract"&gt;
 &lt;p&gt;Accessibility of web content requires semantic information about widgets, structures, 
    and behaviors &#8230;&lt;/p&gt;
@@ -573,7 +584,7 @@
       &lt;/li&gt;
       &#8230;
    &lt;/ul&gt;
-&lt;/body&gt;</pre>	
+&lt;/section&gt;</pre>	
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1795,15 +1806,13 @@
 			<rdef>locator</rdef>
 			<div class="role-description">
 				<p>A link that allows the user to jump to a related location in the content (e.g., from a footnote to its reference, from an index entry to where the topic is discussed, or from a glossary definition to where the term is used).</p>
+				<p class="issue">The name and definition for this end of what are typically bidirectional linking relationships are still under consideration. The role might change or be removed in a future update.</p>
 				<pre class="example highlight">&lt;aside id="fn01" role="footnote"&gt;
    &lt;a role="locator" href="#fnref01"&gt;1.&lt;/a&gt;
    Additional results of this study and
    similar studies can be found at &#8230;
 &lt;/aside&gt;</pre>
 			</div>
-			<p class="ednote">
-				Editorial Note: The name and definition for this end of what are typically bidirectional linking relationships are still under consideration.
-			</p>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
 				<thead>
@@ -2232,7 +2241,7 @@
 			<rdef>part</rdef>
 			<div class="role-description">
 				<p>A major structural division in a work that contains a set of related sections dealing with a particular subject, narrative arc or similar encapsulated theme.</p>
-				<p class="issue">The term "part" is meaningful in publishing and could be helpful beyond publishing, but there is some concern that the term is too vague and could be misapplied. Changing the term to bookpart or similar would restrict the usage unneccessarily.</p>
+				<p class="issue">The name "part" is recognized to have different meaning depending on the context in which it is used. The future of this role depends on the resolution to module extensibility. It might remain as-is, be renamed or removed.</p>
 				<pre class="example highlight">&lt;body role="part"&gt;
    &lt;h1&gt;Part One&lt;/h1&gt;
    &lt;section role="chapter"&gt;
@@ -2756,7 +2765,7 @@
 				</tbody>
 			</table>
 			<div class="issue">
-				<p>Not clear if sectionhead is the correct superclass, as a subtitle is not a structural heading.</p>
+				<p>It is not clear if sectionhead is the correct superclass for this role, as a subtitle is not a structural heading.</p>
 				<p>There is also a publishing case for identifying the subtitle text within a ranked heading (e.g., to differentiate when both title
 					and subtitle are merged).</p>
 			</div>
@@ -2853,8 +2862,9 @@
 			<rdef>title</rdef>
 			<div class="role-description">
 				<p>The primary name of a document component, such as a list, table or figure.</p>
+				<p class="issue">The name of this role currently causes confusion with HTML heading element, title attribute, and the ARIA heading role. It could be revised or dropped in a future update.</p>
 				<pre class="example highlight">&lt;figure&gt; 
-   &lt;img scr="foo.jpg" alt="meaningul content"&gt;
+   &lt;img src="foo.jpg" alt="meaningful content"&gt;
    &lt;figcaption&gt;
       &lt;p role="title"&gt;Figure 1. A molecular diagram&lt;/p&gt;
       &lt;p&gt;A covalent bond forms &#8230;&lt;/p&gt;
@@ -2936,12 +2946,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="issue">
-				<p>Not clear if sectionhead is the correct superclass. The purpose is to identify non-structural titles (i.e., where
-					a ranked heading is not appropate).</p>
-				<p>There is also a publishing case for identifying the title text within a ranked heading (e.g., to differentiate when both title
-					and subtitle are merged, or for content remixing to separate the title from the label and ordinal).</p>
-			</div>
 		</div>
 		<hr/>
 		<div class="role">
