@@ -108,21 +108,22 @@ respecEvents.sub("end", function( msg ) {
                 }
                 // are there supported states / properties in this role?  
                 var attrs = [];
-                node = parentNode.querySelector(".role-properties");
-                if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
-                    // looks like we do
-                    $.each(node.querySelectorAll("pref,sref"), function(i, item) {
-                        var name = item.getAttribute("title");
-                        if (!name) {
-                            name = item.textContent || item.innerText;
-                        }
-                        var type = (item.localName === "pref" ? "property" : "state");
-                        attrs.push( { is: type, name: name } );
-                        // remember that the state or property is
-                        // referenced by this role
-                        propList[name].roles.push(title);
-                    });
-                }
+                $.each(parentNode.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
+                    if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
+                        // looks like we do
+                        $.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            var name = item.getAttribute("title");
+                            if (!name) {
+                                name = item.textContent || item.innerText;
+                            }
+                            var type = (item.localName === "pref" ? "property" : "state");
+                            attrs.push( { is: type, name: name } );
+                            // remember that the state or property is
+                            // referenced by this role
+                            propList[name].roles.push(title);
+                        });
+                    }
+                });
                 localRoleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
             });
 
@@ -218,6 +219,12 @@ respecEvents.sub("end", function( msg ) {
                         var myList = [];
                         $.each(item.roles, function(j, role) {
                             var children = getAllSubRoles(role);
+                            // Some subroles have required properties which are also required by the superclass.
+                            // Example: The checked state of radio, which is also required by superclass checkbox.
+                            // We only want to include these one time, so filter out the subroles.
+                            children = jQuery.grep(children, function(subrole) {
+                                return jQuery.inArray(subrole, propList[item.name].roles) == -1;
+                            });
                             $.merge(myList, children);
                         });
                         placeholder = section.querySelector(".state-descendants, .property-descendants");
