@@ -78,13 +78,19 @@ The set of class values currently defined are:
 
 ### Terms
 
+The specifications share a common set of term definitions, located in [common/terms.html](blob/master/common/terms.html). Add and update terms there, keeping in mind your edits will affect all specifications. To use the terms, at the place you want the terms to be included, provide the following line:
 
-
+```
 <div data-include="../common/terms.html" data-oninclude="restrictReferences"></div>
+```
+
+This includes the terms file and filters it to only output ones that are referenced in that particular specification.
 
 ### Bibliography
 
 ### Images, CSS, and Scripts
+
+The [common](blob/master/common) directory also contains shared images, CSS, and scripts. Some of the scripts extend the Respec formatting processor, and others are meant to be used with the final output version. When a resource is, or is likely to be, shared, put it in the common directory. Resources specific to a particular specification, including overriding CSS, can be placed in the directory for that specification. Use the same sub-directory structure of `img`, `css`, and `script` to help keep files organized.
 
 ## Special Structures
 
