@@ -731,6 +731,10 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
+				"name": "aria-colcount"
+			},
+			{
+				"is": "property",
 				"name": "aria-level"
 			},
 			{
@@ -740,11 +744,19 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-readonly"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount"
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
+				"name": "aria-colcount"
+			},
+			{
+				"is": "property",
 				"name": "aria-level"
 			},
 			{
@@ -754,6 +766,10 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-readonly"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount"
 			},
 			{
 				"is": "property",
@@ -919,11 +935,27 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
+				"name": "aria-colindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-colspan"
+			},
+			{
+				"is": "property",
 				"name": "aria-readonly"
 			},
 			{
 				"is": "property",
 				"name": "aria-required"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowspan"
 			},
 			{
 				"is": "state",
@@ -933,11 +965,27 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
+				"name": "aria-colindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-colspan"
+			},
+			{
+				"is": "property",
 				"name": "aria-readonly"
 			},
 			{
 				"is": "property",
 				"name": "aria-required"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowspan"
 			},
 			{
 				"is": "state",
@@ -2754,7 +2802,15 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
+				"name": "aria-colindex"
+			},
+			{
+				"is": "property",
 				"name": "aria-level"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowindex"
 			},
 			{
 				"is": "state",
@@ -3543,6 +3599,10 @@ var roleInfo = {
 			},
 			{
 				"is": "property",
+				"name": "aria-placeholder"
+			},
+			{
+				"is": "property",
 				"name": "aria-readonly"
 			},
 			{
@@ -3562,6 +3622,10 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-multiline"
+			},
+			{
+				"is": "property",
+				"name": "aria-placeholder"
 			},
 			{
 				"is": "property",
