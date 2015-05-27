@@ -96,6 +96,19 @@ The [common](blob/master/common) directory also contains shared images, CSS, and
 
 Todo: special characteristics table classes etc. used by the script
 
+## Generating Editors' Drafts
+
+Official editors' drafts are published to a URI beginning with https://w3c.github.io/aria/. This URI is suitable for public references. Documents published here are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts.
+
+It is desired to automate publishing to this URI when commits are pushed to the server, and there are actions items open for this, but that feature does not exist yet. Editors can manually generate the editors drafts using the following procedure:
+
+* Push your edits to the server. Take note of the relative path of the document and branch name (usually master).
+* On your local machine, change to the gh-pages branch.
+* Point your browser to the rawgit URI for the document. This is https://rawgit.com/w3c/aria/{branch}/{path}.
+* Use the "ReSpec" button to "Save Snapshot", choose "Save as HTML", and save the file in the appropriate location for the editors' draft.
+* Commit that change to your local github branch and push that to the server. That puts the static snapshot in the location known by the github.io URI.
+* On your local machine, switch back to the branch in which you were editing.
+
 ## How ARIA Extension Specs are Built
 
 An extension spec is one that defines additional roles, states, and / or properties that augment
