@@ -1,0 +1,197 @@
+var biblio = {
+	
+	"ACCNAME-AAM": {
+		"title": "Accessible Name and Description: Computation and API Mappings 1.1",
+		"href": "http://www.w3.org/TR/accname-aam-1.1/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors":  [
+			"Joseph Scheuhammer",
+			"Michael Cooper",
+			"Andi Snow-Weaver",
+			"Aaron Leventhal"
+		],
+		"etAl": true,
+		"deliveredBy":  [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	"ARIA-PRACTICES": {
+		"title": "WAI-ARIA Authoring Practicess 1.0",
+		"href": "http://www.w3.org/TR/wai-aria-practices/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors": [
+			"Joseph Scheuhammer",
+			"Michael Cooper",
+			"Lisa Pappas",
+			"Richard Schwerdtfeger"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	// Correct reference for ATK
+	"ATK": {
+		"href": "https://developer.gnome.org/atk/stable/",
+		"title": "ATK - Accessibility Toolkit",
+		"publisher": "The GNOME Project"
+	},
+	// Custom reference for the Mac OSX Accessibility API
+	"AXAPI": {
+		"href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
+		"title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
+		"publisher": "Apple Corporation"
+	},
+	"CORE-AAM": {
+		"title": "Core Accessibility API Mappings 1.1",
+		"href": "http://www.w3.org/TR/core-aam-1.1/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors": [
+			"Joseph Scheuhammer",
+			"Michael Cooper",
+			"Andi Snow-Weaver",
+			"Aaron Leventhal"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	"EPUB-SSV": {
+		"href": "http://www.idpf.org/epub/vocab/structure/",
+		"title": "EPUB Structural Semantics Vocabulary",
+		"publisher": "IDPF"
+	},
+	// Custom reference for GTK+ (GNOME GUI Toolkit) (not available from SpecRef biblio)
+	"GTK": {
+		"href": "https://developer.gnome.org/gtk3/stable/",
+		"title": "GTK+ 3 Reference Manual",
+		"publisher": "The GNOME Project"
+	},
+	"HTML-AAM": {
+		"authors": [
+			"Steve Faulkner",
+			"Jason Kiss",
+			"Cynthia Shelly",
+			"Alexander Surkov"
+		],
+		"etAl": true,
+		"href": "http://www.w3.org/TR/html-aam/",
+		"title": "HTML Accessibility API Mappings 1.1",
+		"status": "ED",
+		"publisher": "W3C",
+		"deliveredBy": [
+			"http://www.w3.org/html"
+		]
+	},
+	"SVG-AAM": {
+		"title": "SVG2 Accessibility API Mappings 1.1",
+		"href": "http://www.w3.org/TR/svg-aam-1.1/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors": [
+			"Richard Schwerdtfeger"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	"SVG1": {
+		"title": "Scalable Vector Graphics (SVG) 1.0 Specification",
+		"href": "http://www.w3.org/TR/SVG10/",
+		"status": "REC",
+		"publisher": "W3C",
+		"authors": [
+			"John Ferraiolo"
+		],
+		"etAl": true,
+		"deliveredBy": [
+		"http://www.w3.org/SVG"
+		]
+	},
+	"SVG11": {
+		"title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
+		"href": "http://www.w3.org/TR/SVG11/",
+		"status": "REC",
+		"publisher": "W3C",
+		"authors": [
+			"Erik Dahlström",
+			"Patrick Dengler",
+			"Anthony Grasso",
+			"Chris Lilley",
+			"Cameron McCormack",
+			"Doug Schepers",
+			"Jonathan Watt",
+			"John Ferraiolo",
+			"藤沢 淳 (FUJISAWA Jun)",
+			"Dean Jackson"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/SVG"
+		]
+	},
+	"SVG2": {
+		"title": "Scalable Vector Graphics (SVG) 2",
+		"href": "http://www.w3.org/TR/2014/WD-SVG2-20140211/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors": [
+			"Nikos Andronikos",
+			"Tavmjong Bah",
+			"Brian Birtles",
+			"Cyril Concolato",
+			"Erik Dahlströmx",
+			"Chris Lilley",
+			"Cameron McCormack",
+			"Doug Schepers",
+			"Dirk Schulze",
+			"Richard Schwerdtfeger",
+			"Satoru Takagi",
+			"Jonathan Watt"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	// Custom reference for UIA Express (not available from SpecRef biblio).
+	"UIA-EXPRESS": {
+		"href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
+		"title": "The IAccessibleEx Interface",
+		"publisher": "Microsoft Corporation"
+	},
+	"WAI-ARIA": {
+		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
+		"href": "http://www.w3.org/TR/wai-aria-1.1/",
+		"status": "WD",
+		"publisher": "W3C",
+		"authors": [
+			"James Craig",
+			"Michael Cooper",
+			"Shane McCarron"
+		],
+		"etAl": true,
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	},
+	"WAI-ARIA-10": {
+		"authors": [
+			"James Craig",
+			"Michael Cooper"
+		],
+		"etAl": true,
+		"href": "http://www.w3.org/TR/wai-aria/",
+		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.0",
+		"status": "REC",
+		"publisher": "W3C",
+		"deliveredBy": [
+			"http://www.w3.org/WAI/PF/"
+		]
+	}
+};
