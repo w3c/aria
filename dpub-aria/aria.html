@@ -1286,7 +1286,11 @@ value of  <sref>aria-checked</sref>. A role is used to make the behavior of this
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-kbdshortcuts</pref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -1587,7 +1591,11 @@ value of  <sref>aria-checked</sref>. A role is used to make the behavior of this
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-kbdshortcuts</pref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -2422,6 +2430,7 @@ value of  <sref>aria-checked</sref>. A role is used to make the behavior of this
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
+								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
 								<li><sref>aria-selected</sref></li>
@@ -4352,6 +4361,7 @@ value), activating the link causes the <a>user agent</a> to navigate to that res
 						<td class="role-properties">
 							<ul>
 								<li><pref>aria-checked</pref></li>
+								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-posinset</pref></li>
 								<li><pref>aria-setsize</pref></li>
 							</ul>
@@ -9024,6 +9034,62 @@ value) indicates the element cannot be grabbed (default).</p>
 					<tr>
 						<th class="value-name" scope="row">true</th>
 						<td class="value-description">The value entered by the user has failed validation.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="property" id="aria-kbdshortcuts">
+			<pdef>aria-kbdshortcuts</pdef>
+			<div class="property-description">
+				<p>Indicates keyboard shortcuts that can be pressed to activate widgets, such as a button, link or menuitem. Any widget that has a default activation behavior when clicked can have a keyboard shortcut.</p>
+				<p>The value of the <pref>aria-kbdhortcuts</pref> attribute is a space-delimited list of keyboard shortcuts that can be pressed to activate the command widget. Each keyboard shortcut consists of one or more tokens delimited by the plus sign ("+") representing zero or more modifier keys and exactly one non-modifier key that must be pressed simultaneously to activate the given shortcut.</p>
+				<p>Modifier keys MUST be specified exactly according to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Alt", "Control", "Shift", "Meta", or "AltGraph". Note that Meta corresponds to the Command key on Apple computers.</p>
+				<p>The valid names for non-modifier keys are any printable character such as "A", "B", "1", "2", "$", "Plus" for a plus sign, "Space" for the spacebar, or the names of any other non-modifier key specified in the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Enter", "Tab", "ArrowRight", "PageDown", "Escape", or "F1".</p>
+				<p>When modifier keys are part of a shortcut, they MUST come first. The non-modifier key is required and MUST come last. The order of the modifier keys is not otherwise significant, so "Alt+Shift+T" and "Shift+Alt+T" are equivalent, but "T+Shift+Alt" is not valid because all of the modifier keys don't come first, and "Alt" is not valid because it doesn't include at least one non-modifier key.</p>
+				<p>When specifying an alphabetic key, both the uppercase and lowercase variants are considered equivalent: "a" and "A" are the same, as are "ü" and "Ü".</p>
+				<p>When specifying a key on the keyboard that changes when you hold down a modifier key other than an alphabetic key, you must specify the unmodified key name. For example, on most U.S. English keyboards, the percent sign "%" can be printed by pressing Shift+5. The correct way to specify this shortcut is "Shift+5". It is incorrect to specify "%" or "Shift+%". However, note that on some international keyboards the percent sign may be an unmodified key, in which case "%" and "Shift+"%" would be correct on those keyboards.</p>
+				<p>If the key that needs to be specified is illegal in the host language or would cause a string to be terminated, use the string escaping sequence of the host language to specify it. For example, the double-quote character can be encoded as "&amp;quot;" in HTML.</p>
+				<p>Examples of valid keyboard shortcuts include:</p>
+				<ul>
+					<li>"A"</li>
+					<li>"Shift+Space"</li>
+					<li>"Control+Alt+."</li>
+					<li>"Ctrl+%quot;"</li>
+				</ul>
+				<p>Examples of valid values for the aria-key attribute, which can include more than one space-delimited shortcut, include:</p>
+				<ul>
+					<li><code>aria-kbdshortcuts="Alt+Shift+P"</code></li>
+					<li><code>aria-kbdshortcuts="/ Ctrl+F"</code></li>
+					<li><code>aria-kbdshortcuts="Meta+C Meta+Shift+C"</code></li>
+				</ul>
+				<p>Adding the <pref>aria-keyshortcuts</pref> attribute to an element does not change the behavior of the user agent by mapping the specified keyboard shortcuts to the triggering of the element's activation function. It is still up to the application to implement support for the keyboard shortcuts. The aria-keyshortcuts attribute exposes the fact that these shortcuts exist so that assistive technologies can communicate this information to users.</p>
+				<p>Keyboard shortcuts are assumed to be global. If a button is present in a document and it is visible and enabled, and it exposes a keyboard shortcut, it is assumed that as long as the document has focus, pressing that keyboard shortcut will activate that button. If the button or other element is not currently available to be activated normally, for example because it's currently invisible or hidden, or explicitly marked as disabled, that implies that the keyboard shortcut is unavailable too.</p>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"><a ref="http://en.wikipedia.org/wiki/Keyboard_shortcut">Keyboard shortcut</a></td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_string">string</a></td>
 					</tr>
 				</tbody>
 			</table>
