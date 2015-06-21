@@ -418,7 +418,37 @@
             as a fallback value, 
             in the form <code>role="graphicaldoc document"</code>.
         </p>
-				<pre class="example highlight">TO DO</pre>
+				<pre class="example highlight">
+&lt;!-- An SVG diagram of an electrical circuit --&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" 
+     width="400" height="200" viewBox="0 0 200 100"
+     role="graphicaldoc document" &gt;
+     &lt;title&gt;A simple circuit&lt;/title&gt;
+     &lt;desc&gt;A circuit with one source, one switch, and one load&lt;/desc&gt;
+     &lt;style type="text/css"&gt;
+        /* omitted */
+     &lt;/style&gt;
+     &lt;g id="battery-1" role="symbol img" 
+        aria-roledescription="source" 
+        aria-label="battery"
+        aria-flowto="switch-1" 
+        transform="translate(20,50)" &gt;
+        &lt;path d="M-15,-5 h30 M-5,5 h10" /&gt;
+     &lt;/g&gt;
+     &lt;path class="wire" d="M20,45 V20 H90"/&gt;
+     &lt;g id="switch-1" role="symbol img" 
+        aria-roledescription="switch" 
+        aria-label="single-pole switch"
+        aria-flowto="lightbulb-1" &gt;
+        &lt;path d="M90,20 L105,30" /&gt;
+        &lt;circle class="connection" cx="90" cy="20" r="2" /&gt;
+        &lt;circle class="connection" cx="110" cy="20" r="2" /&gt;
+     &lt;/g&gt;
+     &lt;!-- more wires and a light bulb --&gt; 
+&lt;/svg&gt;
+
+<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
+</pre>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -523,7 +553,83 @@
             as a fallback value, 
             in the form <code>role="graphicalobject group"</code>.
         </p>
-				<pre class="example highlight">TO DO</pre>
+				<pre class="example highlight">
+&lt;g role="graphicalobject group"
+   aria-labelledby="house-label"
+   transform="translate(100,325)"&gt;
+    &lt;desc&gt;A two-storey brick house, drawn with basic shapes.
+    &lt;/desc&gt;
+    &lt;!-- The house has a number of details worth calling out,
+         so it is a graphical object --&gt;
+
+    &lt;rect fill="firebrick" stroke="darkRed"
+          width="300" height="200" y="-200"
+          role="none" /&gt;&lt;!-- the walls of the house are 
+            already described thoroughly,
+            so no role is required --&gt;
+
+    &lt;g role="img" aria-label="door"
+       transform="translate(30,-90)"&gt;
+        &lt;desc&gt;The brown door on the left side of the building
+            has a window and a round doorknob&lt;/desc&gt;
+        &lt;rect fill="darkKhaki" stroke="#632"
+              width="50" height="90"/&gt;
+        &lt;rect fill="lightSteelBlue" stroke="#632" stroke-width="4" 
+              x="5" y="5" width="40" height="30" /&gt;
+        &lt;circle fill="gray" stroke="#444" stroke-width="0.7"
+                cx="10" cy="50" r="4" /&gt;
+    &lt;/g&gt;
+
+    &lt;g role="group" aria-label="windows"
+       fill="lightSteelBlue" stroke="#632" stroke-width="6"&gt;
+        &lt;!-- The windows are distinct objects, 
+             grouped together with a common label --&gt;
+        &lt;g role="none" transform="translate(0,-85)"&gt;
+            &lt;rect aria-label="first-floor window"
+                  x="100" width="40" height="60"&gt;
+                &lt;desc&gt;A small window beside the door&lt;/desc&gt;
+            &lt;/rect&gt;
+            &lt;path aria-label="first-floor living-room window"
+                  d="M180,0h100v60h-100v-60z
+                     m30,0v60 m40,0v-60"&gt;
+                &lt;desc&gt;A large three-pane window fills
+                the rest of the first floor&lt;/desc&gt;
+            &lt;/path&gt;
+        &lt;/g&gt;
+        &lt;g role="none" transform="translate(0,-180)"&gt;
+            &lt;!-- more windows on the second floor --&gt;
+        &lt;/g&gt;
+    &lt;/g&gt;
+
+    &lt;g aria-label="roof" role="graphicalobject group"
+       transform="translate(0,-200)"&gt;
+        &lt;desc&gt;A peaked roof&lt;/desc&gt;
+        &lt;g aria-label="chimney" role="graphicalobject"&gt;
+            &lt;desc&gt;The chimney has a puff of smoke
+            rising from it&lt;/desc&gt;
+            &lt;!-- The graphical object role allows for further
+             nested sub-components.
+             However, based on the default SVG API mappings,
+             these shapes, which have neither labels nor descriptions,
+             will be treated as presentation. --&gt;
+            &lt;rect fill="firebrick" stroke="darkRed"
+                  x="280" y="-60" width="20" height="60" /&gt;
+            &lt;path fill="gray" fill-opacity="0.4"
+                  d="M280,-70c0-10 30-20 45-35
+                     c15-40 25,10 25,20 s-70,25 -70,15z" /&gt;
+        &lt;/g&gt;
+
+        &lt;polygon role="none" fill="#222"
+                 points="-20,2 150,-100 320,2" /&gt;
+    &lt;/g&gt;
+
+    &lt;text id="house-label"
+          font-family="cursive" font-size="36px" 
+          x="70" y="50"&gt;My House&lt;/text&gt;
+&lt;/g&gt;
+    
+    <object type="image/svg+xml" data="img/house-graphicsroles.svg"></object>
+</pre>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -968,7 +1074,7 @@
 &lt;/ul&gt;
 </pre>
 				<pre class="example highlight">
-&lt;!-- Within an SVG document used to draw electrical circuits --&gt;
+&lt;!-- Within an SVG diagram of an electrical circuit --&gt;
 &lt;g id="lightbulb-1" role="symbol img" 
    aria-roledescription="load" 
    aria-label="lightbulb"
@@ -985,7 +1091,7 @@
 
 </pre>
 				<pre class="example highlight">
-&lt;!-- Within an SVG document used to draw blueprints --&gt;
+&lt;!-- Within an architectural blueprint-style SVG diagram --&gt;
 &lt;g role="symbol img"&gt;
     &lt;title&gt;Door&lt;/title&gt;
     &lt;desc&gt;on West side of South wall&lt;/desc&gt;
