@@ -17,13 +17,15 @@ var biblio = {
 		]
 	},
 	"ARIA-PRACTICES": {
-		"title": "WAI-ARIA Authoring Practicess 1.0",
-		"href": "http://www.w3.org/TR/wai-aria-practices/",
+		"title": "WAI-ARIA Authoring Practicess 1.1",
+		"href": "http://www.w3.org/TR/wai-aria-practices-1.1/",
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
-			"Joseph Scheuhammer",
+			"Matt King", 
+			"James Nurthen",
 			"Michael Cooper",
+			"Joseph Scheuhammer",
 			"Lisa Pappas",
 			"Richard Schwerdtfeger"
 		],
