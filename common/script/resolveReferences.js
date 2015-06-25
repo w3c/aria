@@ -115,7 +115,7 @@ function restrictReferences(utils, content) {
                 var $p = $("#"+term) ;
                 if ($p) {
                     var t = $p.dfnTitle();
-                    $p.next().remove();
+                    $p.parent().next().remove();
                     $p.remove() ;
                     if (respecConfig.definitionMap[t]) {
                         delete respecConfig.definitionMap[t];

@@ -135,14 +135,142 @@ var roleInfo = {
 			}
 		]
 	},
+	"cell": {
+		"name": "cell",
+		"fragID": "cell",
+		"parentRoles": [
+			"section"
+		],
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-colindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-colspan"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowspan"
+			}
+		],
+		"allprops": [
+			{
+				"is": "property",
+				"name": "aria-colindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-colspan"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowindex"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowspan"
+			},
+			{
+				"is": "state",
+				"name": "aria-expanded"
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic"
+			},
+			{
+				"is": "state",
+				"name": "aria-busy"
+			},
+			{
+				"is": "property",
+				"name": "aria-controls"
+			},
+			{
+				"is": "state",
+				"name": "aria-current"
+			},
+			{
+				"is": "property",
+				"name": "aria-describedat"
+			},
+			{
+				"is": "property",
+				"name": "aria-describedby"
+			},
+			{
+				"is": "state",
+				"name": "aria-disabled"
+			},
+			{
+				"is": "property",
+				"name": "aria-dropeffect"
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto"
+			},
+			{
+				"is": "state",
+				"name": "aria-grabbed"
+			},
+			{
+				"is": "property",
+				"name": "aria-haspopup"
+			},
+			{
+				"is": "state",
+				"name": "aria-hidden"
+			},
+			{
+				"is": "state",
+				"name": "aria-invalid"
+			},
+			{
+				"is": "property",
+				"name": "aria-label"
+			},
+			{
+				"is": "property",
+				"name": "aria-labelledby"
+			},
+			{
+				"is": "property",
+				"name": "aria-live"
+			},
+			{
+				"is": "property",
+				"name": "aria-owns"
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant"
+			}
+		]
+	},
 	"checkbox": {
 		"name": "checkbox",
 		"fragID": "checkbox",
 		"parentRoles": [
 			"input"
 		],
-		"localprops": [],
+		"localprops": [
+			{
+				"is": "state",
+				"name": "aria-checked"
+			}
+		],
 		"allprops": [
+			{
+				"is": "state",
+				"name": "aria-checked"
+			},
 			{
 				"is": "property",
 				"name": "aria-atomic"
@@ -221,9 +349,9 @@ var roleInfo = {
 		"name": "columnheader",
 		"fragID": "columnheader",
 		"parentRoles": [
+			"cell",
 			"gridcell",
-			"sectionhead",
-			"widget"
+			"sectionhead"
 		],
 		"localprops": [
 			{
@@ -239,6 +367,10 @@ var roleInfo = {
 			"select"
 		],
 		"localprops": [
+			{
+				"is": "state",
+				"name": "aria-expanded"
+			},
 			{
 				"is": "property",
 				"name": "aria-autocomplete"
@@ -726,13 +858,9 @@ var roleInfo = {
 		"fragID": "grid",
 		"parentRoles": [
 			"composite",
-			"section"
+			"table"
 		],
 		"localprops": [
-			{
-				"is": "property",
-				"name": "aria-colcount"
-			},
 			{
 				"is": "property",
 				"name": "aria-level"
@@ -744,19 +872,11 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-readonly"
-			},
-			{
-				"is": "property",
-				"name": "aria-rowcount"
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-colcount"
-			},
-			{
-				"is": "property",
 				"name": "aria-level"
 			},
 			{
@@ -766,10 +886,6 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-readonly"
-			},
-			{
-				"is": "property",
-				"name": "aria-rowcount"
 			},
 			{
 				"is": "property",
@@ -846,6 +962,14 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-relevant"
+			},
+			{
+				"is": "property",
+				"name": "aria-colcount"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount"
 			},
 			{
 				"is": "state",
@@ -929,18 +1053,10 @@ var roleInfo = {
 		"name": "gridcell",
 		"fragID": "gridcell",
 		"parentRoles": [
-			"section",
+			"cell",
 			"widget"
 		],
 		"localprops": [
-			{
-				"is": "property",
-				"name": "aria-colindex"
-			},
-			{
-				"is": "property",
-				"name": "aria-colspan"
-			},
 			{
 				"is": "property",
 				"name": "aria-readonly"
@@ -948,14 +1064,6 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-required"
-			},
-			{
-				"is": "property",
-				"name": "aria-rowindex"
-			},
-			{
-				"is": "property",
-				"name": "aria-rowspan"
 			},
 			{
 				"is": "state",
@@ -965,6 +1073,18 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
+				"name": "aria-readonly"
+			},
+			{
+				"is": "property",
+				"name": "aria-required"
+			},
+			{
+				"is": "state",
+				"name": "aria-selected"
+			},
+			{
+				"is": "property",
 				"name": "aria-colindex"
 			},
 			{
@@ -973,23 +1093,11 @@ var roleInfo = {
 			},
 			{
 				"is": "property",
-				"name": "aria-readonly"
-			},
-			{
-				"is": "property",
-				"name": "aria-required"
-			},
-			{
-				"is": "property",
 				"name": "aria-rowindex"
 			},
 			{
 				"is": "property",
 				"name": "aria-rowspan"
-			},
-			{
-				"is": "state",
-				"name": "aria-selected"
 			},
 			{
 				"is": "state",
@@ -2104,6 +2212,10 @@ var roleInfo = {
 		"localprops": [],
 		"allprops": [
 			{
+				"is": "state",
+				"name": "aria-checked"
+			},
+			{
 				"is": "property",
 				"name": "aria-atomic"
 			},
@@ -2288,6 +2400,10 @@ var roleInfo = {
 		],
 		"localprops": [
 			{
+				"is": "state",
+				"name": "aria-selected"
+			},
+			{
 				"is": "property",
 				"name": "aria-checked"
 			},
@@ -2301,6 +2417,10 @@ var roleInfo = {
 			}
 		],
 		"allprops": [
+			{
+				"is": "state",
+				"name": "aria-selected"
+			},
 			{
 				"is": "property",
 				"name": "aria-checked"
@@ -2412,6 +2532,10 @@ var roleInfo = {
 		],
 		"localprops": [
 			{
+				"is": "state",
+				"name": "aria-checked"
+			},
+			{
 				"is": "property",
 				"name": "aria-posinset"
 			},
@@ -2422,12 +2546,20 @@ var roleInfo = {
 		],
 		"allprops": [
 			{
+				"is": "state",
+				"name": "aria-checked"
+			},
+			{
 				"is": "property",
 				"name": "aria-posinset"
 			},
 			{
 				"is": "property",
 				"name": "aria-setsize"
+			},
+			{
+				"is": "state",
+				"name": "aria-checked"
 			},
 			{
 				"is": "property",
@@ -2830,9 +2962,9 @@ var roleInfo = {
 		"name": "rowheader",
 		"fragID": "rowheader",
 		"parentRoles": [
+			"cell",
 			"gridcell",
-			"sectionhead",
-			"widget"
+			"sectionhead"
 		],
 		"localprops": [
 			{
@@ -3312,7 +3444,28 @@ var roleInfo = {
 			"input",
 			"range"
 		],
-		"localprops": []
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-controls"
+			},
+			{
+				"is": "property",
+				"name": "aria-orientation"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemax"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemin"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuenow"
+			}
+		]
 	},
 	"slider": {
 		"name": "slider",
@@ -3322,6 +3475,18 @@ var roleInfo = {
 			"range"
 		],
 		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-valuemax"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemin"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuenow"
+			},
 			{
 				"is": "property",
 				"name": "aria-orientation"
@@ -3336,6 +3501,18 @@ var roleInfo = {
 			"range"
 		],
 		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-valuemax"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemin"
+			},
+			{
+				"is": "property",
+				"name": "aria-valuenow"
+			},
 			{
 				"is": "property",
 				"name": "aria-required"
@@ -3516,7 +3693,12 @@ var roleInfo = {
 		"parentRoles": [
 			"checkbox"
 		],
-		"localprops": []
+		"localprops": [
+			{
+				"is": "state",
+				"name": "aria-checked"
+			}
+		]
 	},
 	"tab": {
 		"name": "tab",
@@ -3537,6 +3719,109 @@ var roleInfo = {
 			{
 				"is": "property",
 				"name": "aria-setsize"
+			}
+		]
+	},
+	"table": {
+		"name": "table",
+		"fragID": "table",
+		"parentRoles": [
+			"section"
+		],
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-colcount"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount"
+			}
+		],
+		"allprops": [
+			{
+				"is": "property",
+				"name": "aria-colcount"
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount"
+			},
+			{
+				"is": "state",
+				"name": "aria-expanded"
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic"
+			},
+			{
+				"is": "state",
+				"name": "aria-busy"
+			},
+			{
+				"is": "property",
+				"name": "aria-controls"
+			},
+			{
+				"is": "state",
+				"name": "aria-current"
+			},
+			{
+				"is": "property",
+				"name": "aria-describedat"
+			},
+			{
+				"is": "property",
+				"name": "aria-describedby"
+			},
+			{
+				"is": "state",
+				"name": "aria-disabled"
+			},
+			{
+				"is": "property",
+				"name": "aria-dropeffect"
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto"
+			},
+			{
+				"is": "state",
+				"name": "aria-grabbed"
+			},
+			{
+				"is": "property",
+				"name": "aria-haspopup"
+			},
+			{
+				"is": "state",
+				"name": "aria-hidden"
+			},
+			{
+				"is": "state",
+				"name": "aria-invalid"
+			},
+			{
+				"is": "property",
+				"name": "aria-label"
+			},
+			{
+				"is": "property",
+				"name": "aria-labelledby"
+			},
+			{
+				"is": "property",
+				"name": "aria-live"
+			},
+			{
+				"is": "property",
+				"name": "aria-owns"
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant"
 			}
 		]
 	},
