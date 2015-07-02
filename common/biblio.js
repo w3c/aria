@@ -89,6 +89,11 @@ var biblio = {
 			"http://www.w3.org/html"
 		]
 	},
+	"MSAA": {
+		"href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
+		"title": "Microsoft Active Accessibility (MSAA) 2.0",
+		"publisher": "Microsoft Corporation"
+	},
 	"SVG-AAM": {
 		"title": "SVG2 Accessibility API Mappings 1.1",
 		"href": "http://www.w3.org/TR/svg-aam-1.1/",
@@ -160,6 +165,11 @@ var biblio = {
 		"deliveredBy": [
 			"http://www.w3.org/WAI/PF/"
 		]
+	},
+	"UI-AUTOMATION": {
+		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
+		"title": "UI Automation",
+		"publisher": "Microsoft Corporation"
 	},
 	// Custom reference for UIA Express (not available from SpecRef biblio).
 	"UIA-EXPRESS": {
