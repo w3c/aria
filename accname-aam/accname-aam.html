@@ -285,19 +285,23 @@
                 <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
               </details></div>
             </li>
-            <li id="step2B">Otherwise, if the <code>current node</code> has a non-empty <code>aria-labelledby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur:
-              <ol>
-                <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
-                <li id="step2B.ii">For each IDREF:
+            <li id="step2B">Otherwise:
+              <ul>
+                <li>if computing a <a class="termref" title="accessible name">name</a>, and the <code>current node</code> has a non-empty <code>aria-labelledby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
+                <li>or, if computing a <a class="termref" title="accessible description">description</a>, and the <code>current node</code> has a non-empty <code>aria-describedby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur: 
                   <ol>
-                    <li id="step2B.ii.a">Set the <code>current node</code> to the node referenced by the IDREF.</li>
-                    <li id="step2B.ii.b">Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alternative.</li>
-                    <li id="step2B.ii.c">Append the <code>result</code>, with a space, to the <code>accumulated text</code>.</li>
+                    <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
+                    <li id="step2B.ii">For each IDREF:
+                      <ol>
+                        <li id="step2B.ii.a">Set the <code>current node</code> to the node referenced by the IDREF.</li>
+                        <li id="step2B.ii.b">Compute the text alternative of the <code>current node</code> beginning with step 2. Set the <code>result</code> to that text alternative.</li>
+                        <li id="step2B.ii.c">Append the <code>result</code>, with a space, to the <code>accumulated text</code>.</li>
+                      </ol>
+                    </li>
+                    <li id="step2B.iii">Return the <code>accumulated text</code>.</li>
                   </ol>
                 </li>
-                <li id="step2B.iii">Return the <code>accumulated text</code>.</li>
-              </ol>
-              <p class="ednote">(Joseph) Need to address <code>aria-describedby</code> here, using the the same loop mechanism to process the referenced nodes except where the <code>current node</code> is already part of an <code>aria-describedby</code> traversal. </p>
+              </ul>
               <div><details>
                 <summary>Example:</summary>
                 <p>The following example shows the meaning of the clause "&hellip; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &hellip;" .</p>
@@ -311,7 +315,7 @@
                 </pre>
               </details></div>
             </li>
-            <li id="step2C">Otherwise, if the <code>current node</code> has a non-empty <code>aria-label</code> <a class="termref">attribute</a>:
+            <li id="step2C">Otherwise, if computing a <a class="termref" title="accessible name">name</a>, and if the <code>current node</code> has a non-empty <code>aria-label</code> <a class="termref">attribute</a>:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
