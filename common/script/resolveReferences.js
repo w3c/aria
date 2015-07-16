@@ -92,7 +92,7 @@ function restrictReferences(utils, content) {
     $.each(base.querySelectorAll("dfn"), function(i, item) {
         var $t = $(item) ;
         var titles = $t.getDfnTitles();
-        var n = $t.makeID("dfn", title[0]);
+        var n = $t.makeID("dfn", titles[0]);
         if (n) {
             termNames[n] = $t.parent() ;
         }
