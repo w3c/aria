@@ -87,7 +87,7 @@
     //maxTocLevel: 4,
 
    ariaSpecURLs: {
-      "ED": "http://w3c.github.io/aria/aria/aria.html",
+      "ED": "https://rawgit.com/w3c/aria/master/aria/dpub.html",
       "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
       "REC": "http://www.w3.org/TR/wai-aria/"
     },
@@ -99,8 +99,7 @@
     },
 
     coreMappingURLs: {
-       "ED": 
-"http://rawgithub.com/w3c/aria/master/core-aam/core-aam.html",
+       "ED": "http://w3c.github.io/aria/core-aam/core-aam.html",
        "WD" : "http://www.w3.org/TR/core-aam-1.1/",
        "FPWD": "http://www.w3.org/TR/core-aam-1.1/",
        "REC": "http://www.w3.org/TR/wai-aria-implementation/"
@@ -127,7 +126,7 @@ var mappingTableLabels = {
 
   // map where keys are @id of associated mapping table:
   viewByLabels: {
-    "role-mapping-table": "View by elements",
+    "role-mapping-table": "View by roles",
     "state-property-mapping-table": "View by state/property",
     "event-mapping-table": "View by state/property"
   }
@@ -179,23 +178,52 @@ var mappingTableLabels = {
 				<p>User agents <span class="rfc2119">MUST</span> conform to the Role Mapping <a class="core-mapping" href="#roleMappingGeneralRules">General Rules</a> accessibility API computational requirements in [[!CORE-AAM]].</p>
 			</section>
 			<section id="mapping_role_table">
-				<h3>Element Mapping Table</h3>
-				<p> This section defines how elements in digital publishing map to platform accessibility APIs based on their native host language semantics and when WAI-ARIA roles are applied. This section refers directly to the Core Accessibility API Mappings specification. </p>
+				<h3>Role Mapping Table</h3>
+                <p class="ednote">Translators: For label text associated with the following table and its toggle buttons, see the <code>mappingTableLabels</code> object in the <code>&lt;head&gt;</code> section of this document.</p>
+				<p> This section defines how roles in digital publishing map to platform accessibility APIs based on their native host language semantics and when WAI-ARIA roles are applied. This section refers directly to the Core Accessibility API Mappings specification. </p>
+				<p class="ednote" id="prefix">It is unclear if the string representation of a DPUB role should be 'dpub-x' or 'x' for <code>AraiRole</code>, <code>xml-roles:</code>, and <code>AXRoleDescription</code>.  Specifically, for <a class="role-reference" href="#dpub-chapter">dpub-chapter</a>, is the string representation 'chapter' or 'dpub-chapter'?  The table entries following use 'chapter'.</p>
 				<div class="table-container">
 					<table class="map-table elements" id="role-mapping-table">
 						<caption>Table describing mapping of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles to accessibility <abbr title="application programming interfaces">APIs</abbr>.</caption>
 						<thead>
 							<tr>
-								<th>Element</th>
-								<th>Default Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings</th>
-								<th>Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings for each <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Applied</th>
+								<th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role</th>
+								<th><abbr title="Microsoft Active Accessibility">MSAA</abbr> + UIA Express Role</th>
+								<th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+								<th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+          						<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+								<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr id="role-map-element">
-								<th><a class="element-reference" href=""><code>a</code></a></th>
-								<td><a class="core-mapping" href="#role-map-@@"><code>@@</code></a></td>
-								<td><a class="core-mapping" href="#mapping_role_table"><code>Role Mappings</code></a></td>
+							<tr id="role-map-chapter">
+								<th><a class="role-reference" href="#dpub-chapter"><code>dpub-chapter</code></a></th>
+								<td>
+								  <ul>
+								    <li>Expose as text string 'chapter' in <code>AriaRole</code>. </li>
+								    <li>Control type/role is <code>group</code>. Localized Control Type is based on <code>AriaRole</code>. </li>
+								  </ul>
+								</td>
+								<td><p>IAccessible2: Object attribute <code>xml-roles:chapter</code>. </p></td>
+								<td>
+								  <ul>
+								    <li>Expose as text string 'chapter' in <code>AriaRole</code>. </li>
+								    <li>Control type/role is <code>group</code>. Localized Control Type is based on <code>AriaRole</code>. </li>
+								  </ul>
+								</td>
+								<td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:chapter</code>. </p></td>
+								<td>AXRole: <code>AXGroup</code><br />
+									AXSubrole: ? <code>TBD</code><br />
+								    AXRoleDescription: <code>'chapter'</code>
+								</td>
+							</tr>
+							<tr id="role-map-toc">
+								<th><a class="role-reference" href="#dpub-toc"><code>dpub-toc</code></a></th>
+								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
+								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
+								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
+								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
+								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
 							</tr>
 						</tbody>
 					</table>
