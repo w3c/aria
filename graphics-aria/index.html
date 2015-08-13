@@ -226,6 +226,17 @@
         defined in [[WAI-ARIA]] 
         to annotate graphics within documents and rich internet applications.
       </p>
+      <p>Authors are given the ability to influence what is presented to assitive technologies and to influence navigation through
+      the use of roles and properties.</p>
+      <p>If an author does not want a user agent to non-visually present an element and does not want the
+      element included in navigaion then the element should be given a role of <rref>none</rref>. For example, in the case
+      an author does not want a chart's axis minor tick marks (tick lines without labels between tick marks with labels)
+      presented to assistive technologies since the minor tick marks would add significant noise without increasing comprehension, then the
+      author should assign the minor tick marks the role of <rref>none</rref>.</p>
+      <p>Authors can influence representation and navigation by using the <pref>aria-gtype</pref> property. For example, if an author breaks
+      an axis into mulitple elements with the role <rref>graphics-axis</rref> to control drawing order, the author can indicate that all axes elements are part of the
+      same axis. Or if multiple elements with the role <rref>graphics-axis</rref> represent different axes, the author can 
+      represent this to the user agent by assigning different <pref>aria-gtype</pref>.</p>
 		<p id="index_role">Placeholder for compact list of roles</p>
 		<hr/>	
 		
@@ -345,7 +356,7 @@ variable.</text>
 				<p> When a graph contains more than one axis, an author should distinguish between the
 				axes by using 
             the <pref>aria-gtype</pref> property. User agents will be expected to use the aria-gtype property 
-            when presenting information to a user and for differintiating between graph features. Two elements with a
+            when presenting information to a user and for differentiating between graph features. Two elements with a
             graphics-axis role with the same semanatic parent and no <pref>aria-gtype</pref> or the same <pref>aria-gtype</pref> are defined as being part of the same axis.
             Two elements with a graphics-axis role with the same semanatic parent but differing <pref>aria-gtype</pref>
             are defined as being two seperate axes.  
@@ -623,7 +634,7 @@ variable.</text>
 					</tr>
 					<tr>
 						<th class="role-children-head" scope="row">Subclass Roles:</th>
-						<td class="role-children"><ul><li><rref>graphics-edge</rref></li><li><rref>graphics-timedata</rref></li></ul> </td>
+						<td class="role-children"></td>
 					</tr>
 					<tr>
 						<th class="role-base-head" scope="row">Base Concept:</th>
@@ -1086,9 +1097,10 @@ TODO dimension line example
             the connector element, which won't make it into SVG 2.
         </p>
 				
-				<pre class="example highlight">
-&lt;connector role="graphics-edge" n1="#n-1" n2="#n-4" /&gt;
+<!--  			<pre class="example highlight">
+&lt;connector n1="#n-1" n2="#n-4" /&gt;
          </pre>	
+         -->	
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1587,6 +1599,8 @@ TODO grid example
 			<rdef>graphics-label</rdef>
 			<div class="role-description">
 				<p>A visible label.</p>
+				<p>If the author does not want the user to be able to navigate to the label, they should have 
+				labeled object's <pref>aria-labeledby</pref> property reference the label and give the label a role of <rref>none</rref> 
 				<pre class="example highlight">
       &lt;text x="-7.667" y="215.86"  role="graphics-label"&gt;200&lt;/text&gt;
          </pre>	
@@ -1684,7 +1698,7 @@ TODO grid example
 		<div class="role">
 			<rdef>graphics-legend</rdef>
 			<div class="role-description">
-				<p>A scale for data representation. Legends may show any chart aesthetic (color, size, shape, etc).</p>
+				<p>A scale for data representation, commonly used on charts, maps, instructional drawings and the like. Legends may show any chart aesthetic (color, size, symbol, size, etc).</p>
 				<div class="example highlight" >
 			     <pre >
  &lt;g transform="translate(100)" role="graphics-legend" font-size="12" font-family="Arial,SanSerif" fill="transparent"&gt;  
@@ -1839,12 +1853,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
             It is in contrast to a <rref>group</rref> of distinct related objects, 
             or an indivisible <rref>img</rref> or <rref>graphics-symbol</rref> component.
         </p>
-        <p>
-            Future specifications may define sub-classes of this role 
-            for graphical objects that have particular semantic meanings 
-            in the context of charts or maps, 
-            such as axes or legends.
-        </p>
+      
         <p class="ednote">
             The editors have not finalized the name for this role.
         </p>
