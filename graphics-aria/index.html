@@ -342,6 +342,21 @@ variable.</text>
 			<rdef>graphics-axis</rdef>
 			<div class="role-description">
 				<p>A scale often used with charts to show the scale of a dimension (variable).</p>
+				<p> When a graph contains more than one axis, an author should distinguish between the
+				axes by using 
+            the <pref>aria-gtype</pref> property. User agents will be expected to use the aria-gtype property 
+            when presenting information to a user and for differintiating between graph features. Two elements with a
+            graphics-axis role with the same semanatic parent and no <pref>aria-gtype</pref> or the same <pref>aria-gtype</pref> are defined as being part of the same axis.
+            Two elements with a graphics-axis role with the same semanatic parent but differing <pref>aria-gtype</pref>
+            are defined as being two seperate axes.  
+        </p>
+        <p>Differentiating between axes using the <pref>aria-gtype</pref> can help users understand whether the axis is
+        the x, y or z axis and help them understand which variable/data column is associated with the axis. Differentiating between
+        axes using <pref>aria-gtype</pref> can also affect how keyboard users navigate through the axes. This level of control is 
+        provided to authors so they can convey and control how user agents perceive axes given the author may need to present mulitple y
+        axis on opposite sides of the chart (ie left axis in inches, right axis in cm), clustered sets of axes, 3 or more dimension axes and aligned
+        axes shared by two charts in the same visualization.</p>
+				
 				<pre class="example highlight">
 &lt;g transform="translate(57 29)" role="graphics-axis" aria-gtype="y" aria-labeledby="yt" font-family="Arial"&gt;
   &lt;path fill="none" d="m0 0v353"/&gt;
@@ -579,7 +594,10 @@ variable.</text>
 			<div class="role-description">
 				<p>An object that represents a single data row or a single data entity. <code>graphics-dataitem</code>s may be further split into child components if needed. 
 				For example, a <code>graphics-dataitem</code> for a box and whisker plot may contain the components of the box and whisker (fence, box, median) and each of the components would
-				be a <code>graphics-dataitem</code>.</p>
+				be a <code>graphics-dataitem</code>. </p>
+				<p>The role <code>graphics-dataitem</code> is usually associated with charts, graphs, infographics and data visualizations.
+				Other domains like technical drawings may prefer using the role <rref>graphics-symbol</rref>.</p>
+				
 				<pre class="example highlight">
   &lt;path d="m188 15.01h9v61.995h-9z" aria-label="630,000 shares traded on 7/31/80"  role="graphics-dataitem"&gt;    
     &lt;title&gt;630,000 shares traded on 7/31/80&lt;/title&gt;
@@ -613,7 +631,10 @@ variable.</text>
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><rref>graphics-datagroup</rref></td>
+						<td class="role-related"><ul>
+						<li><rref>graphics-datagroup</rref></li>
+						<li><rref>graphics-symbol</rref></li> 
+						</ul></td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -670,9 +691,10 @@ variable.</text>
 			<rdef>graphics-dimensionline</rdef>
 			<div class="role-description">
 				<p>A line that defines the length of an object.</p>
-				<pre class="example highlight">
+<!-- 			<pre class="example highlight">
 TODO dimension line example
          </pre>	
+          -->	
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -701,7 +723,7 @@ TODO dimension line example
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"> </td>
+						<td class="role-related"><a href="http://www.dictionaryofconstruction.com/definition/dimension-line.html">dimension line</a> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -1059,6 +1081,11 @@ TODO dimension line example
 				<p>A edge (connector) connects two data items, and may have a from/to relationship. 
 				A edge may form a loop, that is the from and to may be the same item. graphics-edge 
 				is the default role for the connector element.</p>
+		 <p class="ednote">
+            This role won't appear in the final spec and is temporarily here for completeness during discussions. This role is tied to
+            the connector element, which won't make it into SVG 2.
+        </p>
+				
 				<pre class="example highlight">
 &lt;connector role="graphics-edge" n1="#n-1" n2="#n-4" /&gt;
          </pre>	
@@ -1141,10 +1168,6 @@ TODO dimension line example
 				</tbody>
 			</table>
 		</div>
-		 <p class="ednote">
-            This role won't appear in the final spec and is temporarily here for completeness during discussions. This role is tied to
-            the connector element, which won't make it into SVG 2.
-        </p>
 		<hr/>
 		
 							
@@ -1152,9 +1175,10 @@ TODO dimension line example
 			<rdef>graphics-graticule</rdef>
 			<div class="role-description">
 				<p>A network of lines representing the earth's parallels of latitude and meridians of longitude. </p>
-				<pre class="example highlight">
+<!-- 			<pre class="example highlight">
 TODO graticule example
          </pre>	
+          -->	
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1241,9 +1265,10 @@ TODO graticule example
 			<rdef>graphics-grid</rdef>
 			<div class="role-description">
 				<p>A network of lines of constant value, usually associated with a value on an axis.</p>
-				<pre class="example highlight">
+<!-- 				<pre class="example highlight">
 TODO grid example
          </pre>	
+          -->
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1327,8 +1352,20 @@ TODO grid example
 			<rdef>graphics-guide</rdef>
 			<div class="role-description">
 				<p>A guide object used to help interpret the graphic. </p>
-				<pre class="example highlight">
-         </pre>	
+				<p> Even though there are several subclasses of <code>graphics-guide</code>, 
+				<code>graphics-guide</code> is not an abstract role as there are situations where a subclass doesn't
+				meet the authors need. When <code>graphics-guide</code> is used  
+            the <pref>aria-roledescription</pref> property 
+            can be used to name the guide type 
+            separately from the name and description 
+            for the particular instance of the guide.
+        </p>
+
+<p class="ednote">
+            The preceeding paragraph is dependent on 
+            aria-roledescription being incorporated 
+            into the ARIA 1.1 specification.
+        </p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1991,8 +2028,24 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 			<rdef>graphics-scale</rdef>
 			<div class="role-description">
 				<p>A type of guide object, usually a reference for measuring.  </p>
-				<pre class="example highlight">
+				<p> Even though there are several subclasses of <code>graphics-scale</code>, 
+				<code>graphics-scale</code> is not an abstract role as there are situations where a subclass doesn't
+				meet the authors need. When <code>graphics-scale</code> is used  
+            the <pref>aria-roledescription</pref> property 
+            can be used to name the guide type 
+            separately from the name and description 
+            for the particular instance of the guide.
+        </p>
+
+<p class="ednote">
+            The preceeding paragraph is dependent on 
+            aria-roledescription being incorporated 
+            into the ARIA 1.1 specification.
+        </p>
+				
+		<!--		<pre class="example highlight">
          </pre>	
+           -->
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -2239,9 +2292,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 			<rdef>graphics-timedata</rdef>
 			<div class="role-description">
 				<p>Something defined or marked by an instant of time or time interval.</p>
-				<pre class="example highlight">
+<!-- 				<pre class="example highlight">
   TODO timedata example
          </pre>	
+          -->
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -2515,6 +2569,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 	<ul>
 	<li><pref>aria-gtype</pref></li>
 	</ul>
+	<p class="ednote">
+	It has not been decided what mechanism, if any, will cue navigation changes.
 	</p>
 	</section>
 	<section id="state_prop_def">
