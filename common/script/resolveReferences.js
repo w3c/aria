@@ -91,8 +91,8 @@ function restrictReferences(utils, content) {
     // strategy: Traverse the content finding all of the terms defined
     $.each(base.querySelectorAll("dfn"), function(i, item) {
         var $t = $(item) ;
-        var title = $t.dfnTitle();
-        var n = $t.makeID("dfn", title);
+        var titles = $t.getDfnTitles();
+        var n = $t.makeID("dfn", titles[0]);
         if (n) {
             termNames[n] = $t.parent() ;
         }
@@ -114,12 +114,14 @@ function restrictReferences(utils, content) {
             Object.keys(termNames).forEach(function(term) {
                 var $p = $("#"+term) ;
                 if ($p) {
-                    var t = $p.dfnTitle();
+                    var tList = $p.getDfnTitles();
                     $p.parent().next().remove();
                     $p.remove() ;
-                    if (respecConfig.definitionMap[t]) {
-                        delete respecConfig.definitionMap[t];
-                    }
+                    tList.forEach(function( item ) {
+                        if (respecConfig.definitionMap[item]) {
+                            delete respecConfig.definitionMap[item];
+                        }
+                    });
                 }
             });
         }
