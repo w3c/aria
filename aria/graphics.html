@@ -127,12 +127,18 @@
         width: 35em; 
         max-width: 100%; 
         max-height: 100vh;
+        background-color: white;
+        border: solid 1px #999;
+    }
+    .example object[type="text/html"] {
+        height: 20em;
+        width: 60em;
     }
 </style>
 </head>
 <body>
 <section id="abstract">
-	<p>Assistive technologies need semantic information about widgets, structures and behaviors to convey appropriate information to persons with disabilities. This specification defines a [[!WAI-ARIA]] module of <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a> specific to web graphics. These semantics allow an author to convey user interface behaviors and structural information to assistive technologies and to enable semantic navigation, styling and interactive features used by readers. It is expected this will complement [[HTML5]] and [[SVG2]].</p>
+	<p>Assistive technologies need semantic information about the structures and expected behaviors of a document in order to convey appropriate information to persons with disabilities. This specification defines a [[!WAI-ARIA]] module of core <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a><!-- Note, if we don't end up including any states & properties in this module, edit this sentence! --> specific to web graphics. These semantics allow an author to express the logical structure of the graphic to assistive technologies. Assitive technologies could then enable semantic navigation and adapt styling and interactive features, to provide an optimal experience for the audience.  These features complement the graphics and document structure elements defined by [[HTML5]] and [[SVG2]].</p>
 	<p>This document is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
@@ -142,22 +148,23 @@
 </section>
 <section class="informative" id="introduction">
 	<h1>Introduction</h1>
-	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is a technical specification that defines a common host language semantic accessibility API and framework that enables web browsers to map the accessibility semantics in web content to platform-specific accessibility APIs. This enables web content to be interoperable with platform assistive technologies similar to native platform applications without platform dependencies.</p>
+	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is a technical specification that provides a framework to improve the accessibility and interoperability of web content and applications. It enables web browsers to map the accessibility semantics in web content to platform-specific accessibility APIs. This enables web content to be interoperable with platform assistive technologies, similar to native platform applications, without requiring authors to include platform dependencies.</p>
 	<p>This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> designed to support graphics. The goals of this specification include:</p>
 	<ul>
-		<li>Expanding [[!WAI-ARIA]] to produce structural semantic extensions to support graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas.</li> 
+		<li>Expanding [[!WAI-ARIA]] to produce semantic extensions to support structured graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas.</li> 
 		<li>Align with a new governance model for modularization and extensions to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</li> 
-		<li>Provide structural semantics extensions that will support both assistive technologies and enable semantic navigation, styling and interactive features used by readers.</li> 
+		<li>Provide structural semantics extensions that will support both assistive technologies and enable semantic navigation, alternative styling, and interactivity support.</li> 
 	</ul>
+  <p>This specification defines the core roles that would be used in all structured graphics or diagrams.  Future work will expand on this framework to enable more detailed annotation of data-rich graphics such as charts or maps.</p>
 	<p>For a more detailed explanation of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> please refer to the <a href="http://www.w3.org/WAI/intro/aria">WAI-ARIA Introduction</a> and how it applies to Rich Internet Application Accessibility.</p> 
 	
 	<section id="target-audience">
 		<h2>Target Audience</h2>
-		<p>This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, including <a title="role">roles</a>, <a title="state">states</a>, <a title="property">properties</a> and values. It impacts several audiences:</p>
+		<p>This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, including <a title="role">roles</a>, <a title="state">states</a>, <a title="property">properties</a> and values.<!-- Again, edit as required re states/properties --> It impacts several audiences:</p>
 		<ul>
-			<li><a title="user agent">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics (SVG) <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> features;</li>
+			<li><a title="user agent">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> features;</li>
 			<li><a>Assistive technologies</a> that provide specialized reading experiences to users with disabilities;</li>
-			<li>Authors of web graphics (SVG);</li>
+			<li>Authors of web graphics;</li>
 			<li>Authoring tools that help authors create conforming graphics; and</li>
 			<li>Conformance checkers, that verify appropriate use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and this Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module.</li>
 		</ul>
@@ -183,7 +190,7 @@
 		<h2>Authoring Practices</h2>
 		<section id="authoring_tools">
 			<h3>Authoring Tools</h3>
-			<p>Many of the requirements in the definitions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a> can be checked automatically during the development process, similar to other quality control processes used for validating code. To assist authors who are creating graphics, can compare the semantic structure of Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles from the <abbr title="Document Object Model">DOM</abbr> to that defined in this specification and notify the author of errors or simply create templates that enforce that structure.</p>
+			<p>Many of the requirements in the definitions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a> can be checked automatically during the development process, similar to other quality control processes used for validating code. To assist authors who are creating graphics, these tools can compare the semantic structure of Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles from the <abbr title="Document Object Model">DOM</abbr> to that defined in this specification and notify the author of errors or simply create templates that enforce that structure.</p>
 		</section>
 		
 		<section id="authoring_testing">
@@ -216,14 +223,33 @@
       See <a href="aria.html#roles">ARIA Roles</a> for descriptions 
       of the fields provided by this module.
 	</p>
-	 <p>Authors are given the ability to influence what is presented to assistive technologies and to influence navigation through
-      the use of roles and properties. With graphics, there are many cases where presenting and navigating every element will make the 
-      graphic harder to understand and use. Authors may mark elements for non-visual exclusion by assigning the role <rref>none</rref>. </p>
-      <p>If an author does not want a user agent to non-visually present an element and does not want the
-      element included in navigaion then the element should be given a role of <rref>none</rref>. For example, in the case
-      an author does not want a chart's axis minor tick marks (tick lines without labels between tick marks with labels)
-      presented to assistive technologies since the minor tick marks would add significant noise without increasing comprehension, then the
-      author should assign the minor tick marks the role of <rref>none</rref>.</p>
+	 <p>
+     Authors are given the ability to influence what is presented 
+     to assistive technologies and to influence navigation through
+     the use of roles and properties. With graphics, there are many 
+     cases where presenting and navigating every element will make the 
+     graphic harder to understand and use. 
+     Authors may mark elements for exclusion 
+     from the semantic representation of the document 
+     (the accessibility tree) by assigning 
+     the role <rref>none</rref> or <rref>presentation</rref>.  
+     The element with this role should be treated transparently 
+     by assistive technologies, as if its children or text content 
+     were directly contained by its parent element.
+  </p>  
+   <p>
+     In addition, certain roles, 
+     such as <rref>img</rref> or <rref>graphics-symbol</rref>, 
+     when assigned to a parent element, will cause all child 
+     DOM structure to be omitted from the accessibility tree.
+     This is indicated by the "Children Presentational"
+     value in the role characteristics table.
+     Finally, the native semantics of the graphics language 
+     may also default to ignoring DOM structure that does not have
+     semantic data attached; for SVG, this is defined in [[SVG-AAM]].
+  </p>
+  <p>A role of <code>none</code> should never be used 
+    for interactive elements or those with WAI-ARIA states and properties.</p>
 	<section id="role_definitions">
 		<h2>Definition of Roles</h2>
 		<p>
@@ -241,29 +267,83 @@
 			<div class="role">
 			<rdef>graphics-doc</rdef>
 			<div class="role-description">
-             <p>
-            A <code>graphics-doc</code> inherits from <rref>document</rref> being a region containing 
-            related information, and  inherits requesting a navigation mode change. A graphics 
-            document has three properties that distinguish it from other top level roles for graphics. 
-            The three properties of a <code>graphics-doc</code> are: the graphic is structured - that is it has organization, 
-            a <code>graphics-doc</code> could stand alone without surrounding content and a <code>graphics-doc</code> 
-            would like to have it's content navigated in a way that respects the semantic structure of the graphic. 
-            In general, structured graphics such as charts, maps, diagrams, technical drawing, blue prints and instructional 
-            graphics SHOULD have the <code>graphics-doc</code> role. It is also appropriate to use a <code>graphics-doc</code> role inside a 
-            graphic, for example a bar chart that is one panel of a paneled bar chart should have role <code>graphics-doc</code>.
-			</p>
-        <p></p>
         <p>
-            Accessibility technologies that re-format a document 
-            should follow the semantic structure of a <code>graphics-doc</code> which may not match the DOM structure.  
+          A type of <rref>document</rref> in which 
+          the visual appearance or layout of content conveys meaning.
         </p>
-         <p class="note">
+        <p>
+          Similar to other <rref>document</rref> types, 
+          the <code>graphics-doc</code> role applies to the root element of
+          a region of the page containing related information,
+          where the user's primary interaction mode is expected to be
+          browsing the document rather than controlling an application.  
+          The element with this role 
+          may be the root element of the document file, 
+          or of a nested structure within it.
+        </p>
+        <p>
+          The <code>graphics-doc</code> may be distinguished 
+          from similar roles as follows:
+        </p>
+        <ul>
+          <li><p>
+            Relative to other documents, a <code>graphics-doc</code> 
+            is distinguished by the semantic importance of its 
+            visual (usually two-dimensional) representation.
+            User agents and assistive technologies
+            SHOULD take this into consideration 
+            when supporting navigation of the graphic.
+            Accessibility technologies that re-format or re-style a document 
+            SHOULD NOT alter the layout of a <code>graphics-doc</code> 
+            except in ways that are consistent 
+            with the semantic roles and relationships of its content.
+          </p></li>
+              <li><p>
+            Relative to an <rref>img</rref>, a <code>graphics-doc</code> 
+            is distinguished by the structured nature of its content.
+            Its child elements may have semantic meaning,
+            and may include links or other interactive widgets.
+          </p></li>
+              <li><p>
+            Relative to a <rref>graphics-object</rref>, 
+            a <code>graphics-doc</code> is self-contained.  
+            Its meaning persists when separated from surrounding content.
+            The element with the <code>graphics-doc</code> role defines
+            the scope and context for interpretation of the child content.
+          </p></li>
+        </ul>
+        <p>
+          In general, authors SHOULD use the <code>graphics-doc</code> role 
+          for structured graphics such as 
+          charts, maps, diagrams, technical drawing, blue prints and instructional graphics. 
+          However, if a single large graphic has discrete regions
+          that may be safely re-arranged without sacrificing meaning,
+          each of those regions SHOULD be a distinct <code>graphics-doc</code>.
+          An alternative role (such as <rref>figure</rref>) 
+          may be used to group them together.
+          One <code>graphics-doc</code> may also be nested inside another, 
+          for example a bar chart that is embedded in a map
+          or a matrix of chart panels 
+          should have a role of <code>graphics-doc</code>.
+          The nested document provides encapsulation; 
+          navigation between components of 
+          the inner and outer graphics should be explicit.
+			 </p>
+         <div class="note">
+           <p>
             To support user agents and assistive technologies 
             based on the ARIA 1.0 specification, 
             authors may wish to include the <rref>document</rref> role 
             as a fallback value, 
             in the form <code>role="graphics-doc document"</code>.
-        </p>
+           </p>
+           <p>
+             Future specifications may define more specific roles
+             for particular types of graphical documents with
+             special semantic structures.  Those more specific roles
+             would be subclasses of <code>graphics-doc</code>.
+           </p>
+        </div>
 				<pre class="example highlight">
 &lt;!-- An SVG diagram of an electrical circuit --&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" 
@@ -311,7 +391,7 @@
 					</tr>
 					<tr>
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>structure</rref></td>
+						<td class="role-parent"><rref>document</rref></td>
 					</tr>
 					<tr>
 						<th class="role-children-head" scope="row">Subclass Roles:</th>
@@ -323,7 +403,13 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"> </td>
+						<td class="role-related">
+                <ul>
+                    <li><rref>graphics-object</rref></li>
+                    <li><rref>img</rref></li>
+                    <li><rref>article</rref></li>
+                </ul>
+            </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -378,57 +464,30 @@
 			<rdef>graphics-object</rdef>
 			<div class="role-description">
         <p>
-            A section of a <rref>graphics-doc</rref>
-            that represents a semantic object or portion of a semantic object. 
-            Group elements that don't have semantic meaning SHOULD not be given a role or given the role none.
-            Group elements that have the same semantic meaning as their semantic ancestor SHOULD not be given a role or given the role none.
+          A section of a <rref>graphics-doc</rref>
+          that represents a distinct object or sub-component
+          with semantic meaning.  
+          A graphical object may itself have nested sub-components.
         </p>
         <p>
-            In the example below, the outer most group element has the role <code>graphics-object</code>. The outer group represents
-            the set of labels for the months of the year.  The inner group elements exist for style purposes, do not have semantic
-            meaning and thus are given the role none.           
-       </p>
-            
-            
-<pre class="example highlight">
-&lt;g  role='graphics-object' &gt;
-   &lt;text x="376.01" y="248.66" &gt;Jan
-    &lt;/text&gt;
-   &lt;text x="325.32" y="336.46" &gt;Feb
-    &lt;/text&gt;
-   &lt;g role='none'&gt;
-    &lt;text x="237.52" y="387.15" &gt;Mar
-     &lt;/text&gt;
-    &lt;g text-anchor="end" role='none'&gt;
-     &lt;text x="136.14" y="387.15" &gt;Apr
-      &lt;/text&gt;
-     &lt;text x="48.34" y="336.46" &gt;May
-      &lt;/text&gt;
-     &lt;/g&gt;
-    &lt;/g&gt;
-   &lt;g text-anchor="end" role='none'&gt;
-    &lt;text x="-2.346" y="248.66" &gt;Jun
-     &lt;/text&gt;
-    &lt;text x="-2.346" y="147.28" &gt;Jul
-     &lt;/text&gt;
-    &lt;g  role='none'&gt;
-     &lt;text x="48.34" y="59.48" &gt;Aug
-      &lt;/text&gt;
-     &lt;text x="136.14" y="8.794" &gt;Sep
-      &lt;/text&gt;
-     &lt;/g&gt;
-    &lt;/g&gt;
-   &lt;g text-anchor="start"  role='none'&gt;
-    &lt;text x="237.52" y="8.794" &gt;Oct
-     &lt;/text&gt;
-    &lt;text x="325.32" y="59.48" &gt;Nov
-     &lt;/text&gt;
-    &lt;text x="376.01" y="147.28" &gt;Dec
-     &lt;/text&gt;
-    &lt;/g&gt;
-   &lt;/g&gt;
-   <object type="image/svg+xml" data="img/monthsCircle.svg"></object>
-</pre>
+          Container elements that instead represent a collection
+          of disconnected objects should instead be given the
+          <rref>group</rref> or <rref>list</rref> roles.
+          Grouping elements that do not have semantic meaning 
+          and do not alter the semantic context provided by an ancestor
+          SHOULD NOT be given a role, 
+          which may be explicitly indicated 
+          with the role <rref>none</rref> or <rref>presentation</rref>.
+        </p>
+        <p>
+          Unlike a <rref>graphics-doc</rref>, 
+          a <code>graphics-object</code> need not be self-contained,
+          and it does not establish a new context for navigation.  
+          However, user agents and assistive technologies 
+          SHOULD provide a way for users, particularly non-visual users,
+          to navigate the nested structure of objects 
+          in a hierarchical manner, similar to nested lists.
+        </p>
          <p class="note">
             To support user agents and assistive technologies 
             based on the ARIA 1.0 specification, 
@@ -436,83 +495,154 @@
             as a fallback value, 
             in the form <code>role="graphics-object group"</code>.
         </p>
-				<pre class="example highlight">
-&lt;g role="graphics-object group"
-   aria-labelledby="house-label"
-   transform="translate(100,325)"&gt;
-    &lt;desc&gt;A two-storey brick house, drawn with basic shapes.
-    &lt;/desc&gt;
-    &lt;!-- The house has a number of details worth calling out,
-         so it is a graphical object --&gt;
 
-    &lt;rect fill="firebrick" stroke="darkRed"
-          width="300" height="200" y="-200"
-          role="none" /&gt;&lt;!-- the walls of the house are 
-            already described thoroughly,
-            so no role is required --&gt;
-
-    &lt;g role="img" aria-label="door"
-       transform="translate(30,-90)"&gt;
-        &lt;desc&gt;The brown door on the left side of the building
-            has a window and a round doorknob&lt;/desc&gt;
-        &lt;rect fill="darkKhaki" stroke="#632"
-              width="50" height="90"/&gt;
-        &lt;rect fill="lightSteelBlue" stroke="#632" stroke-width="4" 
-              x="5" y="5" width="40" height="30" /&gt;
-        &lt;circle fill="gray" stroke="#444" stroke-width="0.7"
-                cx="10" cy="50" r="4" /&gt;
-    &lt;/g&gt;
-
-    &lt;g role="group" aria-label="windows"
-       fill="lightSteelBlue" stroke="#632" stroke-width="6"&gt;
-        &lt;!-- The windows are distinct objects, 
-             grouped together with a common label --&gt;
-        &lt;g role="none" transform="translate(0,-85)"&gt;
-            &lt;rect aria-label="first-floor window"
-                  x="100" width="25" height="45"&gt;
-                &lt;desc&gt;A small window beside the door&lt;/desc&gt;
-            &lt;/rect&gt;
-            &lt;path aria-label="first-floor living-room window"
-                  d="M180,0h100v60h-100v-60z
-                     m30,0v60 m40,0v-60"&gt;
-                &lt;desc&gt;A large three-pane window fills
-                the rest of the first floor&lt;/desc&gt;
-            &lt;/path&gt;
-        &lt;/g&gt;
-        &lt;g role="none" transform="translate(0,-180)"&gt;
-            &lt;!-- more windows on the second floor --&gt;
-        &lt;/g&gt;
-    &lt;/g&gt;
-
-    &lt;g aria-label="roof" role="graphics-object group"
-       transform="translate(0,-200)"&gt;
-        &lt;desc&gt;A peaked roof&lt;/desc&gt;
-        &lt;g aria-label="chimney" role="graphics-object"&gt;
-            &lt;desc&gt;The chimney has a puff of smoke
-            rising from it&lt;/desc&gt;
-            &lt;!-- The graphical object role allows for further
-             nested sub-components.
-             However, based on the default SVG API mappings,
-             these shapes, which have neither labels nor descriptions,
-             will be treated as presentation. --&gt;
-            &lt;rect fill="firebrick" stroke="darkRed"
-                  x="280" y="-60" width="20" height="60" /&gt;
-            &lt;path fill="gray" fill-opacity="0.4"
-                  d="M280,-70c0-10 30-20 45-35
-                     c15-40 25,10 25,20 s-70,25 -70,15z" /&gt;
-        &lt;/g&gt;
-
-        &lt;polygon role="none" fill="#222"
-                 points="-20,2 150,-100 320,2" /&gt;
-    &lt;/g&gt;
-
-    &lt;text id="house-label"
-          font-family="cursive" font-size="36px" 
-          x="70" y="50"&gt;My House&lt;/text&gt;
-&lt;/g&gt;
-    
+        
+<div class="example">
+  <p>
+    The code that follows is a portion of the markup for a 
+    structured graphic.  It includes SVG <code>g</code> grouping
+    elements with various roles:
+  </p>
+  <ul>
+    <li>
+      <code>graphics-object</code> for distinct objects,
+      such as the house, its door, or roof.</li>
+    <li>
+      <rref>group</rref> to group together the windows
+      or the trees (multiple distinct objects) 
+      with a single label or description.
+    </li>
+    <li>
+      <rref>img</rref> for the background which is described as a whole.
+    </li>
+    <li>
+      <rref>none</rref> for elements that apply styles or transformations
+      without having any semantic meaning.
+    </li>
+  </ul>
+  <p>
+    Where a graphical object has multiple sub-components, the
+    group role is provided as an explicit fallback.
+  </p>
     <object type="image/svg+xml" data="img/house-graphicsroles.svg"></object>
+				<pre class="highlight">
+&lt;svg xmlns="http://www.w3.org/2000/svg"
+     width="600" height="400" viewBox="0 0 600 400"
+     role="graphics-doc document" xml:lang="en"&gt;
+    &lt;title&gt;Home&lt;/title&gt;
+    &lt;g role="img" aria-label="background"&gt;
+        &lt;desc&gt;Blue sky, sunshine, and green grass&lt;/desc&gt;
+        &lt;!-- The multiple parts of the background form a single image
+             conveyed by that one description. --&gt;
+        &lt;rect fill="lightSkyBlue" height="100%" width="100%" /&gt;
+        &lt;circle fill="yellow" stroke="gold" stroke-width="4"
+                cx="0" cy="0" r="50" /&gt;
+        &lt;path fill="none" stroke="gold" stroke-width="3"
+              d="..." /&gt;
+        &lt;rect fill="#6a2" y="300" width="100%" height="100" /&gt;
+    &lt;/g&gt;
+    &lt;g role="graphics-object group"
+       aria-labelledby="house-label"
+       transform="translate(100,325)"&gt;
+        &lt;desc&gt;A two-storey brick house, drawn with basic shapes.
+        &lt;/desc&gt;
+        &lt;!-- The house has a number of details worth calling out,
+             so it is a graphical object --&gt;
+
+        &lt;rect fill="firebrick" stroke="darkRed"
+              width="300" height="200" y="-200"
+              role="none" /&gt;&lt;!-- the walls of the house are 
+                already described thoroughly,
+                so no role is required --&gt;
+
+        &lt;g role="graphics-object" aria-label="door"
+           transform="translate(30,-90)"&gt;
+            &lt;desc&gt;The brown door on the left side of the building
+                has a window and a round doorknob&lt;/desc&gt;
+            &lt;!-- The graphical object role allows for further
+                 nested sub-components.
+                 However, based on the default SVG API mappings,
+                 these shapes, which have neither labels nor descriptions,
+                 will be treated as presentation. --&gt;
+            &lt;rect fill="darkKhaki" stroke="#632"
+                  width="50" height="90"/&gt;
+            &lt;rect fill="lightSteelBlue" stroke="#632" stroke-width="4" 
+                  x="5" y="5" width="40" height="30" /&gt;
+            &lt;circle fill="gray" stroke="#444" stroke-width="0.7"
+                    cx="10" cy="50" r="4" /&gt;
+        &lt;/g&gt;
+
+        &lt;g role="group" aria-label="windows"
+           fill="lightSteelBlue" stroke="#632" stroke-width="6"&gt;
+            &lt;!-- The windows are distinct objects, 
+                 grouped together with a common label --&gt;
+            &lt;g role="none" transform="translate(0,-85)"&gt;
+                &lt;rect aria-label="first-floor window"
+                      x="100" width="25" height="45"&gt;
+                    &lt;desc&gt;A small window beside the door&lt;/desc&gt;
+                &lt;/rect&gt;
+                &lt;path aria-label="first-floor living-room window"
+                      d="M180,0h100v60h-100v-60z
+                         m30,0v60 m40,0v-60"&gt;
+                    &lt;desc&gt;A large three-pane window fills
+                    the rest of the first floor&lt;/desc&gt;
+                &lt;/path&gt;
+            &lt;/g&gt;
+            &lt;g role="none" transform="translate(0,-180)"&gt;
+                &lt;!-- more windows on the second floor --&gt;
+            &lt;/g&gt;
+        &lt;/g&gt;
+        &lt;!-- more markup for the roof and chimney --&gt;
+
+        &lt;text id="house-label"
+              font-family="cursive" font-size="36px" 
+              x="70" y="50"&gt;My House&lt;/text&gt;
+    &lt;/g&gt;
+    &lt;!-- more markup for the trees --&gt;
+&lt;/svg&gt;
+</pre>    
+</div>
+      <!-- 
+FRED: I've added more explanation to the house example,
+which I think covers the factors you were trying to emphasize here.
+OK to omit the second example?
+
+<div class="example">
+        <p>
+            In the example below, the outer most group element has the role <code>graphics-object</code>. The outer group represents
+            the set of labels for the months of the year.  The inner group elements exist for style purposes, do not have semantic
+            meaning and thus are given the role none.           
+       </p>
+            
+<pre class="highlight">
+&lt;g  role='graphics-object' &gt;
+   &lt;text x="376.01" y="248.66" &gt;Jan&lt;/text&gt;
+   &lt;text x="325.32" y="336.46" &gt;Feb&lt;/text&gt;
+   &lt;g role='none'&gt;
+    &lt;text x="237.52" y="387.15" &gt;Mar&lt;/text&gt;
+    &lt;g text-anchor="end" role='none'&gt;
+     &lt;text x="136.14" y="387.15" &gt;Apr&lt;/text&gt;
+     &lt;text x="48.34" y="336.46" &gt;May&lt;/text&gt;
+     &lt;/g&gt;
+    &lt;/g&gt;
+   &lt;g text-anchor="end" role='none'&gt;
+    &lt;text x="-2.346" y="248.66" &gt;Jun&lt;/text&gt;
+    &lt;text x="-2.346" y="147.28" &gt;Jul&lt;/text&gt;
+    &lt;g  role='none'&gt;
+     &lt;text x="48.34" y="59.48" &gt;Aug&lt;/text&gt;
+     &lt;text x="136.14" y="8.794" &gt;Sep&lt;/text&gt;
+     &lt;/g&gt;
+    &lt;/g&gt;
+   &lt;g text-anchor="start"  role='none'&gt;
+    &lt;text x="237.52" y="8.794" &gt;Oct&lt;/text&gt;
+    &lt;text x="325.32" y="59.48" &gt;Nov&lt;/text&gt;
+    &lt;text x="376.01" y="147.28" &gt;Dec&lt;/text&gt;
+    &lt;/g&gt;
+   &lt;/g&gt;
 </pre>
+   <object type="image/svg+xml" data="img/monthsCircle.svg"></object>
+</div>
+-->
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -608,7 +738,7 @@
 			<rdef>graphics-symbol</rdef>
 			<div class="role-description">
 				<p>
-            A graphic used to convey a simple meaning or category, 
+            A graphical object used to convey a simple meaning or category, 
             where the meaning is more important 
             than the particular visual appearance.  
             It may be a component of a larger structured graphic 
@@ -619,14 +749,10 @@
         <p>
             When used as part of a structured symbolic language, 
             the <pref>aria-roledescription</pref> property 
+            (introduced in ARIA 1.1 [[WAI-ARIA]])
             can be used to name the symbol type 
             separately from the name and description 
             for the particular instance of the symbol.
-        </p>
-        <p class="ednote">
-            The preceeding paragraph is dependent on 
-            aria-roledescription being incorporated 
-            into the ARIA 1.1 specification.
         </p>
         <p class="note">
             To support user agents and assistive technologies 
@@ -641,11 +767,11 @@
 &lt;h2&gt;Appetizers&lt;/h2&gt;
 &lt;ul&gt;
     &lt;li&gt; Spinach Salad with Strawberry &amp; Almonds
-        &lt;img role="symbol" title="Vegetarian" src="../assets/leaf.svg" /&gt;
-        &lt;img role="symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
+        &lt;img role="graphics-symbol" title="Vegetarian" src="../assets/leaf.svg" /&gt;
+        &lt;img role="graphics-symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
     &lt;/li&gt;
     &lt;li&gt; Chicken Satay with Peanut Sauce
-        &lt;img role="symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
+        &lt;img role="graphics-symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
     &lt;/li&gt;
     &lt;!-- &hellip; --&gt;
 &lt;/ul&gt;
@@ -678,7 +804,7 @@
           x1="50" y1="275" x2="125" y2="225"/&gt;        
 &lt;/g&gt;
 &lt;!-- &hellip; --&gt;
-&lt;use xlink:href="#outlet" role="symbol img" 
+&lt;use xlink:href="#outlet" role="graphics-symbol img" 
      x="5" y="130" width="40" height="40"&gt;
     &lt;title&gt;Electrical outlet&lt;/title&gt;
     &lt;desc&gt;at center of West wall&lt;/desc&gt;
@@ -704,7 +830,7 @@
 					</tr>
 					<tr>
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>img</rref></td>
+						<td class="role-parent"><rref>graphics-object</rref></td>
 					</tr>
 					<tr>
 						<th class="role-children-head" scope="row">Subclass Roles:</th>
@@ -769,9 +895,314 @@
 	</section>
 	<section id="role_other">
 		<h2>Other Roles for Graphics</h2>
-		<p>	The following roles are appropriate roles for graphics.
-		<ul><li><rref>figure</rref></li><li> <rref>img</rref></li></ul> 
- 		</p>
+		<p>	The following core ARIA roles, defined in [[WAI-ARIA]], are also 
+      relevant for annotating graphics:
+    </p>
+		<ul>
+      <li>
+        <rref>img</rref> (image) defines a single graphic
+        that is perceived as an indivisible whole. 
+        Unlike a <rref>graphics-doc</rref>, 
+        an image cannot have navigable or interactive child content.
+        Unlike a <rref>graphics-symbol</rref>, 
+        an image may require a detailed text description
+        to fully convey its meaning to non-visual users.
+      </li>
+      <li>
+        <rref>figure</rref> defines a container element
+        for content (including graphics) that is a key part 
+        of the containing document but is outside the 
+        normal reading stream.  
+        A figure will often contain one or more elements 
+        with the <rref>img</rref> or <rref>graphics-doc</rref> roles,
+        but may also contain text captions, credits, or other related content.
+      </li>
+    </ul> 
+    <p>
+      The following examples demonstrate appropriate use of 
+      <rref>img</rref>, <rref>figure</rref>, and <rref>graphics-doc</rref>
+      in a document.
+    </p>
+    
+<div class="example">
+  <p>
+    Within an HTML 5 document, an inline SVG
+    may sometimes represent an atomic <code>img</code>.
+    If the graphics form part of the natural reading flow
+    of the text, then this role is sufficient, as in the first example:
+  </p>
+
+<object type="text/html" data="img/img-role-for-svg.html"></object>
+<pre class="example highlight">
+&lt;p&gt;A repeating SVG gradient is defined using the
+    &lt;code&gt;spreadMethod&lt;/code&gt; attribute.  
+    A value of &lt;code&gt;repeat&lt;/code&gt; causes the color stops
+    to repeat in the same order, from beginning to end:&lt;/p&gt;
+&lt;svg class="inline-example" role="img"&gt;
+    &lt;title&gt;A repeating linear gradient&lt;/title&gt;
+    &lt;desc&gt;The gradient starts dark, slowly shifting to light, 
+        then quickly dark again.  This pattern repeats four
+        times left to right, each time brightening across a large
+        region and then getting dark within a short space.
+    &lt;/desc&gt;
+    &lt;linearGradient id="repeat" x2="25%" spreadMethod="repeat"&gt;
+        &lt;stop offset="0"     stop-color="black" /&gt;
+        &lt;stop offset="0.8" stop-color="white" /&gt;
+        &lt;stop offset="1"     stop-color="black" /&gt;
+    &lt;/linearGradient&gt;
+    &lt;rect width="100%" height="100%" fill="url(#repeat)" /&gt;
+&lt;/svg&gt;
+</pre>
+  
+  <p>
+    The following example provides the same content, 
+      but now structured as a figure that may be re-positioned
+      separately from the flow of paragraph text.
+  </p>
+    <object type="text/html" data="img/nested-figures.html"></object>
+<pre class="example highlight">
+&lt;figure id="fig1" role="figure region"&gt;
+    &lt;svg id="fig1A" class="nested-figure" role="figure"
+         aria-labelledby="fig1-caption, fig1A-caption"&gt;
+        &lt;!-- markup omitted--&gt;
+    &lt;/svg&gt;
+    &lt;svg id="fig1B" class="nested-figure" role="figure"
+         aria-labelledby="fig1-caption, fig1B-caption"&gt;
+        &lt;linearGradient id="reflect" spreadMethod="reflect"
+                        xlink:href="#repeat" /&gt;
+        &lt;text id="fig1B-caption" class="caption" dy="1em"
+              &gt;b) spreadMethod="reflect"&lt;/text&gt;
+        &lt;rect role="img"
+              y="25%" width="100%" height="75%" fill="url(#reflect)" &gt;
+            &lt;title&gt;A reflecting linear gradient&lt;/title&gt;
+            &lt;desc&gt;The gradient again starts dark, slowly shifting to light, 
+              then quickly dark again.  However, the next repeat shifts
+              quickly to the light, then slowly back dark.  
+              The original pattern is then repeated, followed by the reflected
+              version again.
+            &lt;/desc&gt;
+        &lt;/rect&gt;
+    &lt;/svg&gt;
+    &lt;figcaption id="fig1-caption"
+                &gt;Figure 1: Repeating SVG gradients&lt;/figcaption&gt;
+&lt;/figure&gt;
+</pre>
+  
+  <p>
+    Finally, the last version uses a <rref>graphics-doc</rref>
+    to include complex annotations on the graphic, 
+    which is still contained within a figure element.
+    The two sections of the graphic are <rref>graphics-object</rref> elements,
+    while the annotations have individual labels and descriptions.
+  </p>
+    <object type="text/html" data="img/figure-graphics-doc.html"></object>
+    <pre class="example highlight">
+&lt;figure id="fig1" role="figure region"&gt;
+    &lt;svg role="graphics-doc"&gt;
+        &lt;title&gt;Repeating versus reflecting linear gradients&lt;/title&gt;
+        &lt;desc&gt;
+            The graphic shows two gradient patterns,
+            annotated with text labels and arrows.
+            Both gradients use the same series of color stops,
+            starting dark, slowly shifting to light, 
+            then quickly dark again.
+            This cycle covers one-quarter of the width of the graphic,
+            starting on the left.
+            The two gradients differ in their repeat cycles.
+        &lt;/desc&gt;
+        &lt;defs&gt;
+            &lt;!-- markup omitted --&gt;
+        &lt;/defs&gt;
+        &lt;g role="graphics-object" aria-labelledby="repeat-label"&gt;
+            &lt;!-- markup omitted --&gt;
+        &lt;/g&gt;            
+        &lt;g role="graphics-object" aria-labelledby="reflect-label"&gt;
+            &lt;desc&gt;
+                The gradient stretches across the bottom half of 
+                the graphic.
+                Each cycle of the gradient alternates direction,
+                left-to-right then right-to-left,
+                as do the arrows that emphasize the pattern.
+            &lt;/desc&gt;
+            &lt;rect y="50%" width="100%" height="50%" fill="url(#reflect)" /&gt;
+            &lt;/rect&gt;
+            &lt;use y="70%" xlink:href="#gradient-vector" &gt;
+                &lt;title&gt;1st cycle&lt;/title&gt;
+                &lt;desc&gt;left-to-right arrow, starting from x="0"&lt;/desc&gt;
+            &lt;/use&gt;
+            &lt;use y="70%" x="-50%" transform="scale(-1,1)"
+                 xlink:href="#gradient-vector" &gt;
+                &lt;title&gt;2nd cycle, reflected&lt;/title&gt;
+                &lt;desc&gt;right-to-left arrow, ending at x="25%"&lt;/desc&gt;
+            &lt;/use&gt;
+            &lt;use y="70%" x="50%" xlink:href="#gradient-vector" &gt;
+                &lt;title&gt;3rd cycle&lt;/title&gt;
+                &lt;desc&gt;left-to-right arrow, starting from x="50%"&lt;/desc&gt;
+            &lt;/use&gt;
+            &lt;use y="70%" x="-100%" transform="scale(-1,1)"
+                 xlink:href="#gradient-vector" &gt;
+                &lt;title&gt;4th cycle, reflected&lt;/title&gt;
+                &lt;desc&gt;right-to-left arrow, ending at x="75%"&lt;/desc&gt;
+            &lt;/use&gt;
+            &lt;text id="reflect-label" class="overlay-text" 
+                  aria-label="spreadMethod='reflect'"
+                  dy="-0.2em" dx="-0.2em" x="100%" y="100%"
+                  &gt;reflect&lt;/text&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;
+    &lt;figcaption&gt;Figure 1: spreadMethod options for
+        repeating SVG gradients&lt;/figcaption&gt;
+&lt;/figure&gt;
+    </pre>
+</div>    
+
+      <p class="ednote">
+          Should we expand on the following example 
+          to demonstrate how canvas hit regions create a graphical document?
+      </p>
+				<pre class="example highlight">
+&lt;!-- Within the fallback DOM dynamically constructed
+     for an HTML 5 canvas game,
+     elements may represent the different images
+     that create the composite graphic --&gt;
+&lt;canvas role="graphics-doc"&gt;
+    &lt;p id="scene-desc" role="img" 
+       aria-label="The Dungeon"
+       aria-describedby="scene-desc"&gt;
+       The door opens into a long hallway.
+       Every few steps on either side are barred doors.
+       Moisture drips from the stone walls.
+    &lt;/p&gt;
+    &lt;p id="grue-1" role="img"
+       aria-label="Grue"
+       aria-describedby="grue-1"&gt;
+       An amorphous and poorly defined, but unmistakably sinister,
+       creature blocks the passage.
+   &lt;/p&gt;
+   &lt;!-- more DOM elements representing game controls --&gt;
+&lt;/canvas&gt;
+</pre>
+    
+  <div class="ednote">
+    The following definition of the <code>figure</code> role is
+    maitained here until it can be incorporated into [[WAI-ARIA]].
+<div class="role">
+			<rdef>figure</rdef>
+			<div class="role-description">
+        <p>
+            A distinct perceivable <rref>section</rref> of the page, 
+            that contributes essential meaning 
+            to the containing document or article's content, 
+            but is not part of a continuous stream of surrounding text.  
+            A figure can be shifted within the layout of the document 
+            without disruption, 
+            but it cannot be removed without losing meaning.
+        </p>
+        <p>
+            A figure often has a visible caption.
+            It may be referenced from the surrounding text 
+            using a hyperlink or a numbered label.  
+            Figures will often contain graphical content. 
+            However, other content types 
+            with a similar position in the document structure, 
+            such as labelled code samples or audio elements,
+            would also be figures.  
+            Figures may be nested, 
+            if the nested figures are also likely 
+            to be referenced as discrete units within the page.
+        </p>
+        <p>
+            The semantics of this role are intended to mirror 
+            the native semantics of the 
+            <a href="http://www.w3.org/TR/html5/grouping-content.html#the-figure-element">figure</a> 
+            element in [[HTML5]].  
+            It is expected to be the default semantic role for that element.
+        </p>
+        <p class="note">
+            To support user agents and assistive technologies 
+            based on the ARIA 1.0 specification, 
+            authors may wish to include the <rref>region</rref> role 
+            as a fallback value, 
+            in the form <code>role="figure region"</code>.
+        </p></div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>region</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base">
+                <a href="http://www.w3.org/TR/html5/grouping-content.html#the-figure-element">HTML figure</a></td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">False</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+  </div>
  	</section>
 </section>
 <section class="normative" id="state_prop">
