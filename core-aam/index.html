@@ -2416,22 +2416,35 @@ var mappingTableLabels = {
       <p>If the author specifies a non-numeric value for a decimal or integer value type, the user agent SHOULD do the following:</p> 
         <ul>
           <li>When asked for the string version of the property, return the string if specified by the author.</li>
-          <li>When asked for the decimal version, return a default value of 0.0 for decimal value types and 0 for integer value types.        </li>
+          <li>When asked for the numeric version:
+            <ul>
+              <li>Follow the guidance in the <a href="#authorErrorDefaultValuesTable">Default values for missing required attributes</a> table below, if applicable. </li>
+              <li>Otherwise, return a default value of 0.0 for decimal value types and 0 for integer value types. </li>
+            </ul>
         </ul>
       <p>If a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property contains an unknown or disallowed value, the user agent SHOULD expose to platform <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> as follows:</p>
-		  <ul>
+	  <ul>
         <li>When exposing as an object attribute, expose the unknown value &#8212; do not vet it against possible values. </li>
-        <li> When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean <a class="termref">state</a>, treat &quot;&quot;,  &quot;undefined&quot; or no <a class="termref">attribute</a> present as false. Treat any other value as  true.</li>
-        <li>Otherwise, ignore the value and treat the property as not present</li>
+        <li> When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean <a class="termref">state</a>:
+          <ul>
+            <li>For values of &quot;&quot; (empty string),  &quot;undefined&quot; or no <a class="termref">attribute</a> present:
+              <ul>
+                <li>Follow the guidance in the <a href="#authorErrorDefaultValuesTable">Default values for missing required attributes</a> table below, if applicable. </li>
+                <li>Otherwise, treat as false. </li>
+              </ul>
+            </li>
+            <li>Treat any other value as true.</li>
+          </ul>
+        <li>Otherwise, ignore the value and treat the property as not present.</li>
       </ul>
       <p class="note">In <abbr title="User Interface Automation">UIA</abbr>, the user agent might leave the corresponding property set to &quot;unsupported.&quot;</p>
-      <p>User agent MUST NOT expose <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes that reference unresolved ID's. For example:</p>
+      <p>User agent MUST NOT expose <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes that reference unresolved IDs. For example:</p>
       <ul>
         <li>When the state or property has only one ID reference that cannot be resolved, treat as if the state or property is not present.</li>
         <li>When the state or property has a list of ID references, ignore any that can't be resolved. If none in the list can be resolved, treat as if the state or property is not present.</li>
       </ul>
       <p>If a required <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attribute for a given role is missing, user agents SHOULD process the attribute as if the values given in the following table were provided.</p>
-        <table>
+        <table id="authorErrorDefaultValuesTable">
           <caption>Default values for missing required attributes</caption>
 				<thead>
 					<tr>
