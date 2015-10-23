@@ -723,6 +723,17 @@ var mappingTableLabels = {
         section of the Core Accessibility API Mappings [[CORE-AAM]].
       </p>
       
+      <div class="note">
+        <p>
+          The <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>opacity</code></a> property (of an element itself or an ancestor element) can make an element invisible.  However, this is not considered a hiding method that excludes elements from the accessibility tree.  
+        </p>
+        <p>
+          Opacity (unlike the fill, stroke, and visibility properties) does not affect <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> processing. Furthermore, opacity is often animated, e.g. to create a blinking effect, which would problematic if this led to repeated changes in the accessibility tree.   
+        </p>
+        <p>
+          Authors are therefore advised not be rely on zero opacity to hide inactive content.  If opacity is used to fade out no-longer relevant content, the <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> attribute can be used to indicate that assistive technologies should ignore the element and its descendents.
+        </p>
+      </div>
       <p>
         In addition to these non-displayed elements,
         many SVG elements&mdash;although rendered to the screen&mdash;do not have an intrinsic semantic meaning.
@@ -836,17 +847,6 @@ var mappingTableLabels = {
           with the editors of CORE-AAM to develop 
           clear and universal guidance.  
           Feedback from authors and implementers is appreciated.
-        </p>
-      </div>
-      <div class="ednote">
-        <p>
-          The <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>opacity</code></a> property is not currently included as a hiding method that excludes elements from the accessibility tree.  
-        </p>
-        <p>
-          Zero opacity (of an element itself or an ancestor element) can make an element invisible. However, opacity (unlike the fill, stroke, and visibility properties) does not affect <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> processing. Furthermore, opacity is often animated, e.g. to create a blinking effect, which would problematic if this led to repeated changes in the accessibility tree.   
-        </p>
-        <p>
-          Since opacity is not included in the definition of hidden elements, authoring guidance should explicitly warn that the property should not be used to hide inactive content.
         </p>
       </div>
     </section>
@@ -1634,10 +1634,11 @@ var mappingTableLabels = {
     <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role, 
     but with the following platform-specific API mappings:
     <dl>
-      <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></dt>
+<!--      <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></dt>
                       <dd>
                           <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
                         </dd>
+-->
         <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></dt>
                     <dd>
                       <span class="type">Role: </span>
@@ -1828,6 +1829,12 @@ var mappingTableLabels = {
           which support complex child content.
         </li>
       </ul>
+      <p>Any changes would also have an impact
+        on the appropriate treatment of <code>use</code>
+        references in the
+        <a href="#mapping_additional_nd">Name and Description</a> computation; 
+        see the note in that section for more issues.
+      </p>
       <p>
         The editors welcome feedback about 
         the appropriate default and possible behaviors,
@@ -2182,6 +2189,14 @@ var mappingTableLabels = {
           the two values:
           specific first, then general,
           or general then specific (as in the example)?
+        </p>
+        <p>
+          Alternatively, if the re-used graphic
+          is represented as a cloned subtree,
+          as proposed in a <a href="#role-map-use">note to the <code>use</code> element role mapping</a>,
+          The cloned circle, including its name and description,
+          would be accessible as a child element
+          of the <code>use</code>.
         </p>
       </div>
       
