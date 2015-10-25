@@ -81,13 +81,19 @@ var biblio = {
 			"Alexander Surkov"
 		],
 		"etAl": true,
-		"href": "http://www.w3.org/TR/html-aam/",
-		"title": "HTML Accessibility API Mappings 1.1",
-		"status": "ED",
+		"href": "http://www.w3.org/TR/html-aam-1.0/",
+		"title": "HTML Accessibility API Mappings 1.0",
+		"status": "WD",
 		"publisher": "W3C",
 		"deliveredBy": [
-			"http://www.w3.org/html"
+			"http://www.w3.org/html",
+			"http://www.w3.org/WAI/PF/"
 		]
+	},
+	"MSAA": {
+		"href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
+		"title": "Microsoft Active Accessibility (MSAA) 2.0",
+		"publisher": "Microsoft Corporation"
 	},
 	"SVG-AAM": {
 		"title": "SVG2 Accessibility API Mappings 1.1",
@@ -160,6 +166,11 @@ var biblio = {
 		"deliveredBy": [
 			"http://www.w3.org/WAI/PF/"
 		]
+	},
+	"UI-AUTOMATION": {
+		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
+		"title": "UI Automation",
+		"publisher": "Microsoft Corporation"
 	},
 	// Custom reference for UIA Express (not available from SpecRef biblio).
 	"UIA-EXPRESS": {
