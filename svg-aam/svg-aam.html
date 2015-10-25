@@ -176,7 +176,7 @@ var mappingTableLabels = {
 </section>
 <section id="sotd">
 	<p>
-    This is a First Public Working Draft of SVG Accessibility API Mappings 1.0 
+    This is a <mark>First Public Working Draft</mark> of SVG Accessibility API Mappings 1.0 
     by the <a href="http://www.w3.org/WAI/PF/svg-a11y-tf/">SVG Accessibility Task Force</a>, 
     a joint task force of the 
     <a href="http://www.w3.org/WAI/PF/">Protocols &amp; Formats Working Group</a> 
@@ -196,13 +196,31 @@ var mappingTableLabels = {
   </p>
     <ul>
         <li>Are mappings of SVG features clear and appropriate?</li>
+        <li>In particular, is the handling of SVG-specific
+            rendering behavior such as views, re-used graphics,
+            declarative animation, and non-rendered elements
+            clearly defined and consistent with the semantics
+            that a fully sighted user would receive from 
+            the graphics?
+        </li>
+        <li>Is the handling of alternative text metadata
+            sufficient to support complete descriptions
+            of complex graphics?
+        </li>
         <li>Are ambiguities between the role of WAI-ARIA and SVG features resolved?</li>
         <li>Is the relationship of this specification to Core Accessibility API Mappings 1.1 and Accessible Name and Description: Computation and API Mappings 1.1 clear?</li>
         <li>Is the relationship of this specification to SVG2 and WAI-ARIA 1.1 clear?</li>
     </ul>
+    <p>
+        The editors have highlighted particularly problematic
+        aspects of the specification, 
+        or areas where further clarification is likely to be required,
+        in the form of Editor's Notes boxes throughout the text.
+        Comments on these issues would be particularly appreciated.
+    </p>
 	<p>
     To comment, send email to <a href="mailto:public-svg-a11y@w3.org?subject=%5BSVG-AAM%5D%20public%20comment">public-svg-a11y@w3.org</a> (<a href="http://lists.w3.org/Archives/Public/public-svg-a11y/">comment archive</a>) or <a href="https://www.w3.org/Bugs/Public/enter_bug.cgi?product=ARIA&amp;component=SVG%20AAM&amp;version=1.0">file an issue in W3C Bugzilla</a>. 
-    Comments are requested by 27 March 2015. 
+    Comments are requested by <mark>27 March 2015</mark>. 
     In-progress updates to the document may be viewed 
     in the <a href="http://w3c.github.io/aria/svg-aam/svg-aam.html">publicly visible editors' draft</a>.
   </p>
@@ -223,10 +241,12 @@ var mappingTableLabels = {
     a contract between applications and assistive technologies, 
     such as screen readers, magnifiers, alternate input devices, and speech command and control, 
     to enable them to access the appropriate semantics needed to produce 
-    a usable alternative to interactive applications. 
+    a usable alternative to interactive applications or complex documents. 
     For example, screen-reading software for blind users can determine 
     whether a particular <abbr title="user interface">UI</abbr> component 
     is a menu, button, text field, list box, etc.
+    It can also present the information in tables or lists
+    in a way that provides context for each piece of text.
   </p> 
   <p>
     For web documents and applications, 
@@ -255,13 +275,16 @@ var mappingTableLabels = {
   <p>
     SVG 2 now incorporates traditional keyboard navigation from HTML 5. 
     The <a class="termref" data-lt="user agent">user agent</a> 
-    provides focus navigation to <abbr title="Scalable Vector Graphics">SVG</abbr> elements 
+    provides sequential focus navigation to <abbr title="Scalable Vector Graphics">SVG</abbr> elements 
     that are interactive by default (links and audio/video elements with controls), 
     or that the author has indicated may receive focus 
     (through the use of <code>tabindex</code> attribute). 
+    Focus may also be set or removed programmatically by scripts,
+    so that authors may implement 
+    more complex keyboard focus patterns.
   </p>
   <p>
-    SVG closely aligns with the <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a>
+    SVG closely aligns with <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a>
     and HTML5 events to facilitate JavaScript use. 
     Through the use of technologies 
     such as JavaScript, Ajax, and <abbr title="cascading style sheets">CSS</abbr>, 
@@ -299,7 +322,7 @@ var mappingTableLabels = {
       It defines the core roles, states, and properties.
     </li>
     <li>
-      <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> specification [[CORE-AAM], 
+      <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> specification [[CORE-AAM]], 
       which expresses how <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 
       <a href="#dfn-role" class="termref">roles</a>, <a href="#dfn-state" class="termref">states</a>, and <a href="#dfn-property" class="termref">properties</a> 
       should be supported in user agents 
@@ -344,16 +367,16 @@ var mappingTableLabels = {
   <ul>
     <li>The procedure for mapping the DOM tree to the accessibility tree
       is designed to simplify that tree 
-      to only include elements with semantic importance
+      to only include elements with semantic importance.
     </li>
-    <li>SVG elements have default roles and properties, 
-      but in many cases these roles depend on 
-      the criteria for inclusion in the accessibility tree
+    <li>SVG elements are assigned default roles and properties, 
+      which in many cases are conditional on whether they meet 
+      the criteria for inclusion in the accessibility tree.
     </li>
-    <li>Text computation of names and descriptions use the SVG metadata elements
+    <li>Text computation of names and descriptions use the SVG metadata elements.
     </li>
     <li>Implicit ARIA states (such as whether an element is hidden) must be updated
-      in response to SVG animations
+      in response to SVG animations.
     </li>
   </ul>
 	<section id="intro_aapi">
@@ -370,11 +393,15 @@ var mappingTableLabels = {
       The elements of the document are organized into a hierarchy of nodes 
       known as the <abbr title="document object model">DOM</abbr> tree. 
       User agents map <abbr title="Document Object Model">DOM</abbr>
-      to accessibility <abbr title="Application Programming Interfaces">APIs</abbr> 
-      in the same way desktop applications map UI components do 
-      to support assistive technologies with the expectation 
+      to accessibility <abbr title="Application Programming Interfaces">APIs</abbr>,
+      in the same way desktop applications map UI components. 
+      The information provided to the accessibility API is used to
+      support assistive technologies, with the expectation 
       that the information passed from the DOM 
       matches the semantic intent of the author. 
+      The author may communicate this semantic intent 
+      by using native features of the document language
+      or by using WAI-ARIA, if native features are not available.
     </p> 
     <p>
       Authors use <abbr title="Scalable Vector Graphics">SVG</abbr> to create a broad range of
@@ -391,7 +418,7 @@ var mappingTableLabels = {
     </p>
     <p>
       Accessibility <abbr title="Application Programming Interfaces">APIs</abbr> 
-      supported by this document are:
+      supported by this document (and the other specifications it extends) are:
     </p>
     <ul>
       <li>
@@ -421,20 +448,21 @@ var mappingTableLabels = {
     <p>
       The <a class="termref" data-lt="Accessibility Tree">accessibility tree</a> 
       and the <abbr title="Document Object Model">DOM</abbr> tree are parallel structures.  
-      Roughly speaking the accessibility tree is a subset 
-      of the <abbr title="Document Object Model">DOM</abbr> tree.  
-      It includes the user interface <a class="termref" data-lt="Object">object</a>s 
+      Roughly speaking, the accessibility tree is a subset 
+      of the <abbr title="Document Object Model">DOM</abbr> tree,
+      augmented to
+      include the user interface <a class="termref" data-lt="Object">object</a>s 
       of the <a class="termref" data-lt="user agent">user agent</a> 
-      and the objects of the document. 
+      as well as the objects of the document. 
       <a class="termref" data-lt="Accessible object">Accessible object</a>s are created 
       in the accessibility tree for every 
       <abbr title="Document Object Model">DOM</abbr>  <a class="termref" href="#dfn-element">element</a> 
       that should be exposed to an 
-      <a class="termref" href="#dfn-assistive-technologies">assistive technology</a>, 
-      either  because it may fire an accessibility <a href="#dfn-event" class="termref">event</a> 
+      <a class="termref" href="#dfn-assistive-technologies">assistive technology</a>. 
+      An element could be exposed because it may fire an accessibility <a href="#dfn-event" class="termref">event</a> 
       or because it has a <a class="termref" data-lt="Property">property</a>, 
       relationship or feature which needs to be exposed. 
-      Generally if  something can be trimmed out it will be, 
+      Generally, if something can be omitted it will be, 
       for reasons of performance and  simplicity. 
       For example, a <code>&lt;span&gt;</code> with just a style change 
       and no <a class="termref" data-lt="semantics">semantics</a> 
@@ -485,6 +513,8 @@ var mappingTableLabels = {
 <section id="glossary">
   <h2>Important Terms</h2>
   <div data-include="../common/terms.html" data-oninclude="fixIncludes" data-include-replace='true'>Placeholder for glossary</div>
+    <p class="ednote">The definition of <a class="termref">hidden</a> used here may need to be clarified;
+    see notes in the section <a href="#exclude_elements">Excluding Elements from the Accessibility Tree</a>.</p>
 </section>
 <section class="section" id="keyboard-focus">
 	<h2>Supporting Keyboard Navigation</h2>
@@ -541,26 +571,74 @@ var mappingTableLabels = {
     <section id="exclude_elements">
       <h4>Excluding Elements from the Accessibility Tree</h4>
       <p>
+        Certain elements in the <abbr title="Document Object Model">DOM</abbr>
+        are not exposed via the <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interface">API</abbr></a>.
+        The section <a class="core-mapping" href="#exclude_elements2">Excluding Elements from the Accessibility Tree</a> 
+        of the Core Accessibility API Mappings [[CORE-AAM]]
+        outlines the general rules for excluding elements.
+        One factor is whether host language semantics specify
+        that the element should not be displayed.
+      </p>
+      <p>
         The SVG language defines numerous elements 
-        that have host language semantics specifying that the element is not displayed.
+        that fit this criteria.
         Many SVG elements are never directly rendered to the screen,
         while others may or may not be rendered or displayed, 
         depending on context or CSS styling.
-        These elements should not be included 
-        in the accessibility tree 
-        exposed to accessibility <abbr title="Application Programming Interfaces">APIs</abbr>
+        Elements which are neither perceivable nor interactive
+        should not be included in the accessibility tree 
+        exposed to accessibility <abbr title="Application Programming Interfaces">APIs</abbr>.
+        This section details the expected interpretation
+        of SVG host language semantics.
       </p>
+      <div class="note">
+        <p>The other factors for excluding elements, 
+          as described in the Core Accessibility API Mappings,
+          are as follows:
+        </p>
+        <ul>
+          <li>If the first mappable role provided by the author
+          is <a class="role-reference" href="#none"><code>none</code></a > or <a class="role-reference" href="#presentation"><code>presentation</code></a>, the element must not be exposed.</li>
+          <li>If the element or an ancestor has an 
+          <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> value of <code>true</code>,
+          it should not be exposed.</li>
+          <li>If an ancestor of the element has a used role
+            which has the characteristic &quot;<a class="specref" href="#childrenArePresentational">Children Presentational: True</a>&quot;
+            in the WAI-ARIA specifications [[WAI-ARIA]], 
+            the child element should not be exposed.
+            For example, the roles
+            <a class="role-reference" href="#button"><code>button</code></a> and 
+            <a class="role-reference" href="#img"><code>img</code></a>
+            exclude all child content from being directly included
+            in the accessibility tree.
+          </li>
+        </ul>
+        <p>Consult the original document [[CORE-AAM]] for the normative text.</p>
+      </div>
       
       <p>
-        With the exceptions of an <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>, User agents <strong class="rfc2119">MUST NOT</strong> include any elements, or their descendant content, as an <a class="termref" data-lt="accessible object">accessible object</a> in the <a class="termref" data-lt="accessibility tree">accessibility tree</a> that are indicated as <code>no <a class="termref" data-lt="accessible object">accessible object</a> created</code> in the <a href="#mapping_role_table">SVG Element Mapping Table</a>. User agents <strong class="rfc2119">SHOULD</strong> also exclude 
-        any element defined by a future SVG specification or module
-        which specifically indicates that the element is never directly rendered.
-      </p>      
+       Elements which are never directly rendered to screen, 
+       nor represented by an interactive region in a graphic,
+       do not need a corresponding accessible object.
+       User agents <strong class="rfc2119">MUST NOT</strong> include any elements, or their descendant content, as an <a class="termref" data-lt="accessible object">accessible object</a> in the <a class="termref" data-lt="accessibility tree">accessibility tree</a> that are indicated as <code>no accessible object created</code> in the <a href="#mapping_role_table">SVG Element Mapping Table</a>.  
+        User agents <strong class="rfc2119">SHOULD</strong> also exclude 
+        any other element defined by past or future SVG specifications or modules
+        that specifically indicate the element is never directly rendered.
+        </p>
+        <p>
+      For example, elements that represent 
+      filters, gradients, or gradient stops 
+      will never create an accessible object.
+      Shape elements or image elements that are included 
+      in an SVG definitions section or as part of a pattern
+      will also not have accessible objects, 
+      because the semantics of the ancestor 
+      <code>defs</code> or <code>pattern</code> element
+      preclude that entire DOM subtree from being represented
+      in the accessibility tree.
+      </p> 
       <p>
-      In the case of an <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>, user agents <strong class="rfc2119">MUST NOT</strong> include an accessible object in the accessibility tree unless a role of <a class="role-reference" href="#application"><code>application</code></a>, <a class="role-reference" href="#document"><code>document</code></a>, or <a class="role-reference" href="#img"><code>img</code></a> is applied to the <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>.
-      </p>
-      <p>
-      Elements that are excluded from the <a class="termref" data-lt="accessibility tree">accessibility tree</a> might still be used in the name and description computation of another element, as defined in the Name and Description section.
+      Elements that are excluded from the <a class="termref" data-lt="accessibility tree">accessibility tree</a> might still be used in the name and description computation of another element, as defined in the <a href="#mapping_additional_nd">Name and Description</a> section.
       </p>
       <p class="note">
         Although they are not directly included in the accessibility tree,
@@ -590,10 +668,10 @@ var mappingTableLabels = {
       
       <p>
         The rendering of SVG elements is also affected by CSS styling properties, 
-        which may be specified using stylesheet rules, inline styles, or presentation attributes.
+        which may be specified using stylesheet rules, inline styles, presentation attributes, or animations.
         Regardless of how the style property is specified,
         the effect depends on the final computed value 
-        determined by the CSS cascade.
+        determined by the CSS cascade [[CSS-CASCADE-3]].
         User agents <strong class="rfc2119">MUST NOT</strong> 
         expose to accessibility APIs
         any element that is not rendered 
@@ -601,22 +679,28 @@ var mappingTableLabels = {
         a value of <code>none</code> 
         for the <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>display</code></a> property.
       </p>
-      <p class="ednote">
-        Should there be a reference for CSS cascade? 
-        If so, should it be normative?
+      <p>
+        Other style properties can prevent an element,
+        which is otherwise part of the rendering tree,
+        from creating any visible representation in the rendered graphic.
+        Such elements may still be interactive;
+        they may receive keyboard focus
+        or they may be associated with a region of the graphic
+        that is responsive to pointer input events.
       </p>
       <p>
-        Other style properties can hide elements
-        that are otherwise part of the rendering tree.
-        Such elements may still be interactive.
+        For the purpose of SVG,
+        an element is considered <a class="termref">hidden</a>
+        if it is <em>neither</em> visible nor interactive,
+        and is therefore not <a class="termref">perceivable</a> to visual users.
         User agents <strong class="rfc2119">SHOULD NOT</strong> 
         expose to accessibility APIs
-        any element that is hidden
+        any element that is hidden in this sense.
+        This includes elements that have the following computed style values,
         <em>unless</em> the element can receive user input
         (pointer events or keyboard focus) 
         as described under 
-        <a href="#include_elements">Including Elements in the Accessibility Tree</a>.
-        This includes elements that have the following computed style values:
+        <a href="#include_elements">Including Elements in the Accessibility Tree</a>:
       </p>
       <ul>
         <li>
@@ -625,28 +709,39 @@ var mappingTableLabels = {
         </li>
         <li>
           a value of <code>none</code> 
-          for both the <a href="https://svgwg.org/svg2-draft/painting.html#SpecifyingFillPaint"><code>fill</code></a> 
+          for <em>both</em> the <a href="https://svgwg.org/svg2-draft/painting.html#SpecifyingFillPaint"><code>fill</code></a> 
           and <a href="https://svgwg.org/svg2-draft/painting.html#SpecifyingStrokePaint"><code>stroke</code></a> properties 
           of text or shape elements
-        </li>
-        <li>
-          a value of 0 
-          for the <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>opacity</code></a> property of itself or an ancestor element
         </li>
       </ul>
       <p>
         An element that is currently positioned off-screen,
         or that is obscured by other elements,
-        is not considered hidden.
+        is not considered hidden.  
+        User agents should expose this state through other means,
+        as described in the <a class="core-mapping" href="#statePropertyMappingGeneralRules">State and Property Mapping</a>
+        section of the Core Accessibility API Mappings [[CORE-AAM]].
       </p>
       
+      <div class="note">
+        <p>
+          The <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>opacity</code></a> property (of an element itself or an ancestor element) can make an element invisible.  However, this is not considered a hiding method that excludes elements from the accessibility tree.  
+        </p>
+        <p>
+          Opacity (unlike the fill, stroke, and visibility properties) does not affect <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> processing. Furthermore, opacity is often animated, e.g. to create a blinking effect, which would problematic if this led to repeated changes in the accessibility tree.   
+        </p>
+        <p>
+          Authors are therefore advised not be rely on zero opacity to hide inactive content.  If opacity is used to fade out no-longer relevant content, the <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> attribute can be used to indicate that assistive technologies should ignore the element and its descendents.
+        </p>
+      </div>
       <p>
-        Many SVG elements, although rendered to the screen,
-        do not have an intrinsic semantic meaning.
+        In addition to these non-displayed elements,
+        many SVG elements&mdash;although rendered to the screen&mdash;do not have an intrinsic semantic meaning.
         Instead, they represent components of the visual presentation of the document.
         To simplify the accessible representation of the document,
         these purely presentational elements would normally be omitted
-        from the accessibility tree.
+        from the accessibility tree,
+        unless the author explicitly provides semantic content.
       </p>      
       <p>
         The following elements in the SVG namespace 
@@ -682,35 +777,58 @@ var mappingTableLabels = {
         <li>
           the <code>foreignObject</code> element
         </li>
+        <!--
+        <li>
+          the <code>canvas</code> element
+        </li>
+        <li>
+          the <code>iframe</code> element
+        </li>
+        -->
       </ul>
       <p>
         Although these elements are omitted from the accessibility tree,
-        their child content is still processed,
-        as if it was a direct child of the next higher node in the DOM tree.  
+        their child content 
+        <!-- (or the embedded document, for an <code>iframe</code>) -->
+        is still processed,
+        as if it was a direct child of the nearest ancestor node in the DOM tree that is included in the accessibility tree.  
         In other words, the markup elements are treated
         as if they had a role of <code>none</code> or <code>presentation</code>.
       </p>
       
-      <p class="ednote">
-        The strict exclusion of metadata elements, including <code>desc</code>,
+      <div class="ednote">
+        <p>
+        The strict exclusion of non-rendered metadata elements, including <code>desc</code>,
         from the accessibility tree
         means that their content will only be available as plain text,
         not as structured alternative representations
-        that a user can navigate.
+        that a user can navigate in browsing mode.
+        </p>
+        <p>
         This contradicts the original intent of the SVG specifications,
         which allows these elements to include structured content,
         including HTML-namespaced content.
+        The SVG 1 specifications had suggested that this could
+        be alternatively presented as CSS-formated XML text,
+        but this is not supported by the
+        user agent/assistive technology combinations
+        currently in use.
+          </p>
+        <p>
         The editors welcome feedback and suggestions
         on alternative ways to represent 
         this hidden alternative content
         in a way consistent with user agent and accessibility API implementations.
       </p>
+      </div>
       
       <div class="ednote">
         <p>
-          The definition of hidden elements is unwieldy and often irrelevant.
-          The CORE-AAM spec treats invisible elements (visibility: hidden)
-          equivalent to un-rendered elements (display: none).
+          The definition of hidden elements used here is
+          more complex than that currently suggested 
+          in the Core mapping document [[CORE-AAM]].
+          The CORE-AAM spec implies that invisible elements (<code>visibility: hidden</code>)
+          would be treated equivalent to un-rendered elements (<code>display: none</code>).
         </p>
         <p>
           For SVG, this is not always appropriate.
@@ -719,17 +837,16 @@ var mappingTableLabels = {
           while visible elements are presentational only.
           For example, large invisible elements are often used 
           to provide easy-to-hit targets for points in a map or datachart.
+          Because these elements react to pointer events,
+          they are effectively perceivable to pointer users,
+          and should be perceivable and interactive to
+          users of assistive technologies as well.
         </p>
         <p>
-          Perhaps this spec should avoid using the word "hidden",
-          and focus on the word "invisible"?
-          Elements can be invisible but not hidden 
-          because they are discoverable by user interaction.
-          Or use "hidden" only to mean "invisible and inaccessible to user input"?
-        </p>
-        <p>
-         <code>Action: Rich to take this up with the Core-AAM editor. The real issue is this an XML
-               grammar and elements become attributes of their containers. This is unlike HTML.</code>
+          The editors of this document will be coordinating
+          with the editors of CORE-AAM to develop 
+          clear and universal guidance.  
+          Feedback from authors and implementers is appreciated.
         </p>
       </div>
     </section>
@@ -737,7 +854,7 @@ var mappingTableLabels = {
     <section id="include_elements">
       <h4>Including Elements in the Accessibility Tree</h4>
       <p>
-        Any SVG element rendered to the screen may have semantic meaning.
+        Any rendered SVG element may have semantic meaning.
         Authors indicate the significance of the element by including
         alternative text content or 
         <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes.
@@ -775,67 +892,96 @@ var mappingTableLabels = {
         <li>
           It meets any of the criteria listed in the section 
           <a href="#include_elements" class="core-mapping">Including Elements in the Accessibility Tree</a> 
-          of the Core Accessibility API Mappings specification [[!CORE-AAM]],
-          <em>except</em> that a non-rendered element 
-          should not be included in the accessibility tree
-          solely because it is referenced by an 
-          <code>aria-labelledby</code> or <code>aria-describedby</code>
-          attribute of another element.         
+          of the Core Accessibility API Mappings specification [[!CORE-AAM]].      
         </li>
       </ul>
-      <p class="note">
-        The exception above is required because current best practice 
+      <div class="note">
+        <p>
+        At the time of drafting this document, 
+        those criteria are as follows:
+          <!-- Please confirm whether update is required
+              when re-publishing! -->
+        </p>
+        <ul>
+          <li>Text elements</li>
+          <li>Elements that may fire an accessibility <abbr title="Application Program Interface">API</abbr> <a class="termref">event</a></li>
+          <li>Elements that are focusable, or have an ID <a class="termref">attribute</a> and an ancestor with the <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> attribute that matches the implicit or explicit <a class="termref">semantics</a> of the required context role. In either case, the element may receive focus and need to fire a<code> FOCUS </code>event.</li>
+          <li>Elements that have a mappable role in the role attribute string (see <a class="core-mapping" href="#mapping_role">Role Mapping</a>). </li>
+          <li>Elements that have a global <abbr title="Accessible Rich Internet Application">WAI-ARIA attribute </abbr> but do not have <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a><code>=&quot;true&quot;</code>. (See  <a class="core-mapping" href="#exclude_elements2">Excluding Elements in the Accessibility Tree</a> for additional guidance on <code>aria-hidden</code>.)</li>
+          <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation (<a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>, <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>, <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> or <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>) and are not <a class="termref">hidden</a>.
+          </li>
+        </ul>
+        <p>
+          The latest version of the source document [[CORE-AAM]]
+          should be consulted for the normative text.
+        </p>
+        <p>
+        The exception for hidden elements means that 
+        SVG metadata elements or other non-rendered content
+        may be used in the accessible name and description
+        of another element without themselves being included
+        in the accessiblity tree.
+        For example, current best practice 
         for fallback browser support
         is to use <code>aria-labelledby</code> and <code>aria-describedby</code> 
         to redundantly link to
         <code>title</code> and <code>desc</code> child elements.
-        These elements should <em>only</em> be used to generate 
-        the accessible name/description for the parent element.
-        They should not be included as separate nodes in the tree.
-      </p>
+        Including these elements as separate nodes in the tree
+        would unnecessarily complicate the document
+        presented to screen reader users.
+        </p>
+      </div>
       <p>
-        The Core Accessibility API Mappings specification requires
-        that all elements that may fire an accessibility API event
-        should be included in the accessibility tree.
-        Elements that would normally be included in the accessibility tree
-        except for the fact they are hidden
-        (e.g., using the <code>visibility: hidden</code> style property)
+        Interactive elements are covered by the requirement
+        regarding elements that may fire an Accessibility API event.
+        For SVG, this specifically means that
+        elements that would normally be included in the accessibility tree
+        except for the fact they are invisible
+        (e.g., because of the <code>visibility: hidden</code> style property,
+        or a combination of <code>fill: none</code>
+        and <code>stroke: none</code> for shapes or text)
         should nonetheless be included in the accessibility tree
         if they can receive user input events.
         Particular examples to consider:
       </p>
       <ul>
         <li>
-          An element with certain values for the
+          A rendered but invisible element 
+          with certain values for the
           <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property
           (<code>bounding-box</code>,
           <code>painted</code>,
           <code>fill</code>,
           <code>stroke</code>, or
           <code>all</code>)
-          may receive pointer events despite being hidden.
+          may receive pointer events,
+          according to the rules for that property.
         </li>
         <li>
-          An element with a positive (including 0) value 
+          A rendered but invisible element 
+          with a non-empty value 
           for the <code>tabindex</code> attribute
           may receive keyboard focus and therefore keyboard input events.
         </li>
       </ul>
       <p>
+        Elements that are interactive in either of these ways
+        MUST be included in the accessbility tree.
+      </p>
+      <p>
         An element that is itself hidden may have children that are visible
         and/or can receive events.
-        If the child elements are excluded from the accessibility tree
+        If the child elements would otherwise be excluded from the accessibility tree
         because they lack semantic information,
         the nearest ancestor element that meets the criteria for inclusion
-        should be treated as if it was visible or was able to receive events.
+        SHOULD instead be treated as if it was visible or was able to receive events.
       </p> 
-      <p class="ednote">
-        <sup>[Note 1]</sup> Issue 698: 
-        Need to address mappings when tabindex or aria relationships 
-        are applied to elements whose native host language semantics have a strict role="none". 
-        Typically these should not be mapped (elements are never rendered). 
-        However, <code>tabindex</code> is technically allowed on all elements 
-        even though authors are unlikely to do it.
+      <p class="note">
+        The <code>tabindex</code> attribute 
+        and the <code>pointer-events</code> property
+        have no impact on elements which are not rendered at all,
+        because of the <code>display: none</code> property
+        or because of host language semantics.
       </p>
     </section>
   </section>
@@ -876,8 +1022,8 @@ var mappingTableLabels = {
       However, multiple roles may be specified 
       as an ordered set of space-separated valid role tokens. 
       The additional roles are fallback roles, 
-      similar to the concept of specifying multiple fonts 
-      in case the first choice font type is not supported.
+      similar to the concept of specifying multiple font families 
+      in case the first choice font is not supported.
       This allows the role taxonomy to be extended
       in future for specialized applications.
       The entire role string is exposed to accessibility technologies
@@ -905,19 +1051,6 @@ var mappingTableLabels = {
         in the Core Accessibility API Mappings specification,
         which define how WAI-ARIA roles are mapped to platform accessibility APIs. 
       </p>
-  <p class="ednote">
-    <sup>[Note 2]</sup> Issue 699: 
-    Address role="none" mapping to concrete objects in some platforms. 
-    A role of "none" should not be mapped 
-    unless there is an error condition 
-    to avoid unnecessary growth of the accessibility tree. 
-  </p>
-  <p class="ednote">
-    The "group" role is used in many cases as a generic container.
-    There may be more appropriate mappings available in some platforms,
-    which should be investigated.
-    The proposed ARIA roles for graphics will replace some of these defaults.
-  </p>
 <div class="table-container">
 <table class="map-table elements" id="role-mapping-table">
 <caption>
@@ -926,7 +1059,7 @@ var mappingTableLabels = {
   </caption>
 <thead>
 <tr>
-  <th>SVG ELement</th>
+  <th>SVG Element</th>
   <th>
     Default Platform 
     <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
@@ -976,8 +1109,8 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-audio-element"><code>audio</code></a>
   </th>
   <td>
-    Map to <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> 
-    except for platform ATK/ATSPI that maps to role: <code>ATK_ROLE_AUDIO</code>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-audio">the HTML audio element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>              
   <td>
     <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
@@ -988,11 +1121,12 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/scripting-1.html#the-canvas-element"><code>canvas</code></a>
   </th>
   <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-canvas">the HTML canvas element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>
     any role;
-    see <a class="core-mapping" href="#mapping_role_table">
+    see <a class="core-mapping" href="#mapping_role_table"><code>Role Mappings</code></a>
   </td>
 </tr>
 <tr id="role-map-circle">
@@ -1002,7 +1136,7 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
     if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created 
     <p class="note">
       If a symbol role is introduced, as proposed by the ARIA graphics module,
       it would become the default mapping where supported;
@@ -1031,7 +1165,9 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#DefsElement"><code>defs</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
+    for this element or any child content
+  </td>
   <td>no role may be applied</td>
 </tr>
 <tr id="role-map-desc">
@@ -1242,7 +1378,10 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-iframe">the HTML iframe element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+  </td>
   <td>
     <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a>, <a class="core-mapping" href="#role-map-document"><code title="attr-aria-role-document">document</code></a>, <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a>
   </td>
@@ -1338,7 +1477,8 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#PatternElement"><code>pattern</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
+    for this element or any child content</td>
   <td>no role may be applied</td>
 </tr>
 <tr id="role-map-polygon">
@@ -1348,7 +1488,7 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created 
     <p class="note">
       If a symbol role is introduced, as proposed by the ARIA graphics module,
       it would become the default mapping where supported;
@@ -1368,7 +1508,7 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created 
     <p class="note">
       If a symbol role is introduced, as proposed by the ARIA graphics module,
       it would become the default mapping where supported;
@@ -1395,7 +1535,7 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created 
     <p class="note">
       If a symbol role is introduced, as proposed by the ARIA graphics module,
       it would become the default mapping where supported;
@@ -1431,9 +1571,12 @@ var mappingTableLabels = {
 </tr>
 <tr id="role-map-source">
   <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#SourceElement"><code>source</code></a>
+    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-source-element"><code>source</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-source">the HTML source element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+  </td>
   <td>no role may be applied</td>
 </tr>
 <tr id="role-map-stop">
@@ -1479,19 +1622,64 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SymbolElement"><code>symbol</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
+    for this element or any child content</td>
   <td>no role may be applied</td>
 </tr>
 <tr id="role-map-text">
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextElement"><code>text</code></a>
   </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a>
+  <td>    
+    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role, 
+    but with the following platform-specific API mappings:
+    <dl>
+<!--      <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></dt>
+                      <dd>
+                          <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
+                        </dd>
+-->
+        <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></dt>
+                    <dd>
+                      <span class="type">Role: </span>
+                      <code>IA2_ROLE_PARAGRAPH</code>
+                    </dd>
+                    <dd>
+                      <span class="type">Interfaces: </span>
+                      <code>IAccessibleText2</code>; <code>IAccessibleHypertext2</code>
+                    </dd>
+                  <dt><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr></a></dt>
+                      <dd>
+                        <span class="type">Control Type: </span><code>Text</code></dd>
+                      <dt><a href="https://developer.gnome.org/atk/stable/">ATK</a></dt>
+                    <dd>
+                      <span class="type">Role: </span>
+                      <code>ATK_ROLE_PARAGRAPH</code>
+                    </dd>
+                    <dd>
+                      <span class="type">Interfaces: </span>
+                      <code>AtkText</code>; <code>AtkHypertext</code>
+                      </dd>
+        <dt><a href="https://developer.apple.com/library/mac/documentation/UserExperience/Reference/Accessibility_RoleAttribute_Ref/Introduction.html#//apple_ref/doc/uid/TP40007870">AX</a></dt>
+        <dd>
+                          <span class="type">AXRole: </span><code>AXGroup</code>
+                    </dd>
+                    <dd>
+                          <span class="type">AXSubrole: </span><code>(nil)</code>
+                    </dd>
+                    <dd> 
+                          <span class="type">AXRoleDescription: </span><code>"group"</code>
+          </dd>
+    
+    </dl>
     <p class="note">
-      The use of the group role here is that of generic container for text. 
-      More work is required to address what additional text interfaces 
-      are exposed through platform accessibility API services.
+      The platform mappings given above are the same
+      as those recommended for <a href="../html-aam/html-aam.html#el-p">the HTML p element</a>
+      in the HTML Accessibility API Mappings specification [[HTML-AAM]].
+      There is currently no WAI-ARIA role available
+      that defines a distinct text block.
+      However, such roles (denoting paragraphs or distinct text regions) exist in many platform accessibility APIs
+      and are therefore used instead of a generic group role.
     </p>
   </td>
   <td>
@@ -1506,11 +1694,17 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
-    <p class="note">
-      The use of the group role here is that of generic container for text. 
-      More work is required to address what additional text interfaces 
-      are exposed through platform accessibility API services.
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created, 
+    but changes in text styling SHOULD be exposed through
+    properties of the parent text element where supported
+    <p class="ednote">
+      The use of the group role here is that of generic container 
+      for a span of text content which either 
+      has supplementary alternative text labels or descriptions
+      or is interactive. 
+      More work is required to address whether 
+      text-specific platform accessibility API roles
+      can more effectively serve this function.
     </p>
   </td>
   <td>
@@ -1529,9 +1723,12 @@ var mappingTableLabels = {
 </tr>
 <tr id="role-map-track">
   <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#TrackElement"><code>track</code></a>
+    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-track-element"><code>track</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-track">the HTML track element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+  </td>
   <td>no role may be applied</td>
 </tr>
 <tr id="role-map-tspan">
@@ -1541,11 +1738,17 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, not mapped
-    <p class="note">
-      The use of the group role here is that of generic container for text. 
-      More work is required to address what additional text interfaces 
-      are exposed through platform accessibility API services.
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created, 
+    but changes in text styling SHOULD be exposed through
+    properties of the parent text element where supported
+    <p class="ednote">
+      The use of the group role here is that of generic container 
+      for a span of text content which either 
+      has supplementary alternative text labels or descriptions
+      or is interactive. 
+      More work is required to address whether 
+      text-specific platform accessibility API roles
+      can more effectively serve this function.
     </p>
   </td>
   <td>
@@ -1560,13 +1763,87 @@ var mappingTableLabels = {
   <td>
     <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
     if the element meets the criteria for <a href="include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created 
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created; 
+    see <a href="#mapping_additional_nd">Name and Description</a> mapping for special rules for <code>use</code> elements
     <p class="note">
       If a symbol role is introduced, as proposed by the ARIA graphics module,
       it would become the default mapping where supported;
       further work is required to determine how this role
       would map to platform APIs.
     </p>
+    <div class="ednote">
+      <p>
+        As currently proposed by this specification,
+        the re-used graphical elements 
+        would not be exposed directly,
+        although they can affect
+        the name and description calculation.
+      </p>      
+      <p>
+        This is reflected in the default roles.
+        Both the <code>img</code> role 
+        and proposed <code>graphics-symbol</code> role
+        create atomic objects; any child content is assumed presentational.
+        Assigning these roles to a <code>use</code> element
+        implies that the graphic drawn with that element
+        is accessible only as a single entity,
+        not as distinct component parts.
+      </p>
+      <p>
+        This is consistent with most SVG content
+        containing <code>use</code> elements,
+        for which the re-used graphic is a simple icon or image.
+        It is also consistent with the desire to simplify
+        the accessibility tree as much as possible.
+      </p>
+      <p>
+        However, it is not consistent with models 
+        in the SVG specifications 
+        that allow individual cloned graphic components
+        to receive and propagate user input (pointer) events.
+        The SVG 1.1 specifications [[SVG11]] defined
+        a <a href="http://www.w3.org/TR/SVG11/struct.html#UseElement">non-exposed document tree</a> consisting of SVGElementInstance objects which could be the targets of pointer events.
+        At the time of writing, the SVG 2 specifications [[SVG]]
+        propose significantly overhauling this model
+        in favour of one based on the Shadow DOM specification [[SHADOW-DOM]].
+        The full impact of this change on event handling
+        and accessiblity, particularly keyboard accessibility,
+        has not yet been explored.
+      </p>
+      <p>
+        In order to support a complex and interactive shadow DOM, 
+        special processing rules would be required
+        to generate an accessibility subtree 
+        representing the cloned content.
+        Two options would then be available:
+      </p>
+      <ul>
+        <li>
+          continue to use the <code>img</code>/<code>graphics-symbol</code> roles by default,
+          and therefore only create a cloned subtree 
+          if the author specifically assigns a different role, or
+        </li>
+        <li>
+          use a different default role 
+          such as <code>group</code> or the proposed <code>graphics-object</code>,
+          which support complex child content.
+        </li>
+      </ul>
+      <p>Any changes would also have an impact
+        on the appropriate treatment of <code>use</code>
+        references in the
+        <a href="#mapping_additional_nd">Name and Description</a> computation; 
+        see the note in that section for more issues.
+      </p>
+      <p>
+        The editors welcome feedback about 
+        the appropriate default and possible behaviors,
+        and would be particularly interested in any practical examples
+        of complex re-used content where a cloned DOM
+        needs to be available to assistive technologies
+        to ensure accessibility.
+      </p>
+    </div>
   </td>
   <td>
     any role;
@@ -1578,8 +1855,8 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element"><code>video</code></a>
   </th>
   <td>
-    Map to <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> 
-    except for platform ATK/ATSPI that maps to role: <code>ATK_ROLE_VIDEO</code>
+    Follow the recommendations for <a href="../html-aam/html-aam.html#el-video">the HTML video element</a>
+      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>
     <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
@@ -1589,7 +1866,10 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/linking.html#ViewElement"><code>view</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
+  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created;
+    see the section <a href="#mapping_view">SVG views</a> 
+    for special processing requirements
+  </td>
   <td>no role may be applied</td>
 </tr>
 
@@ -1755,6 +2035,60 @@ var mappingTableLabels = {
           </blockquote>
         </li>
       </ol>
+<!--
+      <div class="note">
+        <p>
+        The final procedure for determining the accessible name,
+        after incorporating the above changes,
+        can be summarized as follows:
+        </p>
+        <ol style="list-style: decimal">
+          <li><p>
+            Start with the element you wish to determine the name for, and an empty name string.
+          </p></li>
+          <li><p>
+          For every element or text node you process, 
+            do the following:
+            <ol style="list-style: upper-alpha">
+              <li><p>
+                If the node is not itself included in the accessibility tree,
+                and has <em>not</em> been specifically referenced by id 
+                from another element, skip over it.
+              </p></li>
+              <li><p>
+                Otherwise, if the node has an <code>aria-labelledby</code> attribute,
+                create a name by concatenating the names
+                (separated by spaces)
+                generated by processing (running step 2 for)
+                each element, in order, whose ID is referenced in that attribute.
+                When processing those referenced elements, 
+                skip this step 
+                (i.e., ignore <code>aria-labelledby</code>
+                on those elements).
+              </p></li>
+              <li><p>
+                Otherwise, if the node has an <code>aria-label</code> attribute,
+                use the attribute's text value as the name
+                <em>unless</em> 
+                this element has a widget role
+                and is <em>not</em> the element for which the name is being determined (in which case follow 2E).
+              </p></li>
+              <li><p>
+                Otherwise, use the text content of this element's
+                <code>title</code> element (in the user's preferred language where language options exist)
+                <em>OR</em> the <code>xml:title</code>
+                attribute value (if this element is a link)
+                <em>OR</em> (if this is a <code>use</code> element)
+                run the step 2 process
+              </p></li>
+              <li><p>
+              </p></li>
+            </ol>
+          </p></li>
+        </ol>
+      
+      </div>
+  -->
       <div class="note">
         <p>
           The net effect of these changes is to establish the following priority
@@ -1801,6 +2135,68 @@ var mappingTableLabels = {
           can reference the element on which they are given,
           in order to concatenate one of the other text alternatives
           with text from a separate element.
+        </p>
+      </div>
+      <div class="ednote">
+        <p>One of the effects of the given procedure
+          is that descriptive text and labels
+          provided for <code>use</code> elements
+          <em>replace</em> the equivalent alternative text
+          provided for the source graphics.
+          If an author wished to combine descriptions
+          for the general and specific instances,
+          an <code>aria-labelledby</code> or
+          <code>aria-describedby</code> attribute
+          would need to explicitly point
+          to both the source graphic and the
+          <code>use</code> instance.
+        </p>
+        <p>
+          A simple example would be as follows:
+        </p>
+        <code><pre>
+  &lt;defs>
+    &lt;circle id="c" r="1cm">
+      &lt;desc>A 1cm-radius circle&lt;/desc>
+    &lt;/circle>
+  &lt;/defs>
+  &lt;use xlink:href="#c" id="rc" style="fill:red"
+       aria-describedby="c rc">
+    &lt;title>Warning!&lt;/title>
+    &lt;desc>colored red&lt;/desc>
+  &lt;/use>
+        </pre></code>
+        <p>
+          The <code>use</code> element would have
+          the accessible name "Warning!"
+          (and would therefore be identified
+          as a "Warning! image" or "Warning! symbol")
+          and would have the accessible description
+          "A 1cm-radius circle colored red".
+          The original circle and the <code>defs</code> element,
+          which are never directly rendered,
+          would not be exposed in the accessibility tree.
+        </p>
+        <p>
+          An alternative approach would be to make
+          the implicit labelling/description relationship
+          between the <code>use</code> element and its source graphic
+          be in <em>addition</em> to any labels or descriptions
+          specified for the instance.
+          If that approach were chosen,
+          a decision would need to be made about the
+          appropriate order in which to concatenate
+          the two values:
+          specific first, then general,
+          or general then specific (as in the example)?
+        </p>
+        <p>
+          Alternatively, if the re-used graphic
+          is represented as a cloned subtree,
+          as proposed in a <a href="#role-map-use">note to the <code>use</code> element role mapping</a>,
+          The cloned circle, including its name and description,
+          would be accessible as a child element
+          of the <code>use</code>.
         </p>
       </div>
       
@@ -1865,17 +2261,17 @@ var mappingTableLabels = {
       <ul>
         <li>
           If the view includes a <code>viewTarget</code> attribute,
-          the <code>svg</code> element should be mapped 
+          the <code>svg</code> element SHOULD be mapped 
           as if it had an <code>aria-flowto</code> attribute
           specifying the same list of IDREF values 
           contained in the <code>viewTarget</code> attribute.
         </li>
         <li>
           If the view is applied using a <code>view</code> element,
-          the accessible name and description should be computed for that element,
+          compute the accessible name and description for that element,
           ignoring the fact that a <code>view</code> element is excluded from the accessibility tree.
-          If the result is a non-empty string, it should replace
-          the corresponding name or description for the <code>svg</code> element.
+          If the result is a non-empty string, it SHOULD replace
+          the corresponding name or description for the <code>svg</code> element while the view is in effect.
         </li>
       </ul>
       <p>
