@@ -1,0 +1,2728 @@
+<!--?xml version='1.0' encoding='UTF-8'?-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<title>WAI-ARIA Graphics Module 2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove"></script>
+<script src="../common/script/resolveReferences.js" class="remove"></script>
+	<script src="../common/biblio.js" class="remove"></script>
+<link href="../common/css/common.css" rel="stylesheet" type="text/css"/>
+<script class="remove" src="script/ariaChild.js"></script>
+<script class="remove" src="script/roleInfo.js"></script>
+<script class="remove">
+	var respecConfig = {
+               trace:  true,
+                doRDFa: '1.1',
+                includePermalinks: true,
+                permalinkEdge:     true,
+                permalinkHide:     false,
+                // specification status (e.g., WD, LC, NOTE, etc.). If in doubt use ED.
+                specStatus:           "ED",
+                //crEnd:                "2012-04-30",
+                //perEnd:               "2013-07-23",
+                //publishDate:          "2013-08-22",
+                diffTool:             "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
+
+                // the specifications short name, as in http://www.w3.org/TR/short-name/		
+		shortName:            "graphics-aria-2.0",
+
+                // if you wish the publication date to be other than today, set this
+                //publishDate:  "2014-12-11",
+                copyrightStart:  "2015",
+
+                // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+                // and its maturity status
+                //previousPublishDate:  "2014-06-12",
+                //previousMaturity:  "WD",
+                //prevRecURI: "http://www.w3.org/TR/2014/REC-wai-aria-20140320/",
+                //previousDiffURI: "http://www.w3.org/TR/2014/REC-wai-aria-20140320/",
+
+                // if there a publicly available Editors Draft, this is the link
+                edDraftURI: "http://w3c.github.io/aria/aria/graphics2.html",
+
+                // if this is a LCWD, uncomment and set the end of its review period
+                // lcEnd: "2012-02-21",
+
+                // editors, add as many as you like
+                // only "name" is required
+
+		editors: [
+                        {
+                                name: "Amelia Bellamy-Royds",
+                                mailto: "amelia.bellamy.royds@gmail.com",
+                        },
+
+			{
+				name: "Fred Esch",
+                          mailto: "fesch@us.ibm.com",
+				company: "IBM Corporation",
+				companyURI: "http://www.ibm.com"
+			},
+			{
+				name: "Rich Schwerdtfeger",
+				mailto: "schwer@us.ibm.com",
+				company: "IBM Corporation", 
+				companyURI: "http://www.ibm.com"
+			},
+			{
+				name: "Léonie Watson",
+				mailto: "lwatson@paciellogroup.com ",
+				company: "The Paciello Group",
+				companyURI: 'http://www.paciellogroup.com',
+			},
+		],
+
+		// authors, add as many as you like. 
+		// This is optional, uncomment if you have authors as well as editors.
+		// only "name" is required. Same format as editors.
+
+		//authors:  [
+		//    { name: "Your Name", url: "http://example.org/",
+		//      company: "Your Company", companyURI: "http://example.com/" },
+		//],
+
+		/*
+		alternateFormats: [
+			{ uri: 'aria-diff.html', label: "Diff from Previous Recommendation" } ,
+			{ uri: 'aria.ps', label: "PostScript version" }, 
+			{ uri: 'aria.pdf', label: "PDF version" }
+		],
+		*/
+		
+		// errata: 'http://www.w3.org/2010/02/rdfa/errata.html',
+		
+        processVersion:  2014,
+		// name of the WG
+		wg:           "Protocols and Formats Working Group",
+		
+		// URI of the public WG page
+		wgURI:        "http://www.w3.org/WAI/PF/",
+		
+		// name (with the @w3c.org) of the public mailing to which comments are due
+		wgPublicList: "public-pfwg-comments",
+		
+		// URI of the patent status for this WG, for Rec-track documents
+		// !!!! IMPORTANT !!!!
+		// This is important for Rec-track documents, do not copy a patent URI from a random
+		// document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+		// Team Contact.
+		wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/32212/status",
+		maxTocLevel: 4,
+        // Spec URLs
+        ariaSpecURLs: {
+          "ED": "http://w3c.github.io/aria/aria/aria.html",
+          "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
+          "REC": "http://www.w3.org/TR/wai-aria/"
+        },
+
+		localBiblio: biblio
+		
+	};
+</script>
+<style>
+    /* Styles for embedded object examples */
+    .example object, .example img {
+        display: block; 
+        width: 35em; 
+        max-width: 100%; 
+        max-height: 100vh;
+    }
+</style>
+</head>
+<body>
+<section id="abstract">
+	<p>Assistive technologies need semantic information about widgets, structures and behaviors to convey appropriate information to persons with disabilities. This specification defines a [[!WAI-ARIA]] module of <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a> specific to web graphics. These semantics allow an author to convey user interface behaviors and structural information to assistive technologies and to enable semantic navigation, styling and interactive features used by readers. It is expected this will complement [[HTML5]] and [[SVG2]].</p>
+	<p>This document is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Overview</a>.</p>
+</section>
+<section id="sotd">
+<p>Please record issues on this specification through the <a href="https://github.com/w3c/aria/issues">Github W3C/aria issue tracker</a>, using the prefix "Graphics" for any issue.</p>
+</section>
+<section id="toc">
+</section>
+<section class="informative" id="introduction">
+	<h1>Introduction</h1>
+	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is a technical specification that defines a common host language semantic accessibility API and framework that enables web browsers to map the accessibility semantics in web content to platform-specific accessibility APIs. This enables web content to be interoperable with platform assistive technologies similar to native platform applications without platform dependencies.</p>
+	<p>This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> designed to support graphics. The goals of this specification include:</p>
+	<ul>
+		<li>Expanding [[!WAI-ARIA]] to produce structural semantic extensions to support graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas.</li> 
+		<li>Align with a new governance model for modularization and extensions to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</li> 
+		<li>Provide structural semantics extensions that will support both assistive technologies and enable semantic navigation, styling and interactive features used by readers.</li> 
+	</ul>
+	<p>For a more detailed explanation of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> please refer to the <a href="http://www.w3.org/WAI/intro/aria">WAI-ARIA Introduction</a> and how it applies to Rich Internet Application Accessibility.</p> 
+	
+	<section id="target-audience">
+		<h2>Target Audience</h2>
+		<p>This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, including <a title="role">roles</a>, <a title="state">states</a>, <a title="property">properties</a> and values. It impacts several audiences:</p>
+		<ul>
+			<li><a title="user agent">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics (SVG) <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> features;</li>
+			<li><a>Assistive technologies</a> that provide specialized reading experiences to users with disabilities;</li>
+			<li>Authors of web graphics (SVG);</li>
+			<li>Authoring tools that help authors create conforming graphics; and</li>
+			<li>Conformance checkers, that verify appropriate use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and this Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module.</li>
+		</ul>
+		<p>Each conformance requirement indicates the audience to which it applies.</p>
+		<!--p>Although this specification is applicable to the above audiences, it is not specifically targeted to, nor is it intended to be the sole source of information for, any of these audiences. In the future, additional documents will be created to assist authors in applying these <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics for graphics and to define how the information in this document is mapped to platform accessibility APIs.</p--> 
+	</section>
+	
+	<section id="ua-support">
+		<h2>User Agent Support</h2>
+		<p>This module builds on the general <a href="http://www.w3.org/TR/wai-aria-1.1/#ua-support">User Agent support principles</a> defined in [[!WAI-ARIA]] by also providing the ability for user agents to enhance the general user interface presented to readers.</p> 
+	</section>
+	
+	<section id="co-evolution">
+		<h2>Co-Evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Host Languages</h2>
+		<p>The Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module follows the model for <a href="http://www.w3.org/TR/wai-aria-1.1/#co-evolution">co-evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and host languages</a> defined in [[!WAI-ARIA]]. It is intended to augment semantics in supporting languages like [[HTML5]], [[!SVG2]] and EPUB, or to be used as an accessibility enhancement technology in other markup-based languages that do not explicitly include support for ARIA. It clarifies semantics to assistive technologies when authors create new types of objects, via style and script, that are not yet directly supported by the language of the page, because the invention of new types of objects is faster than standardized support for them appears in web languages.</p>
+		<p>It is not appropriate to create objects with style and script when the host language provides a semantic element for that type of objects. While <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> can improve the accessibility of these objects, accessibility is best provided by allowing the user agent to handle the object natively. For example, it is not better to use a <rref>heading</rref> role on a <code>div</code> element than it is to use a native heading element, such as an <code>h1</code>.</p>
+		<p>It is expected that, over time, host languages will evolve to provide semantics for objects that currently can only be declared with this specification. This is natural and desirable, as one goal of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is to help stimulate the emergence of more semantic and accessible markup. When native semantics for a given feature become available, it is appropriate for authors to use the native feature and stop using this module for that feature. Legacy content may continue to use the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module, however, so the need for user agents to support it remains.</p>
+		<p>While specific features of this module may lose importance over time, the general possibility of the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module to add semantics to web graphics or open web based standards, is expected to be a persistent need. Host languages may not implement all the semantics this module provides, and various host languages may implement different subsets of the features. New types of objects are continually being developed, and one goal of this specification is to provide a way to make such objects accessible, because authoring practices often advance faster than host language standards. In this way, this module and host languages both evolve together but at different rates.</p>
+		<p>Some host languages exist to create semantics for features other than the user interface. For example, SVG expresses the semantics behind production of graphical objects, not of user interface components that those objects may represent. Host languages such as these might, by design, not provide native semantics that map to this specification's features. In these cases, the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module could be adopted as a long-term approach to add semantic information to these host languages.</p>
+	</section>
+	
+	<section id="authoring_practices">
+		<h2>Authoring Practices</h2>
+		<section id="authoring_tools">
+			<h3>Authoring Tools</h3>
+			<p>Many of the requirements in the definitions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a title="role">roles</a>, <a title="state">states</a> and <a title="property">properties</a> can be checked automatically during the development process, similar to other quality control processes used for validating code. To assist authors who are creating graphics, can compare the semantic structure of Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles from the <abbr title="Document Object Model">DOM</abbr> to that defined in this specification and notify the author of errors or simply create templates that enforce that structure.</p>
+		</section>
+		
+		<section id="authoring_testing">
+			<h3>Testing Practices and Tools</h3> 
+			<p>The accessibility of interactive content cannot be confirmed by static checks alone. Developers of interactive content should test for device-independent access to <a title="widget">widgets</a> and applications, and should verify accessibility <abbr title="application programming interface">API</abbr> access to all content and changes during user interaction.</p>
+		</section>
+	</section>
+	
+	<section id="at_support">
+		<h2>Assistive Technologies</h2>
+		<p>Programmatic access to accessibility semantics is essential for assistive technologies. For more information, refer to the <a href="http://www.w3.org/TR/wai-aria-1.1/#at_support">Assistive Technologies</a> section in [[!WAI-ARIA]].</p> 
+	</section>
+</section>
+<section class="normative" id="conformance">
+	<p>This specification indicates whether a section is <a>normative</a> or <a>informative</a>. Classifying a section as normative or informative applies to the entire section. A statement "This section is normative" or "This section is informative" applies to all sub-sections of that section.</p>
+	<p>Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
+	<p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+</section>
+<section class="informative" id="terms">
+	<h1>Important Terms</h1>
+	<div data-include="../common/terms.html" data-oninclude="restrictReferences"></div>
+</section>
+<section class="normative" id="roles">
+	<h1>Graphics Roles</h1>    
+	<p>
+      This section defines additions to the 
+      <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 
+      <a>role</a> <a>taxonomy</a> 
+      and describes the characteristics and properties of all <a title="role">roles</a>. 
+      See <a href="aria.html#roles">ARIA Roles</a> for descriptions 
+      of the fields provided by this module.
+	</p>
+	 <p>Authors are given the ability to influence what is presented to assistive technologies and to influence navigation through
+      the use of roles and properties. With graphics, there are many cases where presenting and navigating every element will make the 
+      graphic harder to understand and use. Authors may mark elements for non-visual exclusion by assigning the role <rref>none</rref>. Graphics also 
+      have situations where the author intent is ambiguous and the use of the property <pref>aria-type</pref> should be used to clarify the situation. </p>
+      <p>If an author does not want a user agent to non-visually present an element and does not want the
+      element included in navigaion then the element should be given a role of <rref>none</rref>. For example, in the case
+      an author does not want a chart's axis minor tick marks (tick lines without labels between tick marks with labels)
+      presented to assistive technologies since the minor tick marks would add significant noise without increasing comprehension, then the
+      author should assign the minor tick marks the role of <rref>none</rref>.</p>
+     
+      <p>User agents are expected to use the <pref>aria-gtype</pref> property 
+           for differentiating between graph features. Two elements with the
+             same role and the same semanatic parent and both elements having either no <pref>aria-gtype</pref> or the same <pref>aria-gtype</pref>
+              are defined as being part of the same feature.
+            Two elements with a the same role and the same semanatic parent but differing <pref>aria-gtype</pref>
+            are defined as being two seperate features.  
+        </p>
+       
+	
+	<section id="role_definitions">
+		<h2>Definition of Roles</h2>
+		<p>
+        Below is an alphabetical list of the
+        <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 
+        <a title="role">roles</a> defined in this specification.  
+        They would normally be used in combination with other roles 
+        defined in [[WAI-ARIA]] 
+        to annotate graphics within documents and rich internet applications.
+      </p>
+      <!--  -->
+		<p id="index_role">Placeholder for compact list of roles</p>
+		<hr/>	
+		
+		<div class="role">
+			<rdef>graphics-annotation</rdef>
+			<div class="role-description">
+				<p>A type of guide object, usually a comment, explaination or note.</p>
+				<div class="example highlight">
+				<pre >
+  &lt;g role="graphics-annotation" font-family="Arial" text-anchor="middle" font-size="12" &gt;   
+    &lt;text x="320" y="12.56" role="graphics-label"&gt;Sample map with two-level color coding.&lt;/text&gt;   
+    &lt;text x="320" y="26.56" role="graphics-label"&gt;The basic hue is set by the region, a categorical variable.&lt;/text&gt;    
+    &lt;text x="320" y="40.56" role="graphics-label"&gt;The color is then modified by a numeric variable. &lt;/text&gt;    
+    &lt;text x="320" y="54.56" role="graphics-label"&gt;See the color aesthetics of the element for the general technique. &lt;/text&gt;   
+  &lt;/g&gt;   
+         </pre>	
+  
+<svg xmlns="http://www.w3.org/2000/svg" overflow="hidden" width="600" height="80" viewBox="0 0 600 80" 
+
+xmlns:xlink="http://www.w3.org/1999/xlink">
+<g fill="#00f" font-weight="bold">
+<g role="graphics-annotation" font-family="Arial" text-anchor="middle" font-size="12" >   
+  <text x="300" y="12.56" role="graphics-label">Sample map with two-level color coding.</text>   
+  <text x="300" y="26.56" role="graphics-label">The basic hue is set by the region, a categorical 
+
+variable.</text>    
+  <text x="300" y="40.56" role="graphics-label">The color is then modified by a numeric variable. </text>    
+  <text x="300" y="54.56" role="graphics-label">See the color aesthetics of the element for the general technique. </text>   
+</g> 
+</g>
+</svg> 
+
+         </div>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">  </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-guide</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> <a href="https://en.wikipedia.org/wiki/Text_annotation">Text annotation</a> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"><pref>aria-gtype</pref></td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>		
+		
+		<div class="role">
+			<rdef>graphics-axis</rdef>
+			<div class="role-description">
+				<p>A scale often used with charts to show the scale of a dimension (variable).</p>
+				<p> When a graph contains more than one axis, an author should distinguish between the
+				axes by using 
+            the <pref>aria-gtype</pref> property. User agents will be expected to use the aria-gtype property 
+            when presenting information to a user and for differentiating between graph features. Two elements with a
+            graphics-axis role with the same semanatic parent and no <pref>aria-gtype</pref> or the same <pref>aria-gtype</pref> are defined as being part of the same axis.
+            Two elements with a graphics-axis role with the same semanatic parent but differing <pref>aria-gtype</pref>
+            are defined as being two seperate axes.  
+        </p>
+        <p>Differentiating between axes using the <pref>aria-gtype</pref> can help users understand whether the axis is
+        the x, y or z axis and help them understand which variable/data column is associated with the axis. Differentiating between
+        axes using <pref>aria-gtype</pref> can also affect how keyboard users navigate through the axes. This level of control is 
+        provided to authors so they can convey and control how user agents perceive axes given the author may need to present mulitple y
+        axis on opposite sides of the chart (ie left axis in inches, right axis in cm), clustered sets of axes, 3 or more dimension axes and aligned
+        axes shared by two charts in the same visualization.</p>
+				
+				<pre class="example highlight">
+&lt;g transform="translate(57 29)" role="graphics-axis" aria-gtype="y" aria-labeledby="yt" font-family="Arial"&gt;
+  &lt;path fill="none" d="m0 0v353"/&gt;
+  &lt;text id="yt" x="176" y="-38" text-anchor="middle" font-weight="bold" transform="matrix(0-1 1 0 0 353)" &gt;Sales
+  &lt;/text&gt;
+  &lt;g fill="none" role="none"&gt;
+   &lt;path d="m0 353h-4.667"/&gt;
+   &lt;path d="m0 317.7h-4.667"/&gt;
+   &lt;path d="m0 282.4h-4.667"/&gt;
+   &lt;path d="m0 247.1h-4.667"/&gt;
+   &lt;path d="m0 211.8h-4.667"/&gt;
+   &lt;path d="m0 176.5h-4.667"/&gt;
+   &lt;path d="m0 141.2h-4.667"/&gt;
+   &lt;path d="m0 105.9h-4.667"/&gt;
+   &lt;path d="m0 70.6h-4.667"/&gt;
+   &lt;path d="m0 35.3h-4.667"/&gt;
+   &lt;path d="m0 0h-4.667"/&gt;
+  &lt;/g&gt;
+  &lt;g fill="none" role="none"&gt;
+    &lt;g text-anchor="end" font-size="12" rotate="0" role="none"&gt;
+      &lt;text x="-7.667" y="357.06"  role="graphics-axistick"&gt;0&lt;/text&gt;
+      &lt;text x="-7.667" y="321.76"  role="graphics-axistick"&gt;50&lt;/text&gt;
+      &lt;text x="-7.667" y="286.46"  role="graphics-axistick"&gt;100&lt;/text&gt;
+      &lt;text x="-7.667" y="251.16"  role="graphics-axistick"&gt;150&lt;/text&gt;  
+      &lt;text x="-7.667" y="215.86"  role="graphics-axistick"&gt;200&lt;/text&gt;
+      &lt;text x="-7.667" y="180.56"  role="graphics-axistick"&gt;250&lt;/text&gt;
+      &lt;text x="-7.667" y="145.26"  role="graphics-axistick"&gt;300&lt;/text&gt;
+      &lt;text x="-7.667" y="109.96"  role="graphics-axistick"&gt;350&lt;/text&gt;
+      &lt;text x="-7.667" y="74.66"  role="graphics-axistick"&gt;400&lt;/text&gt;
+      &lt;text x="-7.667" y="39.36"  role="graphics-axistick"&gt;450&lt;/text&gt;
+      &lt;text x="-7.667" y="4.06"  role="graphics-axistick"&gt;500&lt;/text&gt;
+    &lt;/g&gt;
+  &lt;/g&gt;
+&lt;/g&gt;
+         </pre>	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+				 
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-scale</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"><a href="https://en.wikipedia.org/wiki/Chart#Features_of_a_chart">Chart axes</a> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<ul><li><pref>aria-categories</pref></li><li><pref>aria-gtype</pref></li><li><rref>aria-valuemin</rref></li><li><rref>aria-valuemax</rref></li></ul>
+						</td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+							
+				</tbody>
+			</table>
+	
+		</div>		
+		<hr />
+		
+				<div class="role">
+			<rdef>graphics-axistick</rdef>
+			<div class="role-description">
+				<p>A visible axis tick label.</p>
+				
+				<pre class="example highlight">
+
+      &lt;text x="-7.667" y="215.86"  role="graphics-axistick"&gt;200&lt;/text&gt;
+          </pre>	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+				 
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-axis</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"><a href="https://en.wikipedia.org/wiki/Chart#Features_of_a_chart">Chart axes</a> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<ul><li><rref>aria-posinset</rref></li><li><rref>aria-setsize</rref></li></ul>
+						</td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">content</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">False</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> True</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+							
+				</tbody>
+			</table>
+	
+		</div>		
+		<hr />
+		
+				<div class="role">
+			<rdef>graphics-datagroup</rdef>
+			<div class="role-description">
+				<p>A semantic <rref>group</rref> for data. Group elements that do not have semantic meaning, should use a role of <rref>none</rref>. </p>
+				<p>For example, the group containing the <rref>graphics-dataitem</rref>s in a scatterplot
+				represents the data feature of the chart and should have the role <code>graphics-datagroup</code>. </p>
+				<p>For example, in a stacked bar chart, the group containing all the stacks should have a role of <code>graphics-datagroup</code>
+				since the group represents the data feature of the chart.
+				Each group containing a stack of bars should have a role of <code>graphics-datagroup</code> as they represent a semantic object which can contain
+				data related information like the sum for the stack.</p>
+				<p>For example, in a pie chart the group containing all the pie wedges should have the role <code>graphics-datagroup</code> as it represents the data feature of the chart. However,
+				if the group containing all the pie wedges, has two child groups that are only there for style inheirtance, for instance to convey text anchor position to their
+				children,
+				then the two child groups are not semantic groups and should have a role of <rref>none</rref>.
+				</p>
+				<pre class="example highlight">
+&lt;g role="graphics-datagroup"&gt;  
+  &lt;path d="m72.5 50.936h9v26.07h-9z" aria-label="270,000 shares traded on 7/28/80" role="graphics-dataitem" 
+    aria-setsize='4' aria-posinset='1' &gt;  
+    &lt;title&gt;270,000 shares traded on 7/28/80&lt;/title&gt;
+  &lt;/path&gt;  
+  &lt;path d="m111 37.48h9v39.52h-9z" aria-label="410,000 shares traded on 7/29/80"  role="graphics-dataitem" 
+    aria-setsize='4' aria-posinset='2' &gt;    
+    &lt;title&gt;410,000 shares traded on 7/29/80&lt;/title&gt;
+  &lt;/path&gt;  
+  &lt;path d="m149.5 23.514h9v53.49h-9z" aria-label="560,000 shares traded on 7/30/80" role="graphics-dataitem" 
+    aria-setsize='4' aria-posinset='3' &gt;    
+    &lt;title&gt;560,000 shares traded on 7/30/80&lt;/title&gt;
+  &lt;/path&gt;  
+  &lt;path d="m188 15.01h9v61.995h-9z" aria-label="630,000 shares traded on 7/31/80"  role="graphics-dataitem" 
+    aria-setsize='4' aria-posinset='4' &gt;    
+    &lt;title&gt;630,000 shares traded on 7/31/80&lt;/title&gt;
+  &lt;/path&gt;  
+&lt;/g&gt; 
+         </pre>	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>group</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><rref>graphics-dataitem</rref> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<ul><li><pref>aria-gtype</pref><li><rref>aria-posinset</rref></li><li><rref>aria-setsize</rref></li></ul>	
+						</td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+	
+		<div class="role">
+			<rdef>graphics-dataitem</rdef>
+			<div class="role-description">
+				<p>An object that represents a single data row or a single data entity. A <code>graphics-dataitem</code> may be further split into child components if needed. 
+				For example, a <code>graphics-dataitem</code> for a box and whisker plot may contain the components of the box and whisker (fence, box, median) and each of the components would
+				be a <code>graphics-dataitem</code>. A set of <code>graphics-dataitem</code> may be ordered. If ordered, <rref>aria-posinset</rref> may be used to convey order.</p>
+				<p>The role <code>graphics-dataitem</code> is usually associated with charts, graphs, infographics and data visualizations.
+				Other domains like technical drawings may prefer using the role <rref>graphics-symbol</rref>.</p>
+				
+				<pre class="example highlight">
+  &lt;path d="m188 15.01h9v61.995h-9z" aria-label="630,000 shares traded on 7/31/80"  role="graphics-dataitem"&gt;    
+    &lt;title&gt;630,000 shares traded on 7/31/80&lt;/title&gt;
+  &lt;/path&gt;  
+         </pre>	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-object</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"></td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><ul>
+						<li><rref>graphics-datagroup</rref></li>
+						<li><rref>graphics-symbol</rref></li> 
+						</ul></td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<ul><li><pref>aria-gtype</pref><li><rref>aria-posinset</rref></li><li><rref>aria-setsize</rref></li></ul>	
+						</td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		
+		<div class="role">
+			<rdef>graphics-dimensionline</rdef>
+			<div class="role-description">
+				<p>A line that defines the length of an object.</p>
+<!-- 			<pre class="example highlight">
+TODO dimension line example
+         </pre>	
+          -->	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-scale</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><a href="http://www.dictionaryofconstruction.com/definition/dimension-line.html">dimension line</a> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr>				
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		
+		<div class="role">
+			<rdef>graphics-doc</rdef>
+			<div class="role-description">
+        <p>
+            A graphics document contains complex content 
+            that a user should be able to explore.  
+            Similar to <rref>document</rref>, 
+            the graphical document may contain interactive widgets, 
+            but is not itself interactive.  
+            User agents may intercept user input 
+            for the purposes of navigation.  
+            A graphics document is distinct from other documents
+            in that the visual layout of the content has semantic meaning. 
+            Navigation methods may take this into consideration.
+        <p>
+        <p>
+            Accessibility technologies that re-format a document 
+            should avoid altering the layout of a graphical document.  
+            For this reason, authors should limit the graphical document role 
+            to regions for which layout has semantic meaning.  
+            A collection of distinct graphics that can be re-arranged 
+            without losing meaning 
+            could instead be described as a <rref>graphics-figure</rref> 
+            or a <rref>group</rref>.
+        </p>
+        <p>
+            Future specifications are expected to define 
+            sub-classes of this role 
+            for particular types of graphical documents, 
+            such as charts or maps.
+        </p>
+        <p class="ednote">
+            The editors have not finalized the name for this role.
+        </p>
+        <p class="note">
+            To support user agents and assistive technologies 
+            based on the ARIA 1.0 specification, 
+            authors may wish to include the <rref>document</rref> role 
+            as a fallback value, 
+            in the form <code>role="graphics-doc document"</code>.
+        </p>
+				<pre class="example highlight">
+&lt;!-- An SVG diagram of an electrical circuit --&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" 
+     width="400" height="200" viewBox="0 0 200 100"
+     role="graphics-doc document" &gt;
+     &lt;title&gt;A simple circuit&lt;/title&gt;
+     &lt;desc&gt;A circuit with one source, one switch, and one load&lt;/desc&gt;
+     &lt;style type="text/css"&gt;
+        /* omitted */
+     &lt;/style&gt;
+     &lt;g id="battery-1" role="graphics-symbol img" 
+        aria-roledescription="source" 
+        aria-label="battery"
+        aria-flowto="switch-1" 
+        transform="translate(20,50)" &gt;
+        &lt;path d="M-15,-5 h30 M-5,5 h10" /&gt;
+     &lt;/g&gt;
+     &lt;path class="wire" d="M20,45 V20 H90"/&gt;
+     &lt;g id="switch-1" role="graphics-symbol img" 
+        aria-roledescription="switch" 
+        aria-label="single-pole switch"
+        aria-flowto="lightbulb-1" &gt;
+        &lt;path d="M90,20 L105,30" /&gt;
+        &lt;circle class="connection" cx="90" cy="20" r="2" /&gt;
+        &lt;circle class="connection" cx="110" cy="20" r="2" /&gt;
+     &lt;/g&gt;
+     &lt;!-- more wires and a light bulb --&gt; 
+&lt;/svg&gt;
+
+<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
+</pre>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>structure</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">False</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>				
+				
+		<div class="role">
+			<rdef>graphics-figure</rdef>
+			<div class="role-description">
+        <p>
+            A distinct perceivable <rref>section</rref> of the page, 
+            that contributes essential meaning to the main page content, 
+            but is not part of a continuous stream of surrounding text.  
+            A graphics-figure can be shifted within the layout of the document 
+            without disruption, 
+            but it cannot be removed without losing meaning.
+        </p>
+        <p>
+            A figure often has a visible caption.
+            It may be referenced from the surrounding text 
+            using a hyperlink or a numbered label.  
+            Figures will often contain graphical content. 
+            However, other content types 
+            with a similar position in the document structure, 
+            such as labelled code samples or audio elements,
+            would also be figures.  
+            Figures may be nested, 
+            if the nested figures are also likely 
+            to be referenced as discrete units within the page.
+        </p>
+        <p>
+            The semantics of this role are intended to mirror 
+            the native semantics of the 
+            <a href="http://www.w3.org/TR/html5/grouping-content.html#the-figure-element">figure</a> 
+            element in [[HTML5]].  
+            It is expected that future versions of HTML 
+            will make this the default semantic role for that element.
+        </p>
+        <p class="note">
+            To support user agents and assistive technologies 
+            based on the ARIA 1.0 specification, 
+            authors may wish to include the <rref>region</rref> role 
+            as a fallback value, 
+            in the form <code>role="graphics-figure region"</code>.
+        </p>
+				<pre class="example highlight">
+&lt;!-- Within an HTML 5 document --&gt;
+&lt;p&gt;&lt;a href="#fig1"&gt;Figure 1&lt;/a&gt; outlines the basic shape 
+    elements available in SVG.  As shown in 1(d), a rectangle element 
+    can have rounded corners, and can even be made to look like an ellipse.&lt;/p&gt;
+&lt;figure id="fig1" role="graphics-figure region"&gt;
+    &lt;svg viewBox="0 0 160 170" role="none" 
+         font-size="14px"&gt;
+        &lt;g role="graphics-figure" aria-labelledby="circle-label"&gt;
+            &lt;circle cx="40" cy="30" r="25" /&gt;
+            &lt;text id="circle-label" x="5" y="70"
+                  &gt;a) Circle&lt;/text&gt;
+        &lt;/g&gt;
+        &lt;!-- &hellip; --&gt;
+        &lt;g role="graphics-figure" aria-labelledby="roundrect-label"
+           transform="translate(80,80)"&gt;
+            &lt;rect x="10" y="10" width="60" height="40" 
+                  ry="15" rx="20" /&gt;
+            &lt;text id="roundrect-label" x="5" y="70"
+                  &gt;d) Rounded
+            &lt;tspan x="30" dy="1em"&gt;Rect&lt;/tspan&gt;&lt;/text&gt;
+        &lt;/g&gt;            
+    &lt;/svg&gt;
+    &lt;figcaption&gt;Figure 1: The Basic SVG Shapes&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+<object type="text/html" data="img/nested-figures.html"
+        style="height: 45em; "></object>
+</pre>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>region</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base">
+                <a href="http://www.w3.org/TR/html5/grouping-content.html#the-figure-element">HTML figure</a></td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">False</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>	
+				
+		<div class="role">
+			<rdef>graphics-edge</rdef>
+			<div class="role-description">
+				<p>A edge (connector) connects two data items, and may have a from/to relationship. 
+				A edge may form a loop, that is the from and to may be the same item. graphics-edge 
+				is the default role for the connector element.</p>
+		 <p class="ednote">
+            This role won't appear in the final spec and is temporarily here for completeness during discussions. This role is tied to
+            the connector element, which won't make it into SVG 2.
+        </p>
+				
+<!--  			<pre class="example highlight">
+&lt;connector n1="#n-1" n2="#n-4" /&gt;
+         </pre>	
+         -->	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-dataitem</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"><a href="http://dev.w3.org/SVG/modules/connector/SVGConnector.html">SVG Connector</a> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr>
+	 				<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>					
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		
+							
+		<div class="role">
+			<rdef>graphics-graticule</rdef>
+			<div class="role-description">
+				<p>A network of lines representing the earth's parallels of latitude and meridians of longitude. </p>
+<!-- 			<pre class="example highlight">
+TODO graticule example
+         </pre>	
+          -->	
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-guide</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr> 					
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+					
+					
+		<div class="role">
+			<rdef>graphics-grid</rdef>
+			<div class="role-description">
+				<p>A network of lines of constant value, usually associated with a value on an axis.</p>
+<!-- 				<pre class="example highlight">
+TODO grid example
+         </pre>	
+          -->
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-guide</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr> 					
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+				<div class="role">
+			<rdef>graphics-guide</rdef>
+			<div class="role-description">
+				<p>A guide object used to help interpret the graphic. </p>
+				<p> Even though there are several subclasses of <code>graphics-guide</code>, 
+				<code>graphics-guide</code> is not an abstract role as there are situations where a subclass doesn't
+				meet the authors need. When <code>graphics-guide</code> is used  
+            the <pref>aria-roledescription</pref> property 
+            can be used to name the guide type 
+            separately from the name and description 
+            for the particular instance of the guide.
+        </p>
+
+<p class="ednote">
+            The preceeding paragraph is dependent on 
+            aria-roledescription being incorporated 
+            into the ARIA 1.1 specification.
+        </p>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-object</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+
+			<div class="role">
+			<rdef>graphics-label</rdef>
+			<div class="role-description">
+				<p>A visible label.</p>
+				<p>If the author does not want the user to be able to navigate to the label, they should have 
+				labeled object's <pref>aria-labeledby</pref> property reference the label and give the label a role of <rref>none</rref> 
+				<pre class="example highlight">
+      &lt;text x="-7.667" y="215.86"  role="graphics-label"&gt;200&lt;/text&gt;
+         </pre>	
+			</div>
+			
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+		
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-object</rref></td>
+					</tr>
+		
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+				
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+						
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref> 
+						</td>
+					</tr>
+					
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+			
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">True</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+						
+				</tbody>
+			</table>
+		
+		</div>
+		<hr/>
+			
+		<div class="role">
+			<rdef>graphics-legend</rdef>
+			<div class="role-description">
+				<p>A scale for data representation, commonly used on charts, maps, instructional drawings and the like. Legends may show any chart aesthetic (color, size, symbol, size, etc).</p>
+				<div class="example highlight" >
+			     <pre >
+ &lt;g transform="translate(100)" role="graphics-legend" font-size="12" font-family="Arial,SanSerif" fill="transparent"&gt;  
+   &lt;path stroke-width="1" d="m0 0h40v144h-40z"/&gt;  
+   &lt;path d="m16.5 1.5h7v14h-7z"/&gt;   
+   &lt;text x="20" y="12.56" text-anchor="middle" font-weight="bold" fill="#00f" role="graphics-title"&gt;brand    
+   &lt;/text&gt;   
+   &lt;g transform="translate(0 18)"&gt;   
+     &lt;path d="m2.5 2.5h33v20h-33z"/&gt;   
+     &lt;path fill="#0089ce" stroke="#000" stroke-width="2"d="m2.5 2.5h20v20h-20z" role="graphics-symbol"/&gt;   
+     &lt;path d="m27.5 5.5h8v14h-8z"/&gt;   
+     &lt;text x="27.5" y="16.56" fill="#000" role="graphics-label"&gt;1    
+     &lt;/text&gt;   
+   &lt;/g&gt;  
+   &lt;g transform="translate(0 18)"&gt;   
+      &lt;path d="m2.5 27.5h33v20h-33z"/&gt;   
+      &lt;path fill="#7cbc4a" stroke="#000" stroke-width="2"d="m2.5 27.5h20v20h-20z" role="graphics-symbol"/&gt;   
+      &lt;path d="m27.5 30.5h8v14h-8z"/&gt;   
+      &lt;text x="27.5" y="41.56"  fill="#000" role="graphics-label"&gt;2    
+      &lt;/text&gt;   
+   &lt;/g&gt;  
+   &lt;g transform="translate(0 18)"&gt;   
+     &lt;path d="m2.5 52.5h33v20h-33z"/&gt;   
+     &lt;path fill="#d8c625" stroke="#000" stroke-width="2"d="m2.5 52.5h20v20h-20z" role="graphics-symbol"/&gt;   
+     &lt;path d="m27.5 55.5h8v14h-8z"/&gt;   
+     &lt;text x="27.5" y="66.56"  fill="#000" role="graphics-label"&gt;3    
+     &lt;/text&gt;   
+   &lt;/g&gt;  
+ &lt;/g&gt;
+  
+         </pre>	
+          <svg xmlns="http://www.w3.org/2000/svg" overflow="hidden" width="300" height="100" viewBox="0 0 300 100" 
+xmlns:xlink="http://www.w3.org/1999/xlink">
+
+          <g transform="translate(100)" role="graphics-legend" font-size="12" font-family="Arial,SanSerif" fill="transparent">  
+          <path stroke-width="1" d="m0 0h40v144h-40z"/>  
+          <path d="m16.5 1.5h7v14h-7z"/>   
+          <text x="20" y="12.56" text-anchor="middle" font-weight="bold" fill="#00f" role="graphics-title">brand    
+          </text>   
+          <g transform="translate(0 18)">   
+            <path d="m2.5 2.5h33v20h-33z"/>   
+            <path fill="#0089ce" stroke="#000" stroke-width="2"d="m2.5 2.5h20v20h-20z" role="graphics-symbol"/>   
+            <path d="m27.5 5.5h8v14h-8z"/>   
+            <text x="27.5" y="16.56" fill="#000" role="graphics-label">1    
+            </text>   
+          </g>  
+          <g transform="translate(0 18)">   
+             <path d="m2.5 27.5h33v20h-33z"/>   
+             <path fill="#7cbc4a" stroke="#000" stroke-width="2"d="m2.5 27.5h20v20h-20z" role="graphics-symbol"/>   
+             <path d="m27.5 30.5h8v14h-8z"/>   
+             <text x="27.5" y="41.56"  fill="#000" role="graphics-label">2    
+             </text>   
+          </g>  
+          <g transform="translate(0 18)">   
+            <path d="m2.5 52.5h33v20h-33z"/>   
+            <path fill="#d8c625" stroke="#000" stroke-width="2"d="m2.5 52.5h20v20h-20z" role="graphics-symbol"/>   
+            <path d="m27.5 55.5h8v14h-8z"/>   
+            <text x="27.5" y="66.56"  fill="#000" role="graphics-label">3    
+            </text>   
+          </g>  
+          </g>
+       </svg>
+       </div>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-scale</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+					
+		<div class="role">
+			<rdef>graphics-object</rdef>
+			<div class="role-description">
+        <p>
+            A section of a graphical document 
+            that represents a cohesive item or object 
+            with component parts the user may wish to explore.  
+            It is in contrast to a <rref>group</rref> of distinct related objects, 
+            or an indivisible <rref>img</rref> or <rref>graphics-symbol</rref> component.
+        </p>
+      
+        <p class="ednote">
+            The editors have not finalized the name for this role.
+        </p>
+        <p class="note">
+            To support user agents and assistive technologies 
+            based on the ARIA 1.0 specification, 
+            authors may wish to include the <rref>group</rref> role
+            as a fallback value, 
+            in the form <code>role="graphics-object group"</code>.
+        </p>
+				<pre class="example highlight">
+&lt;g role="graphics-object group"
+   aria-labelledby="house-label"
+   transform="translate(100,325)"&gt;
+    &lt;desc&gt;A two-storey brick house, drawn with basic shapes.
+    &lt;/desc&gt;
+    &lt;!-- The house has a number of details worth calling out,
+         so it is a graphical object --&gt;
+
+    &lt;rect fill="firebrick" stroke="darkRed"
+          width="300" height="200" y="-200"
+          role="none" /&gt;&lt;!-- the walls of the house are 
+            already described thoroughly,
+            so no role is required --&gt;
+
+    &lt;g role="img" aria-label="door"
+       transform="translate(30,-90)"&gt;
+        &lt;desc&gt;The brown door on the left side of the building
+            has a window and a round doorknob&lt;/desc&gt;
+        &lt;rect fill="darkKhaki" stroke="#632"
+              width="50" height="90"/&gt;
+        &lt;rect fill="lightSteelBlue" stroke="#632" stroke-width="4" 
+              x="5" y="5" width="40" height="30" /&gt;
+        &lt;circle fill="gray" stroke="#444" stroke-width="0.7"
+                cx="10" cy="50" r="4" /&gt;
+    &lt;/g&gt;
+
+    &lt;g role="group" aria-label="windows"
+       fill="lightSteelBlue" stroke="#632" stroke-width="6"&gt;
+        &lt;!-- The windows are distinct objects, 
+             grouped together with a common label --&gt;
+        &lt;g role="none" transform="translate(0,-85)"&gt;
+            &lt;rect aria-label="first-floor window"
+                  x="100" width="25" height="45"&gt;
+                &lt;desc&gt;A small window beside the door&lt;/desc&gt;
+            &lt;/rect&gt;
+            &lt;path aria-label="first-floor living-room window"
+                  d="M180,0h100v60h-100v-60z
+                     m30,0v60 m40,0v-60"&gt;
+                &lt;desc&gt;A large three-pane window fills
+                the rest of the first floor&lt;/desc&gt;
+            &lt;/path&gt;
+        &lt;/g&gt;
+        &lt;g role="none" transform="translate(0,-180)"&gt;
+            &lt;!-- more windows on the second floor --&gt;
+        &lt;/g&gt;
+    &lt;/g&gt;
+
+    &lt;g aria-label="roof" role="graphics-object group"
+       transform="translate(0,-200)"&gt;
+        &lt;desc&gt;A peaked roof&lt;/desc&gt;
+        &lt;g aria-label="chimney" role="graphics-object"&gt;
+            &lt;desc&gt;The chimney has a puff of smoke
+            rising from it&lt;/desc&gt;
+            &lt;!-- The graphical object role allows for further
+             nested sub-components.
+             However, based on the default SVG API mappings,
+             these shapes, which have neither labels nor descriptions,
+             will be treated as presentation. --&gt;
+            &lt;rect fill="firebrick" stroke="darkRed"
+                  x="280" y="-60" width="20" height="60" /&gt;
+            &lt;path fill="gray" fill-opacity="0.4"
+                  d="M280,-70c0-10 30-20 45-35
+                     c15-40 25,10 25,20 s-70,25 -70,15z" /&gt;
+        &lt;/g&gt;
+
+        &lt;polygon role="none" fill="#222"
+                 points="-20,2 150,-100 320,2" /&gt;
+    &lt;/g&gt;
+
+    &lt;text id="house-label"
+          font-family="cursive" font-size="36px" 
+          x="70" y="50"&gt;My House&lt;/text&gt;
+&lt;/g&gt;
+    
+    <object type="image/svg+xml" data="img/house-graphicsroles.svg"></object>
+</pre>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>section</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related">
+                <ul>
+                    <li><rref>graphics-doc</rref></li>
+                    <li><rref>group</rref></li>
+                    <li><rref>img</rref></li>
+                    <li><rref>graphics-symbol</rref></li>
+                </ul>
+            </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">
+							<ul>
+								<li>author</li>
+								<li>contents</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">False</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">False</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>		
+		
+										
+				<div class="role">
+			<rdef>graphics-scale</rdef>
+			<div class="role-description">
+				<p>A type of guide object, usually a reference for measuring.  </p>
+				<p> Even though there are several subclasses of <code>graphics-scale</code>, 
+				<code>graphics-scale</code> is not an abstract role as there are situations where a subclass doesn't
+				meet the authors need. When <code>graphics-scale</code> is used  
+            the <pref>aria-roledescription</pref> property 
+            can be used to name the guide type 
+            separately from the name and description 
+            for the particular instance of the guide.
+        </p>
+
+<p class="ednote">
+            The preceeding paragraph is dependent on 
+            aria-roledescription being incorporated 
+            into the ARIA 1.1 specification.
+        </p>
+				
+		<!--		<pre class="example highlight">
+         </pre>	
+           -->
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-guide</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+						<pref>aria-gtype</pref>
+						</td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="role">
+			<rdef>graphics-symbol</rdef>
+			<div class="role-description">
+				<p>
+            A graphic used to convey a simple meaning or category, 
+            where the meaning is more important 
+            than the particular visual appearance.  
+            It may be a component of a larger structured graphic 
+            such as a chart or map.  
+            The symbol itself is an atomic object; 
+            children are presentational.
+        </p>
+        <p>
+            When used as part of a structured symbolic language, 
+            the <pref>aria-roledescription</pref> property 
+            can be used to name the symbol type 
+            separately from the name and description 
+            for the particular instance of the symbol.
+        </p>
+        <p class="ednote">
+            The preceeding paragraph is dependent on 
+            aria-roledescription being incorporated 
+            into the ARIA 1.1 specification.
+        </p>
+        <p class="note">
+            To support user agents and assistive technologies 
+            based on the ARIA 1.0 specification, 
+            authors may wish to include the <rref>img</rref> role 
+            as a fallback value, 
+            in the form <code>role="graphics-symbol img"</code>, 
+            if that is not already the default semantic role for the element.
+        </p>
+				<pre class="example highlight">
+&lt;!-- Within an HTML document listing a restaurant menu --&gt;
+&lt;h2&gt;Appetizers&lt;/h2&gt;
+&lt;ul&gt;
+    &lt;li&gt; Spinach Salad with Strawberry &amp; Almonds
+        &lt;img role="graphics-symbol" title="Vegetarian" src="../assets/leaf.svg" /&gt;
+        &lt;img role="graphics-symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
+    &lt;/li&gt;
+    &lt;li&gt; Chicken Satay with Peanut Sauce
+        &lt;img role="graphics-symbol" title="Contains Nuts" src="../assets/peanut.svg" /&gt;
+    &lt;/li&gt;
+    &lt;!-- &hellip; --&gt;
+&lt;/ul&gt;
+</pre>
+				<pre class="example highlight">
+&lt;!-- Within an SVG diagram of an electrical circuit --&gt;
+&lt;g id="lightbulb-1" role="graphics-symbol img" 
+   aria-roledescription="load" 
+   aria-label="lightbulb"
+   aria-describedby="lightbulb-1-label"
+   aria-flowto="battery-1" 
+   transform="translate(180,50)"&gt;
+    &lt;text id="lightbulb-1-label"
+        x="-15" dy="0.5ex" text-anchor="end" &gt;10W&lt;/text&gt;
+    &lt;circle r="10" /&gt;
+    &lt;path d="M0,-10 C0,8 5,8 5,0 C5,-8 0,-8 0,10" /&gt;
+&lt;/g&gt;
+
+<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
+
+</pre>
+				<pre class="example highlight">
+&lt;!-- Within an architectural blueprint-style SVG diagram --&gt;
+&lt;g role="graphics-symbol img"&gt;
+    &lt;title&gt;Door&lt;/title&gt;
+    &lt;desc&gt;on West side of South wall&lt;/desc&gt;
+    &lt;line stroke-width="8" stroke="white" 
+          x1="50" y1="275" x2="150" y2="275"/&gt;
+    &lt;line stroke-width="4" stroke="#444" 
+          x1="50" y1="275" x2="125" y2="225"/&gt;        
+&lt;/g&gt;
+&lt;!-- &hellip; --&gt;
+&lt;use xlink:href="#outlet" role="graphics-symbol img" 
+     x="5" y="130" width="40" height="40"&gt;
+    &lt;title&gt;Electrical outlet&lt;/title&gt;
+    &lt;desc&gt;at center of West wall&lt;/desc&gt;
+&lt;/use&gt;
+
+<object type="image/svg+xml" data="img/blueprint.svg" ></object>
+
+</pre>
+
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>img</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><a href="https://en.wikipedia.org/wiki/Symbol">symbol</a></td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">True</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+		<div class="role">
+			<rdef>graphics-timedata</rdef>
+			<div class="role-description">
+				<p>Something defined or marked by an instant of time or time interval.</p>
+<!-- 				<pre class="example highlight">
+  TODO timedata example
+         </pre>	
+          -->
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract">False </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>graphics-dataitem</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"></td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr> 
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head">Implicit Value for Role:</th>
+						<td class="implicit-values"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+															
+    <div class="role" id="img">
+			<rdef>img</rdef>
+			<div class="role-description">
+				<p>
+            The definitive role definition for img is <rref>img</rref>. 
+        </p>  
+				<p>The use of <rref>img</rref> in the graphics context is slightly different
+            than that used outside of it due to the semantics available for drawings.   
+            An <code>img</code> can contain 
+            multiple drawing <a title="object">objects</a> or image files 
+            that when viewed together give the impression of a single image.  
+            However, an <code>img</code> represents an indivisible component 
+            within a document for navigation purposes.  
+            If the child elements are arranged 
+            in a semantically rich structure 
+            that users may wish to navigate through, 
+            authors should use a <rref>graphics-figure</rref> 
+            or <rref>graphics-doc</rref> role instead.
+        </p>
+        <p>
+            The element with the <code>img</code> role 
+            may also contain captions and descriptive text within child elements, 
+            if those elements participate in 
+            the accessible name or description calculation for that element.  
+            To ensure that elements with a <a>role</a> of <code>img</code> 
+            are <a>perceivable</a>, 
+            authors MUST provide alternative text or a label 
+            determined by the <a href="#namecalculation">accessible name calculation</a>.  
+            Authors SHOULD also provide an accessible description 
+            that conveys the complete meaning of the image.  
+            If the image is purely symbolic, 
+            and the visual details are not relevant, 
+            the <rref>graphics-symbol</rref> role is more appropriate.
+            If the image is used as a direct substitute 
+            for a short word or phrase within a sentence, 
+            the <rref>text</rref> role is appropriate.
+        </p>
+        <p class="note">
+            The <code>img</code> role was first defined in ARIA 1.0.  
+            This specification modifies that definition 
+            in a backwards-compatible way, 
+            to clarify the distinction between images 
+            and other graphical roles.
+        </p>
+				<pre class="example highlight">
+&lt;!-- Within an HTML 5 document, an inline SVG
+    may sometimes represent an atomic img --&gt;
+&lt;p&gt;A repeating SVG gradient is defined using the
+    &lt;code&gt;spreadMethod&lt;/code&gt; attribute.  
+    A value of &lt;code&gt;repeat&lt;/code&gt; causes the color stops
+    to repeat in the same order, from beginning to end:&lt;/p&gt;
+&lt;svg class="inline-example" role="img"&gt;
+    &lt;title&gt;A repeating linear gradient&lt;/title&gt;
+    &lt;desc&gt;The gradient starts dark, slowly shifting to light, 
+        then quickly dark again.  This pattern repeats four
+        times left to right, each time brightening across a large
+        region and then getting dark within a short space.
+    &lt;/desc&gt;
+    &lt;linearGradient id="repeat" x2="25%" spreadMethod="repeat"&gt;
+        &lt;stop offset="0"     stop-color="black" /&gt;
+        &lt;stop offset="0.8" stop-color="white" /&gt;
+        &lt;stop offset="1"     stop-color="black" /&gt;
+    &lt;/linearGradient&gt;
+    &lt;rect width="100%" height="100%" fill="url(#repeat)" /&gt;
+&lt;/svg&gt;
+
+<object type="text/html" data="img/img-role-for-svg.html"
+        style="height: 27em; "></object>
+</pre>
+				<pre class="example highlight">
+&lt;!-- Within the fallback DOM dynamically constructed
+     for an HTML 5 canvas game,
+     elements may represent the different images
+     that create the composite graphic --&gt;
+&lt;canvas&gt;
+    &lt;p id="scene-desc" role="img" 
+       aria-label="The Dungeon"
+       aria-describedby="scene-desc"&gt;
+       The door opens into a long hallway.
+       Every few steps on either side are barred doors.
+       Moisture drips from the stone walls.
+    &lt;/p&gt;
+    &lt;p id="grue-1" role="img"
+       aria-label="Grue"
+       aria-describedby="grue-1"&gt;
+       An amorphous and poorly defined, but unmistakably sinister,
+       creature blocks the passage.
+   &lt;/p&gt;
+   &lt;!-- more DOM elements representing game controls --&gt;
+&lt;/canvas&gt;
+</pre>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>section</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related">
+							<ul>
+								<li><a href="http://www.loc.gov/nls/z3986/v100/dtbook110doc.htm#imggroup"><abbr title="Digital Talking Book">DTB</abbr> imggroup</a></li>
+								<li><a href="http://www.w3.org/TR/html401/struct/objects.html#edef-IMG"><abbr title="Hypertext Markup Language">HTML</abbr> img</a></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">True</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+	</section>
+</section>
+<section class="normative" id="state_prop">
+	<h1>States and Properties</h1>
+	<p>WAI-ARIA provides a collection of accessibility state and properties which are used to support platform accessibility APIs on various 
+	operating system platforms. Assistive technologies may access this information through an exposed user agent DOM or through a mapping 
+	to the platform accessibility API. When combined with roles, the user agent can supply the assistive technologies with user interface 
+	information to convey to the user at any time. Changes in states or properties will result in a notification to assistive technologies, 
+	which could alert the user that a change has occurred.</p>
+	<p>Assistive technology may use <pref>aria-gtype</pref> as an adjective for the role in name calculation.</p>
+	<section id="manageing-navigation">
+	<h2>Managing navigation</h2>
+	<p>Roles, states and properties can be used to manage graphics navigation. Properties can be used to manage navigation behavior and
+	differentiate between graphics features with the same role and same semantic parent. Customized navigation behavior may be needed when 
+	statistics produce multiple data columns. For example, data for a box and whisker plot are produced by statistics, and 
+	the statistic produces columns for the fence, box, median and outliers. Outliers can be classified in more than one way and 
+	different statistics can produce different flavors of boxes and fences and outliers. The semantics of the statistic need to be accurately 
+	communicated to the user during exploration. Charts, instructional diagrams, chemical models and maps are examples of graphics that
+	may need customizable navigation.
+	</p>
+	<p>The following properties can modify navigation behavior:
+	<ul>
+	<li><pref>aria-gtype</pref></li>
+	</ul>
+	<p class="ednote">
+	It has not been decided what mechanism, if any, will cue navigation changes.
+	</p>
+	</section>
+	<section id="state_prop_def">
+		<h2>Definitions of States and Properties</h2>
+		<p>Below is a list of properties that can be used with graphics roles. A detailed definition of each state and <a>property</a> 
+		follows this compact list.</p>
+		<p id="index_state_prop" class="placeholder">Placeholder for index of states and properties</p>
+		<hr/>
+		
+		<div class="property" id="aria-categories">
+		  <pdef>aria-categories</pdef>
+		  <div class="property-description">
+			<p>A list of categories. </p>
+			</div>
+              <table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_string">string</a></td>
+					</tr>
+				</tbody>
+			</table>			
+	     </div>
+		<hr/>
+		
+		<div class="property" id="aria-gtype">
+		  <pdef>aria-gtype</pdef>
+		  <div class="property-description">
+			<p>A differentiator for graphics features with the same role and semantic parent. </p>
+			</div>
+              <table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"> </td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_string">string</a></td>
+					</tr>
+				</tbody>
+			</table>			
+	     </div>
+	     
+		</section>
+</section>
+<section class="appendix informative" id="a_schemata">
+	<h1>Schemata</h1>
+	<p>The <a href="http://www.w3.org/html/wg/">HTML Working Group</a> has incorporated the WAI-ARIA attributes into <a href="http://www.w3.org/TR/html5/">HTML 5</a>. Official support for WAI-ARIA in HTML is provided in that specification.</p>
+	<p class="ednote">Validation support for the roles defined in this module will be added once the specification reaches recommendation.</p>
+	<p>For information on incorporating WAI-ARIA into other grammars, refer to <a href="http://www.w3.org/TR/wai-aria-1.1/#a_schemata">Appendix A</a> of [[!WAI-ARIA]]</p>
+	<p class="ednote">Review whether any additional schemata are necessary for this module.</p>
+</section>
+<section class="appendix" id="changelog">
+	<h2>Change Log</h2>
+<p>A <a href="https://github.com/w3c/aria/commits/master/aria/graphics.html">detailed history of changes committed</a> is available from <a href="https://github.com/w3c/aria/blob/master/aria/graphics.html">the github repository for this document</a>. When drafts of this document begin to stabilise, human-readable change logs will be incorporated.</p>
+	<!--section>
+		<h2>Substantive changes since the <a href="@@">last public working draft</a></h2>
+		<ul>
+			<li>DD-MMM-YYYY: Change description.</li>
+			< EdNote: After each WD publish, move contents of this list into the next one below. >
+		</ul>
+	</section>
+	<section>
+		<h2>Other substantive changes since the <a href="@@">First Public Working Draft</a></h2>
+		<ul>
+			<li>DD-MMM-YYYY: Change description.</li>
+			< EdNote: After each WD publish, move previous list into this one. >
+		</ul>
+	</section>
+</section-->
+<section class="informative appendix" id="quickref">
+	<h2>WAI-ARIA Role, State, and Property Quick Reference</h2>
+	<p>The following table provides a quick reference to the supported states and properties for all WAI-ARIA roles that may be used in markup.</p>
+	<div id="quickref_global_states">
+		<p>In addition to the states and properties shown in the table, the following global states and properties are supported on all roles.</p>
+		<p class="placeholder">Placeholder for global states and properties</p>
+	</div>
+	<p class="placeholder">Placeholder for quick reference table</p>
+</section>
+	<section class="appendix informative section" id="acknowledgements">
+		<h3>Acknowledgments</h3>
+		<p>The following people contributed to the development of this document.</p>
+		<section class="section" id="ack_svga11y">
+			<h4>Participants active in the SVG accessibility task force at the time of publication</h4>
+			<ul>
+				<li>Amelia Bellamy-Royds (Invited expert)</li>
+				<li>Fred Esch (IBM Corporation)</li>
+				<li>Charles McCathieNevile (Yandex)</li>
+				<li>Charu Pandhi (IBM Corporation)</li>
+				<li>Doug Schepers (W3C Staff)</li>
+				<li>Richard Schwerdtfeger (IBM Corporation)</li>
+				<li>Léonie Watson (The Paciello Group)</li>
+				<li>Jason White (Educational Testing Service)</li>
+			</ul>
+		</section>
+		<section class="section" id="ack_group">
+			<h4>Participants active in the PFWG at the time of publication</h4>
+			<ul>
+				<li>Christy Blew (University of Illinois at Urbana-Champaign)</li>
+				<li>David Bolter (Mozilla Foundation) </li>
+				<li>Michael Cooper (W3C/MIT)</li>
+				<li>James Craig (Apple Inc.) </li>
+				<li>Joanmarie Diggs (Igalia)</li>
+				<li>Fred Esch (IBM Corporation)</li>
+				<li>Steve Faulkner (The Paciello Group) </li>
+				<li>John Foliot (Invited Expert)</li>
+				<li>Christopher Gallelo (Microsoft Corporation)</li>
+				<li>Bryan Garaventa (SSB BART Group)</li>
+				<li>Scott González (JQuery Foundation)</li>
+				<li>Billy Gregory (The Paciello Group)</li>
+				<li>Karl Groves (The Paciello Group)</li>
+				<li>Jon Gunderson (University of Illinois at Urbana-Champaign)</li>
+				<li>Birkir Gunnarsson (Deque Systems, Inc.)</li>
+				<li>Markus Gylling (DAISY Consortium)</li>
+				<li>Mona Heath (University of Illinois at Urbana-Champaign)</li>
+				<li>Susann Keohane (IBM Corporation)</li>
+				<li>Matthew King (IBM Corporation)</li>
+				<li>Jason Kiss (Department of Internal Affairs, New Zealand Government)</li>
+				<li>Dominic Mazzoni (Google, Inc.)</li>
+				<li>Shane McCarron (Invited Expert, Aptest)</li>
+				<li>Charles McCathieNevile (Yandex)</li>
+				<li>Mary Jo Mueller (IBM Corporation)</li>
+				<li>James Nurthen (Oracle Corporation) </li>
+				<li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
+				<li>Joseph Scheuhammer (Invited Expert, Inclusive Design Research Centre, OCAD University) </li>
+				<li>Stefan Schnabel (SAP AG) </li>
+				<li>Richard Schwerdtfeger (IBM Corporation)</li>
+				<li>Lisa Seeman (Invited Expert) </li>
+				<li>Cynthia Shelly (Microsoft Corporation) </li>
+				<li>Alexander Surkov (Mozilla Foundation)</li>
+				<li>Léonie Watson (The Paciello Group)</li>
+				<li>Jason White (Educational Testing Service)</li>
+				<li>Marco Zehe (Mozilla Foundation)</li>
+				<li>Gottfried Zimmermann (Invited Expert, Access Technologies Group)</li>
+			</ul>
+		</section>
+	</section>
+</body>
+</html>
