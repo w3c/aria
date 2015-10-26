@@ -126,6 +126,11 @@ function restrictReferences(utils, content) {
             });
         }
     });
+    
+    respecEvents.sub ('end-all', function () {
+        $('body').attr('aria-busy', 'false');  // or, remove it entirely?
+    });
+    
     return (base.innerHTML);
 }
 
