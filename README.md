@@ -70,6 +70,7 @@ The following properties for cross references are currently available *(todo: we
 * `ariaSpecURLs`: for the main ARIA spec
 * `coreMappingURLs`: for the Core AAM
 * `accNameURLs`: for the AccName AAM
+* `htmlMappingURLs`: for the HTML AAM
 
 The task of fixing up links is done by a script that needs to be hooked in via the following line in the respecConfig:
 
@@ -92,6 +93,7 @@ The set of class values currently defined are:
 * `property-reference`: property definitions
 * `specref`: other targets in the main ARIA spec
 * `core-mapping`: the Core AAM
+* `html-mapping`: the HTML AAM
 * `accname`: the AccName AAM
 
 *Todo: we should add versions for the other docs*
