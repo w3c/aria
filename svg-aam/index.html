@@ -974,12 +974,20 @@ var mappingTableLabels = {
         MUST be included in the accessbility tree.
       </p>
       <p>
-        An element that is itself hidden may have children that are visible
+        A container element that is itself hidden 
+        (e.g., via the <code>visibility</code> property)
+        may have children that are visible
         and/or can receive events.
         If the child elements would otherwise be excluded from the accessibility tree
         because they lack semantic information,
         the nearest ancestor element that meets the criteria for inclusion
         SHOULD instead be treated as if it was visible or was able to receive events.
+        Similarly, a <code>use</code> element may include
+        visible or interactive component graphics, 
+        despite having style properties that would cause
+        an individual shape element to be hidden.
+        The <code>use</code> element SHOULD be considered visible or interactive 
+        if any of its re-used content is visible or interactive.
       </p> 
       <p class="note">
         The <code>tabindex</code> attribute 
@@ -1903,7 +1911,7 @@ var mappingTableLabels = {
         <a class="html-mapping" href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
       </li>
       <li>
-        <code>href</code> or <code>xlink:href</code> 
+        <code>href</code> or <code>xlink:href</code>
         on a <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a> element 
         affects the accessible <a href="mapping_additional_nd">Name and Description</a> computation.
       </li>
@@ -1926,13 +1934,28 @@ var mappingTableLabels = {
         affects the accessible <a href="mapping_additional_nd">Name and Description</a> computation.
       </li>
     </ul>
+      <p>
+        The <code>xlink</code> prefix is used here to refer to the
+        XLink namespace, <code>http://www.w3.org/1999/xlink</code>.
+        Attributes of the given names in that namespace should be
+        processed as described here, 
+        regardless of how the namespace is applied in markup or via script.
+        XLink-namespaced attributes are deprecated in SVG 2 [[SVG]],
+        but user agents are still expected to process them,
+        to maintain backwards compatibility.
+        Nonetheless, the <code>href</code> attribute in the default namespace
+        takes precedence over the XLink equivalent.
+        If both are set on a given element, 
+        the XLink version is not valid 
+        for the purpose of the name and description computation.
+      </p>
     
     <p>
       The effective attribute for a given element,
       and therefore the state and property mapping,
       may be affected by declarative animation
       as described in the <a href="#mapping_animation">Animation</a> section.
-    </p>
+    </p> 
 	</section>
   
 	<section id="mapping_additional">
@@ -2166,7 +2189,7 @@ var mappingTableLabels = {
       &lt;desc>A 1cm-radius circle&lt;/desc>
     &lt;/circle>
   &lt;/defs>
-  &lt;use xlink:href="#c" id="rc" style="fill:red"
+  &lt;use href="#c" id="rc" style="fill:red"
        aria-describedby="c rc">
     &lt;title>Warning!&lt;/title>
     &lt;desc>colored red&lt;/desc>
@@ -2200,7 +2223,7 @@ var mappingTableLabels = {
           Alternatively, if the re-used graphic
           is represented as a cloned subtree,
           as proposed in a <a href="#role-map-use">note to the <code>use</code> element role mapping</a>,
-          The cloned circle, including its name and description,
+          the cloned circle, including its name and description,
           would be accessible as a child element
           of the <code>use</code>.
         </p>
@@ -2289,6 +2312,33 @@ var mappingTableLabels = {
         User agents <span class="rfc2119">MAY</span> represent the property changes
         as the deletion of existing nodes followed by the insertion of modified nodes.
       </p>
+      
+    <div class="ednote">
+      <p>
+        The <code>viewTarget</code> attribute,
+        and the corresponding parameter for SVG view fragments,
+        may be deprecated in SVG 2.
+        Their intended use,
+        to trigger visual styling changes in the target element,
+        has never been well implemented by user agents.
+        Without it, there would be no native way in SVG to indicate
+        the semantic target of a given view.
+        For <code>view</code> elements
+        (but not view fragments),
+        a possible alternative is to encourage
+        authors to directly specify `aria-flowsto` attributes.
+      </p>
+      <p>
+        It may therefore be preferable to also map all ARIA attributes
+        from the <code>view</code> element
+        onto the accessible object for the <code>svg</code> element
+        while the view is in effect.
+        However, this requires careful consideration 
+        of all possible consequences and conflicts.
+        For example, 
+        should a view be able to change the role of the SVG element?
+      </p>
+    </div> 
     </section>
 
     <section id="mapping_animation">
