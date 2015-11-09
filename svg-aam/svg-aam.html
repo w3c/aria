@@ -17,7 +17,7 @@
     includePermalinks: true,
     
     // specification status (e.g., WD, LC, NOTE, etc.). If in doubt use ED.
-    specStatus:           "FPWD",
+    specStatus:           "ED",
     //crEnd:                "2012-04-30",
     //perEnd:               "2013-07-23",
     //publishDate:           "2015-02-26",
@@ -38,7 +38,7 @@
     //previousDiffURI:      "http://www.w3.org/TR/2014/REC-wai-aria-implementation-20140320/",
 
     // if there a publicly available Editors Draft, this is the link
-    edDraftURI:           "http://w3c.github.io/aria/svg-aam/svg-aam.html",
+    edDraftURI:           "https://rawgit.com/w3c/aria/master/svg-aam/svg-aam.html",
 
     // if this is a LCWD, uncomment and set the end of its review period
     // lcEnd: "2012-02-21",
@@ -110,6 +110,12 @@
        "FPWD": "http://www.w3.org/TR/core-aam-1.1/",
        "REC": "http://www.w3.org/TR/wai-aria-implementation/"
     },
+    htmlMappingURLs: {
+       "ED": "http://rawgithub.com/w3c/aria/master/html-aam/html-aam.html",
+       "WD" : "http://www.w3.org/TR/html-aam-1.0/",
+       "FPWD": "http://www.w3.org/TR/html-aam-1.0/",
+       "REC": "http://www.w3.org/TR/wai-aria-implementation/"
+    },
 
     localBiblio: biblio,
     
@@ -160,8 +166,7 @@ var mappingTableLabels = {
     for user agents. 
     It leverages those core mappings and provides SVG-specific guidance 
     to define how the SVG user agent must respond to keyboard focus 
-    and <a class="termref" data-lt="role">role</a>, <a class="termref" data-lt="State">state</a>, and <a class="termref" data-lt="Property"/
->property</a> attributes 
+    and <a class="termref" data-lt="role">role</a>, <a class="termref" data-lt="State">state</a>, and <a class="termref" data-lt="Property">property</a> attributes 
     provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]]. 
     The SVG-AAM also adapts the ACCNAME-AAM 
     to make use of standard SVG features 
@@ -233,7 +238,7 @@ var mappingTableLabels = {
     displayed when needed and hidden when not needed 
     based on user interactions. 
     <a class="termref" data-lt="Accessibility API">Accessibility API</a>s are used to communicate 
-    <a class="termref" datai-lt="Semantics">semantics</a>  
+    <a class="termref" data-lt="Semantics">semantics</a>  
     about the user interface to 
     <a class="termref" data-lt="Assistive Technologies">assistive technologies</a> 
     used by people with disabilities. 
@@ -422,7 +427,7 @@ var mappingTableLabels = {
     </p>
     <ul>
       <li>
-        <a href="https://msdn.microsoft.com/en-us/library/ms697707.aspx">Microsoft Active Accessibility 2.0</a></cite> [[MSAA]] with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]
+      <cite><a href="https://msdn.microsoft.com/en-us/library/ms697707.aspx">Microsoft Active Accessibility 2.0</a></cite> [[MSAA]] with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]
       </li>
       <li>
         <cite><a href="https://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]
@@ -870,7 +875,7 @@ var mappingTableLabels = {
           It has at least one direct child 
           <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#TitleElement"><span>title</span></a>’</span> element
           or
-          <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><span>desc</span>’</a> element.
+          <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><span>desc</span></a>'</span> element.
         </li>
         <li>
           It has a non-empty 
@@ -969,12 +974,20 @@ var mappingTableLabels = {
         MUST be included in the accessbility tree.
       </p>
       <p>
-        An element that is itself hidden may have children that are visible
+        A container element that is itself hidden 
+        (e.g., via the <code>visibility</code> property)
+        may have children that are visible
         and/or can receive events.
         If the child elements would otherwise be excluded from the accessibility tree
         because they lack semantic information,
         the nearest ancestor element that meets the criteria for inclusion
         SHOULD instead be treated as if it was visible or was able to receive events.
+        Similarly, a <code>use</code> element may include
+        visible or interactive component graphics, 
+        despite having style properties that would cause
+        an individual shape element to be hidden.
+        The <code>use</code> element SHOULD be considered visible or interactive 
+        if any of its re-used content is visible or interactive.
       </p> 
       <p class="note">
         The <code>tabindex</code> attribute 
@@ -984,6 +997,7 @@ var mappingTableLabels = {
         or because of host language semantics.
       </p>
     </section>
+  </section>
   </section>
   
 	<section id="mapping_conflicts">
@@ -1109,7 +1123,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-audio-element"><code>audio</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-audio">the HTML audio element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-audio">the HTML audio element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>              
   <td>
@@ -1121,7 +1135,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/scripting-1.html#the-canvas-element"><code>canvas</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-canvas">the HTML canvas element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-canvas">the HTML canvas element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>
@@ -1379,7 +1393,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-iframe">the HTML iframe element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-iframe">the HTML iframe element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>
@@ -1574,7 +1588,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-source-element"><code>source</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-source">the HTML source element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-source">the HTML source element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>no role may be applied</td>
@@ -1674,7 +1688,7 @@ var mappingTableLabels = {
     </dl>
     <p class="note">
       The platform mappings given above are the same
-      as those recommended for <a href="../html-aam/html-aam.html#el-p">the HTML p element</a>
+      as those recommended for <a class="html-mapping" href="#el-p">the HTML p element</a>
       in the HTML Accessibility API Mappings specification [[HTML-AAM]].
       There is currently no WAI-ARIA role available
       that defines a distinct text block.
@@ -1699,9 +1713,10 @@ var mappingTableLabels = {
     properties of the parent text element where supported
     <p class="ednote">
       The use of the group role here is that of generic container 
-      for a span of text content which either 
+      for a span of text content which forms a distinct object
+      (either because it
       has supplementary alternative text labels or descriptions
-      or is interactive. 
+      or because it is interactive). 
       More work is required to address whether 
       text-specific platform accessibility API roles
       can more effectively serve this function.
@@ -1726,7 +1741,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-track-element"><code>track</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-track">the HTML track element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-track">the HTML track element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>no role may be applied</td>
@@ -1743,9 +1758,10 @@ var mappingTableLabels = {
     properties of the parent text element where supported
     <p class="ednote">
       The use of the group role here is that of generic container 
-      for a span of text content which either 
+      for a span of text content which forms a distinct object
+      (either because it
       has supplementary alternative text labels or descriptions
-      or is interactive. 
+      or because it is interactive). 
       More work is required to address whether 
       text-specific platform accessibility API roles
       can more effectively serve this function.
@@ -1802,7 +1818,13 @@ var mappingTableLabels = {
         that allow individual cloned graphic components
         to receive and propagate user input (pointer) events.
         The SVG 1.1 specifications [[SVG11]] defined
-        a <a href="http://www.w3.org/TR/SVG11/struct.html#UseElement">non-exposed document tree</a> consisting of SVGElementInstance objects which could be the targets of pointer events.
+        a <a href="http://www.w3.org/TR/SVG11/struct.html#UseElement">non-exposed document tree</a> 
+        consisting of SVGElementInstance objects 
+        which could be the targets of pointer events
+        handled by event handlers on the <code>use</code> or an ancestor element;
+        keyboard accessibility was not considered.
+      </p>
+      <p>
         At the time of writing, the SVG 2 specifications [[SVG]]
         propose significantly overhauling this model
         in favour of one based on the Shadow DOM specification [[SHADOW-DOM]].
@@ -1855,7 +1877,7 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element"><code>video</code></a>
   </th>
   <td>
-    Follow the recommendations for <a href="../html-aam/html-aam.html#el-video">the HTML video element</a>
+    Follow the recommendations for <a class="html-mapping" href="#el-video">the HTML video element</a>
       in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
   </td>
   <td>
@@ -1894,10 +1916,10 @@ var mappingTableLabels = {
         on a <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#AudioElement"><code>audio</code></a>
         or <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#VideoElement"><code>video</code></a> element
         is interpretted as defined in the 
-        <a href="../html-aam/html-aam.html#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
+        <a class="html-mapping" href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
       </li>
       <li>
-        <code>href</code> or <code>xlink:href</code> 
+        <code>href</code> or <code>xlink:href</code>
         on a <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a> element 
         affects the accessible <a href="mapping_additional_nd">Name and Description</a> computation.
       </li>
@@ -1905,7 +1927,7 @@ var mappingTableLabels = {
         <code>tabindex</code>
         on a rendered element (whether visible or not)
         is interpretted as defined in the 
-        <a href="../html-aam/html-aam.html#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
+        <a class="html-mapping" href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
       </li>
       <li>
         <code>viewTarget</code> 
@@ -1920,13 +1942,28 @@ var mappingTableLabels = {
         affects the accessible <a href="mapping_additional_nd">Name and Description</a> computation.
       </li>
     </ul>
+      <p>
+        The <code>xlink</code> prefix is used here to refer to the
+        XLink namespace, <code>http://www.w3.org/1999/xlink</code>.
+        Attributes of the given names in that namespace should be
+        processed as described here, 
+        regardless of how the namespace is applied in markup or via script.
+        XLink-namespaced attributes are deprecated in SVG 2 [[SVG]],
+        but user agents are still expected to process them,
+        to maintain backwards compatibility.
+        Nonetheless, SVG 2 <a href="https://svgwg.org/svg2-draft/linking.html#XLinkRefAttrs">requires that</a> the <code>href</code> attribute in the default namespace
+        takes precedence over the XLink equivalent
+        if both are set on a given element. 
+        In that case, the XLink version is not valid 
+        for the purpose of the name and description computation.
+      </p>
     
     <p>
       The effective attribute for a given element,
       and therefore the state and property mapping,
       may be affected by declarative animation
       as described in the <a href="#mapping_animation">Animation</a> section.
-    </p>
+    </p> 
 	</section>
   
 	<section id="mapping_additional">
@@ -2154,18 +2191,18 @@ var mappingTableLabels = {
         <p>
           A simple example would be as follows:
         </p>
-        <code><pre>
+        <pre class='example'>
   &lt;defs>
     &lt;circle id="c" r="1cm">
       &lt;desc>A 1cm-radius circle&lt;/desc>
     &lt;/circle>
   &lt;/defs>
-  &lt;use xlink:href="#c" id="rc" style="fill:red"
+  &lt;use href="#c" id="rc" style="fill:red"
        aria-describedby="c rc">
     &lt;title>Warning!&lt;/title>
     &lt;desc>colored red&lt;/desc>
   &lt;/use>
-        </pre></code>
+        </pre>
         <p>
           The <code>use</code> element would have
           the accessible name "Warning!"
@@ -2194,7 +2231,7 @@ var mappingTableLabels = {
           Alternatively, if the re-used graphic
           is represented as a cloned subtree,
           as proposed in a <a href="#role-map-use">note to the <code>use</code> element role mapping</a>,
-          The cloned circle, including its name and description,
+          the cloned circle, including its name and description,
           would be accessible as a child element
           of the <code>use</code>.
         </p>
@@ -2283,6 +2320,58 @@ var mappingTableLabels = {
         User agents <span class="rfc2119">MAY</span> represent the property changes
         as the deletion of existing nodes followed by the insertion of modified nodes.
       </p>
+      
+    <div class="ednote">
+      <p>
+        SVG Views provide a functionality unique to SVG,
+        with no direct equivalent in HTML documents.
+        They may be used as the end-point of a navigation action,
+        but are not themeselves a container for the targetted content.
+        They may also be used at the time an SVG document is embedded,
+        to subset the visual content to only include a portion of the file.
+      </p>
+      <p>
+        The editors would be very interested in practical examples
+        of SVG views in use, 
+        so that we may determine if the above requirements are sufficient.
+        Particular issues to consider include whether special rules are required
+        for managing keyboard focus, 
+        or for excluding content that is rendered offscreen
+        when a view is in effect.
+      </p>
+      <p>
+        The editors will also be examining existing behavior
+        of user agent/assistive technology combinations
+        when browsing SVG documents with views,
+        and will be proposing author best practices accordingly.
+      </p>
+      <p>
+        In addition, there have been proposals to deprecate
+        the <code>viewTarget</code> attribute,
+        and the corresponding parameter for SVG view fragments,
+        in SVG 2.
+        Their intended use,
+        to trigger visual styling changes in the target element,
+        has never been well implemented by user agents.
+        Without <code>viewTarget</code>, there would be no native way in SVG to indicate
+        the semantic target of a given view.
+        For <code>view</code> elements
+        (but not view fragments),
+        a possible alternative is to encourage
+        authors to directly specify <code>aria-flowsto</code> attributes.
+        These would then need to be mapped to the relevant <code>svg</code> element.
+      </p>
+      <p>
+        This raises the question of whether any other (or all) ARIA attributes
+        should be mapped from the <code>view</code> element
+        onto the accessible object for the <code>svg</code> element
+        while the view is in effect.
+        This would require careful consideration 
+        of all possible consequences and conflicts.
+        For example, 
+        should a view be able to change the role of the SVG element?
+      </p>
+    </div> 
     </section>
 
     <section id="mapping_animation">

@@ -12,6 +12,10 @@ function linkCrossReferences() {
     respecConfig.accNameURLs[respecConfig.specStatus] : null
   );
 
+  var htmlMappingURL = (respecConfig.htmlMappingURLs ?
+    respecConfig.htmlMappingURLs[respecConfig.specStatus] : null
+  );
+
   function setHrefs (selString, baseUrl) {
     $ (selString).each (
       function (idx, el) {
@@ -44,6 +48,15 @@ function linkCrossReferences() {
   else {
     console.log ("linkCrossReferences():  Note -- accNameURL is not defined.");
   }
+  // Fourth, for links to role, state, and property mappings in the html mapping
+  // doc.
+  if (!!htmlMappingURL) {
+    setHrefs ('a.html-mapping', htmlMappingURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  Note -- htmleMappingURL is not defined.");
+  }
+
 }
 
 function updateReferences(base) {
@@ -126,6 +139,11 @@ function restrictReferences(utils, content) {
             });
         }
     });
+    
+    respecEvents.sub ('end-all', function () {
+        $('body').attr('aria-busy', 'false');  // or, remove it entirely?
+    });
+    
     return (base.innerHTML);
 }
 
