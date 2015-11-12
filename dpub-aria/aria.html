@@ -792,21 +792,15 @@
 		<div class="role" id="application">
 			<rdef>application</rdef>
 			<div class="role-description">
-				<p>A region declared as a web application, as opposed to a web <rref>document</rref>.</p>
-				<p>When the user navigates an element assigned the role of <rref>application</rref>, <a>assistive technologies</a> that typically intercept standard keyboard events SHOULD switch to an application browsing mode, and pass keyboard events through to the web application. The intent is to hint to certain <a>assistive technologies</a> to switch from normal browsing mode into a mode more appropriate for interacting with a web application; some <a>user agents</a> have a browse navigation mode where keys, such as up and down arrows, are used to browse the document, and this native behavior prevents the use of these keys by a web application.</p>
-				<p class="note">Where appropriate, assistive technologies that typically intercept other standard device input events, such as touch screen input, could switch to an application browsing mode that passes some or all of those events through to the web application.</p>
-				<!-- note: keep the following paragraphs synced with their counterparts in #document -->
-				<p>Authors SHOULD set the <a>role</a> of <code>application</code> on the <a>element</a> that encompasses the entire application. If the application role applies to the entire web page, authors SHOULD set the role of <code>application</code> on the root node for content, such as the <code>body</code> element in <abbr title="Hypertext Markup Language">HTML</abbr> or <code>svg</code> element in SVG.</p>
-				<p>For example, an email application has a document and an application in it. The author would want to use typical application navigation mode to cycle through the list of emails, and much of this navigation would be defined by the application author. However, when reading an email message the content will appear in a region with a <rref>document</rref> <a>role</a> in order to use browsing navigation.</p>
-				<p>For all instances of non-decorative static text or image content inside an application, authors SHOULD either associate the text with a form <a>widget</a> or <rref>group</rref> (via <pref>aria-label</pref>, <pref>aria-labelledby</pref>, or <pref>aria-describedby</pref>) or separate the text into an element with role of <rref>document</rref> or <rref>article</rref>.</p>
-				<p>Authors SHOULD provide a title or label for applications. Authors SHOULD use label text that is suitable for use as a navigation preview or table-of-contents entry for the page section. Content authors SHOULD provide the label through one of the following methods:</p>
-				<ul>
-					<li>If the application includes the entire contents of the web page, use the host language feature for title or label, such as the <code>title</code> element in both <abbr title="Hypertext Markup Language">HTML</abbr> and <abbr title="Scalable Vector Graphics">SVG</abbr>. This has the effect of labeling the entire application.</li>
-					<li>Otherwise, provide a visible label referenced by the application using <pref>aria-labelledby</pref>.</li>
-					<!-- note: keep the previous paragraphs synced with their counterparts in #document -->
-				</ul>
-				<p>User agents SHOULD treat elements with the role of <code>application</code> as navigational <a>landmarks</a>.</p>
-				<p>Authors MAY use the <code>application</code> role on the <a>primary content element</a> of the host language (such as the <code>body</code> element in HTML) to define an entire page as an application. However, if the <a>primary content element</a> is defined as having a role of <code>application</code>, user agents MUST NOT use the element as a navigational landmark. If assistive technologies use an interaction mode that intercepts standard keyboard events, when encountering the <code>application</code> role, those assistive technologies SHOULD switch to an interaction mode that passes keyboard events through to the web application.</p>
+				<p>A <rref>structure</rref> containing one or more focusable elements requiring user input, such as keyboard or gesture events, that do not follow a standard interaction pattern supported by a <rref>widget</rref> role.</p>
+				<p>Some <a>user agents</a> and <a>assistive technologies</a> have a browse mode where standard input events, such as up and down arrow key events, are intercepted and used to control a reading cursor. This browse mode behavior prevents elements that do not have a <rref>widget</rref> role from receiving and using such keyboard and gesture events to provide interactive functionality.</p>
+				<p>When there is a need to create an element with an interaction model that is not supported by any of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <rref>widget</rref> roles, authors MAY give that element role <code>application</code>. And, when a user navigates into an element with role <code>application</code>, <a>assistive technologies</a> that intercept standard input events SHOULD switch to a mode that passes most or all standard input events through to the web application.</p>
+				<p>For example, a presentation slide editor uses arrow keys to change the positions of textbox and image elements on the slide. There are not any WAI-ARIA <rref>widget</rref> roles that correspond to such an interaction model so an author could give the slide container role <code>application</code>, an <pref>aria-roledescription</pref> of &quot;Slide Editor&quot;, and use <pref>aria-describedby</pref> to provide instructions.</p>
+				<p> Because only the focusable elements contained in an <code>application</code> element are accessible to users of some assistive technologies, authors MUST use one of the following techniques to ensure all non-decorative static text or image content inside an application is accessible:</p>
+				<ol>
+					<li>Associate the content with a focusable element using <pref>aria-labelledby</pref> or <pref>aria-describedby</pref>.</li>
+					<li>Place the content in a focusable element that has role <rref>document</rref> or <code>article</code>.</li>
+				</ol>
 				</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -823,7 +817,7 @@
 					</tr>
 					<tr>
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>landmark</rref></td>
+						<td class="role-parent"><rref>structure</rref></td>
 					</tr>
 					<tr>
 						<th class="role-children-head" scope="row">Subclass Roles:</th>
@@ -2119,17 +2113,9 @@
 		<div class="role" id="document">
 			<rdef>document</rdef>
 			<div class="role-description">
-				<p>A region containing related information that is declared as document content, as opposed to a web <rref>application</rref>.</p>
-				<p>When the user navigates an element assigned the role of <rref>document</rref>, <a>assistive technologies</a> that typically intercept standard keyboard events SHOULD switch to document browsing mode, as opposed to passing keyboard events through to the web application. The <code>document</code> <a>role</a> informs <a>user agents</a> of the need to augment browser keyboard support in order to allow users to visit and read any content within the document region. In contrast, additional commands are not necessary for screen reader users to read text within a region with the <rref>application</rref> role, where if coded in an accessible manner, all text will be <a>semantically</a> associated with focusable <a>elements</a>. An important trait of documents is that they have text which is not associated with <a>widgets</a> or groups thereof.</p>
-				<!-- note: keep the following paragraphs synced with their counterparts in #application -->
-				<p>Authors SHOULD set the role of <code>document</code> on the element that encompasses the entire document. If the document role applies to the entire web page, authors SHOULD set the role of <code>document</code> on the root node for content, such as the <code>body</code> element in <abbr title="Hypertext Markup Language">HTML</abbr> or <code>svg</code> element in <abbr title="Scalable Vector Graphics">SVG</abbr>.</p>
-				<p>For example, an email application has a document and an application in it. The author would want to use typical application navigation mode to cycle through the list of emails, and much of this navigation would be defined by the application author. However, when reading an email message, the content will appear in a region with a <rref>document</rref> role in order to use browsing navigation.</p>
-				<p>Authors SHOULD provide a title or label for documents. Authors SHOULD use label text that suitable for use as a navigation preview or table-of-contents entry for the page section. Content authors SHOULD provide the label through one of the following methods:</p>
-				<ul>
-					<li>If the document includes the entire contents of the web page, use the host language feature for title or label, such as the <code>title</code> element in both <abbr title="Hypertext Markup Language">HTML</abbr> and <abbr title="Scalable Vector Graphics">SVG</abbr>. This has the effect of labeling the entire document.</li>
-					<li>Otherwise, provide a visible label referenced by the document using <pref>aria-labelledby</pref>.</li>
-					<!-- note: keep the previous paragraphs synced with their counterparts in #application -->
-				</ul>
+				<p>An <a>element</a> containing content that <a>assistive technology</a> users may want to browse in a reading mode.</p>
+				<p>When <a>user agent</a> focus moves to an element assigned the role of <code>document</code>, <a>assistive technologies</a> having a reading mode for browsing static content MAY switch to that reading mode and intercept standard input events, such as Up or Down arrow keyboard events, to control the reading cursor.</p>
+				<p>Because <a>assistive technologies</a> that have a reading mode default to that mode for all elements except for those with either a <rref>widget</rref> or <rref>application</rref> role, the only circumstance where the <code>document</code> role is useful for changing assistive technology behavior is when the element with role <code>document</code> is a focusable child element of a <rref>widget</rref> or <rref>application</rref>. For example, given an <rref>application</rref> element which contains some static rich text, the author can apply role <code>document</code> to the element containing the text and give it a <code>tabindex</code> of <code>0</code>. When a screen reader user presses the Tab key and places focus on the <code>document</code> element, the user will be able to read the text with the screen reader's reading cursor.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -2186,7 +2172,7 @@
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
-						<td class="role-namerequired">True</td>
+						<td class="role-namerequired">False</td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
@@ -11057,6 +11043,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>27-Aug-2015: Added statement that <pref>aria-readonly</pref> and <pref>aria-required</pref> SHOULD NOT be used or exposed on <rref>columnheader</rref> or <rref>rowheader</rref> when those headers descend from a non-interactive <rref>table</rref>.</li>
 			<li>15-Oct-2015: Added <rref>figure</rref> role.</li>
 			<li>12-Nov-2015: Added <rref>feed</rref> role; made <pref>aria-posinset</pref> and <pref>aria-setsize</pref> supported properties of <rref>article</rref>; changed <sref>aria-busy</sref> so that it could be applied to all elements rather than limited to <a>live regions</a>; added normative requirement that authors MUST set <sref>aria-busy</sref> to <code>true</code> if changes to a rendered <rref>widget</rref> would result in that <rref>widget</rref> missing required owned elements during the update process.</li>
+			<li>12-Nov-2015: Changed the superclass of <rref>application</rref> from <rref>landmark</rref> to <rref>structure</rref>; removed the accessible name requirement from <rref>document</rref>.</li>
 		</ul>
 	</section>
 	<section>
