@@ -238,9 +238,11 @@ respecEvents.sub("end", function( msg ) {
                 sp.title = title;
                 // is this a role or an abstract role
                 var type = "role";
+                var isAbstract = false;
                 var abstract = parentNode.querySelectorAll(".role-abstract");
                 if ($(abstract).text() === "True") {
                     type = "abstract role";
+                    isAbstract = true;
                 }
                 sp.innerHTML = "<code>" + content + "</code> <span class=\"type-indicator\">(" + type + ")</span>";
                 // sp.id = title;
@@ -250,7 +252,7 @@ respecEvents.sub("end", function( msg ) {
                 dRef.id = "desc-" + title;
                 dRef.setAttribute("role", "definition");
                 parentNode.replaceChild(sp, item);
-                roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\">" + content + "</a></dt>\n";
+                roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
                 roleIndex += "<dd>" + desc + "</dd>\n";
                 // grab info about this role
                 // do we have a parent class?  if so, put us in that parents list
