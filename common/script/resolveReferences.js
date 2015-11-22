@@ -61,20 +61,53 @@ function linkCrossReferences() {
 
 function updateReferences(base) {
     // update references to properties
+    //
+    // New logic:
+    //     1. for each item, find it's nearest 'section' ancestor
+    //     2. if we have not already seen this item in this section, it is a link using 'a'
+    //     3. otherwise, it is just a styled reference to the item  using 'span'
 
     var baseURL = respecConfig.ariaSpecURLs[respecConfig.specStatus];
 
+    var sectionMap = {} ;
+
     $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.textContent || item.innerText;
-        var sp = document.createElement("a");
-        sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
-        var URL = (item.localName === "pref" || item.localName === "sref") ? baseURL+"#" : "#";
-        var ref = item.getAttribute("title");
+        var $item = $(item) ;
+
+        // what are we referencing?
+        var content = $item.text();
+        var ref = $item.attr("title");
         if (!ref) {
             ref = content;
         }
-        if (item.localName == 'rref') {
+
+        // what sort of reference are we?
+        var theClass = ($item.is("pref") ? "property-reference" : ($item.is("sref") ? "state-reference" : "role-reference"));
+
+        // property and state references are assumed to be in the parent document
+        // a role reference might be local or might be elsewhere
+        var URL = $item.is("pref, sref") ? baseURL+"#" : "#";
+
+        // assume we are making a link
+        var theElement = "a";
+
+        // pSec is the nearest parent section element
+        var $pSec = $item.parents("section").first();
+        var pID = $pSec.attr("id");
+        if (pID) {
+            if (sectionMap[pID]) {
+                if (sectionMap[pID][ref]) {
+                    theElement = "span";
+                } else {
+                    sectionMap[pID][ref] = 1;
+                }
+            } else {
+                sectionMap[pID] = {} ;
+                sectionMap[pID][ref] = 1;
+            }
+        }
+
+        if (theElement == "a" && $item.is('rref') ) {
             if (typeof localRoleInfo !== 'undefined' && localRoleInfo[ref]) {
                 ref = localRoleInfo[ref].fragID;
             } else if (baseURL && roleInfo[ref]) {
@@ -85,10 +118,11 @@ function updateReferences(base) {
                 URL = baseURL + "#";
             }
         }
+        var sp = document.createElement(theElement);
         sp.href = URL + ref;
-        sp.setAttribute("title", content);
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
+        sp.className = theClass;
+        sp.innerHTML=content;
+        $item.replaceWith(sp);
     });
 }
 
