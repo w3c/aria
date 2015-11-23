@@ -96,11 +96,12 @@ var biblio = {
 		"publisher": "Microsoft Corporation"
 	},
 	"SVG-AAM": {
-		"title": "SVG2 Accessibility API Mappings 1.1",
-		"href": "http://www.w3.org/TR/svg-aam-1.1/",
+		"title": "SVG2 Accessibility API Mappings 1.0",
+		"href": "http://www.w3.org/TR/svg-aam-1.0/",
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
+			"Amelia Bellamy-Royds",
 			"Richard Schwerdtfeger"
 		],
 		"etAl": true,
