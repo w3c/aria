@@ -16,6 +16,10 @@ function linkCrossReferences() {
     respecConfig.htmlMappingURLs[respecConfig.specStatus] : null
   );
 
+  var dpubModURL = ( respecConfig.dpubModURLs ?
+    respecConfig.dpubModURLs[respecConfig.specStatus] : null
+  );
+
   function setHrefs (selString, baseUrl) {
     $ (selString).each (
       function (idx, el) {
@@ -56,6 +60,14 @@ function linkCrossReferences() {
   else {
     console.log ("linkCrossReferences():  Note -- htmlMappingURL is not defined.");
   }
+  // Links to the DPub WAI-ARIA Module.
+  if (!!dpubModURL) {
+    setHrefs ('a.dpub-role-reference, a.dpub-property-reference, a.dpub-state-reference, a.dpub', dpubModURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+  }
+
 
 }
 
