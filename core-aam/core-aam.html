@@ -84,16 +84,16 @@
     */
     
     // Working group info
-    wg:           "Protocols and Formats Working Group",
-    wgURI:        "http://www.w3.org/WAI/PF/",
-    wgPublicList: "public-pfwg-comments",
+    wg:           "Accessible Rich Internet Applications Working Group",
+    wgURI:        "http://www.w3.org/WAI/ARIA/",
+    wgPublicList: "public-aria",
 
     // URI of the patent status for this WG, for Rec-track documents
     // !!!! IMPORTANT !!!!
     // This is important for Rec-track documents, do not copy a patent URI from a random
     // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
     // Team Contact.
-    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/32212/status",
+    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/83726/status",
     
     tocIntroductory: true,
     //maxTocLevel: 4,
@@ -143,7 +143,7 @@ var mappingTableLabels = {
 <body>
 <section id="abstract">
 	<p>This document describes how <a class="termref">user agents</a> should expose semantics of web content languages to <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. This helps users with disabilities to obtain and interact with information using <a class="termref">assistive technologies</a>. Documenting these mappings promotes interoperable exposure of roles, states, properties, and events implemented by accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent. </p>
-			<p>This Core Accessibility API Mappings specification defines support that applies across multiple content technologies, including general keyboard navigation support and mapping of general-purpose <a class="termref">roles</a>, states, and <a class="termref">properties</a> provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]]. Other Accessibility API Mappings specifications depend on and extend this Core specification for specific technologies, including native techology features and WAI-ARIA extensions. This document updates and will eventually supercede the guidance in the <a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a> [[!WAI-ARIA-IMPLEMENTATION]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
+			<p>This Core Accessibility API Mappings specification defines support that applies across multiple content technologies, including general keyboard navigation support and mapping of general-purpose <a class="termref">roles</a>, states, and <a class="termref">properties</a> provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]]. Other Accessibility API Mappings specifications depend on and extend this Core specification for specific technologies, including native technology features and WAI-ARIA extensions. This document updates and will eventually supercede the guidance in the <a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a> [[!WAI-ARIA-IMPLEMENTATION]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
 </section>
@@ -187,8 +187,8 @@ var mappingTableLabels = {
 		<p>If user agent developers need to expose information using other accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, it is recommended that they work closely with the developer of the platform where the <abbr title="application programming interface">API</abbr> runs, and assistive technology developers on that platform.</p>
 		<div class="note" id="ftn.AtkAtspiNote">
 		  <p>The reason that two Linux/GNOME accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, <abbr title="Accessibility Toolkit">ATK</abbr> and <abbr title="Assistive Technology Service Provider Interface">AT-SPI</abbr>, are referenced is due to the different purposes that they serve. ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.  </p>
-		  <p>For example, the GNOME GUI toolkit [[GTK]], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that <abbr title="GNOME toolkit">GTK</abbr> widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties. </p>
-		  <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers.  In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK.  Asisstive Technologies are consumers, and use AT-SPI. </p>
+		  <p>For example, the GNOME GUI toolkit [[GTK]], implements the relevant aspects of ATK for each widget (menu, combobox, checkbox, etc.) in order that <abbr title="GNOME toolkit">GTK</abbr> widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties. </p>
+		  <p>ATK is most relevant to implementors, whereas AT-SPI is relevant to consumers.  In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK.  Assistive Technologies are consumers, and use AT-SPI. </p>
 		</div>
 	</section>
 	<section id="intro_treetypes">
@@ -221,7 +221,7 @@ var mappingTableLabels = {
   <ul>
     <li>If the context is <a href="#keyboard-focus_tabindex">controlling focus with <code>tabindex</code></a>, the <abbr title="Document Object Model">DOM</abbr> focus (<code>document.activeElement</code>) is in sync with the focus states and events listed in the table. </li>
     <li>If the context is <a href="#keyboard-focus_aria-activedescendant">controlling focus with <code>aria-activedescendant</code></a>, the <abbr title="Document Object Model">DOM</abbr> focus is separate from the focus states and events for the <abbr title="Microsoft Active Accessibility">MSAA</abbr>, Microsoft <abbr title="User Interface Automation">UIA</abbr>, and <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> columns of the table. 
-      <p class="note">An example is a single-selection <code>listbox</code> that controls focus using <code>aria-activedescendent</code> instead of <code>tabindex</code>.  The <code>option</code> children are all marked with the focusable state in the accessibility <abbr title="Application Programming Interface">API</abbr>.  As the user navigates from one <code>option</code> child to the next, DOM focus is maintained on the <code>listbox</code> parent, but the accessibility <abbr title="Application Programming Interface">API</abbr> emits a focus event and exposes the focused state for the <code>option</code> child that the <code>listbox</code> references as the active descendant.</p>
+      <p class="note">An example is a single-selection <code>listbox</code> that controls focus using <code>aria-activedescendant</code> instead of <code>tabindex</code>.  The <code>option</code> children are all marked with the focusable state in the accessibility <abbr title="Application Programming Interface">API</abbr>.  As the user navigates from one <code>option</code> child to the next, DOM focus is maintained on the <code>listbox</code> parent, but the accessibility <abbr title="Application Programming Interface">API</abbr> emits a focus event and exposes the focused state for the <code>option</code> child that the <code>listbox</code> references as the active descendant.</p>
     </li>
   </ul>
   <table>
@@ -340,11 +340,11 @@ var mappingTableLabels = {
 	    <p>The following <a class="termref">elements</a> are not exposed via the <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interface">API</abbr></a> and <a class="termref">user agents</a> MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
 	    <ul>
 	      <li>Elements with <a class="role-reference" href="#none"><code>none</code></a > or <a class="role-reference" href="#presentation"><code>presentation</code></a> as the first mappable role in the role attribute string, according to the rules for the <code>none</code> and the <code>presentation</code> <a class="termref">role</a> defined in <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.0</a></cite> [[!WAI-ARIA]]. </li>
-	      <li>Elements, including their descendents, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code> or <code>visibility:hidden</code> or HTML 5 <code>hidden</code> attribute. </li>
+	      <li>Elements, including their descendants, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code> or <code>visibility:hidden</code> or HTML 5 <code>hidden</code> attribute. </li>
         </ul>
 	    <p>If not already excluded from the accessibility tree per the above rules,   user agents SHOULD NOT include the following elements in the   accessibility tree: </p>
 	    <ul>
-	      <li>Elements, including their descendents, that have a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> global attribute of <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a><code>=&quot;true&quot;.</code> In other words, <code>aria-hidden=&quot;true&quot;</code> on a parent overrides <code>aria-hidden=&quot;false&quot;</code> on descendants. </li>
+	      <li>Elements, including their descendants, that have a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> global attribute of <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a><code>=&quot;true&quot;.</code> In other words, <code>aria-hidden=&quot;true&quot;</code> on a parent overrides <code>aria-hidden=&quot;false&quot;</code> on descendants. </li>
 	      <li>Children of <a class="termref">objects</a> which have the characteristic &quot;<a class="specref" href="#childrenArePresentational">Children Presentational: True</a>&quot;:
 	        <ul>
 	          <li><a class="role-reference" href="#button"><code>button</code></a></li>
@@ -412,7 +412,7 @@ var mappingTableLabels = {
             <li>Use the first such substring in textual order that matches the name of a non-abstract <abbr title="Accessible Rich Internet Applicatiaon">WAI-ARIA</abbr> role for the <abbr title="application programming interface">API</abbr> role mapping. See the <a href="#mapping_role_table">Role Mapping Table</a> below for details.</li>
           </ol>
         </li>
-        <li>User agents MUST NOT map roles defined in the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> specification as &quot;abstract&quot; via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>. The abstract roles are:
+        <li>User agents MUST NOT map roles defined in the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> specification as &quot;abstract&quot; via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.  Use the fallback procedure specified in the next rule if only an abstract role is provided. The abstract roles are:
           <ul>
             <li><a class="role-reference" href="#command"><code>command</code></a></li>
             <li><a class="role-reference" href="#composite"><code>composite</code></a></li>
@@ -428,7 +428,7 @@ var mappingTableLabels = {
             <li><a class="role-reference" href="#window"><code>window</code></a></li>
           </ul>
         </li>
-        <li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of  the base markup for the element with the role attribute. For example,  for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the element name <code>table</code> to determine what  platform accessibility <abbr title="application programming interface">API</abbr> role to use according to the host language's role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the platform accessibility <abbr title="application programming interface">API</abbr> for a text input.</li>
+        <li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of the base markup for the element. For example, for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the  <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element to determine the platform accessibility <abbr title="application programming interface">API</abbr> role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the mapping for an  <abbr title="Hypertext Markup Language">HTML</abbr> <code>text input</code>.</li>
         <li>When an explicit or inherited role of <code>none</code> or <code>presentation</code> is applied to an element, the user agent MUST implement  the rules for the <a class="role-reference" href="#none"><code>none</code></a> or the <a class="role-reference" href="#presentation"><code>presentation</code></a> <a class="termref">role</a> defined in <cite><a class="specref" href="">Accessible Rich Internet Applications (WAI-ARIA) 1.0</a></cite> [[!WAI-ARIA]]. </li>
         <li id="exposeRoleString">User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. 
           <ul>
@@ -489,7 +489,7 @@ var mappingTableLabels = {
 					<td><code>ROLE_SYSTEM_APPLICATION</code></td>
                     <td>
                         <ul>
-                            <li>Control type/role is <code>Pane</code>.</li>
+                            <li>Control type/role is <code>Pane</code>. (TBD)</li>
                             <li>Localized Control Type is <code>application</code>.</li>
                         </ul>
                     </td>
@@ -505,7 +505,7 @@ var mappingTableLabels = {
                     <td>
                         <ul>
                             <li>Control type/role is <code>Document</code>.</li>
-                            <li>Localized Control Type is <code>article</code>.</li>
+                            <li>Localized Control Type is <code>article</code>. (TBD)</li>
                         </ul>
                     </td>
                     <td><code>ROLE_ARTICLE</code> + do not expose <code>STATE_EDITABLE</code>
@@ -545,6 +545,25 @@ var mappingTableLabels = {
 					    AXSubrole: <code>&lt;nil&gt;</code><br />
 					    AXRoleDescription: <code>'button'</code>
 					</td>
+				</tr>
+				<tr id="role-map-cell">
+					<th><a class="role-reference" href="#cell"><code>cell</code></a> [ARIA 1.1]</th>
+					<td><code>ROLE_SYSTEM_CELL</code>.
+	                    <p>IAccessible2: Use <code>IAccessibleTableCell</code> interface.</p>
+					</td>
+                    <td>
+                      <ul>
+                        <li>Control type/role is <code>TableItem</code>.</li>
+                        <li>Supports the <code>selection</code> pattern.</li>
+                        <li>MUST NOT support the <code>invoke</code> pattern.</li>
+                      </ul>
+                    </td>
+					<td><code>ROLE_TABLE_CELL</code>.
+					    <p>Use <code>TableCell</code> interface.</p>
+					</td>
+					<td>AXRole: <code>AXCell</code><br />
+                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                        AXRoleDescription: <code>'cell'</code></td>
 				</tr>
 				<tr id="role-map-checkbox">
 					<th><a class="role-reference" href="#checkbox"><code>checkbox</code></a></th>
@@ -598,7 +617,7 @@ var mappingTableLabels = {
                     <td>
                         <ul>
                             <li>Control type/role is <code>Group</code>.</li>
-                            <li>Localized Control Type is <code>content info</code>.</li>
+                            <li>Localized Control Type is <code>content information</code>.</li>
                         </ul>
                     </td>
           <td><code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:</code><code>contentinfo</code></td>
@@ -659,19 +678,25 @@ var mappingTableLabels = {
 				<tr id="role-map-grid">
 					<th><a class="role-reference" href="#grid"><code>grid</code></a></th>
 					<td><code>ROLE_SYSTEM_TABLE</code> + object attribute <code>xml-roles:grid</code>.
-	          <p>IAccessible2: Use <code>IAccessibleTable2</code> interface</p></td>
+	          <p>IAccessible2: Use <code>IAccessibleTable2</code> interface.</p></td>
           <td><code>DataGrid</code> with <code>selection</code> pattern.</td>
-          <td><code>ROLE_TABLE</code> + object attribute <code>xml-roles:grid</code>.</td>
+          <td><code>ROLE_TABLE</code> + object attribute <code>xml-roles:grid</code>.
+              <p>Use <code>table</code> interface.</p>
+          </td>
 					<td>AXRole: <code>AXTable</code><br />
               AXSubrole: <code>&lt;nil&gt;</code><br />
               AXRoleDescription: <code>'grid'</code></td>
 				</tr>
 				<tr id="role-map-gridcell">
 					<th><a class="role-reference" href="#gridcell"><code>gridcell</code></a></th>
-					<td><code>ROLE_SYSTEM_CELL</code></td>
+					<td><code>ROLE_SYSTEM_CELL</code>
+	                    <p>IAccessible2: Use <code>IAccessibleTableCell</code> interface.</p>
+	                </td>
           <td><code>DataItem</code>
             <p>Also requires <code>selectionitem</code> pattern; <code>selectionContainer</code> property must reference the parent <code>grid</code> object</p></td>
-					<td><code>ROLE_TABLE_CELL</code></td>
+					<td><code>ROLE_TABLE_CELL</code>
+					    <p>Use <code>TableCell</code> interface.</p>
+					</td>
 					<td>AXRole: <code>AXCell</code><br />
               AXSubrole: <code>&lt;nil&gt;</code><br />
               AXRoleDescription: <code>'cell'</code></td>
@@ -1084,6 +1109,22 @@ var mappingTableLabels = {
               AXSubrole: <code>&lt;nil&gt;</code><br />
               AXRoleDescription: <code>'tab'</code></td>
 				</tr>
+				<tr id="role-map-table">
+					<th><a class="role-reference" href="#table"><code>table</code></a> [ARIA 1.1]</th>
+					<td><code>ROLE_SYSTEM_TABLE</code> + object attribute <code>xml-roles:table</code>.
+	                    <p>IAccessible2: Use <code>IAccessibleTable2</code> interface.</p></td>
+                    <td>
+                        <ul>
+                            <li>Control type/role is <code>Table</code>.</li>
+                            <li>Implements the <code>grid</code> and <code>table</code> patterns.</li>
+                        </ul>
+                    </td>
+                    <td><code>ROLE_TABLE</code> + object attribute <code>xml-roles:table</code>.
+                        <p>Use <code>table</code> interface.</p></td>
+					<td>AXRole: <code>AXTable</code><br />
+                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                        AXRoleDescription: <code>'grid'</code></td>
+				</tr>
 				<tr id="role-map-tablist">
 					<th><a class="role-reference" href="#tablist"><code>tablist</code></a></th>
 					<td><code>ROLE_SYSTEM_PAGETABLIST</code></td>
@@ -1376,7 +1417,7 @@ var mappingTableLabels = {
                       <li>Expose the value of <code>aria-current</code> in object attribute <code>active:&lt;value&gt;</code>.</li>
                     </ul>
                   </td>
-                  <td>TBD.</td>
+                  <td>Expose <code>current=&lt;value&gt;</code> in <code>AriaProperties</code>.</td>
                   <td>
                     <ul>
                       <li>Set <code>STATE_ACTIVE</code>. </li>
@@ -2482,6 +2523,7 @@ var mappingTableLabels = {
               <li>Follow the guidance in the <a href="#authorErrorDefaultValuesTable">Default values for missing required attributes</a> table below, if applicable. </li>
               <li>Otherwise, return a default value of 0.0 for decimal value types and 0 for integer value types. </li>
             </ul>
+          </li>
         </ul>
       <p>If a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property contains an unknown or disallowed value, the user agent SHOULD expose to platform <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> as follows:</p>
 	  <ul>
@@ -2496,6 +2538,7 @@ var mappingTableLabels = {
             </li>
             <li>Treat any other value as true.</li>
           </ul>
+        </li>
         <li>Otherwise, ignore the value and treat the property as not present.</li>
       </ul>
       <p class="note">In <abbr title="User Interface Automation">UIA</abbr>, the user agent might leave the corresponding property set to &quot;unsupported.&quot;</p>
@@ -2614,7 +2657,7 @@ var mappingTableLabels = {
 	<section class="appendix" id="changelog">
 		<h2>Change Log</h2>
 		<section>
-			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20150714//">last public working draft</a></h2>
+			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20150714/">last public working draft</a></h2>
 			<ul>
 				<li>03-Oct-2015: Modified UIA role mappings of application, banner, complementary, contentinfo, main, search, navigation, article, definition, log, math, and note.</li>
 				<li>28-Sep-2015: Added IA2 mapping of role="text".</li>
