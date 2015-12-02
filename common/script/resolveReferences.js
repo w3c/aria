@@ -54,7 +54,7 @@ function linkCrossReferences() {
     setHrefs ('a.html-mapping', htmlMappingURL);
   }
   else {
-    console.log ("linkCrossReferences():  Note -- htmleMappingURL is not defined.");
+    console.log ("linkCrossReferences():  Note -- htmlMappingURL is not defined.");
   }
 
 }
@@ -112,13 +112,25 @@ function restrictReferences(utils, content) {
     });
 
     // add a handler to come in after all the definitions are resolved
+    //
+    // New logic: If the reference is within a 'dl' element of
+    // class 'termlist', and if the target of that reference is
+    // also within a 'dl' element of class 'termlist', then
+    // consider it an internal reference and ignore it.
 
     respecEvents.sub('end', function(message) {
         if (message == 'core/link-to-dfn') {
             // all definitions are linked
             $("a.internalDFN").each(function () {
                 var $item = $(this) ;
-                var r = $item.attr('href').replace(/^#/,"") ;
+                var t = $item.attr('href');
+                if ( $item.closest('dl.termlist').length ) {
+                    if ( $(t).closest('dl.termlist').length ) {
+                        // do nothing
+                        return;
+                    }
+                }
+                var r = t.replace(/^#/,"") ;
                 if (termNames[r]) {
                     delete termNames[r] ;
                 }
