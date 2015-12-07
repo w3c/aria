@@ -412,7 +412,7 @@ var mappingTableLabels = {
             <li>Use the first such substring in textual order that matches the name of a non-abstract <abbr title="Accessible Rich Internet Applicatiaon">WAI-ARIA</abbr> role for the <abbr title="application programming interface">API</abbr> role mapping. See the <a href="#mapping_role_table">Role Mapping Table</a> below for details.</li>
           </ol>
         </li>
-        <li>User agents MUST NOT map roles defined in the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> specification as &quot;abstract&quot; via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>. The abstract roles are:
+        <li>User agents MUST NOT map roles defined in the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> specification as &quot;abstract&quot; via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.  Use the fallback procedure specified in the next rule if only an abstract role is provided. The abstract roles are:
           <ul>
             <li><a class="role-reference" href="#command"><code>command</code></a></li>
             <li><a class="role-reference" href="#composite"><code>composite</code></a></li>
@@ -428,7 +428,7 @@ var mappingTableLabels = {
             <li><a class="role-reference" href="#window"><code>window</code></a></li>
           </ul>
         </li>
-        <li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of  the base markup for the element with the role attribute. For example,  for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the element name <code>table</code> to determine what  platform accessibility <abbr title="application programming interface">API</abbr> role to use according to the host language's role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the platform accessibility <abbr title="application programming interface">API</abbr> for a text input.</li>
+        <li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of the base markup for the element. For example, for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the  <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element to determine the platform accessibility <abbr title="application programming interface">API</abbr> role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the mapping for an  <abbr title="Hypertext Markup Language">HTML</abbr> <code>text input</code>.</li>
         <li>When an explicit or inherited role of <code>none</code> or <code>presentation</code> is applied to an element, the user agent MUST implement  the rules for the <a class="role-reference" href="#none"><code>none</code></a> or the <a class="role-reference" href="#presentation"><code>presentation</code></a> <a class="termref">role</a> defined in <cite><a class="specref" href="">Accessible Rich Internet Applications (WAI-ARIA) 1.0</a></cite> [[!WAI-ARIA]]. </li>
         <li id="exposeRoleString">User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. 
           <ul>
@@ -689,10 +689,14 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-gridcell">
 					<th><a class="role-reference" href="#gridcell"><code>gridcell</code></a></th>
-					<td><code>ROLE_SYSTEM_CELL</code></td>
+					<td><code>ROLE_SYSTEM_CELL</code>
+	                    <p>IAccessible2: Use <code>IAccessibleTableCell</code> interface.</p>
+	                </td>
           <td><code>DataItem</code>
             <p>Also requires <code>selectionitem</code> pattern; <code>selectionContainer</code> property must reference the parent <code>grid</code> object</p></td>
-					<td><code>ROLE_TABLE_CELL</code></td>
+					<td><code>ROLE_TABLE_CELL</code>
+					    <p>Use <code>TableCell</code> interface.</p>
+					</td>
 					<td>AXRole: <code>AXCell</code><br />
               AXSubrole: <code>&lt;nil&gt;</code><br />
               AXRoleDescription: <code>'cell'</code></td>
