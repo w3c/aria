@@ -174,24 +174,49 @@
   <p>One of the deficiencies of (X)HTML for disabled users has been the usability of keyboard navigation. Users dependent on a keyboard 
   for navigation have been forced to tab everywhere in the document, as the only keyboard accessible document elements are form and 
   anchor elements. This has forced developers to make most everything a link to make it keyboard accessible, and to get to each link 
-  you have to tab to it. With the advent of portals and other content aggregation means Web pages are divided into visible 
+  you have to tab to it. With the advent of portals and other content aggregation methods, web pages are divided into 
   regions and there has been no vehicle to get to them other than perhaps to do things such as:</p>
 
   <ul>
     <li>Create a skip link at the top of the page to the main content.</li>
-    <li>Make the head of each perceivable region (search bar, stock quote, TV Listing, etc.) an <code>h1</code> tag</li>
+    <li>Make the head of each perceivable region (search bar, stock quote, TV Listing, etc.) an heading tag (<code>h1-h6</code>).</li>
   </ul>
 
   <p>There are number of problems with this approach:</p>
 
   <ul>
     <li>Both force the user interface to change to support accessibility</li>
-    <li>In the case of using <code>H1</code> to mark your regions, this is not consistent across Web sites</li>
+    <li>In the case of using <code>h1-h6</code> elements to mark your regions, this is not consistent across Web sites</li>
     <li>The semantics are limited to main content and a section</li>
     <li>Neither convey the need for the rich internet application developer to control keyboard navigation to an assistive technology</li>
   </ul>
 
-  <p>This remainder of this section provides the author with a playbook for using WAI-ARIA to add semantically rich navigation structure in a Web page so that an assistive technology may provide an effective user experience and avoid these shortcomings.</p>
+  <p>The remainder of this section provides the author a playbook for using ARIA landmarks to add semantically rich navigation structure in a Web page so that an assistive technology may provide an effective user experience and avoid these shortcomings.</p>
+
+
+  <section id="aria_lh_logical">
+    <h3 class="widget-name">Steps for Defining a Logical Navigational Structure</h3>
+
+    <p>Due to the complexity of today's web content, it is imperative that all content reside in a navigation landmark. Sight and mobility impaired users must be able to quickly access a list of landmarks for a web page, to be used as a table of contents. This allows the user to quickly navigate to important sections of the page without "endless" TAB navigation. If this is not done, then content will be orphaned and missed by the user.	In fact many of today's accessibility test tools have built-in rules to flag this issue as a compliance error. This section defines how to create these navigable regions of the page:</p>
+
+    <dl>
+      <dt>Step 1: Identify the logical structure of your page</dt>
+      <dd>Break up your page into perceivable block areas which contain semantically associated information called "regions". You can further break down each region into logical regions as needed. This is a common process undertaken by portal developers who break the page into perceivable regions called portlets. Think about the user wanting to navigate to these logical block areas on your Web page. Write down a description of what you believe each region to be.</dd>
+      <dd>Depending on your Web application you may then need to break it into sub regions depending on the complexity of your Web application. This is a recursive process. A user will look at these perceivable areas like pealing an onion. You might have an outermost collection of perceivable regions or block areas and upon entering each region you may have a collection of regions within it.</dd>
+
+      <dt>Step 2: Implement the logical structure in markup</dt>
+      <dd>Implementing the block structure in markup often involves wrapping elements contained with a "region" such as a <div> or <iframe> with visible borders so that each region or block is perceivable to the user.</dd>
+
+      <dt>Step 3: Label each region</dt>
+      <dd>Once you have broken up each region you need to label it. The start of each region must have a perceivable header and it should be used to label the region. For details on how to do this see section 3.4.3.1 Header Levels vs. nesting level to create a header to label each region. If you're finding it difficult to come up with a label for the region, make sure at least to use one of the standard roles defined in the following step. The drawback of not providing a label is that users will not know the purpose of the region. By definition, regions would be included in a summary of a page. If an assistive technology were to summarize it would be unable to provide information about the section without a label.</dd>
+
+      <dt>Step 4: Assign landmark roles to each region</dt>
+      <dd>Now that you labeled your regions, you need to assign them semantic navigation landmarks. Landmarks are a vast improvement over the rudimentary "skip to main content" technique employed prior to WAI-ARIA. If possible it is best to use these as landmarks. Skip to main content links may impact the placement of web application elements. This may be a consideration for developers that want to try to keep their web application in a specific visible area. Consequently, layout adjustments may need to be made to support skip to main content links. Also, skip to main content links are limited in that they only address only one main content area. WAI-ARIA provides a collection of landmarks which are applied to each of the regions you identified in step 2.</dd>
+      <dd>The presence of common, semantic, navigation landmarks allows each site to support the same standard and allows your assistive technology to provide a consistent navigation experience - an important feature for screen readers and alternate input solutions. For users with cognitive and learning disabilities the landmark information could be used to expand and collapse these regions of your page to aid in simplifying the user experience by allowing the user to manage the amount of information processed at any one time.</dd>
+      <dd>WAI-ARIA landmark roles that are applied to elements having strong native semantics are not mapped consistently to the platform accessibility API. An example is the TABLE element. For this reason, it is recommended that authors apply landmarks to DIV and SPAN containers.</dd>
+      <dd>There are also mainstream benefits of providing navigation landmarks. Your browser may assign key sequences to move focus to these sections as they can be set on every site. Navigation to these landmarks is device independent. A personal digital assistant (PDA) could assign a device key to get to them in your document.</dd>
+    </dl>
+  </section>  
 
   <section id="aria_lh_at">
     <h3 id="widget-name">Assisitve Technology and SkipTo Functions</h3>
