@@ -16,6 +16,10 @@ function linkCrossReferences() {
     respecConfig.htmlMappingURLs[respecConfig.specStatus] : null
   );
 
+  var dpubModURL = ( respecConfig.dpubModURLs ?
+    respecConfig.dpubModURLs[respecConfig.specStatus] : null
+  );
+
   function setHrefs (selString, baseUrl) {
     $ (selString).each (
       function (idx, el) {
@@ -54,8 +58,16 @@ function linkCrossReferences() {
     setHrefs ('a.html-mapping', htmlMappingURL);
   }
   else {
-    console.log ("linkCrossReferences():  Note -- htmleMappingURL is not defined.");
+    console.log ("linkCrossReferences():  Note -- htmlMappingURL is not defined.");
   }
+  // Links to the DPub WAI-ARIA Module.
+  if (!!dpubModURL) {
+    setHrefs ('a.dpub-role-reference, a.dpub-property-reference, a.dpub-state-reference, a.dpub', dpubModURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+  }
+
 
 }
 
@@ -112,13 +124,25 @@ function restrictReferences(utils, content) {
     });
 
     // add a handler to come in after all the definitions are resolved
+    //
+    // New logic: If the reference is within a 'dl' element of
+    // class 'termlist', and if the target of that reference is
+    // also within a 'dl' element of class 'termlist', then
+    // consider it an internal reference and ignore it.
 
     respecEvents.sub('end', function(message) {
         if (message == 'core/link-to-dfn') {
             // all definitions are linked
             $("a.internalDFN").each(function () {
                 var $item = $(this) ;
-                var r = $item.attr('href').replace(/^#/,"") ;
+                var t = $item.attr('href');
+                if ( $item.closest('dl.termlist').length ) {
+                    if ( $(t).closest('dl.termlist').length ) {
+                        // do nothing
+                        return;
+                    }
+                }
+                var r = t.replace(/^#/,"") ;
                 if (termNames[r]) {
                     delete termNames[r] ;
                 }
@@ -139,11 +163,6 @@ function restrictReferences(utils, content) {
             });
         }
     });
-    
-    respecEvents.sub ('end-all', function () {
-        $('body').attr('aria-busy', 'false');  // or, remove it entirely?
-    });
-    
     return (base.innerHTML);
 }
 
