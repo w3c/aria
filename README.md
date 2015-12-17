@@ -1,6 +1,6 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [Protocols and Formats Working Group](http://www.w3.org/WAI/PF/), expected soon to move to the ARIA Working Group. The staff contact in either case is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact in either case is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
 * TOC
 {:toc}
