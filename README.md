@@ -1,5 +1,7 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
+[![Join the chat at https://gitter.im/w3c/aria](https://badges.gitter.im/w3c/aria.svg)](https://gitter.im/w3c/aria?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
 * TOC
