@@ -25,6 +25,7 @@ var biblio = {
 			"Matt King", 
 			"James Nurthen",
 			"Michael Cooper",
+			"Michiel Bijl",
 			"Joseph Scheuhammer",
 			"Lisa Pappas",
 			"Richard Schwerdtfeger"
