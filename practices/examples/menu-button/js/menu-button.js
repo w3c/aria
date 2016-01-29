@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright 2011-2014 OpenAjax Alliance
  *
@@ -28,7 +26,7 @@ window.addEventListener('load', function() {
 
   [].forEach.call(menuButtons, function(menuButton) {
       if (menuButton && 
-      	  (menuButton.tagName.toLowerCase() === 'button') || (menuButton.getAttribute('role').toLowerCase() === 'button')) {
+          (menuButton.tagName.toLowerCase() === 'button') || (menuButton.getAttribute('role').toLowerCase() === 'button')) {
       var mb = new aria.widget.MenuButton(menuButton);
       mb.initMenuButton();
     }  
@@ -39,7 +37,7 @@ window.addEventListener('load', function() {
  * @namespace aria
  */
 
-var aria = aria || {};
+  var aria = aria || {};
 
 /* ---------------------------------------------------------------- */
 /*                  ARIA Utils Namespace                        */ 
@@ -104,12 +102,10 @@ aria.widget.Menu = function(node, menuButton) {
      "RETURN"   : 13,
      "ESC"    : 27,
      "SPACE"    : 32,
-
      "PAGEUP"    : 33,
      "PAGEDOWN" : 34,
      "END"      : 35,
      "HOME"     : 36,
-
      "LEFT"  : 37,
      "UP"    : 38,
      "RIGHT" : 39,
@@ -139,45 +135,43 @@ aria.widget.Menu = function(node, menuButton) {
 
 aria.widget.Menu.prototype.initMenu = function() {
 
-  	var menu = this;
-  
-  	var eventMouseOver = function (event) {
-    	menu.eventMouseOver(event, menu);
-  	};
-  	this.menuNode.addEventListener('mouseover',   eventMouseOver);
+    var menu = this;
+    var eventMouseOver = function (event) {
+      menu.eventMouseOver(event, menu);
+      };
+    this.menuNode.addEventListener('mouseover',   eventMouseOver);
 
-  	var eventMouseOut = function (event) {
-    	menu.eventMouseOut(event, menu);
-  	};
-  	this.menuNode.addEventListener('mouseout',   eventMouseOut);
+    var eventMouseOut = function (event) {
+      menu.eventMouseOut(event, menu);
+    };
+    this.menuNode.addEventListener('mouseout',   eventMouseOut);
 
-  	var cn = this.menuNode.firstChild;
+    var cn = this.menuNode.firstChild;
 
-  	while (cn) {
-  		if (cn.nodeType === Node.ELEMENT_NODE) {
-  			if (cn.getAttribute('role')  === 'menuitem') {
-  				cn.tabIndex = -1;
-  				if (!this.firstMenuItem) this.firstMenuItem = cn; 
-  				this.lastMenuItem = cn;
+    while (cn) {
+      if (cn.nodeType === Node.ELEMENT_NODE) {
+        if (cn.getAttribute('role')  === 'menuitem') {
+          cn.tabIndex = -1;
+          if (!this.firstMenuItem) this.firstMenuItem = cn; 
+          this.lastMenuItem = cn;
 
-  				// This is for the case of the LI elements containing the A elements
-  				var links = cn.getElementsByTagName('A');
+          // This is for the case of the LI elements containing the A elements
+          var links = cn.getElementsByTagName('A');
 
-  				if (links.length) {
-  					links[0].tabIndex = -1;
-  					cn.href = links[0].href;
-//  					console.log('[MENU][initMenu] LI.href=' + links[0].href);
-  				}
+          if (links.length) {
+            links[0].tabIndex = -1;
+            cn.href = links[0].href;
+//            console.log('[MENU][initMenu] LI.href=' + links[0].href);
+          }
 
-			  	var eventKeyDown = function (event) {
-    				menu.eventKeyDown(event, menu);
-  				};
-
-  				cn.addEventListener('keydown', eventKeyDown);
-  			}
-  		}
-  		cn = cn.nextSibling;
-  	}
+          var eventKeyDown = function (event) {
+            menu.eventKeyDown(event, menu);
+          };
+          cn.addEventListener('keydown', eventKeyDown);
+        }
+      }
+      cn = cn.nextSibling;
+    }
 
 
 };
@@ -192,22 +186,22 @@ aria.widget.Menu.prototype.initMenu = function() {
 
 aria.widget.Menu.prototype.nextMenuItem = function(currentMenuItem) {
 
-	var mi = currentMenuItem.nextSibling;
+  var mi = currentMenuItem.nextSibling;
 
-	console.log('[MENU][nextMenuItem]: ' + mi);
+  console.log('[MENU][nextMenuItem]: ' + mi);
 
-	while (mi) {
-		if ((mi.nodeType === Node.ELEMENT_NODE) && 
-			(mi.getAttribute('role')  === 'menuitem')) {
-			mi.focus();
-			break;
-		}
-		mi = mi.nextSibling;
-	}
+  while (mi) {
+    if ((mi.nodeType === Node.ELEMENT_NODE) && 
+      (mi.getAttribute('role')  === 'menuitem')) {
+      mi.focus();
+      break;
+    }
+    mi = mi.nextSibling;
+  }
 
-	if (!mi && this.firstMenuItem) {
-		this.firstMenuItem.focus();
-	}
+  if (!mi && this.firstMenuItem) {
+    this.firstMenuItem.focus();
+  }
 };
 
 /**
@@ -220,19 +214,19 @@ aria.widget.Menu.prototype.nextMenuItem = function(currentMenuItem) {
 
 aria.widget.Menu.prototype.previousMenuItem = function(currentMenuItem) {
 
-	var mi = currentMenuItem.previousSibling;
+  var mi = currentMenuItem.previousSibling;
 
-	while (mi) {
-		if (mi.nodeType === Node.ELEMENT_NODE && mi.getAttribute('role')  === 'menuitem') {
-			mi.focus();
-			break;
-		}
-		mi = mi.previousSibling;
-	}
+  while (mi) {
+    if (mi.nodeType === Node.ELEMENT_NODE && mi.getAttribute('role')  === 'menuitem') {
+      mi.focus();
+      break;
+    }
+    mi = mi.previousSibling;
+  }
 
-	if (!mi && this.lastMenuItem) {
-		this.lastMenuItem.focus();
-	}
+  if (!mi && this.lastMenuItem) {
+    this.lastMenuItem.focus();
+  }
 };
 
 
@@ -248,47 +242,54 @@ aria.widget.Menu.prototype.previousMenuItem = function(currentMenuItem) {
 
 aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 
-	var ct = event.currentTarget;
-	var flag = false;
+  var ct = event.currentTarget;
+  var flag = false;
 
-	switch(event.keyCode) {
+  switch(event.keyCode) {
 
-	case menu.keyCode.SPACE:
-	case menu.keyCode.RETURN:
-		window.location.href = ct.href;
-		flag = true;
-		break;
+  case menu.keyCode.SPACE:
+  case menu.keyCode.RETURN:
+      var click_event = new MouseEvent('click', {
+        'view': window,
+        'bubbles': true,
+        'cancelable': true
+      });
+      ct.dispatchEvent(click_event);
+    menu.menuButton.closeMenu();
+    flag = true;
+    break;
 
-	case menu.keyCode.ESC:
-		menu.menuButton.closeMenu();	
-		flag = true;
-		break;
+  case menu.keyCode.ESC:
+    menu.menuButton.closeMenu();
+    menu.menuButton.buttonNode.focus();  
+    flag = true;
+    break;
 
-	case menu.keyCode.UP:
-	case menu.keyCode.LEFT:
-		menu.previousMenuItem(ct);
-		flag = true;
-		break;
+  case menu.keyCode.UP:
+  case menu.keyCode.LEFT:
+    menu.previousMenuItem(ct);
+    flag = true;
+    break;
 
-	case menu.keyCode.DOWN:
-	case menu.keyCode.RIGHT:
-		menu.nextMenuItem(ct);
-		flag = true;
-		break;
+  case menu.keyCode.DOWN:
+  case menu.keyCode.RIGHT:
+    menu.nextMenuItem(ct);
+    flag = true;
+    break;
 
-	case menu.keyCode.TAB:
-		menu.menuButton.closeMenu();
-		break;
+  case menu.keyCode.TAB:
+    menu.menuButton.closeMenu();
+    break;
 
-	default:
-		break;
-	}
+  default:
+    break;
+  }
 
   
-	if (flag) {
-		event.stopPropagation();
-		event.preventDefault();
-	}  
+  if (flag) {
+    event.stopPropagation();
+    event.preventDefault();
+  }  
   
 };
 
@@ -304,8 +305,8 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 
 aria.widget.Menu.prototype.eventMouseOver = function(event, menu) {
 
-	menu.mouseInMenu = true;
-	menu.menuButton.openMenu();
+  menu.mouseInMenu = true;
+  menu.menuButton.openMenu();
 
 };
 
@@ -321,8 +322,8 @@ aria.widget.Menu.prototype.eventMouseOver = function(event, menu) {
 
 aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
 
-	menu.mouseInMenu = false;
-	setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
+  menu.mouseInMenu = false;
+  setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
 
 };
 
@@ -348,30 +349,29 @@ aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
 
 aria.widget.MenuButton = function(node) {
 
-	this.keyCode = Object.freeze({
-		 "TAB"    : 9,
-		 "RETURN" : 13,
-		 "ESC"    : 27,
-		 "SPACE"  : 32,
+  this.keyCode = Object.freeze({
+     "TAB"    : 9,
+     "RETURN" : 13,
+     "ESC"    : 27,
+     "SPACE"  : 32,
+     "UP"    : 38,
+     "DOWN"  : 40
+  });
 
-		 "UP"    : 38,
-		 "DOWN"  : 40
-	});
+  // Check fo DOM element node
+  if (typeof node !== 'object' || !node.getElementsByClassName) return false;
 
-	// Check fo DOM element node
-	if (typeof node !== 'object' || !node.getElementsByClassName) return false;
+  this.done = true;
+  this.mouseInMouseButton = false;
+  this.buttonNode = node;
+  this.isLink = false;
 
-	this.done = true;
-	this.mouseInMouseButton = false;
-	this.buttonNode = node;
-	this.isLink = false;
-
-	if (node.tagName.toLowerCase() === 'a') {
-		var url = node.getAttribute('href');
-		if (url && url.length && (url.length > 0)) {
-			this.isLink = true;
-		}
-	}
+  if (node.tagName.toLowerCase() === 'a') {
+    var url = node.getAttribute('href');
+    if (url && url.length && (url.length > 0)) {
+      this.isLink = true;
+    }
+  }
 
 };
 
@@ -385,38 +385,35 @@ aria.widget.MenuButton = function(node) {
 
 aria.widget.MenuButton.prototype.initMenuButton = function() {
 
-	var id = this.buttonNode.getAttribute('aria-controls');
+  var id = this.buttonNode.getAttribute('aria-controls');
 
-	if (id) {
-		this.menuNode = document.getElementById(id);
+  if (id) {
+    this.menuNode = document.getElementById(id);
 
-		if (this.menuNode) {
-			this.menu = new aria.widget.Menu(this.menuNode, this);
-		    this.menu.initMenu();
-		}
-	}  
-
-
-	this.closeMenu();
-
-	var menuButton = this;
-  
-  	var eventKeyDown = function (event) {
-    	menuButton.eventKeyDown(event, menuButton);
-  	};
-  	this.buttonNode.addEventListener('keydown',   eventKeyDown);
-
-  	var eventMouseOver = function (event) {
-    	menuButton.eventMouseOver(event, menuButton);
-  	};
-  	this.buttonNode.addEventListener('mouseover',   eventMouseOver);
-
-  	var eventMouseOut = function (event) {
-    	menuButton.eventMouseOut(event, menuButton);
-  	};
-  	this.buttonNode.addEventListener('mouseout',   eventMouseOut);
+    if (this.menuNode) {
+      this.menu = new aria.widget.Menu(this.menuNode, this);
+        this.menu.initMenu();
+    }
+  }  
 
 
+  this.closeMenu();
+
+    var menuButton = this;
+    var eventKeyDown = function (event) {
+      menuButton.eventKeyDown(event, menuButton);
+    };
+    this.buttonNode.addEventListener('keydown',   eventKeyDown);
+
+    var eventMouseOver = function (event) {
+      menuButton.eventMouseOver(event, menuButton);
+    };
+    this.buttonNode.addEventListener('mouseover',   eventMouseOver);
+
+    var eventMouseOut = function (event) {
+      menuButton.eventMouseOut(event, menuButton);
+    };
+    this.buttonNode.addEventListener('mouseout',   eventMouseOut);
 };
 
 /**
@@ -429,15 +426,15 @@ aria.widget.MenuButton.prototype.initMenuButton = function() {
 
 aria.widget.MenuButton.prototype.openMenu = function() {
 
-	if (this.menuNode) {
-		var pos = aria.Utils.findPos(this.buttonNode);
-		var br = this.buttonNode.getBoundingClientRect();
+  if (this.menuNode) {
+    var pos = aria.Utils.findPos(this.buttonNode);
+    var br = this.buttonNode.getBoundingClientRect();
 
-		this.menuNode.style.display = 'block';
-		this.menuNode.style.position = 'absolute';
-		this.menuNode.style.top  = (pos.y + br.height) + "px"; 
-		this.menuNode.style.left = pos.x + "px"; ;
-	}	
+    this.menuNode.style.display = 'block';
+    this.menuNode.style.position = 'absolute';
+    this.menuNode.style.top  = (pos.y + br.height) + "px"; 
+    this.menuNode.style.left = pos.x + "px"; ;
+  }  
 };
 
 /**
@@ -450,9 +447,9 @@ aria.widget.MenuButton.prototype.openMenu = function() {
 
 aria.widget.MenuButton.prototype.closeMenu = function() {
 
-	if (!this.mouseInMenuButton && 
-		!this.menu.mouseInMenu &&
-		this.menuNode) this.menuNode.style.display = 'none';
+  if (!this.mouseInMenuButton && 
+    !this.menu.mouseInMenu &&
+    this.menuNode) this.menuNode.style.display = 'none';
 
 };
 
@@ -466,10 +463,10 @@ aria.widget.MenuButton.prototype.closeMenu = function() {
 
 aria.widget.MenuButton.prototype.toggleMenu = function() {
 
-	if (this.menuNode) {
-		if (this.menuNode.style.display === 'block') this.menuNode.style.display = 'none';
-		else this.menuNode.style.display = 'block';
-	}
+  if (this.menuNode) {
+    if (this.menuNode.style.display === 'block') this.menuNode.style.display = 'none';
+    else this.menuNode.style.display = 'block';
+  }
 
 };
 
@@ -483,10 +480,10 @@ aria.widget.MenuButton.prototype.toggleMenu = function() {
 
 aria.widget.MenuButton.prototype.moveFocusToFirstMenuItem = function() {
 
-	if (this.menu.firstMenuItem) {
-		this.openMenu();
-		this.menu.firstMenuItem.focus();
-	}
+  if (this.menu.firstMenuItem) {
+    this.openMenu();
+    this.menu.firstMenuItem.focus();
+  }
 
 };
 
@@ -500,10 +497,10 @@ aria.widget.MenuButton.prototype.moveFocusToFirstMenuItem = function() {
 
 aria.widget.MenuButton.prototype.moveFocusToLastMenuItem = function() {
 
-	if (this.menu.lastMenuItem) {
-		this.openMenu();
-		this.menu.lastMenuItem.focus();
-	}
+  if (this.menu.lastMenuItem) {
+    this.openMenu();
+    this.menu.lastMenuItem.focus();
+  }
 
 };
 
@@ -519,49 +516,42 @@ aria.widget.MenuButton.prototype.moveFocusToLastMenuItem = function() {
 
 aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
 
-	var flag = false;
+  var flag = false;
 
- 	switch(event.keyCode) {
+  switch(event.keyCode) {
   
-	case menuButton.keyCode.SPACE:
-		menuButton.toggleMenu();
-		flag = true;
-    	break;
+  case menuButton.keyCode.SPACE:
+    menuButton.moveFocusToFirstMenuItem();
+    flag = true;
+    break;
 
-	case menuButton.keyCode.RETURN:
-		if (!menuButton.isLink) {
-			menuButton.toggleMenu();
-			flag = true;
-		}
-		break;
+  case menuButton.keyCode.RETURN:
+    menuButton.moveFocusToFirstMenuItem();
+      flag = true;
+    break;
 
-	case menuButton.keyCode.UP:
-		menuButton.moveFocusToLastMenuItem();
-		flag = true;
-    	break;
+  case menuButton.keyCode.UP:
+    menuButton.moveFocusToLastMenuItem();
+    flag = true;
+    break;
 
-	case menuButton.keyCode.DOWN:
-		menuButton.moveFocusToFirstMenuItem();
-		flag = true;
-    	break;
+  case menuButton.keyCode.DOWN:
+    menuButton.moveFocusToFirstMenuItem();
+    flag = true;
+    break;
+
+  case menuButton.keyCode.TAB:
+    menuButton.closeMenu();
+    break;
+
+  default:
+      break;
+    }
   
-	case menuButton.keyCode.ESC:
-		menuButton.closeMenu();
-		flag = true;
-    	break;
-
-	case menuButton.keyCode.TAB:
-		menuButton.closeMenu();
-		break;
-
-	default:
-    	break;
-  	}
-  
-	if (flag) {
-		event.stopPropagation();
-		event.preventDefault();
-	}  
+  if (flag) {
+    event.stopPropagation();
+    event.preventDefault();
+  }  
 
 };
 
@@ -577,8 +567,8 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
 
 aria.widget.MenuButton.prototype.eventMouseOver = function(event, menuButton) {
 
-	menuButton.mouseInMenuButton = true;
-	menuButton.openMenu();
+  menuButton.mouseInMenuButton = true;
+  menuButton.openMenu();
 
 };
 
@@ -594,7 +584,14 @@ aria.widget.MenuButton.prototype.eventMouseOver = function(event, menuButton) {
 
 aria.widget.MenuButton.prototype.eventMouseOut = function(event, menuButton) {
 
-	menuButton.mouseInMenuButton = false;
-	setTimeout(function(){ menuButton.closeMenu() }, 500);
+  menuButton.mouseInMenuButton = false;
+  setTimeout(function(){ menuButton.closeMenu() }, 500);
 
 };
+
+
+function changeFontSize(id, size) {
+  document.getElementById(id).style.fontSize = size;
+};
+
+
