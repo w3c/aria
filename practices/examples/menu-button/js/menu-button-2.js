@@ -155,15 +155,6 @@ aria.widget.Menu.prototype.initMenu = function() {
           if (!this.firstMenuItem) this.firstMenuItem = cn; 
           this.lastMenuItem = cn;
 
-          // This is for the case of the LI elements containing the A elements
-          var links = cn.getElementsByTagName('A');
-
-          if (links.length) {
-            links[0].tabIndex = -1;
-            cn.href = links[0].href;
-//            console.log('[MENU][initMenu] LI.href=' + links[0].href);
-          }
-
           var eventKeyDown = function (event) {
             menu.eventKeyDown(event, menu);
           };
