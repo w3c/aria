@@ -176,3 +176,13 @@ function fixIncludes(utils, content) {
     return (base.innerHTML);
 }
 
+// Fix the scroll-to-fragID problem:
+(function() {
+    respecEvents.sub("start", function (details) {
+        if (details === "core/location-hash") {
+            if(window.location.hash) {
+                window.location = window.location.hash;
+            }
+        }
+    });
+})();
