@@ -13,7 +13,7 @@ var biblio = {
 		],
 		"etAl": true,
 		"deliveredBy":  [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
 	"ARIA-PRACTICES": {
@@ -32,7 +32,7 @@ var biblio = {
 		],
 		"etAl": true,
 		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
 	// Correct reference for ATK
@@ -60,9 +60,59 @@ var biblio = {
 		],
 		"etAl": true,
 		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
+        "DPUB-ARIA": {
+                "title": "Digital Publishing WAI-ARIA Module 1.0",
+                "href": "http://www.w3.org/TR/dpub-aria-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Matt Garrish",
+                        "Tzviya Siegman",
+                        "Markus Gylling",
+                        "Shane McCarron"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/"
+                ]
+        },
+        "GRAPHICS-ARIA": {
+                "title": "WAI-ARIA Graphics",
+                "href": "http://www.w3.org/TR/graphics-aria-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Amelia Bellamy-Royds",
+                        "Fred Esch",
+                        "Rich Schwerdtfeger",
+                        "Leonie Watson"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/",
+                        "http://www.w3.org/SVG/"
+                ]
+        },
+        "GRAPHICS-AAM": {
+                "title": "Graphics Accessibility API Mappings",
+                "href": "http://www.w3.org/TR/graphics-aam-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Amelia Bellamy-Royds",
+                        "Fred Esch",
+                        "Richard Schwerdtfeger"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/",
+                        "http://www.w3.org/SVG/"
+                ]
+        },
+
 	"EPUB-SSV": {
 		"href": "http://www.idpf.org/epub/vocab/structure/",
 		"title": "EPUB Structural Semantics Vocabulary",

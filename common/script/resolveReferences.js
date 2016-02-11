@@ -20,6 +20,10 @@ function linkCrossReferences() {
     respecConfig.dpubModURLs[respecConfig.specStatus] : null
   );
 
+  var graphicsModURL = ( respecConfig.graphicsModURLs ?
+    respecConfig.graphicsModURLs[respecConfig.specStatus] : null
+  );
+
   function setHrefs (selString, baseUrl) {
     $ (selString).each (
       function (idx, el) {
@@ -63,6 +67,13 @@ function linkCrossReferences() {
   // Links to the DPub WAI-ARIA Module.
   if (!!dpubModURL) {
     setHrefs ('a.dpub-role-reference, a.dpub-property-reference, a.dpub-state-reference, a.dpub', dpubModURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+  }
+// Links to the Graphics WAI-ARIA Module.
+  if (!!graphicsModURL) {
+    setHrefs ('a.graphics-role-reference, a.graphics-property-reference, a.graphics-state-reference, a.graphics', graphicsModURL);
   }
   else {
     console.log ("linkCrossReferences():  specBaseURL is not defined.");
