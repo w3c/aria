@@ -23,6 +23,10 @@ function linkCrossReferences() {
   var graphicsModURL = ( respecConfig.graphicsModURLs ?
     respecConfig.graphicsModURLs[respecConfig.specStatus] : null
   );
+  var graphicsMappingModURL = ( respecConfig.graphicsMappingModURLs ?
+    respecConfig.graphicsMappingModURLs[respecConfig.specStatus] : null
+  );
+
 
   function setHrefs (selString, baseUrl) {
     $ (selString).each (
@@ -78,6 +82,14 @@ function linkCrossReferences() {
   else {
     console.log ("linkCrossReferences():  specBaseURL is not defined.");
   }
+// Links to the Graphics Mapping WAI-ARIA Module.
+  if (!!graphicsMappingModURL) {
+    setHrefs ('a.graphics-role-mapping, a.graphics-property-mapping, a.graphics-state-mapping, a.graphics-mapping', graphicsMappingModURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+  }
+
 
 
 }
