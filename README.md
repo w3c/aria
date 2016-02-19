@@ -228,16 +228,3 @@ There is some automated sanity checking available, currently run by XSLT. Docume
 * Roles list only supported states that are defined
 * States indicate applicability only to roles that are defined
 * Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention
-
-### Todo
-
-The following documentation is still needed:
-
-* role name patterns
-* how to use the taxonomy to extend roles effectively
-* which components of role documentation are generated automatically what needs to be done manually
-* how the ¨tying together script¨ works
-* when casing is relevant, casing preferences
-* where things are the same across different areas, and where they should be treated differently
-* which pieces in the tables are automatically populated and should be left alone
-* which pieces need to be filled in to trigger script
