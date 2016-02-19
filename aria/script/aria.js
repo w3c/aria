@@ -1,85 +1,120 @@
+var roleInfo = {};
 
-function updateReferences(base) {
-    // update references to properties
+respecEvents.sub("end-all", function() {
+    var m = document.URL;
+    if (m.match(/\?saveRoles/)) {
+        var $modal
+        ,   $overlay
+        ,   buttons = {}
+        ;
+        var conf, doc, msg;
+        var ui = {
+            closeModal: function () {
+                if ($overlay) $overlay.fadeOut(200, function () { $overlay.remove(); $overlay = null; });
+                if (!$modal) return;
+                $modal.remove();
+                $modal = null;
+            }
+        ,   freshModal: function (title, content) {
+                if ($modal) $modal.remove();
+                if ($overlay) $overlay.remove();
+                var width = 500;
+                $overlay = $("<div id='respec-overlay' class='removeOnSave'></div>").hide();
+                $modal = $("<div id='respec-modal' class='removeOnSave'><h3></h3><div class='inside'></div></div>").hide();
+                $modal.find("h3").text(title);
+                $modal.find(".inside").append(content);
+                $("body")
+                    .append($overlay)
+                    .append($modal);
+                $overlay
+                    .click(this.closeModal)
+                    .css({
+                        display:    "block"
+                    ,   opacity:    0
+                    ,   position:   "fixed"
+                    ,   zIndex:     10000
+                    ,   top:        "0px"
+                    ,   left:       "0px"
+                    ,   height:     "100%"
+                    ,   width:      "100%"
+                    ,   background: "#000"
+                    })
+                    .fadeTo(200, 0.5)
+                    ;
+                $modal
+                    .css({
+                        display:        "block"
+                    ,   position:       "fixed"
+                    ,   opacity:        0
+                    ,   zIndex:         11000
+                    ,   left:           "50%"
+                    ,   marginLeft:     -(width/2) + "px"
+                    ,   top:            "100px"
+                    ,   background:     "#fff"
+                    ,   border:         "5px solid #666"
+                    ,   borderRadius:   "5px"
+                    ,   width:          width + "px"
+                    ,   padding:        "0 20px 20px 20px"
+                    ,   maxHeight:      ($(window).height() - 150) + "px"
+                    ,   overflowY:      "auto"
+                    })
+                    .fadeTo(200, 1)
+                    ;
+            }
+        };
+        var supportsDownload = $("<a href='foo' download='x'>A</a>")[0].download === "x"
+        ;
+        var $div = $("<div></div>")
+        ,   buttonCSS = {
+                background:     "#eee"
+            ,   border:         "1px solid #000"
+            ,   borderRadius:   "5px"
+            ,   padding:        "5px"
+            ,   margin:         "5px"
+            ,   display:        "block"
+            ,   width:          "100%"
+            ,   color:          "#000"
+            ,   textDecoration: "none"
+            ,   textAlign:      "center"
+            ,   fontSize:       "inherit"
+            }
+        ,   addButton = function (title, content, fileName, popupContent) {
+                if (supportsDownload) {
+                    $("<a></a>")
+                        .appendTo($div)
+                        .text(title)
+                        .css(buttonCSS)
+                        .attr({
+                            href:   "data:text/html;charset=utf-8," + encodeURIComponent(content)
+                        ,   download:   fileName
+                        })
+                        .click(function () {
+                            ui.closeModal();
+                        })
+                        ;
+                }
+                else {
+                    $("<button></button>")
+                        .appendTo($div)
+                        .text(title)
+                        .css(buttonCSS)
+                        .click(function () {
+                            popupContent();
+                            ui.closeModal();
+                        })
+                        ;
+                }
+                
+            }
+        ;
+        var s = "var roleInfo = " + JSON.stringify(roleInfo, null, '\t') ;
+        addButton("Save Role Values", s, "roleInfo.js", s) ;
+        ui.freshModal("Save Roles, States, and Properties", $div);
+    }
+});
 
-    $.each(base.querySelectorAll("pref, sref, rref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.textContent || item.innerText;
-        var sp = document.createElement("a");
-        sp.className = (item.localName === "pref" ? "property-reference" : (item.localName === "sref" ? "state-reference" : "role-reference"));
-        var ref = item.getAttribute("title");
-        if (!ref) {
-            ref = content;
-        }
-        sp.href = "#" + ref;
-        sp.setAttribute("title", content);
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-
-
-    // now attributes
-    $.each(base.querySelectorAll("aref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var sp = document.createElement("a");
-        sp.className = "aref";
-        sp.href = "#" + content;
-        sp.setAttribute("title", content);
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-
-    // local datatype references
-    $.each(base.querySelectorAll("ldtref"), function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var ref = item.getAttribute("title");
-        if (!ref) {
-            ref = item.textContent || item.innerText;
-        }
-        if (ref) {
-            ref = ref.replace(/\n/g, "_");
-            ref = ref.replace(/\s+/g, "_");
-        }
-        var sp = document.createElement("a");
-        sp.className = "datatype";
-        sp.title = ref;
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-    // external datatype references
-    $.each(base.querySelectorAll("dtref") , function(i, item) {
-        var parentNode = item.parentNode;
-        var content = item.innerHTML;
-        var ref = item.getAttribute("title");
-        if (!ref) {
-            ref = item.textContent;
-        }
-        if (ref) {
-            ref = ref.replace(/\n/g, "_");
-            ref = ref.replace(/\s+/g, "_");
-        }
-        var sp = document.createElement("a");
-        sp.className = "externalDFN";
-        sp.title = ref;
-        sp.innerHTML = content;
-        parentNode.replaceChild(sp, item);
-    });
-}
-
-// included files are brought in after proProc.  Create a DOM tree
-// of content then call the updateReferences method above on it.  Return
-// the transformed content
-function fixIncludes(utils, content) {
-    var base = document.createElement("div");
-    base.innerHTML = content;
-    updateReferences(base);
-    return (base.innerHTML);
-}
-
-var preProc = {
-  apply:  function(c) {
+respecEvents.sub("end", function( msg ) {
+    if (msg == "w3c/conformance") {
             var propList = {};
             var globalSP = [];
 
@@ -186,25 +221,28 @@ var preProc = {
             //   4. grab any local states and properties so we can hand those down to the children
             //
 
-            var roleInfo = {};
             var subRoles = [];
             var roleIndex = "";
 
             $.each(document.querySelectorAll("rdef"), function(i,item) {
                 var parentNode = item.parentNode;
+                var $pn = $(parentNode) ;
                 var content = item.innerHTML;
                 var sp = document.createElement("h3");
                 var title = item.getAttribute("title");
                 if (!title) {
                     title = content;
                 }
+                var pnID = $pn.makeID("", title) ;
                 sp.className = "role-name";
                 sp.title = title;
                 // is this a role or an abstract role
                 var type = "role";
+                var isAbstract = false;
                 var abstract = parentNode.querySelectorAll(".role-abstract");
                 if ($(abstract).text() === "True") {
                     type = "abstract role";
+                    isAbstract = true;
                 }
                 sp.innerHTML = "<code>" + content + "</code> <span class=\"type-indicator\">(" + type + ")</span>";
                 // sp.id = title;
@@ -214,7 +252,7 @@ var preProc = {
                 dRef.id = "desc-" + title;
                 dRef.setAttribute("role", "definition");
                 parentNode.replaceChild(sp, item);
-                roleIndex += "<dt><a href=\"#" + title + "\" class=\"role-reference\">" + content + "</a></dt>\n";
+                roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
                 roleIndex += "<dd>" + desc + "</dd>\n";
                 // grab info about this role
                 // do we have a parent class?  if so, put us in that parents list
@@ -236,22 +274,23 @@ var preProc = {
                 }
                 // are there supported states / properties in this role?  
                 var attrs = [];
-                node = parentNode.querySelector(".role-properties");
-                if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
-                    // looks like we do
-                    $.each(node.querySelectorAll("pref,sref"), function(i, item) {
-                        var name = item.getAttribute("title");
-                        if (!name) {
-                            name = item.textContent || item.innerText;
-                        }
-                        var type = (item.localName === "pref" ? "property" : "state");
-                        attrs.push( { is: type, name: name } );
-                        // remember that the state or property is
-                        // referenced by this role
-                        propList[name].roles.push(title);
-                    });
-                }
-                roleInfo[title] = { "name": title, "parentRoles": parentRoles, "localprops": attrs };
+                $.each(parentNode.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
+                    if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
+			// looks like we do
+			$.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            var name = item.getAttribute("title");
+                            if (!name) {
+				name = item.textContent || item.innerText;
+                            }
+                            var type = (item.localName === "pref" ? "property" : "state");
+                            attrs.push( { is: type, name: name } );
+                            // remember that the state or property is
+                            // referenced by this role
+                            propList[name].roles.push(title);
+			});
+                    }
+		});
+                roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
             });
 
             var getStates = function(role) {
@@ -276,7 +315,7 @@ var preProc = {
                 // build up the complete inherited SP lists for each role
                 $.each(roleInfo, function(i, item) {
                     var output = "";
-                    var placeholder = document.querySelector("#" + item.name + " .role-inherited");
+                    var placeholder = document.querySelector("#" + item.fragID + " .role-inherited");
                     if (placeholder) {
                         var myList = [];
                         $.each(item.parentRoles, function(j, role) {
@@ -343,6 +382,12 @@ var preProc = {
                         var myList = [];
                         $.each(item.roles, function(j, role) {
                             var children = getAllSubRoles(role);
+                            // Some subroles have required properties which are also required by the superclass.
+                            // Example: The checked state of radio, which is also required by superclass checkbox.
+                            // We only want to include these one time, so filter out the subroles.
+                            children = jQuery.grep(children, function(subrole) {
+                                return jQuery.inArray(subrole, propList[item.name].roles) == -1;
+                            });
                             $.merge(myList, children);
                         });
                         placeholder = section.querySelector(".state-descendants, .property-descendants");
@@ -399,9 +444,9 @@ var preProc = {
 
             // prune out unused rows throughout the document
             
-            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants"), function(i, item) {
+            $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                 var content = $(item).text();
-                if (content.length === 1) {
+                if (content.length === 1 || content === 0) {
                     // there is no item - remove the row
                     item.parentNode.remove();
                 } else if (content === "Placeholder" 
@@ -417,7 +462,7 @@ var preProc = {
             PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[\t\n\f\r ]+/,null," \t\r\n\u000c"]],[["str",/^"(?:[^\n\f\r"\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*"/,null],["str",/^'(?:[^\n\f\r'\\]|\\(?:\r\n?|\n|\f)|\\[\S\s])*'/,null],["lang-css-str",/^url\(([^"')]+)\)/i],["kwd",/^(?:url|rgb|!important|@import|@page|@media|@charset|inherit)(?=[^\w-]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["com",/^(?:<\!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#[\da-f]{3,6}\b/i],["pln",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i],["pun",/^[^\s\w"']+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|\\[\da-f]+ ?)(?:[\w-]|\\\\[\da-f]+ ?)*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^"')]+/]]),["css-str"]);
         }
-};
+});
 
 // Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
 
