@@ -1,6 +1,6 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [Protocols and Formats Working Group](http://www.w3.org/WAI/PF/), expected soon to move to the ARIA Working Group. The staff contact in either case is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
 * TOC
 {:toc}
@@ -63,7 +63,7 @@ ariaSpecURLs: {
 },
 ```
 
-Note that even though some of these URIs are redundant, they must all be defined to work in all circumstances. If a document is a First Public Working Draft but the FPWD variant isn't defined, there won't be a match with the `specStatus` and the links won't work. 
+Note that even though some of these URIs are redundant, they must all be defined to work in all circumstances. If a document is a First Public Working Draft but the FPWD variant isn't defined, there won't be a match with the `specStatus` and the links won't work.
 
 The following properties for cross references are currently available *(todo: we should add versions for the other docs)*:
 
@@ -227,17 +227,4 @@ There is some automated sanity checking available, currently run by XSLT. Docume
 * Check that the role spec and the UML Class Diagram express the same thing
 * Roles list only supported states that are defined
 * States indicate applicability only to roles that are defined
-* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention 
-
-### Todo
-
-The following documentation is still needed:
-
-* role name patterns
-* how to use the taxonomy to extend roles effectively
-* which components of role documentation are generated automatically what needs to be done manually
-* how the ¨tying together script¨ works
-* when casing is relevant, casing preferences
-* where things are the same across different areas, and where they should be treated differently
-* which pieces in the tables are automatically populated and should be left alone
-* which pieces need to be filled in to trigger script
+* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention
