@@ -66,7 +66,7 @@ function updateReferences(base) {
     //     1. for each item, find it's nearest 'section' ancestor (or nearest div
     //     with a class of role, property, or state)
     //     2. if we have not already seen this item in this section, it is a link using 'a'
-    //     3. otherwise, it is just a styled reference to the item  using 'span'
+    //     3. otherwise, it is just a styled reference to the item  using 'code'
 
     var baseURL = respecConfig.ariaSpecURLs[respecConfig.specStatus];
 
@@ -98,7 +98,7 @@ function updateReferences(base) {
         if (pID) {
             if (sectionMap[pID]) {
                 if (sectionMap[pID][ref]) {
-                    theElement = "span";
+                    theElement = "code";
                 } else {
                     sectionMap[pID][ref] = 1;
                 }
