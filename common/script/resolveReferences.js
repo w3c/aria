@@ -63,7 +63,8 @@ function updateReferences(base) {
     // update references to properties
     //
     // New logic:
-    //     1. for each item, find it's nearest 'section' ancestor
+    //     1. for each item, find it's nearest 'section' ancestor (or nearest div
+    //     with a class of role, property, or state)
     //     2. if we have not already seen this item in this section, it is a link using 'a'
     //     3. otherwise, it is just a styled reference to the item  using 'span'
 
@@ -92,7 +93,7 @@ function updateReferences(base) {
         var theElement = "a";
 
         // pSec is the nearest parent section element
-        var $pSec = $item.parents("section").first();
+        var $pSec = $item.parents("section,div.role,div.state,div.property").first();
         var pID = $pSec.attr("id");
         if (pID) {
             if (sectionMap[pID]) {
