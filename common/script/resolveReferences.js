@@ -133,18 +133,20 @@ var termNames = [] ;
 
 function restrictReferences(utils, content) {
     var base = document.createElement("div");
+    var termContainer = $(base).makeID("terms") ;
     base.innerHTML = content;
     updateReferences(base);
 
     // strategy: Traverse the content finding all of the terms defined
     $.each(base.querySelectorAll("dfn"), function(i, item) {
         var $t = $(item) ;
-        var titles = $t.getDfnTitles();
-        var n = $t.makeID("dfn", titles[0]);
+        var titles = $t.getDfnTitles() ;
+        var n = $t.makeID("dfn", titles[0]) ;
         if (n) {
-            termNames[n] = $t.parent() ;
+            // remember that we have this term
+            termNames[n] = 1;
         }
-    });
+    }) ;
 
     // add a handler to come in after all the definitions are resolved
     //
@@ -156,32 +158,66 @@ function restrictReferences(utils, content) {
     respecEvents.sub('end', function(message) {
         if (message == 'core/link-to-dfn') {
             // all definitions are linked
+            // get a list of all the references to something that is
+            // in our collection from ourside of our collection
+            var refList = [] ;
             $("a.internalDFN").each(function () {
                 var $item = $(this) ;
-                var t = $item.attr('href');
-                if ( $item.closest('dl.termlist').length ) {
-                    if ( $(t).closest('dl.termlist').length ) {
-                        // do nothing
-                        return;
-                    }
-                }
-                var r = t.replace(/^#/,"") ;
-                if (termNames[r]) {
-                    delete termNames[r] ;
+                var t = $item.attr('href').replace(/^#/,"") ;
+                if (termNames[t] && !refList[t]
+                        && ! $item.closest("div#" + termContainer).length ) {
+                    // this reference is to one of our items and is also 
+                    // from outside the included terms
+                    refList[t] = 1;
                 }
             });
-    // delete any terms that were not referenced.
+
+            // loop will "restart" if terms are added as a result of following
+            // links
+            var restart = 1;
+            while (restart) {
+                restart = 0;
+                Object.keys(refList).forEach(function(term) {
+                    // $t is the dt element
+                    var $t = $("#"+term).closest("dt");
+                    // $d is the dd element
+                    var $d = $t.next() ;
+                    var needRestart = 0;
+                    $("a.internalDFN", $d).each(function() {
+                        var $item = $(this) ;
+                        var t = $item.attr('href').replace(/^#/,"") ;
+                        if (termNames[t] && !refList[t]) {
+                            refList[t] = 1;
+                            needRestart = 1;
+                        }
+                    });
+                    if (needRestart) {
+                        restart = 1;
+                        needRestart = 0;
+                    }
+                }) ;
+            }
+
+            // okay - refList should now contain every term that is actually
+            // referenced.  Take those out of the termNames list
+            Object.keys(refList).forEach(function(term) {
+                delete termNames[term];
+            });
+
+                
+            // anything still in the termNames list can be removed
             Object.keys(termNames).forEach(function(term) {
                 var $p = $("#"+term) ;
                 if ($p) {
-                    var tList = $p.getDfnTitles();
-                    $p.parent().next().remove();
-                    $p.remove() ;
+                    var tList = $p.getDfnTitles() ;
+                    var $t = $p.closest("dt");
+                    $t.next().remove() ;
+                    $t.remove() ;
                     tList.forEach(function( item ) {
                         if (respecConfig.definitionMap[item]) {
                             delete respecConfig.definitionMap[item];
                         }
-                    });
+                    }) ;
                 }
             });
         }
