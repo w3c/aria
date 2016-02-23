@@ -79,7 +79,10 @@ function updateReferences(base) {
         var content = $item.text();
         var ref = $item.attr("title");
         if (!ref) {
-            ref = content;
+            ref = $item.attr("data-lt");
+            if (!ref) {
+                ref = content;
+            }
         }
 
         // what sort of reference are we?
