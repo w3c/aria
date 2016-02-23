@@ -77,12 +77,17 @@ function updateReferences(base) {
 
         // what are we referencing?
         var content = $item.text();
+        var usedTitle = false;
         var ref = $item.attr("title");
         if (!ref) {
             ref = $item.attr("data-lt");
             if (!ref) {
                 ref = content;
+            } else {
+                usedTitle = true;
             }
+        } else {
+            usedTitle = true;
         }
 
         // what sort of reference are we?
@@ -101,7 +106,11 @@ function updateReferences(base) {
         if (pID) {
             if (sectionMap[pID]) {
                 if (sectionMap[pID][ref]) {
-                    theElement = "code";
+                    if (usedTitle) {
+                        theElement = "span";
+                    } else {
+                        theElement = "code";
+                    }
                 } else {
                     sectionMap[pID][ref] = 1;
                 }
