@@ -106,10 +106,13 @@ function updateReferences(base) {
         if (pID) {
             if (sectionMap[pID]) {
                 if (sectionMap[pID][ref]) {
-                    if (usedTitle) {
-                        theElement = "span";
-                    } else {
-                        theElement = "code";
+                    // only change the element if we are in a paragraph.
+                    if ($item.parents("p").length != 0) {
+                        if (usedTitle) {
+                            theElement = "span";
+                        } else {
+                            theElement = "code";
+                        }
                     }
                 } else {
                     sectionMap[pID][ref] = 1;
