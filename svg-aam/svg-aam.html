@@ -105,19 +105,19 @@
 
     coreMappingURLs: {
        "ED": 
-"http://rawgithub.com/w3c/aria/master/core-aam/core-aam.html",
+"http://w3c.github.io/aria/core-aam/core-aam.html",
        "WD" : "http://www.w3.org/TR/core-aam-1.1/",
        "FPWD": "http://www.w3.org/TR/core-aam-1.1/",
        "REC": "http://www.w3.org/TR/wai-aria-implementation/"
     },
     htmlMappingURLs: {
-       "ED": "http://rawgithub.com/w3c/aria/master/html-aam/html-aam.html",
+       "ED": "http://w3c.github.io/aria/html-aam/html-aam.html",
        "WD" : "http://www.w3.org/TR/html-aam-1.0/",
        "FPWD": "http://www.w3.org/TR/html-aam-1.0/",
        "REC": "http://www.w3.org/TR/wai-aria-implementation/"
     },
     graphicsMappingModURLs: {
-       "ED": "http://rawgithub.com/w3c/aria/master/graphics-aam/graphics-aam.html",
+       "ED": "http://w3c.github.io/aria/graphics-aam/graphics-aam.html",
        "WD" : "http://www.w3.org/TR/graphics-aam-1.0/",
        "FPWD": "http://www.w3.org/TR/graphics-aam-1.0/",
        "REC": "http://www.w3.org/TR/graphics-aam/"
@@ -747,68 +747,6 @@ var mappingTableLabels = {
           Authors are therefore advised not be rely on zero opacity to hide inactive content.  If opacity is used to fade out no-longer relevant content, the <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> attribute can be used to indicate that assistive technologies should ignore the element and its descendents.
         </p>
       </div>
-      <p>
-        In addition to these non-displayed elements,
-        many SVG elements&#8212;although rendered to the screen&#8212;do not have an intrinsic semantic meaning.
-        Instead, they represent components of the visual presentation of the document.
-        To simplify the accessible representation of the document,
-        these purely presentational elements would normally be omitted
-        from the accessibility tree,
-        unless the author explicitly provides semantic content.
-      </p>      
-      <p>
-        The following elements in the SVG namespace 
-        <strong class="rfc2119">SHOULD NOT</strong> be included in the accessibility tree,
-        <em>except</em> as described under 
-        <a href="#include_elements">Including Elements in the Accessibility Tree</a>:        
-      </p>
-      <ul>
-        <li> 
-          shape elements
-          (<code>circle</code>,
-          <code>ellipse</code>,
-          <code>line</code>,
-          <code>path</code>,
-          <code>polygon</code>,
-          <code>polyline</code>,
-          <code>rect</code>)
-        </li>
-        <li>
-          the <code>use</code> element
-        </li>
-        <li>
-          the grouping (<code>g</code>) element
-        </li>
-        <li>
-          the <code>image</code> element
-        </li>
-        <li>
-          text formatting elements
-          (<code>textPath</code>,
-          <code>tspan</code>)
-        </li>
-        <li>
-          the <code>foreignObject</code> element
-        </li>
-        <!--
-        <li>
-          the <code>canvas</code> element
-        </li>
-        <li>
-          the <code>iframe</code> element
-        </li>
-        -->
-      </ul>
-      <p>
-        Although these elements are omitted from the accessibility tree,
-        their child content 
-        <!-- (or the embedded document, for an <code>iframe</code>) -->
-        is still processed,
-        as if it was a direct child of the nearest ancestor node in the DOM tree that is included in the accessibility tree.  
-        In other words, the markup elements are treated
-        as if they had a role of <code>none</code> or <code>presentation</code>.
-      </p>
-      
       <div class="ednote">
         <p>
         The strict exclusion of non-rendered metadata elements, including <code>desc</code>,
@@ -866,17 +804,81 @@ var mappingTableLabels = {
     
     <section id="include_elements">
       <h4>Including Elements in the Accessibility Tree</h4>
+      
       <p>
-        Any rendered SVG element may have semantic meaning.
+        Many SVG elements&#8212;although rendered to the screen&#8212;do not have an intrinsic semantic meaning.
+        Instead, they represent components of the visual presentation of the document.
+        To simplify the accessible representation of the document,
+        these purely presentational elements should normally be omitted
+        from the accessibility tree,
+        unless the author explicitly provides semantic content.
+      </p>
+      <p>
+        However, any rendered SVG element may have semantic meaning.
         Authors indicate the significance of the element by including
         alternative text content or 
         <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes.
-        
+        This section defines the rules for including
+        normally-omitted elements in the accessibility tree.
+      </p>      
+      <p>
+        The following graphical and container elements in the SVG namespace 
+        <strong class="rfc2119">SHOULD NOT</strong> be included in the accessibility tree,
+        <em>except</em> as described in this section: 
       </p>
+      <ul>
+        <li> 
+          shape elements
+          (<code>circle</code>,
+          <code>ellipse</code>,
+          <code>line</code>,
+          <code>path</code>,
+          <code>polygon</code>,
+          <code>polyline</code>,
+          <code>rect</code>)
+        </li>
+        <li>
+          the <code>use</code> element
+        </li>
+        <li>
+          the grouping (<code>g</code>) element
+        </li>
+        <li>
+          the <code>image</code> element
+        </li>
+        <li>
+          text formatting elements
+          (<code>textPath</code>,
+          <code>tspan</code>)
+        </li>
+        <li>
+          the <code>foreignObject</code> element
+        </li>
+        <!--
+        <li>
+          the <code>canvas</code> element
+        </li>
+        <li>
+          the <code>iframe</code> element
+        </li>
+        -->
+      </ul>
+      <p>
+        Although these elements are omitted from the accessibility tree,
+        their child content 
+        <!-- (or the embedded document, for an <code>iframe</code>) -->
+        is still processed,
+        as if it was a direct child of the nearest ancestor node in the DOM tree that is included in the accessibility tree.  
+        In other words, the markup elements are treated
+        as if they had a role of <code>none</code> or <code>presentation</code>.
+      </p>
+      
       <p>
         SVG user agents <strong class="rfc2119">MUST</strong> provide 
         an accessible object in the accessibility tree 
-        for rendered SVG elements that meet any of the following criteria:
+        for rendered SVG elements that meet any of the following criteria,
+        <em>unless</em> they are excluded from the accessibility tree per the rules 
+        in <a href="#exclude_elements">Excluding Elements from the Accessibility Tree</a>:
       </p>
       <ul>
         <li>
@@ -893,7 +895,7 @@ var mappingTableLabels = {
           <span class="attr-name">‘<a class="property-reference" href="#aria-describedby"><span>aria-describedby</span></a>’</span> attribute.
         </li>
         <li>
-          It has a non-empty
+          It has a valid integer
           <span class="attribute-name">'<a href="http://www.w3.org/TR/SVG2/struct.html#SVGElementTabindexAttribute"><span>tabindex</span></a>'</span> attribute.
         </li>
         <li>
