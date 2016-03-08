@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2016 University of Illinois
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,15 +136,6 @@ aria.widget.Menu = function(node, menuButton) {
 aria.widget.Menu.prototype.initMenu = function() {
 
     var menu = this;
-    var eventMouseOver = function (event) {
-      menu.eventMouseOver(event, menu);
-      };
-    this.menuNode.addEventListener('mouseover',   eventMouseOver);
-
-    var eventMouseOut = function (event) {
-      menu.eventMouseOut(event, menu);
-    };
-    this.menuNode.addEventListener('mouseout',   eventMouseOut);
 
     var cn = this.menuNode.firstChild;
 
@@ -155,25 +146,30 @@ aria.widget.Menu.prototype.initMenu = function() {
           if (!this.firstMenuItem) this.firstMenuItem = cn; 
           this.lastMenuItem = cn;
 
-          // This is for the case of the LI elements containing the A elements
-          var links = cn.getElementsByTagName('A');
-
-          if (links.length) {
-            links[0].tabIndex = -1;
-            cn.href = links[0].href;
-//            console.log('[MENU][initMenu] LI.href=' + links[0].href);
-          }
-
           var eventKeyDown = function (event) {
             menu.eventKeyDown(event, menu);
           };
           cn.addEventListener('keydown', eventKeyDown);
+
+          var eventMouseClick = function (event) {
+            menu.eventMouseClick(event, menu);
+          };
+          cn.addEventListener('click', eventMouseClick);
+
+          var eventBlur = function (event) {
+            menu.eventBlur(event, menu);
+          };
+          cn.addEventListener('blur', eventBlur);
+
+          var eventFocus = function (event) {
+            menu.eventFocus(event, menu);
+          };
+          cn.addEventListener('focus', eventFocus);
+
         }
       }
       cn = cn.nextSibling;
     }
-
-
 };
 
 /**
@@ -187,8 +183,6 @@ aria.widget.Menu.prototype.initMenu = function() {
 aria.widget.Menu.prototype.nextMenuItem = function(currentMenuItem) {
 
   var mi = currentMenuItem.nextSibling;
-
-  console.log('[MENU][nextMenuItem]: ' + mi);
 
   while (mi) {
     if ((mi.nodeType === Node.ELEMENT_NODE) && 
@@ -255,12 +249,12 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
         'cancelable': true
       });
       ct.dispatchEvent(click_event);
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     flag = true;
     break;
 
   case menu.keyCode.ESC:
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     menu.menuButton.buttonNode.focus();  
     flag = true;
     break;
@@ -278,7 +272,7 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
     break;
 
   case menu.keyCode.TAB:
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     break;
 
   default:
@@ -294,11 +288,28 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 };
 
 /**
+ * @method eventMouseClick
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  onclick event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu
+ */
+
+aria.widget.Menu.prototype.eventMouseClick = function(event, menu) {
+
+  menu.menuButton.closeMenu(true);
+
+};
+
+
+/**
  * @method eventMouseOver
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Keydown event handler for Menu Object
+ * @desc  Mouse over event handler for Menu Object
  *        NOTE: The menu parameter is needed to provide a reference to the specific
  *               menu
  */
@@ -315,17 +326,46 @@ aria.widget.Menu.prototype.eventMouseOver = function(event, menu) {
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Keydown event handler for Menu Object
+ * @desc  eventMouseOut event handler for Menu Object
  *        NOTE: The menu parameter is needed to provide a reference to the specific
  *               menu 
  */
-
 aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
 
   menu.mouseInMenu = false;
   setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
 
 };
+
+/**
+ * @method eventBlur
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  eventBlur event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu 
+ */
+aria.widget.Menu.prototype.eventBlur = function(event, menu) {
+  menu.menuHasFocus = false;
+  setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
+};
+
+
+/**
+ * @method eventFocus
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  eventBlur event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu 
+ */
+aria.widget.Menu.prototype.eventFocus = function(event, menu) {
+  menu.menuHasFocus = true;
+};
+
+
 
 /* ---------------------------------------------------------------- */
 /*                  Menu Button Widget                           */
@@ -363,6 +403,7 @@ aria.widget.MenuButton = function(node) {
 
   this.done = true;
   this.mouseInMouseButton = false;
+  this.menuHasFocus = false;
   this.buttonNode = node;
   this.isLink = false;
 
@@ -385,6 +426,7 @@ aria.widget.MenuButton = function(node) {
 
 aria.widget.MenuButton.prototype.initMenuButton = function() {
 
+ 
   var id = this.buttonNode.getAttribute('aria-controls');
 
   if (id) {
@@ -395,25 +437,21 @@ aria.widget.MenuButton.prototype.initMenuButton = function() {
         this.menu.initMenu();
     }
   }  
-
-
+ 
   this.closeMenu();
 
     var menuButton = this;
+
     var eventKeyDown = function (event) {
       menuButton.eventKeyDown(event, menuButton);
     };
     this.buttonNode.addEventListener('keydown',   eventKeyDown);
 
-    var eventMouseOver = function (event) {
-      menuButton.eventMouseOver(event, menuButton);
+   var eventMouseClick = function (event) {
+      menuButton.eventMouseClick(event, menuButton);
     };
-    this.buttonNode.addEventListener('mouseover',   eventMouseOver);
+    this.buttonNode.addEventListener('click', eventMouseClick);
 
-    var eventMouseOut = function (event) {
-      menuButton.eventMouseOut(event, menuButton);
-    };
-    this.buttonNode.addEventListener('mouseout',   eventMouseOut);
 };
 
 /**
@@ -445,11 +483,14 @@ aria.widget.MenuButton.prototype.openMenu = function() {
  * @desc  Close the menu
  */
 
-aria.widget.MenuButton.prototype.closeMenu = function() {
+aria.widget.MenuButton.prototype.closeMenu = function(force) {
 
-  if (!this.mouseInMenuButton && 
+  if (typeof force !== 'boolean') force = false;
+
+  if (force || (!this.mouseInMenuButton && 
     !this.menu.mouseInMenu &&
-    this.menuNode) {
+    !this.menu.menuHasFocus &&
+    this.menuNode)) {
       this.menuNode.style.display = 'none';
       this.buttonNode.focus();
   }
@@ -559,38 +600,14 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
 };
 
 /**
- * @method eventMouseOver
+ * @method eventMouseClick
  *
  * @memberOf aria.widget.MenuButton
  *
- * @desc  Keydown event handler for MenuButton Object
+ * @desc  Click event handler for MenuButton Object
  *        NOTE: The menuButton parameter is needed to provide a reference to the specific
  *               menuButton 
  */
-
-aria.widget.MenuButton.prototype.eventMouseOver = function(event, menuButton) {
-
-  menuButton.mouseInMenuButton = true;
-  menuButton.openMenu();
-
+aria.widget.MenuButton.prototype.eventMouseClick= function(event, menuButton) {
+ menuButton.moveFocusToFirstMenuItem();
 };
-
-/**
- * @method eventMouseOut
- *
- * @memberOf aria.widget.MenuButton
- *
- * @desc  Keydown event handler for MenuButton Object
- *        NOTE: The menuButton parameter is needed to provide a reference to the specific
- *               menuButton 
- */
-
-aria.widget.MenuButton.prototype.eventMouseOut = function(event, menuButton) {
-
-  menuButton.mouseInMenuButton = false;
-  setTimeout(function(){ menuButton.closeMenu() }, 500);
-
-};
-
-
-
