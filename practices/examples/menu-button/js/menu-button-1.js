@@ -272,7 +272,7 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
     break;
 
   case menu.keyCode.TAB:
-    menu.menuButton.closeMenu(true);
+    menu.menuButton.closeMenu(true, false);
     break;
 
   default:
@@ -348,7 +348,7 @@ aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
  */
 aria.widget.Menu.prototype.eventBlur = function(event, menu) {
   menu.menuHasFocus = false;
-  setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
+  setTimeout(function(){ menu.menuButton.closeMenu(false, false) }, 500);
 };
 
 
@@ -483,16 +483,17 @@ aria.widget.MenuButton.prototype.openMenu = function() {
  * @desc  Close the menu
  */
 
-aria.widget.MenuButton.prototype.closeMenu = function(force) {
+aria.widget.MenuButton.prototype.closeMenu = function(force, focus_menu_button) {
 
   if (typeof force !== 'boolean') force = false;
+  if (typeof focus_menu_button !== 'boolean') focus_menu_button = true;
 
   if (force || (!this.mouseInMenuButton && 
     !this.menu.mouseInMenu &&
     !this.menu.menuHasFocus &&
     this.menuNode)) {
       this.menuNode.style.display = 'none';
-      this.buttonNode.focus();
+      if (focus_menu_button) this.buttonNode.focus();
   }
 
 };
@@ -585,7 +586,7 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
     break;
 
   case menuButton.keyCode.TAB:
-    menuButton.closeMenu();
+    menuButton.closeMenu(true, false);
     break;
 
   default:
