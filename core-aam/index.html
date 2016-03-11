@@ -899,26 +899,38 @@ var mappingTableLabels = {
 				<tr id="role-map-menuitemcheckbox">
 					<th><a class="role-reference" href="#menuitemcheckbox"><code>menuitemcheckbox</code></a></th>
 					<td><code>ROLE_SYSTEM_CHECKBUTTON</code> or <code>ROLE_SYSTEM_MENUITEM</code>
-              <p><code>IAccessible2: IA2_ROLE_CHECK_MENU_ITEM</code> + object attribute <code>checkable:true</code></p></td>
+						<p><code>IAccessible2: IA2_ROLE_CHECK_MENU_ITEM</code> + object attribute <code>checkable:true</code></p></td>
 					<td><code>MenuItem</code> + <code>Toggle</code> Pattern</td>
-          <td><code>ROLE_CHECK_MENU_ITEM</code> + <code>STATE_CHECKABLE</code></td>
+					<td><code>ROLE_CHECK_MENU_ITEM</code> + <code>STATE_CHECKABLE</code></td>
 					<td>AXRole: <code>AXMenuItem</code><br />
-              AXSubrole: <code>&lt;nil&gt;</code><br />
-              AXRoleDescription: <code>'menu item</code>'
-              <p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a>><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;<br /> 
-              Otherwise: <code>AXMenuItemMarkChar</code> <code>&lt;nil&gt;</code></p></td>
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'menu item</code>'
+						<p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a>><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;<br /> 
+						Otherwise: <code>AXMenuItemMarkChar</code> <code>&lt;nil&gt;</code></p></td>
 				</tr>
 				<tr id="role-map-menuitemradio">
 					<th><a class="role-reference" href="#menuitemradio"><code>menuitemradio</code></a></th>
 					<td><code>ROLE_SYSTEM_RADIOBUTTON</code> or <code>ROLE_SYSTEM_MENUITEM</code>
-              <p><code>IAccessible2: IA2_ROLE_RADIO_MENU_ITEM</code> + object attribute <code>checkable:true</code></p></td>
-					<td><code>MenuItem</code></td>
-          <td><code>ROLE_RADIO_MENU_ITEM</code> + <code>STATE_CHECKABLE</code></td>
+						<p><code>IAccessible2: IA2_ROLE_RADIO_MENU_ITEM</code> + object attribute <code>checkable:true</code></p></td>
+					<td><code>MenuItem</code> + <code>Toggle</code> Pattern + <code>SelectionItem</code> Pattern
+						<p>If <code>aria-checked="true"</code>:</p>
+						<ol>
+						  <li><code>Toggle.ToggleState = On (1)</code></li>
+						  <li><code>SelectionItem.IsSelected = True</code></li>
+						</ol>
+						<p>If <code>aria-checked="false"</code>:</p>
+						<ol>
+						  <li><code>Toggle.ToggleState = Off (0)</code></li>
+						  <li><code>SelectionItem.IsSelected = False</code></li>
+						</ol>
+						<p>If <code>aria-checked="mixed"</code> or is undefined: treat as <code>false</code></p>
+					</td>
+					<td><code>ROLE_RADIO_MENU_ITEM</code> + <code>STATE_CHECKABLE</code></td>
 					<td>AXRole: <code>AXMenuItem</code><br />
-              AXSubrole: <code>&lt;nil&gt;</code><br />
-              AXRoleDescription: <code>'menu item</code>'
-              <p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;.<br /> 
-              Otherwise: <code>AXMenuItemMarkChar</code> <code>&lt;nil&gt;</code></p></td>
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'menu item</code>'
+						<p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;.<br /> 
+						Otherwise: <code>AXMenuItemMarkChar</code> <code>&lt;nil&gt;</code></p></td>
 				</tr>
 				<tr id="role-map-navigation">
                     <th><a class="role-reference" href="#navigation"><code>navigation</code></a></th>
@@ -1012,11 +1024,23 @@ var mappingTableLabels = {
 				<tr id="role-map-radio">
 					<th><a class="role-reference" href="#radio"><code>radio</code></a></th>
 					<td><code>ROLE_SYSTEM_RADIOBUTTON</code></td>
-          <td><code>RadioButton</code></td>
+					<td><code>RadioButton</code> + <code>Toggle</code> Pattern + <code>SelectionItem</code> Pattern
+						<p>If <code>aria-checked="true"</code>:</p>
+						<ol>
+						  <li><code>Toggle.ToggleState = On (1)</code></li>
+						  <li><code>SelectionItem.IsSelected = True</code></li>
+						</ol>
+						<p>If <code>aria-checked="false"</code>:</p>
+						<ol>
+						  <li><code>Toggle.ToggleState = Off (0)</code></li>
+						  <li><code>SelectionItem.IsSelected = False</code></li>
+						</ol>
+						<p>If <code>aria-checked="mixed"</code> or is undefined: treat as <code>false</code></p>
+					</td>
 					<td><code>ROLE_RADIO_BUTTON</code></td>
 					<td>AXRole: <code>AXRadioButton</code><br />
-              AXSubrole: <code>&lt;nil&gt;</code><br />
-              AXRoleDescription: <code>'radio button'</code></td>
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'radio button'</code></td>
 				</tr>
 				<tr id="role-map-radiogroup">
 					<th><a class="role-reference" href="#radiogroup"><code>radiogroup</code></a></th>
@@ -2736,6 +2760,7 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>11-Mar-2016: Added details to UIA mappings of radio and menuitemradio roles reqarding how aria-checked values are exposed in the Toggle and SelectionItem patterns.</li>
 				<li>10-Mar-2016: Updated default values for aria-valuemin, aria-valuemax, and aria-valuenow for spinbutton role. Default for aria-valuenow is 0 (zero), default for aria-valuemin is no lower bound, and for aria-valuemax, no upper bound.</li>
 				<li>22-Feb-2016: IA2 mapping of role="text" changed to ROLE_SYSTEM_STATICTEXT from IA2_TEXT_FRAME.</li>
 				<li>02-Feb-2016: Modified UIA mapping of main role to include a Landmark Type and a Localized Landmark Type.  Added UIA mapping for aria-errormessage.</li>
