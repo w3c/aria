@@ -190,6 +190,7 @@ var termsReferencedByTerms = [] ;
 function restrictReferences(utils, content) {
     var base = document.createElement("div");
     base.innerHTML = content;
+    updateReferences(base);
 
     // New new logic:
     //
