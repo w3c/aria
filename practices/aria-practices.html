@@ -234,1084 +234,983 @@
 
     <section class="widget" id="accordion">
       <h3 class="widget-name">Accordion</h3>
+
       <p class="note">This section has not been updated since it was integrated from the WAI-ARIA Authoring Practices Guide (<abbr title="Authoring Practices Guide">APG</abbr>) version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                An accordion component is a collection of expandable panels associated with a common outer container.
-                Panels consist of a header and an associated content region or panel.
-                The primary use of an Accordion is to present multiple sections of content on a single page without scrolling, where all of the sections are peers in the application or object hierarchy.
-                The general look is similar to a tree where each root tree node is an expandable accordion header.
-                The user navigates and makes the contents of each panel visible (or not) by interacting with the Accordion Header.
-                Terms for understanding accordions include:
-              </p>
-              <dl>
-                <dt>accordion component:</dt>
-                <dd>Collection of panels within a common outer pane.</dd>
-                <dt>accordion header:</dt>
-                <dd>Label area of an accordion panel. This is where you find the control to expand or collapse the panels.</dd>
-                <dt>accordion panel:</dt>
-                <dd>Contents area associated with an accordion header.</dd>
-              </dl>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <ul>
-                <li>
-                  <kbd>Tab</kbd> - When focus is on an accordion header, pressing the <kbd>Tab</kbd> key moves focus in the following manner:
-                  <ol>
-                    <li>If interactive glyphs or menus are present in the accordion header, focus moves to each in order. </li>
-                    <li>When the corresponding panel is expanded (its <a href="#aria-expanded" class="state-reference">aria-expanded</a> state is 'true'), then focus moves to the first focusable element in the panel. </li>
-                    <li>If the  panel is collapsed (its aria-expanded state is 'false' or missing), OR, when the last interactive element of a panel is reached, the next <kbd>Tab</kbd> key press moves focus as follows:
-                      <ul>
-                        <li>If a subsequent accordion panel is already expanded, focus moves to the first focusable element in this subsequent panel.</li>
-                        <li>If no subsequent accordion panel is expanded, focus moves to the first focusable element outside the accordion component.</li>
-                      </ul>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-                  <kbd>Left arrow</kbd>
-                  <ul>
-                    <li>When focus is on the accordion header, a press of up/left arrow keys moves focus to the previous logical accordion header.</li>
-                    <li>When focus reaches the first header, further up/left arrow key presses optionally wrap to the first header.</li>
-                  </ul>
-                </li>
-                <li>
-                  <kbd>Right arrow</kbd>
-                  <ul>
-                    <li>When focus is on the accordion header, a press of down/right moves focus to the next logical accordion header.</li>
-                    <li>When focus reaches the last header, further down/right arrow key presses optionally wrap to the first header.</li>
-                  </ul>
-                </li>
-                <li>
-                  <kbd>Up arrow</kbd> - behaves the same as left arrow
-                </li>
-                <li>
-                  <kbd>Down arrow</kbd> - behaves the same as right arrow
-                </li>
-                <li>
-                  <kbd>Control + Up Arrow</kbd> - Moves focus from anywhere in the accordion content to its associated accordion header or tab respectively.
-                </li>
-                <li>
-                  <kbd>Control + Page Up</kbd> -
-                  <ul>
-                    <li>When focus is inside of an accordion pane, pressing <kbd>Control + Page Up</kbd> moves focus to the accordion header of the previous accordion pane.</li>
-                    <li>When focus is in the first accordion header content, pressing <kbd>Control + Page Up</kbd> optionally moves focus to the last accordion header.</li>
-                    <li>Focus will simply move to the header and will require <kbd>Enter/Space</kbd> to expand/collapse the accordion pane.</li>
-                  </ul>
-                </li>
-                <li>
-                  <kbd>Control + Page Down</kbd> -
-                  <ul>
-                    <li>When focus is inside of an accordion pane, pressing <kbd>Control + Page Down</kbd> moves focus to the header of the accordion pane.</li>
-                    <li>When focus is in the last accordion header content, pressing <kbd>Control + Page Down</kbd> optionally moves focus to the first accordion header.</li>
-                    <li>In the case of an accordion, focus simply moves to the header and requires <kbd>Enter/Space</kbd> to expand/collapse the accordion pane.</li>
-                  </ul>
-                </li>
-                <li>
-                  <kbd>End</kbd> - When focus is on the accordion header, an <kbd>End</kbd> key press moves focus to the last accordion header.
-                </li>
-                <li>
-                  <kbd>Home</kbd> - When focus is on the accordion header, a <kbd>Home</kbd> key press moves focus to the first accordion header.
-                </li>
-                <li>
-                  <kbd>Enter/Space</kbd> - When focus is on an accordion header, pressing <kbd>Enter/Space</kbd> toggles the expansion of the corresponding panel.
-                  <ul>
-                    <li>If collapsed, the panel is expanded, and its aria-expanded state is set to 'true'.</li>
-                    <li>If expanded, the panel is collapsed and its aria-expanded state is set to 'false'.</li>
-                  </ul>
-                </li>
-                <li>
-                  <kbd>Shift + Tab</kbd> - Generally the reverse of <kbd>Tab</kbd>.
-                </li>
-                <li>
-                  <kbd>Alt + Delete</kbd> -
-                  <ul>
-                    <li>
-                      When deletion is allowed, with focus anywhere within the tab panel or tab, pressing <kbd>Alt + Delete</kbd> will delete the current tab and tab panel from the tabbed interface control.
-                      If additional tabs remain in the tabbed interface, focus goes to the next tab in the tab list.
-                      If no additional tabs remain, then focus moves to the last place that held focus in the previous tab panel.
-                    </li>
-                    <li>
-                      An alternative to providing a keystroke to close a tab is to provide a context menu that is associated with the tab title.
-                      When focus is on the tab, pressing <kbd>Shift + F10</kbd> or pressing the right mouse button will open a context menu with the close choice.
-                    </li>
-                    <li>A warning should be given to the user before allowing the delete to occur.</li>
-                  </ul>
-                </li>
-              </ul>
-              <p>
-                In Firefox, pressing <kbd>Control + Page Up</kbd> / <kbd>Control + Page Down</kbd> moves between browser tabs.
-                Firefox also supports <kbd>Control + Tab</kbd> and <kbd>Control + Shift + Tab</kbd> to move between tabs.
-                Internet Explorer 7 also uses <kbd>Control + Tab</kbd> and <kbd>Control + Shift + Tab</kbd>.
-                There may be advantages to using <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd> as the keys to change tabs; it is a recognizable keystroke to at least Firefox users and it is also supported by the Windows operating system to move between panels in a tabbed dialog.
-              </p>
-              <p>You should be aware of two issues with using <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd>:</p>
-              <ul>
-                <li>
-                  The first arises when the user is within a tabbed interface control on a Web page.
-                  Here they can not easily switch browser tabs without first moving focus outside of the tabbed interface control.
-                  This may be acceptable.
-                </li>
-                <li>
-                  The second arises when the entire web page is a tabbed interface control.
-                  In this case the user could not switch browser tabs unless the control on the web page ignored the <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd> keypress (and thus letting the browser access it) when the first or last tab was reached.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>
-                  The accordion component must have a role of <a href="#tablist" class="role-reference">tablist</a> and have <a href="#aria-multiselectable" class="property-reference">aria-multiselectable</a>=&quot;true&quot;
-                  This will enable an assistive technology, such as screen reader, to convey that the tablist is an accordion or a multi selectable tablist.
-                  This will also tell the user that the keyboard navigation matches an accordion and not a tablist.
-                </li>
-                <li>Contained within the tablist is a set of tab/tabpanel pairs.</li>
-                <li>Each header tab in the tablist has a role of <a href="#tablist" class="role-reference">tab</a>.</li>
-                <li>The accordion panel uses the role <a href="#tabpanel" class="role-reference">tabpanel</a> and should have an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> relationship referencing the corresponding header having a role of <a href="#tablist" class="role-reference">tab</a></li>
-                <li>The tabpanel is considered a grouping for all content consisting of that tabpanel.</li>
-                <li>An accordion should manage the expanded/collapsed state of each tab by maintain its <a href="#aria-expanded" class="state-reference">aria-expanded</a> state.</li>
-                <li>An accordion should manage the selected state of each tab by maintaining its <code class="state-reference">aria-selected</code> state.</li>
-                <li>An accordion should convey the visibility of each tabpanel by maintaining its <a href="#aria-hidden" class="state-reference">aria-hidden</a> state.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <p><a href="http://www.oaa-accessibility.org/examplep/accordian1/" target="_blank" title="Tab Panel: Accordian1">Open Ajax Alliance Accordion</a></p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        An accordion component is a collection of expandable panels associated with a common outer container.
+        Panels consist of a header and an associated content region or panel.
+        The primary use of an Accordion is to present multiple sections of content on a single page without scrolling, where all of the sections are peers in the application or object hierarchy.
+        The general look is similar to a tree where each root tree node is an expandable accordion header.
+        The user navigates and makes the contents of each panel visible (or not) by interacting with the Accordion Header.
+        Terms for understanding accordions include:
+      </p>
+
+      <dl>
+        <dt>accordion component:</dt>
+        <dd>Collection of panels within a common outer pane.</dd>
+        <dt>accordion header:</dt>
+        <dd>Label area of an accordion panel. This is where you find the control to expand or collapse the panels.</dd>
+        <dt>accordion panel:</dt>
+        <dd>Contents area associated with an accordion header.</dd>
+      </dl>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <ul>
+          <li>
+            <kbd>Tab</kbd> - When focus is on an accordion header, pressing the <kbd>Tab</kbd> key moves focus in the following manner:
+            <ol>
+              <li>If interactive glyphs or menus are present in the accordion header, focus moves to each in order. </li>
+              <li>When the corresponding panel is expanded (its <a href="#aria-expanded" class="state-reference">aria-expanded</a> state is 'true'), then focus moves to the first focusable element in the panel. </li>
+              <li>If the  panel is collapsed (its aria-expanded state is 'false' or missing), OR, when the last interactive element of a panel is reached, the next <kbd>Tab</kbd> key press moves focus as follows:
+                <ul>
+                  <li>If a subsequent accordion panel is already expanded, focus moves to the first focusable element in this subsequent panel.</li>
+                  <li>If no subsequent accordion panel is expanded, focus moves to the first focusable element outside the accordion component.</li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <kbd>Left arrow</kbd>
+            <ul>
+              <li>When focus is on the accordion header, a press of up/left arrow keys moves focus to the previous logical accordion header.</li>
+              <li>When focus reaches the first header, further up/left arrow key presses optionally wrap to the first header.</li>
+            </ul>
+          </li>
+          <li>
+            <kbd>Right arrow</kbd>
+            <ul>
+              <li>When focus is on the accordion header, a press of down/right moves focus to the next logical accordion header.</li>
+              <li>When focus reaches the last header, further down/right arrow key presses optionally wrap to the first header.</li>
+            </ul>
+          </li>
+          <li>
+            <kbd>Up arrow</kbd> - behaves the same as left arrow
+          </li>
+          <li>
+            <kbd>Down arrow</kbd> - behaves the same as right arrow
+          </li>
+          <li>
+            <kbd>Control + Up Arrow</kbd> - Moves focus from anywhere in the accordion content to its associated accordion header or tab respectively.
+          </li>
+          <li>
+            <kbd>Control + Page Up</kbd> -
+            <ul>
+              <li>When focus is inside of an accordion pane, pressing <kbd>Control + Page Up</kbd> moves focus to the accordion header of the previous accordion pane.</li>
+              <li>When focus is in the first accordion header content, pressing <kbd>Control + Page Up</kbd> optionally moves focus to the last accordion header.</li>
+              <li>Focus will simply move to the header and will require <kbd>Enter/Space</kbd> to expand/collapse the accordion pane.</li>
+            </ul>
+          </li>
+          <li>
+            <kbd>Control + Page Down</kbd> -
+            <ul>
+              <li>When focus is inside of an accordion pane, pressing <kbd>Control + Page Down</kbd> moves focus to the header of the accordion pane.</li>
+              <li>When focus is in the last accordion header content, pressing <kbd>Control + Page Down</kbd> optionally moves focus to the first accordion header.</li>
+              <li>In the case of an accordion, focus simply moves to the header and requires <kbd>Enter/Space</kbd> to expand/collapse the accordion pane.</li>
+            </ul>
+          </li>
+          <li>
+            <kbd>End</kbd> - When focus is on the accordion header, an <kbd>End</kbd> key press moves focus to the last accordion header.
+          </li>
+          <li>
+            <kbd>Home</kbd> - When focus is on the accordion header, a <kbd>Home</kbd> key press moves focus to the first accordion header.
+          </li>
+          <li>
+            <kbd>Enter/Space</kbd> - When focus is on an accordion header, pressing <kbd>Enter/Space</kbd> toggles the expansion of the corresponding panel.
+            <ul>
+              <li>If collapsed, the panel is expanded, and its aria-expanded state is set to 'true'.</li>
+              <li>If expanded, the panel is collapsed and its aria-expanded state is set to 'false'.</li>
+            </ul>
+          </li>
+          <li>
+            <kbd>Shift + Tab</kbd> - Generally the reverse of <kbd>Tab</kbd>.
+          </li>
+          <li>
+            <kbd>Alt + Delete</kbd> -
+            <ul>
+              <li>
+                When deletion is allowed, with focus anywhere within the tab panel or tab, pressing <kbd>Alt + Delete</kbd> will delete the current tab and tab panel from the tabbed interface control.
+                If additional tabs remain in the tabbed interface, focus goes to the next tab in the tab list.
+                If no additional tabs remain, then focus moves to the last place that held focus in the previous tab panel.
+              </li>
+              <li>
+                An alternative to providing a keystroke to close a tab is to provide a context menu that is associated with the tab title.
+                When focus is on the tab, pressing <kbd>Shift + F10</kbd> or pressing the right mouse button will open a context menu with the close choice.
+              </li>
+              <li>A warning should be given to the user before allowing the delete to occur.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          In Firefox, pressing <kbd>Control + Page Up</kbd> / <kbd>Control + Page Down</kbd> moves between browser tabs.
+          Firefox also supports <kbd>Control + Tab</kbd> and <kbd>Control + Shift + Tab</kbd> to move between tabs.
+          Internet Explorer 7 also uses <kbd>Control + Tab</kbd> and <kbd>Control + Shift + Tab</kbd>.
+          There may be advantages to using <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd> as the keys to change tabs; it is a recognizable keystroke to at least Firefox users and it is also supported by the Windows operating system to move between panels in a tabbed dialog.
+        </p>
+        <p>You should be aware of two issues with using <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd>:</p>
+        <ul>
+          <li>
+            The first arises when the user is within a tabbed interface control on a Web page.
+            Here they can not easily switch browser tabs without first moving focus outside of the tabbed interface control.
+            This may be acceptable.
+          </li>
+          <li>
+            The second arises when the entire web page is a tabbed interface control.
+            In this case the user could not switch browser tabs unless the control on the web page ignored the <kbd>Control + Page Up</kbd>/<kbd>Page Down</kbd> keypress (and thus letting the browser access it) when the first or last tab was reached.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties:</h4>
+        <ul>
+          <li>
+            The accordion component must have a role of <a href="#tablist" class="role-reference">tablist</a> and have <a href="#aria-multiselectable" class="property-reference">aria-multiselectable</a>=&quot;true&quot;
+            This will enable an assistive technology, such as screen reader, to convey that the tablist is an accordion or a multi selectable tablist.
+            This will also tell the user that the keyboard navigation matches an accordion and not a tablist.
+          </li>
+          <li>Contained within the tablist is a set of tab/tabpanel pairs.</li>
+          <li>Each header tab in the tablist has a role of <a href="#tablist" class="role-reference">tab</a>.</li>
+          <li>The accordion panel uses the role <a href="#tabpanel" class="role-reference">tabpanel</a> and should have an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> relationship referencing the corresponding header having a role of <a href="#tablist" class="role-reference">tab</a></li>
+          <li>The tabpanel is considered a grouping for all content consisting of that tabpanel.</li>
+          <li>An accordion should manage the expanded/collapsed state of each tab by maintain its <a href="#aria-expanded" class="state-reference">aria-expanded</a> state.</li>
+          <li>An accordion should manage the selected state of each tab by maintaining its <code class="state-reference">aria-selected</code> state.</li>
+          <li>An accordion should convey the visibility of each tabpanel by maintaining its <a href="#aria-hidden" class="state-reference">aria-hidden</a> state.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <p><a href="http://www.oaa-accessibility.org/examplep/accordian1/" target="_blank">Open Ajax Alliance Accordion</a></p>
+      </section>
     </section>
 
     <section class="widget" id="alert">
       <h3 class="widget-name">Alert</h3>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                An <a class="role-reference" href="#alert">alert</a> is an element that displays a brief, important message in a way that attracts the user's attention without interrupting the user's task.
-                Dynamically rendered alerts are automatically announced by most screen readers, and in some operating systems, they may trigger an alert sound.
-                It is important to note that, at this time, screen readers do not inform users of alerts that are present on the page before page load completes.
-              </p>
-              <p>
-                Because an alert is intended to provide important and potentially time-sensitive information without interfering with the user's ability to continue working, authors should ensure alerts do not affect the keyboard focus.
-                If there is a need to interrupt work flow, consider using an <a href="#alertdialog">alert dialog</a>
-              </p>
-              <p>
-                In most circumstances, authors should avoid making alerts disappear automatically.
-                An alert that disappears too quickly can lead to failure to meet <a href="http://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html">WCAG 2.0 success criterion 2.2.3</a>.
-                In addition, authors should be careful to avoid overuse of alerts.
-                Frequent interruptions inhibit usability for people with visual and cognitive disabilities, leading to failures to meet <a href="http://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html">WCAG 2.0 success criterion 2.2.4</a>.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <p>An alert (WAI-ARIA live region) does not require any keyboard interaction.</p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties: </th>
-            <td class="widget-aria"><p> The widget has a role of <a class="role-reference" href="#alert">alert</a>. </p></td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-                <a href="examples/alert/index.html">Alert role example</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        An <a class="role-reference" href="#alert">alert</a> is an element that displays a brief, important message in a way that attracts the user's attention without interrupting the user's task.
+        Dynamically rendered alerts are automatically announced by most screen readers, and in some operating systems, they may trigger an alert sound.
+        It is important to note that, at this time, screen readers do not inform users of alerts that are present on the page before page load completes.
+      </p>
+      <p>
+        Because an alert is intended to provide important and potentially time-sensitive information without interfering with the user's ability to continue working, authors should ensure alerts do not affect the keyboard focus.
+        If there is a need to interrupt work flow, consider using an <a href="#alertdialog">alert dialog</a>
+      </p>
+      <p>
+        In most circumstances, authors should avoid making alerts disappear automatically.
+        An alert that disappears too quickly can lead to failure to meet <a href="http://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html">WCAG 2.0 success criterion 2.2.3</a>.
+        In addition, authors should be careful to avoid overuse of alerts.
+        Frequent interruptions inhibit usability for people with visual and cognitive disabilities, leading to failures to meet <a href="http://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html">WCAG 2.0 success criterion 2.2.4</a>.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p>An alert (WAI-ARIA live region) does not require any keyboard interaction.</p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <p>The widget has a role of <a class="role-reference" href="#alert">alert</a>.</p>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p><a href="examples/alert/index.html">Alert role example</a></p>
+      </section>
     </section>
 
     <section class="widget" id="alertdialog">
       <h3 class="widget-name">Alert Dialog or Message Dialog</h3>
+
       <p class="note">This section has had only minor edits since it was integrated from APG version 1.0 -- a complete APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                A dialog with the primary purpose of communicating a message and acquiring a user response to that message.
-                Examples include action confirmation prompts, warning messages, or help for an invalid form entry.
-                The dialog should be modal.
-                Keyboard focus is set on an element in the dialog.
-                The element that has initial focus will depend on the nature of the information conveyed in the dialog.
-                Simple message dialogs, as described below, have their initial focus set to the confirmation button (e.g., the OK button).
-                Detail message dialogs have their initial focus set on the element containing the message.
-              </p>
-              <p>A detail message dialog conveys a message that has any one of the following attributes:</p>
-              <ul>
-                <li>Is more than one sentence in length;</li>
-                <li>Contains information where punctuation is an essential part of the message, such as syntax of a required date format;</li>
-                <li>Contains detail information the user may need to re-use, e.g., a phone number, e-mail address, error number, etc.;</li>
-                <li>Contains an interactive element, such as a link to a help resource.</li>
-              </ul>
-              <p>If the dialog is not a detail message dialog, one can consider it a simple message dialog.</p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <p><a href="#dialog_modal">See Dialog (Modal)</a>.</p>
-              <ul>
-                <li>Content authors make alert dialogs modal by ensuring that, while the alertdialog is shown, keyboard and mouse interactions only operate within the dialog.</li>
-                <li>The message area of a detail message dialog is focusable and has a <a class="role-reference" href="#document">document</a> role so screen reader users will have complete access to the message content, e.g., the screen reader can read it by character, word, or line.</li>
-                <li>When the message area of a dialog is focusable and has focus, a visual focus indicator is required, and it is recommended that the indicator encompass the complete message.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>The node containing all elements of the dialog, including the alert message and any dialog buttons, has an <a class="role-reference" href="#alertdialog">alertdialog</a> role.</li>
-                <li>Message areas have role <a class="role-reference" href="#document">document</a> and tabindex="0".</li>
-                <li>The Alert dialog has an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> that references the title of the dialog. If there is not a visible title, use an appropriate <a href="#aria-labelledby" class="property-reference">aria-label</a> instead.</li>
-                <li>The element with role alertdialog has an <a href="#aria-labelledby" class="property-reference">aria-describedby</a> referring to the message element that has role <a class="role-reference" href="#document">document</a>.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <p><a href="http://www.oaa-accessibility.org/examplep/alertdialog1/" title="Example 2 - Alert example using a modal ARIA dialog box" target="_blank">Open Ajax Alliance</a></p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        A dialog with the primary purpose of communicating a message and acquiring a user response to that message.
+        Examples include action confirmation prompts, warning messages, or help for an invalid form entry.
+        The dialog should be modal.
+        Keyboard focus is set on an element in the dialog.
+        The element that has initial focus will depend on the nature of the information conveyed in the dialog.
+        Simple message dialogs, as described below, have their initial focus set to the confirmation button (e.g., the OK button).
+        Detail message dialogs have their initial focus set on the element containing the message.
+      </p>
+
+      <p>A detail message dialog conveys a message that has any one of the following attributes:</p>
+
+      <ul>
+        <li>Is more than one sentence in length;</li>
+        <li>Contains information where punctuation is an essential part of the message, such as syntax of a required date format;</li>
+        <li>Contains detail information the user may need to re-use, e.g., a phone number, e-mail address, error number, etc.;</li>
+        <li>Contains an interactive element, such as a link to a help resource.</li>
+      </ul>
+
+      <p>If the dialog is not a detail message dialog, one can consider it a simple message dialog.</p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p><a href="#dialog_modal">See Dialog (Modal)</a>.</p>
+        <ul>
+          <li>Content authors make alert dialogs modal by ensuring that, while the alertdialog is shown, keyboard and mouse interactions only operate within the dialog.</li>
+          <li>The message area of a detail message dialog is focusable and has a <a class="role-reference" href="#document">document</a> role so screen reader users will have complete access to the message content, e.g., the screen reader can read it by character, word, or line.</li>
+          <li>When the message area of a dialog is focusable and has focus, a visual focus indicator is required, and it is recommended that the indicator encompass the complete message.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>The node containing all elements of the dialog, including the alert message and any dialog buttons, has an <a class="role-reference" href="#alertdialog">alertdialog</a> role.</li>
+          <li>Message areas have role <a class="role-reference" href="#document">document</a> and tabindex="0".</li>
+          <li>The Alert dialog has an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> that references the title of the dialog. If there is not a visible title, use an appropriate <a href="#aria-labelledby" class="property-reference">aria-label</a> instead.</li>
+          <li>The element with role alertdialog has an <a href="#aria-labelledby" class="property-reference">aria-describedby</a> referring to the message element that has role <a class="role-reference" href="#document">document</a>.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <p><a href="http://www.oaa-accessibility.org/examplep/alertdialog1/" title="Example 2 - Alert example using a modal ARIA dialog box" target="_blank">Open Ajax Alliance</a></p>
+      </section>
     </section>
 
     <section class="widget" id="autocomplete">
       <h3 class="widget-name">Auto Complete</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                A text box and an associated drop-down list of choices where the choices offered are filtered based on the information typed into the box.
-                Typically, an icon associated with the text box triggers the display of the drop-down list of choices.
-                An editable auto-complete accepts text entry of choices that are not in the list.
-                An example of an editable auto-complete is the URL field in the browsers.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard"><ul>
-                <li>
-                  With focus in an empty text box, press <kbd>Down Arrow</kbd>, <kbd>Up Arrow</kbd>, <kbd>Alt + Down Arrow</kbd>, or <kbd>Alt + Up Arrow</kbd> to display the entire list of choices.
-                  Focus remains in the text box and no choice is highlighted.
-                  <ul>
-                    <li>Press the <kbd>Down Arrow</kbd> to highlight the first choice in the list.</li>
-                    <li>Press the <kbd>Down Arrow</kbd> and <kbd>Up Arrow</kbd> keys to highlight the desired choice in the list.</li>
-                    <li>
-                      Note that the arrows will wrap through the text box when the top or bottom of the list is reached.
-                      For example, pressing the down arrow when the last choice is highlighted will move focus back to the text box, pressing down again will move focus to the first item in the list.
-                      Likewise, with focus in the text box and the list displayed, pressing up arrow will move focus to the last item in the list.
-                    </li>
-                    <li>When a choice is highlighted using the arrow keys, the highlighted choice is displayed in the text box.</li>
-                    <li>
-                      Press <kbd>Enter</kbd> to select the highlighted choice and close the drop-down list.
-                      This mimics the behavior of the HTML select element.
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  With the drop-down list of choices displayed, move the mouse pointer over an item in the list to highlight it.
-                  The text box value is not modified when the mouse is used to highlight a choice.
-                  Clicking on the highlighted choice will close the drop-down and update the text box with the selected choice.
-                  This mimics the behavior of the HTML select element.
-                </li>
-                <li>
-                  With focus in an empty text box, type <strong>any letter</strong>.
-                  If any of the available choices begin with the letter typed, those choices are displayed in a drop down.
-                  If the letter typed does not match any of the available choices the drop-down list is not displayed.
-                </li>
-                <li>
-                  With focus in text box with an existing value type <strong>additional letters.</strong>
-                  As the user types letters the list of choices is filtered so that only those that begin with the typed letters are displayed.
-                  <ul>
-                    <li>Until the user presses the arrow keys to highlight a particular choice, only the typed letters are displayed in the text box.</li>
-                    <li>In an editable auto-complete, if no choices match the letter(s) typed, the drop down list closes.</li>
-                    <li>
-                      In a non-editable auto-complete, any letters that do not result in a match from the list are ignored.
-                      The drop down list of choices remains static until the user presses:
-                      <ul>
-                        <li><kbd>Escape</kbd> to clear the text field</li>
-                        <li><kbd>Backspace</kbd> to remove some of the letters previously typed</li>
-                        <li>an additional letter that results in a valid list of choices.</li>
-                      </ul>
-                    </li>
-                    <li>
-                      Navigation through the list of choices and display of the highlighted choice in the text box works as described above.<br>
-                      <em>
-                        Optional: When a choice is highlighted via arrow key navigation, the input cursor is left at the end of the typed entry and the highlighted choice is displayed in the text box with the characters after the input cursor selected.
-                        Typing an additional character will remove the auto-completed portion and append the newly typed character to the end of the previously typed characters.
-                        The list will be filtered based on the additional character(s) typed.
-                      </em>
-                    </li>
-                  </ul>
-                </li>
-                <li>With focus in a text box, press <kbd>Escape</kbd>
-                  <ul>
-                    <li>If there is no text in the text box, pressing <kbd>Escape</kbd> closes the drop-down if it is displayed.</li>
-                    <li>
-                      For an editable autocomplete that has text in the text box that was both typed by the user and auto-completed by highlighting a choice using the keyboard, the auto-completed portion of the text is cleared and the user typed characters remain in the text box.
-                      The drop-down list is closed.
-                      To completely clear the text box contents the user must use the backspace key to remove the typed characters.
-                      This is how the Google search box in the Firefox UI works.
-                      <em>Recommend that pressing the <kbd>Escape</kbd> key again completely clears the text box rather than relying on only the backspace key.</em>
-                    </li>
-                    <li>For a non-editable auto-complete that has text in the text box that was both typed by the user and auto-completed by highlighting a choice using the keyboard, pressing <kbd>Escape</kbd> closes the drop-down list and leaves the current choice in the text box.</li>
-                    <li>
-                      For an editable or non-editable auto complete with text in the text box that was typed by the user and the mouse is highlighting a choice in the drop down (keyboard navigation was NOT used), pressing <kbd>Escape</kbd> closes the drop down and leaves the typed text displayed in the text box.
-                      Need to consider if pressing <kbd>Escape</kbd> again should clear the typed text.
-                      The user must press the <kbd>Down</kbd> arrow or <kbd>Alt + Down</kbd> arrow or click the associated icon to invoke the drop-down list of choices again.
-                    </li>
-                  </ul>
-                </li>
-                <li>Moving focus out of an empty auto complete field where a value is required should either invoke an error or if a default value was initially assigned, reset the value to the default value.</li>
-                <li>Moving focus out of an auto complete field that does not contain a valid entry should either invoke an error or if a default value was initially assigned, reset the value to the default value.</li>
-              </ul>
-              <p class="note">
-                It is good practice to limit the number of matching items in the drop down to a reasonable number.
-                The reasonable number is determined by the task at hand.
-                A list of the 50 US States is probably reasonable, but a list containing all of the office numbers in a building is probably not appropriate.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>The widget has a role of <a class="role-reference" href="#combobox">combobox</a>.</li>
-                <li>The combobox has an <a href="#aria-autocomplete" class="property-reference">aria-autocomplete</a> property set to one of <code>'inline'</code>, <code>'list'</code>, or <code>'both'</code>.</li>
-                <li>For more information, see the <a href="#combobox">combobox</a> design pattern.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-            <p class="note">
-              Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-              The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-            </p>
-            <a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html" title="dijit.form.ComboBox Unit Test" rel="nofollow">Dojo autocomplete</a></td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        A text box and an associated drop-down list of choices where the choices offered are filtered based on the information typed into the box.
+        Typically, an icon associated with the text box triggers the display of the drop-down list of choices.
+        An editable auto-complete accepts text entry of choices that are not in the list.
+        An example of an editable auto-complete is the URL field in the browsers.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <ul>
+          <li>
+            With focus in an empty text box, press <kbd>Down Arrow</kbd>, <kbd>Up Arrow</kbd>, <kbd>Alt + Down Arrow</kbd>, or <kbd>Alt + Up Arrow</kbd> to display the entire list of choices.
+            Focus remains in the text box and no choice is highlighted.
+            <ul>
+              <li>Press the <kbd>Down Arrow</kbd> to highlight the first choice in the list.</li>
+              <li>Press the <kbd>Down Arrow</kbd> and <kbd>Up Arrow</kbd> keys to highlight the desired choice in the list.</li>
+              <li>
+                Note that the arrows will wrap through the text box when the top or bottom of the list is reached.
+                For example, pressing the down arrow when the last choice is highlighted will move focus back to the text box, pressing down again will move focus to the first item in the list.
+                Likewise, with focus in the text box and the list displayed, pressing up arrow will move focus to the last item in the list.
+              </li>
+              <li>When a choice is highlighted using the arrow keys, the highlighted choice is displayed in the text box.</li>
+              <li>
+                Press <kbd>Enter</kbd> to select the highlighted choice and close the drop-down list.
+                This mimics the behavior of the HTML select element.
+              </li>
+            </ul>
+          </li>
+          <li>
+            With the drop-down list of choices displayed, move the mouse pointer over an item in the list to highlight it.
+            The text box value is not modified when the mouse is used to highlight a choice.
+            Clicking on the highlighted choice will close the drop-down and update the text box with the selected choice.
+            This mimics the behavior of the HTML select element.
+          </li>
+          <li>
+            With focus in an empty text box, type <strong>any letter</strong>.
+            If any of the available choices begin with the letter typed, those choices are displayed in a drop down.
+            If the letter typed does not match any of the available choices the drop-down list is not displayed.
+          </li>
+          <li>
+            With focus in text box with an existing value type <strong>additional letters.</strong>
+            As the user types letters the list of choices is filtered so that only those that begin with the typed letters are displayed.
+            <ul>
+              <li>Until the user presses the arrow keys to highlight a particular choice, only the typed letters are displayed in the text box.</li>
+              <li>In an editable auto-complete, if no choices match the letter(s) typed, the drop down list closes.</li>
+              <li>
+                In a non-editable auto-complete, any letters that do not result in a match from the list are ignored.
+                The drop down list of choices remains static until the user presses:
+                <ul>
+                  <li><kbd>Escape</kbd> to clear the text field</li>
+                  <li><kbd>Backspace</kbd> to remove some of the letters previously typed</li>
+                  <li>an additional letter that results in a valid list of choices.</li>
+                </ul>
+              </li>
+              <li>
+                Navigation through the list of choices and display of the highlighted choice in the text box works as described above.<br>
+                <em>
+                  Optional: When a choice is highlighted via arrow key navigation, the input cursor is left at the end of the typed entry and the highlighted choice is displayed in the text box with the characters after the input cursor selected.
+                  Typing an additional character will remove the auto-completed portion and append the newly typed character to the end of the previously typed characters.
+                  The list will be filtered based on the additional character(s) typed.
+                </em>
+              </li>
+            </ul>
+          </li>
+          <li>With focus in a text box, press <kbd>Escape</kbd>
+            <ul>
+              <li>If there is no text in the text box, pressing <kbd>Escape</kbd> closes the drop-down if it is displayed.</li>
+              <li>
+                For an editable autocomplete that has text in the text box that was both typed by the user and auto-completed by highlighting a choice using the keyboard, the auto-completed portion of the text is cleared and the user typed characters remain in the text box.
+                The drop-down list is closed.
+                To completely clear the text box contents the user must use the backspace key to remove the typed characters.
+                This is how the Google search box in the Firefox UI works.
+                <em>Recommend that pressing the <kbd>Escape</kbd> key again completely clears the text box rather than relying on only the backspace key.</em>
+              </li>
+              <li>For a non-editable auto-complete that has text in the text box that was both typed by the user and auto-completed by highlighting a choice using the keyboard, pressing <kbd>Escape</kbd> closes the drop-down list and leaves the current choice in the text box.</li>
+              <li>
+                For an editable or non-editable auto complete with text in the text box that was typed by the user and the mouse is highlighting a choice in the drop down (keyboard navigation was NOT used), pressing <kbd>Escape</kbd> closes the drop down and leaves the typed text displayed in the text box.
+                Need to consider if pressing <kbd>Escape</kbd> again should clear the typed text.
+                The user must press the <kbd>Down</kbd> arrow or <kbd>Alt + Down</kbd> arrow or click the associated icon to invoke the drop-down list of choices again.
+              </li>
+            </ul>
+          </li>
+          <li>Moving focus out of an empty auto complete field where a value is required should either invoke an error or if a default value was initially assigned, reset the value to the default value.</li>
+          <li>Moving focus out of an auto complete field that does not contain a valid entry should either invoke an error or if a default value was initially assigned, reset the value to the default value.</li>
+        </ul>
+        <p class="note">
+          It is good practice to limit the number of matching items in the drop down to a reasonable number.
+          The reasonable number is determined by the task at hand.
+          A list of the 50 US States is probably reasonable, but a list containing all of the office numbers in a building is probably not appropriate.
+        </p>
+      </section>
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>The widget has a role of <a class="role-reference" href="#combobox">combobox</a>.</li>
+          <li>The combobox has an <a href="#aria-autocomplete" class="property-reference">aria-autocomplete</a> property set to one of <code>'inline'</code>, <code>'list'</code>, or <code>'both'</code>.</li>
+          <li>For more information, see the <a href="#combobox">combobox</a> design pattern.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <p><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html" title="dijit.form.ComboBox Unit Test" rel="nofollow">Dojo autocomplete</a></p>
+      </section>
     </section>
 
     <section class="widget" id="button">
       <h3 class="widget-name">Button</h3>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                A <a class="role-reference" href="#button">button</a> is a widget that enables users to trigger an action or event, such as submitting a form, opening a dialog, canceling an action, or performing a delete operation.
-                A common convention for informing users that a button launches a dialog is to append &quot;&#8230;&quot; (ellipsis) to the button label, e.g., &quot;Save as&#8230;&quot;.
-              </p>
-              <p>In addition to the ordinary button widget, WAI-ARIA supports 2 other types of buttons:</p>
-              <ul>
-                <li>
-                  Toggle button: A two-state button that can be either off (not pressed) or on (pressed).
-                  To tell assistive technologies that a button is a toggle button, specify a value for the attribute <a href="#aria-pressed" class="state-reference">aria-pressed</a>.
-                  For example, a button labeled mute in an audio player could indicate that sound is muted by setting the pressed state true.
-                  <strong>Important:</strong> the label on a toggle button should never change when the state changes.
-                  In this example, when the pressed state is true, the label should not change to &quot;Unmute"&quot; or &quot;Muted.&quot;
-                </li>
-                <li>Menu button: as described in the <a href="#menubutton">menu button pattern</a>, a button will be revealed to assistive technologies as a menu button if it has the property <a href="#aria-haspopup" class="property-reference">aria-haspopup</a> set true.</li>
-              </ul>
-              <p class="note">
-                The types of actions performed by buttons are distinctly different from the function of a link (see <a href="#link">link pattern</a>).
-                It is important that the role of a widget matches the function it provides.
-                Ideally, the role of the element also matches its visual appearance.
-                But, occasionally an element may be visually styled as an icon or link but perform the action of a button.
-                In these cases, the element should be given a button role.
-                Designers should work to avoid conflicts between visual appearance and WAI-ARIA semantics.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <p>
-                With focus on the button, pressing the <kbd>Space</kbd> key or <kbd>Enter</kbd> key activates the button.
-                Focus should behave appropriately for the type of action being performed.
-                For example:
-              </p>
-              <ul>
-                <li>
-                  If activating the button opens a dialog, the focus moves inside the dialog.
-                  (see <a href="#dialog_nonmodal">dialog pattern</a>)
-                </li>
-                <li>
-                  If activating the button closes a dialog, typically focus should return to the button that opened the dialog unless the function performed in the dialog context logically leads to a different element.
-                  For example, activating a cancel button in a dialog should always return focus to the button that opened the dialog.
-                  However, if the dialog is confirming a delete action that deletes the page from which it was opened, the focus must logically move to a new context.
-                </li>
-                <li>If activating the button does not dismiss the current context, then focus should typically remain on the button after activation, e.g., an Apply or Recalculate button.</li>
-                <li>If the button action indicates a context change, such as move to next step in a wizard or add another search criteria, then it may be appropriate to move focus to the starting point for that action.</li>
-                <li>
-                  If the button is activated with a shortcut key, the focus should usually remain in the context from which the shortcut key was activated.
-                  For example, if <kbd>Alt + U</kbd> were assigned to an &quot;Up&quot; button that moves the currently focused item in a list one position higher in the list, pressing <kbd>Alt + U</kbd> when the focus is in the list should not move the focus from the list.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>The button has role of <a class="role-reference" href="#button">button</a>.</li>
-                <li>
-                  An accessible label is required.
-                  By default, the accessible name is computed from any text content inside the button element.
-                  However, it can also be provided with <a href="#aria-labelledby" class="property-reference">aria-labelledby"</a> or <a href="#aria-label" class="property-reference">aria-label</a>.
-                </li>
-                <li>If a description of the button's function is present, the button element has <a href="#aria-describedby" class="property-reference">aria-describedby</a> set to the ID of the element containing the description.</li>
-                <li>When the action associated with a button is unavailable, the button displays in a <a class="state-reference" href="#aria-disabled">aria-disabled</a> state. </li>
-                <li>
-                  If the button is a toggle button, it has an <a href="#aria-pressed" class="state-reference">aria-pressed</a> state.
-                  When the button is toggled, the value of this state is <code>true</code>, and when not toggled, the state is <code>false</code>.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-                <a href="examples/button/button.html">Button role examples</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        A <a class="role-reference" href="#button">button</a> is a widget that enables users to trigger an action or event, such as submitting a form, opening a dialog, canceling an action, or performing a delete operation.
+        A common convention for informing users that a button launches a dialog is to append &quot;&#8230;&quot; (ellipsis) to the button label, e.g., &quot;Save as&#8230;&quot;.
+      </p>
+      <p>In addition to the ordinary button widget, WAI-ARIA supports 2 other types of buttons:</p>
+      <ul>
+        <li>
+          Toggle button: A two-state button that can be either off (not pressed) or on (pressed).
+          To tell assistive technologies that a button is a toggle button, specify a value for the attribute <a href="#aria-pressed" class="state-reference">aria-pressed</a>.
+          For example, a button labeled mute in an audio player could indicate that sound is muted by setting the pressed state true.
+          <strong>Important:</strong> the label on a toggle button should never change when the state changes.
+          In this example, when the pressed state is true, the label should not change to &quot;Unmute"&quot; or &quot;Muted.&quot;
+        </li>
+        <li>Menu button: as described in the <a href="#menubutton">menu button pattern</a>, a button will be revealed to assistive technologies as a menu button if it has the property <a href="#aria-haspopup" class="property-reference">aria-haspopup</a> set true.</li>
+      </ul>
+      <p class="note">
+        The types of actions performed by buttons are distinctly different from the function of a link (see <a href="#link">link pattern</a>).
+        It is important that the role of a widget matches the function it provides.
+        Ideally, the role of the element also matches its visual appearance.
+        But, occasionally an element may be visually styled as an icon or link but perform the action of a button.
+        In these cases, the element should be given a button role.
+        Designers should work to avoid conflicts between visual appearance and WAI-ARIA semantics.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p>
+          With focus on the button, pressing the <kbd>Space</kbd> key or <kbd>Enter</kbd> key activates the button.
+          Focus should behave appropriately for the type of action being performed.
+          For example:
+        </p>
+        <ul>
+          <li>
+            If activating the button opens a dialog, the focus moves inside the dialog.
+            (see <a href="#dialog_nonmodal">dialog pattern</a>)
+          </li>
+          <li>
+            If activating the button closes a dialog, typically focus should return to the button that opened the dialog unless the function performed in the dialog context logically leads to a different element.
+            For example, activating a cancel button in a dialog should always return focus to the button that opened the dialog.
+            However, if the dialog is confirming a delete action that deletes the page from which it was opened, the focus must logically move to a new context.
+          </li>
+          <li>If activating the button does not dismiss the current context, then focus should typically remain on the button after activation, e.g., an Apply or Recalculate button.</li>
+          <li>If the button action indicates a context change, such as move to next step in a wizard or add another search criteria, then it may be appropriate to move focus to the starting point for that action.</li>
+          <li>
+            If the button is activated with a shortcut key, the focus should usually remain in the context from which the shortcut key was activated.
+            For example, if <kbd>Alt + U</kbd> were assigned to an &quot;Up&quot; button that moves the currently focused item in a list one position higher in the list, pressing <kbd>Alt + U</kbd> when the focus is in the list should not move the focus from the list.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>The button has role of <a class="role-reference" href="#button">button</a>.</li>
+          <li>
+            An accessible label is required.
+            By default, the accessible name is computed from any text content inside the button element.
+            However, it can also be provided with <a href="#aria-labelledby" class="property-reference">aria-labelledby"</a> or <a href="#aria-label" class="property-reference">aria-label</a>.
+          </li>
+          <li>If a description of the button's function is present, the button element has <a href="#aria-describedby" class="property-reference">aria-describedby</a> set to the ID of the element containing the description.</li>
+          <li>When the action associated with a button is unavailable, the button displays in a <a class="state-reference" href="#aria-disabled">aria-disabled</a> state. </li>
+          <li>
+            If the button is a toggle button, it has an <a href="#aria-pressed" class="state-reference">aria-pressed</a> state.
+            When the button is toggled, the value of this state is <code>true</code>, and when not toggled, the state is <code>false</code>.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p><a href="examples/button/button.html">Button role examples</a></p>
+      </section>
     </section>
 
     <section class="widget" id="checkbox">
       <h3 class="widget-name">Checkbox</h3>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>WAI-ARIA supports two types of <a href="#checkbox" class="role-reference">checkbox</a> widgets:</p>
-              <ol>
-                <li>Dual-state: The most common type of checkbox, it allows the user to toggle between two choices -- checked and not checked.</li>
-                <li>Tri-state: This type of checkbox supports an additional third state known as partially checked.</li>
-              </ol>
-              <p>
-                One common use of a tri-state checkbox can be found in software installers where a single tri-state checkbox is used to represent and control the state of an entire group of install options.
-                And, each option in the group can be individually turned on or off with a dual state checkbox.
-              </p>
-              <ul>
-                <li>If all options in the group are checked, the overall state is represented by the tri-state checkbox displaying as checked.</li>
-                <li>If some of the options in the group are checked, the overall state is represented with the tri-state checkbox displaying as partially checked.</li>
-                <li>If none of the options in the group are checked, the overall state of the group is represented with the tri-state checkbox displaying as not checked.</li>
-              </ul>
-              <p>The user can use the tri-state checkbox to change all options in the group with a single action:</p>
-              <ul>
-                <li>Checking the overall checkbox checks all options in the group.</li>
-                <li>Unchecking the overall checkbox will uncheck all options in the group.</li>
-                <li>
-                  And, In some implementations, the system may remember which options were checked the last time the overall status was partially checked.
-                  If this feature is provided, activating the overall checkbox a third time recreates that partially checked state where only some options in the group are checked.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <p>When the checkbox has focus, pressing the <kbd>Space</kbd> key changes the state of the checkbox.</p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>The checkbox has role <a href="#checkbox" class="role-reference">checkbox</a>.</li>
-                <li>The checkbox has an accessible label, preferably provided by a visible label associated using <a href="#aria-labelledby" class="property-reference" >aria-labelledby</a>.</li>
-                <li>When checked, the checkbox element has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;true&quot;.</li>
-                <li>When not checked, it has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;false&quot;.</li>
-                <li>When partially checked, it has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;mixed&quot;.</li>
-                <li>If a set of checkboxes is presented as a logical group with a visible label, the checkboxes are included in an element with role <a href="#group" class="role-reference" >group</a> that has the property <a href="#aria-labelledby" class="property-reference" >aria-labelledby</a> set to the ID of the element containing the label.</li>
-                <li>If the presentation includes additional descriptive static text relevant to a checkbox or checkbox group, the checkbox or checkbox group has the property <a href="#aria-describedby" class="property-reference">aria-describedby</a> set to the ID of the element containing the description.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Examples:</th>
-            <td class="widget-example">
-              <ul>
-                <li>
-                  <a href="examples/checkbox/checkbox-1.html">Checkbox role example</a>
-                </li>
-                <li>
-                  <a href="examples/checkbox/checkbox-2.html">Checkbox role example within a group</a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>WAI-ARIA supports two types of <a href="#checkbox" class="role-reference">checkbox</a> widgets:</p>
+      <ol>
+        <li>Dual-state: The most common type of checkbox, it allows the user to toggle between two choices -- checked and not checked.</li>
+        <li>Tri-state: This type of checkbox supports an additional third state known as partially checked.</li>
+      </ol>
+      <p>
+        One common use of a tri-state checkbox can be found in software installers where a single tri-state checkbox is used to represent and control the state of an entire group of install options.
+        And, each option in the group can be individually turned on or off with a dual state checkbox.
+      </p>
+      <ul>
+        <li>If all options in the group are checked, the overall state is represented by the tri-state checkbox displaying as checked.</li>
+        <li>If some of the options in the group are checked, the overall state is represented with the tri-state checkbox displaying as partially checked.</li>
+        <li>If none of the options in the group are checked, the overall state of the group is represented with the tri-state checkbox displaying as not checked.</li>
+      </ul>
+      <p>The user can use the tri-state checkbox to change all options in the group with a single action:</p>
+      <ul>
+        <li>Checking the overall checkbox checks all options in the group.</li>
+        <li>Unchecking the overall checkbox will uncheck all options in the group.</li>
+        <li>
+          And, In some implementations, the system may remember which options were checked the last time the overall status was partially checked.
+          If this feature is provided, activating the overall checkbox a third time recreates that partially checked state where only some options in the group are checked.
+        </li>
+      </ul>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p>When the checkbox has focus, pressing the <kbd>Space</kbd> key changes the state of the checkbox.</p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>The checkbox has role <a href="#checkbox" class="role-reference">checkbox</a>.</li>
+          <li>The checkbox has an accessible label, preferably provided by a visible label associated using <a href="#aria-labelledby" class="property-reference" >aria-labelledby</a>.</li>
+          <li>When checked, the checkbox element has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;true&quot;.</li>
+          <li>When not checked, it has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;false&quot;.</li>
+          <li>When partially checked, it has the state <a href="#aria-checked" class="state-reference" >aria-checked</a>=&quot;mixed&quot;.</li>
+          <li>If a set of checkboxes is presented as a logical group with a visible label, the checkboxes are included in an element with role <a href="#group" class="role-reference" >group</a> that has the property <a href="#aria-labelledby" class="property-reference" >aria-labelledby</a> set to the ID of the element containing the label.</li>
+          <li>If the presentation includes additional descriptive static text relevant to a checkbox or checkbox group, the checkbox or checkbox group has the property <a href="#aria-describedby" class="property-reference">aria-describedby</a> set to the ID of the element containing the description.</li>
+        </ul>
+      </section>
+      <section>
+        <h4>Examples</h4>
+        <ul>
+          <li>
+            <a href="examples/checkbox/checkbox-1.html">Checkbox role example</a>
+          </li>
+          <li>
+            <a href="examples/checkbox/checkbox-2.html">Checkbox role example within a group</a>
+          </li>
+        </ul>
+      </section>
     </section>
 
     <section class="widget" id="combobox">
       <h3 class="widget-name">Combo Box</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              A combo box enables the user to type in a field and at the same time chose a predefined value from a list.
-              By using the keyboard the user can select an item from the list.
-              After selection she will be able to type further characters in the field.
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <ul>
-                <li><kbd>Left Arrow</kbd> or <kbd>Right Arrow</kbd> move the caret within the edit field.</li>
-                <li><kbd>Alt + Up/Down Arrow</kbd> opens and closes the list.</li>
-                <li>
-                  <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> moves focus up and down the list.
-                  As focus moves inside the dropdown list, the edit field is updated.
-                </li>
-                <li><kbd>Page Up / Page Down</kbd> selects the next/previous pages item depending on the lists size.</li>
-                <li><kbd>Escape</kbd> closes the dropdown list, returns focus to the edit field, and does not change the current selection.</li>
-                <li><kbd>Enter</kbd> selects the current item on the list, updates the edit field, highlights the selected item in the dropdown list, closes the dropdown list, and returns focus to the input field.</li>
-                <li><kbd>Typing a letter (printable character) key</kbd> moves focus to the next instance of a visible node whose title begins with that printable letter.</li>
-              </ul>
-              <p>For combo boxes that implement <a href="#aria-autocomplete" class="state-reference">aria-autocomplete</a>, see the <a href="#autocomplete">autocomplete design pattern</a>.</p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <p>A combobox can be implemented using either of two design patterns:</p>
-              <ol>
-                <li>As a combination of text field, which may be editable, a displayable list of items, and a drop button to toggle the display of that list; all wrapped in the form of a single widget with role of combobox.</li>
-                <li>As a combobox, which behaves like a textfield and may be editable, with a displayable list of items, and a drop button to toggle the display of that list;</li>
-              </ol>
-              <p>
-                Like text fields a combobox should be labeled to convey the purpose of the widget.
-                Keyboard focus within the widget must be managed by the widget.
-                Comboboxes are used extensively in graphical user interfaces and the design pattern for the widget should be semantically correct.
-              </p>
-              <p>For the first combobox design pattern: </p>
-              <ul>
-                <li>The container element that wraps the combobox has a role of <a href="#combobox" class="role-reference">combobox</a>.</li>
-                <li>
-                  The first element within the combobox is an <code>input</code> text field and is responsible for managing the keyboard focus between the text field and the list as well as displaying the list.
-                  The text field is in the tab order. If you create a text field without using a standard HTML text field form control then ensure that it is in the tab order.
-                </li>
-                <li>If the text field is not editable it must have have <a href="#aria-readonly" class="property-reference">aria-readonly</a> = <code>true</code>.</li>
-                <li>The combobox must have <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>true</code> if the list is displayed or <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>false</code> when it is not.</li>
-                <li>
-                  The next element is an html <code>&lt;button&gt;</code>, or another element with a role of <a href="#button" class="role-reference">button</a>.
-                  This element is used to toggle the display of the combobox's drop down list.
-                </li>
-                <li>
-                  The next element has a <a href="#listbox" class="role-reference">listbox</a> role and represents the drop down list.
-                  It manages keyboard navigation among list items and navigating back to the text field if necessary.
-                </li>
-                <li>
-                  Each item in the listbox is an <a href="#option" class="role-reference">option</a>.
-                  Options are not in the tab order.
-                </li>
-                <li>
-                  Provide a label for the combobox by referencing the text field in the combobox.
-                  You can use an <a href="#aria-label" class="property-reference">aria-label</a> to associate this label with the combobox or you may use the HTML <code>&lt;label&gt;</code> element and its <code>for</code> attribute to reference the text field.
-                </li>
-              </ul>
-              <p>For the second combobox design pattern:</p>
-              <ul>
-                <li>
-                  The first element for the combobox has a role of combobox and behaves like an input text field and is responsible for managing the keyboard focus between the combobox and the list as well as displaying the list.
-                  The text field is in the tab order.
-                  If you create a text field without using a standard HTML text field form control then ensure that it is in the tab order.
-                </li>
-                <li>If the combobox is not editable it must have have <a href="#aria-readonly" class="property-reference">aria-readonly</a> = <code>true</code>.</li>
-                <li>The combobox must have <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>true</code> if the list is displayed or <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>false</code> when it is not.</li>
-                <li>
-                  The next element is an html <code>&lt;button&gt;</code>, or another element with a role of <a href="#button" class="role-reference">button</a>.
-                  This element is used to toggle the display of the combobox's drop down list.
-                </li>
-                <li>
-                  The next element has a <a href="#listbox" class="role-reference">listbox</a> role and represents the drop down list.
-                  It manages keyboard navigation among list items and navigating back to the text field if necessary.
-                </li>
-                <li>
-                  Each item in the listbox is an <a href="#option" class="role-reference">option</a>.
-                  Options are not in the tab order.
-                </li>
-                <li>
-                  Provide a label for the combobox by referencing the text field in the combobox.
-                  You can use an <a href="#aria-label" class="property-reference">aria-label</a> to associate this label with the combobox or you may use the HTML <code>&lt;label&gt;</code> element and its <code>for</code> attribute to reference the text field.
-                </li>
-              </ul>
-              <p>
-                For each combobox pattern the button <em>need not</em> be in the tab order <em>if</em> there is an appropriate keystroke associated with the <code>input</code> element such that when focus is on the <code>input</code>, the keystroke triggers display of the associated drop down list.
-                In this case, a <kbd>Tab</kbd> to focus the button is unnecessary.
-                This is the same behavior as the <code>select</code> element.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <p>First design pattern -- container element with role <a href="#combobox" class="role-reference">combobox</a>:</p>
-              <ul>
-                <li><a href="http://www.oaa-accessibility.org/examplep/combobox5/" title="Combobox with aria-autocomplete='inline' and role='combobox' on wrapping div" target="_blank">Open Ajax Combobox - autocomplete='inline'</a></li>
-                <li><a href="http://www.oaa-accessibility.org/examplep/combobox6/" title="Combobox with aria-autocomplete='list' and role='combobox' on wrapping div" target="_blank">Open Ajax Combobox - autocomplete='list'</a></li>
-                <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html?testWidget=dijit.form.ComboBox" title="dijit.form.ComboBox Unit Test" target="_blank">Dojo/dijit nightly build combobox</a></li>
-                <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html?testWidget=dijit.form.FilteringSelect" title="dijit.form.FilteringSelect Unit Test" target="_blank">Dojo nightly build combobox with autocomplete</a></li>
-              </ul>
-              <p>Second pattern -- text field with role <a href="#combobox" class="role-reference">combobox</a>:</p>
-              <ul>
-                <li><a href="http://www.oaa-accessibility.org/examplep/combobox1/" title="Example 9 - Combobox with aria-autocomplete='none'" target="_blank">Open Ajax Combobox - no autocomplete</a></li>
-                <li><a href="http://www.oaa-accessibility.org/examplep/combobox2/" title="Combobox with aria-autocomplete='inline'" target="_blank">Open Ajax Combobox - autocomplete='inline'</a></li>
-                <li><a href="http://www.oaa-accessibility.org/examplep/combobox3/" title="Combobox with aria-autocomplete='list'" target="_blank">Open Ajax Combobox - autocomplete='list'</a></li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        A combo box enables the user to type in a field and at the same time chose a predefined value from a list.
+        By using the keyboard the user can select an item from the list.
+        After selection she will be able to type further characters in the field.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction:</th>
+        <ul>
+          <li><kbd>Left Arrow</kbd> or <kbd>Right Arrow</kbd> move the caret within the edit field.</li>
+          <li><kbd>Alt + Up/Down Arrow</kbd> opens and closes the list.</li>
+          <li>
+            <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> moves focus up and down the list.
+            As focus moves inside the dropdown list, the edit field is updated.
+          </li>
+          <li><kbd>Page Up / Page Down</kbd> selects the next/previous pages item depending on the lists size.</li>
+          <li><kbd>Escape</kbd> closes the dropdown list, returns focus to the edit field, and does not change the current selection.</li>
+          <li><kbd>Enter</kbd> selects the current item on the list, updates the edit field, highlights the selected item in the dropdown list, closes the dropdown list, and returns focus to the input field.</li>
+          <li><kbd>Typing a letter (printable character) key</kbd> moves focus to the next instance of a visible node whose title begins with that printable letter.</li>
+        </ul>
+        <p>For combo boxes that implement <a href="#aria-autocomplete" class="state-reference">aria-autocomplete</a>, see the <a href="#autocomplete">autocomplete design pattern</a>.</p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <p>A combobox can be implemented using either of two design patterns:</p>
+        <ol>
+          <li>As a combination of text field, which may be editable, a displayable list of items, and a drop button to toggle the display of that list; all wrapped in the form of a single widget with role of combobox.</li>
+          <li>As a combobox, which behaves like a textfield and may be editable, with a displayable list of items, and a drop button to toggle the display of that list;</li>
+        </ol>
+        <p>
+          Like text fields a combobox should be labeled to convey the purpose of the widget.
+          Keyboard focus within the widget must be managed by the widget.
+          Comboboxes are used extensively in graphical user interfaces and the design pattern for the widget should be semantically correct.
+        </p>
+        <p>For the first combobox design pattern: </p>
+        <ul>
+          <li>The container element that wraps the combobox has a role of <a href="#combobox" class="role-reference">combobox</a>.</li>
+          <li>
+            The first element within the combobox is an <code>input</code> text field and is responsible for managing the keyboard focus between the text field and the list as well as displaying the list.
+            The text field is in the tab order. If you create a text field without using a standard HTML text field form control then ensure that it is in the tab order.
+          </li>
+          <li>If the text field is not editable it must have have <a href="#aria-readonly" class="property-reference">aria-readonly</a> = <code>true</code>.</li>
+          <li>The combobox must have <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>true</code> if the list is displayed or <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>false</code> when it is not.</li>
+          <li>
+            The next element is an html <code>&lt;button&gt;</code>, or another element with a role of <a href="#button" class="role-reference">button</a>.
+            This element is used to toggle the display of the combobox's drop down list.
+          </li>
+          <li>
+            The next element has a <a href="#listbox" class="role-reference">listbox</a> role and represents the drop down list.
+            It manages keyboard navigation among list items and navigating back to the text field if necessary.
+          </li>
+          <li>
+            Each item in the listbox is an <a href="#option" class="role-reference">option</a>.
+            Options are not in the tab order.
+          </li>
+          <li>
+            Provide a label for the combobox by referencing the text field in the combobox.
+            You can use an <a href="#aria-label" class="property-reference">aria-label</a> to associate this label with the combobox or you may use the HTML <code>&lt;label&gt;</code> element and its <code>for</code> attribute to reference the text field.
+          </li>
+        </ul>
+        <p>For the second combobox design pattern:</p>
+        <ul>
+          <li>
+            The first element for the combobox has a role of combobox and behaves like an input text field and is responsible for managing the keyboard focus between the combobox and the list as well as displaying the list.
+            The text field is in the tab order.
+            If you create a text field without using a standard HTML text field form control then ensure that it is in the tab order.
+          </li>
+          <li>If the combobox is not editable it must have have <a href="#aria-readonly" class="property-reference">aria-readonly</a> = <code>true</code>.</li>
+          <li>The combobox must have <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>true</code> if the list is displayed or <a href="#aria-expanded" class="property-reference">aria-expanded</a> = <code>false</code> when it is not.</li>
+          <li>
+            The next element is an html <code>&lt;button&gt;</code>, or another element with a role of <a href="#button" class="role-reference">button</a>.
+            This element is used to toggle the display of the combobox's drop down list.
+          </li>
+          <li>
+            The next element has a <a href="#listbox" class="role-reference">listbox</a> role and represents the drop down list.
+            It manages keyboard navigation among list items and navigating back to the text field if necessary.
+          </li>
+          <li>
+            Each item in the listbox is an <a href="#option" class="role-reference">option</a>.
+            Options are not in the tab order.
+          </li>
+          <li>
+            Provide a label for the combobox by referencing the text field in the combobox.
+            You can use an <a href="#aria-label" class="property-reference">aria-label</a> to associate this label with the combobox or you may use the HTML <code>&lt;label&gt;</code> element and its <code>for</code> attribute to reference the text field.
+          </li>
+        </ul>
+        <p>
+          For each combobox pattern the button <em>need not</em> be in the tab order <em>if</em> there is an appropriate keystroke associated with the <code>input</code> element such that when focus is on the <code>input</code>, the keystroke triggers display of the associated drop down list.
+          In this case, a <kbd>Tab</kbd> to focus the button is unnecessary.
+          This is the same behavior as the <code>select</code> element.
+        </p>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <p>First design pattern -- container element with role <a href="#combobox" class="role-reference">combobox</a>:</p>
+        <ul>
+          <li><a href="http://www.oaa-accessibility.org/examplep/combobox5/" title="Combobox with aria-autocomplete='inline' and role='combobox' on wrapping div" target="_blank">Open Ajax Combobox - autocomplete='inline'</a></li>
+          <li><a href="http://www.oaa-accessibility.org/examplep/combobox6/" title="Combobox with aria-autocomplete='list' and role='combobox' on wrapping div" target="_blank">Open Ajax Combobox - autocomplete='list'</a></li>
+          <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html?testWidget=dijit.form.ComboBox" title="dijit.form.ComboBox Unit Test" target="_blank">Dojo/dijit nightly build combobox</a></li>
+          <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/form/_autoComplete.html?testWidget=dijit.form.FilteringSelect" title="dijit.form.FilteringSelect Unit Test" target="_blank">Dojo nightly build combobox with autocomplete</a></li>
+        </ul>
+        <p>Second pattern -- text field with role <a href="#combobox" class="role-reference">combobox</a>:</p>
+        <ul>
+          <li><a href="http://www.oaa-accessibility.org/examplep/combobox1/" title="Example 9 - Combobox with aria-autocomplete='none'" target="_blank">Open Ajax Combobox - no autocomplete</a></li>
+          <li><a href="http://www.oaa-accessibility.org/examplep/combobox2/" title="Combobox with aria-autocomplete='inline'" target="_blank">Open Ajax Combobox - autocomplete='inline'</a></li>
+          <li><a href="http://www.oaa-accessibility.org/examplep/combobox3/" title="Combobox with aria-autocomplete='list'" target="_blank">Open Ajax Combobox - autocomplete='list'</a></li>
+        </ul>
+      </section>
     </section>
 
     <section class="widget" id="datepicker">
       <h3 class="widget-name">Date Picker</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <td class="widget-description-head">Description:</td>
-            <td class="widget-description">
-              <p>
-                The date picker widget allows the user to select a date or date ranges.
-                The date picker shows one month at least. All navigation that is described below depends on the application.
-                If no range selection is possible, the relevant keystroke interaction can be ignored.
-                Also navigation to the past might be optional.
-                Each week might be labeled with the corresponding calendar week number.
-              </p>
-              <p>
-                As a general rule the actual calendar portion of the date picker follows a table structure where days of the week and calendar day numbers are laid out in table cells.
-                This provides context so an assistive technology can render the day of the week; its corresponding numeric calendar day, and week number if necessary.
-                Consequently, it is best to start with an HTML table and apply WAI-ARIA semantics for a grid.
-                However, should the author wish to uses a div or span to represent the cells then the DOM structure for a table is duplicated with rows marked with <code>role="<a href="#row" class="role-reference">row</a>"</code>.
-              </p>
-              <p>The calendar portion can be displayed in a numbers of ways, including as a popup associated with another widget, or as a static region of a page.</p>
-            </td>
-          </tr>
-          <tr>
-            <td class="widget-keyboard-head">Keyboard Interaction:</td>
-            <td class="widget-keyboard">
-              <p>Keyboard navigation on days that are not included the currently displayed month should move to the month automatically and lead to the day in the next or previous month.</p>
-              <ul>
-                <li>
-                  <kbd>Tab</kbd> - Like other widgets, the date picker widget receives focus by tabbing into it.
-                  Once focus is received, focus is repositioned on today's date in a grid of days and weeks.
-                  A second tab will take the user out of the date picker widget.
-                  Focus initially is placed on today's date.
-                </li>
-                <li>
-                  <kbd>Shift + Tab</kbd> - reverses the direction of the tab order.
-                  Once in the widget, a Shift+Tab will take the user to the previous focusable element in the tab order.
-                </li>
-                <li>
-                  <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> - goes to the same day of the week in the previous or next week respectively.
-                  If the user advances past the end of the month they continue into the next or previous month as appropriate.
-                </li>
-                <li>
-                  <kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd> - advances one day to the next, also in a continuum.
-                  Visually focus is moved from day to day and wraps from row to row in a grid of days and weeks.
-                </li>
-                <li><kbd>Control + Page Up</kbd> - Moves to the same date in the previous year.</li>
-                <li><kbd>Control + Page Down</kbd> - Moves to the same date in the next year.</li>
-                <li>
-                  <kbd>Space</kbd> -
-                  <ul>
-                    <li>Singleton Mode: acts as a toggle either selecting or deselecting the date.</li>
-                    <li>
-                      Contiguous Mode: Similar to selecting a range of text.
-                      <kbd>Space</kbd> selects the first date.
-                      <kbd>Shift + Arrow</kbd>s add to the selection.
-                      Pressing <kbd>Space</kbd> again deselects the previous selections and selects the current focused date.
-                    </li>
-                  </ul>
-                </li>
-                <li><kbd>Home</kbd> - Moves to the first day of the current month.</li>
-                <li><kbd>End</kbd> - Moves to the last day of the current month.</li>
-                <li><kbd>Page Up</kbd> - Moves to the same date in the previous month.</li>
-                <li><kbd>Page Down</kbd> - Moves to the same date in the next month.</li>
-                <li>
-                  <kbd>Enter</kbd> -
-                  <ul>
-                    <li>If the the calendar is a popup attached to some other widget (e.g., a text field), then <kbd>Enter</kbd> dismisses the popup, and the selected date(s) are shown in the associated widget.</li>
-                    <li>If the calendar is a static region on the page, then <kbd>Enter</kbd> confirms the selected date(s).</li>
-                  </ul>
-                </li>
-                <li><kbd>Escape</kbd> - in the case of a popup date picker, closes the widget without any action.</li>
-              </ul>
-              <p class="note">Navigation into the past is optional</p>
-              <p class="note">
-                Do not implement keyboard navigation schemes that would place more than one calendar day in the tab order at any time as this impacts the usability of keyboard navigation.
-                For example, using HTML anchors for the gridcells places them all in the tab order impacting the usability of keyboard navigation.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="widget-keyboard-head">WAI-ARIA Roles, States, and Properties:</td>
-            <td class="widget-keyboard">
-              <ul>
-                 <li>
-                   The current month has a label representing the month and year.
-                   It is advisable to use a role <a href="#heading" class="role-reference">heading</a> but is not essential.
-                   This "label" should have a unique ID.
-                 </li>
-                 <li>If the author would like to ensure that a label is announced by a screen reader, as the label changes, include live region properties with the label element: <a href="#aria-live" class="property-reference">aria-live</a><code>="assertive"</code> and <a href="#aria-atomic" class="property-reference">aria-atomic</a><code>="true"</code>.</li>
-                 <li>The container for the day of week headers and numeric days of the week has a role of <a href="#grid" class="role-reference">grid</a>.</li>
-                 <li>The grid has an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> property with a value equivalent to the id of the label for the grid.</li>
-                 <li>Each name for the day of the week has a role <a href="#columnheader" class="role-reference">columnheader</a> and is not navigable via the keyboard.</li>
-                 <li>Each numeric day of the week has the role <a href="#gridcell" class="role-reference">gridcell</a>.</li>
-                 <li>When a day is selected its <a href="#aria-selected" class="state-reference">aria-selected</a> is set to <code>true</code>, otherwise it is set to <code>false</code> or removed.</li>
-                 <li>Changes in aria states, identified here, as well as focus, are clearly styled to show the user where their point of regard is and what days are selected.</li>
-              </ul>
-              <p>
-                When the date picker is active a calendar day of the week always has focus.
-                This can be achieved by setting the tabindex on that day as appropriate and then using script to give it focus.
-                Alternatively, the grid container could set <a href="#aria-activedescendant" class="property-reference">aria-activedescendant</a> to the id of the currently focused gridcell.
-                Keep in mind that older browsers may not support aria-activedescendant.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="widget-example-head">Example:</td>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <ul>
-                <li><a href="http://www.oaa-accessibility.org/examplep/datepicker1/" title="" target="_blank">Open Ajax Alliance Date picker</a></li>
-                <li><a href="http://dojotoolkit.org/reference-guide/dijit/form/DateTextBox.html" target="_blank">Dojo/dijit</a></li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        The date picker widget allows the user to select a date or date ranges.
+        The date picker shows one month at least. All navigation that is described below depends on the application.
+        If no range selection is possible, the relevant keystroke interaction can be ignored.
+        Also navigation to the past might be optional.
+        Each week might be labeled with the corresponding calendar week number.
+      </p>
+      <p>
+        As a general rule the actual calendar portion of the date picker follows a table structure where days of the week and calendar day numbers are laid out in table cells.
+        This provides context so an assistive technology can render the day of the week; its corresponding numeric calendar day, and week number if necessary.
+        Consequently, it is best to start with an HTML table and apply WAI-ARIA semantics for a grid.
+        However, should the author wish to uses a div or span to represent the cells then the DOM structure for a table is duplicated with rows marked with <code>role="<a href="#row" class="role-reference">row</a>"</code>.
+      </p>
+      <p>The calendar portion can be displayed in a numbers of ways, including as a popup associated with another widget, or as a static region of a page.</p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p>Keyboard navigation on days that are not included the currently displayed month should move to the month automatically and lead to the day in the next or previous month.</p>
+        <ul>
+          <li>
+            <kbd>Tab</kbd> - Like other widgets, the date picker widget receives focus by tabbing into it.
+            Once focus is received, focus is repositioned on today's date in a grid of days and weeks.
+            A second tab will take the user out of the date picker widget.
+            Focus initially is placed on today's date.
+          </li>
+          <li>
+            <kbd>Shift + Tab</kbd> - reverses the direction of the tab order.
+            Once in the widget, a Shift+Tab will take the user to the previous focusable element in the tab order.
+          </li>
+          <li>
+            <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> - goes to the same day of the week in the previous or next week respectively.
+            If the user advances past the end of the month they continue into the next or previous month as appropriate.
+          </li>
+          <li>
+            <kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd> - advances one day to the next, also in a continuum.
+            Visually focus is moved from day to day and wraps from row to row in a grid of days and weeks.
+          </li>
+          <li><kbd>Control + Page Up</kbd> - Moves to the same date in the previous year.</li>
+          <li><kbd>Control + Page Down</kbd> - Moves to the same date in the next year.</li>
+          <li>
+            <kbd>Space</kbd> -
+            <ul>
+              <li>Singleton Mode: acts as a toggle either selecting or deselecting the date.</li>
+              <li>
+                Contiguous Mode: Similar to selecting a range of text.
+                <kbd>Space</kbd> selects the first date.
+                <kbd>Shift + Arrow</kbd>s add to the selection.
+                Pressing <kbd>Space</kbd> again deselects the previous selections and selects the current focused date.
+              </li>
+            </ul>
+          </li>
+          <li><kbd>Home</kbd> - Moves to the first day of the current month.</li>
+          <li><kbd>End</kbd> - Moves to the last day of the current month.</li>
+          <li><kbd>Page Up</kbd> - Moves to the same date in the previous month.</li>
+          <li><kbd>Page Down</kbd> - Moves to the same date in the next month.</li>
+          <li>
+            <kbd>Enter</kbd> -
+            <ul>
+              <li>If the the calendar is a popup attached to some other widget (e.g., a text field), then <kbd>Enter</kbd> dismisses the popup, and the selected date(s) are shown in the associated widget.</li>
+              <li>If the calendar is a static region on the page, then <kbd>Enter</kbd> confirms the selected date(s).</li>
+            </ul>
+          </li>
+          <li><kbd>Escape</kbd> - in the case of a popup date picker, closes the widget without any action.</li>
+        </ul>
+        <p class="note">Navigation into the past is optional</p>
+        <p class="note">
+          Do not implement keyboard navigation schemes that would place more than one calendar day in the tab order at any time as this impacts the usability of keyboard navigation.
+          For example, using HTML anchors for the gridcells places them all in the tab order impacting the usability of keyboard navigation.
+        </p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+           <li>
+             The current month has a label representing the month and year.
+             It is advisable to use a role <a href="#heading" class="role-reference">heading</a> but is not essential.
+             This "label" should have a unique ID.
+           </li>
+           <li>If the author would like to ensure that a label is announced by a screen reader, as the label changes, include live region properties with the label element: <a href="#aria-live" class="property-reference">aria-live</a><code>="assertive"</code> and <a href="#aria-atomic" class="property-reference">aria-atomic</a><code>="true"</code>.</li>
+           <li>The container for the day of week headers and numeric days of the week has a role of <a href="#grid" class="role-reference">grid</a>.</li>
+           <li>The grid has an <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> property with a value equivalent to the id of the label for the grid.</li>
+           <li>Each name for the day of the week has a role <a href="#columnheader" class="role-reference">columnheader</a> and is not navigable via the keyboard.</li>
+           <li>Each numeric day of the week has the role <a href="#gridcell" class="role-reference">gridcell</a>.</li>
+           <li>When a day is selected its <a href="#aria-selected" class="state-reference">aria-selected</a> is set to <code>true</code>, otherwise it is set to <code>false</code> or removed.</li>
+           <li>Changes in aria states, identified here, as well as focus, are clearly styled to show the user where their point of regard is and what days are selected.</li>
+        </ul>
+        <p>
+          When the date picker is active a calendar day of the week always has focus.
+          This can be achieved by setting the tabindex on that day as appropriate and then using script to give it focus.
+          Alternatively, the grid container could set <a href="#aria-activedescendant" class="property-reference">aria-activedescendant</a> to the id of the currently focused gridcell.
+          Keep in mind that older browsers may not support aria-activedescendant.
+        </p>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <ul>
+          <li><a href="http://www.oaa-accessibility.org/examplep/datepicker1/" title="" target="_blank">Open Ajax Alliance Date picker</a></li>
+          <li><a href="http://dojotoolkit.org/reference-guide/dijit/form/DateTextBox.html" target="_blank">Dojo/dijit</a></li>
+        </ul>
+      </section>
     </section>
 
     <section class="widget" id="dialog_modal">
       <h3 class="widget-name">Dialog (Modal)</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>
-                A dialog is a small application window that sits above the application and is designed to interrupt the current processing of an application in order to prompt the user to enter information or require a response (<a href="#dialog" class="role-reference">dialog</a>).
-                A modal dialog is a dialog that takes and holds focus until the dialog is closed or submitted.
-                A specific kind of modal dialog is the <a href="#alertdialog" class="role-reference">alertdialog</a>, that is used to convey a short message to the user.
-                See the &quot;<a href="#alertdialog">Alert Dialog</a>&quot; design pattern.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <p>Keyboard navigation within a modal dialog includes these aspects:</p>
-              <ul>
-                <li>
-                  <kbd>Enter</kbd> - If the purpose of the dialog is to gather information, the dialog should have a mechanism to submit the data gathered usually via a keyboard accessible button.
-                  The <kbd>Enter</kbd> key should serve as the default submit action.</li>
-                <li>
-                  <kbd>Escape</kbd> - There should be a method to close the dialog without taking any action.
-                  This could be implemented via a cancel button which is keyboard accessible.
-                  It is recommended that a dialog also be cancelled by pressing the <kbd>Escape</kbd> key with focus on any item.
-                </li>
-                <li>
-                  <kbd>Tab</kbd> - Focus must be held within the dialog until it is cancelled or submitted.
-                  As the user presses tab to move within items in the dialog, pressing tab with focus on the last focusable item in the dialog will move focus back to the first focusable item in the dialog.
-                </li>
-                <li>
-                  <kbd>Shift + Tab</kbd> - Likewise, if the user is shift-tabbing through elements in the dialog, pressing shift-tab with focus on the first focusable item in the dialog will move focus to the last item in the dialog.
-                </li>
-              </ul>
-              <p><strong>Notes:</strong></p>
-              <ul>
-                <li>If the current focus item has <kbd>Escape</kbd> key behavior, the press of the <kbd>Escape</kbd> will be handled by the current item and the user may have to press <kbd>Escape</kbd> an additional time to close the dialog.</li>
-                <li>Even if the user clicks outside of the dialog on the application which invoked the dialog, focus remains in the dialog.</li>
-                <li>Because the dialog is modal and the user can not interact with the invoking application while the dialog is displayed, there is no requirement to make the dialog moveable via the mouse although this behavior is recommended.</li>
-                <li>
-                  When the dialog is closed or cancelled focus should return to the element in the application which had focus before the dialog is invoked.
-                  This is usually the control which opened the dialog.
-                </li>
-                <li>
-                  When a modal dialog opens focus goes to the first focusable item in the dialog.
-                  Determining the first focusable item must take into account elements which receive focus by default (form fields and links) as well as items which may have a tabindex attribute with a positive value.
-                  If there is no focusable item in the dialog, focus is placed on the dialog container element.
-                </li>
-                <li>
-                  Authors should take care when using <kbd>Enter</kbd> to trigger default actions since <kbd>Enter</kbd> might be connected to and trigger some other user interface element, or it might trigger the focused element.
-                  Authors should ensure that <kbd>Enter</kbd> activates only the widget they intend.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <ul>
-                <li>Generally, a modal dialog has a role of <a href="#dialog" class="role-reference">dialog</a>.</li>
-                <li>
-                  If it is a simple dialog with a message that alerts, warns, or requests confirmation (e.g., "Are you sure you want quit?"), then authors are advised to use the <a href="#alertdialog" class="role-reference">alertdialog</a> role.
-                  See the &quot;<a href="#alertdialog">Alert Dialog</a>&quot; design pattern for more information.
-                </li>
-                <li>The dialog box title is provided by either the <a href="#aria-label" class="property-reference">aria-label</a> or the <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> property.</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example:</th>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <ul>
-                <li><a href="http://developer.yahoo.com/yui/examples/container/container-ariaplugin_clean.html" title="Using the ARIA Container Plugin" rel="nofollow" target="_blank">YUI dialogs -- use first two dialog buttons</a></li>
-                <li><a href="http://www.oaa-accessibility.org/examplep/alertdialog1/" target="_blank" title="Example 2 - Alert example using a modal ARIA dialog box">Open Ajax Alliance (alertdialog)</a></li>
-                <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/test_Dialog.html" title="Dialog Widget Dojo Tests" target="_blank">Dojo nightly</a></li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>
+        A dialog is a small application window that sits above the application and is designed to interrupt the current processing of an application in order to prompt the user to enter information or require a response (<a href="#dialog" class="role-reference">dialog</a>).
+        A modal dialog is a dialog that takes and holds focus until the dialog is closed or submitted.
+        A specific kind of modal dialog is the <a href="#alertdialog" class="role-reference">alertdialog</a>, that is used to convey a short message to the user.
+        See the &quot;<a href="#alertdialog">Alert Dialog</a>&quot; design pattern.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+
+        <p>Keyboard navigation within a modal dialog includes these aspects:</p>
+        <ul>
+          <li>
+            <kbd>Enter</kbd> - If the purpose of the dialog is to gather information, the dialog should have a mechanism to submit the data gathered usually via a keyboard accessible button.
+            The <kbd>Enter</kbd> key should serve as the default submit action.</li>
+          <li>
+            <kbd>Escape</kbd> - There should be a method to close the dialog without taking any action.
+            This could be implemented via a cancel button which is keyboard accessible.
+            It is recommended that a dialog also be cancelled by pressing the <kbd>Escape</kbd> key with focus on any item.
+          </li>
+          <li>
+            <kbd>Tab</kbd> - Focus must be held within the dialog until it is cancelled or submitted.
+            As the user presses tab to move within items in the dialog, pressing tab with focus on the last focusable item in the dialog will move focus back to the first focusable item in the dialog.
+          </li>
+          <li>
+            <kbd>Shift + Tab</kbd> - Likewise, if the user is shift-tabbing through elements in the dialog, pressing shift-tab with focus on the first focusable item in the dialog will move focus to the last item in the dialog.
+          </li>
+        </ul>
+        <p><strong>Notes:</strong></p>
+        <ul>
+          <li>If the current focus item has <kbd>Escape</kbd> key behavior, the press of the <kbd>Escape</kbd> will be handled by the current item and the user may have to press <kbd>Escape</kbd> an additional time to close the dialog.</li>
+          <li>Even if the user clicks outside of the dialog on the application which invoked the dialog, focus remains in the dialog.</li>
+          <li>Because the dialog is modal and the user can not interact with the invoking application while the dialog is displayed, there is no requirement to make the dialog moveable via the mouse although this behavior is recommended.</li>
+          <li>
+            When the dialog is closed or cancelled focus should return to the element in the application which had focus before the dialog is invoked.
+            This is usually the control which opened the dialog.
+          </li>
+          <li>
+            When a modal dialog opens focus goes to the first focusable item in the dialog.
+            Determining the first focusable item must take into account elements which receive focus by default (form fields and links) as well as items which may have a tabindex attribute with a positive value.
+            If there is no focusable item in the dialog, focus is placed on the dialog container element.
+          </li>
+          <li>
+            Authors should take care when using <kbd>Enter</kbd> to trigger default actions since <kbd>Enter</kbd> might be connected to and trigger some other user interface element, or it might trigger the focused element.
+            Authors should ensure that <kbd>Enter</kbd> activates only the widget they intend.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>Generally, a modal dialog has a role of <a href="#dialog" class="role-reference">dialog</a>.</li>
+          <li>
+            If it is a simple dialog with a message that alerts, warns, or requests confirmation (e.g., "Are you sure you want quit?"), then authors are advised to use the <a href="#alertdialog" class="role-reference">alertdialog</a> role.
+            See the &quot;<a href="#alertdialog">Alert Dialog</a>&quot; design pattern for more information.
+          </li>
+          <li>The dialog box title is provided by either the <a href="#aria-label" class="property-reference">aria-label</a> or the <a href="#aria-labelledby" class="property-reference">aria-labelledby</a> property.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <ul>
+          <li><a href="http://developer.yahoo.com/yui/examples/container/container-ariaplugin_clean.html" title="Using the ARIA Container Plugin" rel="nofollow" target="_blank">YUI dialogs -- use first two dialog buttons</a></li>
+          <li><a href="http://www.oaa-accessibility.org/examplep/alertdialog1/" target="_blank" title="Example 2 - Alert example using a modal ARIA dialog box">Open Ajax Alliance (alertdialog)</a></li>
+          <li><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/test_Dialog.html" title="Dialog Widget Dojo Tests" target="_blank">Dojo nightly</a></li>
+        </ul>
+      </section>
     </section>
 
     <section class="widget" id="dialog_nonmodal">
       <h3 class="widget-name"> Dialog (Non-Modal)</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-      <table class="widget-features">
-        <caption>Characteristics:</caption>
-        <tbody>
-          <tr>
-            <th class="widget-description-head" scope="row">Description:</th>
-            <td class="widget-description">
-              <p>A dialog is a small application window that sits above the application and is designed to interrupt the current processing of an application in order to prompt the user to enter information or require a response (<a href="#dialog" class="role-reference">dialog</a>).</p>
-              <p>
-                A non-modal dialog is one which is displayed and focusable at the same time as the application which invoked it.
-                Also like the modal dialog, focus via the tab and shift-tab key must be maintained within the dialog.
-                However, a non-modal dialog should have a keyboard mechanism to return focus to the application while leaving the dialog open.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-keyboard-head" scope="row">Keyboard Interaction:</th>
-            <td class="widget-keyboard">
-              <ul>
-                <li><kbd>Escape</kbd> cancels the dialog without taking any action.</li>
-                <li><kbd>Enter</kbd> submits any data gathered in the dialog.</li>
-                <li><kbd>F6</kbd> is the recommended key to move focus between the application and an open non-model dialog.</li>
-              </ul>
-              <p><strong>Notes:</strong></p>
-              <ul>
-                <li>The mouse user may click on either the application or the dialog to change focus between the two.</li>
-                <li>In a Web application the non-modal dialog is usually always displayed above the application page, rather than in a separate browser window but that is not a requirement.</li>
-                <li>This dialog box is draggable by the mouse user and an equivalent behavior (<a href="#draganddrop" class="design-pattern-reference">Drag &amp; Drop</a>) should be offered to the keyboard only user.</li>
-                <li>
-                  Authors should take care when using <kbd>Enter</kbd> to trigger default actions since <kbd>Enter</kbd> might be connected to and trigger some other user interface element, or it might trigger the focused element.
-                  Authors should ensure that <kbd>Enter</kbd> activates only the widget they intend.
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties:</th>
-            <td class="widget-aria">
-              <p><a href="#dialog_modal">See Dialog (Modal).</a></p>
-            </td>
-          </tr>
-          <tr>
-            <th class="widget-example-head" scope="row">Example: </th>
-            <td class="widget-example">
-              <p class="note">
-                Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
-                The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
-              </p>
-              <p><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dojox/layout/tests/test_FloatingPane.html" title="dojox.layout.FloatPane - a crude non-modal Floating Window" target="_blank">Experimental dojo floating non-modal pane</a></p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <p>A dialog is a small application window that sits above the application and is designed to interrupt the current processing of an application in order to prompt the user to enter information or require a response (<a href="#dialog" class="role-reference">dialog</a>).</p>
+
+      <p>
+        A non-modal dialog is one which is displayed and focusable at the same time as the application which invoked it.
+        Also like the modal dialog, focus via the tab and shift-tab key must be maintained within the dialog.
+        However, a non-modal dialog should have a keyboard mechanism to return focus to the application while leaving the dialog open.
+      </p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <ul>
+          <li><kbd>Escape</kbd> cancels the dialog without taking any action.</li>
+          <li><kbd>Enter</kbd> submits any data gathered in the dialog.</li>
+          <li><kbd>F6</kbd> is the recommended key to move focus between the application and an open non-model dialog.</li>
+        </ul>
+        <p><strong>Notes:</strong></p>
+        <ul>
+          <li>The mouse user may click on either the application or the dialog to change focus between the two.</li>
+          <li>In a Web application the non-modal dialog is usually always displayed above the application page, rather than in a separate browser window but that is not a requirement.</li>
+          <li>This dialog box is draggable by the mouse user and an equivalent behavior (<a href="#draganddrop" class="design-pattern-reference">Drag &amp; Drop</a>) should be offered to the keyboard only user.</li>
+          <li>
+            Authors should take care when using <kbd>Enter</kbd> to trigger default actions since <kbd>Enter</kbd> might be connected to and trigger some other user interface element, or it might trigger the focused element.
+            Authors should ensure that <kbd>Enter</kbd> activates only the widget they intend.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <p><a href="#dialog_modal">See Dialog (Modal).</a></p>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+
+        <p class="note">
+          Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section.
+          The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.
+        </p>
+        <p><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dojox/layout/tests/test_FloatingPane.html" title="dojox.layout.FloatPane - a crude non-modal Floating Window" target="_blank">Experimental dojo floating non-modal pane</a></p>
+      </section>
     </section>
 
     <section class="widget" id="dialog_tooltip">
       <h3  class="widget-name"> Dialog (Tooltip) </h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-    <table class="widget-features">
-      <caption>
-      Characteristics:
-      </caption>
-      <tbody>
-        <tr>
-          <th class="widget-description-head" scope="row">Description: </th>
-          <td class="widget-description"><p>A tooltip dialog is a modal dialog that is rendered near the invoking element and visually connected via a cartoon bubble-like protrusion.  It is displayed when the mouse passes over or rests on that element.</p></td>
-        </tr>
-        <tr>
-          <th class="widget-keyboard-head" scope="row">Keyboard Interaction: </th>
-          <td class="widget-keyboard">
-            <ul>
-              <li><kbd>Escape</kbd> The tooltip dialog is closed by pressing the escape key when focus is within the dialog, mouse clicking on a close icon, or mouse clicking outside of the dialog onto the application.</li>
-              <li><kbd>Tab</kbd> Focus must be held within the dialog until it is cancelled or submitted. As the user presses tab to move within items in the dialog, pressing tab with focus on the last focusable item in the dialog will move focus back to the first focusable item in the dialog.</li>
-              <li><kbd>Shift + Tab</kbd> Likewise, if the user is shift-tabbing through elements in the dialog, pressing shift-tab with focus on the first focusable item in the dialog will move focus to the last item in the dialog.</li>
-            </ul>
-            <p class="note">It is modal because focus is trapped within the dialog as the user navigates via the <kbd>Tab</kbd> and <kbd>Shift + Tab</kbd> key.</p>
-            <p class="note">Unlike a true modal dialog, the user can click outside of the dialog, however in that case the tooltip dialog is immediately closed.</p>
-            <p class="note">A tooltip dialog can not be moved/dragged.</p>
-            <p class="note">Other than the close and move behavior, all other behaviors of a modal dialog are implemented by the tooltip dialog.</p>
-          </td>
-        </tr>
-        <tr>
-          <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties: </th>
-          <td class="widget-aria"><p><a href="#dialog_modal">See Dialog (Modal).</a></p></td>
-        </tr>
-        <tr>
-          <th class="widget-example-head" scope="row">Example: </th>
-          <td class="widget-example">
-          <p class="note">Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section. The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.</p>
-          <p><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/test_TooltipDialog.html" title="TooltipDialog Widget Tests" target="_blank">Dojo nightly</a></p></td>
-        </tr>
-      </tbody>
-    </table>
+
+      <p>A tooltip dialog is a modal dialog that is rendered near the invoking element and visually connected via a cartoon bubble-like protrusion.  It is displayed when the mouse passes over or rests on that element.</p>
+
+      <section>
+        <h4>Keyboard Interaction:</h4>
+        <ul>
+          <li><kbd>Escape</kbd> The tooltip dialog is closed by pressing the escape key when focus is within the dialog, mouse clicking on a close icon, or mouse clicking outside of the dialog onto the application.</li>
+          <li><kbd>Tab</kbd> Focus must be held within the dialog until it is cancelled or submitted. As the user presses tab to move within items in the dialog, pressing tab with focus on the last focusable item in the dialog will move focus back to the first focusable item in the dialog.</li>
+          <li><kbd>Shift + Tab</kbd> Likewise, if the user is shift-tabbing through elements in the dialog, pressing shift-tab with focus on the first focusable item in the dialog will move focus to the last item in the dialog.</li>
+        </ul>
+        <p class="note">It is modal because focus is trapped within the dialog as the user navigates via the <kbd>Tab</kbd> and <kbd>Shift + Tab</kbd> key.</p>
+        <p class="note">Unlike a true modal dialog, the user can click outside of the dialog, however in that case the tooltip dialog is immediately closed.</p>
+        <p class="note">A tooltip dialog can not be moved/dragged.</p>
+        <p class="note">Other than the close and move behavior, all other behaviors of a modal dialog are implemented by the tooltip dialog.</p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <p><a href="#dialog_modal">See Dialog (Modal).</a></p>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section. The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.</p>
+        <p><a href="http://archive.dojotoolkit.org/nightly/dojotoolkit/dijit/tests/test_TooltipDialog.html" title="TooltipDialog Widget Tests" target="_blank">Dojo nightly</a></p></td>
+      </section>
     </section>
-<section class="widget" id="grid">
+
+    <section class="widget" id="grid">
       <h3 class="widget-name">Grid (Simple Data Tables)</h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
-    <table class="widget-features">
-      <caption>
-      Characteristics:
-      </caption>
-      <tbody>
-        <tr>
-          <th class="widget-description-head" scope="row">Description: </th>
-          <td class="widget-description"><p>Unlike an HTML table, which is display only, a grid presents tabular data in   rows and columns that are navigable via the keyboard, and allows for cells to   be selected in the grid. The user moves focus through each data cell having a   role of gridcell, through the use of arrow keys. Each column has an associated   element with the role columnheader. Data cells carry the role gridcell. A grid   may also contain hierarchical rows. In this case the role of the grid container   should be treegrid rather than grid. This design pattern, and corresponding examples, reflect a basic two-dimensional grid without grids embedded within a gridcell. </p>
-            <p>WAI-ARIA grids are not meant to replace the full functionality of a table. Consequently, there may be instances when you need to have cells span multiple columns or rows for which WAI-ARIA does not provide semantics. This can be achieved by overlaying grid and gridcell semantics onto  an HTML table to provide appropriate column and row span semantics. Authors should ensure that headers are properly marked using a native header tag or WAI-ARIA columnheader or rowheader semantics. The connection between gridcell and header can be achieved using standard HTML attribute header. In HTML, multiple column or row headers for one data cell can be identified through the use of a space separated list of header ids in the headers attribute. </p>
-            <p>If a WAI-ARIA grid is not overlaid on a table, authors should mark the rowheader, columnheader, and gridcell roles on the appropriate elements. For gridcells that span multiple columns or have multiple headers, the author should apply the aria-labelledby property to the cell to the space delimited list of corresponding row or column header element IDs. Gridcells that span multiple rows or columns should be reflected in the keyboard navigation.</p>
-<p>If a grid contains editable data, it should have both an editable mode and a navigation  mode.</p></td>
-        </tr>
-        <tr>
-          <th class="widget-keyboard-head" scope="row">Keyboard Interaction: </th>
-          <td class="widget-keyboard"><p>There are two modes of keyboard interaction, namely, navigation mode and actionable mode. </p>
-            <p>Navigation Mode (Read-Only) is the default mode, and allows quick   and intuitive navigation around the grid.</p>
-            <ul>
-              <li>The first <kbd>Tab</kbd> into the grid moves focus to the   first cell of the first row. </li>
-              <li>The second <kbd>Tab</kbd> leaves the grid and moves focus to the next   tabbable item on the page. </li>
-              <li>Subsequent <kbd>Tab</kbd>: Once focus has been moved inside the grid,   subsequent tab presses that re-enter the grid shall return focus to the cell that last   held focus. </li>
-              <li>Right/Left arrow keys navigate through the columns. There is no   wrap at the end or beginning of columns. </li>
-              <li>Up/Down arrow keys navigate through the rows. There is no wrap   at the first or last rows. </li>
-              <li><kbd>Home</kbd> moves the focus to the first cell of the current row. </li>
-              <li><kbd>End</kbd> moves the focus to the last cell in the current row. </li>
-              <li><kbd>Page Up</kbd> moves the focus to the first cell in the current   column </li>
-              <li><kbd>Page Down</kbd> moves the focus to the last cell in the current   column </li>
-              <li>Selecting Cells
-                <ul>
-                  <li><kbd>Control + Space</kbd> selects the current column. </li>
-                  <li><kbd>Shift + Space</kbd> selects the current row. </li>
-                  <li><kbd>Control + A</kbd> selects the entire grid. </li>
-                  <li><kbd>Shift + Arrow</kbd> selects contiguous cells. </li>
-                  <li><kbd>Shift + F8</kbd> Allows additional cells to be added to a   previous selection to accomplish non-contiguous selection. </li>
-                </ul>
-                <p class="note">See <a href="#aria_ex_widget">Global Recommendations</a> for information on cut, copy and paste. </p>
-              </li>
-              <li><kbd>Enter</kbd> or <kbd>F2</kbd> pressed while focus is on a cell containing an actionable item enters Actionable Mode (see following).</li>
-              <li>Optionally, alphanumeric keys pressed while focus is on an actionable item enters Actionable Mode. Focus remains on the actionable item that has focus. </li>
-            </ul>
-            <p>Actionable Mode (Interactive) allows interaction with other   objects that might be found in the grid cells such as edit fields, links,  menu buttons, and so on.</p>
-            <ul>
-              <li><kbd>Tab</kbd> moves to the next actionable item in the grid and stays within the grid wrapping at the bottom. In this mode each tabbable object in each cell of the grid can be reached with the <kbd>Tab</kbd> key. If multiple   tabbable items are located inside a single grid cell, <kbd>Tab</kbd> stops at each   one. When the last tabbable item in a cell is reached the next <kbd>Tab</kbd> moves to   the next tabbable item in the grid, wrapping at the last tabbable item in the   grid.</li>
-              <li><kbd>Shift + Tab</kbd> moves to the previous actionable (tabbable) item   in the grid and stays within the grid, wrapping at the top. </li>
-              <li><kbd>Escape</kbd> exits Actionable mode (by which the user may enter text or perform an action to complete a operation) and returns to Navigation Mode (where the user is allowed to move focus among elements). If a widget is in the current grid cell that also uses the <kbd>Escape</kbd> key, then it should cancel the event propagation. A subsequent press of the <kbd>Escape</kbd> key returns focus to the parent widget.</li>
-            </ul>
-            <p><em>Option</em>: the author may choose to enable 'auto action' on a cell in order to avoid having to press <kbd>Enter</kbd> or <kbd>F2</kbd> a second time to activate the default behavior of the object contained in a cell. For example, if the cell contains a single link the author may want to have enter follow the link rather than just move focus to it. This auto action mode should be configurable on a per cell basis as its utility is dependent on each cell's content. For example, if the cell contains multiple links, auto action should be disabled as its behavior would be ambiguous.   </p>
-            <p><em>Option</em>: the author may choose to implement <kbd>Enter</kbd> or <kbd>F2</kbd> as a toggle such that pressing these keys multiple times will enter and exit actionable mode. Opinion was divided on this point. Some thought this would be confusing while others found it intuitive. </p>
-            <p class="note">It is recommended the developer use different styling for the selection when the grid is not focused (hint: non-active selection is   often shown with a lighter background color). </p></td>
-        </tr>
-        <tr>
-          <th class="widget-aria-head" scope="row">WAI-ARIA Roles, States, and Properties: </th>
-          <td class="widget-aria"><ul>
-            <li>The DOM representation of the grid should follow the HTML DOM structure,   although it will be possible to use <a href="#aria-owns" class="property-reference">aria-owns</a> to add a row or table cell. This   is an edge case and may not be supported by assistive technologies. </li>
-            <li>The grid container should have a role of <a href="#grid" class="role-reference">grid</a>. </li>
-            <li>The data cells should have a role of <a href="#gridcell" class="role-reference">gridcell</a>.</li>
-            <li>Each row should be clearly marked using a <code>&lt;TR&gt;</code> from HTML and by using a role of <a href="#row" class="role-reference">row</a>.</li>
-            <li>Column and row headers may be represented by a <code>&lt;TH&gt;</code> if you are using an HTML   table or you may explicitly use an aria role of <a href="#columnheader"  class="role-reference">columnheader</a> and <a href="#rowheader"  class="role-reference">rowheader</a> respectively.</li>
-            <li>Whenever a <a href="#gridcell" class="role-reference">gridcell</a> is selected, set <code>aria-selected=&quot;true&quot;</code>. </li>
-            <li>Whenever a row is selected, set its role to <a href="#row" class="role-reference">row</a> and its   <code>aria-selected=&quot;true&quot;</code> allowing an AT to quickly determine that the entire row is selected. </li>
-            <li>By default a grid is considered to be editable, meaning all gridcells are editable. Should you want to make a grid read-only, set     <code>aria-readonly=&quot;true&quot;</code> on the document element having a <code>role=&quot;grid&quot;</code>. This     will make all grid cells read-only.     To override the read-only status on an individual grid cell, set its <span class="property-reference">aria-readonly</span> property to false. </li>
-          </ul></td>
-        </tr>
-        <tr>
-          <th class="widget-example-head" scope="row">Example: </th>
-          <td class="widget-example">
-          <p class="note">Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section. The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.</p>
-            <ul>
-              <li><a href="http://www.oaa-accessibility.org/examplep/grid1/" title="Grid Example: Reimbursement Form" target="_blank" rel="nofollow">Travel form (Open Ajax Alliance)</a></li>
-              <li><a href="http://www.oaa-accessibility.org/examplep/grid2/" title="Grid: Email Application" target="_blank" rel="nofollow">Email client (Open Ajax Alliance)</a></li>
-            </ul>
-        </td>
-        </tr>
-      </tbody>
-    </table>
 
-  </section>
+      <p>
+        Unlike an HTML table, which is display only, a grid presents tabular data in rows and columns that are navigable via the keyboard, and allows for cells to be selected in the grid.
+        The user moves focus through each data cell having a role of gridcell, through the use of arrow keys.
+        Each column has an associated element with the role columnheader.
+        Data cells carry the role gridcell.
+        A grid may also contain hierarchical rows.
+        In this case the role of the grid container should be treegrid rather than grid.
+        This design pattern, and corresponding examples, reflect a basic two-dimensional grid without grids embedded within a gridcell.
+      </p>
+
+      <p>
+        WAI-ARIA grids are not meant to replace the full functionality of a table.
+        Consequently, there may be instances when you need to have cells span multiple columns or rows for which WAI-ARIA does not provide semantics.
+        This can be achieved by overlaying grid and gridcell semantics onto an HTML table to provide appropriate column and row span semantics.
+        Authors should ensure that headers are properly marked using a native header tag or WAI-ARIA columnheader or rowheader semantics.
+        The connection between gridcell and header can be achieved using standard HTML attribute header.
+        In HTML, multiple column or row headers for one data cell can be identified through the use of a space separated list of header ids in the headers attribute.
+      </p>
+
+      <p>
+        If a WAI-ARIA grid is not overlaid on a table, authors should mark the rowheader, columnheader, and gridcell roles on the appropriate elements.
+        For gridcells that span multiple columns or have multiple headers, the author should apply the aria-labelledby property to the cell to the space delimited list of corresponding row or column header element IDs.
+        Gridcells that span multiple rows or columns should be reflected in the keyboard navigation.
+      </p>
+
+      <p>If a grid contains editable data, it should have both an editable mode and a navigation  mode.</p>
+
+      <section>
+        <h4>Keyboard Interaction</h4>
+        <p>There are two modes of keyboard interaction, namely, navigation mode and actionable mode.</p>
+        <p>Navigation Mode (Read-Only) is the default mode, and allows quick and intuitive navigation around the grid.</p>
+        <ul>
+          <li>The first <kbd>Tab</kbd> into the grid moves focus to the   first cell of the first row. </li>
+          <li>The second <kbd>Tab</kbd> leaves the grid and moves focus to the next   tabbable item on the page. </li>
+          <li>Subsequent <kbd>Tab</kbd>: Once focus has been moved inside the grid,   subsequent tab presses that re-enter the grid shall return focus to the cell that last   held focus. </li>
+          <li>Right/Left arrow keys navigate through the columns. There is no   wrap at the end or beginning of columns. </li>
+          <li>Up/Down arrow keys navigate through the rows. There is no wrap   at the first or last rows. </li>
+          <li><kbd>Home</kbd> moves the focus to the first cell of the current row. </li>
+          <li><kbd>End</kbd> moves the focus to the last cell in the current row. </li>
+          <li><kbd>Page Up</kbd> moves the focus to the first cell in the current   column </li>
+          <li><kbd>Page Down</kbd> moves the focus to the last cell in the current   column </li>
+          <li>Selecting Cells
+            <ul>
+              <li><kbd>Control + Space</kbd> selects the current column. </li>
+              <li><kbd>Shift + Space</kbd> selects the current row. </li>
+              <li><kbd>Control + A</kbd> selects the entire grid. </li>
+              <li><kbd>Shift + Arrow</kbd> selects contiguous cells. </li>
+              <li><kbd>Shift + F8</kbd> Allows additional cells to be added to a   previous selection to accomplish non-contiguous selection. </li>
+            </ul>
+            <p class="note">See <a href="#aria_ex_widget">Global Recommendations</a> for information on cut, copy and paste. </p>
+          </li>
+          <li><kbd>Enter</kbd> or <kbd>F2</kbd> pressed while focus is on a cell containing an actionable item enters Actionable Mode (see following).</li>
+          <li>Optionally, alphanumeric keys pressed while focus is on an actionable item enters Actionable Mode. Focus remains on the actionable item that has focus. </li>
+        </ul>
+        <p>Actionable Mode (Interactive) allows interaction with other   objects that might be found in the grid cells such as edit fields, links,  menu buttons, and so on.</p>
+        <ul>
+          <li><kbd>Tab</kbd> moves to the next actionable item in the grid and stays within the grid wrapping at the bottom. In this mode each tabbable object in each cell of the grid can be reached with the <kbd>Tab</kbd> key. If multiple   tabbable items are located inside a single grid cell, <kbd>Tab</kbd> stops at each   one. When the last tabbable item in a cell is reached the next <kbd>Tab</kbd> moves to   the next tabbable item in the grid, wrapping at the last tabbable item in the   grid.</li>
+          <li><kbd>Shift + Tab</kbd> moves to the previous actionable (tabbable) item   in the grid and stays within the grid, wrapping at the top. </li>
+          <li><kbd>Escape</kbd> exits Actionable mode (by which the user may enter text or perform an action to complete a operation) and returns to Navigation Mode (where the user is allowed to move focus among elements). If a widget is in the current grid cell that also uses the <kbd>Escape</kbd> key, then it should cancel the event propagation. A subsequent press of the <kbd>Escape</kbd> key returns focus to the parent widget.</li>
+        </ul>
+        <p><em>Option</em>: the author may choose to enable 'auto action' on a cell in order to avoid having to press <kbd>Enter</kbd> or <kbd>F2</kbd> a second time to activate the default behavior of the object contained in a cell. For example, if the cell contains a single link the author may want to have enter follow the link rather than just move focus to it. This auto action mode should be configurable on a per cell basis as its utility is dependent on each cell's content. For example, if the cell contains multiple links, auto action should be disabled as its behavior would be ambiguous.   </p>
+        <p><em>Option</em>: the author may choose to implement <kbd>Enter</kbd> or <kbd>F2</kbd> as a toggle such that pressing these keys multiple times will enter and exit actionable mode. Opinion was divided on this point. Some thought this would be confusing while others found it intuitive. </p>
+        <p class="note">It is recommended the developer use different styling for the selection when the grid is not focused (hint: non-active selection is   often shown with a lighter background color). </p>
+      </section>
+
+      <section>
+        <h4>WAI-ARIA Roles, States, and Properties</h4>
+        <ul>
+          <li>The DOM representation of the grid should follow the HTML DOM structure,   although it will be possible to use <a href="#aria-owns" class="property-reference">aria-owns</a> to add a row or table cell. This   is an edge case and may not be supported by assistive technologies. </li>
+          <li>The grid container should have a role of <a href="#grid" class="role-reference">grid</a>. </li>
+          <li>The data cells should have a role of <a href="#gridcell" class="role-reference">gridcell</a>.</li>
+          <li>Each row should be clearly marked using a <code>&lt;TR&gt;</code> from HTML and by using a role of <a href="#row" class="role-reference">row</a>.</li>
+          <li>Column and row headers may be represented by a <code>&lt;TH&gt;</code> if you are using an HTML   table or you may explicitly use an aria role of <a href="#columnheader"  class="role-reference">columnheader</a> and <a href="#rowheader"  class="role-reference">rowheader</a> respectively.</li>
+          <li>Whenever a <a href="#gridcell" class="role-reference">gridcell</a> is selected, set <code>aria-selected=&quot;true&quot;</code>. </li>
+          <li>Whenever a row is selected, set its role to <a href="#row" class="role-reference">row</a> and its   <code>aria-selected=&quot;true&quot;</code> allowing an AT to quickly determine that the entire row is selected. </li>
+          <li>By default a grid is considered to be editable, meaning all gridcells are editable. Should you want to make a grid read-only, set     <code>aria-readonly=&quot;true&quot;</code> on the document element having a <code>role=&quot;grid&quot;</code>. This     will make all grid cells read-only.     To override the read-only status on an individual grid cell, set its <span class="property-reference">aria-readonly</span> property to false. </li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Example</h4>
+        <p class="note">Any examples referenced here that are hosted outside www.w3.org may have changed and may not accurately exemplify the guidance in this section. The APG task force is developing examples for APG version 1.1 that will be directly incorporated into the guide.</p>
+        <ul>
+          <li><a href="http://www.oaa-accessibility.org/examplep/grid1/" title="Grid Example: Reimbursement Form" target="_blank" rel="nofollow">Travel form (Open Ajax Alliance)</a></li>
+          <li><a href="http://www.oaa-accessibility.org/examplep/grid2/" title="Grid: Email Application" target="_blank" rel="nofollow">Email client (Open Ajax Alliance)</a></li>
+        </ul>
+      </section>
+    </section>
+
 <section class="widget" id="sortablegrid">
       <h3 class="widget-name">Actionable, Sortable Column Header in a Grid </h3>
       <p class="note">This section has not been updated since it was integrated from APG version 1.0 -- an APG task force review is pending.</p>
