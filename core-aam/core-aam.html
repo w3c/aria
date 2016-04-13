@@ -11,7 +11,6 @@
 <link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css"/>
 <link href="../common/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="css/core-aam.css" rel="stylesheet" type="text/css"/>
-<link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css"/>
 
 <script class="remove">
   var respecConfig = {
@@ -219,7 +218,7 @@ var mappingTableLabels = {
         <p>Each platform accessibility API includes a way to assign and retrieve <a class="termref">accessible name</a> and <a class="termref">accessible description</a> properties for each <a class="termref">accessible object</a> created in the <a class="termref">accessibility tree</a>. How these the relevant properties are implemented and what they are called vary depending on the API.</p>
         <p>For instance, in MSAA, all <a class="termref">accessible objects</a> support the <code>accName</code> property, which stores the object's <a class="termref">accessible name</a>. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>accDescription</code> property.</p>
         <p>Software using ATK can read and write to an object's <code>accessible-name</code> and <code>accessible-description</code> properties. In turn, AT-SPI can query the values of those properties through its <code>atspi_accessible_get_name</code> and <code>atspi_accessible_get_description</code> functions.</p>
-        <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. <span class="ednotea">[TBD:  UIA currently has no <code>Description</code> property.  See <a href="https://www.w3.org/WAI/ARIA/track/actions/2008">ACTION-2008</a>]</span>.</p>
+        <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>FullDescription</code> property.</p>
         <p>The approach to <a class="termref">accessible names</a> and <a class="termref" data-lt="accessible description">accessible descriptions</a> in AXAPI is somewhat different to the other platform APIs. <a class="termref">Accessible names</a> are exposed using the <code>AXTitle</code> property when the name is visually rendered, while the <code>AXDescription</code> property is used when the object's name is not rendered visually. An object's <a class="termref">accessible description</a>, where provided, should always be exposed in the <code>AXHelp</code> property.</p>
         <p>For more detail, see the <a class="accname" href="">Accessible Name and Description Computation and API Mappings</a> specification.</p>
       </section>
@@ -524,8 +523,8 @@ var mappingTableLabels = {
                     </td>
 					<td><code>ROLE_EMBEDDED</code></td>
 					<td>AXRole: <code>AXGroup</code><br />
-                        AXSubrole: <code>AXLandmarkApplication</code><br />
-                        AXRoleDescription: <code>'application'</code></td>
+                        AXSubrole: <code>AXWebApplication</code><br />
+                        AXRoleDescription: <code>'web application'</code></td>
 				</tr>
 				<tr id="role-map-article">
 					<th><a class="role-reference" href="#article"><code>article</code></a></th>
@@ -1526,7 +1525,7 @@ var mappingTableLabels = {
                 	<td>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in <code>accDescription</code> property.
                     <p>IAccessible2: </p>
                   <p>If the referenced objects are in the accessibility tree, expose pointers to them using <code>IA2_RELATION_DESCRIBED_BY</code>, and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p></td>
-                  <td><p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>.</p>
+                  <td><p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in the <code>FullDescription</code> property.</p>
                   <p>If the referenced objects are in the accessibility tree, expose pointers to the referenced accessible objects using the <code>DescribedBy</code> property.</p></td>
                   <td><p>Use in calculating the accessible Description as described in <a href="#mapping_additional_nd">Name Computation</a>. Expose in the description property of the accessible object.</p>
                     <p>If the referenced objects are in the accessibility tree, expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p></td>
@@ -1778,14 +1777,14 @@ var mappingTableLabels = {
                   <td>IAccessible2: Set <code>IA2_STATE_MODAL</code></td>
                   <td>Set <code>IsModal</code> property of <code>Window</code> control pattern to &quot;true&quot;</td>
                   <td>Set <code>STATE_MODAL</code></td>
-                  <td>TBD</td>
+                  <td>Prune the accessibility tree such that the background content is no longer exposed.  No specific property is set on the <a class="termref">accessible object</a> that corresponds to the <a class="termref">element</a> with <code>aria-modal="true"</code>.  Only the tree whose root is that modal accessible object is exposed.</td>
                 </tr>
                 <tr id="ariaModalFalse">
                   <th><a class="property-reference" href="#aria-modal"><code>aria-modal</code></a><code>=&quot;false&quot;</code></th>
                   <td>IAccessible2: Clear <code>IA2_STATE_MODAL</code></td>
                   <td>Set <code>IsModal</code> property of <code>Window</code> control pattern to &quot;false&quot;</td>
                   <td>Clear <code>STATE_MODAL</code></td>
-                  <td>TBD</td>
+                  <td>Grow the accessibility tree such that the background content is exposed.  No specific property is set on the <a class="termref">accessible object</a> that corresponds to the <a class="termref">element</a> with <code>aria-modal="false"</code>.</td>
                 </tr>
                 <tr id="ariaMultilineTrue">
                   <th><a class="property-reference" href="#aria-multiline"><code>aria-multiline</code></a><code>=&quot;true&quot;</code></th>
@@ -2308,6 +2307,13 @@ var mappingTableLabels = {
               <td>See the <a class="accname" href="#events">Name and Description Change Events</a> section in [[!ACCNAME-AAM]].</td>
               <td>See the <a class="accname" href="#events">Name and Description Change Events</a> section in [[!ACCNAME-AAM]].</td>
             </tr>
+            <tr id="event-aria-modal">
+              <th>[ARIA 1.1]  <a class="property-reference" href="#aria-label"><code>aria-modal</code></a></th>
+              <td>TBD: <code>EVENT_OBJECT_STATECHANGE</code></td>
+              <td>TBD: <code>PropertyChangedEvent</code></td>
+              <td>TBD: <code>object:state-changed:modal</code></td>
+              <td>TBD:  Since the accessibility tree is modified when <code>aria-modal</code> changes, see the section <a href="#mapping_events_visibility">Changes to document content or node visibility</a>.</td>
+            </tr>
             <tr id="event-aria-pressed">
               <th><a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a> (state)</th>
               <td><code>EVENT_OBJECT_STATECHANGE</code></td>
@@ -2753,6 +2759,15 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>11-Apr-2016: Added AXAPI mappings for aria-modal="true" and aria-modal="false".</li>
+				<li>11-Apr-2016: For role="application", replaced AXAPI subrole AXLandmarkAppliction with AXWebAppliction, and role description 'application' with 'web application'.</li>
+				<li>04-Apr-2016: Added new UIA FullDescription property for mapping aria-describedby.</li>
+			    <!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
+			</ul>
+		</section>
+		<section>
+			<h2>Other substantive changes since the <a href="http://www.w3.org/TR/2014/REC-wai-aria-implementation-20140320/">WAI-ARIA 1.0 User Agent Implementation Guide Recommendation</a></h2>
+			<ul>
 				<li>11-Mar-2016: Added details to UIA mappings of radio and menuitemradio roles reqarding how aria-checked values are exposed in the Toggle and SelectionItem patterns; removed aria-describedat from states and properties mapping table.</li>
 				<li>10-Mar-2016: Updated default values for aria-valuemin, aria-valuemax, and aria-valuenow for spinbutton role. Default for aria-valuenow is 0 (zero), default for aria-valuemin is no lower bound, and for aria-valuemax, no upper bound.</li>
 				<li>07-Mar-2016: Updated all UIA mappings for landmark roles to include Landmark Type and Localized Landmark Type.</li>
@@ -2762,12 +2777,6 @@ var mappingTableLabels = {
 				<li>15-Jan-2016: Added UIA mappings for aria-current.</li>
 				<li>11-Jan-2016: Modified UIA mapping for roles article and application.  Finalized IA2 mapping of aria-current.</li>
 				<li>03-Jan-2016: Added UIA mappings for aria-colindex and aria-rowindex.  Added placeholders for the other AAPIs.</li>
-			    <!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
-			</ul>
-		</section>
-		<section>
-			<h2>Other substantive changes since the <a href="http://www.w3.org/TR/2014/REC-wai-aria-implementation-20140320/">WAI-ARIA 1.0 User Agent Implementation Guide Recommendation</a></h2>
-			<ul>
 			    <li>27-Nov-2015: Added UIA mapping of role="text" as a Text control pattern; and ATK/AT-SPI mapping as ROLE_STATIC.</li>
 				<li>03-Oct-2015: Modified UIA role mappings of application, banner, complementary, contentinfo, main, search, navigation, article, definition, log, math, and note.</li>
 				<li>28-Sep-2015: Added IA2 mapping of role="text".</li>
