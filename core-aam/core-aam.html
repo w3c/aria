@@ -218,7 +218,7 @@ var mappingTableLabels = {
         <p>Each platform accessibility API includes a way to assign and retrieve <a class="termref">accessible name</a> and <a class="termref">accessible description</a> properties for each <a class="termref">accessible object</a> created in the <a class="termref">accessibility tree</a>. How these the relevant properties are implemented and what they are called vary depending on the API.</p>
         <p>For instance, in MSAA, all <a class="termref">accessible objects</a> support the <code>accName</code> property, which stores the object's <a class="termref">accessible name</a>. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>accDescription</code> property.</p>
         <p>Software using ATK can read and write to an object's <code>accessible-name</code> and <code>accessible-description</code> properties. In turn, AT-SPI can query the values of those properties through its <code>atspi_accessible_get_name</code> and <code>atspi_accessible_get_description</code> functions.</p>
-        <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>FullDescription</code> property.</p>
+        <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. Where the object also supports having an <a class="termref">accessible description</a>, UIA stores this property in the object's <code>FullDescription</code> property.</p>
         <p>The approach to <a class="termref">accessible names</a> and <a class="termref" data-lt="accessible description">accessible descriptions</a> in AXAPI is somewhat different to the other platform APIs. <a class="termref">Accessible names</a> are exposed using the <code>AXTitle</code> property when the name is visually rendered, while the <code>AXDescription</code> property is used when the object's name is not rendered visually. An object's <a class="termref">accessible description</a>, where provided, should always be exposed in the <code>AXHelp</code> property.</p>
         <p>For more detail, see the <a class="accname" href="">Accessible Name and Description Computation and API Mappings</a> specification.</p>
       </section>
@@ -544,7 +544,7 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-banner">
 					<th><a class="role-reference" href="#banner"><code>banner</code></a></th>
-					<td>IAccessible2: Object attribute <code>xml-roles:banner</code></td>
+					<td>IAccessible2: <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:banner</code></td>
                     <td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -629,7 +629,7 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-complementary">
 					<th><a class="role-reference" href="#complementary"><code>complementary</code></a></th>
-                    <td>IAccessible2: Object attribute <code>xml-roles:complementary</code></td>
+                    <td>IAccessible2:  <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:complementary</code></td>
                     <td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -645,7 +645,7 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-contentinfo">
 					<th><a class="role-reference" href="#contentinfo"><code>contentinfo</code></a></th>
-                    <td>IAccessible2: Object attribute <code>xml-roles:contentinfo</code></td>
+                    <td>IAccessible2:  <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:contentinfo</code></td>
                     <td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -828,7 +828,7 @@ var mappingTableLabels = {
                 </tr>
 				<tr id="role-map-main">
 					<th><a class="role-reference" href="#main"><code>main</code></a></th>
-                    <td>IAccessible2: Object attribute <code>xml-roles:main</code></td>
+                    <td>IAccessible2:  <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:main</code></td>
                     <td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -933,7 +933,7 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-navigation">
                     <th><a class="role-reference" href="#navigation"><code>navigation</code></a></th>
-                    <td>IAccessible2: Object attribute <code>xml-roles:navigation</code></td>
+                    <td>IAccessible2:  <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:navigation</code></td>
                     <td>
                        <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -1052,7 +1052,7 @@ var mappingTableLabels = {
 				</tr>
 				<tr id="role-map-region">
 					<th><a class="role-reference" href="#region"><code>region</code></a></th>
-					<td>(TBD) IAccessible2: Object attribute <code>xml-roles:region</code></td>
+					<td>IAccessible2:  <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code></td>
 					<td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -1107,7 +1107,7 @@ var mappingTableLabels = {
 				</tr>
         <tr id="role-map-search">
 		    <th><a class="role-reference" href="#search"><code>search</code></a></th>
-            <td>TBD</td>
+            <td> <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:search</code></td>
             <td>
                 <ul>
                     <li>Control Type is <code>Group</code>.</li>
@@ -1160,8 +1160,13 @@ var mappingTableLabels = {
 				<tr id="role-map-status">
 					<th><a class="role-reference" href="#status"><code>status</code></a></th>
 					<td><p><code>ROLE_SYSTEM_STATUSBAR</code> + </p>
-			      <p>IAccessible2: object attributes <code>container-live:polite;live:polite;container-live-role:status</code></p></td>
-          <td><code>StatusBar</code></td>
+			            <p>IAccessible2: object attributes <code>container-live:polite;live:polite;container-live-role:status</code></p></td>
+                    <td>
+                        <ul>
+                            <li>Control Type: <code>Group</code></li>
+                            <li><code>LiveSettingProperty = Polite (1)</code></li>
+                        </ul>
+                    </td>
 					<td><code>ROLE_STATUSBAR</code> + object attributes <code>container-live:polite;live:polite;container-live-role:status</code></td>
 					<td>AXRole: <code>AXGroup</code><br />
               AXSubrole: <code>AXApplicationStatus</code><br />
@@ -2306,13 +2311,6 @@ var mappingTableLabels = {
               <td>See the <a class="accname" href="#events">Name and Description Change Events</a> section in [[!ACCNAME-AAM]].</td>
               <td>See the <a class="accname" href="#events">Name and Description Change Events</a> section in [[!ACCNAME-AAM]].</td>
               <td>See the <a class="accname" href="#events">Name and Description Change Events</a> section in [[!ACCNAME-AAM]].</td>
-            </tr>
-            <tr id="event-aria-modal">
-              <th>[ARIA 1.1]  <a class="property-reference" href="#aria-label"><code>aria-modal</code></a></th>
-              <td>TBD: <code>EVENT_OBJECT_STATECHANGE</code></td>
-              <td>TBD: <code>PropertyChangedEvent</code></td>
-              <td>TBD: <code>object:state-changed:modal</code></td>
-              <td>TBD:  Since the accessibility tree is modified when <code>aria-modal</code> changes, see the section <a href="#mapping_events_visibility">Changes to document content or node visibility</a>.</td>
             </tr>
             <tr id="event-aria-pressed">
               <th><a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a> (state)</th>
