@@ -1284,7 +1284,6 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-readonly</pref></li>
 							</ul>
 						</td>
@@ -1584,9 +1583,6 @@
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
-							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
-							</ul>
 						</td>
 					</tr>
 					<tr>
@@ -2590,7 +2586,6 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
 								<li><sref>aria-selected</sref></li>
@@ -4499,7 +4494,6 @@
 						<td class="role-properties">
 							<ul>
 								<li><pref>aria-checked</pref></li>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-posinset</pref></li>
 								<li><pref>aria-setsize</pref></li>
 							</ul>
@@ -9247,32 +9241,32 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="property" id="aria-kbdshortcuts">
-			<pdef>aria-kbdshortcuts</pdef>
+		<div class="property" id="aria-keyshortcuts">
+			<pdef>aria-keyshortcuts</pdef>
 			<div class="property-description">
-				<p>Indicates keyboard shortcuts that can be pressed to activate widgets, such as a button, link or menuitem. Any widget that has a default activation behavior when clicked can have a keyboard shortcut.</p>
-				<p>The value of the <pref>aria-kbdshortcuts</pref> attribute is a space-delimited list of keyboard shortcuts that can be pressed to activate the command widget. Each keyboard shortcut consists of one or more tokens delimited by the plus sign ("+") representing zero or more modifier keys and exactly one non-modifier key that must be pressed simultaneously to activate the given shortcut.</p>
-				<p>Modifier keys MUST be specified exactly according to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Alt", "Control", "Shift", "Meta", or "AltGraph". Note that Meta corresponds to the Command key on Apple computers.</p>
-				<p>The valid names for non-modifier keys are any printable character such as "A", "B", "1", "2", "$", "Plus" for a plus sign, "Space" for the spacebar, or the names of any other non-modifier key specified in the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Enter", "Tab", "ArrowRight", "PageDown", "Escape", or "F1".</p>
-				<p>When modifier keys are part of a shortcut, they MUST come first. The non-modifier key is required and MUST come last. The order of the modifier keys is not otherwise significant, so "Alt+Shift+T" and "Shift+Alt+T" are equivalent, but "T+Shift+Alt" is not valid because all of the modifier keys don't come first, and "Alt" is not valid because it doesn't include at least one non-modifier key.</p>
-				<p>When specifying an alphabetic key, both the uppercase and lowercase variants are considered equivalent: "a" and "A" are the same, as are "ü" and "Ü".</p>
-				<p>When specifying a key on the keyboard that changes when you hold down a modifier key other than an alphabetic key, you must specify the unmodified key name. For example, on most U.S. English keyboards, the percent sign "%" can be printed by pressing Shift+5. The correct way to specify this shortcut is "Shift+5". It is incorrect to specify "%" or "Shift+%". However, note that on some international keyboards the percent sign may be an unmodified key, in which case "%" and "Shift+%" would be correct on those keyboards.</p>
-				<p>If the key that needs to be specified is illegal in the host language or would cause a string to be terminated, use the string escaping sequence of the host language to specify it. For example, the double-quote character can be encoded as "&amp;quot;" in HTML.</p>
+				<p>[ARIA 1.1] Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.</p>
+				<p>The value of the <code>aria-keyshortcuts</code> attribute is a space-delimited list of keyboard shortcuts that can be pressed to activate a command or textbox widget. The keys defined in the shortcuts represent the physical keys pressed and not the actual characters generated. Each keyboard shortcut consists of one or more tokens delimited by the plus sign ("+") representing zero or more modifier keys and exactly one non-modifier key that must be pressed simultaneously to activate the given shortcut.</p>
+				<p>Authors MUST specify modifier keys exactly according to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Alt", "Control", "Shift", "Meta", or "AltGraph". Note that Meta corresponds to the Command key on Apple computers.</p>
+				<p>The valid names for non-modifier keys are any printable character such as "A", "B", "1", "2", "$", "Plus" for a plus sign, "Space" for the spacebar, or the names of any other non-modifier key specified in the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Enter", "Tab", "ArrowRight", "PageDown", "Escape", or "F1". The use of "Space" for the spacebar is an exception to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] as the space or spacebar key is encoded as <code>'&nbsp;'</code> and would be treated as a whitespace character.</p>
+				<p>Authors MUST ensure modifier keys come first when they are part of a keyboard shortcut. Authors MUST ensure that required non-modifier keys come last when they are part of a shortcut. The order of the modifier keys is not otherwise significant, so "Alt+Shift+T" and "Shift+Alt+T" are equivalent, but "T+Shift+Alt" is not valid because all of the modifier keys don't come first, and "Alt" is not valid because it doesn't include at least one non-modifier key.</p>
+				<p>When specifying an alphabetic key, both the uppercase and lowercase variants are considered equivalent: "a" and "A" are the same.</p>
+				<p>Authors SHOULD avoid using keyboard shortcuts that are used by the user agent.  Implementing keyboard shortcuts that conflict with the user agent, will result in a loss of user agent functionality. Authors SHOULD avoid keyboard shortcuts that are used by supported assistive technologies running on the intended operating system platforms. Assistive technologies frequently steal keys at the operating system level before they ever reach a user agents. For the same reason authors SHOULD avoid keyboard shortcuts that are used by the operating system itself.</p>
+                                <p>When implementing keyboard shortcuts authors should consider the keyboards they intend to support to avoid unintended results. Keyboard designs vary significantly based on the device used and the languages supported. For example, many modifier keys are used in conjunction with other keys to create common punctuation symbols, create number characters, swap keyboard sides on bilingual keyboards to switch languages, and perform a number of other functions.</p>
+				<p>For many supported keyboards, authors can prevent conflicts by avoiding keys other than ASCII letters, as number characters and common punctuation often require modifiers. Here, the keyboard shortcut entered does not equate to the key generated. For example, in French keyboard layouts, the number characters are not available until you press the Control key, so a keyboard shortcut defined as "Control+2" would be ambiguous as this is how one would type the "2" character on a French keyboard.</p>
+				<p>If the character used is determined by a modifier key, the author MUST specify the actual key used to generate the character, that is generated by the key, and not the resulting character. This convention enables the assistive technology to accurately convey what keys must be used to generate the shortcut. For example, on most U.S. English keyboards, the percent sign "%" can be input by pressing Shift+5. The correct way to specify this shortcut is "Shift+5". It is incorrect to specify "%" or "Shift+%". However, note that on some international keyboards the percent sign may be an unmodified key, in which case "%" and "Shift+%" could be correct on those keyboards.</p>
+				<p>If the key that needs to be specified is illegal in the host language or would cause a string to be terminated, authors MUST use the string escaping sequence of the host language to specify it. For example, the double-quote character can be encoded as "Shift+&amp;#39;" in HTML.</p>
 				<p>Examples of valid keyboard shortcuts include:</p>
 				<ul>
 					<li>"A"</li>
 					<li>"Shift+Space"</li>
 					<li>"Control+Alt+."</li>
-					<li>"Ctrl+&amp;quot;"</li>
+					<li>"Control+Shift+&amp;#39;"</li>
+					<li>"Alt+Shift+P Control+F"</li>
+					<li>"Meta+C Meta+Shift+C"</li>
 				</ul>
-				<p>Examples of valid values for the aria-key attribute, which can include more than one space-delimited shortcut, include:</p>
-				<ul>
-					<li><code>aria-kbdshortcuts="Alt+Shift+P"</code></li>
-					<li><code>aria-kbdshortcuts="/ Ctrl+F"</code></li>
-					<li><code>aria-kbdshortcuts="Meta+C Meta+Shift+C"</code></li>
-				</ul>
-				<p>Adding the <pref>aria-kbdshortcuts</pref> attribute to an element does not change the behavior of the user agent by mapping the specified keyboard shortcuts to the triggering of the element's activation function. It is still up to the application to implement support for the keyboard shortcuts. The aria-kbdshortcuts attribute exposes the fact that these shortcuts exist so that assistive technologies can communicate this information to users.</p>
-				<p>Keyboard shortcuts are assumed to be global. If a button is present in a document and it is visible and enabled, and it exposes a keyboard shortcut, it is assumed that as long as the document has focus, pressing that keyboard shortcut will activate that button. If the button or other element is not currently available to be activated normally, for example because it's currently invisible or hidden, or explicitly marked as disabled, that implies that the keyboard shortcut is unavailable too.</p>
+				<p>User agents MUST NOT change keyboard behavior in response to the <code>aria-keyshortcuts</code> attribute. Authors MUST handle scripted keyboard events to process <code>aria-keyshortcuts</code>. The <code>aria-keyshortcuts</code> attribute exposes the existence of these shortcuts so that assistive technologies can communicate this information to users.</p>
+
+				<p>Authors MUST ensure <code>aria-keyshortcuts</code> are available throughout the document for associated, active elements. The <code>aria-keyshortcuts</code> is only exposed to the <a>assistive technology</a> when the element it is not hidden from the user or assistive technology by the author. Consequently, authors MUST visibly expose the element so that it may be discovered by a user of an <a>assistive technology</a>. An example would be a menu item. If the menu item were to expose a keyboard shortcut it is assumed that as long as the document has focus, pressing that keyboard shortcut will activate that menu item. Authors SHOULD provide a visible way to expose keyboard shortcuts so that all users may discover the them, such as through the use of a tooltip. Authors MUST ensure that <code>aria-keyshortcuts</code>, applied to disabled elements, are unavailable.</p>
 				<p class="ednote">The Working Group also wants to provide the ability to describe to users what the keyboard shortcut does. The mechanism for this has not yet been identified.</p>
 			</div>
 			<table class="property-features">
@@ -9290,7 +9284,7 @@
 					</tr>
 					<tr>
 						<th class="property-applicability-head" scope="row">Used in Roles:</th>
-						<td class="property-applicability">Placeholder</td>
+						<td class="property-applicability">All elements of the base markup</td>
 					</tr>
 					<tr>
 						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
@@ -10885,6 +10879,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>25-Feb-2016: Removed <code>aria-describedat</code> which has been made obsolete by <pref>aria-details</pref>.</li>
 			<li>29-Feb-2016: Added statement that authors MUST ensure <pref>aria-errormessage</pref> content is not hidden and is included in a container that exposes the content to the user.</li>
 			<li>10-Mar-2016: Updated text regarding implicit values for <rref>spinbutton</rref>: Default for <pref>aria-valuenow</pref> is <code>0</code>. There is no minimum value for <pref>aria-valuemin</pref> and no maximum value for <pref>aria-valuemax</pref>.</li>
+			<li>28-Apr-2016: Added <pref>aria-keyshortcuts</pref> (as a replacement for the <code>aria-kbdshortcuts</code> which was introduced on 12-Jun-2015.</li>
 		</ul>
 	</section>
 	<section>
@@ -10909,12 +10904,11 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>09-Apr-2015: Added <pref>aria-placeholder</pref> attribute.</li>
 			<li>23-Apr-2015: Added <pref>aria-colcount</pref>, <pref>aria-rowcount</pref>, <pref>aria-colindex</pref>, <pref>aria-rowindex</pref>, <pref>aria-colspan</pref>, and <pref>aria-rowspan</pref>.</li>
 			<li>05-Jun-2015: Added <rref>cell</rref> and <rref>table</rref> roles for non-interactive tables. Made <rref>gridcell</rref> and <rref>grid</rref> subclasses of <rref>cell</rref> and <rref>table</rref> respectively. Removed <rref>widget</rref> as one of the immediate superclasses of <rref>columnheader</rref> and <rref>rowheader</rref>. Headers that subclass <rref>gridcell</rref> will still inherit the supported properties of <rref>widget</rref>.</li>
-			<li>12-Jun-2015: Added <pref>aria-kbdshortcuts</pref>.</li>
+			<li>12-Jun-2015: Added <code>aria-kbdshortcuts</code>. Note that his has subsequently been replaced by <pref>aria-keyshortcuts</pref>.</li>
 			<li>23-Jun-2015: Added <pref>aria-roledescription</pref> attribute.</li>
 			<li>03-Jul-2015: Added <pref>aria-readonly</pref> as a supported property of <rref>checkbox</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, and <rref>switch</rref>. Because this property should not apply to <rref>radio</rref>, <rref>radio</rref> was made a subclass of <rref>input</rref>.</li>
 			<li>03-Jul-2015: Expanded explanation of "supported" vs. "required" states and properties.  Added implicit default values of <pref>aria-valuemin</pref>, <pref>aria-valuemax</pref>, and <pref>aria-valuenow</pref> when they are required for roles <rref>scrollbar</rref>, <rref>slider</rref>, and <rref>spinbutton</rref>.</li>
 			<li>03-Jul-2015: Made <pref>aria-level</pref> a required attribute for <rref>heading</rref> with an implicit value of 2.</li>
-
 			<!-- EdNote: After each WD publish, move previous list into this one. -->
 		</ul>
 	</section>
