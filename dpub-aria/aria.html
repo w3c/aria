@@ -9137,9 +9137,12 @@
 		<div class="property" id="aria-haspopup">
 			<pdef>aria-haspopup</pdef>
 			<div class="property-description">
-				<p>Indicates that the <a>element</a> has a popup context menu or sub-level menu.</p>
-				<p>This means that activation renders conditional content. Note that ordinary tooltips are not considered popups in this context.</p>
-				<p>A popup is generally presented visually as a group of items that appears to be on top of the main page content.</p>
+				<p>[ARIA 1.1] Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an <a>element</a>.</p>
+				<p>A popup element usually appears as a block of content that is on top of other content. Authors MUST ensure that the role of the element that serves as the container for the popup content is <rref>menu</rref>, <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>, and that the value of <code>aria-haspopup</code> matches the role of the popup container.</p>
+        <p>For the popup element to be keyboard accessible, authors SHOULD ensure that the element that can trigger the popup is focusable, that there is a keyboard mechanism for opening the popup, and that the popup element manages focus of all its descendants as described in <a href="#managingfocus">Managing Focus</a>.</p>
+        <p>The <code>aria-haspopup</code> property is an enumerated type. <a>User agents</a> MUST treat any value of <code>aria-haspopup</code> that is not included in the list of allowed values, including an empty string, as if the value <code>false</code> had been provided. To provide backward compatibility with ARIA 1.0 content, user agents MUST treat an <code>aria-haspopup</code> value of <code>true</code> as equivalent to a value of <code>menu</code>.</p>
+        <p><a>Assistive technologies</a> SHOULD NOT expose the <code>aria-haspopup</code> property if it has a value of <code>false</code>.</p>
+        <p class="note">A <rref>tooltip</rref> is not considered to be a popup in this context.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -9169,7 +9172,7 @@
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_token">token</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -9184,11 +9187,31 @@
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
-						<td class="value-description">The object has no popup.</td>
+						<td class="value-description">Indicates the element does not have a popup.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
-						<td class="value-description">Indicates the object has a popup, either as a descendant or referenced by <pref>aria-owns</pref>.</td>
+						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">menu</th>
+						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">listbox</th>
+						<td class="value-description">Indicates the popup is a <rref>listbox</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">tree</th>
+						<td class="value-description">Indicates the popup is a <rref>tree</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">grid</th>
+						<td class="value-description">Indicates the popup is a <rref>grid</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">dialog</th>
+						<td class="value-description">Indicates the popup is a <rref>dialog</rref>.</td>
 					</tr>
 				</tbody>
 			</table>
@@ -10958,6 +10981,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>10-Mar-2016: Updated text regarding implicit values for <rref>spinbutton</rref>: Default for <pref>aria-valuenow</pref> is <code>0</code>. There is no minimum value for <pref>aria-valuemin</pref> and no maximum value for <pref>aria-valuemax</pref>.</li>
 			<li>28-Apr-2016: Added <pref>aria-keyshortcuts</pref> (as a replacement for the <code>aria-kbdshortcuts</code> which was introduced on 12-Jun-2015.</li>
 			<li>02-May-2016: Added <rref>password</rref> role.</li>
+			<li>05-May-2016: Changed the value type of <pref>aria-haspopup</pref> from boolean to token. Supported values are: <code>true</code>, <code>false</code>, <code>menu</code>, <code>listbox</code>, <code>tree</code>, <code>grid</code>, and <code>dialog</code>.</li>
 		</ul>
 	</section>
 	<section>
