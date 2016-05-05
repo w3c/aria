@@ -1422,22 +1422,24 @@
 		<div class="role" id="combobox">
 			<rdef>combobox</rdef>
 			<div class="role-description">
-				<p>A presentation of a <rref>select</rref>; usually similar to a <rref>textbox</rref> where users can type ahead to select an option, or type to enter arbitrary text as a new item in the list. See related <rref>listbox</rref>.</p>
-				<p><code>combobox</code> is the combined presentation of a single line textfield with a listbox popup. The <code>combobox</code> may be editable. Typically editable combo boxes are used for autocomplete behavior, and authors SHOULD set <pref>aria-autocomplete</pref> attribute on the textfield.</p>
-				<ul>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'none' (default), authors MUST manage and set focus on the associated listbox, so assistive technologies can follow the currently selected value.</li>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'inline' or 'both', authors MUST update the value of the focused textfield, so assistive technologies can announce the currently selected value.</li>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'list', user agents MUST expose changes to the aria-activedescendant attribute on the combobox while the combobox remains focused. If a change to the aria-activedescendant attribute occurs while the combobox is focused, assistive technologies SHOULD alert the user of that change, for example, by speaking the text alternative of the new active descendant element. Authors SHOULD associate the combobox textfield with its listbox using aria-owns. For example:
-						<pre class="example highlight">&lt;input type="text" aria-label="Tag" role="combobox" aria-expanded="true"
-  <strong>aria-autocomplete="list" aria-owns="owned_listbox" aria-activedescendant="selected_option"</strong>&gt;
-&lt;ul role="listbox" <strong>id="owned_listbox"</strong>&gt;
-  &lt;li role="option"&gt;Zebra&lt;/li&gt;
-  &lt;li role="option" <strong>id="selected_option"</strong>&gt;Zoom&lt;/li&gt;
-&lt;/ul&gt;</pre>
-					</li>
-				</ul>
-				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
-				<p>Elements with the role <code>combobox</code> have an implicit <sref>aria-expanded</sref> value of <code>false</code> and an implicit <pref>aria-haspopup</pref> value of <code>true</code>.</p>
+				<p>A composite <rref>widget</rref> containing a single-line <rref>textbox</rref> and another element, such as a <rref>listbox</rref> or <rref>grid</rref>, that can dynamically pop up to help the user set the value of the <rref>textbox</rref>.</p>
+				<p>Authors MUST ensure an element with role <code>combobox</code> contains or owns a text input element with role <rref>textbox</rref> or <rref>searchbox</rref> and that the text input has <pref>aria-multiline</pref> set to <code>false</code>. If the <code>combobox</code> provides autocompletion behavior for the text input as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <rref>textbox</rref> element to the value that corresponds to the provided behavior.</p>
+				<p>Typically, the default state of a <code>combobox</code> is collapsed. In the collapsed state, only the <rref>textbox</rref> element of a <code>combobox</code> is visible. A <code>combobox</code> is said to be expanded when both the <rref>textbox</rref> and a secondary element that serves as its popup are visible. Authors MUST set <sref>aria-expanded</sref> to <code>true</code> on an element with role <code>combobox</code> when it is expanded and <code>false</code> when it is collapsed. Elements with the role <code>combobox</code> have an implicit <sref>aria-expanded</sref> value of <code>false</code>.</p>
+				<p>When a <code>combobox</code> is expanded, authors MUST ensure it contains or owns an element that has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>. This element is the <code>combobox</code> popup. When the <code>combobox</code> is expanded, authors MUST set <pref>aria-controls</pref> on the <rref>textbox</rref> element to a value that refers to the <code>combobox</code> popup element.</p>
+				<p>Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the type of its popup.</p>
+				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>. When a <code>combobox</code> receives focus, authors SHOULD ensure focus is placed on the <rref>textbox</rref> element.</p>
+				<p>Authors SHOULD provide keyboard mechanisms for moving focus between the <rref>textbox</rref> element and the elements contained in the popup. For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the text input to the first focusable descendant of the popup element. If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <rref>textbox</rref> element. When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <rref>textbox</rref> to a value that refers to the active element within the popup while focus remains on the <rref>textbox</rref> element.</p>
+				<pre class="example highlight">
+				  &lt;div aria-label="Tag" role="combobox" aria-expanded="true" aria-owns="owned_listbox" aria-haspopup="listbox"&gt;
+				      &lt;input type="text" aria-autocomplete="list" aria-controls="owned_listbox" aria-activedescendant="selected_option"&gt;
+				  &lt;/div&gt;
+				  &lt;ul role="listbox" id="owned_listbox"&gt;
+				      &lt;li role="option"&gt;Zebra&lt;/li&gt;
+				      &lt;li role="option" id="selected_option"&gt;Zoom&lt;/li&gt;
+				  &lt;/ul&gt;
+				</pre>
+				<p>The ARIA 1.0 specification describes a <code>combobox</code> pattern where a text input element has the <code>combobox</code> role and owns a <rref>listbox</rref> element. <a>User agents</a> and <a>assistive technologies</a> SHOULD continue to support the ARIA 1.0 pattern so that existing implementations of the ARIA 1.0 pattern remain functional.</p>
+				<p>The features and behaviors of combobox implementations vary widely. Consequently, there are many important authoring considerations. See the <cite><a href="http://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite> [[WAI-ARIA-PRACTICES]] for additional details on implementing combobox design patterns.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1480,15 +1482,23 @@
 					<tr>
 						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
 						<td class="role-mustcontain">
+							<rref>textbox</rref> and, when expanded, one of:
 							<ul>
 								<li><rref>listbox</rref></li>
-								<li><rref>textbox</rref></li>
+								<li><rref>tree</rref></li>
+								<li><rref>grid</rref></li>
+								<li><rref>dialog</rref></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties"><sref>aria-expanded</sref></td>
+						<td class="role-required-properties">
+							<ul>
+								<li><pref>aria-controls</pref></li>
+								<li><sref>aria-expanded</sref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
@@ -1528,7 +1538,7 @@
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
 						<td class="implicit-values">
 							Default for <sref>aria-expanded</sref> is <code class="default">false</code>.<br/>
-							Default for <pref>aria-haspopup</pref> is <code class="default">true</code>.<br/>
+							Default for <pref>aria-haspopup</pref> is <code class="default">listbox</code>.<br/>
 						</td>
 					</tr>
 				</tbody>
@@ -10982,6 +10992,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>28-Apr-2016: Added <pref>aria-keyshortcuts</pref> (as a replacement for the <code>aria-kbdshortcuts</code> which was introduced on 12-Jun-2015.</li>
 			<li>02-May-2016: Added <rref>password</rref> role.</li>
 			<li>05-May-2016: Changed the value type of <pref>aria-haspopup</pref> from boolean to token. Supported values are: <code>true</code>, <code>false</code>, <code>menu</code>, <code>listbox</code>, <code>tree</code>, <code>grid</code>, and <code>dialog</code>.</li>
+			<li>05-May-2016: Expanded the roles which can be owned by a <rref>combobox</rref> to include <rref>tree</rref>, <rref>grid</rref>, and <rref>dialog</rref>. In addition, the implicit value for <pref>aria-haspopup</pref> for role <rref>combobox</rref> was changed from <code>true</code> to <code>listbox</code>.</li>
 		</ul>
 	</section>
 	<section>
