@@ -157,6 +157,7 @@
 		<li>Expanding [[!WAI-ARIA]] to produce semantic extensions to support structured graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas.</li> 
 		<li>Align with a new governance model for modularization and extensions to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</li> 
 		<li>Provide structural semantics extensions that will support both assistive technologies and enable semantic navigation, alternative styling, and interactivity support.</li> 
+		<li>Work in harmony with SVG 2 and ARIA 1.1 to get consistent working accessibility infrastructure, on par with <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and HTML 5.1, across all the major browsers.</li>	
 	</ul>
   <p>This specification defines the core roles that would be used in all structured graphics or diagrams.  Future work will expand on this framework to enable more detailed annotation of data-rich graphics such as charts or maps.</p>
 	<p>For a more detailed explanation of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> please refer to the <a href="http://www.w3.org/WAI/intro/aria">WAI-ARIA Introduction</a> and how it applies to Rich Internet Application Accessibility.</p> 
@@ -268,7 +269,7 @@
 			
 				
 			<div class="role">
-			<rdef>graphics-doc</rdef>
+			<rdef>graphics-document</rdef>
 			<div class="role-description">
         <p>
           A type of <rref>document</rref> in which 
@@ -276,7 +277,7 @@
         </p>
         <p>
           Similar to other <rref>document</rref> types, 
-          the <code>graphics-doc</code> role applies to the root element of
+          the <code>graphics-document</code> role applies to the root element of
           a region of the page containing related information,
           where the user's primary interaction mode is expected to be
           browsing the document rather than controlling an application.  
@@ -285,49 +286,49 @@
           or of a nested structure within it.
         </p>
         <p>
-          The <code>graphics-doc</code> may be distinguished 
+          The <code>graphics-document</code> may be distinguished 
           from similar roles as follows:
         </p>
         <ul>
           <li><p>
-            Relative to other documents, a <code>graphics-doc</code> 
+            Relative to other documents, a <code>graphics-document</code> 
             is distinguished by the semantic importance of its 
             visual (usually two-dimensional) representation.
             User agents and assistive technologies
             SHOULD take this into consideration 
             when supporting navigation of the graphic.
             Accessibility technologies that re-format or re-style a document 
-            SHOULD NOT alter the layout of a <code>graphics-doc</code> 
+            SHOULD NOT alter the layout of a <code>graphics-document</code> 
             except in ways that are consistent 
             with the semantic roles and relationships of its content.
           </p></li>
               <li><p>
-            Relative to an <rref>img</rref>, a <code>graphics-doc</code> 
+            Relative to an <rref>img</rref>, a <code>graphics-document</code> 
             is distinguished by the structured nature of its content.
             Its child elements may have semantic meaning,
             and may include links or other interactive widgets.
           </p></li>
               <li><p>
             Relative to a <rref>graphics-object</rref>, 
-            a <code>graphics-doc</code> is self-contained.  
+            a <code>graphics-document</code> is self-contained.  
             Its meaning persists when separated from surrounding content.
-            The element with the <code>graphics-doc</code> role defines
+            The element with the <code>graphics-document</code> role defines
             the scope and context for interpretation of the child content.
           </p></li>
         </ul>
         <p>
-          In general, authors SHOULD use the <code>graphics-doc</code> role 
+          In general, authors SHOULD use the <code>graphics-document</code> role 
           for structured graphics such as 
           charts, maps, diagrams, technical drawing, blue prints and instructional graphics. 
           However, if a single large graphic has discrete regions
           that may be safely re-arranged without sacrificing meaning,
-          each of those regions SHOULD be a distinct <code>graphics-doc</code>.
+          each of those regions SHOULD be a distinct <code>graphics-document</code>.
           An alternative role (such as <rref>figure</rref>) 
           may be used to group them together.
-          One <code>graphics-doc</code> may also be nested inside another, 
+          One <code>graphics-document</code> may also be nested inside another, 
           for example a bar chart that is embedded in a map
           or a matrix of chart panels 
-          should have a role of <code>graphics-doc</code>.
+          should have a role of <code>graphics-document</code>.
           The nested document provides encapsulation; 
           navigation between components of 
           the inner and outer graphics should be explicit.
@@ -338,20 +339,20 @@
             based on the ARIA 1.0 specification, 
             authors may wish to include the <rref>document</rref> role 
             as a fallback value, 
-            in the form <code>role="graphics-doc document"</code>.
+            in the form <code>role="graphics-document document"</code>.
            </p>
            <p>
              Future specifications may define more specific roles
              for particular types of graphical documents with
              special semantic structures.  Those more specific roles
-             would be subclasses of <code>graphics-doc</code>.
+             would be subclasses of <code>graphics-document</code>.
            </p>
         </div>
 				<pre class="example highlight">
 &lt;!-- An SVG diagram of an electrical circuit --&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" 
      width="400" height="200" viewBox="0 0 200 100"
-     role="graphics-doc document" &gt;
+     role="graphics-document document" &gt;
      &lt;title&gt;A simple circuit&lt;/title&gt;
      &lt;desc&gt;A circuit with one source, one switch, and one load&lt;/desc&gt;
      &lt;style type="text/css"&gt;
@@ -467,7 +468,7 @@
 			<rdef>graphics-object</rdef>
 			<div class="role-description">
         <p>
-          A section of a <rref>graphics-doc</rref>
+          A section of a <rref>graphics-document</rref>
           that represents a distinct object or sub-component
           with semantic meaning.  
           A graphical object may itself have nested sub-components.
@@ -483,7 +484,7 @@
           with the role <rref>none</rref> or <rref>presentation</rref>.
         </p>
         <p>
-          Unlike a <rref>graphics-doc</rref>, 
+          Unlike a <rref>graphics-document</rref>, 
           a <code>graphics-object</code> need not be self-contained,
           and it does not establish a new context for navigation.  
           However, user agents and assistive technologies 
@@ -531,7 +532,7 @@
 				<pre class="highlight">
 &lt;svg xmlns="http://www.w3.org/2000/svg"
      width="600" height="400" viewBox="0 0 600 400"
-     role="graphics-doc document" xml:lang="en"&gt;
+     role="graphics-document document" xml:lang="en"&gt;
     &lt;title&gt;Home&lt;/title&gt;
     &lt;g role="img" aria-label="background"&gt;
         &lt;desc&gt;Blue sky, sunshine, and green grass&lt;/desc&gt;
@@ -676,7 +677,7 @@ OK to omit the second example?
 						<th class="role-related-head" scope="row">Related Concepts:</th>
 						<td class="role-related">
                 <ul>
-                    <li><rref>graphics-doc</rref></li>
+                    <li><rref>graphics-document</rref></li>
                     <li><rref>group</rref></li>
                     <li><rref>img</rref></li>
                     <li><rref>graphics-symbol</rref></li>
@@ -905,7 +906,7 @@ OK to omit the second example?
       <li>
         <rref>img</rref> (image) defines a single graphic
         that is perceived as an indivisible whole. 
-        Unlike a <rref>graphics-doc</rref>, 
+        Unlike a <rref>graphics-document</rref>, 
         an image cannot have navigable or interactive child content.
         Unlike a <rref>graphics-symbol</rref>, 
         an image may require a detailed text description
@@ -917,13 +918,13 @@ OK to omit the second example?
         of the containing document but is outside the 
         normal reading stream.  
         A figure will often contain one or more elements 
-        with the <rref>img</rref> or <rref>graphics-doc</rref> roles,
+        with the <rref>img</rref> or <rref>graphics-document</rref> roles,
         but may also contain text captions, credits, or other related content.
       </li>
     </ul> 
     <p>
       The following examples demonstrate appropriate use of 
-      <rref>img</rref>, <rref>figure</rref>, and <rref>graphics-doc</rref>
+      <rref>img</rref>, <rref>figure</rref>, and <rref>graphics-document</rref>
       in a document.
     </p>
     
@@ -992,7 +993,7 @@ OK to omit the second example?
 </pre>
   
   <p>
-    Finally, the last version uses a <rref>graphics-doc</rref>
+    Finally, the last version uses a <rref>graphics-document</rref>
     to include complex annotations on the graphic, 
     which is still contained within a figure element.
     The two sections of the graphic are <rref>graphics-object</rref> elements,
@@ -1001,7 +1002,7 @@ OK to omit the second example?
     <object type="text/html" data="img/figure-graphics-doc.html"></object>
     <pre class="example highlight">
 &lt;figure id="fig1" role="figure region"&gt;
-    &lt;svg role="graphics-doc"&gt;
+    &lt;svg role="graphics-document"&gt;
         &lt;title&gt;Repeating versus reflecting linear gradients&lt;/title&gt;
         &lt;desc&gt;
             The graphic shows two gradient patterns,
@@ -1068,7 +1069,7 @@ OK to omit the second example?
      for an HTML 5 canvas game,
      elements may represent the different images
      that create the composite graphic --&gt;
-&lt;canvas role="graphics-doc"&gt;
+&lt;canvas role="graphics-document"&gt;
     &lt;p id="scene-desc" role="img" 
        aria-label="The Dungeon"
        aria-describedby="scene-desc"&gt;
