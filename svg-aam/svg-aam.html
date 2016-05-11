@@ -608,7 +608,7 @@ var mappingTableLabels = {
         </p>
         <ul>
           <li>If the first mappable role provided by the author
-          is <a class="role-reference" href="#none"><code>none</code></a > or <a class="role-reference" href="#presentation"><code>presentation</code></a>, the element must not be exposed.</li>
+          is <a class="role-reference" href="#none"><code>none</code></a > or <a class="role-reference" href="#presentation"><code>presentation</code></a>, the element must not be exposed.  However, note that a number of features of an element, such as interactivity, can cause an author-supplied role of <code>presentation</code> <a href="http://w3c.github.io/aria/aria/aria.html#presentation">to not be mapped.</a></li>
           <li>If the element or an ancestor has an 
           <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> value of <code>true</code>,
           it should not be exposed.</li>
@@ -623,8 +623,9 @@ var mappingTableLabels = {
             in the accessibility tree.
           </li>
         </ul>
-        <p>Consult the original document [[CORE-AAM]] for the normative text.</p>
+        <p>In all cases, an element with not be excluded if it can currently receive focus based on user interaction.  Consult the original document [[CORE-AAM]] for the normative text.</p>
       </div>
+      <p class="ednote">Links to CORE-AAM and ARIA 1.1 will need to be updated after clarifications with respect to these points have been pushed to the master versions of those specifications.</p>
       
       <p>
        Elements which are never directly rendered to screen, 
@@ -633,7 +634,7 @@ var mappingTableLabels = {
        User agents <strong class="rfc2119">MUST NOT</strong> include any elements, or their descendant content, as an <a class="termref" data-lt="accessible object">accessible object</a> in the <a class="termref" data-lt="accessibility tree">accessibility tree</a> that are indicated as <code>no accessible object created</code> in the <a href="#mapping_role_table">SVG Element Mapping Table</a>.  
         User agents <strong class="rfc2119">SHOULD</strong> also exclude 
         any other element defined by past or future SVG specifications or modules
-        that specifically indicate the element is never directly rendered.
+        that specifically indicate the element is <a href="https://svgwg.org/svg2-draft/render.html#TermNeverRenderedElement">never directly rendered</a>.
         </p>
         <p>
       For example, elements that represent 
@@ -655,6 +656,9 @@ var mappingTableLabels = {
         animation and view elements can affect
         the accessible objects representing their target elements,
         as described under <a href="#mapping_additional">Special Processing Requiring Additional Computation</a>.
+      </p>
+      <p class="ednote">
+          This wording will need to be updated if the mapping for <code>use</code> elements is updated to support accessible shadow trees.  See the note in the <a href="#role-map-use"><code>use</code> element section of the mapping table</a>.
       </p>
       <p>
         In addition, SVG 1.1 [[SVG11]] defines the conditional processing attributes
@@ -946,6 +950,32 @@ var mappingTableLabels = {
       <p>
         Interactive elements are covered by the requirement
         regarding elements that may fire an Accessibility API event.
+        Specifically, for SVG the following elements ar interactive
+        and MUST be included in the accessibility tree, without exception,
+        regardless of whether they would otherwise be considered hidden or presentational:
+      </p>
+      <ul>
+        <li>
+          A <a href="https://svgwg.org/svg2-draft/render.html#TermRenderedElement">rendered</a> element 
+          with a positive integer value 
+          for the <code>tabindex</code> attribute,
+          or which is <a href="https://svgwg.org/svg2-draft/interact.html#TermFocusable">focusable</a> by default,
+          which may receive keyboard focus and therefore keyboard input events.
+        </li>
+        <li>
+          A <a href="https://svgwg.org/svg2-draft/render.html#TermRenderedElement">rendered</a> element
+          that currently has keyboard <a href="https://svgwg.org/svg2-draft/interact.html#Focus">focus</a>
+          (e.g., after being focused from a script)
+          which may receive keyboard input events.
+        </li>
+      </ul>
+      <p>
+        With regards to pointer events, which bubble up the DOM tree,
+        the exact element that receives the event may not have semantic meaning 
+        (that is, it may still be presentational).
+        However, the ability to receive pointer events overrides other native SVG and CSS semantics that would otherwise cause the element or its ancestors to be considered <a>hidden</a>.
+      </p>
+      <p>
         For SVG, this specifically means that
         elements that would normally be included in the accessibility tree
         except for the fact they are invisible
@@ -953,32 +983,8 @@ var mappingTableLabels = {
         or a combination of <code>fill: none</code>
         and <code>stroke: none</code> for shapes or text)
         should nonetheless be included in the accessibility tree
-        if they can receive user input events.
-        Particular examples to consider:
-      </p>
-      <ul>
-        <li>
-          A rendered but invisible element 
-          with certain values for the
-          <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property
-          (<code>bounding-box</code>,
-          <code>painted</code>,
-          <code>fill</code>,
-          <code>stroke</code>, or
-          <code>all</code>)
-          may receive pointer events,
-          according to the rules for that property.
-        </li>
-        <li>
-          A rendered but invisible element 
-          with a non-empty value 
-          for the <code>tabindex</code> attribute
-          may receive keyboard focus and therefore keyboard input events.
-        </li>
-      </ul>
-      <p>
-        Elements that are interactive in either of these ways
-        MUST be included in the accessbility tree.
+        if they can receive pointer events based on the computed value of the
+        <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property.
       </p>
       <p>
         A container element that is itself hidden 
