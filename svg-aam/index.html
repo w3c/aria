@@ -710,7 +710,7 @@ var mappingTableLabels = {
         User agents <strong class="rfc2119">SHOULD NOT</strong> 
         expose to accessibility APIs
         any element that is hidden in this sense.
-        This includes elements that have the following computed style values,
+        This includes <a href="https://svgwg.org/svg2-draft/struct.html#TermGraphicsElement">graphics elements</a> that have the following computed style values,
         <em>unless</em> the element can receive user input
         (pointer events or keyboard focus) 
         as described under 
@@ -728,6 +728,20 @@ var mappingTableLabels = {
           of text or shape elements
         </li>
       </ul>
+      <p>
+        In the case of container elements (such as <code>g</code> or <code>svg</code>),
+        the element is not considered hidden 
+        if <em>any</em> of its descendent content is visible
+        <em>or</em> can receive user events,
+        regardless of the computed value of <code>visibility</code> or any other style property on the element itself.
+        (The container may, however, still be considered presentational if it does not have any other reason to include it in the accessibility tree.)
+        Similarly, a <code>use</code> element may include
+        visible or interactive component graphics, 
+        despite having style properties that would cause
+        an individual shape element to be hidden.
+        The <code>use</code> element MUST be considered visible or interactive 
+        if any of its re-used content is visible or interactive.
+      </p> 
       <p>
         An element that is currently positioned off-screen,
         or that is obscured by other elements,
@@ -959,7 +973,8 @@ var mappingTableLabels = {
           A <a href="https://svgwg.org/svg2-draft/render.html#TermRenderedElement">rendered</a> element 
           with a positive integer value 
           for the <code>tabindex</code> attribute,
-          or which is <a href="https://svgwg.org/svg2-draft/interact.html#TermFocusable">focusable</a> by default,
+          or which is <a href="https://svgwg.org/svg2-draft/interact.html#TermFocusable">focusable</a> by default
+          and has not been removed from the tab order with a negative integer <code>tabindex</code> attribute,
           which may receive keyboard focus and therefore keyboard input events.
         </li>
         <li>
@@ -986,22 +1001,6 @@ var mappingTableLabels = {
         if they can receive pointer events based on the computed value of the
         <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property.
       </p>
-      <p>
-        A container element that is itself hidden 
-        (e.g., via the <code>visibility</code> property)
-        may have children that are visible
-        and/or can receive events.
-        If the child elements would otherwise be excluded from the accessibility tree
-        because they lack semantic information,
-        the nearest ancestor element that meets the criteria for inclusion
-        SHOULD instead be treated as if it was visible or was able to receive events.
-        Similarly, a <code>use</code> element may include
-        visible or interactive component graphics, 
-        despite having style properties that would cause
-        an individual shape element to be hidden.
-        The <code>use</code> element SHOULD be considered visible or interactive 
-        if any of its re-used content is visible or interactive.
-      </p> 
       <p class="note">
         The <code>tabindex</code> attribute 
         and the <code>pointer-events</code> property
