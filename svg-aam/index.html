@@ -886,14 +886,14 @@ var mappingTableLabels = {
           It has at least one direct child 
           <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#TitleElement"><span>title</span></a>’</span> element
           or
-          <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><span>desc</span></a>'</span> element that is not empty after trimming whitespace.
+          <span class="element-name">‘<a href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><span>desc</span></a>'</span> element that is not empty after trimming whitespace.  User agents MAY include elements with these child elements without checking for valid text content.
         </li>
         <li>
           It has a non-empty 
           <span class="attr-name">‘<a class="property-reference" href="#aria-label"><span>aria-label</span></a>’</span> attribute (after trimming whitespace), or an
           <span class="attr-name">‘<a class="property-reference" href="#aria-labelledby"><span>aria-labelledby</span></a>’</span> attribute 
           or 
-          <span class="attr-name">‘<a class="property-reference" href="#aria-describedby"><span>aria-describedby</span></a>’</span> attribute containing valid IDREF tokens.
+          <span class="attr-name">‘<a class="property-reference" href="#aria-describedby"><span>aria-describedby</span></a>’</span> attribute containing valid IDREF tokens.  User agents MAY include elements with these attributes without checking for validity.
         </li>
         <li>
           It has a valid integer
@@ -2044,6 +2044,11 @@ var mappingTableLabels = {
               based on the language rules for the SVG specification,
               and return the title text content as the description.
             </p>
+            <p>
+              Otherwise, if the current node is a link,
+              and it has an <code>xlink:title</code> attribute that was not used for the accessible name,
+              return the value of that attribute.
+            </p>
           </blockquote>
         </li>
       </ol>
@@ -2110,7 +2115,7 @@ var mappingTableLabels = {
           <li><code>aria-labelledby</code></li>
           <li><code>aria-label</code></li>
           <li>a direct child <code>title</code> element</li>
-          <li><code>xlink:title</code> attribute</li>
+          <li><code>xlink:title</code> attribute on a link</li>
           <li>
             for a <code>use</code> element, 
             the accessible name calculated for the re-used content
@@ -2139,7 +2144,10 @@ var mappingTableLabels = {
             a direct child <code>title</code> element
             that provides a tooltip, 
             when ARIA label attributes are used 
-            to provide a different accessible name
+            to provide the accessible name
+          </li>
+          <li><code>xlink:title</code> attribute on a link,
+            if not used to provide the accessible name
           </li>
         </ol>
         <p>
