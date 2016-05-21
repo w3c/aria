@@ -21,7 +21,7 @@ respecEvents.sub("end", function( msg ) {
             // first get the properties
             $.each(document.querySelectorAll("pdef, sdef"), function(i, item) {
                 var type = (item.localName === "pdef" ? "property" : "state");
-                var parentNode = item.parentNode;
+                var container = item.parentNode;
                 var content = item.innerHTML;
                 var sp = document.createElement("span");
                 var title = item.getAttribute("title");
@@ -38,12 +38,25 @@ respecEvents.sub("end", function( msg ) {
                 dRef.setAttribute("role", "definition");
                 var heading = document.createElement("h3");
                 heading.appendChild(sp);
-                parentNode.replaceChild(heading, item);
+                container.replaceChild(heading, item);
                 // add this item to the index
                 propList[title] = { is: type, title: title, name: content, desc: desc, roles: [] };
-                var abstract = parentNode.querySelector("." + type + "-applicability");
+                var abstract = container.querySelector("." + type + "-applicability");
                 if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
                     globalSP.push({ is: type, title: title, name: content, desc: desc });
+                }
+                // the pdef/sdef is gone.  if we are in a div, convert that div to a section
+
+                if (container.nodeName.toLowerCase() == "div") {
+                    // change the enclosing DIV to a section with notoc
+                    var sec = document.createElement("section") ;
+                    $.each(container.attributes, function(i, attr) {
+                        sec.setAttribute(attr.name, attr.value);
+                    });
+                    $(sec).addClass("notoc");
+                    var theContents = container.innerHTML;
+                    sec.innerHTML = theContents;
+                    container.parentNode.replaceChild(sec, container) ;
                 }
 
             });
@@ -61,8 +74,8 @@ respecEvents.sub("end", function( msg ) {
             var roleIndex = "";
 
             $.each(document.querySelectorAll("rdef"), function(i,item) {
-                var parentNode = item.parentNode;
-                var $pn = $(parentNode) ;
+                var container = item.parentNode;
+                var $pn = $(container) ;
                 var content = item.innerHTML;
                 var sp = document.createElement("h3");
                 var title = item.getAttribute("title");
@@ -74,7 +87,7 @@ respecEvents.sub("end", function( msg ) {
                 sp.title = title;
                 // is this a role or an abstract role
                 var type = "role";
-                var abstract = parentNode.querySelectorAll(".role-abstract");
+                var abstract = container.querySelectorAll(".role-abstract");
                 if ($(abstract).text() === "True") {
                     type = "abstract role";
                 }
@@ -85,12 +98,12 @@ respecEvents.sub("end", function( msg ) {
                 var desc = dRef.firstElementChild.innerHTML;
                 dRef.id = "desc-" + title;
                 dRef.setAttribute("role", "definition");
-                parentNode.replaceChild(sp, item);
+                container.replaceChild(sp, item);
                 roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\">" + content + "</a></dt>\n";
                 roleIndex += "<dd>" + desc + "</dd>\n";
                 // grab info about this role
                 // do we have a parent class?  if so, put us in that parents list
-                var node = parentNode.querySelectorAll(".role-parent rref");
+                var node = container.querySelectorAll(".role-parent rref");
                 // s will hold the name of the parent role if any
                 var s = null;
                 var parentRoles = [];
@@ -108,7 +121,7 @@ respecEvents.sub("end", function( msg ) {
                 }
                 // are there supported states / properties in this role?  
                 var attrs = [];
-                $.each(parentNode.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
+                $.each(container.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
                     if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                         // looks like we do
                         $.each(node.querySelectorAll("pref,sref"), function(i, item) {
@@ -125,6 +138,17 @@ respecEvents.sub("end", function( msg ) {
                     }
                 });
                 localRoleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
+                if (container.nodeName.toLowerCase() == "div") {
+                    // change the enclosing DIV to a section with notoc
+                    var sec = document.createElement("section") ;
+                    $.each(container.attributes, function(i, attr) {
+                        sec.setAttribute(attr.name, attr.value);
+                    });
+                    $(sec).addClass("notoc");
+                    var theContents = container.innerHTML;
+                    sec.innerHTML = theContents;
+                    container.parentNode.replaceChild(sec, container) ;
+                }
             });
 
             var getStates = function(role) {
