@@ -1,742 +1,965 @@
 <!DOCTYPE html>
 <html lang="en-US" typeof="bibo:Document " prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#">
-<head><meta property="dc:language" content="en" lang="">
-<title>Requirements for Accessible Rich Internet Applications 1.1</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+  <meta property="dc:language" content="en" lang="">
+  <style>
+    /*
 
-<!-- <script src='http://pandora.aptest.com/respec/js/require.js' data-main="http://pandora.aptest.com/respec/js/profile-w3c-common" async class='remove'></script> -->
-<style>/* --- PERMALINKS --- */
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
-.permalink {
-    width: 1px;
-    height: 1px;
-    overflow: visible;
-    font-size: 10pt;
-    font-style: normal;
-    vertical-align: middle;
-    margin-left: 4px;
-	float: right;
-}
-
-.permalink a, .permalink a:link, .permalink a:visited, .permalink a:hover, .permalink a:focus, .permalink a:active
-{
-	background:transparent !important;
-	text-decoration:none;
-    font-weight: bold;
-	color:#666 !important;
-}
-
-.permalink abbr {
-	border:0;
-}
-</style><link href="../common/css/common.css" rel="stylesheet" type="text/css">
-	
-
-
-<style>/*****************************************************************
+*/
+    
+    .hljs {
+      display: block;
+      overflow-x: auto;
+      padding: 0.5em;
+      color: #333;
+      background: #f8f8f8;
+      -webkit-text-size-adjust: none;
+    }
+    
+    .hljs-comment,
+    .diff .hljs-header {
+      color: #998;
+      font-style: italic;
+    }
+    
+    .hljs-keyword,
+    .css .rule .hljs-keyword,
+    .hljs-winutils,
+    .nginx .hljs-title,
+    .hljs-subst,
+    .hljs-request,
+    .hljs-status {
+      color: #333;
+      font-weight: bold;
+    }
+    
+    .hljs-number,
+    .hljs-hexcolor,
+    .ruby .hljs-constant {
+      color: #008080;
+    }
+    
+    .hljs-string,
+    .hljs-tag .hljs-value,
+    .hljs-doctag,
+    .tex .hljs-formula {
+      color: #d14;
+    }
+    
+    .hljs-title,
+    .hljs-id,
+    .scss .hljs-preprocessor {
+      color: #900;
+      font-weight: bold;
+    }
+    
+    .hljs-list .hljs-keyword,
+    .hljs-subst {
+      font-weight: normal;
+    }
+    
+    .hljs-class .hljs-title,
+    .hljs-type,
+    .vhdl .hljs-literal,
+    .tex .hljs-command {
+      color: #458;
+      font-weight: bold;
+    }
+    
+    .hljs-tag,
+    .hljs-tag .hljs-title,
+    .hljs-rule .hljs-property,
+    .django .hljs-tag .hljs-keyword {
+      color: #000080;
+      font-weight: normal;
+    }
+    
+    .hljs-attribute,
+    .hljs-variable,
+    .lisp .hljs-body,
+    .hljs-name {
+      color: #008080;
+    }
+    
+    .hljs-regexp {
+      color: #009926;
+    }
+    
+    .hljs-symbol,
+    .ruby .hljs-symbol .hljs-string,
+    .lisp .hljs-keyword,
+    .clojure .hljs-keyword,
+    .scheme .hljs-keyword,
+    .tex .hljs-special,
+    .hljs-prompt {
+      color: #990073;
+    }
+    
+    .hljs-built_in {
+      color: #0086b3;
+    }
+    
+    .hljs-preprocessor,
+    .hljs-pragma,
+    .hljs-pi,
+    .hljs-doctype,
+    .hljs-shebang,
+    .hljs-cdata {
+      color: #999;
+      font-weight: bold;
+    }
+    
+    .hljs-deletion {
+      background: #fdd;
+    }
+    
+    .hljs-addition {
+      background: #dfd;
+    }
+    
+    .diff .hljs-change {
+      background: #0086b3;
+    }
+    
+    .hljs-chunk {
+      color: #aaa;
+    }
+  </style>
+  <style id="respec-mainstyle">
+    /*****************************************************************
  * ReSpec 3 CSS
  * Robin Berjon - http://berjon.com/
  *****************************************************************/
-
-/* --- INLINES --- */
-em.rfc2119 { 
-    text-transform:     lowercase;
-    font-variant:       small-caps;
-    font-style:         normal;
-    color:              #900;
-}
-
-h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
-h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
-    border: none;
-}
-
-dfn {
-    font-weight:    bold;
-}
-
-a.internalDFN {
-    color:  inherit;
-    border-bottom:  1px solid #99c;
-    text-decoration:    none;
-}
-
-a.externalDFN {
-    color:  inherit;
-    border-bottom:  1px dotted #ccc;
-    text-decoration:    none;
-}
-
-a.bibref {
-    text-decoration:    none;
-}
-
-cite .bibref {
-    font-style: normal;
-}
-
-code {
-    color:  #C83500;
-}
-
-/* --- TOC --- */
-.toc a, .tof a {
-    text-decoration:    none;
-}
-
-a .secno, a .figno {
-    color:  #000;
-}
-
-ul.tof, ol.tof {
-    list-style: none outside none;
-}
-
-.caption {
-    margin-top: 0.5em;
-    font-style:   italic;
-}
-
-/* --- TABLE --- */
-table.simple {
-    border-spacing: 0;
-    border-collapse:    collapse;
-    border-bottom:  3px solid #005a9c;
-}
-
-.simple th {
-    background: #005a9c;
-    color:  #fff;
-    padding:    3px 5px;
-    text-align: left;
-}
-
-.simple th[scope="row"] {
-    background: inherit;
-    color:  inherit;
-    border-top: 1px solid #ddd;
-}
-
-.simple td {
-    padding:    3px 10px;
-    border-top: 1px solid #ddd;
-}
-
-.simple tr:nth-child(even) {
-    background: #f0f6ff;
-}
-
-/* --- DL --- */
-.section dd > p:first-child {
-    margin-top: 0;
-}
-
-.section dd > p:last-child {
-    margin-bottom: 0;
-}
-
-.section dd {
-    margin-bottom:  1em;
-}
-
-.section dl.attrs dd, .section dl.eldef dd {
-    margin-bottom:  0;
-}
-
-.respec-hidden {
-    display: none;
-}
-
-@media print {
-    .removeOnSave {
+    /* Override code highlighter background */
+    
+    .hljs {
+      background: transparent !important;
+    }
+    /* --- INLINES --- */
+    
+    em.rfc2119 {
+      text-transform: lowercase;
+      font-variant: small-caps;
+      font-style: normal;
+      color: #900;
+    }
+    
+    h1 acronym,
+    h2 acronym,
+    h3 acronym,
+    h4 acronym,
+    h5 acronym,
+    h6 acronym,
+    a acronym,
+    h1 abbr,
+    h2 abbr,
+    h3 abbr,
+    h4 abbr,
+    h5 abbr,
+    h6 abbr,
+    a abbr {
+      border: none;
+    }
+    
+    dfn {
+      font-weight: bold;
+    }
+    
+    a.internalDFN {
+      color: inherit;
+      border-bottom: 1px solid #99c;
+      text-decoration: none;
+    }
+    
+    a.externalDFN {
+      color: inherit;
+      border-bottom: 1px dotted #ccc;
+      text-decoration: none;
+    }
+    
+    a.bibref {
+      text-decoration: none;
+    }
+    
+    cite .bibref {
+      font-style: normal;
+    }
+    
+    code {
+      color: #C83500;
+    }
+    /* --- TOC --- */
+    
+    .toc a,
+    .tof a {
+      text-decoration: none;
+    }
+    
+    a .secno,
+    a .figno {
+      color: #000;
+    }
+    
+    ul.tof,
+    ol.tof {
+      list-style: none outside none;
+    }
+    
+    .caption {
+      margin-top: 0.5em;
+      font-style: italic;
+    }
+    /* --- TABLE --- */
+    
+    table.simple {
+      border-spacing: 0;
+      border-collapse: collapse;
+      border-bottom: 3px solid #005a9c;
+    }
+    
+    .simple th {
+      background: #005a9c;
+      color: #fff;
+      padding: 3px 5px;
+      text-align: left;
+    }
+    
+    .simple th[scope="row"] {
+      background: inherit;
+      color: inherit;
+      border-top: 1px solid #ddd;
+    }
+    
+    .simple td {
+      padding: 3px 10px;
+      border-top: 1px solid #ddd;
+    }
+    
+    .simple tr:nth-child(even) {
+      background: #f0f6ff;
+    }
+    /* --- DL --- */
+    
+    .section dd > p:first-child {
+      margin-top: 0;
+    }
+    
+    .section dd > p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section dd {
+      margin-bottom: 1em;
+    }
+    
+    .section dl.attrs dd,
+    .section dl.eldef dd {
+      margin-bottom: 0;
+    }
+    
+    .respec-hidden {
+      display: none;
+    }
+    
+    @media print {
+      .removeOnSave {
         display: none;
+      }
     }
-}
-</style><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"><link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--><script type="application/json" id="initialUserConfig">{
-  "trace": true,
-  "doRDFa": "1.1",
-  "includePermalinks": true,
-  "permalinkEdge": true,
-  "permalinkHide": false,
-  "specStatus": "ED",
-  "diffTool": "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
-  "shortName": "wai-aria-1.1-requirements",
-  "copyrightStart": "2016",
-  "edDraftURI": "http://w3c.github.io/aria/requirements/aria-requirements.html",
-  "editors": [
+  </style>
+  <title>Requirements for Accessible Rich Internet Applications 1.1</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- <script src='http://pandora.aptest.com/respec/js/require.js' data-main="http://pandora.aptest.com/respec/js/profile-w3c-common" async class='remove'></script> -->
+  <style>
+    /* --- PERMALINKS --- */
+    
+    .permalink {
+      width: 1px;
+      height: 1px;
+      overflow: visible;
+      font-size: 10pt;
+      font-style: normal;
+      vertical-align: middle;
+      margin-left: 4px;
+      float: right;
+    }
+    
+    .permalink a,
+    .permalink a:link,
+    .permalink a:visited,
+    .permalink a:hover,
+    .permalink a:focus,
+    .permalink a:active {
+      background: transparent !important;
+      text-decoration: none;
+      font-weight: bold;
+      color: #666 !important;
+    }
+    
+    .permalink abbr {
+      border: 0;
+    }
+  </style>
+  <link href="../common/css/common.css" rel="stylesheet" type="text/css">
+
+
+
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
+  <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
+  <script type="application/json" id="initialUserConfig">
     {
-      "name": "Michael Cooper",
-      "url": "http://www.w3.org",
-      "mailto": "cooper@w3.org",
-      "company": "W3C",
-      "companyURI": "http://www.w3.org"
+      "trace": true,
+      "doRDFa": "1.1",
+      "includePermalinks": true,
+      "permalinkEdge": true,
+      "permalinkHide": false,
+      "specStatus": "ED",
+      "diffTool": "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
+      "shortName": "wai-aria-1.1-requirements",
+      "copyrightStart": "2016",
+      "edDraftURI": "http://w3c.github.io/aria/requirements/aria-requirements.html",
+      "editors": [
+      {
+        "name": "Michael Cooper",
+        "url": "http://www.w3.org",
+        "mailto": "cooper@w3.org",
+        "company": "W3C",
+        "companyURI": "http://www.w3.org"
+      }],
+      "wg": "Accessible Rich Internet Applications Working Group",
+      "wgURI": "http://www.w3.org/WAI/ARIA/",
+      "wgPublicList": "public-aria",
+      "wgPatentURI": "http://www.w3.org/2004/01/pp-impl/83726/status",
+      "maxTocLevel": 4,
+      "localBiblio":
+      {
+        "ACCNAME-AAM":
+        {
+          "title": "Accessible Name and Description: Computation and API Mappings 1.1",
+          "href": "http://www.w3.org/TR/accname-aam-1.1/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Joseph Scheuhammer",
+            "Michael Cooper",
+            "Andi Snow-Weaver",
+            "Aaron Leventhal"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/"
+          ]
+        },
+        "ARIA-PRACTICES":
+        {
+          "title": "WAI-ARIA Authoring Practicess 1.1",
+          "href": "http://www.w3.org/TR/wai-aria-practices-1.1/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Matt King",
+            "James Nurthen",
+            "Michael Cooper",
+            "Michiel Bijl",
+            "Joseph Scheuhammer",
+            "Lisa Pappas",
+            "Richard Schwerdtfeger"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/"
+          ]
+        },
+        "ATK":
+        {
+          "href": "https://developer.gnome.org/atk/stable/",
+          "title": "ATK - Accessibility Toolkit",
+          "publisher": "The GNOME Project"
+        },
+        "AXAPI":
+        {
+          "href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
+          "title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
+          "publisher": "Apple Corporation"
+        },
+        "CORE-AAM":
+        {
+          "title": "Core Accessibility API Mappings 1.1",
+          "href": "http://www.w3.org/TR/core-aam-1.1/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Joseph Scheuhammer",
+            "Michael Cooper",
+            "Andi Snow-Weaver",
+            "Aaron Leventhal"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/"
+          ]
+        },
+        "DPUB-ARIA":
+        {
+          "title": "Digital Publishing WAI-ARIA Module 1.0",
+          "href": "http://www.w3.org/TR/dpub-aria-1.0/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Matt Garrish",
+            "Tzviya Siegman",
+            "Markus Gylling",
+            "Shane McCarron"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/"
+          ]
+        },
+        "GRAPHICS-ARIA":
+        {
+          "title": "WAI-ARIA Graphics",
+          "href": "http://www.w3.org/TR/graphics-aria-1.0/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Amelia Bellamy-Royds",
+            "Fred Esch",
+            "Rich Schwerdtfeger",
+            "Leonie Watson"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/",
+            "http://www.w3.org/SVG/"
+          ]
+        },
+        "GRAPHICS-AAM":
+        {
+          "title": "Graphics Accessibility API Mappings",
+          "href": "http://www.w3.org/TR/graphics-aam-1.0/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Amelia Bellamy-Royds",
+            "Fred Esch",
+            "Richard Schwerdtfeger"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/ARIA/",
+            "http://www.w3.org/SVG/"
+          ]
+        },
+        "EPUB-SSV":
+        {
+          "href": "http://www.idpf.org/epub/vocab/structure/",
+          "title": "EPUB Structural Semantics Vocabulary",
+          "publisher": "IDPF"
+        },
+        "GTK":
+        {
+          "href": "https://developer.gnome.org/gtk3/stable/",
+          "title": "GTK+ 3 Reference Manual",
+          "publisher": "The GNOME Project"
+        },
+        "HTML-AAM":
+        {
+          "authors": [
+            "Steve Faulkner",
+            "Jason Kiss",
+            "Cynthia Shelly",
+            "Alexander Surkov"
+          ],
+          "etAl": true,
+          "href": "http://www.w3.org/TR/html-aam-1.0/",
+          "title": "HTML Accessibility API Mappings 1.0",
+          "status": "WD",
+          "publisher": "W3C",
+          "deliveredBy": [
+            "http://www.w3.org/html",
+            "http://www.w3.org/WAI/PF/"
+          ]
+        },
+        "MSAA":
+        {
+          "href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
+          "title": "Microsoft Active Accessibility (MSAA) 2.0",
+          "publisher": "Microsoft Corporation"
+        },
+        "SVG-AAM":
+        {
+          "title": "SVG2 Accessibility API Mappings 1.0",
+          "href": "http://www.w3.org/TR/svg-aam-1.0/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Amelia Bellamy-Royds",
+            "Richard Schwerdtfeger"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/PF/"
+          ]
+        },
+        "SVG1":
+        {
+          "title": "Scalable Vector Graphics (SVG) 1.0 Specification",
+          "href": "http://www.w3.org/TR/SVG10/",
+          "status": "REC",
+          "publisher": "W3C",
+          "authors": [
+            "John Ferraiolo"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/SVG"
+          ]
+        },
+        "SVG11":
+        {
+          "title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
+          "href": "http://www.w3.org/TR/SVG11/",
+          "status": "REC",
+          "publisher": "W3C",
+          "authors": [
+            "Erik Dahlström",
+            "Patrick Dengler",
+            "Anthony Grasso",
+            "Chris Lilley",
+            "Cameron McCormack",
+            "Doug Schepers",
+            "Jonathan Watt",
+            "John Ferraiolo",
+            "藤沢 淳 (FUJISAWA Jun)",
+            "Dean Jackson"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/SVG"
+          ]
+        },
+        "SVG2":
+        {
+          "title": "Scalable Vector Graphics (SVG) 2",
+          "href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "Nikos Andronikos",
+            "Rossen Atanassov",
+            "Tavmjong Bah",
+            "Amelia Bellamy-Royds",
+            "Brian Birtles",
+            "Cyril Concolato",
+            "Erik Dahlström",
+            "Chris Lilley",
+            "Cameron McCormack",
+            "Doug Schepers",
+            "Dirk Schulze",
+            "Richard Schwerdtfeger",
+            "Satoru Takagi",
+            "Jonathan Watt"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/PF/"
+          ]
+        },
+        "UI-AUTOMATION":
+        {
+          "href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
+          "title": "UI Automation",
+          "publisher": "Microsoft Corporation"
+        },
+        "UIA-EXPRESS":
+        {
+          "href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
+          "title": "The IAccessibleEx Interface",
+          "publisher": "Microsoft Corporation"
+        },
+        "WAI-ARIA":
+        {
+          "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
+          "href": "http://www.w3.org/TR/wai-aria-1.1/",
+          "status": "WD",
+          "publisher": "W3C",
+          "authors": [
+            "James Craig",
+            "Michael Cooper",
+            "Shane McCarron"
+          ],
+          "etAl": true,
+          "deliveredBy": [
+            "http://www.w3.org/WAI/PF/"
+          ]
+        },
+        "WAI-ARIA-10":
+        {
+          "authors": [
+            "James Craig",
+            "Michael Cooper"
+          ],
+          "etAl": true,
+          "href": "http://www.w3.org/TR/wai-aria/",
+          "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.0",
+          "status": "REC",
+          "publisher": "W3C",
+          "deliveredBy": [
+            "http://www.w3.org/WAI/PF/"
+          ]
+        }
+      }
     }
-  ],
-  "wg": "Accessible Rich Internet Applications Working Group",
-  "wgURI": "http://www.w3.org/WAI/ARIA/",
-  "wgPublicList": "public-aria",
-  "wgPatentURI": "http://www.w3.org/2004/01/pp-impl/83726/status",
-  "maxTocLevel": 4,
-  "localBiblio": {
-    "ACCNAME-AAM": {
-      "title": "Accessible Name and Description: Computation and API Mappings 1.1",
-      "href": "http://www.w3.org/TR/accname-aam-1.1/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Joseph Scheuhammer",
-        "Michael Cooper",
-        "Andi Snow-Weaver",
-        "Aaron Leventhal"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/"
-      ]
-    },
-    "ARIA-PRACTICES": {
-      "title": "WAI-ARIA Authoring Practicess 1.1",
-      "href": "http://www.w3.org/TR/wai-aria-practices-1.1/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Matt King",
-        "James Nurthen",
-        "Michael Cooper",
-        "Michiel Bijl",
-        "Joseph Scheuhammer",
-        "Lisa Pappas",
-        "Richard Schwerdtfeger"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/"
-      ]
-    },
-    "ATK": {
-      "href": "https://developer.gnome.org/atk/stable/",
-      "title": "ATK - Accessibility Toolkit",
-      "publisher": "The GNOME Project"
-    },
-    "AXAPI": {
-      "href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
-      "title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
-      "publisher": "Apple Corporation"
-    },
-    "CORE-AAM": {
-      "title": "Core Accessibility API Mappings 1.1",
-      "href": "http://www.w3.org/TR/core-aam-1.1/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Joseph Scheuhammer",
-        "Michael Cooper",
-        "Andi Snow-Weaver",
-        "Aaron Leventhal"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/"
-      ]
-    },
-    "DPUB-ARIA": {
-      "title": "Digital Publishing WAI-ARIA Module 1.0",
-      "href": "http://www.w3.org/TR/dpub-aria-1.0/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Matt Garrish",
-        "Tzviya Siegman",
-        "Markus Gylling",
-        "Shane McCarron"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/"
-      ]
-    },
-    "GRAPHICS-ARIA": {
-      "title": "WAI-ARIA Graphics",
-      "href": "http://www.w3.org/TR/graphics-aria-1.0/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Amelia Bellamy-Royds",
-        "Fred Esch",
-        "Rich Schwerdtfeger",
-        "Leonie Watson"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/",
-        "http://www.w3.org/SVG/"
-      ]
-    },
-    "GRAPHICS-AAM": {
-      "title": "Graphics Accessibility API Mappings",
-      "href": "http://www.w3.org/TR/graphics-aam-1.0/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Amelia Bellamy-Royds",
-        "Fred Esch",
-        "Richard Schwerdtfeger"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/ARIA/",
-        "http://www.w3.org/SVG/"
-      ]
-    },
-    "EPUB-SSV": {
-      "href": "http://www.idpf.org/epub/vocab/structure/",
-      "title": "EPUB Structural Semantics Vocabulary",
-      "publisher": "IDPF"
-    },
-    "GTK": {
-      "href": "https://developer.gnome.org/gtk3/stable/",
-      "title": "GTK+ 3 Reference Manual",
-      "publisher": "The GNOME Project"
-    },
-    "HTML-AAM": {
-      "authors": [
-        "Steve Faulkner",
-        "Jason Kiss",
-        "Cynthia Shelly",
-        "Alexander Surkov"
-      ],
-      "etAl": true,
-      "href": "http://www.w3.org/TR/html-aam-1.0/",
-      "title": "HTML Accessibility API Mappings 1.0",
-      "status": "WD",
-      "publisher": "W3C",
-      "deliveredBy": [
-        "http://www.w3.org/html",
-        "http://www.w3.org/WAI/PF/"
-      ]
-    },
-    "MSAA": {
-      "href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
-      "title": "Microsoft Active Accessibility (MSAA) 2.0",
-      "publisher": "Microsoft Corporation"
-    },
-    "SVG-AAM": {
-      "title": "SVG2 Accessibility API Mappings 1.0",
-      "href": "http://www.w3.org/TR/svg-aam-1.0/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Amelia Bellamy-Royds",
-        "Richard Schwerdtfeger"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/PF/"
-      ]
-    },
-    "SVG1": {
-      "title": "Scalable Vector Graphics (SVG) 1.0 Specification",
-      "href": "http://www.w3.org/TR/SVG10/",
-      "status": "REC",
-      "publisher": "W3C",
-      "authors": [
-        "John Ferraiolo"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/SVG"
-      ]
-    },
-    "SVG11": {
-      "title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
-      "href": "http://www.w3.org/TR/SVG11/",
-      "status": "REC",
-      "publisher": "W3C",
-      "authors": [
-        "Erik Dahlström",
-        "Patrick Dengler",
-        "Anthony Grasso",
-        "Chris Lilley",
-        "Cameron McCormack",
-        "Doug Schepers",
-        "Jonathan Watt",
-        "John Ferraiolo",
-        "藤沢 淳 (FUJISAWA Jun)",
-        "Dean Jackson"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/SVG"
-      ]
-    },
-    "SVG2": {
-      "title": "Scalable Vector Graphics (SVG) 2",
-      "href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "Nikos Andronikos",
-        "Rossen Atanassov",
-        "Tavmjong Bah",
-        "Amelia Bellamy-Royds",
-        "Brian Birtles",
-        "Cyril Concolato",
-        "Erik Dahlström",
-        "Chris Lilley",
-        "Cameron McCormack",
-        "Doug Schepers",
-        "Dirk Schulze",
-        "Richard Schwerdtfeger",
-        "Satoru Takagi",
-        "Jonathan Watt"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/PF/"
-      ]
-    },
-    "UI-AUTOMATION": {
-      "href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
-      "title": "UI Automation",
-      "publisher": "Microsoft Corporation"
-    },
-    "UIA-EXPRESS": {
-      "href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
-      "title": "The IAccessibleEx Interface",
-      "publisher": "Microsoft Corporation"
-    },
-    "WAI-ARIA": {
-      "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
-      "href": "http://www.w3.org/TR/wai-aria-1.1/",
-      "status": "WD",
-      "publisher": "W3C",
-      "authors": [
-        "James Craig",
-        "Michael Cooper",
-        "Shane McCarron"
-      ],
-      "etAl": true,
-      "deliveredBy": [
-        "http://www.w3.org/WAI/PF/"
-      ]
-    },
-    "WAI-ARIA-10": {
-      "authors": [
-        "James Craig",
-        "Michael Cooper"
-      ],
-      "etAl": true,
-      "href": "http://www.w3.org/TR/wai-aria/",
-      "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.0",
-      "status": "REC",
-      "publisher": "W3C",
-      "deliveredBy": [
-        "http://www.w3.org/WAI/PF/"
-      ]
-    }
-  }
-}</script></head>
-<body id="respecDocument" role="document" class="h-entry toc-inline"><div id="respecHeader" role="contentinfo" class="head">
-  <p>
-            <a class="logo" href="http://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C" height="48" width="72"></a>
-  </p>
-  <h1 class="title p-name" id="title" property="dcterms:title">Requirements for Accessible Rich Internet Applications 1.1</h1>
-  <h2 id="w3c-editor-s-draft-16-may-2016"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time property="dcterms:issued" class="dt-published" datetime="2016-05-16">16 May 2016</time></h2>
-  <dl>
+  </script>
+</head>
+<body id="respecDocument" role="document" class="h-entry toc-inline">
+  <div id="respecHeader" role="contentinfo" class="head">
+    <p>
+      <a class="logo" href="http://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt="W3C" height="48" width="72"></a>
+    </p>
+    <h1 class="title p-name" id="title" property="dcterms:title">Requirements for Accessible Rich Internet Applications 1.1</h1>
+    <h2 id="w3c-editor-s-draft-24-may-2016"><abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft <time property="dcterms:issued" class="dt-published" datetime="2016-05-24">24 May 2016</time></h2>
+    <dl>
       <dt>This version:</dt>
       <dd><a class="u-url" href="http://w3c.github.io/aria/requirements/aria-requirements.html">http://w3c.github.io/aria/requirements/aria-requirements.html</a></dd>
       <dt>Latest published version:</dt>
       <dd><a href="http://www.w3.org/TR/wai-aria-1.1-requirements/">http://www.w3.org/TR/wai-aria-1.1-requirements/</a></dd>
       <dt>Latest editor's draft:</dt>
       <dd><a href="http://w3c.github.io/aria/requirements/aria-requirements.html">http://w3c.github.io/aria/requirements/aria-requirements.html</a></dd>
-    <dt>Editor:</dt>
-    <dd class="p-author h-card vcard" property="bibo:editor" resource="_:editor0"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Michael Cooper"><a class="u-url url p-name fn" property="foaf:homepage" href="http://www.w3.org">Michael Cooper</a>, <abbr title="World Wide Web Consortium">W3C</abbr>, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:cooper@w3.org">cooper@w3.org</a></span></span>
-<span property="rdf:rest" resource="rdf:nil"></span>
-</dd>
+      <dt>Editor:</dt>
+      <dd class="p-author h-card vcard" property="bibo:editor" resource="_:editor0"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Michael Cooper"><a class="u-url url p-name fn" property="foaf:homepage" href="http://www.w3.org">Michael Cooper</a>, <abbr title="World Wide Web Consortium">W3C</abbr>, <span class="ed_mailto"><a class="u-email email" property="foaf:mbox" href="mailto:cooper@w3.org">cooper@w3.org</a></span></span>
+        <span property="rdf:rest" resource="rdf:nil"></span>
+      </dd>
 
-  </dl>
-      <p class="copyright">
-        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
-        2016
-        
-        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
-        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
-        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
-        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). 
-        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
-        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
-            <a rel="license" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
-        rules apply.
-      </p>
-  <hr title="Separator for header">
-</div>
-<section property="dc:abstract" class="introductory" id="abstract"><h2 resource="#h-abstract" id="h-abstract"><span property="xhv:role" resource="xhv:heading">Abstract</span></h2><p>
-</p></section><section id="sotd" class="introductory"><h2 resource="#h-sotd" id="h-sotd"><span property="xhv:role" resource="xhv:heading">Status of This Document</span></h2>
-        <p>
-          <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at http://www.w3.org/TR/.</em>
-        </p>
-          
-	<p>This is an Editor's Draft of the Protocols and Formats Working Group. It is not stable and may change at any time. Implementors should not use this for anything other than experimental implementations.</p>
+    </dl>
+    <p class="copyright">
+      <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2016
 
-          <p>
-            This document was published by the <a href="http://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> as an Editor's Draft.
-              If you wish to make comments regarding this document, please send them to
-              <a href="mailto:public-aria@w3.org">public-aria@w3.org</a>
-              (<a href="mailto:public-aria-request@w3.org?subject=subscribe">subscribe</a>,
-              <a href="http://lists.w3.org/Archives/Public/public-aria/">archives</a>).
-            
-              All comments are welcome.
-          </p>
-            <p>
-              Publication as an Editor's Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
-              Membership. This is a draft document and may be updated, replaced or obsoleted by other
-              documents at any time. It is inappropriate to cite this document as other than work in
-              progress.
-            </p>
-          <p>
-              This document was produced by
-              a group
-               operating under the
-              <a id="sotd_patent" property="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
-              Policy</a>.
-                <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/83726/status" rel="disclosure">public list of any patent
-                disclosures</a>
-              made in connection with the deliverables of
-              the group; that page also includes
-              instructions for disclosing a patent. An individual who has actual knowledge of a patent
-              which the individual believes contains
-              <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
-              Claim(s)</a> must disclose the information in accordance with
-              <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
-              6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
-          </p>
-            <p>This document is governed by the <a id="w3c_process_revision" href="http://www.w3.org/2015/Process-20150901/">1 September 2015 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
-            </p>
-          
-</section><nav id="toc"><h2 resource="#table-of-contents" id="table-of-contents" class="introductory"><span property="xhv:role" resource="xhv:heading">Table of Contents</span></h2><ul role="directory" class="toc"><li class="tocline"><a class="tocxref" href="#introduction"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a class="tocxref" href="#align-wai-aria-features-with-html-5-features"><span class="secno">2. </span>Align WAI-ARIA features with HTML 5 features</a></li><li class="tocline"><a class="tocxref" href="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span class="secno">3. </span>Improve the feature set for text alternatives and extended descriptions</a></li><li class="tocline"><a class="tocxref" href="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span class="secno">4. </span>Provide features urgently needed on present-day Web sites and supported in present-day assistive technology</a></li><li class="tocline"><a class="tocxref" href="#allow-modular-extensions-to-the-wai-aria-suite"><span class="secno">5. </span>Allow modular extensions to the WAI-ARIA suite</a></li><li class="tocline"><a class="tocxref" href="#simplify-the-wai-aria-model-where-possible"><span class="secno">6. </span>Simplify the WAI-ARIA model where possible</a></li><li class="tocline"><a class="tocxref" href="#changelog"><span class="secno">A. </span>Change Log</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-last-public-working-draft"><span class="secno">A.1 </span>Substantive changes since the <span class="formerLink">last public working draft</span></a></li><li class="tocline"><a class="tocxref" href="#other-substantive-changes-since-the-first-public-working-draft"><span class="secno">A.2 </span>Other substantive changes since the <span class="formerLink">First Public Working Draft</span></a></li></ul></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><span class="secno">B. </span>Acknowledgments</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#ack_group"><span class="secno">B.1 </span>Participants active in the ARIA WG at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_others"><span class="secno">B.2 </span>Other ARIA contributors, commenters, and previously active participants</a></li><li class="tocline"><a class="tocxref" href="#ack_funders"><span class="secno">B.3 </span>Enabling funders</a></li></ul></li></ul></nav>
+      <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (
+      <a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+      <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+      <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>).
+      <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+      <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+      <a rel="license" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.
+    </p>
+    <hr title="Separator for header">
+  </div>
 
-<section property="bibo:hasPart" resource="#introduction" typeof="bibo:Chapter" class="informative" id="introduction">
-	<!--OddPage--><h2 resource="#h-introduction" id="h-introduction"><span property="xhv:role" resource="xhv:heading"><span class="secno">1. </span>Introduction<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 1. Introduction" aria-label="Permalink for 1. Introduction" href="#introduction"><span content="1. Introduction" property="title">§</span></a></span></span></h2><p><em>This section is non-normative.</em></p>
-</section>
-	<section property="bibo:hasPart" resource="#align-wai-aria-features-with-html-5-features" typeof="bibo:Chapter" id="align-wai-aria-features-with-html-5-features">
-		<!--OddPage--><h2 resource="#h-align-wai-aria-features-with-html-5-features" id="h-align-wai-aria-features-with-html-5-features"><span property="xhv:role" resource="xhv:heading"><span class="secno">2. </span>Align WAI-ARIA features with HTML 5 features<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 2. Align WAI-ARIA features with HTML 5 features" aria-label="Permalink for 2. Align WAI-ARIA features with HTML 5 features" href="#align-wai-aria-features-with-html-5-features"><span content="2. Align WAI-ARIA features with HTML 5 features" property="title">§</span></a></span></span></h2>
-			<p>WAI-ARIA 1.0 and HTML 5.0 approached completion at roughly the same time and influenced each other's feature sets. However, WAI-ARIA 1.0 became a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation first. HTML 5.0 underwent further modification, plus work began on HTML 5.1. To best support authoring, it is important that WAI-ARIA provides coverage for the features used in HTML 5.</p>
-	</section>
-	<section property="bibo:hasPart" resource="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions" typeof="bibo:Chapter" id="improve-the-feature-set-for-text-alternatives-and-extended-descriptions">
-		<!--OddPage--><h2 resource="#h-improve-the-feature-set-for-text-alternatives-and-extended-descriptions" id="h-improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span property="xhv:role" resource="xhv:heading"><span class="secno">3. </span>Improve the feature set for text alternatives and extended descriptions<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 3. Improve the feature set for text alternatives and extended descriptions" aria-label="Permalink for 3. Improve the feature set for text alternatives and extended descriptions" href="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span content="3. Improve the feature set for text alternatives and extended descriptions" property="title">§</span></a></span></span></h2>
-			<p>Text alternatives in WAI-ARIA can be complicated because of the interplay of a variety of ARIA and host language features. Although there are several features that impact text alternatives, features to satisfactorily provide rich extended descriptions were not available. The HTML native feature longdesc has been removed from the core specification and, while available in an extension specification, does not meet the needs of some implementers. WAI-ARIA 1.1 is intended to close this feature gap.</p>
-	</section>
-		<section property="bibo:hasPart" resource="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology" typeof="bibo:Chapter" id="provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology">
-			<!--OddPage--><h2 resource="#h-provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology" id="h-provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span property="xhv:role" resource="xhv:heading"><span class="secno">4. </span>Provide features urgently needed on present-day Web sites and supported in present-day assistive technology<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" aria-label="Permalink for 4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" href="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span content="4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" property="title">§</span></a></span></span></h2>
-			<p>WAI-ARIA 1.0 provides a set of features that map fairly comprehensively to platform accessibility APIs. Since its completion, however, some missing features have been identified. When critical to the accessibility of present-day web sites, these features will be provided in ARIA 1.1. Less urgent features are deferred to ARIA 2.0.</p>
-		</section>
-	<section property="bibo:hasPart" resource="#allow-modular-extensions-to-the-wai-aria-suite" typeof="bibo:Chapter" id="allow-modular-extensions-to-the-wai-aria-suite">
-		<!--OddPage--><h2 resource="#h-allow-modular-extensions-to-the-wai-aria-suite" id="h-allow-modular-extensions-to-the-wai-aria-suite"><span property="xhv:role" resource="xhv:heading"><span class="secno">5. </span>Allow modular extensions to the WAI-ARIA suite<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 5. Allow modular extensions to the WAI-ARIA suite" aria-label="Permalink for 5. Allow modular extensions to the WAI-ARIA suite" href="#allow-modular-extensions-to-the-wai-aria-suite"><span content="5. Allow modular extensions to the WAI-ARIA suite" property="title">§</span></a></span></span></h2>
-		<p>WAI-ARIA 1.0 was not designed with extensibility in mind. Some communities have requested features, however, that would require a substantial revision of the ARIA technology to incoporate. WAI-ARIA 1.1 will allow, via process and tools, extensions that inhert all the features of the core specification plus add new ones. <a href="https://www.w3.org/WAI/PF/wiki/ARIAExtensions">Draft procedures for extensions</a> are available.</p>
-	</section>
-	<section property="bibo:hasPart" resource="#simplify-the-wai-aria-model-where-possible" typeof="bibo:Chapter" id="simplify-the-wai-aria-model-where-possible">
-		<!--OddPage--><h2 resource="#h-simplify-the-wai-aria-model-where-possible" id="h-simplify-the-wai-aria-model-where-possible"><span property="xhv:role" resource="xhv:heading"><span class="secno">6. </span>Simplify the WAI-ARIA model where possible<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 6. Simplify the WAI-ARIA model where possible" aria-label="Permalink for 6. Simplify the WAI-ARIA model where possible" href="#simplify-the-wai-aria-model-where-possible"><span content="6. Simplify the WAI-ARIA model where possible" property="title">§</span></a></span></span></h2>
-			<p>WAI-ARIA is designed using a taxonomy of roles, with states and properties, to describe coverage of its feature set. Adherence to the taxonomy has resulted in relationships among features that are not always well understood by users, or seen as necessary. The taxonomy, while still used as a design tool, will be removed from the core specification. Features driven by the taxonomy will be normalized to better reflect their actual intent.</p>
-	</section>
-	<section property="bibo:hasPart" resource="#changelog" typeof="bibo:Chapter" class="appendix" id="changelog">
-	<!--OddPage--><h2 resource="#h-changelog" id="h-changelog"><span property="xhv:role" resource="xhv:heading"><span class="secno">A. </span>Change Log<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A. Change Log" aria-label="Permalink for A. Change Log" href="#changelog"><span content="A. Change Log" property="title">§</span></a></span></span></h2>
-	<section property="bibo:hasPart" resource="#substantive-changes-since-the-last-public-working-draft" typeof="bibo:Chapter" id="substantive-changes-since-the-last-public-working-draft">
-		<h3 resource="#h-substantive-changes-since-the-last-public-working-draft" id="h-substantive-changes-since-the-last-public-working-draft"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.1 </span>Substantive changes since the <a href="@@">last public working draft</a><span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A.1 Substantive changes since the last public working draft" aria-label="Permalink for A.1 Substantive changes since the last public working draft" href="#substantive-changes-since-the-last-public-working-draft"><span content="A.1 Substantive changes since the last public working draft" property="title">§</span></a></span></span></h3>
-		<ul>
-			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
-		</ul>
-	</section>
-	<section property="bibo:hasPart" resource="#other-substantive-changes-since-the-first-public-working-draft" typeof="bibo:Chapter" id="other-substantive-changes-since-the-first-public-working-draft">
-		<h3 resource="#h-other-substantive-changes-since-the-first-public-working-draft" id="h-other-substantive-changes-since-the-first-public-working-draft"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.2 </span>Other substantive changes since the <a href="@@">First Public Working Draft</a><span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A.2 Other substantive changes since the First Public Working Draft" aria-label="Permalink for A.2 Other substantive changes since the First Public Working Draft" href="#other-substantive-changes-since-the-first-public-working-draft"><span content="A.2 Other substantive changes since the First Public Working Draft" property="title">§</span></a></span></span></h3>
-		<ul>
-			<!-- EdNote: After each WD publish, move previous list into this one. -->
-		</ul>
-	</section>
-</section>
-<section property="bibo:hasPart" resource="#acknowledgements" typeof="bibo:Chapter" class="appendix informative section" id="acknowledgements">
-	<!--OddPage--><h2 resource="#h-acknowledgements" id="h-acknowledgements"><span property="xhv:role" resource="xhv:heading"><span class="secno">B. </span>Acknowledgments<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B. Acknowledgments" aria-label="Permalink for B. Acknowledgments" href="#acknowledgements"><span content="B. Acknowledgments" property="title">§</span></a></span></span></h2><p><em>This section is non-normative.</em></p>
-	<p>The following people contributed to the development of this document.</p>
-	<section property="bibo:hasPart" resource="#ack_group" typeof="bibo:Chapter" class="section" id="ack_group">
-		<h3 resource="#h-ack_group" id="h-ack_group"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.1 </span>Participants active in the ARIA WG at the time of publication<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.1 Participants active in the ARIA WG at the time of publication" aria-label="Permalink for B.1 Participants active in the ARIA WG at the time of publication" href="#ack_group"><span content="B.1 Participants active in the ARIA WG at the time of publication" property="title">§</span></a></span></span></h3>
-		<ul>
-			<li>Ann Abbott (IBM Corporation)</li>
-			<li>Michiel Bijl (The Paciello Group)</li>
-			<li>Christy Blew (University of Illinois at Urbana-Champaign)</li>
-			<li>David Bolter (Mozilla Foundation) </li>
-			<li>Michael Cooper (<abbr title="World Wide Web Consortium">W3C</abbr>/<abbr title="Massachusetts Institute of Technology">MIT</abbr>)</li>
-			<li>James Craig (Apple Inc.) </li>
-			<li>Joanmarie Diggs (Igalia)</li>
-			<li>Fred Esch (IBM Corporation)</li>
-			<li>Steve Faulkner (The Paciello Group) </li>
-			<li>John Foliot (Invited Expert)</li>
-			<li>Bryan Garaventa (SSB BART Group)</li>
-			<li>Matt Garrish (DAISY Consortium)</li>
-			<li>Billy Gregory (The Paciello Group)</li>
-			<li>Karl Groves (The Paciello Group)</li>
-			<li>Jon Gunderson (University of Illinois at Urbana-Champaign)</li>
-			<li>Markus Gylling (DAISY Consortium)</li>
-			<li>Markku Hakkinen (Educational Testing Service)</li>
-			<li>Katie Haritos-Shea (Knowbility)</li>
-			<li>Susann Keohane (IBM Corporation)</li>
-			<li>Matthew King (Facebook)</li>
-			<li>Jason Kiss (Department of Internal Affairs, New Zealand Government)</li>
-			<li>Jamie Knight (British Broadcasting Corporation)</li>
-			<li>JaEun Jemma Ku (University of Illinois at Urbana-Champaign)</li>
-			<li>Shane McCarron (Invited Expert, Aptest)</li>
-			<li>Charles McCathie Nevile (Yandex)</li>
-			<li>Mary Jo Mueller (IBM Corporation)</li>
-			<li>James Nurthen (Oracle Corporation) </li>
-			<li>Ian Pouncey (The Paciello Group, LLC)</li>
-			<li>Mark Sadecki (Invited Expert)</li>
-			<li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
-			<li>Joseph Scheuhammer (Invited Expert, Inclusive Design Research Centre, OCAD University) </li>
-			<li>Stefan Schnabel (SAP AG) </li>
-			<li>Richard Schwerdtfeger (IBM Corporation)</li>
-			<li>Lisa Seeman (Invited Expert) </li>
-			<li>Tzviya Siegman (Wiley)</li>
-			<li>Cynthia Shelly (Microsoft Corporation) </li>
-			<li>Alexander Surkov (Mozilla Foundation)</li>
-			<li>Léonie Watson (The Paciello Group)</li>
-			<li>Jason White (Educational Testing Service)</li>
-			<li>Gottfried Zimmermann (Invited Expert, Access Technologies Group)</li>
-		</ul>
+  <section property="dc:abstract" class="introductory" id="abstract">
+    <h2 resource="#h-abstract" id="h-abstract"><span property="xhv:role" resource="xhv:heading">Abstract</span></h2>
+    <p>
+    </p>
   </section>
-	<section property="bibo:hasPart" resource="#ack_others" typeof="bibo:Chapter" class="section" id="ack_others">
-		<h3 resource="#h-ack_others" id="h-ack_others"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.2 </span>Other ARIA contributors, commenters, and previously active participants<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.2 Other ARIA contributors, commenters, and previously active participants" aria-label="Permalink for B.2 Other ARIA contributors, commenters, and previously active participants" href="#ack_others"><span content="B.2 Other ARIA contributors, commenters, and previously active participants" property="title">§</span></a></span></span></h3>
-		<ul>
-			<li>Shadi Abou-Zahra (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
-			<li>Jim Allan (TSB)</li>
-			<li>Jonny Axelsson (Opera Software)</li>
-			<li>David Baron (Mozilla Foundation)</li>
-			<li>Art Barstow (Nokia Corporation)</li>
-			<li>Simon Bates</li>
-			<li>Chris Blouch (AOL)</li>
-			<li>Judy Brewer (<abbr title="World Wide Web Consortium">W3C</abbr>/<abbr title="Massachusetts Institute of Technology">MIT</abbr>)</li>
-			<li>Mark Birbeck (Sidewinder Labs)</li>
-			<li>Sally Cain (Royal National Institute of Blind People (RNIB))</li>
-			<li>Gerardo Capiel (Benetech)</li>
-			<li>Ben Caldwell (Trace)</li>
-			<li>Sofia Celic-Li</li>
-			<li>Jaesik Chang (Samsung Electronics Co., Ltd.)</li>
-			<li>Alex Qiang Chen (University of Manchester)</li>
-			<li>Charles Chen (Google, Inc.)</li>
-			<li>Christian Cohrs</li>
-			<li>Deborah Dahl</li>
-			<li>Erik Dahlström (Opera Software)</li>
-			<li>Dimitar Denev (Frauenhofer Gesellschaft)</li>
-			<li>Micah Dubinko (Invited Expert)</li>
-			<li>Mandana Eibegger</li>
-			<li>Beth Epperson (Websense)</li>
-			<li>Donald Evans (AOL)</li>
-			<li>Chris Fleizach (Apple Inc.)</li>
-			<li>Kelly Ford (Microsoft Corporation)</li>
-			<li>Geoff Freed (Invited Expert, NCAM)</li>
-			<li>Christopher Gallelo (Microsoft Corporation)</li>
-			<li>Birkir Gunnarsson (Deque Systems, Inc.)</li>
-			<li>Kentarou Fukuda (IBM Corporation)</li>
-			<li>Bryan Garaventa</li>
-			<li>Guido Geloso</li>
-			<li>Ali Ghassemi</li>
-			<li>Becky Gibson (IBM)</li>
-			<li>Alfred S. Gilman</li>
-			<li>Andres Gonzalez (Adobe Systems Inc.)</li>
-			<li>Scott González (JQuery Foundation)</li>
-			<li>James Graham</li>
-			<li>Georgios Grigoriadis (SAP AG)</li>
-			<li>Jeff Grimes (Oracle)</li>
-			<li>Loretta Guarino Reid (Google, Inc.)</li>
-			<li>Barbara Hartel</li>
-			<li>James Hawkins (Google, Inc.)</li>
-			<li>Benjamin Hawkes-Lewis</li>
-			<li>Sean Hayes (Microsoft Corporation)</li>
-			<li>Mona Heath (University of Illinois at Urbana-Champaign)</li>
-			<li>Jan Heck</li>
-			<li>Shawn Henry</li>
-			<li>Tina Homboe</li>
-			<li>John Hrvatin (Microsoft Corporation)</li>
-			<li>Takahiro Inada</li>
-			<li>Masayasu Ishikawa (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
-			<li>Jim Jewitt</li>
-			<li>Kenny Johar (Microsoft Corporation)</li>
-			<li>Shilpi Kapoor (BarrierBreak Technologies)</li>
-			<li>Masahiko Kaneko (Microsoft Corporation)</li>
-			<li>Marjolein Katsma</li>
-			<li>George Kerscher (International Digital Publishing Forum)</li>
-			<li>Jason Kiss (New Zealand Government)</li>
-			<li>Todd Kloots</li>
-			<li>Johannes Koch</li>
-			<li>Sam Kuper</li>
-			<li>Earl Johnson (Sun)</li>
-			<li>Jael Kurz</li>
-			<li>Rajesh Lal (Nokia Corporation)</li>
-			<li>Diego La Monica (International Webmasters Association / HTML Writers Guild (IWA-HWG))</li>
-			<li>Aaron Leventhal (IBM Corporation)</li>
-			<li>Gez Lemon (International Webmasters Association / HTML Writers Guild (IWA-HWG))</li>
-			<li>Alex Li (SAP)</li>
-			<li>Chris Lilley</li>
-			<li>Thomas Logan (HiSoftware Inc.)</li>
-			<li>William Loughborough (Invited Expert)</li>
-			<li>Linda Mao (Microsoft)</li>
-			<li>David MacDonald (Invited Expert, CanAdapt Solutions Inc.)</li>
-			<li>Carolyn MacLeod</li>
-			<li>Anders Markussen (Opera Software)</li>
-			<li>Krzysztof Maczyński </li>
-			<li>Matthew May (Adobe Systems Inc.)</li>
-			<li>Dominic Mazzoni (Google, Inc.)</li>
-			<li>Alexandre Morgaut (4D)</li>
-			<li>Ann Navarro (Invited Expert)</li>
-			<li>Joshue O Connor (Invited Expert, CFIT)</li>
-			<li>Artur Ortega (Microsoft Corporation)</li>
-			<li>Sailesh Panchang (Deque)</li>
-			<li>Lisa Pappas (Society for Technical Communication (STC))</li>
-			<li>Marta Pawlowlska (Samsung Electronics Co., Ltd.)</li>
-			<li>Dave Pawson (RNIB)</li>
-			<li>Steven Pemberton (CWI Amsterdam)</li>
-			<li>Simon Pieters (Opera Software)</li>
-			<li>Jean-Bernard Piot (4D)</li>
-			<li>David Poehlman, Simon Pieters (Opera Software)</li>
-			<li>Sarah Pulis (Media Access Australia)</li>
-			<li>T.V. Raman (Google, Inc.)</li>
-			<li>Jan Richards</li>
-			<li>Gregory Rosmaita (Invited Expert)</li>
-			<li>Tony Ross (Microsoft Corporation)</li>
-			<li>Alex Russell (Dojo Foundation) (</li>
-			<li>Mark Sadecki (Invited Expert)</li>
-			<li>Mario Sánchez Prada (Samsung Electronics Co., Ltd. and Gnome Foundation)</li>
-			<li>Martin Schaus (SAP AG)</li>
-			<li>Doug Schepers (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
-			<li>Matthias Schmitt </li>
-			<li>Marc Silbey (Microsoft Corporation)</li>
-			<li>Leif Halvard Sili</li>
-			<li>Henri Sivonen (Mozilla)</li>
-			<li>Michael Smith (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
-			<li>Andi Snow-Weaver (IBM Corporation)</li>
-			<li>Ville Skyttä </li>
-			<li>Henny Swan (BBC)</li>
-			<li>Neil Soiffer (Design Science)</li>
-			<li>Vitaly Sourikov</li>
-			<li>Mike Squillace (IBM)</li>
-			<li>Maciej Stachowiak (Apple Inc.)</li>
-			<li>Christophe Strobbe</li>
-			<li>Suzanne Taylor (Pearson plc)</li>
-			<li>Terrill Thompson</li>
-			<li>David Todd</li>
-			<li>Gregg Vanderheiden (Invited Expert, Trace)</li>
-			<li>Anne van Kesteren</li>
-			<li>Wen He (Tencent)</li>
-			<li>Wu Wei (<abbr title="World Wide Web Consortium">W3C</abbr> / RITT)</li>
-			<li>Ryan Williams (Oracle)</li>
-			<li>Tom Wlodkowski</li>
-			<li>Sam White (Apple Inc.)</li>
-			<li>Marco Zehe (Mozilla Foundation)</li>
-		</ul>
-	</section>
-	<section property="bibo:hasPart" resource="#ack_funders" typeof="bibo:Chapter" class="section" id="ack_funders">
-		<h3 resource="#h-ack_funders" id="h-ack_funders"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.3 </span>Enabling funders<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.3 Enabling funders" aria-label="Permalink for B.3 Enabling funders" href="#ack_funders"><span content="B.3 Enabling funders" property="title">§</span></a></span></span></h3>
-		<p>This publication has been funded in part with U.S. Federal funds from the Department of Education, National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), initially under contract number ED-OSE-10-C-0067 and currently under contract number HHSP23301500054C. The content of this publication does not necessarily reflect the views or policies of the U.S. Department of Education, nor does mention of trade names, commercial products, or organizations imply endorsement by the U.S. Government.</p>
-	</section>
-</section>
+
+  <section id="sotd" class="introductory">
+    <h2 resource="#h-sotd" id="h-sotd"><span property="xhv:role" resource="xhv:heading">Status of This Document</span></h2>
+    <p>
+      <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at http://www.w3.org/TR/.</em>
+    </p>
+
+
+    <p>
+      This document was published by the <a href="http://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> as an Editor's Draft. If you wish to make comments regarding this document, please send them to
+      <a href="mailto:public-aria@w3.org">public-aria@w3.org</a> (
+      <a href="mailto:public-aria-request@w3.org?subject=subscribe">subscribe</a>,
+      <a href="http://lists.w3.org/Archives/Public/public-aria/">archives</a>). All comments are welcome.
+    </p>
+    <p>
+      Publication as an Editor's Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.
+    </p>
+    <p>
+      This document was produced by a group operating under the
+      <a id="sotd_patent" property="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
+              Policy</a>.
+      <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/83726/status" rel="disclosure">public list of any patent
+                disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains
+      <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+              Claim(s)</a> must disclose the information in accordance with
+      <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+              6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+    </p>
+    <p>This document is governed by the <a id="w3c_process_revision" href="http://www.w3.org/2015/Process-20150901/">1 September 2015 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+    </p>
+
+  </section>
+  <nav id="toc">
+    <h2 resource="#table-of-contents" id="table-of-contents" class="introductory"><span property="xhv:role" resource="xhv:heading">Table of Contents</span></h2>
+    <ul role="directory" class="toc">
+      <li class="tocline"><a class="tocxref" href="#introduction"><span class="secno">1. </span>Introduction</a></li>
+      <li class="tocline"><a class="tocxref" href="#align-wai-aria-features-with-html-5-features"><span class="secno">2. </span>Align WAI-ARIA features with HTML 5 features</a></li>
+      <li class="tocline"><a class="tocxref" href="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span class="secno">3. </span>Improve the feature set for text alternatives and extended descriptions</a></li>
+      <li class="tocline"><a class="tocxref" href="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span class="secno">4. </span>Provide features urgently needed on present-day Web sites and supported in present-day assistive technology</a></li>
+      <li class="tocline"><a class="tocxref" href="#allow-modular-extensions-to-the-wai-aria-suite"><span class="secno">5. </span>Allow modular extensions to the WAI-ARIA suite</a></li>
+      <li class="tocline"><a class="tocxref" href="#simplify-the-wai-aria-model-where-possible"><span class="secno">6. </span>Simplify the WAI-ARIA model where possible</a></li>
+      <li class="tocline"><a class="tocxref" href="#changelog"><span class="secno">A. </span>Change Log</a>
+        <ul class="toc">
+          <li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-last-public-working-draft"><span class="secno">A.1 </span>Substantive changes since the <span class="formerLink">last public working draft</span></a></li>
+          <li class="tocline"><a class="tocxref" href="#other-substantive-changes-since-the-first-public-working-draft"><span class="secno">A.2 </span>Other substantive changes since the <span class="formerLink">First Public Working Draft</span></a></li>
+        </ul>
+      </li>
+      <li class="tocline"><a class="tocxref" href="#acknowledgements"><span class="secno">B. </span>Acknowledgments</a>
+        <ul class="toc">
+          <li class="tocline"><a class="tocxref" href="#ack_group"><span class="secno">B.1 </span>Participants active in the ARIA WG at the time of publication</a></li>
+          <li class="tocline"><a class="tocxref" href="#ack_others"><span class="secno">B.2 </span>Other ARIA contributors, commenters, and previously active participants</a></li>
+          <li class="tocline"><a class="tocxref" href="#ack_funders"><span class="secno">B.3 </span>Enabling funders</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <section property="bibo:hasPart" resource="#introduction" typeof="bibo:Chapter" class="informative" id="introduction">
+    <!--OddPage-->
+    <h2 resource="#h-introduction" id="h-introduction"><span property="xhv:role" resource="xhv:heading"><span class="secno">1. </span>Introduction<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 1. Introduction" aria-label="Permalink for 1. Introduction" href="#introduction"><span content="1. Introduction" property="title">§</span></a></span></span></h2>
+    <p><em>This section is non-normative.</em></p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#align-wai-aria-features-with-html-5-features" typeof="bibo:Chapter" id="align-wai-aria-features-with-html-5-features">
+    <!--OddPage-->
+    <h2 resource="#h-align-wai-aria-features-with-html-5-features" id="h-align-wai-aria-features-with-html-5-features"><span property="xhv:role" resource="xhv:heading"><span class="secno">2. </span>Align WAI-ARIA features with HTML 5 features<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 2. Align WAI-ARIA features with HTML 5 features" aria-label="Permalink for 2. Align WAI-ARIA features with HTML 5 features" href="#align-wai-aria-features-with-html-5-features"><span content="2. Align WAI-ARIA features with HTML 5 features" property="title">§</span></a></span></span></h2>
+    <p>WAI-ARIA 1.0 and HTML 5.0 approached completion at roughly the same time and influenced each other's feature sets. However, WAI-ARIA 1.0 became a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation first. HTML 5.0 underwent further modification, plus work began on HTML 5.1. To best support authoring, it is important that WAI-ARIA provides coverage for the features used in HTML 5.</p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions" typeof="bibo:Chapter" id="improve-the-feature-set-for-text-alternatives-and-extended-descriptions">
+    <!--OddPage-->
+    <h2 resource="#h-improve-the-feature-set-for-text-alternatives-and-extended-descriptions" id="h-improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span property="xhv:role" resource="xhv:heading"><span class="secno">3. </span>Improve the feature set for text alternatives and extended descriptions<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 3. Improve the feature set for text alternatives and extended descriptions" aria-label="Permalink for 3. Improve the feature set for text alternatives and extended descriptions" href="#improve-the-feature-set-for-text-alternatives-and-extended-descriptions"><span content="3. Improve the feature set for text alternatives and extended descriptions" property="title">§</span></a></span></span></h2>
+    <p>Text alternatives in WAI-ARIA can be complicated because of the interplay of a variety of ARIA and host language features. Although there are several features that impact text alternatives, features to satisfactorily provide rich extended descriptions were not available. The HTML native feature longdesc has been removed from the core specification and, while available in an extension specification, does not meet the needs of some implementers. WAI-ARIA 1.1 is intended to close this feature gap.</p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology" typeof="bibo:Chapter" id="provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology">
+    <!--OddPage-->
+    <h2 resource="#h-provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology" id="h-provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span property="xhv:role" resource="xhv:heading"><span class="secno">4. </span>Provide features urgently needed on present-day Web sites and supported in present-day assistive technology<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" aria-label="Permalink for 4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" href="#provide-features-urgently-needed-on-present-day-web-sites-and-supported-in-present-day-assistive-technology"><span content="4. Provide features urgently needed on present-day Web sites and supported in present-day assistive technology" property="title">§</span></a></span></span></h2>
+    <p>WAI-ARIA 1.0 provides a set of features that map common rich internet application semantics, fairly comprehensively, to platform accessibility APIs. Since its completion, however, some missing features have been identified as the web has evolved and to better align with HTML 5. Examples of these include: error message support; the addition of a figure role; the addition of aria-current; the addition of a switch role for mobile devices; and the leveraging of native host language semantics as host languages leverage ARIA semantics. When critical to the accessibility of present-day web sites, these features will be provided in ARIA 1.1. Less urgent features or are deferred to ARIA 2.0.</p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#allow-modular-extensions-to-the-wai-aria-suite" typeof="bibo:Chapter" id="allow-modular-extensions-to-the-wai-aria-suite">
+    <!--OddPage-->
+    <h2 resource="#h-allow-modular-extensions-to-the-wai-aria-suite" id="h-allow-modular-extensions-to-the-wai-aria-suite"><span property="xhv:role" resource="xhv:heading"><span class="secno">5. </span>Allow modular extensions to the WAI-ARIA suite<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 5. Allow modular extensions to the WAI-ARIA suite" aria-label="Permalink for 5. Allow modular extensions to the WAI-ARIA suite" href="#allow-modular-extensions-to-the-wai-aria-suite"><span content="5. Allow modular extensions to the WAI-ARIA suite" property="title">§</span></a></span></span></h2>
+    <p>WAI-ARIA 1.0 was not designed with extensibility in mind. Some communities have requested features, however, that would require a substantial revision of the ARIA technology to incoporate. WAI-ARIA 1.1 will allow, via process and tools, extensions that inhert all the features of the core specification plus add new ones. <a href="https://www.w3.org/WAI/PF/wiki/ARIAExtensions">Draft procedures for extensions</a> are available.</p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#simplify-the-wai-aria-model-where-possible" typeof="bibo:Chapter" id="simplify-the-wai-aria-model-where-possible">
+    <!--OddPage-->
+    <h2 resource="#h-simplify-the-wai-aria-model-where-possible" id="h-simplify-the-wai-aria-model-where-possible"><span property="xhv:role" resource="xhv:heading"><span class="secno">6. </span>Simplify the WAI-ARIA model where possible<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for 6. Simplify the WAI-ARIA model where possible" aria-label="Permalink for 6. Simplify the WAI-ARIA model where possible" href="#simplify-the-wai-aria-model-where-possible"><span content="6. Simplify the WAI-ARIA model where possible" property="title">§</span></a></span></span></h2>
+    <p>WAI-ARIA is designed using a taxonomy of roles, with states and properties, to describe coverage of its feature set. Adherence to the taxonomy has resulted in relationships among features that are not always well understood by users, or seen as necessary. The taxonomy, while still used as a design tool, will be removed from the core specification. Features driven by the taxonomy will be normalized to better reflect their actual intent.</p>
+  </section>
+
+  <section property="bibo:hasPart" resource="#changelog" typeof="bibo:Chapter" class="appendix" id="changelog">
+    <!--OddPage-->
+    <h2 resource="#h-changelog" id="h-changelog"><span property="xhv:role" resource="xhv:heading"><span class="secno">A. </span>Change Log<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A. Change Log" aria-label="Permalink for A. Change Log" href="#changelog"><span content="A. Change Log" property="title">§</span></a></span></span></h2>
+
+    <section property="bibo:hasPart" resource="#substantive-changes-since-the-last-public-working-draft" typeof="bibo:Chapter" id="substantive-changes-since-the-last-public-working-draft">
+      <h3 resource="#h-substantive-changes-since-the-last-public-working-draft" id="h-substantive-changes-since-the-last-public-working-draft"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.1 </span>Substantive changes since the <a href="@@">last public working draft</a><span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A.1 Substantive changes since the last public working draft" aria-label="Permalink for A.1 Substantive changes since the last public working draft" href="#substantive-changes-since-the-last-public-working-draft"><span content="A.1 Substantive changes since the last public working draft" property="title">§</span></a></span></span></h3>
+      <ul>
+        <!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
+      </ul>
+    </section>
+
+    <section property="bibo:hasPart" resource="#other-substantive-changes-since-the-first-public-working-draft" typeof="bibo:Chapter" id="other-substantive-changes-since-the-first-public-working-draft">
+      <h3 resource="#h-other-substantive-changes-since-the-first-public-working-draft" id="h-other-substantive-changes-since-the-first-public-working-draft"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.2 </span>Other substantive changes since the <a href="@@">First Public Working Draft</a><span typeof="bookmark" class="permalink"><a property="url" title="Permalink for A.2 Other substantive changes since the First Public Working Draft" aria-label="Permalink for A.2 Other substantive changes since the First Public Working Draft" href="#other-substantive-changes-since-the-first-public-working-draft"><span content="A.2 Other substantive changes since the First Public Working Draft" property="title">§</span></a></span></span></h3>
+      <ul>
+        <!-- EdNote: After each WD publish, move previous list into this one. -->
+      </ul>
+    </section>
+  </section>
+
+  <section property="bibo:hasPart" resource="#acknowledgements" typeof="bibo:Chapter" class="appendix informative section" id="acknowledgements">
+    <!--OddPage-->
+    <h2 resource="#h-acknowledgements" id="h-acknowledgements"><span property="xhv:role" resource="xhv:heading"><span class="secno">B. </span>Acknowledgments<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B. Acknowledgments" aria-label="Permalink for B. Acknowledgments" href="#acknowledgements"><span content="B. Acknowledgments" property="title">§</span></a></span></span></h2>
+    <p><em>This section is non-normative.</em></p>
+    <p>The following people contributed to the development of this document.</p>
+
+    <section property="bibo:hasPart" resource="#ack_group" typeof="bibo:Chapter" class="section" id="ack_group">
+      <h3 resource="#h-ack_group" id="h-ack_group"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.1 </span>Participants active in the ARIA WG at the time of publication<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.1 Participants active in the ARIA WG at the time of publication" aria-label="Permalink for B.1 Participants active in the ARIA WG at the time of publication" href="#ack_group"><span content="B.1 Participants active in the ARIA WG at the time of publication" property="title">§</span></a></span></span></h3>
+      <ul>
+        <li>Ann Abbott (IBM Corporation)</li>
+        <li>Michiel Bijl (The Paciello Group)</li>
+        <li>Christy Blew (University of Illinois at Urbana-Champaign)</li>
+        <li>David Bolter (Mozilla Foundation) </li>
+        <li>Michael Cooper (<abbr title="World Wide Web Consortium">W3C</abbr>/<abbr title="Massachusetts Institute of Technology">MIT</abbr>)</li>
+        <li>James Craig (Apple Inc.) </li>
+        <li>Joanmarie Diggs (Igalia)</li>
+        <li>Fred Esch (IBM Corporation)</li>
+        <li>Steve Faulkner (The Paciello Group) </li>
+        <li>John Foliot (Invited Expert)</li>
+        <li>Bryan Garaventa (SSB BART Group)</li>
+        <li>Matt Garrish (DAISY Consortium)</li>
+        <li>Billy Gregory (The Paciello Group)</li>
+        <li>Karl Groves (The Paciello Group)</li>
+        <li>Jon Gunderson (University of Illinois at Urbana-Champaign)</li>
+        <li>Markus Gylling (DAISY Consortium)</li>
+        <li>Markku Hakkinen (Educational Testing Service)</li>
+        <li>Katie Haritos-Shea (Knowbility)</li>
+        <li>Susann Keohane (IBM Corporation)</li>
+        <li>Matthew King (Facebook)</li>
+        <li>Jason Kiss (Department of Internal Affairs, New Zealand Government)</li>
+        <li>Jamie Knight (British Broadcasting Corporation)</li>
+        <li>JaEun Jemma Ku (University of Illinois at Urbana-Champaign)</li>
+        <li>Shane McCarron (Invited Expert, Aptest)</li>
+        <li>Charles McCathie Nevile (Yandex)</li>
+        <li>Mary Jo Mueller (IBM Corporation)</li>
+        <li>James Nurthen (Oracle Corporation) </li>
+        <li>Ian Pouncey (The Paciello Group, LLC)</li>
+        <li>Mark Sadecki (Invited Expert)</li>
+        <li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
+        <li>Joseph Scheuhammer (Invited Expert, Inclusive Design Research Centre, OCAD University) </li>
+        <li>Stefan Schnabel (SAP AG) </li>
+        <li>Richard Schwerdtfeger (IBM Corporation)</li>
+        <li>Lisa Seeman (Invited Expert) </li>
+        <li>Tzviya Siegman (Wiley)</li>
+        <li>Cynthia Shelly (Microsoft Corporation) </li>
+        <li>Alexander Surkov (Mozilla Foundation)</li>
+        <li>Léonie Watson (The Paciello Group)</li>
+        <li>Jason White (Educational Testing Service)</li>
+        <li>Gottfried Zimmermann (Invited Expert, Access Technologies Group)</li>
+      </ul>
+    </section>
+
+    <section property="bibo:hasPart" resource="#ack_others" typeof="bibo:Chapter" class="section" id="ack_others">
+      <h3 resource="#h-ack_others" id="h-ack_others"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.2 </span>Other ARIA contributors, commenters, and previously active participants<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.2 Other ARIA contributors, commenters, and previously active participants" aria-label="Permalink for B.2 Other ARIA contributors, commenters, and previously active participants" href="#ack_others"><span content="B.2 Other ARIA contributors, commenters, and previously active participants" property="title">§</span></a></span></span></h3>
+      <ul>
+        <li>Shadi Abou-Zahra (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
+        <li>Jim Allan (TSB)</li>
+        <li>Jonny Axelsson (Opera Software)</li>
+        <li>David Baron (Mozilla Foundation)</li>
+        <li>Art Barstow (Nokia Corporation)</li>
+        <li>Simon Bates</li>
+        <li>Chris Blouch (AOL)</li>
+        <li>Judy Brewer (<abbr title="World Wide Web Consortium">W3C</abbr>/<abbr title="Massachusetts Institute of Technology">MIT</abbr>)</li>
+        <li>Mark Birbeck (Sidewinder Labs)</li>
+        <li>Sally Cain (Royal National Institute of Blind People (RNIB))</li>
+        <li>Gerardo Capiel (Benetech)</li>
+        <li>Ben Caldwell (Trace)</li>
+        <li>Sofia Celic-Li</li>
+        <li>Jaesik Chang (Samsung Electronics Co., Ltd.)</li>
+        <li>Alex Qiang Chen (University of Manchester)</li>
+        <li>Charles Chen (Google, Inc.)</li>
+        <li>Christian Cohrs</li>
+        <li>Deborah Dahl</li>
+        <li>Erik Dahlström (Opera Software)</li>
+        <li>Dimitar Denev (Frauenhofer Gesellschaft)</li>
+        <li>Micah Dubinko (Invited Expert)</li>
+        <li>Mandana Eibegger</li>
+        <li>Beth Epperson (Websense)</li>
+        <li>Donald Evans (AOL)</li>
+        <li>Chris Fleizach (Apple Inc.)</li>
+        <li>Kelly Ford (Microsoft Corporation)</li>
+        <li>Geoff Freed (Invited Expert, NCAM)</li>
+        <li>Christopher Gallelo (Microsoft Corporation)</li>
+        <li>Birkir Gunnarsson (Deque Systems, Inc.)</li>
+        <li>Kentarou Fukuda (IBM Corporation)</li>
+        <li>Bryan Garaventa</li>
+        <li>Guido Geloso</li>
+        <li>Ali Ghassemi</li>
+        <li>Becky Gibson (IBM)</li>
+        <li>Alfred S. Gilman</li>
+        <li>Andres Gonzalez (Adobe Systems Inc.)</li>
+        <li>Scott González (JQuery Foundation)</li>
+        <li>James Graham</li>
+        <li>Georgios Grigoriadis (SAP AG)</li>
+        <li>Jeff Grimes (Oracle)</li>
+        <li>Loretta Guarino Reid (Google, Inc.)</li>
+        <li>Barbara Hartel</li>
+        <li>James Hawkins (Google, Inc.)</li>
+        <li>Benjamin Hawkes-Lewis</li>
+        <li>Sean Hayes (Microsoft Corporation)</li>
+        <li>Mona Heath (University of Illinois at Urbana-Champaign)</li>
+        <li>Jan Heck</li>
+        <li>Shawn Henry</li>
+        <li>Tina Homboe</li>
+        <li>John Hrvatin (Microsoft Corporation)</li>
+        <li>Takahiro Inada</li>
+        <li>Masayasu Ishikawa (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
+        <li>Jim Jewitt</li>
+        <li>Kenny Johar (Microsoft Corporation)</li>
+        <li>Shilpi Kapoor (BarrierBreak Technologies)</li>
+        <li>Masahiko Kaneko (Microsoft Corporation)</li>
+        <li>Marjolein Katsma</li>
+        <li>George Kerscher (International Digital Publishing Forum)</li>
+        <li>Jason Kiss (New Zealand Government)</li>
+        <li>Todd Kloots</li>
+        <li>Johannes Koch</li>
+        <li>Sam Kuper</li>
+        <li>Earl Johnson (Sun)</li>
+        <li>Jael Kurz</li>
+        <li>Rajesh Lal (Nokia Corporation)</li>
+        <li>Diego La Monica (International Webmasters Association / HTML Writers Guild (IWA-HWG))</li>
+        <li>Aaron Leventhal (IBM Corporation)</li>
+        <li>Gez Lemon (International Webmasters Association / HTML Writers Guild (IWA-HWG))</li>
+        <li>Alex Li (SAP)</li>
+        <li>Chris Lilley</li>
+        <li>Thomas Logan (HiSoftware Inc.)</li>
+        <li>William Loughborough (Invited Expert)</li>
+        <li>Linda Mao (Microsoft)</li>
+        <li>David MacDonald (Invited Expert, CanAdapt Solutions Inc.)</li>
+        <li>Carolyn MacLeod</li>
+        <li>Anders Markussen (Opera Software)</li>
+        <li>Krzysztof Maczyński </li>
+        <li>Matthew May (Adobe Systems Inc.)</li>
+        <li>Dominic Mazzoni (Google, Inc.)</li>
+        <li>Alexandre Morgaut (4D)</li>
+        <li>Ann Navarro (Invited Expert)</li>
+        <li>Joshue O Connor (Invited Expert, CFIT)</li>
+        <li>Artur Ortega (Microsoft Corporation)</li>
+        <li>Sailesh Panchang (Deque)</li>
+        <li>Lisa Pappas (Society for Technical Communication (STC))</li>
+        <li>Marta Pawlowlska (Samsung Electronics Co., Ltd.)</li>
+        <li>Dave Pawson (RNIB)</li>
+        <li>Steven Pemberton (CWI Amsterdam)</li>
+        <li>Simon Pieters (Opera Software)</li>
+        <li>Jean-Bernard Piot (4D)</li>
+        <li>David Poehlman, Simon Pieters (Opera Software)</li>
+        <li>Sarah Pulis (Media Access Australia)</li>
+        <li>T.V. Raman (Google, Inc.)</li>
+        <li>Jan Richards</li>
+        <li>Gregory Rosmaita (Invited Expert)</li>
+        <li>Tony Ross (Microsoft Corporation)</li>
+        <li>Alex Russell (Dojo Foundation) (</li>
+        <li>Mark Sadecki (Invited Expert)</li>
+        <li>Mario Sánchez Prada (Samsung Electronics Co., Ltd. and Gnome Foundation)</li>
+        <li>Martin Schaus (SAP AG)</li>
+        <li>Doug Schepers (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
+        <li>Matthias Schmitt </li>
+        <li>Marc Silbey (Microsoft Corporation)</li>
+        <li>Leif Halvard Sili</li>
+        <li>Henri Sivonen (Mozilla)</li>
+        <li>Michael Smith (<abbr title="World Wide Web Consortium">W3C</abbr>)</li>
+        <li>Andi Snow-Weaver (IBM Corporation)</li>
+        <li>Ville Skyttä </li>
+        <li>Henny Swan (BBC)</li>
+        <li>Neil Soiffer (Design Science)</li>
+        <li>Vitaly Sourikov</li>
+        <li>Mike Squillace (IBM)</li>
+        <li>Maciej Stachowiak (Apple Inc.)</li>
+        <li>Christophe Strobbe</li>
+        <li>Suzanne Taylor (Pearson plc)</li>
+        <li>Terrill Thompson</li>
+        <li>David Todd</li>
+        <li>Gregg Vanderheiden (Invited Expert, Trace)</li>
+        <li>Anne van Kesteren</li>
+        <li>Wen He (Tencent)</li>
+        <li>Wu Wei (<abbr title="World Wide Web Consortium">W3C</abbr> / RITT)</li>
+        <li>Ryan Williams (Oracle)</li>
+        <li>Tom Wlodkowski</li>
+        <li>Sam White (Apple Inc.)</li>
+        <li>Marco Zehe (Mozilla Foundation)</li>
+      </ul>
+    </section>
+
+    <section property="bibo:hasPart" resource="#ack_funders" typeof="bibo:Chapter" class="section" id="ack_funders">
+      <h3 resource="#h-ack_funders" id="h-ack_funders"><span property="xhv:role" resource="xhv:heading"><span class="secno">B.3 </span>Enabling funders<span typeof="bookmark" class="permalink"><a property="url" title="Permalink for B.3 Enabling funders" aria-label="Permalink for B.3 Enabling funders" href="#ack_funders"><span content="B.3 Enabling funders" property="title">§</span></a></span></span></h3>
+      <p>This publication has been funded in part with U.S. Federal funds from the Department of Education, National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), initially under contract number ED-OSE-10-C-0067 and currently under contract number HHSP23301500054C. The content of this publication does not necessarily reflect the views or policies of the U.S. Department of Education, nor does mention of trade names, commercial products, or organizations imply endorsement by the U.S. Government.</p>
+    </section>
+  </section>
 
 
 
-<p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p><script src="https://www.w3.org/scripts/TR/2016/fixup.js" defer="" async=""></script></body></html>
+  <p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p>
+  <script src="https://www.w3.org/scripts/TR/2016/fixup.js" defer="" async=""></script>
+</body>
+</html>
