@@ -141,7 +141,7 @@
 </head>
 <body>
 <section id="abstract">
-	<p>Assistive technologies need semantic information about the structures and expected behaviors of a document in order to convey appropriate information to persons with disabilities. This specification defines a [[!WAI-ARIA]] module of core <a data-lt="role">roles</a>, <a data-lt="state">states</a> and <a data-lt="property">properties</a><!-- Note, if we don't end up including any states & properties in this module, edit this sentence! --> specific to web graphics. These semantics allow an author to express the logical structure of the graphic to assistive technologies. Assistive technologies could then enable semantic navigation and adapt styling and interactive features, to provide an optimal experience for the audience.  These features complement the graphics and document structure elements defined by [[HTML5]] and [[SVG2]].</p>
+	<p>Assistive technologies need semantic information about the structures and expected behaviors of a document in order to convey appropriate information to persons with disabilities. This specification defines a WAI-ARIA module [[!WAI-ARIA]] of core <a data-lt="role">roles</a><!-- , <a data-lt="state">states</a> and <a data-lt="property">properties</a> Note, if we do include any states & properties in this module, edit this sentence! --> specific to web graphics. These semantics allow an author to express the logical structure of the graphic to assistive technologies. Assistive technologies could then enable semantic navigation and adapt styling and interactive features, to provide an optimal experience for the audience.  These features complement the graphics and document structure elements defined by HTML [[HTML5]] and SVG [[SVG2]].</p>
 	<p>This document is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
@@ -152,24 +152,28 @@
 <section class="informative" id="introduction">
 	<h1>Introduction</h1>
 	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is a technical specification that provides a framework to improve the accessibility and interoperability of web content and applications. It enables web browsers to map the accessibility semantics in web content to platform-specific accessibility APIs. This enables web content to be interoperable with platform assistive technologies, similar to native platform applications, without requiring authors to include platform dependencies.</p>
-	<p>This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> designed to support graphics. The goals of this specification include:</p>
+	<p>This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [[!WAI-ARIA]] designed to support graphics. The goals of this specification include:</p>
 	<ul>
-		<li>Expanding [[!WAI-ARIA]] to produce semantic extensions to support structured graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas.</li> 
+		<li>Expanding WAI-ARIA to produce semantic extensions to support structured graphics such as charts, graphs, maps, technical drawings and scientific diagrams. It has applicability to both Scalable Vector Graphics as well as HTML5 Canvas and graphics produced with CSS styling of HTML and other markup languages.</li> 
 		<li>Align with a new governance model for modularization and extensions to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</li> 
 		<li>Provide structural semantics extensions that will support both assistive technologies and enable semantic navigation, alternative styling, and interactivity support.</li> 
+		<li>Work in harmony with SVG 2 and ARIA 1.1 to get consistent working accessibility infrastructure, on par with <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and HTML 5.1, across all the major browsers.</li>	
 	</ul>
-  <p>This specification defines the core roles that would be used in all structured graphics or diagrams.  Future work will expand on this framework to enable more detailed annotation of data-rich graphics such as charts or maps.</p>
+  <p>This specification defines the core roles that would be used in all structured graphics or diagrams.
+    It establishes the default roles that can be used to describe graphical markup elements such as shapes and canvases.
+    In combination with WAI-ARIA attributes to provide alternative text and to indicate relationships between elements, this provides a framework for annotating many figures and diagrams.
+    Future work will expand on this framework to enable more detailed annotation of data-rich graphics such as charts or maps.</p>
 	<p>For a more detailed explanation of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> please refer to the <a href="http://www.w3.org/WAI/intro/aria">WAI-ARIA Introduction</a> and how it applies to Rich Internet Application Accessibility.</p> 
 	
 	<section id="target-audience">
 		<h2>Target Audience</h2>
-		<p>This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, including <a data-lt="role">roles</a>, <a data-lt="state">states</a>, <a data-lt="property">properties</a> and values.<!-- Again, edit as required re states/properties --> It impacts several audiences:</p>
+		<p>This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, consisting of graphics-specific element <a data-lt="role">roles</a><!-- , <a data-lt="state">states</a>, <a data-lt="property">properties</a> and values Again, edit as required re states/properties -->. It impacts several audiences:</p>
 		<ul>
 			<li><a data-lt="user agent">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> features;</li>
 			<li><a>Assistive technologies</a> that provide specialized reading experiences to users with disabilities;</li>
 			<li>Authors of web graphics;</li>
 			<li>Authoring tools that help authors create conforming graphics; and</li>
-			<li>Conformance checkers, that verify appropriate use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and this Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module.</li>
+			<li>Conformance checkers, that verify appropriate use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and this <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics module.</li>
 		</ul>
 		<p>Each conformance requirement indicates the audience to which it applies.</p>
 		<!--p>Although this specification is applicable to the above audiences, it is not specifically targeted to, nor is it intended to be the sole source of information for, any of these audiences. In the future, additional documents will be created to assist authors in applying these <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics for graphics and to define how the information in this document is mapped to platform accessibility APIs.</p--> 
@@ -177,16 +181,18 @@
 	
 	<section id="ua-support">
 		<h2>User Agent Support</h2>
-		<p>This module builds on the general <a href="http://www.w3.org/TR/wai-aria-1.1/#ua-support">User Agent support principles</a> defined in [[!WAI-ARIA]] by also providing the ability for user agents to enhance the general user interface presented to readers.</p> 
+		<p>This module follows the general <a href="http://www.w3.org/TR/wai-aria-1.1/#ua-support">User Agent support principles</a> defined in WAI-ARIA [[!WAI-ARIA]].
+        The roles defined here do not require any change in behavior by user agents other than in the information exposed to the <a>accessibility API</a>.
+        However, the semantics defined here provide the ability for user agents to enhance the general user interface presented to readers.
+        For example, a user agent may provide alternative keyboard navigation suitable to a graphical environment, or may allow users to extract a copy of a graphic from a larger document.</p> 
 	</section>
 	
 	<section id="co-evolution">
 		<h2>Co-Evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Host Languages</h2>
-		<p>The Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module follows the model for <a href="http://www.w3.org/TR/wai-aria-1.1/#co-evolution">co-evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and host languages</a> defined in [[!WAI-ARIA]]. It is intended to augment semantics in supporting languages like [[HTML5]], [[!SVG2]] and EPUB, or to be used as an accessibility enhancement technology in other markup-based languages that do not explicitly include support for ARIA. It clarifies semantics to assistive technologies when authors create new types of objects, via style and script, that are not yet directly supported by the language of the page, because the invention of new types of objects is faster than standardized support for them appears in web languages.</p>
-		<p>It is not appropriate to create objects with style and script when the host language provides a semantic element for that type of objects. While <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> can improve the accessibility of these objects, accessibility is best provided by allowing the user agent to handle the object natively. For example, it is not better to use a <rref>heading</rref> role on a <code>div</code> element than it is to use a native heading element, such as an <code>h1</code>.</p>
-		<p>It is expected that, over time, host languages will evolve to provide semantics for objects that currently can only be declared with this specification. This is natural and desirable, as one goal of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is to help stimulate the emergence of more semantic and accessible markup. When native semantics for a given feature become available, it is appropriate for authors to use the native feature and stop using this module for that feature. Legacy content may continue to use the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module, however, so the need for user agents to support it remains.</p>
-		<p>While specific features of this module may lose importance over time, the general possibility of the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module to add semantics to web graphics or open web based standards, is expected to be a persistent need. Host languages may not implement all the semantics this module provides, and various host languages may implement different subsets of the features. New types of objects are continually being developed, and one goal of this specification is to provide a way to make such objects accessible, because authoring practices often advance faster than host language standards. In this way, this module and host languages both evolve together but at different rates.</p>
-		<p>Some host languages exist to create semantics for features other than the user interface. For example, SVG expresses the semantics behind production of graphical objects, not of user interface components that those objects may represent. Host languages such as these might, by design, not provide native semantics that map to this specification's features. In these cases, the Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> module could be adopted as a long-term approach to add semantic information to these host languages.</p>
+		<p>The <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics module follows the model for <a href="http://www.w3.org/TR/wai-aria-1.1/#co-evolution">co-evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and host languages</a> defined in WAI-ARIA [[!WAI-ARIA]]. It is intended to augment semantics in supporting languages like HTML [[HTML5]], SVG [[SVG2]] and EPUB, or to be used as an accessibility enhancement technology in other markup-based languages that do not explicitly include support for ARIA. 
+        WAI-ARIA <a>roles</a> clarify semantics to assistive technologies when authors create new types of objects, via style and script, or use markup languages which describe the visual appearance of a document rather than its meaning.</p>
+		<p>Although markup languages may provide some of these semantics natively, it is expected that there will be a persistent need for the semantics provided by the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics module.
+		Some host languages exist to create semantics for features other than the user interface. For example, SVG expresses the semantics behind production of graphical objects, not of user interface components that those objects may represent. Host languages such as these might, by design, not provide native semantics that map to all of this specification's features. In these host languages, the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics module could be adopted as a long-term approach to add semantic information.</p>
 	</section>
 	
 	<section id="authoring_practices">
@@ -204,7 +210,14 @@
 	
 	<section id="at_support">
 		<h2>Assistive Technologies</h2>
-		<p>Programmatic access to accessibility semantics is essential for assistive technologies. For more information, refer to the <a href="http://www.w3.org/TR/wai-aria-1.1/#at_support">Assistive Technologies</a> section in [[!WAI-ARIA]].</p> 
+		<p>Programmatic access to accessibility semantics is essential for assistive technologies. For more information, refer to the <a href="http://www.w3.org/TR/wai-aria-1.1/#at_support">Assistive Technologies</a> section in WAI-ARIA [[!WAI-ARIA]].</p> 
+        <p>For the graphics roles in particular, two categories of assistive technology are particularly relevant, but have different needs:</p>
+        <ul>
+            <li>Text-based presentations, such as screen readers, braille displays, and text-only displays or printers.  These technologies need to replace a complex graphic with semantic text descriptions, preserving any meaningful structure and relationships between components.
+            </li>
+            <li>Alternative graphical presentations, such as colour-adjusted displays, screen magnifiers, large print documents, or embossing printers with graphic support.  These technologies need to distinguish between graphical features which are primarily decorative and those which are essential for conveying the meaning of the content.</li>
+        </ul>
+        <p>The role descriptions suggest which features of an element with that role are considered semantically important and should be conveyed to the reader whenever possible.</p>
 	</section>
 </section>
 <section class="normative" id="conformance">
@@ -229,18 +242,20 @@
 	 <p>
      Authors are given the ability to influence what is presented 
      to assistive technologies and to influence navigation through
-     the use of roles and properties. With graphics, there are many 
+     the use of roles and properties. 
+     This includes the ability to mark elements as having no semantic importance.
+     With graphics, there are many 
      cases where presenting and navigating every element will make the 
      graphic harder to understand and use. 
+    </p>
+    <p>
      Authors may mark elements for exclusion 
      from the semantic representation of the document 
      (the accessibility tree) by assigning 
-     the role <rref>none</rref> or <rref>presentation</rref>.  
+     the role <rref>none</rref> or <rref>presentation</rref>. 
      The element with this role should be treated transparently 
      by assistive technologies, as if its children or text content 
      were directly contained by its parent element.
-  </p>  
-   <p>
      In addition, certain roles, 
      such as <rref>img</rref> or <rref>graphics-symbol</rref>, 
      when assigned to a parent element, will cause all child 
@@ -249,10 +264,13 @@
      value in the role characteristics table.
      Finally, the native semantics of the graphics language 
      may also default to ignoring DOM structure that does not have
-     semantic data attached; for SVG, this is defined in [[SVG-AAM]].
+     semantic data attached; for SVG, this is defined in the SVG Accessibility API Mappings specification [[SVG-AAM]].
   </p>
-  <p>A role of <code>none</code> should never be used 
-    for interactive elements or those with WAI-ARIA states and properties.</p>
+  <p>
+     In all cases, to be considered presentational, an element must not be interactive 
+     and must not be assigned any accessible properties or alternative text. 
+     A role of <code>none</code> or <code>presentation</code> will be ignored 
+     for interactive elements or those with WAI-ARIA states and properties.</p>
 	<section id="role_definitions">
 		<h2>Definition of Roles</h2>
 		<p>
@@ -260,15 +278,15 @@
         <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 
         <a data-lt="role">roles</a> defined in this specification.  
         They would normally be used in combination with other roles 
-        defined in [[WAI-ARIA]] 
-        to annotate graphics within documents and rich internet applications.
+        defined in WAI-ARIA 
+        to annotate graphics within documents and rich internet applications [[WAI-ARIA]].
       </p>
       <!--  -->
 		<p id="index_role">Placeholder for compact list of roles</p>
 			
 				
 			<div class="role">
-			<rdef>graphics-doc</rdef>
+			<rdef>graphics-document</rdef>
 			<div class="role-description">
         <p>
           A type of <rref>document</rref> in which 
@@ -276,7 +294,7 @@
         </p>
         <p>
           Similar to other <rref>document</rref> types, 
-          the <code>graphics-doc</code> role applies to the root element of
+          the <code>graphics-document</code> role applies to the root element of
           a region of the page containing related information,
           where the user's primary interaction mode is expected to be
           browsing the document rather than controlling an application.  
@@ -285,49 +303,49 @@
           or of a nested structure within it.
         </p>
         <p>
-          The <code>graphics-doc</code> may be distinguished 
+          The <code>graphics-document</code> may be distinguished 
           from similar roles as follows:
         </p>
         <ul>
           <li><p>
-            Relative to other documents, a <code>graphics-doc</code> 
+            Relative to other documents, a <code>graphics-document</code> 
             is distinguished by the semantic importance of its 
             visual (usually two-dimensional) representation.
             User agents and assistive technologies
             SHOULD take this into consideration 
             when supporting navigation of the graphic.
             Accessibility technologies that re-format or re-style a document 
-            SHOULD NOT alter the layout of a <code>graphics-doc</code> 
+            SHOULD NOT alter the layout of a <code>graphics-document</code> 
             except in ways that are consistent 
             with the semantic roles and relationships of its content.
           </p></li>
               <li><p>
-            Relative to an <rref>img</rref>, a <code>graphics-doc</code> 
+            Relative to an <rref>img</rref>, a <code>graphics-document</code> 
             is distinguished by the structured nature of its content.
             Its child elements may have semantic meaning,
             and may include links or other interactive widgets.
           </p></li>
               <li><p>
             Relative to a <rref>graphics-object</rref>, 
-            a <code>graphics-doc</code> is self-contained.  
+            a <code>graphics-document</code> is self-contained.  
             Its meaning persists when separated from surrounding content.
-            The element with the <code>graphics-doc</code> role defines
+            The element with the <code>graphics-document</code> role defines
             the scope and context for interpretation of the child content.
           </p></li>
         </ul>
         <p>
-          In general, authors SHOULD use the <code>graphics-doc</code> role 
+          In general, authors SHOULD use the <code>graphics-document</code> role 
           for structured graphics such as 
           charts, maps, diagrams, technical drawing, blue prints and instructional graphics. 
           However, if a single large graphic has discrete regions
           that may be safely re-arranged without sacrificing meaning,
-          each of those regions SHOULD be a distinct <code>graphics-doc</code>.
+          each of those regions SHOULD be a distinct <code>graphics-document</code>.
           An alternative role (such as <rref>figure</rref>) 
           may be used to group them together.
-          One <code>graphics-doc</code> may also be nested inside another, 
+          One <code>graphics-document</code> may also be nested inside another, 
           for example a bar chart that is embedded in a map
           or a matrix of chart panels 
-          should have a role of <code>graphics-doc</code>.
+          should have a role of <code>graphics-document</code>.
           The nested document provides encapsulation; 
           navigation between components of 
           the inner and outer graphics should be explicit.
@@ -338,20 +356,20 @@
             based on the ARIA 1.0 specification, 
             authors may wish to include the <rref>document</rref> role 
             as a fallback value, 
-            in the form <code>role="graphics-doc document"</code>.
+            in the form <code>role="graphics-document document"</code>.
            </p>
            <p>
              Future specifications may define more specific roles
              for particular types of graphical documents with
              special semantic structures.  Those more specific roles
-             would be subclasses of <code>graphics-doc</code>.
+             would be subclasses of <code>graphics-document</code>.
            </p>
         </div>
 				<pre class="example highlight">
 &lt;!-- An SVG diagram of an electrical circuit --&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" 
      width="400" height="200" viewBox="0 0 200 100"
-     role="graphics-doc document" &gt;
+     role="graphics-document document" &gt;
      &lt;title&gt;A simple circuit&lt;/title&gt;
      &lt;desc&gt;A circuit with one source, one switch, and one load&lt;/desc&gt;
      &lt;style type="text/css"&gt;
@@ -467,7 +485,7 @@
 			<rdef>graphics-object</rdef>
 			<div class="role-description">
         <p>
-          A section of a <rref>graphics-doc</rref>
+          A section of a <rref>graphics-document</rref>
           that represents a distinct object or sub-component
           with semantic meaning.  
           A graphical object may itself have nested sub-components.
@@ -483,7 +501,7 @@
           with the role <rref>none</rref> or <rref>presentation</rref>.
         </p>
         <p>
-          Unlike a <rref>graphics-doc</rref>, 
+          Unlike a <rref>graphics-document</rref>, 
           a <code>graphics-object</code> need not be self-contained,
           and it does not establish a new context for navigation.  
           However, user agents and assistive technologies 
@@ -531,7 +549,7 @@
 				<pre class="highlight">
 &lt;svg xmlns="http://www.w3.org/2000/svg"
      width="600" height="400" viewBox="0 0 600 400"
-     role="graphics-doc document" xml:lang="en"&gt;
+     role="graphics-document document" xml:lang="en"&gt;
     &lt;title&gt;Home&lt;/title&gt;
     &lt;g role="img" aria-label="background"&gt;
         &lt;desc&gt;Blue sky, sunshine, and green grass&lt;/desc&gt;
@@ -676,7 +694,7 @@ OK to omit the second example?
 						<th class="role-related-head" scope="row">Related Concepts:</th>
 						<td class="role-related">
                 <ul>
-                    <li><rref>graphics-doc</rref></li>
+                    <li><rref>graphics-document</rref></li>
                     <li><rref>group</rref></li>
                     <li><rref>img</rref></li>
                     <li><rref>graphics-symbol</rref></li>
@@ -898,14 +916,14 @@ OK to omit the second example?
 	</section>
 	<section id="role_other">
 		<h2>Other Roles for Graphics</h2>
-		<p>	The following core ARIA roles, defined in [[WAI-ARIA]], are also 
+		<p>	The following core ARIA roles, defined in ARIA 1.1 [[WAI-ARIA]], are also 
       relevant for annotating graphics:
     </p>
 		<ul>
       <li>
         <rref>img</rref> (image) defines a single graphic
         that is perceived as an indivisible whole. 
-        Unlike a <rref>graphics-doc</rref>, 
+        Unlike a <rref>graphics-document</rref>, 
         an image cannot have navigable or interactive child content.
         Unlike a <rref>graphics-symbol</rref>, 
         an image may require a detailed text description
@@ -917,13 +935,13 @@ OK to omit the second example?
         of the containing document but is outside the 
         normal reading stream.  
         A figure will often contain one or more elements 
-        with the <rref>img</rref> or <rref>graphics-doc</rref> roles,
+        with the <rref>img</rref> or <rref>graphics-document</rref> roles,
         but may also contain text captions, credits, or other related content.
       </li>
     </ul> 
     <p>
       The following examples demonstrate appropriate use of 
-      <rref>img</rref>, <rref>figure</rref>, and <rref>graphics-doc</rref>
+      <rref>img</rref>, <rref>figure</rref>, and <rref>graphics-document</rref>
       in a document.
     </p>
     
@@ -992,7 +1010,7 @@ OK to omit the second example?
 </pre>
   
   <p>
-    Finally, the last version uses a <rref>graphics-doc</rref>
+    Finally, the last version uses a <rref>graphics-document</rref>
     to include complex annotations on the graphic, 
     which is still contained within a figure element.
     The two sections of the graphic are <rref>graphics-object</rref> elements,
@@ -1001,7 +1019,7 @@ OK to omit the second example?
     <object type="text/html" data="img/figure-graphics-doc.html"></object>
     <pre class="example highlight">
 &lt;figure id="fig1" role="figure region"&gt;
-    &lt;svg role="graphics-doc"&gt;
+    &lt;svg role="graphics-document"&gt;
         &lt;title&gt;Repeating versus reflecting linear gradients&lt;/title&gt;
         &lt;desc&gt;
             The graphic shows two gradient patterns,
@@ -1068,7 +1086,7 @@ OK to omit the second example?
      for an HTML 5 canvas game,
      elements may represent the different images
      that create the composite graphic --&gt;
-&lt;canvas role="graphics-doc"&gt;
+&lt;canvas role="graphics-document"&gt;
     &lt;p id="scene-desc" role="img" 
        aria-label="The Dungeon"
        aria-describedby="scene-desc"&gt;
@@ -1099,9 +1117,11 @@ OK to omit the second example?
 	</section>
 <section class="appendix informative" id="a_schemata">
 	<h1>Schemata</h1>
-	<p>The <a href="http://www.w3.org/html/wg/">HTML Working Group</a> has incorporated the WAI-ARIA attributes into <a href="http://www.w3.org/TR/html5/">HTML 5</a>. Official support for WAI-ARIA in HTML is provided in that specification.</p>
+	<p>WAI-ARIA attributes are natively incorporated into HTML since <a href="http://www.w3.org/TR/html5/">HTML 5</a>. Official support for WAI-ARIA in HTML is provided in that and subsequent HTML specifications.
+    WAI-ARIA attributes are natively incorporated into SVG by the <a href="https://www.w3.org/TR/SVG2/">SVG 2</a> specification.
+    </p>
 	<p class="ednote">Validation support for the roles defined in this module will be added once the specification reaches recommendation.</p>
-	<p>For information on incorporating WAI-ARIA into other grammars, refer to <a href="http://www.w3.org/TR/wai-aria-1.1/#a_schemata">Appendix A</a> of [[!WAI-ARIA]]</p>
+	<p>For information on incorporating WAI-ARIA into other grammars, refer to <a href="http://www.w3.org/TR/wai-aria-1.1/#a_schemata">Appendix A</a> of the ARIA 1.1 specification [[!WAI-ARIA]].</p>
 	<p class="ednote">Review whether any additional schemata are necessary for this module.</p>
 </section>
 <section class="appendix" id="changelog">
