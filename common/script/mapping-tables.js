@@ -1,6 +1,9 @@
+/* globals $, require */
+
 var respecEvents = respecEvents || false;
 
-(function() {
+require(["core/pubsubhub"], function(respecEvents) {
+    "use strict";
 
 	var mappingTableInfos = [];
 
@@ -250,4 +253,4 @@ var respecEvents = respecEvents || false;
 	} else {
 		$(document).ready(mappingTables);
 	}
-}());
+});
