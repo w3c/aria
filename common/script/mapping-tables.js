@@ -1,6 +1,7 @@
-var respecEvents = respecEvents || false;
+/* globals $, require */
 
-(function() {
+require(["core/pubsubhub"], function(respecEvents) {
+    "use strict";
 
 	var mappingTableInfos = [];
 
@@ -82,7 +83,7 @@ var respecEvents = respecEvents || false;
 				//remove the tr's @id since same id will be used in the relevant summary element
 				$row.removeAttr('id');
 				//store the row's cells in array rowCells
-				rowCells = [];
+				var rowCells = [];
 				//add row cells to array rowCells for use in the details' table
 				$('td', $row).each(function() {
 					rowCells.push($(this).html());
@@ -250,4 +251,4 @@ var respecEvents = respecEvents || false;
 	} else {
 		$(document).ready(mappingTables);
 	}
-}());
+});
