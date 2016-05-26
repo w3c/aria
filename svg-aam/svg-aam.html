@@ -705,38 +705,22 @@ var mappingTableLabels = {
       <p>
         For the purpose of SVG,
         an element is considered <a class="termref">hidden</a>
-        if it is <em>neither</em> visible nor interactive,
-        and is therefore not <a class="termref">perceivable</a> to visual users.
+        if it is <em>neither</em> visible,
+        according to the computed value of the <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>visibility</code></a> property,
+        nor interactive to pointer users.
+        according to the <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property.
         User agents <strong class="rfc2119">SHOULD NOT</strong> 
         expose to accessibility APIs
         any element that is hidden in this sense, 
         <em>unless</em> the author explicitly overrides the hiding
         by setting the <pref>aria-hidden</pref> attribute to <code>false</code>.
-        This includes <a href="https://svgwg.org/svg2-draft/struct.html#TermGraphicsElement">graphics elements</a> that have the following computed style values,
-        <em>unless</em> the element can receive user input
-        (pointer events or keyboard focus) 
-        as described under 
-        <a href="#include_elements">Including Elements in the Accessibility Tree</a>:
       </p>
-      <ul>
-        <li>
-          a value of <code>hidden</code> 
-          for the <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>visibility</code></a> property
-        </li>
-        <li>
-          a value of <code>none</code> 
-          for <em>both</em> the <a href="https://svgwg.org/svg2-draft/painting.html#SpecifyingFillPaint"><code>fill</code></a> 
-          and <a href="https://svgwg.org/svg2-draft/painting.html#SpecifyingStrokePaint"><code>stroke</code></a> properties 
-          of text or shape elements,
-          and for all the <a href="https://svgwg.org/svg2-draft/painting.html#Markers">path marker properties</a>.
-        </li>
-      </ul>
       <p>
         In the case of container elements (such as <code>g</code> or <code>svg</code>),
         the element is not considered hidden 
         if <em>any</em> of its descendent content is visible
         <em>or</em> can receive user events,
-        regardless of the computed value of <code>visibility</code> or any other style property on the element itself.
+        regardless of the computed value of <code>visibility</code> on the element itself.
         (The container may, however, still be considered presentational if it does not have any other reason to include it in the accessibility tree.)
         Similarly, a <code>use</code> element may include
         visible or interactive component graphics, 
@@ -747,6 +731,21 @@ var mappingTableLabels = {
         A shape element with markers is visible or interactive
         if any of its markers are visible or interactive.
       </p> 
+      <div class="note">
+        <p>
+          An element with a computed value of <code>visibility: hidden</code>
+          can be interactive to pointer users
+          for the following values of the
+          <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property:
+        </p>
+        <ul>
+          <li><code>painted</code>, for any rendered element <em>except</em> shape or a text where both the <code>fill</code> and <code>stroke</code> properties have a computed value of <code>none</code></li>
+          <li><code>fill</code></li>
+          <li><code>stroke</code></li>
+          <li><code>all</code></li>
+          <li><code>bounding-box</code></li>
+        </ul>
+      </div>
       <p>
         An element that is currently positioned off-screen,
         or that is obscured by other elements,
@@ -754,17 +753,34 @@ var mappingTableLabels = {
         User agents should expose this state through other means,
         as described in the <a class="core-mapping" href="#statePropertyMappingGeneralRules">State and Property Mapping</a>
         section of the Core Accessibility API Mappings [[CORE-AAM]].
+        
       </p>
       
       <div class="note">
         <p>
-          The <a href="https://svgwg.org/svg2-draft/painting.html#VisibilityControl"><code>opacity</code></a> property (of an element itself or an ancestor element) can make an element invisible.  However, this is not considered a hiding method that excludes elements from the accessibility tree.  
+          Various other style properties and geometric attributes (of an element itself or an ancestor element) can make an element invisible.  For simplicity, flexibility, and performance reasons, these are not considered a hiding method that excludes elements from the accessibility tree.  
         </p>
         <p>
-          Opacity (unlike the fill, stroke, and visibility properties) does not affect <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> processing. Furthermore, opacity is often animated, e.g. to create a blinking effect, which would problematic if this led to repeated changes in the accessibility tree.   
+          When using properties other than <code>display</code> or <code>visibility</code> to hide inactive content, authors can use the <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> attribute to indicate that assistive technologies should ignore the element and its descendents.
+        </p>
+      </div>
+      <div class="ednote">
+        <p>
+          Previous drafts of this specification also considered the
+          <code>fill</code> and <code>stroke</code> properties,
+          when both set to a value of <code>none</code>,
+          as a valid way to hide an element.
+          This has been removed as it introduced excessive complexity.
+          Some SVG elements (e.g., embedded images) are not affected by stroke and fill;
+          even those that are can be visible without it, because of markers or filter effects.
+          Furthermore, it could result in identical-looking graphics
+          (for example: one that used <code>fill: transparent</code> instead of <code>fill: none</code>)
+          having markedly different accessibility trees.
         </p>
         <p>
-          Authors are therefore advised not be rely on zero opacity to hide inactive content.  If opacity is used to fade out no-longer relevant content, the <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a> attribute can be used to indicate that assistive technologies should ignore the element and its descendents.
+          Note, however, that the <code>fill</code> and <code>stroke</code> properties
+          may still have an indirect effect on the inclusion of an element,
+          depending on the value of the <code>pointer-events</code> property.
         </p>
       </div>
       <div class="ednote">
@@ -996,18 +1012,8 @@ var mappingTableLabels = {
         With regards to pointer events, which bubble up the DOM tree,
         the exact element that receives the event may not have semantic meaning 
         (that is, it may still be presentational).
-        However, the ability to receive pointer events overrides other native SVG and CSS semantics that would otherwise cause the element or its ancestors to be considered <a>hidden</a>.
-      </p>
-      <p>
-        For SVG, this specifically means that
-        elements that would normally be included in the accessibility tree
-        except for the fact they are invisible
-        (e.g., because of the <code>visibility: hidden</code> style property,
-        or a combination of <code>fill: none</code>
-        and <code>stroke: none</code> for shapes or text)
-        should nonetheless be included in the accessibility tree
-        if they can receive pointer events based on the computed value of the
-        <a href="https://svgwg.org/svg2-draft/interact.html#PointerEventsProperty"><code>pointer-events</code></a> property.
+        However, the ability to receive pointer events overrides any exclusion 
+        based on the <code>visibility: hidden</code> style property.
       </p>
       <p class="note">
         The <code>tabindex</code> attribute 
