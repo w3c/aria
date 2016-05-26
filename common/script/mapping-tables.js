@@ -1,7 +1,5 @@
 /* globals $, require */
 
-var respecEvents = respecEvents || false;
-
 require(["core/pubsubhub"], function(respecEvents) {
     "use strict";
 
@@ -85,7 +83,7 @@ require(["core/pubsubhub"], function(respecEvents) {
 				//remove the tr's @id since same id will be used in the relevant summary element
 				$row.removeAttr('id');
 				//store the row's cells in array rowCells
-				rowCells = [];
+				var rowCells = [];
 				//add row cells to array rowCells for use in the details' table
 				$('td', $row).each(function() {
 					rowCells.push($(this).html());
