@@ -41,12 +41,6 @@ var biblio = {
 		"title": "ATK - Accessibility Toolkit",
 		"publisher": "The GNOME Project"
 	},
-	// Custom reference for the Mac OSX Accessibility API
-	"AXAPI": {
-		"href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
-		"title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
-		"publisher": "Apple Corporation"
-	},
 	"CORE-AAM": {
 		"title": "Core Accessibility API Mappings 1.1",
 		"href": "http://www.w3.org/TR/core-aam-1.1/",
