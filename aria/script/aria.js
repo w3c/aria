@@ -291,19 +291,20 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     $.each(container.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                 // looks like we do
-                $.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            $.each(node.querySelectorAll("pref,sref"), function(i, item) {
                                 var name = item.getAttribute("title");
                                 if (!name) {
-                    name = item.textContent || item.innerText;
+                                    name = item.textContent || item.innerText;
                                 }
                                 var type = (item.localName === "pref" ? "property" : "state");
-                                attrs.push( { is: type, name: name } );
+                                var req = ($(node).hasClass("role-required-properties") ? true : false );
+                                attrs.push( { is: type, name: name, required: req } );
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
-                });
+                            });
                         }
-            });
+                    });
                     roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
                     if (container.nodeName.toLowerCase() == "div") {
                         // change the enclosing DIV to a section with notoc
@@ -351,12 +352,16 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             var prev;
                             for (var j = 0; j < sortedList.length; j++) {
                                 var role = sortedList[j];
+                                var req = "";
+                                if (role.required) {
+                                    req = " <strong>(required)</strong>";
+                                };
                                 if (prev != role.name) {
                                     output += "<li>";
                                     if (role.is === "state") {
-                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>";
+                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req;
                                     } else {
-                                        output += "<pref>" + role.name + "</pref>";
+                                        output += "<pref>" + role.name + "</pref>" + req;
                                     }
                                     output += "</li>\n";
                                     prev = role.name;
