@@ -1,4 +1,8 @@
+/* globals respecConfig, $, localRoleInfo, roleInfo, require */
+/* exported linkCrossReferences, restrictReferences, fixIncludes */
+
 function linkCrossReferences() {
+  "use strict";
 
   var specBaseURL = ( respecConfig.ariaSpecURLs ?
     respecConfig.ariaSpecURLs[respecConfig.specStatus] : null
@@ -103,6 +107,8 @@ function updateReferences(base) {
     //     2. if we have not already seen this item in this section, it is a link using 'a'
     //     3. otherwise, it is just a styled reference to the item  using 'code'
 
+    "use strict";
+
     var baseURL = respecConfig.ariaSpecURLs[respecConfig.specStatus];
 
     var sectionMap = {} ;
@@ -141,8 +147,8 @@ function updateReferences(base) {
         if (pID) {
             if (sectionMap[pID]) {
                 if (sectionMap[pID][ref]) {
-                    // only change the element if we are in a paragraph.
-                    if ($item.parents("p").length != 0) {
+                    // only change the element if we not in a table or a dl
+                    if ($item.parents("table,dl").length === 0) {
                         if (usedTitle) {
                             theElement = "span";
                         } else {
@@ -158,7 +164,7 @@ function updateReferences(base) {
             }
         }
 
-        if (theElement == "a" && $item.is('rref') ) {
+        if (theElement === "a" && $item.is('rref') ) {
             if (typeof localRoleInfo !== 'undefined' && localRoleInfo[ref]) {
                 ref = localRoleInfo[ref].fragID;
             } else if (baseURL && roleInfo[ref]) {
@@ -170,8 +176,11 @@ function updateReferences(base) {
             }
         }
         var sp = document.createElement(theElement);
-        sp.href = URL + ref;
-        sp.className = theClass;
+        if (theElement === "a") {
+            sp.href = URL + ref;
+            sp.className = theClass;
+            content = "<code>" + content + "</code>";
+        }
         sp.innerHTML=content;
         $item.replaceWith(sp);
     });
@@ -182,6 +191,7 @@ function updateReferences(base) {
 var termNames = [] ;
 
 function restrictReferences(utils, content) {
+    "use strict";
     var base = document.createElement("div");
     base.innerHTML = content;
     updateReferences(base);
@@ -196,15 +206,20 @@ function restrictReferences(utils, content) {
         }
     });
 
-    // add a handler to come in after all the definitions are resolved
-    //
-    // New logic: If the reference is within a 'dl' element of
-    // class 'termlist', and if the target of that reference is
-    // also within a 'dl' element of class 'termlist', then
-    // consider it an internal reference and ignore it.
+    return (base.innerHTML);
+}
 
+// add a handler to come in after all the definitions are resolved
+//
+// New logic: If the reference is within a 'dl' element of
+// class 'termlist', and if the target of that reference is
+// also within a 'dl' element of class 'termlist', then
+// consider it an internal reference and ignore it.
+
+require(["core/pubsubhub"], function(respecEvents) {
+    "use strict";
     respecEvents.sub('end', function(message) {
-        if (message == 'core/link-to-dfn') {
+        if (message === 'core/link-to-dfn') {
             // all definitions are linked
             $("a.internalDFN").each(function () {
                 var $item = $(this) ;
@@ -236,13 +251,13 @@ function restrictReferences(utils, content) {
             });
         }
     });
-    return (base.innerHTML);
-}
+});
 
 // included files are brought in after proProc.  Create a DOM tree
 // of content then call the updateReferences method above on it.  Return
 // the transformed content
 function fixIncludes(utils, content) {
+    "use strict";
     var base = document.createElement("div");
     base.innerHTML = content;
     updateReferences(base);
@@ -250,10 +265,11 @@ function fixIncludes(utils, content) {
 }
 
 // Fix the scroll-to-fragID problem:
-(function () {
+require(["core/pubsubhub"], function (respecEvents) {
+    "use strict";
     respecEvents.sub("end-all", function () {
         if(window.location.hash) {
             window.location = window.location.hash;
         }
     });
-})();
+});

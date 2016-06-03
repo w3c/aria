@@ -191,7 +191,7 @@
 		<p>Each conformance requirement indicates the audience to which it applies.</p>
 		<p>Although this specification is applicable to the above audiences, it is not specifically targeted to, nor is it intended to be the sole source of information for, any of these audiences. The following documents provide important supporting information:</p>
 		<ul>
-			<li><cite><a href="http://www.w3.org/TR/wai-aria-practices-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices 1.1 </cite></a> addresses authoring recommendations for HTML, and is also of interest to developers of authoring tools and conformance checkers.</li>
+			<li><cite><a href="http://www.w3.org/TR/wai-aria-practices-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices 1.1</a></cite> addresses authoring recommendations for HTML, and is also of interest to developers of authoring tools and conformance checkers.</li>
 			<li><cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> addresses developers of <a class="termref">user agents</a> and <a class="termref">assistive technologies</a>.</li>
 			<li><cite><a href="https://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> also addresses developers of <a class="termref">user agents</a> and <a class="termref">assistive technologies</a>.</li>
 		</ul>
@@ -524,6 +524,7 @@
 				<li><rref>menuitemcheckbox</rref></li>
 				<li><rref>menuitemradio</rref></li>
 				<li><rref>option</rref></li>
+				<li><rref>password</rref></li>
 				<li><rref>progressbar</rref></li>
 				<li><rref>radio</rref></li>
 				<li><rref>scrollbar</rref></li>
@@ -581,7 +582,12 @@
 				<li><rref>separator</rref></li>
 				<li><rref>table</rref></li>
 				<li><rref>term</rref></li>
+
+<!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
+     but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
+     the 1.1 branch and uncommented for the master branch.
 				<li><rref>text</rref></li>
+-->
 				<li><rref>toolbar</rref></li>
 			</ul>
 		</section>
@@ -798,7 +804,8 @@
 				<p> Because only the focusable elements contained in an <code>application</code> element are accessible to users of some assistive technologies, authors MUST use one of the following techniques to ensure all non-decorative static text or image content inside an application is accessible:</p>
 				<ol>
 					<li>Associate the content with a focusable element using <pref>aria-labelledby</pref> or <pref>aria-describedby</pref>.</li>
-					<li>Place the content in a focusable element that has role <rref>document</rref> or <code>article</code>.</li>
+					<li>Place the content in a focusable element that has role <rref>document</rref> or <rref>article</rref>.</li>
+					<li>Manage focus of descendants as described in <a href="#managingfocus">Managing Focus</a>, updating the value of <pref>aria-activedescendant</pref> to reference the <a>element</a> containing the focused content.</li>
 				</ol>
 				</div>
 			<table class="role-features">
@@ -844,7 +851,7 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties"><pref>aria-activedescendant</pref></td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -1284,7 +1291,6 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-readonly</pref></li>
 							</ul>
 						</td>
@@ -1312,7 +1318,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -1422,22 +1428,24 @@
 		<div class="role" id="combobox">
 			<rdef>combobox</rdef>
 			<div class="role-description">
-				<p>A presentation of a <rref>select</rref>; usually similar to a <rref>textbox</rref> where users can type ahead to select an option, or type to enter arbitrary text as a new item in the list. See related <rref>listbox</rref>.</p>
-				<p><code>combobox</code> is the combined presentation of a single line textfield with a listbox popup. The <code>combobox</code> may be editable. Typically editable combo boxes are used for autocomplete behavior, and authors SHOULD set <pref>aria-autocomplete</pref> attribute on the textfield.</p>
-				<ul>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'none' (default), authors MUST manage and set focus on the associated listbox, so assistive technologies can follow the currently selected value.</li>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'inline' or 'both', authors MUST update the value of the focused textfield, so assistive technologies can announce the currently selected value.</li>
-					<li>If an author sets a combobox's value of aria-autocomplete to 'list', user agents MUST expose changes to the aria-activedescendant attribute on the combobox while the combobox remains focused. If a change to the aria-activedescendant attribute occurs while the combobox is focused, assistive technologies SHOULD alert the user of that change, for example, by speaking the text alternative of the new active descendant element. Authors SHOULD associate the combobox textfield with its listbox using aria-owns. For example:
-						<pre class="example highlight">&lt;input type="text" aria-label="Tag" role="combobox" aria-expanded="true"
-  <strong>aria-autocomplete="list" aria-owns="owned_listbox" aria-activedescendant="selected_option"</strong>&gt;
-&lt;ul role="listbox" <strong>id="owned_listbox"</strong>&gt;
-  &lt;li role="option"&gt;Zebra&lt;/li&gt;
-  &lt;li role="option" <strong>id="selected_option"</strong>&gt;Zoom&lt;/li&gt;
-&lt;/ul&gt;</pre>
-					</li>
-				</ul>
-				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
-				<p>Elements with the role <code>combobox</code> have an implicit <sref>aria-expanded</sref> value of <code>false</code> and an implicit <pref>aria-haspopup</pref> value of <code>true</code>.</p>
+				<p>A composite <rref>widget</rref> containing a single-line <rref>textbox</rref> and another element, such as a <rref>listbox</rref> or <rref>grid</rref>, that can dynamically pop up to help the user set the value of the <rref>textbox</rref>.</p>
+				<p>Authors MUST ensure an element with role <code>combobox</code> contains or owns a text input element with role <rref>textbox</rref> or <rref>searchbox</rref> and that the text input has <pref>aria-multiline</pref> set to <code>false</code>. If the <code>combobox</code> provides autocompletion behavior for the text input as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <rref>textbox</rref> element to the value that corresponds to the provided behavior.</p>
+				<p>Typically, the default state of a <code>combobox</code> is collapsed. In the collapsed state, only the <rref>textbox</rref> element of a <code>combobox</code> is visible. A <code>combobox</code> is said to be expanded when both the <rref>textbox</rref> and a secondary element that serves as its popup are visible. Authors MUST set <sref>aria-expanded</sref> to <code>true</code> on an element with role <code>combobox</code> when it is expanded and <code>false</code> when it is collapsed. Elements with the role <code>combobox</code> have an implicit <sref>aria-expanded</sref> value of <code>false</code>.</p>
+				<p>When a <code>combobox</code> is expanded, authors MUST ensure it contains or owns an element that has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>. This element is the <code>combobox</code> popup. When the <code>combobox</code> is expanded, authors MUST set <pref>aria-controls</pref> on the <rref>textbox</rref> element to a value that refers to the <code>combobox</code> popup element.</p>
+				<p>Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the type of its popup.</p>
+				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>. When a <code>combobox</code> receives focus, authors SHOULD ensure focus is placed on the <rref>textbox</rref> element.</p>
+				<p>Authors SHOULD provide keyboard mechanisms for moving focus between the <rref>textbox</rref> element and the elements contained in the popup. For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the text input to the first focusable descendant of the popup element. If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <rref>textbox</rref> element. When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <rref>textbox</rref> to a value that refers to the active element within the popup while focus remains on the <rref>textbox</rref> element.</p>
+				<pre class="example highlight">
+				  &lt;div aria-label="Tag" role="combobox" aria-expanded="true" aria-owns="owned_listbox" aria-haspopup="listbox"&gt;
+				      &lt;input type="text" aria-autocomplete="list" aria-controls="owned_listbox" aria-activedescendant="selected_option"&gt;
+				  &lt;/div&gt;
+				  &lt;ul role="listbox" id="owned_listbox"&gt;
+				      &lt;li role="option"&gt;Zebra&lt;/li&gt;
+				      &lt;li role="option" id="selected_option"&gt;Zoom&lt;/li&gt;
+				  &lt;/ul&gt;
+				</pre>
+				<p>The ARIA 1.0 specification describes a <code>combobox</code> pattern where a text input element has the <code>combobox</code> role and owns a <rref>listbox</rref> element. <a>User agents</a>, <a>assistive technologies</a>, and conformance checkers SHOULD continue to support the ARIA 1.0 pattern so that existing implementations of the ARIA 1.0 pattern remain functional.</p>
+				<p>The features and behaviors of combobox implementations vary widely. Consequently, there are many important authoring considerations. See the <cite><a href="http://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite> [[WAI-ARIA-PRACTICES]] for additional details on implementing combobox design patterns.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1480,15 +1488,23 @@
 					<tr>
 						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
 						<td class="role-mustcontain">
+							<rref>textbox</rref> and, when expanded, one of:
 							<ul>
 								<li><rref>listbox</rref></li>
-								<li><rref>textbox</rref></li>
+								<li><rref>tree</rref></li>
+								<li><rref>grid</rref></li>
+								<li><rref>dialog</rref></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties"><sref>aria-expanded</sref></td>
+						<td class="role-required-properties">
+							<ul>
+								<li><pref>aria-controls</pref></li>
+								<li><sref>aria-expanded</sref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
@@ -1528,7 +1544,7 @@
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
 						<td class="implicit-values">
 							Default for <sref>aria-expanded</sref> is <code class="default">false</code>.<br/>
-							Default for <pref>aria-haspopup</pref> is <code class="default">true</code>.<br/>
+							Default for <pref>aria-haspopup</pref> is <code class="default">listbox</code>.<br/>
 						</td>
 					</tr>
 				</tbody>
@@ -1584,9 +1600,6 @@
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
-							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
-							</ul>
 						</td>
 					</tr>
 					<tr>
@@ -2590,7 +2603,6 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
 								<li><sref>aria-selected</sref></li>
@@ -4042,7 +4054,12 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-posinset</pref></li>
+								<li><pref>aria-setsize</pref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -4067,7 +4084,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -4161,7 +4178,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -4258,7 +4275,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -4499,7 +4516,6 @@
 						<td class="role-properties">
 							<ul>
 								<li><pref>aria-checked</pref></li>
-								<li><pref>aria-kbdshortcuts</pref></li>
 								<li><pref>aria-posinset</pref></li>
 								<li><pref>aria-setsize</pref></li>
 							</ul>
@@ -4528,7 +4544,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -4537,6 +4553,83 @@
 					<tr>
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
 						<td class="implicit-values">Default for <pref>aria-selected</pref> is <code class="default">false</code>.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="role" id="password">
+			<rdef>password</rdef>
+			<div class="role-description">
+				<p>[ARIA 1.1] An <rref>input</rref> for entering a password.</p>
+				<p>The <code>password</code> <a>role</a> makes it possible for <a>assistive technologies</a> to customize their behavior in order to not inadvertently expose private information. For instance, a screen reader which normally echoes key presses might instead remain silent or echo each displayed character as it is inserted. In order to facilitate the latter behavior, authors SHOULD set the <code>password</code> element's text to characters which obscure the real value, when that value is obscured on screen. Authors SHOULD also update that text each time a character is inserted or deleted by the user.</p>
+				<p>In order to ensure that passwords will not be overheard during input, assistive technologies SHOULD NOT echo key presses of printable characters when an element with role <code>password</code> has focus, unless the user has explicitly enabled this option. If the user has enabled key echo, assistive technologies SHOULD present each rendered character as it is inserted rather than speaking a predetermined character, such as &quot;star.&quot; Presenting the rendered characters ensures that all users receive the same information, including notification when the value is being entered into an unobscured <code>password</code> field.</p>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>input</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"><a href="http://www.w3.org/TR/html5/forms.html#password-state-(type=password)"><abbr title="Hypertext Markup Language">HTML</abbr> <code>input[type="password"]</code></a></td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-placeholder</pref></li>
+								<li><pref>aria-readonly</pref></li>
+								<li><pref>aria-required</pref></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
 					</tr>
 				</tbody>
 			</table>
@@ -4855,7 +4948,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -6262,7 +6355,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -6282,7 +6375,7 @@
 		<div class="role" id="status">
 			<rdef>status</rdef>
 			<div class="role-description">
-				<p>A type of <a>live region</a> whose content is advisory information for the user but is not important enough to justify an <rref>alert</rref>, often but not necessarily presented as a status bar. See related <rref>alert</rref>.</p>
+				<p>A type of <a>live region</a> whose content is advisory information for the user but is not important enough to justify an <rref>alert</rref>, often but not necessarily presented as a status bar.</p>
 				<p>Authors SHOULD ensure an element with role <code>status</code> does not receive focus as a result of change in status.</p>
 				<p>Status is a form of <a>live region</a>. If another part of the page controls what appears in the status, authors SHOULD make the <a>relationship</a> explicit with the <pref>aria-controls</pref> <a>attribute</a>.</p>
 				<p><a>Assistive technologies</a> MAY reserve some cells of a Braille display to render the status.</p>
@@ -6521,7 +6614,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -6626,7 +6719,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -6991,6 +7084,9 @@
 				</tbody>
 			</table>
 		</div>
+<!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
+     but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
+     the 1.1 branch and uncommented for the master branch.
 		<div class="role" id="text">
 			<rdef>text</rdef>
 			<div class="role-description">
@@ -7110,6 +7206,7 @@
 				</tbody>
 			</table>
 		</div>
+		-->
 		<div class="role" id="textbox">
 			<rdef>textbox</rdef>
 			<div class="role-description">
@@ -7719,7 +7816,7 @@
 					</tr>
 					<tr>
 						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
+						<td class="role-childpresentational">True</td>
 					</tr>
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
@@ -8032,9 +8129,14 @@
 		<div class="property" id="aria-activedescendant">
 			<pdef>aria-activedescendant</pdef>
 			<div class="property-description">
-				<p>Identifies the currently active descendant of a <rref>composite</rref> <a>widget</a>.</p>
-				<p>This is used when a composite widget is responsible for managing its current active child to reduce the overhead of having all children be focusable. Examples include: multi-level lists, trees, and grids. In some implementations the <a>user agent</a> may use <pref>aria-activedescendant</pref> to tell <a>assistive technologies</a> that the active descendant has focus. Authors MAY use the <pref>aria-activedescendant</pref> attribute on the focused descendant of a composite widget; for example, on a textbox descendant of a combo box.</p>
-				<p>Authors SHOULD ensure that the <a>element</a> targeted by the <pref>aria-activedescendant</pref> attribute is either a descendant of the container in the DOM, or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute. The user agent is not expected to validate that the active descendant is a descendant of the container. Authors SHOULD ensure that the currently active descendant is visible and in view (or scrolls into view) when focused.</p>
+				<p>Identifies the currently active element when DOM focus is on a <rref>composite</rref> widget, <rref>textbox</rref>, <rref>group</rref>, or <rref>application</rref>.</p>
+				<p>The <code>aria-activedescendant</code> property provides an alternative method of managing focus for interactive elements that may contain multiple focusable descendants, such as menus, grids, and toolbars. Instead of moving DOM focus among descendant elements, authors MAY set DOM focus on an <a>element</a> that supports <code>aria-activedescendant</code> and then use <code>aria-activedescendant</code> to refer to the element that is active.</p>
+				<p> Authors MUST ensure that one of the following two sets of conditions is met when setting the value of <code>aria-activedescendant</code> on an element with DOM focus:</p>
+				<ol>
+					<li>The value of <code>aria-activedescendant</code> refers to an element that is either a descendant of the element with DOM focus or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute.</li>
+					<li>The element with DOM focus is a <rref>textbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> specified for the <code>textbox</code> refers to either a descendant of the element controlled by the <rref>textbox</rref> or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute. For example, in a <rref>combobox</rref>, focus may remain on the <rref>textbox</rref> while the value of <code>aria-activedescendant</code> on the <rref>textbox</rref> element refers to a descendant of a popup <rref>listbox</rref> that is controlled by the <rref>textbox</rref>.</li>
+				</ol>
+				<p> Authors SHOULD also ensure that the currently active descendant is visible and in view (or scrolls into view) when focused.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -8067,7 +8169,7 @@
 		<div class="property" id="aria-atomic">
 			<pdef>aria-atomic</pdef>
 			<div class="property-description">
-				<p>Indicates whether <a>assistive technologies</a> will present all, or only parts of, the changed region based on the change notifications defined by the <pref>aria-relevant</pref> attribute. See related <pref>aria-relevant</pref>.</p>
+				<p>Indicates whether <a>assistive technologies</a> will present all, or only parts of, the changed region based on the change notifications defined by the <pref>aria-relevant</pref> attribute.</p>
 				<p>Both <a>accessibility <abbr title="Application Programing Interfaces">APIs</abbr></a> and the <cite><a href="https://www.w3.org/TR/dom/">Document Object Model</a></cite> [[DOM4]] provide events to allow the assistive technologies to determine changed areas of the document.</p>
 				<p>When the content of a <a>live region</a> changes, user agents SHOULD examine the changed <a>element</a> and traverse the ancestors to find the first element with <pref>aria-atomic</pref> set, and apply the appropriate behavior for the cases below.</p>
 				<ol>
@@ -8799,10 +8901,10 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="property" id="aria-dropeffect">
+		<div class="property deprecated" id="aria-dropeffect">
 			<pdef>aria-dropeffect</pdef>
 			<div class="property-description">
-			  <p>Indicates what functions can be performed when a dragged object is released on the drop target.</p>
+			  <p>[Deprecated in ARIA 1.1] Indicates what functions can be performed when a dragged object is released on the drop target.</p>
 			  <p class="note">The <code>aria-dropeffect</code> property is expected to be replaced by a new feature in a future version of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>. Authors are therefore advised to treat <code>aria-dropeffect</code> as <a>deprecated</a>.</p>
 			  <p>This <a>property</a> allows assistive technologies to convey the possible drag options available to users, including whether a pop-up menu of choices is provided by the application. Typically, drop effect functions can only be provided once an object has been grabbed for a drag operation as the drop effect functions available are dependent on the object being dragged.</p>
 				<p>More than one drop effect may be supported for a given <a>element</a>. Therefore, the value of this <a>attribute</a> is a space-delimited set of tokens indicating the possible effects, or <code>none</code> if there is no supported operation. In addition to setting the <pref>aria-dropeffect</pref> attribute, authors SHOULD show a visual indication of potential drop targets.</p>
@@ -9003,10 +9105,10 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="state" id="aria-grabbed">
+		<div class="state deprecated" id="aria-grabbed">
 			<sdef>aria-grabbed</sdef>
 			<div class="state-description">
-				<p>Indicates an element's "grabbed" <a>state</a> in a drag-and-drop operation.</p>
+				<p>[Deprecated in ARIA 1.1] Indicates an element's "grabbed" <a>state</a> in a drag-and-drop operation.</p>
 				<p class="note">The <code>aria-grabbed</code> state is expected to be replaced by a new feature in a future version of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>. Authors are therefore advised to treat <code>aria-grabbed</code> as <a>deprecated</a>.</p>
 				<p>When it is set to <code>true</code> it has been selected for dragging, <code>false</code> indicates that the <a>element</a> can be grabbed for a drag-and-drop operation, but is not currently grabbed, and <code>undefined</code> (or no value) indicates the element cannot be grabbed (default).</p>
 				<p>When <sref>aria-grabbed</sref> is set to <code>true</code>, authors SHOULD update the <pref>aria-dropeffect</pref> <a>attribute</a> of all potential drop targets. When an element is not grabbed (the value is set to <code>false</code>, <code>undefined</code>, or the attribute is removed), authors SHOULD revert the <pref>aria-dropeffect</pref> attributes of the associated drop targets to <code>none</code>.</p>
@@ -9065,9 +9167,12 @@
 		<div class="property" id="aria-haspopup">
 			<pdef>aria-haspopup</pdef>
 			<div class="property-description">
-				<p>Indicates that the <a>element</a> has a popup context menu or sub-level menu.</p>
-				<p>This means that activation renders conditional content. Note that ordinary tooltips are not considered popups in this context.</p>
-				<p>A popup is generally presented visually as a group of items that appears to be on top of the main page content.</p>
+				<p>[ARIA 1.1] Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an <a>element</a>.</p>
+				<p>A popup element usually appears as a block of content that is on top of other content. Authors MUST ensure that the role of the element that serves as the container for the popup content is <rref>menu</rref>, <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>, and that the value of <code>aria-haspopup</code> matches the role of the popup container.</p>
+        <p>For the popup element to be keyboard accessible, authors SHOULD ensure that the element that can trigger the popup is focusable, that there is a keyboard mechanism for opening the popup, and that the popup element manages focus of all its descendants as described in <a href="#managingfocus">Managing Focus</a>.</p>
+        <p>The <code>aria-haspopup</code> property is an enumerated type. <a>User agents</a> MUST treat any value of <code>aria-haspopup</code> that is not included in the list of allowed values, including an empty string, as if the value <code>false</code> had been provided. To provide backward compatibility with ARIA 1.0 content, user agents MUST treat an <code>aria-haspopup</code> value of <code>true</code> as equivalent to a value of <code>menu</code>.</p>
+        <p><a>Assistive technologies</a> SHOULD NOT expose the <code>aria-haspopup</code> property if it has a value of <code>false</code>.</p>
+        <p class="note">A <rref>tooltip</rref> is not considered to be a popup in this context.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -9097,7 +9202,7 @@
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_token">token</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -9112,11 +9217,31 @@
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
-						<td class="value-description">The object has no popup.</td>
+						<td class="value-description">Indicates the element does not have a popup.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
-						<td class="value-description">Indicates the object has a popup, either as a descendant or referenced by <pref>aria-owns</pref>.</td>
+						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">menu</th>
+						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">listbox</th>
+						<td class="value-description">Indicates the popup is a <rref>listbox</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">tree</th>
+						<td class="value-description">Indicates the popup is a <rref>tree</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">grid</th>
+						<td class="value-description">Indicates the popup is a <rref>grid</rref>.</td>
+					</tr>
+					<tr>
+						<th class="value-name" scope="row">dialog</th>
+						<td class="value-description">Indicates the popup is a <rref>dialog</rref>.</td>
 					</tr>
 				</tbody>
 			</table>
@@ -9247,33 +9372,32 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="property" id="aria-kbdshortcuts">
-			<pdef>aria-kbdshortcuts</pdef>
+		<div class="property" id="aria-keyshortcuts">
+			<pdef>aria-keyshortcuts</pdef>
 			<div class="property-description">
-				<p>Indicates keyboard shortcuts that can be pressed to activate widgets, such as a button, link or menuitem. Any widget that has a default activation behavior when clicked can have a keyboard shortcut.</p>
-				<p>The value of the <pref>aria-kbdshortcuts</pref> attribute is a space-delimited list of keyboard shortcuts that can be pressed to activate the command widget. Each keyboard shortcut consists of one or more tokens delimited by the plus sign ("+") representing zero or more modifier keys and exactly one non-modifier key that must be pressed simultaneously to activate the given shortcut.</p>
-				<p>Modifier keys MUST be specified exactly according to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Alt", "Control", "Shift", "Meta", or "AltGraph". Note that Meta corresponds to the Command key on Apple computers.</p>
-				<p>The valid names for non-modifier keys are any printable character such as "A", "B", "1", "2", "$", "Plus" for a plus sign, "Space" for the spacebar, or the names of any other non-modifier key specified in the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Enter", "Tab", "ArrowRight", "PageDown", "Escape", or "F1".</p>
-				<p>When modifier keys are part of a shortcut, they MUST come first. The non-modifier key is required and MUST come last. The order of the modifier keys is not otherwise significant, so "Alt+Shift+T" and "Shift+Alt+T" are equivalent, but "T+Shift+Alt" is not valid because all of the modifier keys don't come first, and "Alt" is not valid because it doesn't include at least one non-modifier key.</p>
-				<p>When specifying an alphabetic key, both the uppercase and lowercase variants are considered equivalent: "a" and "A" are the same, as are "ü" and "Ü".</p>
-				<p>When specifying a key on the keyboard that changes when you hold down a modifier key other than an alphabetic key, you must specify the unmodified key name. For example, on most U.S. English keyboards, the percent sign "%" can be printed by pressing Shift+5. The correct way to specify this shortcut is "Shift+5". It is incorrect to specify "%" or "Shift+%". However, note that on some international keyboards the percent sign may be an unmodified key, in which case "%" and "Shift+%" would be correct on those keyboards.</p>
-				<p>If the key that needs to be specified is illegal in the host language or would cause a string to be terminated, use the string escaping sequence of the host language to specify it. For example, the double-quote character can be encoded as "&amp;quot;" in HTML.</p>
+				<p>[ARIA 1.1] Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.</p>
+				<p>The value of the <code>aria-keyshortcuts</code> attribute is a space-delimited list of keyboard shortcuts that can be pressed to activate a command or textbox widget. The keys defined in the shortcuts represent the physical keys pressed and not the actual characters generated. Each keyboard shortcut consists of one or more tokens delimited by the plus sign ("+") representing zero or more modifier keys and exactly one non-modifier key that must be pressed simultaneously to activate the given shortcut.</p>
+				<p>Authors MUST specify modifier keys exactly according to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Alt", "Control", "Shift", "Meta", or "AltGraph". Note that Meta corresponds to the Command key on Apple computers.</p>
+				<p>The valid names for non-modifier keys are any printable character such as "A", "B", "1", "2", "$", "Plus" for a plus sign, "Space" for the spacebar, or the names of any other non-modifier key specified in the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] - for example, "Enter", "Tab", "ArrowRight", "PageDown", "Escape", or "F1". The use of "Space" for the spacebar is an exception to the <a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">DOM Level 3 KeyboardEvent key Values</a> spec [[!DOM-Level-3-Events-key]] as the space or spacebar key is encoded as <code>'&nbsp;'</code> and would be treated as a whitespace character.</p>
+				<p>Authors MUST ensure modifier keys come first when they are part of a keyboard shortcut. Authors MUST ensure that required non-modifier keys come last when they are part of a shortcut. The order of the modifier keys is not otherwise significant, so "Alt+Shift+T" and "Shift+Alt+T" are equivalent, but "T+Shift+Alt" is not valid because all of the modifier keys don't come first, and "Alt" is not valid because it doesn't include at least one non-modifier key.</p>
+				<p>When specifying an alphabetic key, both the uppercase and lowercase variants are considered equivalent: "a" and "A" are the same.</p>
+				<p>Authors SHOULD avoid using keyboard shortcuts that are used by the user agent.  Implementing keyboard shortcuts that conflict with the user agent, will result in a loss of user agent functionality. Authors SHOULD avoid keyboard shortcuts that are used by supported assistive technologies running on the intended operating system platforms. Assistive technologies frequently steal keys at the operating system level before they ever reach a user agents. For the same reason authors SHOULD avoid keyboard shortcuts that are used by the operating system itself.</p>
+                                <p>When implementing keyboard shortcuts authors should consider the keyboards they intend to support to avoid unintended results. Keyboard designs vary significantly based on the device used and the languages supported. For example, many modifier keys are used in conjunction with other keys to create common punctuation symbols, create number characters, swap keyboard sides on bilingual keyboards to switch languages, and perform a number of other functions.</p>
+				<p>For many supported keyboards, authors can prevent conflicts by avoiding keys other than ASCII letters, as number characters and common punctuation often require modifiers. Here, the keyboard shortcut entered does not equate to the key generated. For example, in French keyboard layouts, the number characters are not available until you press the Control key, so a keyboard shortcut defined as "Control+2" would be ambiguous as this is how one would type the "2" character on a French keyboard.</p>
+				<p>If the character used is determined by a modifier key, the author MUST specify the actual key used to generate the character, that is generated by the key, and not the resulting character. This convention enables the assistive technology to accurately convey what keys must be used to generate the shortcut. For example, on most U.S. English keyboards, the percent sign "%" can be input by pressing Shift+5. The correct way to specify this shortcut is "Shift+5". It is incorrect to specify "%" or "Shift+%". However, note that on some international keyboards the percent sign may be an unmodified key, in which case "%" and "Shift+%" could be correct on those keyboards.</p>
+				<p>If the key that needs to be specified is illegal in the host language or would cause a string to be terminated, authors MUST use the string escaping sequence of the host language to specify it. For example, the double-quote character can be encoded as "Shift+&amp;#39;" in HTML.</p>
 				<p>Examples of valid keyboard shortcuts include:</p>
 				<ul>
 					<li>"A"</li>
 					<li>"Shift+Space"</li>
 					<li>"Control+Alt+."</li>
-					<li>"Ctrl+&amp;quot;"</li>
+					<li>"Control+Shift+&amp;#39;"</li>
+					<li>"Alt+Shift+P Control+F"</li>
+					<li>"Meta+C Meta+Shift+C"</li>
 				</ul>
-				<p>Examples of valid values for the aria-key attribute, which can include more than one space-delimited shortcut, include:</p>
-				<ul>
-					<li><code>aria-kbdshortcuts="Alt+Shift+P"</code></li>
-					<li><code>aria-kbdshortcuts="/ Ctrl+F"</code></li>
-					<li><code>aria-kbdshortcuts="Meta+C Meta+Shift+C"</code></li>
-				</ul>
-				<p>Adding the <pref>aria-kbdshortcuts</pref> attribute to an element does not change the behavior of the user agent by mapping the specified keyboard shortcuts to the triggering of the element's activation function. It is still up to the application to implement support for the keyboard shortcuts. The aria-kbdshortcuts attribute exposes the fact that these shortcuts exist so that assistive technologies can communicate this information to users.</p>
-				<p>Keyboard shortcuts are assumed to be global. If a button is present in a document and it is visible and enabled, and it exposes a keyboard shortcut, it is assumed that as long as the document has focus, pressing that keyboard shortcut will activate that button. If the button or other element is not currently available to be activated normally, for example because it's currently invisible or hidden, or explicitly marked as disabled, that implies that the keyboard shortcut is unavailable too.</p>
-				<p class="ednote">The Working Group also wants to provide the ability to describe to users what the keyboard shortcut does. The mechanism for this has not yet been identified.</p>
+				<p>User agents MUST NOT change keyboard behavior in response to the <code>aria-keyshortcuts</code> attribute. Authors MUST handle scripted keyboard events to process <code>aria-keyshortcuts</code>. The <code>aria-keyshortcuts</code> attribute exposes the existence of these shortcuts so that assistive technologies can communicate this information to users.</p>
+
+				<p>Authors MUST ensure <code>aria-keyshortcuts</code> are available throughout the document for associated, active elements. The <code>aria-keyshortcuts</code> is only exposed to the <a>assistive technology</a> when the element it is not hidden from the user or assistive technology by the author. Consequently, authors MUST visibly expose the element so that it may be discovered by a user of an <a>assistive technology</a>. An example would be a menu item. If the menu item were to expose a keyboard shortcut it is assumed that as long as the document has focus, pressing that keyboard shortcut will activate that menu item. Authors SHOULD provide a visible way to expose keyboard shortcuts so that all users may discover the them, such as through the use of a tooltip. Authors MUST ensure that <code>aria-keyshortcuts</code>, applied to disabled elements, are unavailable.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -9290,7 +9414,7 @@
 					</tr>
 					<tr>
 						<th class="property-applicability-head" scope="row">Used in Roles:</th>
-						<td class="property-applicability">Placeholder</td>
+						<td class="property-applicability">All elements of the base markup</td>
 					</tr>
 					<tr>
 						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
@@ -9791,6 +9915,7 @@
   &lt;li role="option" aria-setsize="16" <strong>aria-posinset="8"</strong>&gt; dates &lt;/li&gt;
 &lt;/ul&gt;</pre>
 				<p>Authors MUST set the value for <pref>aria-posinset</pref> to an integer greater than or equal to 1, and less than or equal to the size of the set when that size is known. Authors SHOULD use <pref>aria-setsize</pref>.</p>
+				<p>When exposing <code>aria-posinset</code> on a <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, or <rref>menuitemradio</rref>, authors SHOULD set the value of <code>aria-posinset</code> with respect to the total number of items in the <rref>menu</rref>, excluding any separators.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -10388,6 +10513,7 @@
 				<p>This <a>property</a> is marked on the members of a set, not the container element that collects the members of the set. To orient the user by saying an element is "item X out of Y," the <a>assistive technologies</a> would use X equal to the <pref>aria-posinset</pref> <a>attribute</a> and Y equal to the <code>aria-setsize</code> attribute.</p>
 				<p>If all items in a set are present in the document structure, it is not necessary to set this property, as the <a>user agent</a> can automatically calculate the set size and position for each item. However, if only a portion of the set is present in the document structure at a given moment (in order to reduce document size), this property is needed to provide an explicit indication of set size.</p>
 				<p>Authors MUST set the value of <code>aria-setsize</code> to an integer equal to the number of items in the set. If the total number of items is unknown, authors SHOULD set the value of <code>aria-setsize</code> to <code>-1</code>.</p>
+				<p>When exposing <code>aria-setsize</code> on a <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, or <rref>menuitemradio</rref>, authors SHOULD set the value of <code>aria-setsize</code> based on the total number of items in the <rref>menu</rref>, excluding any separators.</p>
 				<p>The following example shows items 5 through 8 in a set of 16.</p>
 				<pre class="example highlight">&lt;h2 id="label_fruit"&gt; Available Fruit &lt;/h2&gt;
 &lt;ul role="listbox" aria-labelledby="label_fruit"&gt;
@@ -10678,7 +10804,7 @@
 	<section id="implicit_semantics">
 		<h2>Implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Semantics</h2>
 		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is designed to provide <a>semantic</a> information about objects when host languages lack native semantics for the object. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is designed, however, to provide additional semantics for many host languages. Furthermore, host languages over time can evolve and provide new native features that correspond to WAI-ARIA features. Therefore, there are many situations in which <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics are redundant with host language semantics. </p>
-		<p>These host language features can be viewed as having &quot;implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics&quot;. User agent processing of features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics would be similar to the processing for the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature. The processing might not be identical because of lexical differences between the host language feature and the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature, but generally the user agent would expose the same information to the accessibility API. Features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics satisfy <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> structural requirements such as required owned elements, required states and properties, etc. and do not require explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics to be provided.</p>
+		<p>These host language features can be viewed as having &quot;implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics&quot;. User agent processing of features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics would be similar to the processing for the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature. The processing might not be identical because of lexical differences between the host language feature and the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature, but generally the user agent would expose the same information to the accessibility API. Features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics satisfy <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> structural requirements such as required owned elements, required states and properties, etc. and do not require explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics to be provided. On elements with implicit WAI-ARIA roles, authors can also use WAI-ARIA states and properties supported by those roles <em>without</em> requiring explicit indication of the WAI-ARIA role.</p>
 		<p>For example, if an element with the functionality already exists, such as a checkbox or radio button, use the native semantics of the host language. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup is only intended to be used to enhance the native semantics (e.g., indicating that the element is required with <pref>aria-required</pref>), or to change the semantics to a different purpose form the standard functionality of the element.</p>
 		<p>Implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics affect the conflict resolution procedures in the following section, Conflicts with Host Language Semantics. Therefore, implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics need to be defined in a normative specification, such as the host language specification or the <cite><a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA User Agent Implementation Guide</a></cite> [[WAI-ARIA-IMPLEMENTATION]].</p>
 	</section>
@@ -10689,6 +10815,13 @@
 		<p>Host languages can have features that have implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics corresponding to roles. When a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role is provided, user agents MUST use the semantic of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role for processing, not the native semantic, unless the role requires <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties whose attributes are explicitly forbidden on the native element by the host language. Values for roles do not conflict in the same way as values for states and properties (for example, the HTML 'checked' attribute and the 'aria-checked' attribute could have conflicting values), and authors are expected to have valid reason to provide a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role even on elements that would not normally be repurposed.</p>
 		<p>When <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties correspond to host language features that have the same <a href="#implicit_semantics">implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantic</a>, it can be particularly problematic to use the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature. If the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature and the host language feature are both provided but their values are not kept in sync, user agents and assistive technologies cannot know which value to use. Therefore, to prevent providing conflicting states and properties to assistive technologies, host languages MUST explicitly declare where the use of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attributes on each host language element conflicts with native attributes for that element. When a host language declares a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute to be in direct semantic conflict with a native attribute for a given element, user agents MUST ignore the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute and instead use the host language attribute with the same implicit semantic.</p>
 		<p>Host languages MAY document features that cannot be overridden with <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> (these are called "strong native semantics"). These can be features that have implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics, as well as features where the processing would be uncertain if the semantics were changed with <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>. Conformance checkers MAY signal an error or warning when a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role is used on elements with strong native semantics, but as described above, user agents MUST still use the value of the semantic of the WAI-ARIA role when exposing the element to accessibility APIs.</p>
+		<p>The opportunity for host languages to create exceptions to the WAI-ARIA override of native features is meant to avoid potential author errors or problems with intrinsic processing of host language features. Author errors could happen when a host language and WAI-ARIA provide similar but not identical features, where it might not be clear how changing one but not the other affects the accessibility API. Intrinsic processing refers to the way a feature is processed, beyond simple rendering and exposure to the Accessibility API, that cannot reasonably be changed in response to a ARIA feature, and would lead to unpredictable results were ARIA allowed. In these situations, there is good reason for host languages to limit the scope of WAI-ARIA. However, this provision does not give blanket permission for host languages to forbid the use of WAI-ARIA simply by documenting, feature by feature, that it may not be used. Host languages should create restrictions on the use of ARIA only when it is critical to effective processing of content.</p>
+		<p>Certain ARIA features are critical to building a complete model in the accessibility API. Such features are not expected to conflict with native host language semantics (though they may complement them). Therefore, host languages MUST NOT declare strong native semantics that prevent use of the following ARIA features:</p>
+		<ul>
+			<li><pref>aria-describedby</pref></li>
+			<li><pref>aria-label</pref></li>
+			<li><pref>aria-labelledby</pref></li>
+		</ul>
 
 		<!-- previous 'Conflicts with Host Language Semantics' section -->
 		<!--
@@ -10704,10 +10837,11 @@
 		<h2>State and Property Attribute Processing</h2>
 		<p>State and property attributes are included in host languages, and therefore syntax for representation of their value types is governed by the host language. For each of the value types defined in <a href="#propcharacteristic_value">Value</a>, an appropriate value type from the host language is used. Recommended correspondences between <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> value types and various host language value types are listed in <a href="#typemapping">Mapping <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Value types to languages</a>. This is a non-normative mapping in order to accommodate new host languages supporting <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</p>
 		<p>The list value types&#8212;ID reference list and token list&#8212;allow more than one value of the given type to be provided. The values are separated by delimiter characters recognized by the host language for list attributes, such as space characters, commas, etc. Some languages may require a specific, single delimiter, while others may allow various delimiters.</p>
-		<p>Global states and properties are supported on any element in the host language. However, authors MUST only use non-global states and properties on elements with a role supporting the state or property; either defined as an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, or as defined by the host language semantic matching an appropriate WAI-ARIA role. When a role attribute is added to an element, the <a>semantics</a> and behavior of the element, including support for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties, are augmented or overridden by the role behavior. User agents <strong>MUST</strong> ignore non-global states and properties used on an element without a role supporting the state or property; either defined as an explicit WAI-ARIA role, or as defined by the host language semantic matching an appropriate <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role. For example, the <pref>aria-valuetext</pref> attribute may be used on a <rref>progressbar</rref>.</p>
+		<p>Global states and properties are supported on any element in the host language. However, authors MUST only use non-global states and properties on elements with a role supporting the state or property; either defined as an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, or as defined by the host language implicit WAI-ARIA semantic matching an appropriate WAI-ARIA role. When a role attribute is added to an element, the <a>semantics</a> and behavior of the element, including support for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties, are augmented or overridden by the role behavior. User agents <strong>MUST</strong> ignore non-global states and properties used on an element without a role supporting the state or property; either defined as an explicit WAI-ARIA role, or as defined by the host language WAI-ARIA semantic matching an appropriate <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role. For example, the <pref>aria-valuetext</pref> attribute may be used on a <rref>progressbar</rref>.</p>
 		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles have associated states and properties that are qualified as "supported" or "required".  An example of a property <em>supported</em> by the <a class="role-reference" href="#combobox">combobox</a> role is <a class="property-reference" href="#aria-autocomplete">aria-autocomplete</a>.  The property is designated "supported" in this case because a given <code>combobox</code> might or might not implement auto completion.  In contrast, the <code>combobox</code> role <em>requires</em> the <a class="state-reference" href="#aria-expanded">aria-expanded</a> state in order to indicate that it is expandable.  Comboboxes have a descendant <code>listbox</code> that is either open or closed.  If the <code>listbox</code> is open, the <code>combobox</code> is in its expanded state; otherwise it is collapsed. </p>
 		<p>When <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles are used, <em>supported</em> states and properties that are not present in the DOM are treated according to their default value. Keeping with the <code>combobox</code> example, a missing <code>aria-autocomplete</code> attribute is equivalent to <code>aria-autocomplete=&quot;none&quot;</code>, meaning the <code>combobox</code> does not offer auto completion.  </p>
 		<p>However, <em>required</em> states and properties that are absent are an author error. Missing required states and properties are treated as if they were present and have an implicit neutral value that is not necessarily their default value. For example, the default value of <code>aria-expanded</code> is <code>undefined</code>, meaning neither expandable nor collapsible.  But that does not apply to the case of a <code>combobox</code>. In this case, <code>aria-expanded</code> is needed to convey the expandable/collapsible nature of the <code>combobox</code>.  Thus, the implicit value of <code>aria-expanded</code> for the <code>combobox</code> role is <code>false</code>, meaning expandable (and currently collapsed).   The characteristics table associated with each WAI-ARIA role has an "<a href="#implictValueForRole">Implicit Value for Role</a>" entry that specifies the value of a state or property to use in the context of that role when the state or property is missing.  </p>
+		<p>Elements that have implicit WAI-ARIA semantics support the full set of WAI-ARIA states and properties supported by the corresponding role. Therefore, authors MAY omit the role when setting states and properties. The role is only needed when the implicit WAI-ARIA role of the element needs to be changed.</p>
 		<p>Sometimes states and properties are present in the DOM but have a zero-length string ("") as their value.  This is equivalent to their absence.  User agents SHOULD treat state and property attributes with a value of "" the same as they treat an absent attribute.  For supported states and properties, this corresponds to the default value, but if it is a required attribute, it signals an author error, and the implicit value for the role is used. </p>
 	</section>
 </section>
@@ -10885,6 +11019,15 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>25-Feb-2016: Removed <code>aria-describedat</code> which has been made obsolete by <pref>aria-details</pref>.</li>
 			<li>29-Feb-2016: Added statement that authors MUST ensure <pref>aria-errormessage</pref> content is not hidden and is included in a container that exposes the content to the user.</li>
 			<li>10-Mar-2016: Updated text regarding implicit values for <rref>spinbutton</rref>: Default for <pref>aria-valuenow</pref> is <code>0</code>. There is no minimum value for <pref>aria-valuemin</pref> and no maximum value for <pref>aria-valuemax</pref>.</li>
+			<li>28-Apr-2016: Added <pref>aria-keyshortcuts</pref> (as a replacement for the <code>aria-kbdshortcuts</code> which was introduced on 12-Jun-2015.</li>
+			<li>02-May-2016: Added <rref>password</rref> role.</li>
+			<li>05-May-2016: Changed the value type of <pref>aria-haspopup</pref> from boolean to token. Supported values are: <code>true</code>, <code>false</code>, <code>menu</code>, <code>listbox</code>, <code>tree</code>, <code>grid</code>, and <code>dialog</code>.</li>
+			<li>05-May-2016: Expanded the roles which can be owned by a <rref>combobox</rref> to include <rref>tree</rref>, <rref>grid</rref>, and <rref>dialog</rref>. In addition, the implicit value for <pref>aria-haspopup</pref> for role <rref>combobox</rref> was changed from <code>true</code> to <code>listbox</code>.</li>
+			<li>12-May-2016: Added normative statement that user agents MUST NOT declare strong native semantics that prevent the use of: <pref>aria-describedby</pref>, <pref>aria-label</pref>, <pref>aria-labelledby</pref>.</li>
+			<li>19-May-2016: Added <pref>aria-posinset</pref> and <pref>aria-setsize</pref> as supported properties of <rref>menuitem</rref>.</li>
+			<li>19-May-2016: Added <pref>aria-activedescendant</pref> as a supported property of <rref>application</rref>.</li>
+			<li>27-May-2016: Remove <code>text</code>. The ARIA Working Group agreed to <a href="https://lists.w3.org/Archives/Public/public-aria-admin/2016Apr/0030.html">move the text role to ARIA 2.0</a>. Note that the content is currently only commented out until we branch for ARIA 1.1.</li>
+			<li>02-Jun-2016: Add children-presentational <code>true</code> to <rref>checkbox</rref>, <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, <rref>option</rref>, <rref>radio</rref>, <rref>spinbutton</rref>, <rref>switch</rref>, <rref>tab</rref>, and <rref>treeitem</rref>.</li>
 		</ul>
 	</section>
 	<section>
@@ -10909,12 +11052,11 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>09-Apr-2015: Added <pref>aria-placeholder</pref> attribute.</li>
 			<li>23-Apr-2015: Added <pref>aria-colcount</pref>, <pref>aria-rowcount</pref>, <pref>aria-colindex</pref>, <pref>aria-rowindex</pref>, <pref>aria-colspan</pref>, and <pref>aria-rowspan</pref>.</li>
 			<li>05-Jun-2015: Added <rref>cell</rref> and <rref>table</rref> roles for non-interactive tables. Made <rref>gridcell</rref> and <rref>grid</rref> subclasses of <rref>cell</rref> and <rref>table</rref> respectively. Removed <rref>widget</rref> as one of the immediate superclasses of <rref>columnheader</rref> and <rref>rowheader</rref>. Headers that subclass <rref>gridcell</rref> will still inherit the supported properties of <rref>widget</rref>.</li>
-			<li>12-Jun-2015: Added <pref>aria-kbdshortcuts</pref>.</li>
+			<li>12-Jun-2015: Added <code>aria-kbdshortcuts</code>. Note that his has subsequently been replaced by <pref>aria-keyshortcuts</pref>.</li>
 			<li>23-Jun-2015: Added <pref>aria-roledescription</pref> attribute.</li>
 			<li>03-Jul-2015: Added <pref>aria-readonly</pref> as a supported property of <rref>checkbox</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, and <rref>switch</rref>. Because this property should not apply to <rref>radio</rref>, <rref>radio</rref> was made a subclass of <rref>input</rref>.</li>
 			<li>03-Jul-2015: Expanded explanation of "supported" vs. "required" states and properties.  Added implicit default values of <pref>aria-valuemin</pref>, <pref>aria-valuemax</pref>, and <pref>aria-valuenow</pref> when they are required for roles <rref>scrollbar</rref>, <rref>slider</rref>, and <rref>spinbutton</rref>.</li>
 			<li>03-Jul-2015: Made <pref>aria-level</pref> a required attribute for <rref>heading</rref> with an implicit value of 2.</li>
-
 			<!-- EdNote: After each WD publish, move previous list into this one. -->
 		</ul>
 	</section>
