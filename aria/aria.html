@@ -8229,9 +8229,9 @@
 		<div class="property" id="aria-autocomplete">
 			<pdef>aria-autocomplete</pdef>
 			<div class="property-description">
-				<p>Indicates whether inputting text triggers display of one or more predictions of the user's intended value for an input and specifies how such predictions will be presented. </p>
+				<p>Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how such predictions will be presented. </p>
 				<p>
-                The <code>aria-autocomplete</code> property describes the type of interaction model a<rref>textbox</rref>, <rref>searchbox</rref>, or <rref>combobox</rref> employs when dynamically helping users complete text input. 
+                The <code>aria-autocomplete</code> property describes the type of interaction model a <rref>textbox</rref>, <rref>searchbox</rref>, or <rref>combobox</rref> employs when dynamically helping users complete text input. 
                 It distinguishes between two models: the inline model (<code>aria-autocomplete="inline"</code>) that presents a value inside the text input and the list model (<code>aria-autocomplete="list"</code>) that presents a collection of possible values in a separate element that pops up adjacent to the text input.
                 It is possible for an input to offer both models at the same time (<code>aria-autocomplete="both"</code>).
                 </p>
@@ -8244,19 +8244,27 @@
                 </p>
                 <p>
                 When an inline suggestion is made as a user types in an input, suggested text for completing the value of the field dynamically appears in the field after the input cursor, and the suggested value is accepted as the value of the input if the user performs an action that causes focus to leave the field.
-                When an element has <code>aria-autocomplete</code> set to <code>inline</code> or <code>both</code>, authors SHOULD ensure that the suggested portion of the text value has a selected state.
-                The selected state enables assistive technologies to distinguish between the user input and the automatic suggestion and, in the event that the suggestion is not the desired value, enables the user to easily delete the suggestion or replace it by continuing to type.
+                When an element has <code>aria-autocomplete</code> set to <code>inline</code> or <code>both</code>, authors SHOULD ensure that the automatically suggested portion of the text is presented as selected text. 
+                This enables assistive technologies to distinguish between a user's input and the automatic suggestion and, in the event that the suggestion is not the desired value, enables the user to easily delete the suggestion or replace it by continuing to type.
                 </p>
-                <p>
-                If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, authors MUST ensure that either the element or a containing element with role <rref>combobox</rref> has a value for <pref>aria-haspopup</pref> that matches the role of the element used to present the collection of suggested values.
-                Some implementations of the list model require the user to perform an action, such as pressing <kbd>Down Arrow</kbd> or clicking on the suggestion, in order to select a suggestion. 
-                Other implementations of the list model automatically highlight one suggestion as the selected value that will be accepted when the field loses focus, e.g., when the user presses the <kbd>Tab</kbd> key or clicks on a different field.
-                If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code> and it automatically selects a suggestion in the collection as the user provides input, authors MUST keep DOM focus on the text input,  present the collection of suggestions in an element with a role that supports <pref>aria-activedescendant</pref>, and dynamically adjust the value of <code>aria-activedescendant</code> set on the input field to refer to the selected element as described in the definition of <pref>aria-activedescendant</pref>.
-                In implementations of the list model that do not automatically select a value, authors MAY either use <code>aria-activedescendant</code> if the collection container supports it or directly manage focus movement within the collection.
+                <p> If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, authors MUST ensure both of the following conditions are met:</p>
+                <ul>
+                <li>The element has a value specified for <pref>aria-controls</pref> that refers to the element used to present the collection of suggested values. </li>
+                <li>Either the element or a containing element with role <rref>combobox</rref> has a value for <pref>aria-haspopup</pref> that matches the role of the element used to present the collection of suggested values.</li>
+                </ul>
+                 <p>
+                Some implementations of the list model require the user to perform an action, such as moving focus to the suggestion with the <kbd>Down Arrow</kbd> or clicking on the suggestion, in order to choose the suggestion. 
+                In such implementations, authors MAY manage focus by either using <pref>aria-activedescendant</pref> if the collection container supports it or by moving DOM focus to the suggestion.
+                However, other implementations of the list model automatically highlight one suggestion as the selected value that will be accepted when the field loses focus, e.g., when the user presses the <kbd>Tab</kbd> key or clicks on a different field.
+                If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, and if a suggestion is automatically selected in the collection as the user provides input, authors MUST ensure all the following conditions are met:
                 </p>
+                <ul>
+                <li>The collection of suggestions is presented in an element with a role that supports <pref>aria-activedescendant</pref.></li>
+                <li>The value of <code>aria-activedescendant</code> set on the input field is dynamically adjusted to refer to the element containing the selected suggestion as described in the definition of <pref>aria-activedescendant</pref>.</li>
+                <li>DOM focus remains on the text input while the suggestions are displayed. </li>
+                </ul>
                 <p>
                 The <code>aria-autocomplete</code> property is not intended to indicate the presence of a completion suggestion, and authors SHOULD NOT dynamically change its value in order to communicate the presence of a suggestion.
-                For inputs that provide inline suggestions, the appearance of text in a selected state after the input cursor indicates the presence of a suggestion.
                 When an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, authors SHOULD use the <sref>aria-expanded</sref> state to communicate whether the element that presents the suggestion collection is displayed.
                 </p>
 			</div>
@@ -8298,19 +8306,19 @@
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">inline</th>
-						<td class="value-description">If the user provides a partial value for the input, text will appear after the caret suggesting a way to complete the input.</td>
+						<td class="value-description">When a user is providing input, text suggesting one way to complete the provided input may be dynamically inserted after the caret.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">list</th>
-						<td class="value-description">If the user provides a partial value for the input, an element containing a collection of values that could complete the input will appear.</td>
+						<td class="value-description">When a user is providing input, an element containing a collection of values that could complete the provided input may be displayed.</td>
 					</tr>
                     <tr>
                         <th class="value-name" scope="row">both</th>
-                        <td class="value-description">If the user provides a partial value for the input, an element will appear with a collection of suggested values that could be used to complete the input, one value in the collection will be automatically selected, and the text needed to complete the automatically selected value will appear after the caret in the input.</td>
+                        <td class="value-description">When a user is providing input, an element containing a collection of values that could complete the provided input may be displayed. If displayed, one value in the collection is automatically selected, and the text needed to complete the automatically selected value appears after the caret in the input.</td>
                     </tr>
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">none (default)</strong></th>
-						<td class="value-description">As the user is providing a value for the input, suggestions for how to complete the value will not be provided. </td>
+						<td class="value-description">When a user is providing input, an automatic suggestion that attempts to predict how the user intends to complete the input is not displayed.</td>
 					</tr>
 				</tbody>
 			</table>
