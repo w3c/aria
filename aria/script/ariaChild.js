@@ -3,6 +3,8 @@
 // same directory that contains the roleInfo data structure.
 //
 
+/* jshint laxbreak:true, laxcomma:true, asi: true, eqeqeq: false, strict: implied, jquery: true */
+/* global $, require, roleInfo, updateReferences */
 var localRoleInfo = {} ;
 
 require(["core/pubsubhub"], function( respecEvents ) {
@@ -131,7 +133,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                     name = item.textContent || item.innerText;
                                 }
                                 var type = (item.localName === "pref" ? "property" : "state");
-                                attrs.push( { is: type, name: name } );
+                                var req = ($(node).hasClass("role-required-properties") ? true : false );
+                                attrs.push( { is: type, name: name, required: req } );
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
@@ -183,27 +186,42 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             $.each(item.parentRoles, function(j, role) {
                                 $.merge(myList, getStates(role));
                             });
+                            // strip out any items that we have locally
+                            /* jshint loopfunc: true */
+                            if (item.localprops.length && myList.length) {
+                                for (var j = myList.length - 1; j >=0; j--) {
+                                    item.localprops.forEach(function(x) {
+                                        if (x.name == myList[j].name) {
+                                            myList.splice(j, 1);
+                                        }
+                                    });
+                                }
+                            }
                             var sortedList = [];
-                            sortedList = myList.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
+                            sortedList = myList.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; });
                             var prev;
-                            for (var j = 0; j < sortedList.length; j++) {
-                                var role = sortedList[j];
+                            for (var k = 0; k < sortedList.length; k++) {
+                                var role = sortedList[k];
+                                var req = "";
+                                if (role.required) {
+                                    req = " <strong>(required)</strong>";
+                                }
                                 if (prev != role.name) {
                                     output += "<li>";
                                     if (role.is === "state") {
-                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>";
+                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req;
                                     } else {
-                                        output += "<pref>" + role.name + "</pref>";
+                                        output += "<pref>" + role.name + "</pref>" + req;
                                     }
                                     output += "</li>\n";
                                     prev = role.name;
                                 }
                             }
-                            if (output != "") {
+                            if (output !== "") {
                                 output = "<ul>\n" + output + "</ul>\n";
                                 placeholder.innerHTML = output;
                             }
-                        };
+                        }
                     });
                     
                     // Update state and property role references
@@ -236,7 +254,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             for (var j = 0; j < sortedList.length; j++) {
                                 output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                             }
-                            if (output != "") {
+                            if (output !== "") {
                                 output = "<ul>\n" + output + "</ul>\n";
                             }
                             placeholder.innerHTML = output;
@@ -257,19 +275,19 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 sortedList = myList.sort();
                                 output = "";
                                 var last = "";
-                                for (var j = 0; j < sortedList.length; j++) {
-                                    var item = sortedList[j];
-                                    if (last != item) {
-                                        output += "<li><rref>" + item + "</rref></li>\n";
-                                        last = item;
+                                for (var k = 0; k < sortedList.length; k++) {
+                                    var lItem = sortedList[k];
+                                    if (last != lItem) {
+                                        output += "<li><rref>" + lItem + "</rref></li>\n";
+                                        last = lItem;
                                     }
                                 }
-                                if (output != "") {
+                                if (output !== "") {
                                     output = "<ul>\n" + output + "</ul>\n";
                                 }
                                 placeholder.innerHTML = output;
                             }
-                        };
+                        }
                     });
                     
                     // spit out the index
