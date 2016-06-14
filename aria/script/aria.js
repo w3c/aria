@@ -237,6 +237,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
 
                 var subRoles = [];
                 var roleIndex = "";
+                var fromAuthor = "";
+                var fromContent = "";
 
                 $.each(document.querySelectorAll("rdef"), function(i,item) {
                     var container = item.parentNode;
@@ -290,21 +292,41 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     var attrs = [];
                     $.each(container.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
-                // looks like we do
-                $.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            // looks like we do
+                            $.each(node.querySelectorAll("pref,sref"), function(i, item) {
                                 var name = item.getAttribute("title");
                                 if (!name) {
-                    name = item.textContent || item.innerText;
+                                    name = item.textContent || item.innerText;
                                 }
                                 var type = (item.localName === "pref" ? "property" : "state");
                                 attrs.push( { is: type, name: name } );
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
-                });
+                            });
                         }
-            });
+                    });
                     roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
+                    // is there a namefrom indication?  If so, add this one to
+                    // the list
+                    $.each(container.querySelectorAll(".role-namefrom"), function(i, node) {
+                        if ($(node).find("li").length) {
+                            // there is a list; put it in both lists
+                            fromAuthor += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                            fromAuthor  += "<dd>" + desc + "</dd>\n";
+                            fromContent += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                            fromContent  += "<dd>" + desc + "</dd>\n";
+                        } else {
+                            // it is a text node; use that
+                            if (node.textContent == "author") {
+                                fromAuthor += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                                fromAuthor  += "<dd>" + desc + "</dd>\n";
+                            } else {
+                                fromContent += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                                fromContent  += "<dd>" + desc + "</dd>\n";
+                            }
+                        }
+                    });
                     if (container.nodeName.toLowerCase() == "div") {
                         // change the enclosing DIV to a section with notoc
                         var sec = document.createElement("section") ;
@@ -442,6 +464,23 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     list.id = "index_role";
                     list.className = "compact";
                     list.innerHTML = roleIndex;
+                    parentNode.replaceChild(list, node);
+
+                    // and the namefrom lists
+                    node = document.getElementById("index_fromauthor");
+                    parentNode = node.parentNode;
+                    list = document.createElement("dl");
+                    list.id = "index_fromauthor";
+                    list.className = "compact";
+                    list.innerHTML = fromAuthor;
+
+                    parentNode.replaceChild(list, node);
+                    node = document.getElementById("index_fromcontent");
+                    parentNode = node.parentNode;
+                    list = document.createElement("dl");
+                    list.id = "index_fromcontent";
+                    list.className = "compact";
+                    list.innerHTML = fromContent;
                     parentNode.replaceChild(list, node);
 
                     // assuming we found some parent roles, update those parents with their children
