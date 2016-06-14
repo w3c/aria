@@ -309,7 +309,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         }
                         output += "</ul>\n";
                         // put it somewhere
-                        var subRolesContainer = document.querySelector("div#" + subRoles[i]);
+                        var subRolesContainer = document.querySelector("#" + subRoles[i]);
                         if (subRolesContainer) {
                             var subRolesListContainer = subRolesContainer.querySelector(".role-children");
                             if (subRolesListContainer) {
