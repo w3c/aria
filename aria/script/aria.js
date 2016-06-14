@@ -1,9 +1,21 @@
+/**
+ * roleInfo is structured like this:
+ *
+ * name: the name of the role
+ * fragID: the @id for the role in the document
+ * parentRoles: roles from which it inherits
+ * localprops: local properties and states
+ */
+
+/* jshint shadow: true, unused: false, laxbreak:true, laxcomma:true, asi: true, eqeqeq: false, strict: implied, jquery: true */
+/* global $, require, updateReferences */
+
 var roleInfo = {};
 
 require(["core/pubsubhub"], function( respecEvents ) {
     respecEvents.sub("end-all", function() {
         var m = document.URL;
-        if (m.match(/\?saveRoles/)) {
+        if (m.match(/\#saveRoles/)) {
             var $modal
             ,   $overlay
             ,   buttons = {}
@@ -11,14 +23,22 @@ require(["core/pubsubhub"], function( respecEvents ) {
             var conf, doc, msg;
             var ui = {
                 closeModal: function () {
-                    if ($overlay) $overlay.fadeOut(200, function () { $overlay.remove(); $overlay = null; });
-                    if (!$modal) return;
+                    if ($overlay) {
+                        $overlay.fadeOut(200, function () { $overlay.remove(); $overlay = null; });
+                    }
+                    if (!$modal) {
+                        return;
+                    }
                     $modal.remove();
                     $modal = null;
                 }
             ,   freshModal: function (title, content) {
-                    if ($modal) $modal.remove();
-                    if ($overlay) $overlay.remove();
+                    if ($modal) {
+                        $modal.remove();
+                    }
+                    if ($overlay) {
+                        $overlay.remove();
+                    }
                     var width = 500;
                     $overlay = $("<div id='respec-overlay' class='removeOnSave'></div>").hide();
                     $modal = $("<div id='respec-modal' class='removeOnSave'><h3></h3><div class='inside'></div></div>").hide();
@@ -195,13 +215,13 @@ require(["core/pubsubhub"], function( respecEvents ) {
 
                     var globalSPIndex = "";
                     sortedList = globalSP.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
-                    for (var i = 0; i < sortedList.length; i++) {
-                        var item = sortedList[i];
+                    for (i = 0; i < sortedList.length; i++) {
+                        var lItem = sortedList[i];
                         globalSPIndex += "<li>";
-                        if (item.is === "state") {
-                            globalSPIndex += "<sref title=\"" + item.name + "\">" + item.name + " (state)</sref>";
+                        if (lItem.is === "state") {
+                            globalSPIndex += "<sref title=\"" + lItem.name + "\">" + lItem.name + " (state)</sref>";
                         } else {
-                            globalSPIndex += "<pref>" + item.name + "</pref>";
+                            globalSPIndex += "<pref>" + lItem.name + "</pref>";
                         }
                         globalSPIndex += "</li>\n";
                     }
@@ -209,7 +229,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     if (parentNode) {
                         node = parentNode.querySelector(".placeholder");
                         if (node) {
-                            var l = document.createElement("ul");
+                            l = document.createElement("ul");
                             l.innerHTML = globalSPIndex;
                             parentNode.replaceChild(l, node);
                         }
@@ -219,7 +239,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     if (parentNode) {
                         node = parentNode.parentNode;
                         if ((parentNode.textContent || parentNode.innerText) === "Placeholder for global states and properties") {
-                            var l = document.createElement("ul");
+                            l = document.createElement("ul");
                             l.innerHTML = globalSPIndex;
                             node.replaceChild(l, parentNode);
                         }
@@ -291,19 +311,23 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     $.each(container.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                 // looks like we do
-                $.each(node.querySelectorAll("pref,sref"), function(i, item) {
+                            $.each(node.querySelectorAll("pref,sref"), function(i, item) {
                                 var name = item.getAttribute("title");
                                 if (!name) {
-                    name = item.textContent || item.innerText;
+                                    name = item.textContent || item.innerText;
                                 }
                                 var type = (item.localName === "pref" ? "property" : "state");
-                                attrs.push( { is: type, name: name } );
+                                var req = false;
+                                if ($(node).hasClass("role-required-properties") ) {
+                                    req = true;
+                                }
+                                attrs.push( { is: type, name: name, required: req } );
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
-                });
+                            });
                         }
-            });
+                    });
                     roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
                     if (container.nodeName.toLowerCase() == "div") {
                         // change the enclosing DIV to a section with notoc
@@ -338,6 +362,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     
                 if (!skipIndex) {
                     // build up the complete inherited SP lists for each role
+                    // however, if the role already specifies an item, do not include it
                     $.each(roleInfo, function(i, item) {
                         var output = "";
                         var placeholder = document.querySelector("#" + item.fragID + " .role-inherited");
@@ -346,27 +371,42 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             $.each(item.parentRoles, function(j, role) {
                                 $.merge(myList, getStates(role));
                             });
+                            /* jshint loopfunc: true */
+                            // strip out any items that we have locally
+                            if (item.localprops.length && myList.length) {
+                                for (var j = myList.length - 1; j >=0; j--) {
+                                    item.localprops.forEach(function(x) {
+                                        if (x.name == myList[j].name) {
+                                            myList.splice(j, 1);
+                                        }
+                                    });
+                                }
+                            }
                             var sortedList = [];
                             sortedList = myList.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
                             var prev;
-                            for (var j = 0; j < sortedList.length; j++) {
-                                var role = sortedList[j];
+                            for (var k = 0; k < sortedList.length; k++) {
+                                var role = sortedList[k];
+                                var req = "";
+                                if (role.required) {
+                                    req = " <strong>(required)</strong>";
+                                }
                                 if (prev != role.name) {
                                     output += "<li>";
                                     if (role.is === "state") {
-                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>";
+                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req;
                                     } else {
-                                        output += "<pref>" + role.name + "</pref>";
+                                        output += "<pref>" + role.name + "</pref>" + req;
                                     }
                                     output += "</li>\n";
                                     prev = role.name;
                                 }
                             }
-                            if (output != "") {
+                            if (output !== "") {
                                 output = "<ul>\n" + output + "</ul>\n";
                                 placeholder.innerHTML = output;
                             }
-                        };
+                        }
                     });
                     
                     // Update state and property role references
@@ -399,7 +439,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             for (var j = 0; j < sortedList.length; j++) {
                                 output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                             }
-                            if (output != "") {
+                            if (output !== "") {
                                 output = "<ul>\n" + output + "</ul>\n";
                             }
                             placeholder.innerHTML = output;
@@ -420,19 +460,19 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 sortedList = myList.sort();
                                 output = "";
                                 var last = "";
-                                for (var j = 0; j < sortedList.length; j++) {
-                                    var item = sortedList[j];
-                                    if (last != item) {
-                                        output += "<li><rref>" + item + "</rref></li>\n";
-                                        last = item;
+                                for (j = 0; j < sortedList.length; j++) {
+                                    var sItem = sortedList[j];
+                                    if (last != sItem) {
+                                        output += "<li><rref>" + sItem + "</rref></li>\n";
+                                        last = sItem;
                                     }
                                 }
-                                if (output != "") {
+                                if (output !== "") {
                                     output = "<ul>\n" + output + "</ul>\n";
                                 }
                                 placeholder.innerHTML = output;
                             }
-                        };
+                        }
                     });
                     
                     // spit out the index
@@ -465,13 +505,11 @@ require(["core/pubsubhub"], function( respecEvents ) {
 
                 }
 
-                updateReferences(document);
-
                 // prune out unused rows throughout the document
                 
                 $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                     var content = $(item).text();
-                    if (content.length === 1 || content === 0) {
+                    if (content.length === 1 || content.length === 0) {
                         // there is no item - remove the row
                         item.parentNode.remove();
                     } else if (content === "Placeholder" 
@@ -483,10 +521,10 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         item.parentNode.remove();
                     }
                 });
+
+                updateReferences(document);
+
             }
     });
 
 });
-
-// Keep preProc def last since the syntax highlighter regex throws off syntax highlighting in some native editors.
-
