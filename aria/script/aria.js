@@ -312,18 +312,14 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     $.each(container.querySelectorAll(".role-namefrom"), function(i, node) {
                         if ($(node).find("li").length) {
                             // there is a list; put it in both lists
-                            fromAuthor += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                            fromAuthor  += "<dd>" + desc + "</dd>\n";
-                            fromContent += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                            fromContent  += "<dd>" + desc + "</dd>\n";
+                            fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
+                            fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
                         } else {
                             // it is a text node; use that
-                            if (node.textContent == "author") {
-                                fromAuthor += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                                fromAuthor  += "<dd>" + desc + "</dd>\n";
-                            } else {
-                                fromContent += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                                fromContent  += "<dd>" + desc + "</dd>\n";
+                            if (node.textContent.indexOf("author") !== -1) {
+                                fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
+                            } else if (node.textContent.indexOf("content") !== -1) {
+                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
                             }
                         }
                     });
@@ -468,20 +464,24 @@ require(["core/pubsubhub"], function( respecEvents ) {
 
                     // and the namefrom lists
                     node = document.getElementById("index_fromauthor");
-                    parentNode = node.parentNode;
-                    list = document.createElement("dl");
-                    list.id = "index_fromauthor";
-                    list.className = "compact";
-                    list.innerHTML = fromAuthor;
+                    if (node) {
+                        parentNode = node.parentNode;
+                        list = document.createElement("ul");
+                        list.id = "index_fromauthor";
+                        list.className = "compact";
+                        list.innerHTML = fromAuthor;
+                        parentNode.replaceChild(list, node);
+                    }
 
-                    parentNode.replaceChild(list, node);
                     node = document.getElementById("index_fromcontent");
-                    parentNode = node.parentNode;
-                    list = document.createElement("dl");
-                    list.id = "index_fromcontent";
-                    list.className = "compact";
-                    list.innerHTML = fromContent;
-                    parentNode.replaceChild(list, node);
+                    if (node) {
+                        parentNode = node.parentNode;
+                        list = document.createElement("ul");
+                        list.id = "index_fromcontent";
+                        list.className = "compact";
+                        list.innerHTML = fromContent;
+                        parentNode.replaceChild(list, node);
+                    }
 
                     // assuming we found some parent roles, update those parents with their children
                     for (var i=0; i < subRoles.length; i++) {
