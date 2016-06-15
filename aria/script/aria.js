@@ -310,16 +310,22 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     // is there a namefrom indication?  If so, add this one to
                     // the list
                     $.each(container.querySelectorAll(".role-namefrom"), function(i, node) {
+                        var reqRef = container.querySelector(".role-namerequired");
+                        var req = "";
+                        if (reqRef && reqRef.innerText === "True") {
+                            req = " (required)";
+                        }
+
                         if ($(node).find("li").length) {
                             // there is a list; put it in both lists
-                            fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
-                            fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
+                            fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                            fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                         } else {
                             // it is a text node; use that
                             if (node.textContent.indexOf("author") !== -1) {
-                                fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
+                                fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             } else if (node.textContent.indexOf("content") !== -1) {
-                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></li>";
+                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             }
                         }
                     });
