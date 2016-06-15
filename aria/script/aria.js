@@ -337,7 +337,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var reqRef = container.querySelector(".role-namerequired");
                         var req = "";
                         if (reqRef && reqRef.innerText === "True") {
-                            req = " (required)";
+                            req = " (name required)";
                         }
 
                         if ($(node).find("li").length) {
