@@ -162,7 +162,7 @@ information from the core ARIA specification into the extension spec so that new
 are well integrated into the overall ARIA taxonomy.
 
 The ariaChild.js script relies upon an input script (aria/script/roleInfo.js).  As of today, that file is not automatically generated.
-If you want to ensure the file is up to date, access the core ARIA spec with the special query string "?saveRoles"
+If you want to ensure the file is up to date, access the core ARIA spec with the special query string "#saveRoles"
 from a browser on a client that has write access to the copy of the extension spec you are editing. When the dialog appears, click
 the save button and tell your browser to save the roleInfo.js file into the aria/script directory.
 
