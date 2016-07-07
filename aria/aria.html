@@ -6121,8 +6121,14 @@
 			<div class="role-description">
 				<p>A divider that separates and distinguishes sections of content or groups of menuitems.</p>
 				<p>There are two types of separators: a static <rref>structure</rref> that provides only a visible boundary and a focusable, interactive <rref>widget</rref> that is also moveable. If a <code>separator</code> is not focusable, it is revealed to <a>assistive technologies</a> as a static structural element. For example, a static <code>separator</code> can be used to help visually divide two groups of menu items in a menu or to provide a horizontal rule between two sections of a page.</p>
-				<p>Authors MAY make a <code>separator</code> focusable to create a <rref>widget</rref> that both provides a visible boundary between two sections of content and enables the user to change the relative size of the sections by changing the position of the <code>separator</code>. A variable <code>separator</code> widget can be moved continuously within a range, whereas a fixed <code>separator</code> widget supports only two discrete positions. Typically, a fixed <code>separator</code> widget is used to toggle one of the sections between expanded and collapsed states. Authors MAY use <sref>aria-expanded</sref> to communicate the state of a <code>separator</code> widget.</p>
-				<p>If a <code>separator</code> widget supports continuously variable positioning within a range of positions, authors MAY use <pref>aria-valuenow</pref> to specify a proportional size for one of the sections. For example, in a book reader with a moveable <code>separator</code> dividing the window between a topic pane and a table of contents pane, the separator could be labeled &quot;Table of Contents&quot; and its value set to <code>50</code> in a range of <code>0</code> to <code>100</code> when the table of contents pane is at half its maximum size.</p>
+				<p>Authors MAY make a <code>separator</code> focusable to create a <rref>widget</rref> that both provides a visible boundary between two sections of content and enables the user to change the relative size of the sections by changing the position of the <code>separator</code>. A variable <code>separator</code> widget can be moved continuously within a range, whereas a fixed <code>separator</code> widget supports only two discrete positions. Typically, a fixed <code>separator</code> widget is used to toggle one of the sections between expanded and collapsed states.</p>
+				<p>If the <code>separator</code> is focusable, authors MUST set the value of <pref>aria-valuenow</pref> to a <a href="#valuetype_number">number</a> reflecting the current position of the <code>separator</code> and update that value when it changes. Authors SHOULD also provide the value of <pref>aria-valuemin</pref> if it is not <code>0</code> and the value of <pref>aria-valuemax</pref> if it is not <code>100</code>. If missing or not a number</a>, the implicit values of these attributes are as follows:</p>
+				<ul>
+				    <li>The implicit value of <code>aria-valuemin</code> is <code>0</code>.</li>
+				    <li>The implicit value of <code>aria-valuemax</code> is <code>100</code>.</li>
+				    <li>The implicit value of <code>aria-valuenow</code> is <code>50</code>.</li>
+				</ul>
+				<p>In applications where there is more than one focusable <code>separator</code>, authors SHOULD provide an accessible name for each one.</p>
 				<p>Elements with the role <code>separator</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
 			</div>
 			<table class="role-features">
@@ -6142,8 +6148,8 @@
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
 						<td class="role-parent">
 							<ul>
-								<li><rref>structure</rref></li>
-								<li>[ARIA 1.1] <rref>widget</rref>
+								<li><rref>structure</rref> (if not focusable)</li>
+								<li>[ARIA 1.1] <rref>widget</rref> (if focusable)</li>
 							</ul>
 						</td>
 					</tr>
@@ -6169,22 +6175,20 @@
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties"> </td>
+						<td class="role-required-properties">
+							<ul>
+								<li>[ARIA 1.1] <pref>aria-valuemax</pref> (if focusable)</li>
+								<li>[ARIA 1.1] <pref>aria-valuemin</pref> (if focusable)</li>
+								<li>[ARIA 1.1] <pref>aria-valuenow</pref> (if focusable)</li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
 								<li><pref>aria-orientation</pref></li>
-								<li>If the separator is focusable, then it also supports:
-									<ul>
-										<li><sref>aria-expanded</sref></li>
-										<li>[ARIA 1.1] <pref>aria-valuemax</pref></li>
-										<li>[ARIA 1.1] <pref>aria-valuemin</pref></li>
-										<li>[ARIA 1.1] <pref>aria-valuenow</pref></li>
-										<li>[ARIA 1.1] <pref>aria-valuetext</pref></li>
-									</ul>
-								</li>
+								<li>[ARIA 1.1] <pref>aria-valuetext</pref> (if focusable)</li>
 							</ul>
 						</td>
 					</tr>
@@ -6212,6 +6216,16 @@
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
 						<td class="role-presentational-inherited"> </td>
 					</tr>
+					<tr>
+						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
+						<td class="implicit-values">
+							Default for <pref>aria-orientation</pref> is <code class="default">horizontal</code>.<br/>
+							Default for <pref>aria-valuemin</pref> is <code>0</code>.<br/>
+							Default for <pref>aria-valuemax</pref> is <code>100</code>.<br/>
+							Default for <pref>aria-valuenow</pref> is <code>50</code>.<br/>
+						</td>
+					</tr>
+
 					<tr>
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
 						<td class="implicit-values">Default for <pref>aria-orientation</pref> is <code class="default">horizontal</code>.</td>
@@ -11112,6 +11126,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>24-Jun-2016: Add <rref>widget</rref> as a (possible) superclass of <rref>separator</rref>. Add <pref>aria-valuemax</pref>, <pref>aria-valuemin</pref>, <pref>aria-valuenow</pref>, and <pref>aria-valuetext</pref> as supported properties of <rref>separator</rref>.</li>
 			<li>30-Jun-2016: Remove children-presentational <code>true</code> from <rref>menuitem</rref> and <rref>treeitem</rref>.</li>
 			<li>07-Jul-2016: Remove <code>password</code>. The ARIA Working Group agreed to <a href="https://lists.w3.org/Archives/Public/public-aria-admin/2016Jun/0068.html">move the password role to ARIA 2.0</a>. Note that the content is currently only commented out until we branch for ARIA 1.1.</li>
+			<li>07-Jul-2016: Make <pref>aria-valuenow</pref> a required property, and remove <sref>aria-expanded</sref> as a supported state, of focusable <rref>separator</rref> elements.</li>
 		</ul>
 	</section>
 	<section>
