@@ -10292,23 +10292,34 @@
 		<div class="property" id="aria-roledescription">
 			<pdef>aria-roledescription</pdef>
 			<div class="property-description">
-			  <p>[ARIA 1.1] Defines a human-readable, author-localized description for the <a>role</a> of an <a>element</a>.</p>
-			  <p>Authors SHOULD only use <code>aria-roledescription</code> on elements that equate to a valid <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role (have an implicit WAI-ARIA role semantic) or have a valid WAI-ARIA role applied. If neither condition is met, then <a>user agents</a> MUST NOT expose the <code>aria-roledescription</code>.</p>
-			  <p class="note">Users of <a>assistive technologies</a> learn interaction patterns based on localized role descriptions such as "button" or "slider." When authors change the role description, users may no longer understand the purpose of the control or how to interact with it. Thus custom role descriptions are only recommended for use on non-interactive container roles like <rref>group</rref> or <rref>region</rref> or to provide a <em>more specific</em> description of a <rref>widget</rref>.</p>
-			  <p>The following two examples show the use of <code>aria-roledescription</code> to indicate that a non-interactive container is a "slide" in web-based presentation application.</p>
-			  <pre class="example highlight">&lt;div role="region" aria-roledescription="slide" id="slide42" aria-labelledby="slide42heading"&gt;
+				<p>[ARIA 1.1] Defines a human-readable, author-localized description for the <a>role</a> of an <a>element</a>.</p>
+				<p>Some <a>assistive technologies</a>, such as screen readers, present the role of an element as part of the user experience. Such assistive technologies typically localize the name of the role, and they may customize it as well. Users of these assistive technologies depend on the presentation of the role name, such as "region," "button," or "slider," for an understanding of the purpose of the element and, if it is a widget, how to interact with it.</p>
+				<p>The <code>aria-roledescription</code> property gives authors the ability to override how assistive technologies localize and express the name of a role. Thus inappropriately using <code>aria-roledescription</code> may inhibit users' ability to understand or interact with an element. Authors SHOULD limit use of <code>aria-roledescription</code> to clarifying the purpose of non-interactive container roles like <rref>group</rref> or <rref>region</rref>, or to providing a <em>more specific</em> description of a <rref>widget</rref>.</p>
+				<p> When using <code>aria-roledescription</code>, authors SHOULD also ensure that:</p>
+				<ol>
+					<li>The element to which <code>aria-roledescription</code> is applied has a valid <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role or has an implicit WAI-ARIA role semantic.</li>
+					<li>The value of <code>aria-roledescription</code> is not empty or does not contain only whitespace characters.</li>
+				</ol>
+				<p>User agents MUST NOT expose the <code>aria-roledescription</code> property if any of the following conditions exist:</p>
+				<ol>
+					<li>The element to which <code>aria-roledescription</code> is applied does not have a valid WAI-ARIA role or does not have an implicit WAI-ARIA role semantic.</li>
+					<li>The value of aria-roledescription is empty or contains only whitespace characters.</li>
+				</ol>
+				<p><a>Assistive technologies</a> SHOULD use the value of <code>aria-roledescription</code> when presenting the role of an element, but SHOULD NOT change other functionality based on the role of an element that has a value for <code>aria-roledescription</code>. For example, an assistive technology that provides functions for navigating to the next <rref>region</rref> or <rref>button</rref> SHOULD allow those functions to navigate to regions and buttons that have an <code>aria-roledescription</code>.</p>
+				<p>The following two examples show the use of <code>aria-roledescription</code> to indicate that a non-interactive container is a "slide" in a web-based presentation application.</p>
+				<pre class="example highlight">&lt;div role="region" aria-roledescription="slide" id="slide42" aria-labelledby="slide42heading"&gt;
 &lt;h1 id="slide42heading">Quarterly Report&lt;/h1&gt;
 &lt;!-- remaining slide contents --&gt;
 &lt;/div&gt;</pre>
-			  <pre class="example highlight">&lt;section aria-roledescription="slide" id="slide42" aria-labelledby="slide42heading"&gt;
+				<pre class="example highlight">&lt;section aria-roledescription="slide" id="slide42" aria-labelledby="slide42heading"&gt;
 &lt;h1 id="slide42heading">Quarterly Report&lt;/h1&gt;
 &lt;!-- remaining slide contents --&gt;
 &lt;/section&gt;</pre>
-			  <p>In the previous examples, a screen reader user may hear "Quarterly Report, slide" rather than the more vague "Quarterly Report, region" or "Quarterly Report, group."</p>
-			  <p>The following examples show the use of <code>aria-roledescription</code> to indicate that a <rref>button</rref> in a web-based email client is associated with an "attachment."</p>
-			  <pre class="example highlight">&lt;div role="button" tabindex="0" aria-roledescription="attachment button"&gt;family_reunion.jpg&lt;/div&gt;</pre>
-			  <pre class="example highlight">&lt;button aria-roledescription="attachment button"&gt;family_reunion.jpg&lt;/button&gt;</pre>
-			  <p>In the previous two examples, because "button" is part of the localized description, a screen reader user should still understand how to interact with that control.</p>
+				<p>In the previous examples, a screen reader user may hear "Quarterly Report, slide" rather than the more vague "Quarterly Report, region" or "Quarterly Report, group."</p>
+				<p>The following examples show the use of <code>aria-roledescription</code> to indicate that a <rref>button</rref> in a web-based email client is associated with an "attachment."</p>
+				<pre class="example highlight">&lt;div role="button" tabindex="0" aria-roledescription="attachment button"&gt;family_reunion.jpg&lt;/div&gt;</pre>
+				<pre class="example highlight">&lt;button aria-roledescription="attachment button"&gt;family_reunion.jpg&lt;/button&gt;</pre>
+				<p>In the previous two examples, because "button" is part of the localized description, a screen reader user should still understand how to interact with that control.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -11129,6 +11140,7 @@ PUBLIC "-//W3C//ENTITIES XHTML ARIA Attributes 1.0//EN" "aria-attributes-1.mod"
 			<li>30-Jun-2016: Remove children-presentational <code>true</code> from <rref>menuitem</rref> and <rref>treeitem</rref>.</li>
 			<li>07-Jul-2016: Remove <code>password</code>. The ARIA Working Group agreed to <a href="https://lists.w3.org/Archives/Public/public-aria-admin/2016Jun/0068.html">move the password role to ARIA 2.0</a>. Note that the content is currently only commented out until we branch for ARIA 1.1.</li>
 			<li>07-Jul-2016: Make <pref>aria-valuenow</pref> a required property, and remove <sref>aria-expanded</sref> as a supported state, of focusable <rref>separator</rref> elements.</li>
+			<li>15-Jul-2016: Explicitly prohibit use of empty and whitespace-only values for <pref>aria-roledescription</pref>. Add several normative requirements for authors, user agents, and assistive technologies.</li>
 		</ul>
 	</section>
 	<section>
