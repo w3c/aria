@@ -649,6 +649,9 @@ var mappingTableLabels = {
       <code>defs</code> or <code>pattern</code> element
       preclude that entire DOM subtree from being represented
       in the accessibility tree.
+      However, if elements from inside a <code>defs</code> section
+      are instantiated with a <code>use</code> element,
+      the cloned instance of those elements could be accessible.
       </p> 
       <p>
       Elements that are excluded from the <a class="termref" data-lt="accessibility tree">accessibility tree</a> might still be used in the name and description computation of another element, as defined in the <a href="#mapping_additional_nd">Name and Description</a> section.
@@ -658,9 +661,6 @@ var mappingTableLabels = {
         animation and view elements can affect
         the accessible objects representing their target elements,
         as described under <a href="#mapping_additional">Special Processing Requiring Additional Computation</a>.
-      </p>
-      <p class="ednote">
-          This wording will need to be updated if the mapping for <code>use</code> elements is updated to support accessible shadow trees.  See the note in the <a href="#role-map-use"><code>use</code> element section of the mapping table</a>.
       </p>
       <p>
         In addition, SVG 1.1 [[SVG11]] defines the conditional processing attributes
@@ -729,7 +729,7 @@ var mappingTableLabels = {
         despite having style properties that would cause
         an individual shape element to be hidden.
         The <code>use</code> element MUST be considered visible or interactive 
-        if any of its re-used content is visible or interactive.
+        if any of its shadow DOM content is visible or interactive.
         A shape element with markers is visible or interactive
         if any of its markers are visible or interactive.
       </p> 
@@ -909,9 +909,19 @@ var mappingTableLabels = {
         their child content 
         <!-- (or the embedded document, for an <code>iframe</code>) -->
         is still processed,
-        as if it was a direct child of the nearest ancestor node in the DOM tree that is included in the accessibility tree.  
+        as if it was a direct child of the nearest ancestor node in the DOM tree that is included in the accessibility tree. 
         In other words, the markup elements are treated
         as if they had a role of <code>none</code> or <code>presentation</code>.
+      </p>
+      <p>
+        For <code>use</code> elements,
+        their shadow DOM content MUST be processed
+        as if it was child content of the <code>use</code> element,
+        following the conditions specified in <a href="#mapping_use_shadow_tree">processing requiring additional computation</a>.
+        This means that shadow DOM content may be included in the accessibility tree
+        even if the <code>use</code> element itself has a
+        (default or author-supplied)
+        role of <code>presentation</code>.
       </p>
       
       <p>
@@ -997,6 +1007,7 @@ var mappingTableLabels = {
       <ul>
         <li>
           A <a href="https://svgwg.org/svg2-draft/render.html#TermRenderedElement">rendered</a> element 
+          (or instance of an element in a use-element shadow tree)
           with a positive integer value 
           for the <code>tabindex</code> attribute,
           or which is <a href="https://svgwg.org/svg2-draft/interact.html#TermFocusable">focusable</a> by default
@@ -1005,8 +1016,9 @@ var mappingTableLabels = {
         </li>
         <li>
           A <a href="https://svgwg.org/svg2-draft/render.html#TermRenderedElement">rendered</a> element
+          (or instance of an element)
           that currently has keyboard <a href="https://svgwg.org/svg2-draft/interact.html#Focus">focus</a>
-          (e.g., after being focused from a script)
+          (e.g., after being focused from a script),
           which may receive keyboard input events.
         </li>
       </ul>
@@ -1636,9 +1648,26 @@ var mappingTableLabels = {
   <th>
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SymbolElement"><code>symbol</code></a>
   </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content</td>
-  <td>no role may be applied</td>
+  <td>
+    <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
+    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+    <p class="note">
+      A <code>symbol</code> element is not directly rendered,
+      and therefore not directly exposed in the accessibility tree.
+      However, the role (default or author-supplied) for the element
+      will be used for the rendered instance of the symbol
+      in the use-element shadow tree.
+      Either the <code>symbol</code> or the <code>use</code> element,
+      or both,
+      may have an associated accessible object,
+      depending on where the author has provided names, descriptions, roles, or interactivity.
+    </p>
+  </td>
+  <td>
+   any role;
+    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+  </td>
 </tr>
 <tr id="role-map-text">
   <th>
@@ -1777,87 +1806,28 @@ var mappingTableLabels = {
     <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a>
   </th>
   <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+    <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
     if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created; 
-    see <a href="#mapping_additional_nd">Name and Description</a> mapping for special rules for <code>use</code> elements
+    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+    <p class="note">
+      Note that the re-used graphics
+      in the <code>use</code> element's shadow DOM
+      may still be included in the accessibility tree,
+      even if the host element is not.
+    </p>
     <div class="ednote">
       <p>
-        As currently proposed by this specification,
+        Previous drafts of this specification did not require that
         the re-used graphical elements 
-        would not be exposed directly,
-        although they can affect
-        the name and description calculation.
-      </p>      
-      <p>
-        This is reflected in the default roles.
-        Both the <code>img</code> role 
-        and proposed <code>graphics-symbol</code> role
-        create atomic objects; any child content is assumed presentational.
-        Assigning these roles to a <code>use</code> element
-        implies that the graphic drawn with that element
-        is accessible only as a single entity,
-        not as distinct component parts.
+        be exposed directly;
+        The <code>use</code> element was treated as an atomic object.
+        This was not consistent with the potential for interactive content or text
+        within the re-used graphics.
       </p>
       <p>
-        This is consistent with most SVG content
-        containing <code>use</code> elements,
-        for which the re-used graphic is a simple icon or image.
-        It is also consistent with the desire to simplify
-        the accessibility tree as much as possible.
-      </p>
-      <p>
-        However, it is not consistent with models 
-        in the SVG specifications 
-        that allow individual cloned graphic components
-        to receive and propagate user input (pointer) events.
-        The SVG 1.1 specifications [[SVG11]] defined
-        a <a href="http://www.w3.org/TR/SVG11/struct.html#UseElement">non-exposed document tree</a> 
-        consisting of SVGElementInstance objects 
-        which could be the targets of pointer events
-        handled by event handlers on the <code>use</code> or an ancestor element;
-        keyboard accessibility was not considered.
-      </p>
-      <p>
-        At the time of writing, the SVG 2 specifications [[SVG]]
-        propose significantly overhauling this model
-        in favour of one based on the Shadow DOM specification [[SHADOW-DOM]].
-        The full impact of this change on event handling
-        and accessiblity, particularly keyboard accessibility,
-        has not yet been explored.
-      </p>
-      <p>
-        In order to support a complex and interactive shadow DOM, 
-        special processing rules would be required
-        to generate an accessibility subtree 
-        representing the cloned content.
-        Two options would then be available:
-      </p>
-      <ul>
-        <li>
-          continue to use the <code>img</code>/<code>graphics-symbol</code> roles by default,
-          and therefore only create a cloned subtree 
-          if the author specifically assigns a different role, or
-        </li>
-        <li>
-          use a different default role 
-          such as <code>group</code> or the proposed <code>graphics-object</code>,
-          which support complex child content.
-        </li>
-      </ul>
-      <p>Any changes would also have an impact
-        on the appropriate treatment of <code>use</code>
-        references in the
-        <a href="#mapping_additional_nd">Name and Description</a> computation; 
-        see the note in that section for more issues.
-      </p>
-      <p>
-        The editors welcome feedback about 
-        the appropriate default and possible behaviors,
-        and would be particularly interested in any practical examples
-        of complex re-used content where a cloned DOM
-        needs to be available to assistive technologies
-        to ensure accessibility.
+        Corresponding with the change to directly expose re-used graphics,
+        special rules for the accessible name and description of <code>use</code> elements
+        are no longer required.
       </p>
     </div>
   </td>
@@ -1911,11 +1881,6 @@ var mappingTableLabels = {
         or <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#HTMLElements"><code>video</code></a> element
         is interpretted as defined in the 
         <a class="html-mapping" href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> [[!HTML-AAM]].
-      </li>
-      <li>
-        <code>href</code> or <code>xlink:href</code>
-        on a <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a> element 
-        affects the accessible <a href="#mapping_additional_nd">Name and Description</a> computation.
       </li>
       <li>
         <code>tabindex</code>
@@ -2005,15 +1970,6 @@ var mappingTableLabels = {
                 but it has an <code>xlink:title</code> attribute,
                 return the value of that attribute.
               </li>
-              <li>
-                If the current node is a <code>use</code> element,
-                and there was no child <code>title</code> element,
-                but it has a valid <code>href</code> or <code>xlink:href</code> attribute
-                pointing to another element in the same document,
-                set the current node to the referenced element
-                and compute the text alternative from step 2
-                as if that element had been referenced with <code>aria-labelledby</code>.
-              </li>
             </ul>
             <p>
               If performing a text alternative computation for an accessible description:
@@ -2024,15 +1980,6 @@ var mappingTableLabels = {
                 select the appropriate description 
                 based on the language rules for the SVG specification,
                 and return the concatenated text content of the description.
-              </li>
-              <li>
-                If the current node is a <code>use</code> element,
-                and there was no child <code>desc</code> element,
-                but it has a valid <code>href</code> or <code>xlink:href</code> attribute
-                pointing to another element in the same document,
-                set the current node to the referenced element
-                and compute the text alternative from step 2
-                as if that element had been referenced with <code>aria-describedby</code>.
               </li>
             </ul>
           </blockquote>
@@ -2136,10 +2083,6 @@ var mappingTableLabels = {
           <li>a direct child <code>title</code> element</li>
           <li><code>xlink:title</code> attribute on a link</li>
           <li>
-            for a <code>use</code> element, 
-            the accessible name calculated for the re-used content
-          </li>
-          <li>
             for text container elements,
             the text content
           </li>
@@ -2151,10 +2094,6 @@ var mappingTableLabels = {
         <ol>
           <li><code>aria-describedby</code></li>
           <li>a direct child <code>desc</code> element</li>
-          <li>
-            for a <code>use</code> element, 
-            the accessible description calculated for the re-used content
-          </li>
           <li>
             for text container elements,
             the text content
@@ -2174,68 +2113,6 @@ var mappingTableLabels = {
           can reference the element on which they are given,
           in order to concatenate one of the other text alternatives
           with text from a separate element.
-        </p>
-      </div>
-      <div class="ednote">
-        <p>One of the effects of the given procedure
-          is that descriptive text and labels
-          provided for <code>use</code> elements
-          <em>replace</em> the equivalent alternative text
-          provided for the source graphics.
-          If an author wished to combine descriptions
-          for the general and specific instances,
-          an <code>aria-labelledby</code> or
-          <code>aria-describedby</code> attribute
-          would need to explicitly point
-          to both the source graphic and the
-          <code>use</code> instance.
-        </p>
-        <p>
-          A simple example would be as follows:
-        </p>
-        <pre class='example'>
-  &lt;defs>
-    &lt;circle id="c" r="1cm">
-      &lt;desc>A 1cm-radius circle&lt;/desc>
-    &lt;/circle>
-  &lt;/defs>
-  &lt;use href="#c" id="rc" style="fill:red"
-       aria-describedby="c rc">
-    &lt;title>Warning!&lt;/title>
-    &lt;desc>colored red&lt;/desc>
-  &lt;/use>
-        </pre>
-        <p>
-          The <code>use</code> element would have
-          the accessible name "Warning!"
-          (and would therefore be identified
-          as a "Warning! image" or "Warning! symbol")
-          and would have the accessible description
-          "A 1cm-radius circle colored red".
-          The original circle and the <code>defs</code> element,
-          which are never directly rendered,
-          would not be exposed in the accessibility tree.
-        </p>
-        <p>
-          An alternative approach would be to make
-          the implicit labelling/description relationship
-          between the <code>use</code> element and its source graphic
-          be in <em>addition</em> to any labels or descriptions
-          specified for the instance.
-          If that approach were chosen,
-          a decision would need to be made about the
-          appropriate order in which to concatenate
-          the two values:
-          specific first, then general,
-          or general then specific (as in the example)?
-        </p>
-        <p>
-          Alternatively, if the re-used graphic
-          is represented as a cloned subtree,
-          as proposed in a <a href="#role-map-use">note to the <code>use</code> element role mapping</a>,
-          the cloned circle, including its name and description,
-          would be accessible as a child element
-          of the <code>use</code>.
         </p>
       </div>
       
@@ -2274,6 +2151,46 @@ var mappingTableLabels = {
         accessibility API computational requirements in [[!CORE-AAM]].
       </p>
     </section> 
+      
+    <section id="mapping_use_shadow_tree">
+			<h3>Use-Element Shadow Trees</h3>
+      
+      <p>
+        SVG user agents MUST process the element instances
+        generated for the use-element shadow tree
+        as if those elements were child content of the <code>use</code> element itself,
+        with the following conditions:
+      </p>
+      <ul>
+        <li>
+          <p>
+            When processing WAI-ARIA attributes on elements within a shadow tree,
+            the user agent MUST first attempt to match any IDREF values against other elements in the same shadow tree,
+            before searching for a match in the host document.
+            If shadow trees are nested,
+            the user agent MUST recursively search from the current shadow tree
+            to the tree containing its host <code>use</code> element,
+            until the document tree is reached.
+          </p>
+        </li>
+        <li>
+          <p>
+            In all other cases, when matching IDREF values in WAI-ARIA attributes,
+            the user agent MUST NOT consider elements in the shadow tree
+            of a <code>use</code> element.
+          </p>
+        </li>
+      </ul>
+      
+      <p class="ednote">
+        The editors will be working to harmonize these guidelines
+        with general rules for processing shadow tree elements,
+        such as in web components.
+        Feedback from implementers is requested
+        on the practical feasibility of encapsulating IDREF matching in this manner.
+      </p>
+      
+  </section>
     
     <section id="mapping_view">
       <h3>SVG Views</h3>
