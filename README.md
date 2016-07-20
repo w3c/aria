@@ -23,6 +23,8 @@ Working Group participants and members of the public without commit privileges m
 * Raise [issues](issues).
 * Submit [pull requests](https://help.github.com/articles/using-pull-requests/).
 
+Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. Editors can add people to this team.
+
 When preparing GitHub pull requests:
 
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
