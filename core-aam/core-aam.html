@@ -963,7 +963,7 @@ var mappingTableLabels = {
 					<td>AXRole: <code>AXMenuItem</code><br />
 						AXSubrole: <code>&lt;nil&gt;</code><br />
 						AXRoleDescription: <code>'menu item</code>'
-						<p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a>><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;<br /> 
+						<p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a><code>=&quot;true&quot;</code>: <code>AXMenuItemMarkChar</code> &#x2713;<br /> 
 						Otherwise: <code>AXMenuItemMarkChar</code> <code>&lt;nil&gt;</code></p></td>
 				</tr>
 				<tr id="role-map-menuitemradio">
@@ -1503,7 +1503,7 @@ var mappingTableLabels = {
     <section id="not_mapped">
       <h4>Not Mapped</h4>
       <p>There are a number of occurrences in the table where a given state or property is declared "Not mapped".  In some cases, this occurs for the default value of the state/property, and is equivalent to its absence.  User agents might find it quicker to map the value than check to see if it is the default. For computational efficiency, user agents MAY expose the state or property value if doing so is equivalent to not mapping it.  These cases are marked with an asterisk.  </p>
-      <p>In other cases, it is mandatory that the state/property not be mapped, since exposing it implies a related affordance.  An example is <a class="state-reference" href="#aria-grabbed"><code>aria-grabbed</code></a>.  Its absence not only indicates that the accessible is not grabbed, but further defines it as not grab-able.  These cases are marked as "Not mapped" without an asterisk.  </p> 
+      <p>In other cases, it is mandatory that the state/property not be mapped, since exposing it implies a related affordance.  An example is <a class="state-reference" href="#aria-grabbed"><code>aria-grabbed</code></a>.  Its absence not only indicates that the accessible object is not grabbed, but further defines it as not grab-able.  These cases are marked as "Not mapped" without an asterisk.  </p> 
     </section>
     <p class="ednote">Translators: For label text associated with the following table and its toggle buttons, see the <code>mappingTableLabels</code> object in the <code>&lt;head&gt;</code> section of this document.</p>
     <div class="table-container">
@@ -2170,7 +2170,12 @@ var mappingTableLabels = {
                     <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>STATE_SYSTEM_READONLY</code>.</p></td>
                   <td><p>Set <code>Value.IsReadOnly=&quot;true&quot;</code></p>
                     <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>Value.IsReadOnly=&quot;true&quot;</code>.</p></td>
-                  <td><p><a href="#not_mapped">Not mapped</a>.</p></td>
+                  <td><p>[ARIA 1.1]</p>
+                    <ul>
+                      <li><code>STATE_READONLY</code></li>
+                      <li>Clear <code>STATE_EDITABLE</code> if on a <a class="role-reference" href="#textbox">textbox</a></li>
+                    </ul>
+                    <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>STATE_READONLY</code>.</p></td>
                   <td><p><code>AXValue</code>:  the <code>accessibilityIsAttributeSettable</code> method returns <code>NO</code>.</p>
                     <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>AXValue</code> such that the <code>accessibilityIsAttributeSettable</code> method returns <code>NO</code>.</p></td>
                 </tr>
@@ -2178,7 +2183,7 @@ var mappingTableLabels = {
                   <th><a class="property-reference" href="#aria-readonly"><code>aria-readonly</code></a><code>=&quot;false&quot;</code> (default)</th>
                   <td>IAccessible2: Expose <code>IA2_STATE_EDITABLE</code></td>
                   <td>Set <code>Value.IsReadOnly=&quot;false&quot;</code></td>
-                  <td>Expose <code>STATE_EDITABLE</code></td>
+                  <td><p>[ARIA 1.1] Expose <code>STATE_EDITABLE</code> if role is <a class="role-reference" href="#textbox">textbox</a>; otherwise, <a href="#notmapped">not mapped</a></td>
                   <td><code>AXValue</code>:  the <code>accessibilityIsAttributeSettable</code> method returns <code>YES</code>.</td>
                 </tr>
                 <tr id="ariaRelevantAdditionsRemovalsTextAll">
@@ -3017,6 +3022,7 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>08-Aug-2016: Modified ATK/AT-SPI mappings of aria-readonly.</li>
 				<li>04-Jul-2016: Added AXAPI mapping for aria-keyshortcuts.</li>
 				<li>27-Jun-2016: For MSAA+IA2, UIA, and ATK/AT-SPI, modified mappings of role="separator" when it is a window splitter.</li>
 				<li>27-Jun-2016: Added ATK/AT-SPI mapping for aria-keyshortcuts.</li>
@@ -3029,8 +3035,8 @@ var mappingTableLabels = {
 				<li>11-Apr-2016: Added AXAPI mappings for aria-modal="true" and aria-modal="false".</li>
 				<li>11-Apr-2016: For role="application", replaced AXAPI subrole AXLandmarkAppliction with AXWebAppliction, and role description 'application' with 'web application'.</li>
 				<li>04-Apr-2016: Added new UIA FullDescription property for mapping aria-describedby.</li>
-				<li>06-May-2016: Added changes for revised values for aria-haspopup for ATKATSPI and MSAAIA2 along with error handling </li>
-                            <!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
+				<li>06-May-2016: Added changes for revised values for aria-haspopup for ATK/AT-SPI and MSAA+IA2 along with error handling </li>
+			<!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
 			</ul>
 		</section>
 		<section>
@@ -3079,7 +3085,7 @@ var mappingTableLabels = {
 				<li>15-May-2014: Provided  IA2 and ATK/AT-SPI mappings of aria-pressed and tablist.</li>
 				<li>15-May-2014: Change AXAPI mapping for aria-busy.</li>
 				<li>25-March-2014: Added text to Group Position section about computing implicit level information for a tree.</li>
-				<li>24-March-2014: Updated mapping of aria-hidden=true to indicate that user agents should not expose unless the accessible is focused or fires an accessibility event.</li>
+				<li>24-March-2014: Updated mapping of aria-hidden=true to indicate that user agents should not expose unless the accessible object is focused or fires an accessibility event.</li>
 				<li>21-March-2014: Added back UIA columns to all mapping tables that were removed after the 1.0 Candidate Recommendation.</li>
 				<!-- EdNote: After each WD publish, move previous list into this one. -->
 			</ul>
