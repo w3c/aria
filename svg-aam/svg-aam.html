@@ -649,12 +649,12 @@ var mappingTableLabels = {
       <code>defs</code> or <code>pattern</code> element
       preclude that entire DOM subtree from being represented
       in the accessibility tree.
-      However, if elements from inside a <code>defs</code> section
-      are instantiated with a <code>use</code> element,
-      the cloned instance of those elements could be accessible.
       </p> 
       <p>
       Elements that are excluded from the <a class="termref" data-lt="accessibility tree">accessibility tree</a> might still be used in the name and description computation of another element, as defined in the <a href="#mapping_additional_nd">Name and Description</a> section.
+      Non-rendered elements may also be used as the templates
+      for rendered element instances created by a <code>use</code> element,
+      as described in the section on <a href="#mapping_use_shadow_tree">Use-Element Shadow Trees</a>.
       </p>
       <p class="note">
         Although they are not directly included in the accessibility tree,
@@ -723,13 +723,13 @@ var mappingTableLabels = {
         if <em>any</em> of its descendent content is visible
         <em>or</em> can receive user events,
         regardless of the computed value of <code>visibility</code> on the element itself.
-        (The container may, however, still be considered presentational if it does not have any other reason to include it in the accessibility tree.)
         Similarly, a <code>use</code> element may include
         visible or interactive component graphics, 
         despite having style properties that would cause
         an individual shape element to be hidden.
         The <code>use</code> element MUST be considered visible or interactive 
-        if any of its shadow DOM content is visible or interactive.
+        if any elements within its shadow tree are visible or interactive.
+        (The container or the <code>use</code> element may, however, still be considered presentational if it does not have any other reason to include it in the accessibility tree.)
         A shape element with markers is visible or interactive
         if any of its markers are visible or interactive.
       </p> 
@@ -915,10 +915,10 @@ var mappingTableLabels = {
       </p>
       <p>
         For <code>use</code> elements,
-        their shadow DOM content MUST be processed
+        the elements and text in their associated shadow tree MUST be processed
         as if it was child content of the <code>use</code> element,
         following the conditions specified in <a href="#mapping_use_shadow_tree">processing requiring additional computation</a>.
-        This means that shadow DOM content may be included in the accessibility tree
+        This means that elements from the shadow tree can be included in the accessibility tree
         even if the <code>use</code> element itself has a
         (default or author-supplied)
         role of <code>presentation</code>.
@@ -1811,7 +1811,7 @@ var mappingTableLabels = {
     otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
     <p class="note">
       Note that the re-used graphics
-      in the <code>use</code> element's shadow DOM
+      in the <code>use</code> element's shadow tree
       may still be included in the accessibility tree,
       even if the host element is not.
     </p>
@@ -1934,7 +1934,7 @@ var mappingTableLabels = {
         <a class="termref">accessible description</a>, 
         <a class="termref" data-lt="user agent">user agent</a>s MUST conform 
         to the section titled 
-        <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a> of the [[!ACCNAME-AAM]] specification,
+        <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a> of the Accessible Name and Description specification [[!ACCNAME-AAM]],
         with the following modifications for the SVG host language:
       </p>
       <ol>
@@ -1942,8 +1942,7 @@ var mappingTableLabels = {
           Replace <a class="accname" href="#step2A">step 2A</a> with the following:
           <blockquote>
             If the current node traversal is <em>not</em> 
-            a result of following <code>aria-labelledby</code>, <code>aria-describedby</code>
-            or a <code>use</code> element reference,
+            a result of following a <code>aria-labelledby</code> or <code>aria-describedby</code> reference,
             and the current node is not included in the accessibility tree
             according to the rules in
             <a href="#exclude_elements">Excluding Elements from the Accessibility Tree</a>
@@ -2018,60 +2017,11 @@ var mappingTableLabels = {
           </blockquote>
         </li>
       </ol>
-<!--
-      <div class="note">
-        <p>
-        The final procedure for determining the accessible name,
-        after incorporating the above changes,
-        can be summarized as follows:
-        </p>
-        <ol style="list-style: decimal">
-          <li><p>
-            Start with the element you wish to determine the name for, and an empty name string.
-          </p></li>
-          <li><p>
-          For every element or text node you process, 
-            do the following:
-            <ol style="list-style: upper-alpha">
-              <li><p>
-                If the node is not itself included in the accessibility tree,
-                and has <em>not</em> been specifically referenced by id 
-                from another element, skip over it.
-              </p></li>
-              <li><p>
-                Otherwise, if the node has an <code>aria-labelledby</code> attribute,
-                create a name by concatenating the names
-                (separated by spaces)
-                generated by processing (running step 2 for)
-                each element, in order, whose ID is referenced in that attribute.
-                When processing those referenced elements, 
-                skip this step 
-                (i.e., ignore <code>aria-labelledby</code>
-                on those elements).
-              </p></li>
-              <li><p>
-                Otherwise, if the node has an <code>aria-label</code> attribute,
-                use the attribute's text value as the name
-                <em>unless</em> 
-                this element has a widget role
-                and is <em>not</em> the element for which the name is being determined (in which case follow 2E).
-              </p></li>
-              <li><p>
-                Otherwise, use the text content of this element's
-                <code>title</code> element (in the user's preferred language where language options exist)
-                <em>OR</em> the <code>xlink:title</code>
-                attribute value (if this element is a link)
-                <em>OR</em> (if this is a <code>use</code> element)
-                run the step 2 process
-              </p></li>
-              <li><p>
-              </p></li>
-            </ol>
-          </p></li>
-        </ol>
       
-      </div>
-  -->
+      <p>When determining whether an element has a <em>direct child</em> element,
+      only actual DOM child elements are considered,
+      regardless of whether or not the parent element has an associated shadow tree.</p>
+      
       <div class="note">
         <p>
           The net effect of these changes is to establish the following priority
@@ -2155,10 +2105,20 @@ var mappingTableLabels = {
     <section id="mapping_use_shadow_tree">
 			<h3>Use-Element Shadow Trees</h3>
       
+      <p>This specification uses the terms
+        <a href="https://dom.spec.whatwg.org/#concept-shadow-tree">shadow tree</a> 
+        and <a href="https://dom.spec.whatwg.org/#concept-documentfragment-host">host</a>
+        as defined by the DOM standard [[!DOM]],
+        and the terms 
+        <a href="https://www.w3.org/TR/SVG2/struct.html#TermUseElementShadowTree">use-element shadow tree</a> 
+        and <a href="https://www.w3.org/TR/SVG2/struct.html#TermElementInstance">element instance</a> 
+        as defined by SVG 2 [[!SVG]].
+      </p>
+      
       <p>
         SVG user agents MUST process the element instances
         generated for the use-element shadow tree
-        as if those elements were child content of the <code>use</code> element itself,
+        as if those elements were children of the <code>use</code> element itself,
         with the following conditions:
       </p>
       <ul>
@@ -2166,7 +2126,7 @@ var mappingTableLabels = {
           <p>
             When processing WAI-ARIA attributes on elements within a shadow tree,
             the user agent MUST first attempt to match any IDREF values against other elements in the same shadow tree,
-            before searching for a match in the host document.
+            before searching for a match in the host's node tree.
             If shadow trees are nested,
             the user agent MUST recursively search from the current shadow tree
             to the tree containing its host <code>use</code> element,
@@ -2184,7 +2144,7 @@ var mappingTableLabels = {
       
       <p class="ednote">
         The editors will be working to harmonize these guidelines
-        with general rules for processing shadow tree elements,
+        with general rules for WAI-ARIA processing of shadow tree elements,
         such as in web components.
         Feedback from implementers is requested
         on the practical feasibility of encapsulating IDREF matching in this manner.
