@@ -343,13 +343,17 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         if ($(node).find("li").length) {
                             // there is a list; put it in both lists
                             fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                            fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                            if (!isAbstract) {
+                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
+                            }
                         } else {
                             // it is a text node; use that
                             if (node.textContent.indexOf("author") !== -1) {
                                 fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             } else if (node.textContent.indexOf("content") !== -1) {
-                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                                if (!isAbstract) {
+                                    fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
+                                }
                             }
                         }
                     });
