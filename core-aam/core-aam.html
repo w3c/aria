@@ -724,9 +724,44 @@ var mappingTableLabels = {
               AXSubrole: <code>AXDocument</code><br />
               AXRoleDescription: <code>'document'</code></td>
 				</tr>
+                <tr id="role-map-feed">
+                        <th><a class="role-reference" href="#feed"><code>feed</code></a> [ARIA 1.1]</th>          
+                        <td>
+				<code>ROLE_SYSTEM_GROUPING</code> + object attribute <code>xml-roles:feed</code></td>
+                        <td>
+                            Need to verify. 
+			    <ul><li>Control Type: <code>Group</code></li>
+                                <li>Localized Control Type: <code>"feed"</code></li>
+                            </ul>
+                        </td>
+                        <td>
+                                <code>ROLE_PANEL</code> + object attribute <code>xml-roles:feed</code>
+                        </td>
+                        <td>
+				Need to verify. 
+			        AXRole: <code>AXGroup</code><br />
+                                AXSubrole: <code>&lt;nil&gt;</code><br />
+                                AXRoleDescription: <code>'group'</code></td>
+                </tr>
+
+        	<tr id="role-map-figure">
+                	<th><a class="role-reference" href="#figure"><code>figure</code></a> [ARIA 1.1]</th>                
+			<td><code>ROLE_SYSTEM_GROUPING</code> + object attribute <code>xml-roles:figure</code></td>
+          		<td><ul><li>Control Type: <code>Group</code></li> 
+				<li>Localized Control Type: <code>"figure"</code></li>
+			    </ul>
+			</td>
+          		<td>
+              			<code>ROLE_PANEL</code> + object attribute <code>xml-roles:figure</code>
+          		</td>                         
+	  		<td>	AXRole: <code>AXGroup</code><br />
+              			AXSubrole: <code>&lt;nil&gt;</code><br />
+              			AXRoleDescription: <code>'figure'</code></td>
+		</tr>
+
 				<tr id="role-map-form">
 				  <th><a class="role-reference" href="#form"><code>form</code></a> [ARIA 1.1]</th>
-				  <td><code>IAccessible2: IA2_ROLE_LANDMARK</code> + object attribute <code>xml-roles:form</code></td>
+				  <td><code>IAccessible2: IA2_ROLE_FORM</code> + object attribute <code>xml-roles:form</code></td>
 				  <td>
                         <ul>
                             <li>Control Type is <code>Group</code>.</li>
@@ -1357,6 +1392,27 @@ var mappingTableLabels = {
               AXSubrole: <code>TabPanel</code><br />
               AXRoleDescription: <code>'tab panel'</code></td>
 				</tr>
+                <tr id="role-map-term">
+                        <th><a class="role-reference" href="#term"><code>term</code></a> [ARIA 1.1]</th>        
+                        <td>
+				<ul>
+					<li><code>ROLE_SYSTEM_LISTITEM</code></li>
+					<li><code>STATE_SYSTEM_READONLY</code></li>
+				</ul>
+			</td>                        
+			<td>Control Type: <code>ListItem</code>
+                        </td>
+                        <td>
+				<ul>
+                                	<li><code>ROLE_DESCRIPTION_TERM</code> </li>
+					<li>Interfaces: <code>AtkText</code>; <code>AtkHypertext</code></li>
+				</ul>
+                        </td>          
+                        <td>    AXRole: <code>AXGroup</code><br />
+                                AXSubrole: <code>AXTerm</code><br />
+                                AXRoleDescription: <code>'term'</code></td>
+                </tr>
+
 <!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
      but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
      the 1.1 branch and uncommented for the master branch.
@@ -1631,16 +1687,78 @@ var mappingTableLabels = {
                   <td><a href="#not_mapped">Not mapped</a></td>
                   <td><a href="#not_mapped">Not mapped</a></td>
                 </tr>
+                <tr id="ariaColCount">
+                  <th><a class="property-reference" href="#aria-colcount"><code>aria-colcount</code></a> [ARIA 1.1]</th>
+                  <td>
+			<ul>
+				<li>Expose the value of <code>aria-colcount</code> in object attribute <code>colcount:&lt;value&gt;</code>.
+				<li>Expose via <a href="#mapping_group_position"><code>groupPosition()</code></a> on cell and gridcell</li>
+			</ul>
+		  </td>
+                  <td>
+                    TBD.
+                  </td>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-colcount</code> in object attribute <code>colcount:&lt;value&gt;</code>.
+                                <li>Expose via <code>AccessibleTable</code> interface method <code>atk_table_get_n_columns()</code></li>
+                        </ul>
+
+		  </td>
+                  <td>TBD.</td>
+		</tr>
                 <tr id="ariaColIndex">
                   <th><a class="property-reference" href="#aria-colindex"><code>aria-colindex</code></a> [ARIA 1.1]</th>
-                  <td>TBD.</td>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-colindex</code> in object attribute <code>colindex:&lt;value&gt;</code>.
+                                <li>Expose via <a href="#mapping_group_position"><code>groupPosition()</code></a> on cell and gridcell</li>
+                        </ul>
+
+		  </td>
                   <td>
                     <p><code>GridItem.Column</code></p>
                     <p>Subtract 1 from the one-based <code>aria-colindex</code> since the UIA value is zero-based.</p>
                   </td>
-                  <td>TBD.</td>
-                  <td>TBD.</td>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-colindex</code> in object attribute <code>colindex:&lt;value&gt;</code>.
+                                <li>Expose via <code>AccessibleTableCell</code> interface method <code>atk_table_cell_get_position()</code></li>
+                        </ul>
+
+		  </td>
+                  <td>
+			<code>AXColumnIndexRange:
+                                loc=&lt;column index value&gt;
+                                len=&lt;colspan value&gt;
+                      </code>
+			TBD.
+		  </td>
                 </tr>
+                <tr id="ariaColSpan">
+                  <th><a class="property-reference" href="#aria-colspan"><code>aria-colspan</code></a> [ARIA 1.1]</th>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-colspan</code> in object attribute <code>colspan:&lt;value&gt;</code>.</li>
+				<li>Expose via <code>IAccessibleTableCell::columnExtent</code></li>
+			</ul>
+		  </td>
+                  <td>
+                    Exposed via <code>ColumnSpan</code> in the <code>GridItem</code> pattern
+                  </td>
+                  <td>
+			<ul>
+				<li>Expose the value of <code>aria-colspan</code> in object attribute <code>colspan:&lt;value&gt;</code>.</li>
+				<li>Expose via <code>AccessibleTableCell</code> interface method <code>atk_table_cell_get_row_column_span()</code></li>
+			</ul>
+                  </td>
+                  <td><code>AXColumnIndexRange:
+				loc=&lt;column index&gt;
+				len=&lt;colspan value&gt;
+		      </code>
+		  </td>
+                </tr>
+
                 <tr id="ariaControls">
                   <th><a class="property-reference" href="#aria-controls"><code>aria-controls</code></a></th>
                   <td><p>IAccessible2: </p>
@@ -1687,6 +1805,23 @@ var mappingTableLabels = {
                     <p>If the referenced objects are in the accessibility tree, expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p></td>
                   <td>Use in calculating the accessible description as described in <a href="#mapping_additional_nd">Name Computation</a> and expose  value as <code>string AXHelp</code>.</td>
                 </tr>
+                <tr id="ariaDetails">
+                  <th>[ARIA 1.1] <a class="property-reference" href="#aria-details"><code>aria-details</code></a></th>
+                  <td>
+		   <p>IAccessible2: </p>
+                    <ul>
+                      <li>Expose pointer to the accessible object in <code>IA2_RELATION_DETAILS</code>                      </li>
+                  </ul>
+		  </td>
+                  <td>TBD.</td>
+                  <td>
+                    <ul>
+                      <li>Expose pointer to the accessible object in <code>RELATION_DETAILS</code>                      </li>
+                  </ul>
+		  </td>
+                  <td>TBD.</td>
+                </tr>
+
                 <tr id="ariaDisabledTrue">
                   <th><a class="state-reference" href="#aria-disabled"><code>aria-disabled</code></a><code>=&quot;true&quot;</code> (state)</th>
                   <td>Set <code>STATE_SYSTEM_UNAVAILABLE</code>
@@ -1720,10 +1855,21 @@ var mappingTableLabels = {
                 </tr>
                 <tr id="ariaErrorMessage">
                   <th>[ARIA 1.1]  <a class="property-reference" href="#aria-errormessage"><code>aria-errormessage</code></a></th>
-                  <td>TBD</td>
+                  <td>
+                  <p>IAccessible2: </p>
+                    <ul>
+                      <li>Expose pointer to the accessible object in <code>IA2_RELATION_ERROR_MESSAGE</code></li>
+                      <li>Expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</li>
+		    </ul>
+		  </td>
                   <td>Expose pointer to the target accessible object using <code>ControllerFor</code> property.</td>
-                  <td>TBD</td>
-                  <td>TBD</td>
+                  <td>
+                    <ul>
+                      <li>Expose pointer to the accessible object in <code>RELATION_ERROR_MESSAGE</code>                      </li>
+                      <li>Expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</li>
+                  </ul>
+		  </td>
+                  <td>TBD.</td>
                 </tr>
                 <tr id="ariaExpandedTrue">
                   <th><a class="state-reference" href="#aria-expanded"><code>aria-expanded</code></a><code>=&quot;true&quot;</code> (state)</th>
@@ -2231,16 +2377,74 @@ var mappingTableLabels = {
                   <td>Expose the description string in object attribute <code>roledescription:&lt;value&gt;</code>.</td>
                   <td>AXRoleDescription: <code>'&lt;value&gt;'</code>.</td>
                 </tr>
+                <tr id="ariaRowCount">
+                  <th><a class="property-reference" href="#aria-rowcount"><code>aria-rowcount</code></a> [ARIA 1.1]</th>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-rowcount</code> in object attribute <code>rowcount:&lt;value&gt;</code>.
+                                <li>Expose via <a href="#mapping_group_position"><code>groupPosition()</code></a> interface on row</li>
+                        </ul>
+                  </td>
+                  <td>
+                    TBD.
+                  </td>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-rowcount</code> in object attribute <code>rowcount:&lt;value&gt;</code>.
+                                <li>Expose via <code>AccessibleTable</code> interface method <code>atk_table_get_n_rows()</code></li>
+                        </ul>
+
+                  </td>
+                  <td>TBD.</td>
+                </tr>
                 <tr id="ariaRowIndex">
                   <th><a class="property-reference" href="#aria-rowindex"><code>aria-rowindex</code></a> [ARIA 1.1]</th>
-                  <td>TBD.</td>
+		  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-rowindex</code> in object attribute <code>rowindex:&lt;value&gt;</code>.
+                                <li>Expose via <a href="#mapping_group_position"><code>groupPosition()</code></a> on row</li>
+                        </ul>
+		  </td>
                   <td>
                     <p><code>GridItem.Row</code></p>
                     <p>Subtract 1 from the one-based <code>aria-rowindex</code> since the UIA value is zero-based.</p>
                   </td>
-                  <td>TBD.</td>
-                  <td>TBD.</td>
+ 		  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-rowindex</code> in object attribute <code>rowindex:&lt;value&gt;</code>.
+                                <li>Expose via <code>AccessibleTableCell</code> interface method <code>atk_table_cell_get_position()</code></li>
+                        </ul>
+		  </td>
+                  <td>
+		      <code>AXRowIndexRange:
+                                loc=&lt;rowindex value&gt;
+                                len=&lt;rowspan value&gt;
+                      </code>
+		  </td>
                 </tr>
+		<tr id="ariaRowSpan">
+                  <th><a class="property-reference" href="#aria-rowspan"><code>aria-rowspan</code></a> [ARIA 1.1]</th>
+		  <td>
+                        <ul>                                
+				<li>Expose the value of <code>aria-rowspan</code> in object attribute <code>rowspan:&lt;value&gt;</code>.</li>
+                                <li>Expose via <code>IAccessibleTableCell::rowExtent</code></li>
+                        </ul>
+                  <td>
+                    Expose via <code>RowSpan</code> in the <code>GridItem</code> pattern
+                  </td>
+                  <td>
+                        <ul>
+                                <li>Expose the value of <code>aria-rowspan</code> in object attribute <code>rowspan:&lt;value&gt;</code>.</li>
+                                <li>Expose via <code>AccessibleTableCell</code> interface method <code>atk_table_cell_get_row_column_span()</code></li>
+                        </ul>
+                  </td>
+                  <td><code>AXRowIndexRange:
+                                loc=&lt;row index&gt;
+                                len=&lt;rowspan value&gt;
+                      </code>
+                  </td>
+                </tr>
+
                 <tr id="ariaSelectedTrue">
                   <th><a class="state-reference" href="#aria-selected"><code>aria-selected</code></a><code>=&quot;true&quot;</code> (state)</th>
                   <td>Expose <code>STATE_SYSTEM_SELECTED</code>
@@ -3022,6 +3226,7 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>08-Sep-2016: Added figure role, term role, feed role, aria-colspan, and aria-rowspan mappings. Updated table properties for row and column for MSAA/IA2 and ATK/AT-SPI.  Added MSAA+IA2 and ATK/AT-SPI mappings of aria-details and aria-errormessage.</li>
 				<li>08-Aug-2016: Modified ATK/AT-SPI mappings of aria-readonly.</li>
 				<li>04-Jul-2016: Added AXAPI mapping for aria-keyshortcuts.</li>
 				<li>27-Jun-2016: For MSAA+IA2, UIA, and ATK/AT-SPI, modified mappings of role="separator" when it is a window splitter.</li>
