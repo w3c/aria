@@ -333,30 +333,32 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     roleInfo[title] = { "name": title, "fragID": pnID, "parentRoles": parentRoles, "localprops": attrs };
                     // is there a namefrom indication?  If so, add this one to
                     // the list
-                    $.each(container.querySelectorAll(".role-namefrom"), function(i, node) {
-                        var reqRef = container.querySelector(".role-namerequired");
-                        var req = "";
-                        if (reqRef && reqRef.innerText === "True") {
-                            req = " (name required)";
-                        }
-
-                        if ($(node).find("li").length) {
-                            // there is a list; put it in both lists
-                            fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                            if (!isAbstract) {
-                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
+                    if (!isAbstract) {
+                        $.each(container.querySelectorAll(".role-namefrom"), function(i, node) {
+                            var reqRef = container.querySelector(".role-namerequired");
+                            var req = "";
+                            if (reqRef && reqRef.innerText === "True") {
+                                req = " (name required)";
                             }
-                        } else {
-                            // it is a text node; use that
-                            if (node.textContent.indexOf("author") !== -1) {
+
+                            if ($(node).find("li").length) {
+                                // there is a list; put it in both lists
                                 fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                            } else if (node.textContent.indexOf("content") !== -1) {
                                 if (!isAbstract) {
                                     fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
                                 }
+                            } else {
+                                // it is a text node; use that
+                                if (node.textContent.indexOf("author") !== -1) {
+                                    fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                                } else if (node.textContent.indexOf("content") !== -1) {
+                                    if (!isAbstract) {
+                                        fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
+                                    }
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                     if (container.nodeName.toLowerCase() == "div") {
                         // change the enclosing DIV to a section with notoc
                         var sec = document.createElement("section") ;
