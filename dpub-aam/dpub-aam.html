@@ -11,7 +11,6 @@
 		<link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
 		<link href="../common/css/common.css" rel="stylesheet" type="text/css" />
 		<!--<link href="css/dpub-aam.css" rel="stylesheet" type="text/css"/>-->
-		<link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css" />
 		<script class="remove">
   var respecConfig = {
     includePermalinks: true,
@@ -24,11 +23,11 @@
     diffTool:             "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
 
     // the specifications short name, as in http://www.w3.org/TR/short-name/
-    shortName:            "dpub-aam",
+    shortName:            "dpub-aam-1.0",
           
     // if you wish the publication date to be other than today, set this
     // publishDate:  "2009-08-06",
-    copyrightStart:  "2014",
+    copyrightStart:  "2015",
 
     // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
     // and its maturity status
@@ -49,6 +48,7 @@
         { name: "Richard Schwerdtfeger",
           mailto: "schwer@us.ibm.com",
           company: "IBM",
+          w3cid: 2460
         },
     ],
     // authors, add as many as you like. 
@@ -72,29 +72,30 @@
     */
     
     // Working group info
-    wg:           "Protocols and Formats Working Group",
-    wgURI:        "http://www.w3.org/WAI/PF/",
-    wgPublicList: "public-pfwg-comments",
+    wg:           "Accessible Rich Internet Applications Working Group",
+    wgURI:        "http://www.w3.org/WAI/ARIA/",
+    wgPublicList: "public-dpub-aria-comments",
 
     // URI of the patent status for this WG, for Rec-track documents
     // !!!! IMPORTANT !!!!
     // This is important for Rec-track documents, do not copy a patent URI from a random
     // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
     // Team Contact.
-    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/32212/status",
+    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/83726/status",
     
     tocIntroductory: true,
     //maxTocLevel: 4,
 
    ariaSpecURLs: {
-      "ED": "https://rawgit.com/w3c/aria/master/aria/dpub.html",
+      "ED": "https://w3c.github.io/aria/aria/aria.html",
+      "FPWD" : "http://www.w3.org/TR/wai-aria-1.1/",
       "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
       "REC": "http://www.w3.org/TR/wai-aria/"
     },
    accNameURLs: {
       "ED": "http://w3c.github.io/aria/accname-aam/accname-aam.html",
-      "WD" : "http://www.w3.org/TR/accname-1.1/",
-      "FPWD": "http://www.w3.org/TR/accname-1.1/",
+      "WD" : "http://www.w3.org/TR/accname-aam-1.1/",
+      "FPWD": "http://www.w3.org/TR/accname-aam-1.1/",
       "REC": "http://www.w3.org/TR/accname-aam/"
     },
 
@@ -103,6 +104,12 @@
        "WD" : "http://www.w3.org/TR/core-aam-1.1/",
        "FPWD": "http://www.w3.org/TR/core-aam-1.1/",
        "REC": "http://www.w3.org/TR/wai-aria-implementation/"
+    },
+   dpubModURLs: {
+      "ED": "http://w3c.github.io/aria/aria/dpub.html",
+      "FPWD" : "http://www.w3.org/TR/dpub-aria-1.0/",
+      "WD" : "http://www.w3.org/TR/dpub-aria-1.0/",
+      "REC": "http://www.w3.org/TR/dpub-aria/"
     },
 
     localBiblio: biblio,
@@ -136,57 +143,46 @@ var mappingTableLabels = {
 	<body>
 		<section id="abstract">
   <p>
-    The Digital Publishing Accessibility API Mappings (SVG-AAM) defines how
-    <a class="termref" data-lt="user agent">user agent</a>s map
-    the Digital Publishing WAI-ARIA Module [[!SVG]] markup
-    to platform <a class="termref" data-lt="accessibility api">accessibility
-    application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>.
-    It is intended for HTML and SVG language user agent developers
-    responsible for accessibility in their user agent so that they can support the accessibility content produced by the digital publishing.
+    The Digital Publishing Accessibility API Mappings (DPub-AAM) defines how
+    <a class="termref">user agents</a> map
+    the Digital Publishing WAI-ARIA Module [[!dpub-aria-1.0]] markup
+    to platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.
+    It is intended for user agent developers
+    responsible for accessibility in their user agent so that they can support the accessibility content produced for digital publishing.
   </p>
   <p>
-    The implementation of this specification in enables authors to produce more accessible e-books,
+    The implementation of this specification in user agents enables authors to produce more accessible e-books,
     by conveying structural book constructs used by the digital publishing industry to assistive technologies.
-<!--
     It does this by extending the
     <cite><a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> (CORE-AAM) [[!CORE-AAM]]
     and the <cite><a href="http://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> (ACCNAME-AAM) [[!ACCNAME-AAM]] specifications
     for user agents.
-    It leverages those core mappings and provides SVG-specific guidance
-    to define how the SVG user agent must respond to keyboard focus
-    and <a class="termref" data-lt="role">role</a>, <a class="termref" data-lt="State">state</a>, and <a class="termref" data-lt="Property"/
->property</a> attributes
-    provided in Web content via <cite><a href="http://www.w3.org/TR/wai-aria-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[!WAI-ARIA]].
-    The SVG-AAM also adapts the ACCNAME-AAM
-    to make use of standard SVG features
-    used to compute accessible names and description information
-    exposed by platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>.
+    It provides Accessibility API Mapping guidance for the roles defined in the Digital Publish WAI-ARIA Module.
   </p>
   <p>
-      The SVG-AAM is part of the
+      The DPub-AAM is part of the
     <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite
     described in the <a href="http://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.
   </p>
--->
 
 		</section>
 		<section id="sotd"> </section>
 		<section id="intro" class="informative">
 			<h2>Introduction</h2>
 		</section>
-		<section id="normative" class="normative">
-			<p>This specification indicates whether a section is <a class="termref" href="#def_normative">normative</a> or <a class="termref" href="#def_informative">informative</a> and the classification applies to the entire section. A statement "This section is normative" or "This section is informative" applies to all sub-sections of that section.</p>
-			<p>Normative sections provide requirements that <a href="#def_useragent" class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <strong class="rfc2119">MUST</strong>, <strong class="rfc2119">MUST NOT</strong>, <strong class="rfc2119">REQUIRED</strong>, <strong class="rfc2119">SHALL</strong>, <strong class="rfc2119">SHALL NOT</strong>, <strong class="rfc2119">SHOULD</strong>, <strong class="rfc2119">RECOMMENDED</strong>, <strong class="rfc2119">MAY</strong>, and <strong class="rfc2119">OPTIONAL</strong> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [<cite><a href="#ref_RFC2119">RFC2119</a></cite>]. RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format,
+		<section id="conformance" class="normative">
+			<p>This specification indicates whether a section is <a class="termref">normative</a> or <a class="termref">informative</a> and the classification applies to the entire section. A statement "This section is normative" or "This section is informative" applies to all sub-sections of that section.</p>
+			<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <strong class="rfc2119">MUST</strong>, <strong class="rfc2119">MUST NOT</strong>, <strong class="rfc2119">REQUIRED</strong>, <strong class="rfc2119">SHALL</strong>, <strong class="rfc2119">SHALL NOT</strong>, <strong class="rfc2119">SHOULD</strong>, <strong class="rfc2119">RECOMMENDED</strong>, <strong class="rfc2119">MAY</strong>, and <strong class="rfc2119">OPTIONAL</strong> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format,
 				they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
 			<p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
 		</section>
 		<section id="glossary">
 			<h2>Important Terms</h2>
-			<div data-include="../common/terms.html" data-include-replace="true">Placeholder for glossary</div>
+			<div data-include="../common/terms.html" data-oninclude="restrictReferences">Placeholder for glossary</div>
 		</section>
 		<section class="section" id="keyboard-focus">
 			<h2>Supporting Keyboard Navigation</h2>
-			<p>Enabling keyboard navigation in web applications is a necessary step toward making accessible web applications possible. Conforming <a class="termref" data-lt="user agent">user agent</a>s <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#keyboard-focus">Supporting Keyboard Navigation</a> requirements in [[!CORE-AAM]].</p>
+			<p>Enabling keyboard navigation in web applications is a necessary step toward making accessible web applications possible. Conforming <a class="termref">user agents</a> <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#keyboard-focus">Supporting Keyboard Navigation</a> requirements in [[!CORE-AAM]].</p>
 		</section>
 		<section id="mapping">
 			<h2>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
@@ -205,7 +201,7 @@ var mappingTableLabels = {
 		</section>
 		<section id="mapping_role">
 			<h2>Role mapping</h2>
-			<p>Platform <a class="termref" href="#def_accessibility_api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> traditionally have had a finite set of predefined <a href="#def_role" class="termref">roles</a> that are expected by <a class="termref" href="#def_at">assistive technologies</a> on that platform and only one or two roles may be exposed. In contrast, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> allows multiple roles to be specified as an ordered set of space-separated valid role tokens. The additional roles are fallback roles similar to the concept of specifying multiple fonts in case the first choice font type is not supported.</p>
+			<p>Platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> traditionally have had a finite set of predefined <a class="termref">roles</a> that are expected by <a class="termref">assistive technologies</a> on that platform and only one or two roles may be exposed. In contrast, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> allows multiple roles to be specified as an ordered set of space-separated valid role tokens. The additional roles are fallback roles similar to the concept of specifying multiple fonts in case the first choice font type is not supported.</p>
 			<section id="roleMappingGeneralRules">
 				<h3>General Rules</h3>
 				<p>User agents <span class="rfc2119">MUST</span> conform to the Role Mapping <a class="core-mapping" href="#roleMappingGeneralRules">General Rules</a> accessibility API computational requirements in [[!CORE-AAM]].</p>
@@ -213,8 +209,9 @@ var mappingTableLabels = {
 			<section id="mapping_role_table">
 				<h3>Role Mapping Table</h3>
                 <p class="ednote">Translators: For label text associated with the following table and its toggle buttons, see the <code>mappingTableLabels</code> object in the <code>&lt;head&gt;</code> section of this document.</p>
-				<p> This section defines how roles in digital publishing map to platform accessibility APIs based on their native host language semantics and when WAI-ARIA roles are applied. This section refers directly to the Core Accessibility API Mappings specification. </p>
-				<p class="ednote" id="prefix">It is unclear if the string representation of a DPUB role should be 'dpub-x' or 'x' for <code>AraiRole</code>, <code>xml-roles:</code>, and <code>AXRoleDescription</code>.  Specifically, for <a class="role-reference" href="#dpub-chapter">dpub-chapter</a>, is the string representation 'chapter' or 'dpub-chapter'?  The table entries following use 'chapter'.</p>
+				<p> This section defines how WAI-ARIA digital publishing roles map to platform accessibility APIs. Elements having roles with a prefix value of <code>doc-</code>, that are not listed in this role mapping table, have no normative mappings. 
+				</p>
+                               <p class="ednote">There are a number of roles mappings that are localized. The group needs to look into localizing for non-English languages.</p>
 				<div class="table-container">
 					<table class="map-table elements" id="role-mapping-table">
 						<caption>Table describing mapping of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles to accessibility <abbr title="application programming interfaces">APIs</abbr>.</caption>
@@ -224,635 +221,814 @@ var mappingTableLabels = {
 								<th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
 								<th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
           						<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
-								<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup></th>
+								<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
 							</tr>
 						</thead>
 						<tbody>
                                                         <tr id="role-map-abstract">
-                                                                <th><a class="role-reference" href="#dpub-abstract"><code>dpub-abstract</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-abstract</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-abstract"><code>doc-abstract</code></a></th>
+                                                                <td>
+									Expose IAccessible2: 
+									<ul>
+										<li><code>IA2_ROLE_SECTION</code></li>
+										<li>Object attribute <code>xml-roles:doc-abstract</code>. </li>
+									</ul>
+								</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-abstract' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-abstract' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'abstract'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-abstract</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-abstract</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'abstract'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                        <tr id="role-map-acknowledgments">
-                                                                <th><a class="role-reference" href="#dpub-acknowledgments"><code>dpub-acknowledgments</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-acknowledgments</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-acknowledgments"><code>doc-acknowledgments</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-acknowledgments</code>. </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-acknowledgments' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-acknowledgments' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'acknowledgements'</code></li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-acknowledgments</code>. </p></td>
+                                                                <td><p>Expose <code><code>ROLE_LANDMARK</code></code> and object attribute <code>xml-roles:doc-acknowledgments</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'acknolwedgements'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
 							<tr id="role-map-afterword">
-                                                                <th><a class="role-reference" href="#dpub-afterword"><code>dpub-afterword</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-afterword</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-afterword"><code>doc-afterword</code></a></th>
+								<td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-afterword</code>. </li>
+                                                                        </ul>
+                                                                </td>
+
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-afterword' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'afteword'</code>.</li>
+                                                                    <li>Expose as text string 'doc-afterword' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'afterword'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-afterword</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-afterword</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'afterword'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-appendix">
-                                                                <th><a class="role-reference" href="#dpub-appendix"><code>dpub-appendix</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-appendix</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-appendix"><code>doc-appendix</code></a></th>
+								<td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-appendix</code>. </li>
+                                                                        </ul>
+                                                                </td>
+
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-appendix' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'appendex'</code>.</li>
+                                                                    <li>Expose as text string 'doc-appendix' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'appendix'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-appendix</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-appendix</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'appendix'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
-                                                        <tr id="role-map-biblioentry">
-                                                                <th><a class="role-reference" href="#dpub-biblioentry"><code>dpub-biblioentry</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-biblioentry</code>. </p></td>
+                                                        <tr id="role-map-backlink">
+                                                                <th><a class="dpub-role-reference" href="#doc-backlink"><code>doc-backlink</code></a></th>
+                                                                <td>
+								 	Expose
+										<ul>
+											<li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li> 
+											<li><code>STATE_LINKED</code> on all descendants</li>
+										</ul>
+<p>IAccessible2: </p>
+										<ul>
+											<li>Object attribute <code>xml-roles:doc-backlink</code>.</li>
+                                                                    			<li><code>AccessibleHypertext</code> interface</li>
+										</ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-biblioentry' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-backlink' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'back HyperLink'</code>. </li>
+                                                                  </ul>
+                                                                </td>
+                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-backlink</code>. </p></td>
+                                                                <td>AXRole: <code>AXLink</code><br />
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'link'</code>
+                                                                </td>
+
+                                                        </tr>
+
+                                                        <tr id="role-map-biblioentry">
+                                                                <th><a class="dpub-role-reference" href="#doc-biblioentry"><code>doc-biblioentry</code></a></th>
+                                                                <td>
+									Expose
+									<p><code>ROLE_SYSTEM_LISTITEM</code> + <code>STATE_SYSTEM_READONLY</code></p>
+									<p>IAccessible2:</p><p>Object attribute <code>xml-roles:doc-biblioentry</code>.</p></td>
+                                                                <td>
+                                                                  <ul>
+                                                                    <li>Expose as text string 'doc-biblioentry' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'bibliography entry'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-bilioentry</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LIST_ITEM</code> and object attribute <code>xml-roles:doc-bilioentry</code>.</p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'bibliography entry'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-bibliography">
-                                                                <th><a class="role-reference" href="#dpub-biblioentry"><code>dpub-bibliography</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-bibliography</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-biblioentry"><code>doc-bibliography</code></a></th>
+								<td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-bibliography</code>. </li>
+                                                                        </ul>
+
                                                                 <td>
+								  Expose IAccessible2:
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-bibliography' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-bibliography' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'bibliography'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-bibliography</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-bibliography</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'bibliography'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-biblioref">
-                                                                <th><a class="role-reference" href="#dpub-biblioref"><code>dpub-biblioref</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-biblioref</code>. </p>
-                                                                    <p> <code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></p>
-                                                                    <p>Also, expose <code>STATE_LINKED</code> on all descendants</p>
-                                                                    <p>IAccessible2: Use <code>AccessibleHypertext</code> interface</p
+                                                                <th><a class="dpub-role-reference" href="#doc-biblioref"><code>doc-biblioref</code></a></th>
+								<td>
+                                                                        Expose
+                                                                                <ul>
+                                                                                        <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                                                                                        <li><code>STATE_LINKED</code> on all descendants</li>
+                                                                                </ul>
+<p>IAccessible2: </p>
+                                                                                <ul>
+                                                                                        <li>Object attribute <code>xml-roles:doc-biblioref</code>.</li>
+                                                                                        <li><code>AccessibleHypertext</code> interface</li>
+                                                                                </ul>
                                                                 </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-biblioref' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-biblioref' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'bibliography references'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:dpub-biblioref</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-biblioref</code>. </p></td>
                                                                 <td>AXRole: <code>AXLink</code><br />
-                                                                        AXSubrole: <code>nil</code><br />
-                                                                    AXRoleDescription: <code>'bibliography reference'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'link'</code>
                                                                 </td>
                                                         </tr>
 
                                                         <tr id="role-map-chapter">
-                                                                <th><a class="role-reference" href="#dpub-chapter"><code>dpub-chapter</code></a></th>
-								<td><p>IAccessible2: Object attribute <code>xml-roles:chapter</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-chapter"><code>doc-chapter</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-chapter</code>. </li>
+                                                                        </ul>
+                                                                </td>
 								<td>
 								  <ul>
-							    <li>Expose as text string 'dpub-chapter' in <code>AriaRole</code>. </li>
+							    <li>Expose as text string 'doc-chapter' in <code>AriaRole</code>. </li>
 								    <li>Control type/role is <code>'chapter'</code>.</li>
 								  </ul>
 								</td>
 								<td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:chapter</code>. </p></td>
-								<td>AXRole: <code>AXGroup</code><br />d
-									AXSubrole: ? <code>TBD</code><br />
-								    AXRoleDescription: <code>'chapter'</code>
-								</td>
+                                                                <td>AXRole: <code>AXGroup</code><br />
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
+                                                                </td>
 							</tr>
                                                         <tr id="role-map-colophon">
-                                                                <th><a class="role-reference" href="#dpub-colophon"><code>dpub-colophon</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-colophon</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-colophon"><code>doc-colophon</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2: Object attribute <code>xml-roles:doc-colophon</code>. </p></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-colophon' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-colophon' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'colophon'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-colophon</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-colophon</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'colophon'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
+
                                                         </tr>
                                                         <tr id="role-map-conclusion">
-                                                                <th><a class="role-reference" href="#dpub-colophon"><code>dpub-conclusion</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-conclusion</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-conclusion"><code>doc-conclusion</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK<code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-conclusion</code>. </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-conclusion' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-conclusion' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'conclusion'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-conclusion</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-conclusion</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'conclusion'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-cover">
-                                                                <th><a class="role-reference" href="#dpub-cover"><code>dpub-cover</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-cover</code>. </p></td>
-                                                                <td>
-                                                                  <ul>
-                                                                    <li>Expose as text string 'dpub-cover' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'cover'</code>. </li>
-                                                                  </ul>
+                                                                <th><a class="dpub-role-reference" href="#doc-cover"><code>doc-cover</code></a></th>
+                                                                <td>Expose <p><code>ROLE_SYSTEM_GRAPHIC</code></p>  
+								<p>IAccessible2: </p>Object attribute <code>xml-roles:doc-cover</code>. </p>
+								</td>
+                                                                <td><code>Image</code>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-cover</code>. </p></td>
-                                                                <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'cover'</code>
+                                                                <td> <p>expose <code>ROLE_IMAGE</code> and
+									object attribute <code>xml-roles:doc-cover</code>. </p> 
+								</td>
+                                                                <td>AXRole: <code>AXImage</code><br />
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'image'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-credit">
-                                                                <th><a class="role-reference" href="#dpub-cover"><code>dpub-credit</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-credit</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-cover"><code>doc-credit</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2:</p> Object attribute <code>xml-roles:doc-credit</code></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-credit' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-credit' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'credit'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-credit</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-credit</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'credit'</code>
-                                                                </td>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
+								</td>
                                                         </tr>
                                                         <tr id="role-map-credits">
-                                                                <th><a class="role-reference" href="#dpub-credits"><code>dpub-cover</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-credits</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-credits"><code>doc-credits</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-credits</code>. </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-credits' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-credits' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'credits'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-credits</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-credits</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'credits'</code>
-                                                                </td>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
+								</td>
                                                         </tr>
                                                         <tr id="role-map-dedication">
-                                                                <th><a class="role-reference" href="#dpub-dedication"><code>dpub-dedication</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-dedication</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-dedication"><code>doc-dedication</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2:</p> Object attribute <code>xml-roles:doc-dedication</code></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-dedication' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-dedication' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'dedication'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-dedication</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-dedication</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'dedication'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
-                                                        <tr id="role-map-epigraph">
-                                                                <th><a class="role-reference" href="#dpub-epigraph"><code>dpub-epigraph</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-epigraph</code>. </p></td>
+                                                        <tr id="role-map-endnote">
+                                                                <th><a class="dpub-role-reference" href="#doc-endnote"><code>doc-endnote</code></a></th>
+                                                                <td>
+                                                                        Expose
+                                                                        <p><code>ROLE_SYSTEM_LISTITEM</code> + <code>STATE_SYSTEM_READONLY</code></p>
+                                                                        <p>IAccessible2:</p><p>Object attribute <code>xml-roles:doc-endnote</code>.</p></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-epigraph' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-endnote' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'endnote'</code>.</li>
+                                                                  </ul>
+                                                                </td>
+                                                                <td><p>Expose <code>ROLE_LIST_ITEM</code> and object attribute <code>xml-roles:doc-endnote</code>. </p></td>
+                                                                <td>AXRole: <code>AXGroup</code><br />
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
+                                                                </td>
+                                                        </tr>
+                                                        <tr id="role-map-endnotes">
+                                                                <th><a class="dpub-role-reference" href="#doc-endnote"><code>doc-endnotes</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-endnotes</code>. </li>
+                                                                        </ul>
+                                                                </td>
+
+                                                                <td>
+                                                                  <ul>
+                                                                    <li>Expose as text string 'doc-endnotes' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'endnotes'</code>.</li>
+                                                                  </ul>
+                                                                </td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-endnotes</code>. </p></td>
+                                                                <td>AXRole: <code>AXGroup</code><br />
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
+                                                                </td>
+                                                        </tr>
+
+                                                        <tr id="role-map-epigraph">
+                                                                <th><a class="dpub-role-reference" href="#doc-epigraph"><code>doc-epigraph</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2:</p> Object attribute <code>xml-roles:doc-epigraph</code></td>
+                                                                <td>
+                                                                  <ul>
+                                                                    <li>Expose as text string 'doc-epigraph' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'epigraph'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-epigraph</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-epigraph</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'epigraph'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-epilogue">
-                                                                <th><a class="role-reference" href="#dpub-epilogue"><code>dpub-epilogue</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-epilogue</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-epilogue"><code>doc-epilogue</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-epilogue</code>. </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-epilogue' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-epilogue' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'epilogue'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-epilogue</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-epilogue</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'epilogue'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
+
                                                         </tr>
                                                         <tr id="role-map-errata">
-                                                                <th><a class="role-reference" href="#dpub-cover"><code>dpub-errata</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-errata</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-cover"><code>doc-errata</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-errata</code></li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-errata' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-errata' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'errata'</code>. Localized Control Type is based on <code>AriaRole</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-errata</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-errata</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'errata'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-example">
-                                                                <th><a class="role-reference" href="#dpub-cover"><code>dpub-example</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-example</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-cover"><code>doc-example</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2:</p> Object attribute <code>xml-roles:doc-example</code></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-example' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-example' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'example'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-example</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-example</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'example'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-footnote">
-                                                                <th><a class="role-reference" href="#dpub-footnote"><code>dpub-footnote</code></a></th>
-                                                                <td><p><code>IA2_ROLE_FOOTNOTE</code></p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-footnote"><code>doc-footnote</code></a></th>
+                                                                <td><p>Expose IAccessible2:</p>
+									<ul>
+										<li><code>IA2_ROLE_FOOTNOTE</code></li>
+										<li>Object attribute: <code>xml-roles:doc-footnote</code></li>
+									</ul>
+								</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-footnote' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-footnote' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'footnote'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_FOOTNOTE</code> and object attribute <code>xml-roles:dpub-footnote</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_FOOTNOTE</code> and object attribute <code>xml-roles:doc-footnote</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'footnote'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
-                                                        <tr id="role-map-footnotes">
-                                                                <th><a class="role-reference" href="#dpub-footnote"><code>dpub-footnotes</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-footnotes</code>.</p></td>
+                                                        <tr id="role-map-foreword">
+                                                                <th><a class="dpub-role-reference" href="#doc-foreword"><code>doc-foreword</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-foreword</code></li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-footnotes' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'footnotes'</code>.</li>
+                                                                    <li>Expose as text string 'doc-foreword' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'foreword'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-footnotes</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-foreword</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'footnotes'</code>
-                                                                </td>
-                                                        </tr>
-                                                        <tr id="role-map-foreward">
-                                                                <th><a class="role-reference" href="#dpub-foreward"><code>dpub-foreward</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-foreward</code>.</p></td>
-                                                                <td>
-                                                                  <ul>
-                                                                    <li>Expose as text string 'dpub-foreward' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'foreward'</code>.</li>
-                                                                  </ul>
-                                                                </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-foreward</code>. </p></td>
-                                                                <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'foreward'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-glossary">
-                                                                <th><a class="role-reference" href="#dpub-glossary"><code>dpub-glossary</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-glossary</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-glossary"><code>doc-glossary</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-glossary</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
                                                                     <li>Expose as text string 'glossary' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'glossary'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-glossary</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-glossary</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'glossary'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-glossref">
-                                                                <th><a class="role-reference" href="#dpub-glossref"><code>dpub-glossref</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-glossref</code>. </p>
-                                                                    <p> <code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></p>
-                                                                    <p>Also, expose <code>STATE_LINKED</code> on all descendants</p>
-                                                                    <p>IAccessible2: Use <code>AccessibleHypertext</code> interface</p
+                                                                <th><a class="dpub-role-reference" href="#doc-glossref"><code>doc-glossref</code></a></th>
+								<td>
+                                                                        Expose
+                                                                                <ul>
+                                                                                        <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                                                                                        <li><code>STATE_LINKED</code> on all descendants</li>
+                                                                                </ul>
+<p>IAccessible2: </p>
+                                                                                <ul>
+                                                                                        <li>Object attribute <code>xml-roles:doc-glossref</code>.</li>
+                                                                                        <li><code>AccessibleHypertext</code> interface</li>
+                                                                                </ul>
                                                                 </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-glossref' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-glossref' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'glossary reference'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:dpub-glossref</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-glossref</code>. </p></td>
                                                                 <td>AXRole: <code>AXLink</code><br />
-                                                                        AXSubrole: <code>nil</code><br />
-                                                                    AXRoleDescription: <code>'glossary reference'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'link'</code>
                                                                 </td>
 
                                                         </tr>
                                                         <tr id="role-map-index">
-                                                                <th><a class="role-reference" href="#dpub-index"><code>dpub-index</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-index</code>.</p></td>
+p
+                                                                <th><a class="dpub-role-reference" href="#doc-index"><code>doc-index</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-index</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-index' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-index' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'index'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-index</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-index</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'index'</code>
+                                                                        AXSubrole: <code>AXLandmarkNavigation</code><br/>
+                                                                    AXRoleDescription: <code>'navigation'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-introduction">
-                                                                <th><a class="role-reference" href="#dpub-introduction"><code>dpub-introduction</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-indroduction</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-introduction"><code>doc-introduction</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-introduction</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-introduction' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-introduction' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'introduction'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-introduction</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-introduction</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'introduction'</code>
-                                                                </td>
-                                                        </tr>
-                                                        <tr id="role-map-locator">
-                                                                <th><a class="role-reference" href="#dpub-locator"><code>dpub-locator</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-locator</code>. </p>
-                                                                    <p> <code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></p>
-                                                                    <p>Also, expose <code>STATE_LINKED</code> on all descendants</p>
-                                                                    <p>IAccessible2: Use <code>AccessibleHypertext</code> interface</p
-                                                                </td>
-                                                                <td>
-                                                                  <ul>
-                                                                    <li>Expose as text string 'dpub-locator' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'locator HyperLink'</code>. </li>
-                                                                  </ul>
-                                                                </td>
-                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:dpub-locator</code>. </p></td>
-                                                                <td>AXRole: <code>AXLink</code><br />
-                                                                        AXSubrole: <code>nil</code><br />
-                                                                    AXRoleDescription: <code>'backward reference'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
 
                                                         </tr>
                                                         <tr id="role-map-noteref">
-                                                                <th><a class="role-reference" href="#dpub-noteref"><code>dpub-noteref</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-noteref</code>. </p>
-                                                                    <p> <code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></p>
-                                                                    <p>Also, expose <code>STATE_LINKED</code> on all descendants</p>
-                                                                    <p>IAccessible2: Use <code>AccessibleHypertext</code> interface</p
+                                                                <th><a class="dpub-role-reference" href="#doc-noteref"><code>doc-noteref</code></a></th>
+                                                                <td>
+                                                                        Expose
+                                                                                <ul>
+                                                                                        <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                                                                                        <li><code>STATE_LINKED</code> on all descendants</li>
+                                                                                </ul>
+<p>IAccessible2: </p>
+                                                                                <ul>
+                                                                                        <li>Object attribute <code>xml-roles:doc-noteref</code>.</li>
+                                                                                        <li><code>AccessibleHypertext</code> interface</li>
+                                                                                </ul>
                                                                 </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-noteref' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-noteref' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'note reference'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:dpub-noteref</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-noteref</code>. </p></td>
                                                                 <td>AXRole: <code>AXLink</code><br />
-                                                                        AXSubrole: <code>nil</code><br />
-                                                                    AXRoleDescription: <code>'note reference'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'link'</code>
                                                                 </td>
 
                                                         </tr>
                                                         <tr id="role-map-notice">
-                                                                <th><a class="role-reference" href="#dpub-notice"><code>dpub-notice</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-notice</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-notice"><code>doc-notice</code></a></th>
+                                                                <td>Expose
+								    <p><code>IA2_ROLE_NOTE</code></p>
+								    <p> IAccessible2:</p> Object attribute <code>xml-roles:doc-notice</code>.</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-notice' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-notice' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'notice'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-notice</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_COMMENT</code> and object attribute <code>xml-roles:doc-notice</code>.</p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'notice'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-pagebreak">
-                                                                <th><a class="role-reference" href="#dpub-pagebreak"><code>dpub-pagebreak</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-pagebreak</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-pagebreak"><code>doc-pagebreak</code></a></th>
+                                                                <td>Expose <p><code>ROLE_SYSTEM_SEPARATOR</code></p> 
+								<p>IAccessible2:</p>
+								Object attribute <code>xml-roles:doc-pagebreak</code>.
+								</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-pagebreak' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-pagebreak' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'pagebreak'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_STATIC</code> and object attribute <code>xml-roles:dpub-pagebreak</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SEPARATOR</code> and object attribute <code>xml-roles:doc-pagebreak</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'page break'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-pagelist">
-                                                                <th><a class="role-reference" href="#dpub-pagelist"><code>dpub-pagelist</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:navigation</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-pagelist"><code>doc-pagelist</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-pagelist</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-pagelist' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-pagelist' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'page list'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:navigation</code>. </p></td>
+                                                                <td>Expose <p><code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-pagelist</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>AXLandmarkNavigation</code><br />
-                                                                    AXRoleDescription: <code>'page list'</code>
+                                                                        AXSubrole: <code>AXLandmarkNavigation</code><br/>
+                                                                    AXRoleDescription: <code>'navigation'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-part">
-                                                                <th><a class="role-reference" href="#dpub-part"><code>dpub-part</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-part</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-part"><code>doc-part</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-part</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-part' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-part' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'part'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-part</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-part</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'part'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                         <tr id="role-map-preface">
-                                                                <th><a class="role-reference" href="#dpub-preface"><code>dpub-preface</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-preface</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-preface"><code>doc-preface</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARKi</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-preface</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-preface' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-preface' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>preface</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-pagebreak</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-pagebreak</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'preface'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                          <tr id="role-map-prologue">
-                                                                <th><a class="role-reference" href="#dpub-prologue"><code>dpub-preface</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-prologue</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-prologue"><code>doc-prologue</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-prologue</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-prologue' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-prologue' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'prologue'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-prologue</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-prologue</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'prologue'</code>
+                                                                        AXSubrole: <code>AXLandmarkRegion</code><br/>
+                                                                    AXRoleDescription: <code>'region'</code>
                                                                 </td>
                                                         </tr>
                                                          <tr id="role-map-pullquote">
-                                                                <th><a class="role-reference" href="#dpub-pullquote"><code>dpub-pullquote</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-pullquote</code>.</p></td>
-                                                                <td>
-                                                                  <ul>
-                                                                    <li>Expose as text string 'dpub-pullquote' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'pullquote'</code>. </li>
-                                                                  </ul>
-                                                                </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-pullquote</code>. </p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-pullquote"><code>doc-pullquote</code></a></th>
+                                                                <td>not mapped</td>
+                                                                <td>not mapped</td>
+                                                                <td>not mapped</td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'pullquote'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                          <tr id="role-map-qna">
-                                                                <th><a class="role-reference" href="#dpub-preface"><code>dpub-qna</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-qna</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-preface"><code>doc-qna</code></a></th>
+                                                                <td>Expose<p><code>IA2_ROLE_SECTION</code></p><p>IAccessible2:</p> Object attribute <code>xml-roles:doc-qna</code></td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-qna' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-qna' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'questions and answers'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:dpub-qna</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-qna</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'questions and answers'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
                                                          <tr id="role-map-subtitle">
-                                                                <th><a class="role-reference" href="#dpub-preface"><code>dpub-subtitle</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-subtitle</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-preface"><code>doc-subtitle</code></a></th>
+                                                                <td>Expose IAccessible2:
+									<ul>
+									 	<li><code>IA2_ROLE_HEADING</code></li>
+										<li>Object attribute <code>xml-roles:doc-subtitle</code></li>
+									</ul>
+								</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-subtitle' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-subtitle' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'subtitle'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_STATIC</code> and object attribute <code>xml-roles:dpub-subtitle</code>. </p></td>
-                                                                <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'subtitle'</code>
+                                                                <td><p>Expose <code>ROLE_HEADING</code> and object attribute <code>xml-roles:doc-subtitle</code>. </p></td>
+                                                                <td>AXRole: <code>AXHeading</code><br />
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br />
+                                                                    AXRoleDescription: <code>'heading'</code>
                                                                 </td>
                                                         </tr>
                                                          <tr id="role-map-tip">
-                                                                <th><a class="role-reference" href="#dpub-tip"><code>dpub-tip</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-tip</code>.</p></td>
+                                                                <th><a class="dpub-role-reference" href="#doc-tip"><code>doc-tip</code></a></th>
+                                                                <td>
+									Expose
+									<p><code>IA2_ROLE_NOTE</code></p>
+									<p>IAccessible2:</p>
+									Object attribute <code>xml-roles:doc-tip</code>
+								</td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-tip' in <code>AriaRole</code>. </li>
+                                                                    <li>Expose as text string 'doc-tip' in <code>AriaRole</code>. </li>
                                                                     <li>Control type/role is <code>'tip'</code>.</li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-tip</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-tip</code>. </p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'tip'</code>
+                                                                        AXSubrole: <code>&lt;nil&gt;</code><br/>
+                                                                    AXRoleDescription: <code>'group'</code>
                                                                 </td>
                                                         </tr>
-                                                         <tr id="role-map-title">
-                                                                <th><a class="role-reference" href="#dpub-title"><code>dpub-title</code></a></th>
-                                                                <td><p>IAccessible2: Object attribute <code>xml-roles:dpub-title</code>.</p></td>
+							<tr id="role-map-toc">
+								<th><a class="dpub-role-reference" href="#doc-toc"><code>doc-toc</code></a></th>
+                                                                <td>
+                                                                        Expose IAccessible2:
+                                                                        <ul>
+                                                                                <li><code>IA2_ROLE_LANDMARK</code></li>
+                                                                                <li>Object attribute <code>xml-roles:doc-toc</code> </li>
+                                                                        </ul>
+                                                                </td>
                                                                 <td>
                                                                   <ul>
-                                                                    <li>Expose as text string 'dpub-title' in <code>AriaRole</code>. </li>
-                                                                    <li>Control type/role is <code>'title'</code>.</li>
+                                                                    <li>Expose as text string 'doc-toc' in <code>AriaRole</code>. </li>
+                                                                    <li>Control type/role is <code>'doc toc'</code>. </li>
                                                                   </ul>
                                                                 </td>
-                                                                <td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:dpub-title</code>. </p></td>
+                                                                <td><p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-toc</code>.</p></td>
                                                                 <td>AXRole: <code>AXGroup</code><br />
-                                                                        AXSubrole: ? <code>TBD</code><br />
-                                                                    AXRoleDescription: <code>'title'</code>
+                                                                        AXSubrole: <code>AXLandmarkNavigation</code><br/>
+                                                                    AXRoleDescription: <code>'navigation'</code>
                                                                 </td>
-                                                        </tr>
-
-
- 
-
-
-							<tr id="role-map-toc">
-								<th><a class="role-reference" href="#dpub-toc"><code>dpub-toc</code></a></th>
-								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
-								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
-								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
-								<td>Expose as <a class="core-mapping" href="#role-map-navigation">navigation</a> role as specified in the [[!CORE-AAM]]. </td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="note" id="ftn.note2">
-					<p><sup>[Note 2]</sup> This specification does not currently contain guidance for when <a class="termref" data-lt="user agent">user agent</a>s should fire system alert events. Some guidance may be added to the specification at a later date but it will be a recommendation (<span class="rfc2119">should</span>), not a requirement (<span class="rfc2119">must</span>).</p>
+					<p><sup>[Note 2]</sup> This specification does not currently contain guidance for when <a class="termref">user agents</a> should fire system alert events. Some guidance may be added to the specification at a later date but it will be a recommendation (<span class="rfc2119">should</span>), not a requirement (<span class="rfc2119">must</span>).</p>
 				</div>
 			</section>
 		</section>
 		<section id="mapping_state-property">
 			<h2>State and Property Mapping</h2>
 			<p>This section describes how to expose <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>
-				<a href="#def_state" class="termref">states</a> and <a href="#def_object" class="termref">object</a>
-				<a href="#def_property" class="termref">properties</a>. User agents <span class="rfc2119">MUST</span> conform to the <a href="#mapping_state-property" class="core-mapping">State and Property Mapping</a> accessibility API computational requirements in [[!CORE-AAM]]. </p>
+				<a class="termref">states</a> and <a class="termref">object</a>
+				<a class="termref">properties</a>. User agents <span class="rfc2119">MUST</span> conform to the <a href="#mapping_state-property" class="core-mapping">State and Property Mapping</a> accessibility API computational requirements in [[!CORE-AAM]]. </p>
 		</section>
 		<section id="mapping_additional">
 			<h2>Special Processing Requiring Additional Computation</h2>
 			<section id="mapping_additional_nd">
 				<h3>Name and Description</h3>
-				<p>When computing an <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, <a class="termref" data-lt="user agent">user agent</a>s MUST conform to the section titled <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a> of the [[!ACCNAME-AAM]] specification with the following modifications for the host language:</p>
-				<ol>
-					<li>Replace <a class="accname" href="#step2D">step 2D</a> with the following: <br /> Otherwise, if performing a text alternative computation for an accessible name and the current node's provides a descendant &lt;title&gt; element, return the title text alternative as a flat string, unless the element is marked as presentational (role="presentation" or role="none"). If performing a text alternative computation for an accessible description, and the current node provides a descendant &lt;desc&gt; return the description text alternative an accessible description computation attribute as presentational (role="presentation" or role="none"). </li>
-					<li>In <a class="accname" href="#step2F">step 2F</a> skip <a class="accname" href="#step2F.ii">step iii</a> of <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a></li>
-				</ol>
+				<p>When computing an <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, <a class="termref">user agents</a> MUST conform to the section titled <a class="accname" href="#mapping_additional_nd_te">Text Alternative Computation</a> of the [[!ACCNAME-AAM]] specification. 
+				</p>
 			</section>
 			<section id="mapping_additional_widget-value">
 				<h3>Widget Values</h3>
@@ -873,8 +1049,8 @@ var mappingTableLabels = {
 		</section>
 		<section id="mapping_events">
 			<h2>Events</h2>
-			<p><a href="#def_useragent" class="termref">User agents</a> fire <a href="#def_event" class="termref">events</a> for user actions, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr>
-				<a href="#def_state" class="termref">state</a> changes, changes to document content or node visibility, changes in selection, and operation of menus. Conforming <a class="termref" data-lt="user agent">user agent</a>s <span class="rfc2119">MUST</span> support the [[!CORE-AAM]] <a class="core=mappings" href="#mapping_events">Events</a> mappings.</p>
+			<p><a class="termref">User agents</a> fire <a class="termref">events</a> for user actions, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr>
+				<a class="termref">state</a> changes, changes to document content or node visibility, changes in selection, and operation of menus. Conforming <a class="termref">user agents</a> <span class="rfc2119">MUST</span> support the [[!CORE-AAM]] <a class="core=mappings" href="#mapping_events">Events</a> mappings.</p>
 		</section>
 		<section id="document-handling">
 			<h2>Special Document Handling Procedures</h2>
@@ -882,12 +1058,108 @@ var mappingTableLabels = {
 		</section>
 		<section id="appendices" class="appendix">
 			<h2>Appendices</h2>
-			<section id="appendices_references">
-				<h3>References</h3>
-				<p>This section is <a class="termref" href="#def_informative">informative</a>.</p>
-				<p>Placeholder for references</p>
+        		<section class="appendix" id="changelog">
+                		<h2>Change Log</h2>
+                		<section>
+                        		<h2>Substantive changes since the <a href="https://www.w3.org/TR/2015/WD-dpub-aam-1.0-20151203/">last public working draft</a></h2>
+                        		<ul>
+                                		<li>10-Mar-2016: Replace all ROLE_PANEL to ROLE_SECTION for ATK/ATSPI mappings</li>
+                                		<li>10-Mar-2016: Replace doc-locator with doc-backlink</li>
+						<li>10-Mar-2016: Remove doc-title</li>
+                                		<li>10-Mar-2016: Remove doc-footnotes and add doc-endnote and doc-endnotes</li>
+                                		<li>10-Mar-2016: Changed doc-pullquote to reflect no mappings</li>
+                                		<li>10-Mar-2016: Change doc-cover to map to an image</li>
+						<li>10-Mar-2016: Removed rendundant references section in the appendix</li>
+						<li>10-Mar-2016: Fixed links for githumb.io in configuration</li>
+						<li>10-Mar-2016: Added a change log </li>
+                                                <li>10-Mar-2016: Remove editors note regarding @rel </li>
+						<li>10-Mar-2016: change xml-roles mapping for doc-pagelist to reflect the actual role </li>
+                                              	<li>10-Mar-2016: Fix doc-prologue in table to not say doc-preface </li>
+                                              	<li>10-Mar-2016: Fix doc-conclusion to map to ROLE_LANDMARK for ATK/ATSPI </li>
+						<li>10-Mar-2016: changed doc-pagebreak to map to separator roles on IA2 and ATK/ATSPI </li>
+						<li>10-Mar-2016: modify doc-toc mapping to be consistent with doc-pagelist </li>
+						<li>10-Mar-2016: modify doc-subtitle to be a form of heading</li>
+						<li>10-Mar-2016: modify doc-pagebreak to be more like a separator</a></li>
+						<li>10-Mar-2016: Map doc-biblioentry and doc-endnote to ROLE_LIST_ITEM for ATK/ATSPI2; map doc-notice to ROLE_COMMENT for ATK/ATSPI2</a></li>
+						<li>14-Jul-2016: Remove special processing copied over from SVG-AAM for name and description computation.</li>
+						<li>26-Sep-2016: For MacOSX modify doc-abstract, doc-acknowledgments, doc-afterword, doc-appendix, doc-bibliography, doc-chapter, doc-conclusion, doc-credits, doc-endnotes, doc-epilogue, doc-errata, doc-foreward, doc-glossary, doc-index, doc-introduction, doc-pagelist, doc-part, doc-pagebreak, doc-prologue, and doc-toc to be landmark regions.</li>
+						<li>28-Sep-2016: doc-abstract, doc-colophon, doc-credit, doc-dedication, doc-epigraph, doc-example and doc-qna are all to IA2_ROLE_SECTION; doc-notice, doc-tip mapped to IA2_ROLE_NOTE; convert a number of MSAA and IA2 roles to have &lt;code&gt; styling</li>
+
+
+                            			<!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
+                        		</ul>
+				</section>
+                	</section>
+			<section class="appendix informative section" id="acknowledgements">
+				<h3>Acknowledgments</h3>
+				<p>The following people contributed to the development of this document.</p>
+				<section class="section" id="ack_dpub">
+					<h4>Participants active in the DPUB-ARIA task force at the time of publication</h4>
+					<ul>
+						<li>Michael Cooper (W3C Staff)</li>
+						<li>Heather Flanagan (Invited expert)</li>
+						<li>Matt Garrish (DAISY Consortium)</li>
+						<li>Markus Gylling (DAISY Consortium)</li>
+						<li>Ivan Herman (W3C Staff)</li>
+						<li>Deborah Kaplan (Invited expert)</li>
+						<li>George Kerscher (DAISY Consortium)</li>
+						<li>Peter Krautzberger (W3C Invited Experts)</li>
+						<li>Charles LaPierre (Benetech)</li>
+						<li>Shane McCarron (W3C Invited Experts)</li>
+						<li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
+						<li>Richard Schwerdtfeger (IBM Corporation)</li>
+						<li>Tzviya Siegman (Wiley)</li>
+					</ul>
+					<p>The group would like to thank all members of the DAISY and EPUB 3 working groups who developed the structural semantics vocabulary from which this module was drawn, with special thanks to Sanders Kleinfeld for his assistance analyzing the initial set of semantics for inclusion.</p>
+				</section>
+				<!--
+		<section class="section" id="ack_group">
+			<h4>Participants active in the ARIA WG at the time of publication</h4>
+			<ul>
+				<li>Christy Blew (University of Illinois at Urbana-Champaign)</li>
+				<li>David Bolter (Mozilla Foundation) </li>
+				<li>Michael Cooper (W3C/MIT)</li>
+				<li>James Craig (Apple Inc.) </li>
+				<li>Joanmarie Diggs (Igalia)</li>
+				<li>Fred Esch (IBM Corporation)</li>
+				<li>Steve Faulkner (The Paciello Group) </li>
+				<li>John Foliot (Invited Expert)</li>
+				<li>Christopher Gallelo (Microsoft Corporation)</li>
+				<li>Bryan Garaventa (SSB BART Group)</li>
+				<li>Scott González (JQuery Foundation)</li>
+				<li>Billy Gregory (The Paciello Group)</li>
+				<li>Karl Groves (The Paciello Group)</li>
+				<li>Jon Gunderson (University of Illinois at Urbana-Champaign)</li>
+				<li>Birkir Gunnarsson (Deque Systems, Inc.)</li>
+				<li>Markus Gylling (DAISY Consortium)</li>
+				<li>Mona Heath (University of Illinois at Urbana-Champaign)</li>
+				<li>Susann Keohane (IBM Corporation)</li>
+				<li>Matthew King (IBM Corporation)</li>
+				<li>Jason Kiss (Department of Internal Affairs, New Zealand Government)</li>
+				<li>Dominic Mazzoni (Google, Inc.)</li>
+				<li>Shane McCarron (Invited Expert, Aptest)</li>
+				<li>Charles McCathieNevile (Yandex)</li>
+				<li>Mary Jo Mueller (IBM Corporation)</li>
+				<li>James Nurthen (Oracle Corporation) </li>
+				<li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
+				<li>Joseph Scheuhammer (Invited Expert, Inclusive Design Research Centre, OCAD University) </li>
+				<li>Stefan Schnabel (SAP AG) </li>
+				<li>Richard Schwerdtfeger (IBM Corporation)</li>
+				<li>Lisa Seeman (Invited Expert) </li>
+				<li>Cynthia Shelly (Microsoft Corporation) </li>
+				<li>Alexander Surkov (Mozilla Foundation)</li>
+				<li>Léonie Watson (The Paciello Group)</li>
+				<li>Jason White (Educational Testing Service)</li>
+				<li>Marco Zehe (Mozilla Foundation)</li>
+				<li>Gottfried Zimmermann (Invited Expert, Access Technologies Group)</li>
+			</ul>
+		</section>
+		-->
+				<section class="section" id="ack_funders">
+					<h4>Enabling funders</h4>
+					<p>This publication has been funded in part with Federal funds from the U.S. Department of Education, National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR) under contract number ED-OSE-10-C-0067. The content of this publication does not necessarily reflect the views or policies of the U.S. Department of Education, nor does mention of trade names, commercial products, or organizations imply endorsement by the U.S. Government.</p>
+				</section>
 			</section>
-			<div data-include="../common/acknowledgements.html" data-include-replace="true"></div>
 		</section>
 	</body>
 </html>

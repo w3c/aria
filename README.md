@@ -1,6 +1,6 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [Protocols and Formats Working Group](http://www.w3.org/WAI/PF/), expected soon to move to the ARIA Working Group. The staff contact in either case is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
 * TOC
 {:toc}
@@ -23,10 +23,13 @@ Working Group participants and members of the public without commit privileges m
 * Raise [issues](issues).
 * Submit [pull requests](https://help.github.com/articles/using-pull-requests/).
 
+Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. Editors can add people to this team.
+
 When preparing GitHub pull requests:
 
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
 * Keep pull requests specific to individual comments. Some comments may require changes to multiple source files, for example if an external link is incorrect in multiple files, and this is appropriate if the changes all relate to the same comment. However, if several separate comments are submitted together within a single pull request,  it is more difficult for the working group to parse the different points made in the comment and unless the group agrees with all aspects of the comment the pull request may need to be rejected.
+* Whenever possible, please create a separate pull request for each specification you are modifying. Doing so allows each specification editor to incorporate your contributions without having to check with the editors of the other documents you are modifying or to perform multiple manual merges.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
@@ -63,13 +66,14 @@ ariaSpecURLs: {
 },
 ```
 
-Note that even though some of these URIs are redundant, they must all be defined to work in all circumstances. If a document is a First Public Working Draft but the FPWD variant isn't defined, there won't be a match with the `specStatus` and the links won't work. 
+Note that even though some of these URIs are redundant, they must all be defined to work in all circumstances. If a document is a First Public Working Draft but the FPWD variant isn't defined, there won't be a match with the `specStatus` and the links won't work.
 
 The following properties for cross references are currently available *(todo: we should add versions for the other docs)*:
 
 * `ariaSpecURLs`: for the main ARIA spec
 * `coreMappingURLs`: for the Core AAM
 * `accNameURLs`: for the AccName AAM
+* `htmlMappingURLs`: for the HTML AAM
 
 The task of fixing up links is done by a script that needs to be hooked in via the following line in the respecConfig:
 
@@ -92,6 +96,7 @@ The set of class values currently defined are:
 * `property-reference`: property definitions
 * `specref`: other targets in the main ARIA spec
 * `core-mapping`: the Core AAM
+* `html-mapping`: the HTML AAM
 * `accname`: the AccName AAM
 
 *Todo: we should add versions for the other docs*
@@ -159,7 +164,7 @@ information from the core ARIA specification into the extension spec so that new
 are well integrated into the overall ARIA taxonomy.
 
 The ariaChild.js script relies upon an input script (aria/script/roleInfo.js).  As of today, that file is not automatically generated.
-If you want to ensure the file is up to date, access the core ARIA spec with the special query string "?saveRoles"
+If you want to ensure the file is up to date, access the core ARIA spec with the special query string "#saveRoles"
 from a browser on a client that has write access to the copy of the extension spec you are editing. When the dialog appears, click
 the save button and tell your browser to save the roleInfo.js file into the aria/script directory.
 
@@ -225,17 +230,4 @@ There is some automated sanity checking available, currently run by XSLT. Docume
 * Check that the role spec and the UML Class Diagram express the same thing
 * Roles list only supported states that are defined
 * States indicate applicability only to roles that are defined
-* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention 
-
-### Todo
-
-The following documentation is still needed:
-
-* role name patterns
-* how to use the taxonomy to extend roles effectively
-* which components of role documentation are generated automatically what needs to be done manually
-* how the ¨tying together script¨ works
-* when casing is relevant, casing preferences
-* where things are the same across different areas, and where they should be treated differently
-* which pieces in the tables are automatically populated and should be left alone
-* which pieces need to be filled in to trigger script
+* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention

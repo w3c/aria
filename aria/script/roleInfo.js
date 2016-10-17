@@ -9,79 +9,113 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -98,9 +132,15 @@ var roleInfo = {
 		"name": "application",
 		"fragID": "application",
 		"parentRoles": [
-			"landmark"
+			"structure"
 		],
-		"localprops": []
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-activedescendant",
+				"required": false
+			}
+		]
 	},
 	"article": {
 		"name": "article",
@@ -108,7 +148,18 @@ var roleInfo = {
 		"parentRoles": [
 			"document"
 		],
-		"localprops": []
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-posinset",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-setsize",
+				"required": false
+			}
+		]
 	},
 	"banner": {
 		"name": "banner",
@@ -127,11 +178,13 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-pressed"
+				"name": "aria-pressed",
+				"required": false
 			}
 		]
 	},
@@ -144,113 +197,155 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-colindex"
+				"name": "aria-colindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-colspan"
+				"name": "aria-colspan",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowindex"
+				"name": "aria-rowindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowspan"
+				"name": "aria-rowspan",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-colindex"
+				"name": "aria-colindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-colspan"
+				"name": "aria-colspan",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowindex"
+				"name": "aria-rowindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowspan"
+				"name": "aria-rowspan",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -263,85 +358,130 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
+			},
+			{
+				"is": "property",
+				"name": "aria-readonly",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -356,7 +496,8 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-sort"
+				"name": "aria-sort",
+				"required": false
 			}
 		]
 	},
@@ -368,16 +509,29 @@ var roleInfo = {
 		],
 		"localprops": [
 			{
+				"is": "property",
+				"name": "aria-controls",
+				"required": true
+			},
+			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-autocomplete"
+				"name": "aria-autocomplete",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-required",
+				"required": false
 			}
 		]
 	},
@@ -391,75 +545,108 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -480,85 +667,120 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -588,83 +810,118 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-modal"
+				"name": "aria-modal",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -674,85 +931,7 @@ var roleInfo = {
 		"parentRoles": [
 			"list"
 		],
-		"localprops": [],
-		"allprops": [
-			{
-				"is": "state",
-				"name": "aria-expanded"
-			},
-			{
-				"is": "property",
-				"name": "aria-atomic"
-			},
-			{
-				"is": "state",
-				"name": "aria-busy"
-			},
-			{
-				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "state",
-				"name": "aria-current"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedat"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedby"
-			},
-			{
-				"is": "state",
-				"name": "aria-disabled"
-			},
-			{
-				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
-			},
-			{
-				"is": "state",
-				"name": "aria-grabbed"
-			},
-			{
-				"is": "property",
-				"name": "aria-haspopup"
-			},
-			{
-				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
-			},
-			{
-				"is": "property",
-				"name": "aria-label"
-			},
-			{
-				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
-			}
-		]
+		"localprops": []
 	},
 	"document": {
 		"name": "document",
@@ -763,87 +942,138 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
+	},
+	"feed": {
+		"name": "feed",
+		"fragID": "feed",
+		"parentRoles": [
+			"list"
+		],
+		"localprops": []
+	},
+	"figure": {
+		"name": "figure",
+		"fragID": "figure",
+		"parentRoles": [
+			"section"
+		],
+		"localprops": []
 	},
 	"form": {
 		"name": "form",
@@ -863,189 +1093,265 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-colcount"
+				"name": "aria-relevant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowcount"
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-colcount",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-rowcount",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1059,193 +1365,270 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-colindex"
+				"name": "aria-colindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-colspan"
+				"name": "aria-colspan",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowindex"
+				"name": "aria-rowindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowspan"
+				"name": "aria-rowspan",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1258,89 +1641,125 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1353,7 +1772,8 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": true
 			}
 		]
 	},
@@ -1375,75 +1795,108 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1457,79 +1910,113 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1542,7 +2029,8 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			}
 		]
 	},
@@ -1556,79 +2044,113 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1636,17 +2158,23 @@ var roleInfo = {
 		"name": "listbox",
 		"fragID": "listbox",
 		"parentRoles": [
-			"list",
 			"select"
 		],
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-required",
+				"required": false
 			}
 		]
 	},
@@ -1659,105 +2187,145 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -1797,318 +2365,239 @@ var roleInfo = {
 		"name": "menu",
 		"fragID": "menu",
 		"parentRoles": [
-			"list",
 			"select"
 		],
 		"localprops": [],
 		"allprops": [
 			{
-				"is": "state",
-				"name": "aria-expanded"
+				"is": "property",
+				"name": "aria-orientation",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
-			},
-			{
-				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "state",
-				"name": "aria-current"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedat"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-describedby",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-disabled",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-dropeffect",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
-			},
-			{
-				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
-			},
-			{
-				"is": "property",
-				"name": "aria-orientation"
-			},
-			{
-				"is": "property",
-				"name": "aria-activedescendant"
-			},
-			{
-				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
-			},
-			{
-				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-label",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-labelledby",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-live",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-current",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-describedby",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-errormessage",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
-			},
-			{
-				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
-			},
-			{
-				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
-			},
-			{
-				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
-			},
-			{
-				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
-			},
-			{
-				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-relevant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
-			},
-			{
-				"is": "property",
-				"name": "aria-atomic"
-			},
-			{
-				"is": "state",
-				"name": "aria-busy"
-			},
-			{
-				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "state",
-				"name": "aria-current"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedat"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedby"
-			},
-			{
-				"is": "state",
-				"name": "aria-disabled"
-			},
-			{
-				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
-			},
-			{
-				"is": "state",
-				"name": "aria-grabbed"
-			},
-			{
-				"is": "property",
-				"name": "aria-haspopup"
-			},
-			{
-				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
-			},
-			{
-				"is": "property",
-				"name": "aria-label"
-			},
-			{
-				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2126,79 +2615,133 @@ var roleInfo = {
 		"parentRoles": [
 			"command"
 		],
-		"localprops": [],
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-posinset",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-setsize",
+				"required": false
+			}
+		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-posinset",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-setsize",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2213,151 +2756,233 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-posinset",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-setsize",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2401,109 +3026,174 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			}
+		]
+	},
+	"password": {
+		"name": "password",
+		"fragID": "password",
+		"parentRoles": [
+			"input"
+		],
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-placeholder",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-required",
+				"required": false
 			}
 		]
 	},
@@ -2528,110 +3218,145 @@ var roleInfo = {
 		"name": "radio",
 		"fragID": "radio",
 		"parentRoles": [
-			"checkbox"
+			"input"
 		],
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-describedby",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
-			},
-			{
-				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2644,7 +3369,13 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-required",
+				"required": false
 			}
 		]
 	},
@@ -2657,109 +3388,150 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-valuemax"
+				"name": "aria-valuemax",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuemin"
+				"name": "aria-valuemin",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuenow"
+				"name": "aria-valuenow",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuetext"
+				"name": "aria-valuetext",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-valuemax"
+				"name": "aria-valuemax",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuemin"
+				"name": "aria-valuemin",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuenow"
+				"name": "aria-valuenow",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-valuetext"
+				"name": "aria-valuetext",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2778,149 +3550,215 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -2934,19 +3772,23 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-colindex"
+				"name": "aria-colindex",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowindex"
+				"name": "aria-rowindex",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": false
 			}
 		]
 	},
@@ -2969,7 +3811,42 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-sort"
+				"name": "aria-sort",
+				"required": false
+			}
+		]
+	},
+	"scrollbar": {
+		"name": "scrollbar",
+		"fragID": "scrollbar",
+		"parentRoles": [
+			"range"
+		],
+		"localprops": [
+			{
+				"is": "property",
+				"name": "aria-controls",
+				"required": true
+			},
+			{
+				"is": "property",
+				"name": "aria-orientation",
+				"required": true
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemax",
+				"required": true
+			},
+			{
+				"is": "property",
+				"name": "aria-valuemin",
+				"required": true
+			},
+			{
+				"is": "property",
+				"name": "aria-valuenow",
+				"required": true
 			}
 		]
 	},
@@ -2998,85 +3875,120 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3089,85 +4001,120 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3176,247 +4123,245 @@ var roleInfo = {
 		"fragID": "select",
 		"parentRoles": [
 			"composite",
-			"group",
-			"input"
+			"group"
 		],
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
-			},
-			{
-				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-relevant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "state",
-				"name": "aria-current"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedat"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedby"
-			},
-			{
-				"is": "state",
-				"name": "aria-disabled"
-			},
-			{
-				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
-			},
-			{
-				"is": "state",
-				"name": "aria-grabbed"
-			},
-			{
-				"is": "property",
-				"name": "aria-haspopup"
-			},
-			{
-				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
-			},
-			{
-				"is": "property",
-				"name": "aria-label"
-			},
-			{
-				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3429,41 +4374,13 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-orientation"
-			}
-		]
-	},
-	"scrollbar": {
-		"name": "scrollbar",
-		"fragID": "scrollbar",
-		"parentRoles": [
-			"input",
-			"range"
-		],
-		"localprops": [
-			{
-				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "property",
-				"name": "aria-orientation"
-			},
-			{
-				"is": "property",
-				"name": "aria-valuemax"
-			},
-			{
-				"is": "property",
-				"name": "aria-valuemin"
-			},
-			{
-				"is": "property",
-				"name": "aria-valuenow"
+				"name": "aria-orientation",
+				"required": false
 			}
 		]
 	},
@@ -3477,19 +4394,28 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-valuemax"
+				"name": "aria-valuemax",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-valuemin"
+				"name": "aria-valuemin",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-valuenow"
+				"name": "aria-valuenow",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-readonly",
+				"required": false
 			}
 		]
 	},
@@ -3503,19 +4429,28 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-valuemax"
+				"name": "aria-valuemax",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-valuemin"
+				"name": "aria-valuemin",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-valuenow"
+				"name": "aria-valuenow",
+				"required": true
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-readonly",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-required",
+				"required": false
 			}
 		]
 	},
@@ -3529,79 +4464,113 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3615,75 +4584,108 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3696,7 +4698,8 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-checked"
+				"name": "aria-checked",
+				"required": true
 			}
 		]
 	},
@@ -3710,15 +4713,18 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-posinset"
+				"name": "aria-posinset",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-selected"
+				"name": "aria-selected",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-setsize"
+				"name": "aria-setsize",
+				"required": false
 			}
 		]
 	},
@@ -3731,97 +4737,135 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-colcount"
+				"name": "aria-colcount",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowcount"
+				"name": "aria-rowcount",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-colcount"
+				"name": "aria-colcount",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-rowcount"
+				"name": "aria-rowcount",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -3829,21 +4873,23 @@ var roleInfo = {
 		"name": "tablist",
 		"fragID": "tablist",
 		"parentRoles": [
-			"composite",
-			"directory"
+			"composite"
 		],
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-level"
+				"name": "aria-level",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
 			}
 		]
 	},
@@ -3855,11 +4901,11 @@ var roleInfo = {
 		],
 		"localprops": []
 	},
-	"text": {
-		"name": "text",
-		"fragID": "text",
+	"term": {
+		"name": "term",
+		"fragID": "term",
 		"parentRoles": [
-			"structure"
+			"section"
 		],
 		"localprops": []
 	},
@@ -3872,125 +4918,170 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-autocomplete"
+				"name": "aria-autocomplete",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-multiline"
+				"name": "aria-multiline",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-placeholder"
+				"name": "aria-placeholder",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-autocomplete"
+				"name": "aria-autocomplete",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-multiline"
+				"name": "aria-multiline",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-placeholder"
+				"name": "aria-placeholder",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-readonly"
+				"name": "aria-readonly",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -4011,7 +5102,8 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
 			}
 		]
 	},
@@ -4032,253 +5124,255 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-multiselectable"
+				"name": "aria-multiselectable",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-required"
+				"name": "aria-required",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-orientation"
+				"name": "aria-orientation",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-activedescendant"
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-activedescendant",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
-			},
-			{
-				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-relevant",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
-			},
-			{
-				"is": "state",
-				"name": "aria-current"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedat"
-			},
-			{
-				"is": "property",
-				"name": "aria-describedby"
-			},
-			{
-				"is": "state",
-				"name": "aria-disabled"
-			},
-			{
-				"is": "property",
-				"name": "aria-dropeffect"
-			},
-			{
-				"is": "property",
-				"name": "aria-flowto"
-			},
-			{
-				"is": "state",
-				"name": "aria-grabbed"
-			},
-			{
-				"is": "property",
-				"name": "aria-haspopup"
-			},
-			{
-				"is": "state",
-				"name": "aria-hidden"
-			},
-			{
-				"is": "state",
-				"name": "aria-invalid"
-			},
-			{
-				"is": "property",
-				"name": "aria-label"
-			},
-			{
-				"is": "property",
-				"name": "aria-labelledby"
-			},
-			{
-				"is": "property",
-				"name": "aria-live"
-			},
-			{
-				"is": "property",
-				"name": "aria-owns"
-			},
-			{
-				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -4310,75 +5404,108 @@ var roleInfo = {
 		"allprops": [
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	},
@@ -4391,94 +5518,132 @@ var roleInfo = {
 		"localprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-modal"
+				"name": "aria-modal",
+				"required": false
 			}
 		],
 		"allprops": [
 			{
 				"is": "state",
-				"name": "aria-expanded"
+				"name": "aria-expanded",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-modal"
+				"name": "aria-modal",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-atomic"
+				"name": "aria-atomic",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-busy"
+				"name": "aria-busy",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-controls"
+				"name": "aria-controls",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-current"
+				"name": "aria-current",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedat"
+				"name": "aria-describedby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-describedby"
+				"name": "aria-details",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-disabled"
+				"name": "aria-disabled",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-dropeffect"
+				"name": "aria-dropeffect",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-flowto"
+				"name": "aria-errormessage",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-flowto",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-grabbed"
+				"name": "aria-grabbed",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-haspopup"
+				"name": "aria-haspopup",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-hidden"
+				"name": "aria-hidden",
+				"required": false
 			},
 			{
 				"is": "state",
-				"name": "aria-invalid"
+				"name": "aria-invalid",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-label"
+				"name": "aria-keyshortcuts",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-labelledby"
+				"name": "aria-label",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-live"
+				"name": "aria-labelledby",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-owns"
+				"name": "aria-live",
+				"required": false
 			},
 			{
 				"is": "property",
-				"name": "aria-relevant"
+				"name": "aria-owns",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-relevant",
+				"required": false
+			},
+			{
+				"is": "property",
+				"name": "aria-roledescription",
+				"required": false
 			}
 		]
 	}
 }
+

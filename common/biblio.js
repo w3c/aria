@@ -13,7 +13,7 @@ var biblio = {
 		],
 		"etAl": true,
 		"deliveredBy":  [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
 	"ARIA-PRACTICES": {
@@ -25,13 +25,14 @@ var biblio = {
 			"Matt King", 
 			"James Nurthen",
 			"Michael Cooper",
+			"Michiel Bijl",
 			"Joseph Scheuhammer",
 			"Lisa Pappas",
 			"Richard Schwerdtfeger"
 		],
 		"etAl": true,
 		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
 	// Correct reference for ATK
@@ -59,9 +60,59 @@ var biblio = {
 		],
 		"etAl": true,
 		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
+			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
+        "DPUB-ARIA": {
+                "title": "Digital Publishing WAI-ARIA Module 1.0",
+                "href": "http://www.w3.org/TR/dpub-aria-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Matt Garrish",
+                        "Tzviya Siegman",
+                        "Markus Gylling",
+                        "Shane McCarron"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/"
+                ]
+        },
+        "GRAPHICS-ARIA": {
+                "title": "WAI-ARIA Graphics",
+                "href": "http://www.w3.org/TR/graphics-aria-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Amelia Bellamy-Royds",
+                        "Fred Esch",
+                        "Rich Schwerdtfeger",
+                        "Leonie Watson"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/",
+                        "http://www.w3.org/SVG/"
+                ]
+        },
+        "GRAPHICS-AAM": {
+                "title": "Graphics Accessibility API Mappings",
+                "href": "http://www.w3.org/TR/graphics-aam-1.0/",
+                "status": "WD",
+                "publisher": "W3C",
+                "authors": [
+                        "Amelia Bellamy-Royds",
+                        "Fred Esch",
+                        "Richard Schwerdtfeger"
+                ],
+                "etAl": true,
+                "deliveredBy": [
+                        "http://www.w3.org/WAI/ARIA/",
+                        "http://www.w3.org/SVG/"
+                ]
+        },
+
 	"EPUB-SSV": {
 		"href": "http://www.idpf.org/epub/vocab/structure/",
 		"title": "EPUB Structural Semantics Vocabulary",
@@ -96,11 +147,12 @@ var biblio = {
 		"publisher": "Microsoft Corporation"
 	},
 	"SVG-AAM": {
-		"title": "SVG2 Accessibility API Mappings 1.1",
-		"href": "http://www.w3.org/TR/svg-aam-1.1/",
+		"title": "SVG2 Accessibility API Mappings 1.0",
+		"href": "http://www.w3.org/TR/svg-aam-1.0/",
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
+			"Amelia Bellamy-Royds",
 			"Richard Schwerdtfeger"
 		],
 		"etAl": true,
@@ -145,15 +197,17 @@ var biblio = {
 	},
 	"SVG2": {
 		"title": "Scalable Vector Graphics (SVG) 2",
-		"href": "http://www.w3.org/TR/2014/WD-SVG2-20140211/",
+		"href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
 			"Nikos Andronikos",
+			"Rossen Atanassov",
 			"Tavmjong Bah",
+			"Amelia Bellamy-Royds",
 			"Brian Birtles",
 			"Cyril Concolato",
-			"Erik Dahlströmx",
+			"Erik Dahlström",
 			"Chris Lilley",
 			"Cameron McCormack",
 			"Doug Schepers",
