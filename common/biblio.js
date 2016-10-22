@@ -1,5 +1,5 @@
 var biblio = {
-	
+
 	"ACCNAME-AAM": {
 		"title": "Accessible Name and Description: Computation and API Mappings 1.1",
 		"href": "http://www.w3.org/TR/accname-aam-1.1/",
@@ -22,7 +22,7 @@ var biblio = {
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
-			"Matt King", 
+			"Matt King",
 			"James Nurthen",
 			"Michael Cooper",
 			"Michiel Bijl",
@@ -116,6 +116,12 @@ var biblio = {
 	"EPUB-SSV": {
 		"href": "http://www.idpf.org/epub/vocab/structure/",
 		"title": "EPUB Structural Semantics Vocabulary",
+		"publisher": "IDPF"
+	},
+
+	"EPUB-Content": {
+		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
+		"title": "EPUB Content Documents 3.1",
 		"publisher": "IDPF"
 	},
 	// Custom reference for GTK+ (GNOME GUI Toolkit) (not available from SpecRef biblio)
