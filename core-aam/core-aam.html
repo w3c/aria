@@ -285,7 +285,12 @@ var mappingTableLabels = {
     <th>Focus event</th>
     <td><code>EVENT_OBJECT_FOCUS</code></td>
     <td><code>UIA_AutomationFocusChangedEventId</code></td>
-    <td><code>object:state-changed:focused</code> and OPTIONAL <code>focus:</code></td>
+    <td><code>object:state-changed:focused</code> and OPTIONAL <code>focus:</code> and:
+		<ul>
+	      <li><code>detail1 = 1</code> for the <a class="termref">accessible object</a> which just gained focus.</li>
+	      <li><code>detail1 = 0</code> for the <a class="termref">accessible object</a> which just lost focus.</li>
+    </ul>
+    </td>
     <td><code>AXFocusedUIElementChanged</code></td>
   </tr>
 </table>
@@ -1159,7 +1164,7 @@ var mappingTableLabels = {
                             <li>Localized Control Type is <code>region</code>.</li>
                             <li>Landmark Type is <code>Custom</code>.</li>
                             <li>Localized Landmark Type is <code>region</code>.</li>
-                        </ul>                        
+                        </ul>
                     </td>
 					<td><code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code></td>
 					<td>AXRole: <code>AXGroup</code><br />
@@ -2251,7 +2256,7 @@ var mappingTableLabels = {
                 </tr>
                 <tr id="ariaPlaceholder">
                   <th>[ARIA 1.1] <a class="property-reference" href="#aria-placeholder"><code>aria-placeholder</code></a></th>
-                  <td><p>IAccessible2: Expose as object attribute <code>placeholder:&lt;value&gt;</code>. </p></td>
+                  <td><p>IAccessible2: Expose as object attribute <code>placeholder-text:&lt;value&gt;</code>. </p></td>
                   <td><p>Expose as <code>placeholder=&lt;value&gt;</code> in <code>AriaProperties</code>. </p></td>
                   <td><p>Expose as object attribute <code>placeholder-text:&lt;value&gt;</code>.</p></td>
                   <td><p><code>AXPlaceholderValue: &lt;value&gt;</code>. </p></td>
@@ -2964,14 +2969,14 @@ var mappingTableLabels = {
 			  <li>Single selection</li>
 			  <li>Multiple selection</li>
 		  </ul>
-      <p>In the single selection case, selection follows focus. User agents MUST fire the following events when <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a> changes:</p>
+      <p>In the single selection case, selection follows focus (see the section "<a href="#focus_state_event_table">Focus States and Events Table</a>" for information about focus events). User agents MUST fire the following events when <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a> changes:</p>
       <table>
         <caption>Single selection events</caption>
 	      <tbody>
 				<tr>
 					<th>Scenario</th>
 					<th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
-          <th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
+					<th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
 					<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
 					<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
 				</tr>
@@ -2979,9 +2984,14 @@ var mappingTableLabels = {
 					<th>Focus change</th>
 					<td><code>EVENT_OBJECT_SELECTION</code> and <code>EVENT_OBJECT_STATECHANGE</code> on newly focused item.</td>
 					<td><code>UIA_SelectionItem_ElementSelectedEventId</code> on the newly focused element.
-              <p>If on a <code>gridcell</code>, <code>row</code>, <code>option</code>, or <code>tab</code>, fire <code>UIA_SelectionItem_ElementSelectedEventId</code>.</p></td>
-          <td><code>object:selection_changed</code> on the current container.</td>
-          <td><code>AXSelectedChildrenChanged</code></td>
+					    <p>If on a <code>gridcell</code>, <code>row</code>, <code>option</code>, or <code>tab</code>, fire <code>UIA_SelectionItem_ElementSelectedEventId</code>.</p></td>
+					<td><code>object:selection_changed</code> on the current container, and:
+					    <ul>
+					      <li><code>detail1 = 1</code> for the <a class="termref">accessible object</a> which just became selected.</li>
+					      <li><code>detail1 = 0</code> for the <a class="termref">accessible object</a> which just became unselected.</li>
+					    </ul>
+					</td>
+					<td><code>AXSelectedChildrenChanged</code></td>
 				</tr>
         </tbody>
       </table>
@@ -2997,7 +3007,7 @@ var mappingTableLabels = {
 				<tr>
 					<th>Scenario</th>
 					<th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
-          <th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
+					<th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
 					<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
 					<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
 				</tr>
@@ -3005,22 +3015,37 @@ var mappingTableLabels = {
 					<th>Toggle <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a></th>
 					<td><code>EVENT_OBJECT_SELECTIONADD</code>/<code>EVENT_OBJECT_SELECTIONREMOVE</code> on the item.</td>
 					<td><code>SelectionItem Control Pattern</code>:<code>UIA_SelectionItem_ElementAddedToSelectionEventId</code> or <code>UIA_SelectionItem_ElementRemovedFromSelectionEventId</code> on the current container.</td>
-          <td><code>object:selection_changed</code> on the current container.</td>
-          <td><code>AXSelectedChildrenChanged</code></td>
+					<td><code>object:selection_changed</code> on the current container, and:
+						<ul>
+					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
+					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					    </ul>
+					</td>
+					<td><code>AXSelectedChildrenChanged</code></td>
 				</tr>
 				<tr>
 					<th>Selection follows focus</th>
 					<td><code>EVENT_OBJECT_SELECTION</code> and <code>EVENT_OBJECT_STATECHANGE</code> on newly focused item.</td>
 					<td><code>FocusChangedEvent</code> should be fired but individual selection event may not happen, to avoid redundancy.</td>
-          <td><code>object:selection_changed</code> on the current container.</td>
-          <td><code>AXSelectedChildrenChanged</code></td>
+					<td><code>object:selection_changed</code> on the current container, and:
+						<ul>
+					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
+					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					    </ul>
+					</td>
+					<td><code>AXSelectedChildrenChanged</code></td>
 				</tr>
 				<tr>
 					<th>Select or deselect many items at once</th>
 					<td>User agent MAY fire an <code>EVENT_OBJECT_SELECTIONWITHIN</code>. If this event is fired the other events noted above MAY be trimmed out for performance.</td>
 					<td>For each element selected or deselected, fire <code>SelectionItem</code> Control   Pattern: <code>UIA_SelectionItem_ElementAddedToSelectionEventId</code> or   <code>UIA_SelectionItem_ElementRemovedFromSelectionEventId</code> on the current   container.  User agents MAY choose to fire the Selection Control Pattern   Invalidated event, which indicates that the selection in a container   has changed significantly and requires sending more addition and removal   events than the <code>InvalidateLimit</code> constant permits.</td>
-          <td>The user agent MAY fire a single <code>object:selection_changed</code> event on the container, vs. multiple events, for performance.</td>
-          <td><code>AXSelectedChildrenChanged</code></td>
+					<td>The user agent MAY fire a single <code>object:selection_changed</code> event on the container, vs. multiple events, for performance, and:
+					    <ul>
+					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
+					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					    </ul>
+					</td>
+					<td><code>AXSelectedChildrenChanged</code></td>
 				</tr>
 			</tbody>
 		</table>
@@ -3254,6 +3279,7 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>24-Oct-2016: Changed name of IA2 object property name for aria-placeholder to "placeholder-text" (was "placeholder").</li>
 				<li>04-Oct-2016: Add reverse relationships for aria-details and aria-errormessage on platforms MSAA/IA2 and ATK/ATSPI</li>
 				<li>03-Oct-2016: Added aria-roledescription mappings for empty and whitespace strings as well as error handling text.</li>
 				<li>12-Sep-2016: Added RELATION_POPUP_FOR to ATK/AT-SPI mappings of aria-haspopup, for ARIA 1.1.</li>
