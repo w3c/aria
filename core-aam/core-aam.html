@@ -2985,11 +2985,16 @@ var mappingTableLabels = {
 					<td><code>EVENT_OBJECT_SELECTION</code> and <code>EVENT_OBJECT_STATECHANGE</code> on newly focused item.</td>
 					<td><code>UIA_SelectionItem_ElementSelectedEventId</code> on the newly focused element.
 					    <p>If on a <code>gridcell</code>, <code>row</code>, <code>option</code>, or <code>tab</code>, fire <code>UIA_SelectionItem_ElementSelectedEventId</code>.</p></td>
-					<td><code>object:state-changed:selected</code> on the current container, and:
-					    <ul>
-					      <li><code>detail1 = 1</code> for the <a class="termref">accessible object</a> which just became selected.</li>
-					      <li><code>detail1 = 0</code> for the <a class="termref">accessible object</a> which just became unselected.</li>
-					    </ul>
+					<td>
+					  <ul>
+					    <li><code>object:selection-changed</code> on the current container,</li>
+					    <li><code>object:state-changed:selected</code> on the descendant <a class="termref">accessible object</a> whose selection has changed:
+					      <ul>
+					        <li><code>detail1 = 1</code> for the descendant which just became selected.</li>
+					        <li><code>detail1 = 0</code> for the descendant which just became unselected.</li>
+					      </ul>
+					    </li>
+					  </ul>
 					</td>
 					<td><code>AXSelectedChildrenChanged</code></td>
 				</tr>
@@ -3015,10 +3020,15 @@ var mappingTableLabels = {
 					<th>Toggle <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a></th>
 					<td><code>EVENT_OBJECT_SELECTIONADD</code>/<code>EVENT_OBJECT_SELECTIONREMOVE</code> on the item.</td>
 					<td><code>SelectionItem Control Pattern</code>:<code>UIA_SelectionItem_ElementAddedToSelectionEventId</code> or <code>UIA_SelectionItem_ElementRemovedFromSelectionEventId</code> on the current container.</td>
-					<td><code>object:state-changed:selected</code> on the current container, and:
-						<ul>
-					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
-					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					<td>
+					    <ul>
+					      <li><code>object:selection-changed</code> on the current container,</li>
+					      <li><code>object:state-changed:selected</code> on any descendant <a class="termref">accessible object</a> whose selection has changed:
+						    <ul>
+					          <li><code>detail1 = 1</code> for any descendant which just became selected.</li>
+					          <li><code>detail1 = 0</code> for any descendant which just became unselected.</li>
+					        </ul>
+					      </li>
 					    </ul>
 					</td>
 					<td><code>AXSelectedChildrenChanged</code></td>
@@ -3027,10 +3037,15 @@ var mappingTableLabels = {
 					<th>Selection follows focus</th>
 					<td><code>EVENT_OBJECT_SELECTION</code> and <code>EVENT_OBJECT_STATECHANGE</code> on newly focused item.</td>
 					<td><code>FocusChangedEvent</code> should be fired but individual selection event may not happen, to avoid redundancy.</td>
-					<td><code>object:state-changed:selected</code> on the current container, and:
-						<ul>
-					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
-					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					<td>
+					    <ul>
+					      <li><code>object:selection-changed</code> on the current container,</li>
+					      <li><code>object:state-changed:selected</code> on any descendant <a class="termref">accessible object</a> whose selection has changed:
+						    <ul>
+					          <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
+					          <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					        </ul>
+					      </li>
 					    </ul>
 					</td>
 					<td><code>AXSelectedChildrenChanged</code></td>
@@ -3039,10 +3054,15 @@ var mappingTableLabels = {
 					<th>Select or deselect many items at once</th>
 					<td>User agent MAY fire an <code>EVENT_OBJECT_SELECTIONWITHIN</code>. If this event is fired the other events noted above MAY be trimmed out for performance.</td>
 					<td>For each element selected or deselected, fire <code>SelectionItem</code> Control   Pattern: <code>UIA_SelectionItem_ElementAddedToSelectionEventId</code> or   <code>UIA_SelectionItem_ElementRemovedFromSelectionEventId</code> on the current   container.  User agents MAY choose to fire the Selection Control Pattern   Invalidated event, which indicates that the selection in a container   has changed significantly and requires sending more addition and removal   events than the <code>InvalidateLimit</code> constant permits.</td>
-					<td>The user agent MAY fire a single <code>object:state-changed:selected</code> event on the container, vs. multiple events, for performance, and:
+					<td>
 					    <ul>
-					      <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
-					      <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					      <li>the user agent MAY fire a single <code>object:selection-changed</code> event on the container, vs. multiple events, for performance,</li>
+					      <li><code>object:state-changed:selected</code> on any descendant <a class="termref">accessible object</a> whose selection has changed:
+					        <ul>
+					          <li><code>detail1 = 1</code> for any <a class="termref">accessible object</a> which just became selected.</li>
+					          <li><code>detail1 = 0</code> for any <a class="termref">accessible object</a> which just became unselected.</li>
+					        </ul>
+					      </li>
 					    </ul>
 					</td>
 					<td><code>AXSelectedChildrenChanged</code></td>
