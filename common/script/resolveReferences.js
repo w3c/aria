@@ -30,6 +30,9 @@ function linkCrossReferences() {
   var graphicsMappingModURL = ( respecConfig.graphicsMappingModURLs ?
     respecConfig.graphicsMappingModURLs[respecConfig.specStatus] : null
   );
+  var practicesURL = ( respecConfig.practicesURLs ?
+    respecConfig.practicesURLs[respecConfig.specStatus] : null
+  );
 
 
   function setHrefs (selString, baseUrl) {
@@ -77,21 +80,28 @@ function linkCrossReferences() {
     setHrefs ('a.dpub-role-reference, a.dpub-property-reference, a.dpub-state-reference, a.dpub', dpubModURL);
   }
   else {
-    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+    console.log ("linkCrossReferences():  dpubModURL is not defined.");
   }
 // Links to the Graphics WAI-ARIA Module.
   if (!!graphicsModURL) {
     setHrefs ('a.graphics-role-reference, a.graphics-property-reference, a.graphics-state-reference, a.graphics', graphicsModURL);
   }
   else {
-    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+    console.log ("linkCrossReferences():  graphicsModURL is not defined.");
   }
 // Links to the Graphics Mapping WAI-ARIA Module.
   if (!!graphicsMappingModURL) {
     setHrefs ('a.graphics-role-mapping, a.graphics-property-mapping, a.graphics-state-mapping, a.graphics-mapping', graphicsMappingModURL);
   }
   else {
-    console.log ("linkCrossReferences():  specBaseURL is not defined.");
+    console.log ("linkCrossReferences():  graphicsMappingModURL is not defined.");
+  }
+// Links to the Authoring Practices.
+  if (!!practicesURL) {
+    setHrefs ('a.practices', practicesURL);
+  }
+  else {
+    console.log ("linkCrossReferences():  practicesURL is not defined.");
   }
 
 
