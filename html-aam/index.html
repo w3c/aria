@@ -186,7 +186,7 @@
       		<li>HTML elements with default WAI-ARIA role semantics <span class="rfc2119">must</span> be mapped to platform <a class="termref" data-lt="accessibility API">accessibility APIs</a> according to those WAI-ARIA roles' mappings as defined in the <a href="http://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[!CORE-AAM]] specification.</li>
           <li>A '?' in a cell indicates the data has yet to be provided.</li>
       		<li>"Not mapped" (Not Applicable) means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user interface.</li>
-          <li>Where applicable, how an element participates in the computation of its own or another element's <a class="termref">accessible name</a> and/or <a class="termref">accessible description</a> is described in the <a href="#accessible-name-and-description-calculation">Accessible Name and Description Calculation</a> section below.</li> co
+          <li>Where applicable, how an element participates in the computation of its own or another element's <a class="termref">accessible name</a> and/or <a class="termref">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section below.</li> co
           <li><strong>IAccessible2:</strong>
             <ul>
               <li>All elements with accessible objects should implement the IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
@@ -1248,7 +1248,7 @@
                       <div class="general">
                           <span class="type">Localized Control Type: </span><code>"figure"</code>
                       </div>
-                      <div class="general">Accessible name derived from <code>figcaption</code> according to the <a href="#h-figure-element-accessible-name-calculation"><code>figure</code> Element Accessible Name Calculation</a></div>
+                      <div class="general">Accessible name derived from <code>figcaption</code> according to the <a href="#h-figure-element-accessible-name-computation"><code>figure</code> Element Accessible Name Computation</a></div>
                   </td>
                   <td class="atk">
                     <div class="role">
@@ -1598,7 +1598,7 @@
                   <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-img-element"><code>img</code></a> <span class="el-context">(<a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-img-alt"><code>alt</code></a> attribute is empty)</span></th>
                   <td class="aria">
                     <div class="role"><a class="core-mapping" href="#role-map-presentation"><code>presentation</code></a></div>
-                    <div class="general">See also the Note under <a href="#img-element-accessible-name-calculation"><code>img</code> element Accessible Name Calculation</a>.</div>
+                    <div class="general">See also the Note under <a href="#img-element-accessible-name-computation"><code>img</code> element Accessible Name Computation</a>.</div>
                   </td>
                   <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                   <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -4726,7 +4726,7 @@
                       Associates the <a class="termref">accessible name</a>
                     </div>
                   </td>
-                  <td class="uia">The target element of the <code>label</code> attribute has a <code>LabeledBy</code> property pointing to the element with the <code>label</code> atrribute. Participates in <a href="#other-form-elements">name calculation</a></td>
+                  <td class="uia">The target element of the <code>label</code> attribute has a <code>LabeledBy</code> property pointing to the element with the <code>label</code> atrribute. Participates in <a href="#other-form-elements">name computation</a></td>
                   <td class="atk">
                     <div class="name">
                       Associates the <a class="termref">accessible name</a>
@@ -5195,7 +5195,7 @@
                   <td class="elements"><a href="http://www.w3.org/TR/html51/semantics.html#attr-input-placeholder"><code>input</code></a>; <a href="http://www.w3.org/TR/html51/semantics.html#attr-textarea-placeholder"><code>textarea</code></a></td>
                   <td class="aria"><a class="core-mapping" href="#ariaPlaceholder"><code>aria-placeholder</code></a></td>
                   <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
-                  <td class="uia"><div class="general">Not mapped to UIA tree. Participates in <a href="" class="accname">Accessible Name and Description Calculation</a></div></td>
+                  <td class="uia"><div class="general">Not mapped to UIA tree. Participates in <a href="" class="accname">Accessible Name and Description Computation</a></div></td>
                   <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
                   <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
                   <td class="comments"><div class="general">When the <code>placeholder</code> and <code>aria-placeholder</code> attributes are both present, and the <code>placeholder</code> attribute's value is non-empty, user agents <strong class="rfc2119">MUST</strong> expose the value of the <code>placeholder</code> attribute, and ignore <code>aria-placeholder</code>. If the <code>placeholder</code> attribute's value is empty, then user agents <strong class="rfc2119">MUST</strong> expose the value of the <code>aria-placeholder</code> attribute.</div></td>
@@ -6080,13 +6080,13 @@
       </section>
     </section>
   <section class="normative">
-    <h2>Accessible Name and Description Calculation</h2>
+    <h2>Accessible Name and Description Computation</h2>
     <p>The terms <a class="termref">accessible name</a> and <a class="termref">accessible description</a> are properties provided in all <a class="termref" data-lt="accessibility API">accessibility APIs</a>. The name of the properties may differ across APIs but they serve the same function: as a container for a short (name) or longer (description) string of text. </p>
     <p>The <a href="mapping_additional_nd_te" class="accname">text alternative computation</a> is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" data-lt="element">elements</a>, <a class="termref" data-lt="node">nodes</a>, and combinations of markup.</p>
     <section>
       <h3><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="url"</code> and <code>textarea</code> Element      </h3>
       <section>
-      <h4><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="email"</code>, <code>input type="url"</code> and <code>textarea</code> Element Accessible Name Calculation</h4>
+      <h4><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="email"</code>, <code>input type="url"</code> and <code>textarea</code> Element Accessible Name Computation</h4>
       <ol>
         <li>If the control has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm  defined in <a href="" class="accname" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use the associated <code>label</code> element(s) <a class="termref">accessible name</a>(s) - if more than one label is associated; concatenate by DOM order, delimited by spaces.</li>
@@ -6097,7 +6097,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="email"</code>, <code>input type="url"</code> and <code>textarea</code> Element Accessible Description Calculation</h4>
+      <h4><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="email"</code>, <code>input type="url"</code> and <code>textarea</code> Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a>.</li>
@@ -6108,7 +6108,7 @@
 <section>
       <h3><code>input type="button"</code>, <code>input type="submit"</code> and <code>input type="reset"</code></h3>
    <section>  
-  <h4><code>input type="button"</code> ,<code> input type="submit"</code> and <code>input type="reset"</code> Accessible Name Calculation</h4>
+  <h4><code>input type="button"</code> ,<code> input type="submit"</code> and <code>input type="reset"</code> Accessible Name Computation</h4>
       <ol>
         <li>If the control has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>value</code> attribute</li>
@@ -6119,7 +6119,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>input type="button"</code> ,<code> input type="submit"</code> and <code>input type="reset"</code> Accessible Description Calculation</h4>
+      <h4><code>input type="button"</code> ,<code> input type="submit"</code> and <code>input type="reset"</code> Accessible Description Computation</h4>
   <ol>
     <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
     <li>Otherwise use the <code>value</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6131,7 +6131,7 @@
     <section>
       <h3><code>input type="image"</code></h3>
       <section>
-      <h4><code>input type="image"</code> Accessible Name Calculation</h4>
+      <h4><code>input type="image"</code> Accessible Name Computation</h4>
       <ol>
         <li>If the control  has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use <code>alt</code> attribute</li>
@@ -6142,7 +6142,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>input type="image"</code> Accessible Description Calculation</h4>
+      <h4><code>input type="image"</code> Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a>.</li>
@@ -6154,7 +6154,7 @@
     <section>
       <h3><code>button</code> Element</h3>
       <section>
-      <h4><code>button</code> Element Accessible Name Calculation</h4>
+      <h4><code>button</code> Element Accessible Name Computation</h4>
       <ol>
         <li> If the <code>button</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use the <code>button</code> element subtree</li>
@@ -6163,7 +6163,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>button</code> Element Accessible Description Calculation</h4>
+      <h4><code>button</code> Element Accessible Description Computation</h4>
       <ol>
         <li>use <code>aria-describedby</code></li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a>.</li>
@@ -6173,7 +6173,7 @@
 <section>
       <h3><code>fieldset</code> and <code>legend</code> Elements</h3>
       <section>
-        <h4><code>fieldset</code> Element Accessible Name Calculation</h4>
+        <h4><code>fieldset</code> Element Accessible Name Computation</h4>
         <ol>
           <li>If the <code>fieldset</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
           <li>Otherwise use <code>legend</code> subtree</li>
@@ -6182,7 +6182,7 @@
         </ol>
       </section>
       <section>
-        <h4><code>fieldset</code> Element Accessible Description Calculation</h4>
+        <h4><code>fieldset</code> Element Accessible Description Computation</h4>
         <ol>
           <li>If the <code>fieldset</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
           <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6193,7 +6193,7 @@
      <section>
       <h3><code>output</code> Element</h3>
       <section>
-      <h4><code>output</code> Element Accessible Name Calculation</h4>
+      <h4><code>output</code> Element Accessible Name Computation</h4>
       <ol>
         <li> If the <code>output</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use the <code>output</code> element subtree</li>
@@ -6202,7 +6202,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>output</code> Element Accessible Description Calculation</h4>
+      <h4><code>output</code> Element Accessible Description Computation</h4>
       <ol>
         <li>use <code>aria-describedby</code></li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a>.</li>
@@ -6213,7 +6213,7 @@
     <section>
       <h3>Other Form Elements</h3>
       <section>
-      <h4>Other Form Elements Accessible Name Calculation</h4>
+      <h4>Other Form Elements Accessible Name Computation</h4>
       <ol>
         <li>If the control has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use <code>label</code> element</li>
@@ -6222,7 +6222,7 @@
       </ol>
       </section>
       <section>
-      <h4>Other Form Elements Accessible Description Calculation</h4>
+      <h4>Other Form Elements Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a>.</li>
@@ -6233,7 +6233,7 @@
 <section>
       <h3><code>summary</code> Element</h3>
       <section>
-  <h4><code>summary</code> Element Accessible Name Calculation</h4>
+  <h4><code>summary</code> Element Accessible Name Computation</h4>
       <ol>
         <li>If the <code>summary</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use <code>summary</code> element subtree</li>
@@ -6242,7 +6242,7 @@
       </ol>
       </section>
       <section>
-  <h4><code>summary</code> Element Accessible Description Calculation</h4>
+  <h4><code>summary</code> Element Accessible Description Computation</h4>
   <ol>
     <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
     <li>Otherwise use <code>summary</code> element subtree if not used as the <a class="termref">accessible name</a></li>
@@ -6254,7 +6254,7 @@
     <section>
       <h3><code>figure</code> and <code>figcaption</code> Elements</h3>
       <section>
-      <h4><code>figure</code> Element Accessible Name Calculation</h4>
+      <h4><code>figure</code> Element Accessible Name Computation</h4>
       <ol>
         <li>If the <code>figure</code> element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use <code>figcaption</code> subtree</li>
@@ -6263,7 +6263,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>figure</code> Element Accessible Description Calculation</h4>
+      <h4><code>figure</code> Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6274,7 +6274,7 @@
     <section>
       <h3><code>img</code> Element</h3>
      <section>
-      <h4><code>img</code> Element Accessible Name Calculation</h4>
+      <h4><code>img</code> Element Accessible Name Computation</h4>
       <ol>
         <li>If the <code>img</code> element  has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use <code>alt</code> attribute</li>
@@ -6284,7 +6284,7 @@
       <p class="note">If the <code>img</code> element is exposed in the <a class="termref">accessibility tree</a> and the computed text alternative is empty, then check for the presence of <code>role="presentation"</code> or any labeling attribute that specifies an empty label, specifically <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a>, <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a>, <code>alt</code> or <code>title</code>. The presence of any of these indicates the author's intention to indicate that the <code>img</code> is decorative or redundant. In this case, the user agent <strong class="rfc2119">must</strong> set the name to an empty string. If none of these attributes are present, this indicates the author simply did not provide an accessible label for the image, and the implementation <strong class="rfc2119">must</strong> return an <a class="termref">accessible name</a> of NULL instead of an empty string if the <a class="termref">accessibility API</a> supports it. This hints to the <a class="termref" data-lt="Assistive Technologies">assistive technology</a> to do its own heuristic processing to repair the missing <a class="termref">accessible name</a>.</p>
       </section>
       <section>
-      <h4><code>img</code> Element Accessible Description Calculation</h4>
+      <h4><code>img</code> Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6295,7 +6295,7 @@
     <section>
       <h3><code>table</code> Element</h3>
       <section>
-      <h4><code>table</code> Element Accessible Name Calculation</h4>
+      <h4><code>table</code> Element Accessible Name Computation</h4>
       <ol>
         <li>If the table element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>. </li>
         <li>Otherwise use  <code>caption</code> element</li>
@@ -6304,7 +6304,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>table</code> Element Accessible Description Calculation</h4>
+      <h4><code>table</code> Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>caption</code> element if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6316,7 +6316,7 @@
 <section>
   <h3><code>a</code> Element</h3>
   <section>
-  <h4><code>a</code> Element Accessible Name Calculation</h4>
+  <h4><code>a</code> Element Accessible Name Computation</h4>
       <ol>
         <li>
          If the <code>a</code> element  has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.
@@ -6327,7 +6327,7 @@
       </ol>
       </section>
       <section>
-      <h4><code>a</code> Element Accessible Description Calculation</h4>
+      <h4><code>a</code> Element Accessible Description Computation</h4>
   <ol>
     <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
     <li>Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6338,7 +6338,7 @@
   <section>
       <h3><code>iframe</code> Element</h3>
       <section>
-        <h4><code>iframe</code> Element Accessible Name Calculation</h4>
+        <h4><code>iframe</code> Element Accessible Name Computation</h4>
         <ol>
             <li>If the element  has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
             <li>Otherwise use the <code>title</code> attribute</li>
@@ -6347,7 +6347,7 @@
         <div class="note"><div class="note-title marker" id="xxx" role="heading" aria-level="5"></div><p>The document referenced by the <code>src</code> of the <code>iframe</code> element gets its name from that document's <code>title</code> element, like any other document. If there is no <code>title</code> provided, there is no accessible name. </p></div>
       </section>
       <section>
-      <h4><code>iframe</code> Element Accessible Description Calculation</h4>
+      <h4><code>iframe</code> Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6358,7 +6358,7 @@
     <section>
       <h3><a href="http://www.w3.org/TR/html51/semantics.html#sections">Section</a> Elements and <a href="http://www.w3.org/TR/html51/semantics.html#grouping-content">Grouping Content</a> Elements Not listed Elsewhere</h3>
       <section>
-      <h4>Section and Grouping Element Accessible Name Calculation</h4>
+      <h4>Section and Grouping Element Accessible Name Computation</h4>
       <ol>
         <li>If the element  has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the <code>title</code> attribute</li>
@@ -6366,7 +6366,7 @@
       </ol>
       </section>
       <section>
-      <h4>Section and Grouping Element Accessible Description Calculation</h4>
+      <h4>Section and Grouping Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
@@ -6378,7 +6378,7 @@
       <h3>Text Level Elements Not listed Elsewhere</h3>
       <p><a href="http://www.w3.org/TR/html51/semantics.html#the-em-element"><code>em</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-strong-element"><code>strong</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-small-element"><code>small</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-s-element"><code>s</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-cite-element"><code>cite</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-q-element"><code>q</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-dfn-element"><code>dfn</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-abbr-element"><code>abbr</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-time-element"><code>time</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-code-element"><code>code</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-var-element"><code>var</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-samp-element"><code>samp</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-kbd-element"><code>kbd</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-sub-and-sup-elements"><code>sub</code> and <code>sup</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-i-element"><code>i</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-b-element"><code>b</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-u-element"><code>u</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-mark-element"><code>mark</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-ruby-element"><code>ruby</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-rt-element"><code>rt</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-rp-element"><code>rp</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-bdi-element"><code>bdi</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-bdo-element"><code>bdo</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-br-element"><code>br</code></a>, <a href="http://www.w3.org/TR/html51/semantics.html#the-wbr-element"><code>wbr</code></a>      </p>
       <section>
-      <h4>Text Level Element Accessible Name Calculation</h4>
+      <h4>Text Level Element Accessible Name Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a> or an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li>Otherwise use the text element's subtree</li>
@@ -6387,7 +6387,7 @@
       </ol>
       </section>
       <section>
-      <h4>Text Level Element Accessible Description Calculation</h4>
+      <h4>Text Level Element Accessible Description Computation</h4>
       <ol>
         <li>If the element has an <a href="http://www.w3.org/TR/wai-aria-1.1/#aria-describedby"><code>aria-describedby</code></a> attribute the <a class="termref">accessible description</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.</li>
         <li> Otherwise use the <code>title</code> attribute if it wasn't used as the <a class="termref">accessible name</a></li>
