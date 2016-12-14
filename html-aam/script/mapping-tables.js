@@ -1,7 +1,13 @@
 /* globals $, require */
+if (typeof respecEvents !== "undefined") {
+		require(["core/pubsubhub"], mapTables(respecEvents));
+} else {
+		$(document).ready(mapTables(false));
+	}
 
-require(["core/pubsubhub"], function(respecEvents) {
-    "use strict";
+function mapTables(respecEvents) {
+  
+  "use strict";
 
 	var mappingTableInfos = [];
 
@@ -251,4 +257,4 @@ require(["core/pubsubhub"], function(respecEvents) {
 	} else {
 		$(document).ready(mappingTables);
 	}
-});
+}
