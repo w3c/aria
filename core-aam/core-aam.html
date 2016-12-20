@@ -195,7 +195,7 @@ var mappingTableLabels = {
             <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
             <li><cite><a href="https://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]</li>
 			<li><cite>Linux/GNOME <a href="https://developer.gnome.org/atk/stable/">ATK - Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI"</li>
-			<li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
+			<li><cite><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html">macOS Accessibility Protocol</a></cite> [[AXAPI]]</li>
 		</ul>
     <p>The <cite><a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a></cite> included mappings for <cite><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx">UIA Express</a>, also known as  IAccessibleEx</cite>, which was implemented in Microsoft Internet Explorer 8.0 - 11. New implementations are strongly encouraged to use <cite><a href="https://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> instead.</p>
 		<p>If user agent developers need to expose information using other accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, it is recommended that they work closely with the developer of the platform where the <abbr title="application programming interface">API</abbr> runs, and assistive technology developers on that platform.</p>
@@ -209,7 +209,7 @@ var mappingTableLabels = {
       <p>For various technological and historical reasons, accessibility APIs do not all work in the same way. In many cases, there is no simple one-to-one relationship between how each of them names or exposes roles, states, and properties to user agents. The following subsections describe a few of the distinguising characteristics of some of the APIs.</p>
       <section>
         <h5>ATK/AT-SPI</h5>
-        <p>MSAA, IAccessible2, UIA, and AXAPI each define an API that is shared by both the software application exposing information about its content and interactive components, and the user agent (assistive technology) consuming that information. Conversely, Linux/GNOME separates that shared interface into its two aspects, each represented by a different accessibility API, ATK or AT-SPI.</p>
+        <p>MSAA, IAccessible2, UIA, and AX API each define an API that is shared by both the software application exposing information about its content and interactive components, and the user agent (assistive technology) consuming that information. Conversely, Linux/GNOME separates that shared interface into its two aspects, each represented by a different accessibility API, ATK or AT-SPI.</p>
         <p>ATK defines an interface that is implemented by software in order to expose accessibility information, whereas AT-SPI is a desktop service that gathers accessibility information from active applications and relays it to other interested applications, usually assistive technologies.</p>
         <p>For example, the GNOME GUI toolkit [GTK], implements the relevant aspects of ATK for each widget (menu, comobox, checkbox, etc.) in order that GTK widgets expose accessibility information about themselves. AT-SPI then acquires the information from applications built with GTK and makes it available to interested parties.</p>
         <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers. In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK. Asisstive Technologies are consumers, and use AT-SPI.</p>
@@ -225,7 +225,7 @@ var mappingTableLabels = {
         <p>For instance, in MSAA, all <a class="termref">accessible objects</a> support the <code>accName</code> property, which stores the object's <a class="termref">accessible name</a>. Where the object also supports having an <a class="termref">accessible description</a>, MSAA stores this property in the object's <code>accDescription</code> property.</p>
         <p>Software using ATK can read and write to an object's <code>accessible-name</code> and <code>accessible-description</code> properties. In turn, AT-SPI can query the values of those properties through its <code>atspi_accessible_get_name</code> and <code>atspi_accessible_get_description</code> functions.</p>
         <p>Automation elements in the UIA accessibility tree have a <code>Name</code> property. Where the object also supports having an <a class="termref">accessible description</a>, UIA stores this property in the object's <code>FullDescription</code> property.</p>
-        <p>The approach to <a class="termref">accessible names</a> and <a class="termref" data-lt="accessible description">accessible descriptions</a> in AXAPI is somewhat different to the other platform APIs. <a class="termref">Accessible names</a> are exposed using the <code>AXTitle</code> property when the name is visually rendered, while the <code>AXDescription</code> property is used when the object's name is not rendered visually. An object's <a class="termref">accessible description</a>, where provided, should always be exposed in the <code>AXHelp</code> property.</p>
+        <p>The approach to <a class="termref">accessible names</a> and <a class="termref" data-lt="accessible description">accessible descriptions</a> in AX API is somewhat different to the other platform APIs. <a class="termref">Accessible names</a> are exposed using the <code>AXTitle</code> property when the name is visually rendered, while the <code>AXDescription</code> property is used when the object's name is not rendered visually. An object's <a class="termref">accessible description</a>, where provided, should always be exposed in the <code>AXHelp</code> property.</p>
         <p>For more detail, see the <a class="accname" href="">Accessible Name and Description Computation and API Mappings</a> specification.</p>
       </section>
     </section>
@@ -265,7 +265,7 @@ var mappingTableLabels = {
     <th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
     <th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
     <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
-    <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+    <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
   </tr>
   <tr>
     <th>Focusable state</th>
@@ -355,7 +355,7 @@ var mappingTableLabels = {
 		  <li>MSAA: <code>accSelect(SELFLAG_TAKEFOCUS)</code></li>
 		  <li>UIA: <code>RaiseAutomationEvent</code></li>
 		  <li>ATK/AT-SPI: <code>AtkComponent::grab_focus</code></li>
-		  <li><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr>: Notification: <code>AXFocusedUIElementChanged</code></li>
+		  <li><abbr title="macOS Accessibility Protocol">AX API</abbr>: Notification: <code>AXFocusedUIElementChanged</code></li>
 	  </ul>
     <p class="note">Refer to the <a href="#focus_state_event_table">Table of accessibility <abbr title="Application Programming Interfaces">APIs</abbr> for focus states and events</a> for the rules in this section.</p>
     <p>When an assistive technology requests a change of focus using one of the above <abbr title="Application Programming Interfaces">APIs</abbr>, user agents MUST do the following:</p>  
@@ -493,7 +493,7 @@ var mappingTableLabels = {
 					<th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
 					<th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
                     <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
-					<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup></th>
+					<th><abbr title="macOS Accessibility Protocol">AX API</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup></th>
 				</tr>
 			</thead>
             <tbody>
@@ -1674,7 +1674,7 @@ var mappingTableLabels = {
                   <th>MSAA + IAccessible2 </th>
                   <th><abbr title="User Interface Automation">UIA</abbr></th>
                   <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-                  <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+                  <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 </tr>
               </thead>
               <tbody>
@@ -2754,7 +2754,7 @@ var mappingTableLabels = {
             <li>IAccessible2: If an <abbr title="Assistive Technology">AT</abbr> calls the <code>IAccessibleAction</code> on an accessible object, the  user agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to that  accessible object.</li>
             <li>UIA Automation: If an <abbr title="Assistive Technology">AT</abbr> calls any <abbr title="User Interface Automation">UIA</abbr> pattern method on an accessible object, the  user agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to that  accessible object.</li>
             <li><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr>: If an <abbr title="Assistive Technology">AT</abbr> calls an action on an accessible object, the user agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to  that accessible object.</li>
-            <li><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr>: If an <abbr title="Assistive Technology">AT</abbr> triggers an <code>AXPress</code> action on an accessible object, the user   agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to that   accessible object.</li>
+            <li><abbr title="macOS Accessibility Protocol">AX API</abbr>: If an <abbr title="Assistive Technology">AT</abbr> triggers an <code>AXPress</code> action on an accessible object, the user   agent SHOULD simulate a click on the <abbr title="Document Object Model">DOM</abbr> element which is mapped to that   accessible object.</li>
           </ul>
       <p class="note">Authors will need to create handlers for those click events that update  <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties in the <abbr title="Document Object Model">DOM</abbr> accordingly, so that those updated states  can be populated by the user agent in the Accessibility <abbr title="Application Programming Interface">API</abbr>.</p>
   </section>
@@ -2777,7 +2777,7 @@ var mappingTableLabels = {
               <th>MSAA + IAccessible2 event </th>
               <th><abbr title="User Interface Automation">UIA</abbr> event</th>
               <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr> event</th>
-              <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr> Notification</th>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
             </tr>
           </thead>
           <tbody>
@@ -2929,7 +2929,7 @@ var mappingTableLabels = {
               <th>MSAA + IAccessible2 event </th>
               <th><abbr title="User Interface Automation">UIA</abbr> event</th>
               <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr> event</th>
-              <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr> Notification</th>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
             </tr>
             <tr>
               <th>When text is removed</th>
@@ -2963,7 +2963,7 @@ var mappingTableLabels = {
               <th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
               <th>Microsoft <abbr title="User Interface Automation">UIA</abbr> event</th>
               <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr> event</th>
-              <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr> Notification</th>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
             </tr>
             <tr>
               <th>When an <a class="termref">accessibility subtree</a> is <a class="termref">hidden</a></th>
@@ -3020,7 +3020,7 @@ var mappingTableLabels = {
           </tbody>
         </table>
 	  <p>In some cases, node changes may occur where the node is not an element or has no accessible object. For example, a numbered list bullet ("12.") may have a node in the accessibility tree but not in the <abbr title="Document Object Model">DOM</abbr> tree. For text within a paragraph marked in <abbr title="Hypertext Markup Language">HTML</abbr> as <code>&lt;strong&gt;</code>, the  <code>&lt;strong&gt;</code> element has a node in the  <abbr title="Document Object Model">DOM</abbr> tree but may not have one in the accessibility tree. The text itself will of course be in the accessibility tree along with the identification of the range of text that is formatted as strong. If any of the changes described in the table above occur on such a node, user agents SHOULD compute and fire relevant text change events as described above. </p>
-    <p>User agents SHOULD ensure that an assistive technology, running in process can receive notification of a node being removed prior to removal. This allows an assistive technology, such as a screen reader, to refer back to the corresponding <abbr title="Document Object Model">DOM</abbr> node being deleted. This is important for <a class="termref">live regions</a> where removals are important. For example, a screen reader would want to notify a user that another user has left a chat room. The event in <abbr title="Microsoft Active Accessibility">MSAA</abbr> would be<code> EVENT_OBJECT_HIDE</code>. For <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> this would be <code>children_changed::remove</code>. And in Mac OS X, the event is <code>AXLiveRegionChanged</code>. This also requires the user agent to provide a unique ID in the <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interface">API</abbr></a> notification identifying the unique node being removed.</p>
+    <p>User agents SHOULD ensure that an assistive technology, running in process can receive notification of a node being removed prior to removal. This allows an assistive technology, such as a screen reader, to refer back to the corresponding <abbr title="Document Object Model">DOM</abbr> node being deleted. This is important for <a class="termref">live regions</a> where removals are important. For example, a screen reader would want to notify a user that another user has left a chat room. The event in <abbr title="Microsoft Active Accessibility">MSAA</abbr> would be<code> EVENT_OBJECT_HIDE</code>. For <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> this would be <code>children_changed::remove</code>. And in macOS, the event is <code>AXLiveRegionChanged</code>. This also requires the user agent to provide a unique ID in the <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interface">API</abbr></a> notification identifying the unique node being removed.</p>
 		<p>When firing any of the above-mentioned change events, it is very  useful to provide information about whether the change was caused by  user input (as opposed to a timeout initiated from the page load,  etc.). This allows the assistive technology to have different rules for presenting  changes from the real world as opposed to from user action. Mouse  hovers are not considered explicit user input because they can occur  from accidental bumps of the mouse.</p>
 	  <p>To expose whether a change occurred from user input:</p>
 		<ul>
@@ -3054,7 +3054,7 @@ var mappingTableLabels = {
 					<th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
 					<th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
 					<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
-					<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+					<th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
 				</tr>
 				<tr>
 					<th>Focus change</th>
@@ -3090,7 +3090,7 @@ var mappingTableLabels = {
 					<th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
 					<th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
 					<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
-					<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+					<th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
 				</tr>
 				<tr>
 					<th>Toggle <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a></th>
@@ -3157,7 +3157,7 @@ var mappingTableLabels = {
 					<th>Scenario</th>
 					<th><abbr title="Microsoft Active Accessibility">MSAA</abbr></th>
           <th>Microsoft <abbr title="User Interface Automation">UIA</abbr></th>
-          <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+          <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
         </tr>
 				<tr>
 					<td><p>Menubar is currently not active, and user moves focus to the menubar from elsewhere thereby activating it.  As a result, a menuitem in the menubar is focused.  </p></td>
@@ -3382,17 +3382,17 @@ var mappingTableLabels = {
 				<li>12-Sep-2016: Added RELATION_POPUP_FOR to ATK/AT-SPI mappings of aria-haspopup, for ARIA 1.1.</li>
 				<li>08-Sep-2016: Added figure role, term role, feed role, aria-colspan, and aria-rowspan mappings. Updated table properties for row and column for MSAA/IA2 and ATK/AT-SPI.  Added MSAA+IA2 and ATK/AT-SPI mappings of aria-details and aria-errormessage.</li>
 				<li>08-Aug-2016: Modified ATK/AT-SPI mappings of aria-readonly.</li>
-				<li>04-Jul-2016: Added AXAPI mapping for aria-keyshortcuts.</li>
+				<li>04-Jul-2016: Added AX API mapping for aria-keyshortcuts.</li>
 				<li>27-Jun-2016: For MSAA+IA2, UIA, and ATK/AT-SPI, modified mappings of role="separator" when it is a window splitter.</li>
 				<li>27-Jun-2016: Added ATK/AT-SPI mapping for aria-keyshortcuts.</li>
 				<li>08-Jun-2016: Removed role text.</li>
 				<li>06-Jun-2016: Added MSAA+IA2, UIA, and ATK/AT-SPI mappings for the new values of aria-haspopup added for ARIA 1.1.</li>
 				<li>03-Jun-2016: Added MSAA+IA2 mapping of aria-keyshortcuts.</li>
 				<li>20-May-2016: Added UIA mapping of aria-keyshortcuts.</li>
-				<li>05-May-2016: Updated AXAPI mapping of role region to reflect its inheritance from the landmark role.</li>
+				<li>05-May-2016: Updated AX API mapping of role region to reflect its inheritance from the landmark role.</li>
 				<li>02-May-2016: Modified MSAA+IA2 and ATK/AT-SPI mappings of 'form' role to use IA2_ROLE_LANDMARK and ROLE_LANDMARK, respectively, plus the xml-roles object attribute set to 'form'.</li>
-				<li>11-Apr-2016: Added AXAPI mappings for aria-modal="true" and aria-modal="false".</li>
-				<li>11-Apr-2016: For role="application", replaced AXAPI subrole AXLandmarkAppliction with AXWebAppliction, and role description 'application' with 'web application'.</li>
+				<li>11-Apr-2016: Added AX API mappings for aria-modal="true" and aria-modal="false".</li>
+				<li>11-Apr-2016: For role="application", replaced AX API subrole AXLandmarkAppliction with AXWebAppliction, and role description 'application' with 'web application'.</li>
 				<li>04-Apr-2016: Added new UIA FullDescription property for mapping aria-describedby.</li>
 				<li>06-May-2016: Added changes for revised values for aria-haspopup for ATK/AT-SPI and MSAA+IA2 along with error handling </li>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
@@ -3406,7 +3406,7 @@ var mappingTableLabels = {
 				<li>07-Mar-2016: Updated all UIA mappings for landmark roles to include Landmark Type and Localized Landmark Type.</li>
 				<li>22-Feb-2016: IA2 mapping of role="text" changed to ROLE_SYSTEM_STATICTEXT from IA2_TEXT_FRAME.</li>
 				<li>02-Feb-2016: Modified UIA mapping of main role to include a Landmark Type and a Localized Landmark Type.  Added UIA mapping for aria-errormessage.</li>
-				<li>25-Jan-2016: Added AXAPI mappings for aria-current.</li>
+				<li>25-Jan-2016: Added AX API mappings for aria-current.</li>
 				<li>15-Jan-2016: Added UIA mappings for aria-current.</li>
 				<li>11-Jan-2016: Modified UIA mapping for roles article and application.  Finalized IA2 mapping of aria-current.</li>
 				<li>03-Jan-2016: Added UIA mappings for aria-colindex and aria-rowindex.  Added placeholders for the other AAPIs.</li>
@@ -3415,7 +3415,7 @@ var mappingTableLabels = {
 				<li>28-Sep-2015: Added IA2 mapping of role="text".</li>
 				<li>28-Sep-2015: Removed all MSAA+UIA Express mappings.</li>
 				<li>24-Aug-2015: Modified mappings of region role in light of its new status as a landmark.</li>
-				<li>18-Aug-2015: Added mappings of aria-roledescription for MSAA+IA2, UIA, ATK/AT-SPI and AXAPI.</li>
+				<li>18-Aug-2015: Added mappings of aria-roledescription for MSAA+IA2, UIA, ATK/AT-SPI and AX API.</li>
 				<li>31-Jul-2015: Finalized all mappings of aria-placeholder.</li>
 				<li>02-Jul-2015: Modified default values for missing required attributes table for aria-level with heading role, aria-checked with switch, and aria-valuemin, aria-valuemax, and aria-valuenow with scrollbar, slider, and spinbutton.</li>
 				<li>02-Jul-2015: Added special case of switch role to mappings of aria-checked="mixed" and undefined aria-checked.</li>
@@ -3425,7 +3425,7 @@ var mappingTableLabels = {
 				<li>02-Jun-2015: Modified ATK/AT-SPI and UIA mappings of presentation / none roles for required owned descendants.</li>
 				<li>02-Jun-2015: MSAA+UIA Express and UIA mappings for aria-placeholder.</li>
 				<li>28-Apr-2015: ATK/AT-SPI mappings for aria-placeholder.</li>
-				<li>31-Mar-2015: AXAPI mappings for aria-owns.</li>
+				<li>31-Mar-2015: AX API mappings for aria-owns.</li>
 				<li>11-Mar-2015: Mappings for searchbox.</li>
 				<li>04-Mar-2015: Additional mappings for switch.</li>
 				<li>23-Feb-2015: Mappings for presentation / none.</li>
@@ -3440,9 +3440,9 @@ var mappingTableLabels = {
 				<li>29-Aug-2014: Modified mappings of grid role to differentiate a grid from a table.</li>
 				<li>05-Jun-2014: Modified ATK/AT-SPI mappings for article, checkbox, menuitemcheckbox, menuitemradio, and aria-checked. </li>
 				<li>30-May-2014: Modified ATK/AT-SPI mappings for focus event, banner, listbox, log, marquee, math, navigation, note, radiogroup, row, timer, and treeitem.</li>
-				<li>21-May-2014: Added additional AXAPI mapping for aria-busy.</li>
+				<li>21-May-2014: Added additional AX API mapping for aria-busy.</li>
 				<li>15-May-2014: Provided  IA2 and ATK/AT-SPI mappings of aria-pressed and tablist.</li>
-				<li>15-May-2014: Change AXAPI mapping for aria-busy.</li>
+				<li>15-May-2014: Change AX API mapping for aria-busy.</li>
 				<li>25-March-2014: Added text to Group Position section about computing implicit level information for a tree.</li>
 				<li>24-March-2014: Updated mapping of aria-hidden=true to indicate that user agents should not expose unless the accessible object is focused or fires an accessibility event.</li>
 				<li>21-March-2014: Added back UIA columns to all mapping tables that were removed after the 1.0 Candidate Recommendation.</li>
