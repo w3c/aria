@@ -43,8 +43,8 @@ var biblio = {
 	},
 	// Custom reference for the Mac OSX Accessibility API
 	"AXAPI": {
-		"href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
-		"title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
+		"href": "https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/index.html#//apple_ref/doc/uid/TP40001078",
+		"title": "Accessibility Programming Guide for OS X",
 		"publisher": "Apple Corporation"
 	},
 	"CORE-AAM": {
