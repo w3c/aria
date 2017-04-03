@@ -382,10 +382,10 @@ var mappingTableLabels = {
         <p>A DOM element is included if it has semantic significance.  As a first approximation, it is significant if it has an explicit or implicit <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">role</a>, <a class="termref">state</a>, or <a class="termref">property</a>, is focusable or interactive, or bears a relationship with some other element (e.g., controller-for).  It is not semantically significant if it is purely presentational, or is not rendered in any medium.  The details and exceptions are described below, but a procedure that provides the gist of how to build the accessibility tree is as follows:</p>
 
         <ol>
-          <li>Include elements based on host language rules.  These rules are docmented in the host language mapping specification for those elements.</li>
+          <li>Include elements based on host language rules.  These rules are documented in the host language mapping specification for those elements.</li>
           <li>Include elements with WAI-ARIA roles and other WAI-ARIA attributes.</li>
           <li>Exclude hidden elements and their descendants.</li>
-          <li>Exclude presentational elements, but include their descendants and their textual content.
+          <li>Exclude presentational elements, but include their descendants where presentation is not inherited, and include their textual content.
             <ul>
               <li>In some cases, the <code>presentation</code>/<code>none</code> role is inherited and the descendants are excluded.</li>
             </ul>
@@ -393,7 +393,7 @@ var mappingTableLabels = {
           <li>Include, and possibly add back focusable or otherwise interactive elements.
             <ul>
               <li>For example, an element marked with both <code>role="presentation"</code> and <code>tabindex="0"</code> is focusable.  The presentation role is ignored, and the element is included.</li>
-              <li>On the other hand, an HTML element with CSS <code>display:none</code> is not focusable even if it has <code>tabindex="0"</code> since there is nothing rendered on screen to focus, and users cannot interact with the element. The tabindex attribute is ignored, and the element is excluded.</li>
+              <li>In instances where the host language elements support CSS <code>display:none</code>, the element is not focusable even if it has <code>tabindex="0"</code> since there is nothing rendered on screen to focus, and users cannot interact with the element. The tabindex attribute is ignored, and the element is excluded.</li>
             </ul>
           </li>
         </ol>
@@ -433,10 +433,13 @@ var mappingTableLabels = {
         <ul>
           <li>Text elements</li>
           <li>Elements that may fire an <a class="termref">accessibility <abbr title="Application Program Interface">API</abbr></a> <a class="termref">event</a>.  Accessibility API events are documented in the <a href="#mapping_events">Events</a> section.</li>
-          <li>Elements that are focusable, or have an ID <a class="termref">attribute</a> and an ancestor with the <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> attribute that matches the implicit or explicit <a class="termref">semantics</a> of the required context role. In either case, the element may receive focus and need to fire a<code> FOCUS </code>event.</li>
+          <li>Elements that are focusable, or have an ID <a class="termref">attribute</a> and an ancestor with the <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a> attribute that matches the implicit or explicit <a class="termref">semantics</a> of the required context role. In either case, the element may receive focus and may fire an <a class="termref">accessibility <abbr title="Application Program Interface">API</abbr></a> <a href="#focus_state_event_table"><code>FOCUS</code> event</a>.</li>
           <li>Elements that have a mappable role in the role attribute string (see <a href="#mapping_role">Role Mapping</a> below). </li>
           <li>Elements that have a global <abbr title="Accessible Rich Internet Application">WAI-ARIA attribute </abbr> but do not have <a class="property-reference" href="#aria-hidden"><code>aria-hidden</code></a><code>=&quot;true&quot;</code>. (See  <a href="#exclude_elements2">Excluding Elements in the Accessibility Tree</a> for additional guidance on <code>aria-hidden</code>.)</li>
-          <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation (<a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>, <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>, <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> or <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>) and are not <a class="termref">hidden</a>.
+          <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation and are not <a class="termref">hidden</a>.
+            <ul>
+              <li>WAI-ARIA relations include <a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>, <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>, <a class="property-reference" href="#aria-details"><code>aria-details</code></a>, <a class="property-reference" href="#aria-errormessage"><code>aria-errormessage</code></a>, <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>, <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a> and <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>.</li>
+            </ul>
             <p class="note">Text equivalents for hidden referenced objects may still be used in the <a href="#mapping_additional_nd">name and description calculation</a> even when not included in the accessibility tree. </p>
           </li>
         </ul>
