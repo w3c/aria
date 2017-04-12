@@ -214,9 +214,24 @@ var mappingTableLabels = {
         <p>ATK is most relevant to implementors, wherease AT-SPI is relevant to consumers. In the context of mapping WAI-ARIA roles, states and properties, user agents are implementors and use ATK. Asisstive Technologies are consumers, and use AT-SPI.</p>
       </section>
       <section>
-        <h5>UIA</h5>
-        <p>Central to UI Automation is the concept of Control Patterns. Control Patterns allow the description of common kinds of UI element behavior. These behaviors can be grouped together to express new types of UI controls. For example, the <code>TreeItem</code> Control Type is required to support the <code>ExpandCollapse</code> Pattern, because expanding and collapsing is what defines a tree item. Tree items can optionally have other behaviors. A developer creating a <code>TreeItem</code> Control can also choose to implement the <code>Invoke</code> Control Pattern if the tree item can perform a command, <code>ScrollItem</code> Control Pattern if the tree is scrollable, and the <code>SelectionItem</code> Control Pattern if it is possible to have an active selection that is maintained when the user returns to the tree container.</p>
-        <p>ARIA 1.x does not directly support Control Patterns, but many of the UIA mappings in the AAM documents combine Control Patterns to express web interaction concepts that are not Control Types in UIA.</p>
+        <h5>UIA (UI Automation)</h5>
+      	<p>UI Automation expresses every element of application user interface as an automation element. Automation elements form application accessibility tree, that can be queried, traversed and interacted with by automation clients.</p>
+      	<p>There are several concepts central to UI Automation:</p>
+	<ul>
+		<li>Automation element - controls and some application content is presented as automation elements.</li>
+		<li>Element properties - Automation elements have several common properties describing native framework element characteristics in agnostic way that all automation clients can understand. There are several ways to access element property values, described below.</li>
+		<li>Control Patterns - Some common interactivity in different frameworks is expressed as control patterns in UIA, allowing different automation client to interact with controls using common programmatic interfaces.</li>
+		<li>Events - Similarly to other accessibility APIs, automation elements support various events that allow automation providers notify clients on important state changes.</li>
+      	</ul>
+      	<p>All automation elements inherit from <code>IUIAutomationElement</code> interface and all properties that are not specific to particular control pattern can be queried through that interface. There are several ways to access UI Automation element properties:</p>
+	<ul>
+		<li>Direct property accessors to the current values - <code>Current{PropertyName}</code>, e.g. <code>IUIAutomationElement::CurrentName</code> for the <code>Name</code> property</li>
+		<li>Cached property accessors - <code>Cached{PropertyName}</code>, e.g. <code>IUIAutomationElement::CachedName</code> for the <code>Name</code> property. Using cached values is preferred when providers and clients are used in remote environments.</li>
+		<li><code>GetCurrentPropertyValue</code> and passing UIA Property ID enumeration value corresponding to that property to get current value, e.g. <code>IUIAutomationElement::GetCurrentPropertyValue(UIA_NamePropertyId)</code> for the <code>Name</code> property.</li>
+		<li><code>GetCachedPropertyValue</code> and passing UIA Property ID enumeration value corresponding to that property to get cached value, e.g. <code>IUIAutomationElement::GetCachedPropertyValue(UIA_NamePropertyId)</code> for the <code>Name</code> property.
+      	</ul>
+	<p>Properties for specific UIA control patterns are queried the same way using relevant control pattern interfaces. Taking Toggle Pattern as an example, to query ToggleState property clients can use IUIAutomationTogglePattern::CurrentToggleState or IUIAutomationTogglePattern::GetCurrentPropertyValue(UIA_ToggleToggleStatePropertyId) to get the current value.</p>
+      	<p>Note: The property mapping in this specification provide the <code>{PropertyName}</code> and don't specify all specific ways to access the property value. Automation clients can access current or cached values using conventions described above, depending on specific needs and coding style conventions.</p>
       </section>
       <section>
         <h5>Accessible Names and Descriptions</h5>
