@@ -46,6 +46,14 @@
     // editors, add as many as you like
     // only "name" is required
     editors:  [
+		{
+			name: "Joanmarie Diggs",
+			url: 'http://www.igalia.com',
+			mailto: "jdiggs@igalia.com",
+			company: "Igalia, S.L.",
+			companyURI: "http://www.igalia.com",
+			w3cid: 68182
+		},
         { name: "Joseph Scheuhammer",
           company: "Inclusive Design Research Centre, OCAD University",
           companyURI:"http://idrc.ocad.ca",
@@ -133,7 +141,7 @@
 </section>
 <section id="sotd">
 </section>
-<section id="intro">
+<section id="intro" class="informative">
 	<h2>Introduction</h2>
       <p>This section is <a class="termref">informative</a>.</p>
       <p><a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>.  An accessible object provides information about its <a class="termref">role</a>, <a class="termref">states</a>, and <a class="termref">properties</a>.  An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu.  </p>
@@ -142,21 +150,27 @@
       <p><a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>      
       <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref">accessible objects</a> as exposed by <a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".</p>
 </section>
-<section id="normative" class="normative">
-	<h2>Normative User Agent Implementation Requirements for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></h2>
-	<p>This section is <a class="termref">normative</a>.</p>
-	<p>This specification indicates whether a section is <a class="termref">normative</a> or <a class="termref">informative</a> and the classification applies to the entire section. A statement "This section is normative" or "This section is informative" applies to all sub-sections of that section.</p>
-	<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, RECOMMENDED, MAY, and OPTIONAL in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
-	<p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+<section id="conformance">
+<section>
+<h3>RFC-2119 Keywords</h3>
+<p>RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
+</section>
+<section>
+<h3>Normative and Informative Sections</h3>
+<p>The indication whether a section is <a class="termref">normative</a> or <a class="termref">non-normative</a> (informative) applies to the entire section including sub-sections.</p>
+<p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+</section>
+<section>
+<h3>Features Deprecated in WAI-ARIA</h3>
+<p>The WAI-ARIA specification <a href="#deprecated" class="specref">lists some features as deprecated</a>. Although this means authors are encouraged not to use such features, it is expected that the features could still be used in legacy content. Therefore, it is important that user agents continue to map these features to accessibility APIs, and doing so is part of conformance to this specification. When future versions of the WAI-ARIA specification change such features from deprecated to removed, they will be removed from the mappings as well and user agents will no longer be asked to continue support for those features.</p>
+</section>
 </section>
 <section id="glossary">
   <h2>Important Terms</h2>
-  <p>This section is <a class="termref">normative</a>.</p>
   <div data-include="../common/terms.html" data-oninclude="restrictReferences"></div>
 </section>
 <section id="mapping_additional_nd" class="normative">
   <h2>Name and Description</h2>
-  <p>This section is <a class="termref">normative</a>.</p>
   <p>The starting point of the name and description computation is a <abbr title="Document Object Model">DOM</abbr> <a class="termref">element</a>.  The output is a flat, unstructured string that can be as simple as a single word, or a string of space-separated tokens.  Examples include <code>Save</code> and <code>Reload from disk</code>.</p>
   <p>An important factor is the <a class="termref">element</a>'s <a class="termref">role</a>, that determines which content contributes to the name string.  Roles have a <code>nameFrom</code> <abbr title="Resource Description Framework">RDF</abbr> property, with two possible values:  </p>
   <dl class="runin">
@@ -165,7 +179,7 @@
     <dt>contents</dt>
     <dd>name is generated from the <a class="termref" data-lt="text node">Text nodes</a> associated with the <a class="termref">element</a>. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">text alternative computation</a> algorithm.</dd>
   </dl>
-  <p>The <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.1</a></cite> [[!WAI-ARIA]] specification provides lists of roles that support <a class="specref" href="#namefromauthor">name from author</code></a> and <a class="specref" href="#namefromcontent">name from content</a>. </p>
+  <p>The <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.1</a></cite> [[!WAI-ARIA]] specification provides lists of roles that support <a class="specref" href="#namefromauthor">name from author</a> and <a class="specref" href="#namefromcontent">name from content</a>. </p>
   <section id="mapping_additional_nd_name">
     <h3>Name Computation</h3>
     <p><a class="termref">User agents</a> MUST compute an <a class="termref">accessible name</a> using the rules outlined below in the section titled <a href="#mapping_additional_nd_te">Text Alternative Computation</a>.</p>
@@ -236,8 +250,8 @@
             </li>
             <li id="step2B">Otherwise:
               <ul>
-                <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has a non-empty <code>aria-labelledby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
-                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has a non-empty <code>aria-describedby</code> <a class="termref">attribute</a>, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur: 
+                <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has an <code>aria-labelledby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
+                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur: 
                   <ol>
                     <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
                     <li id="step2B.ii">For each IDREF:
@@ -264,7 +278,7 @@
                 </pre>
               </details></div>
             </li>
-            <li id="step2C">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has a non-empty <code>aria-label</code> <a class="termref">attribute</a>:
+            <li id="step2C">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
@@ -479,4 +493,3 @@
 </section>
 </body>
 </html>
-
