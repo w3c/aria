@@ -35,12 +35,6 @@ var biblio = {
 			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
-	// Correct reference for ATK
-	"ATK": {
-		"href": "https://developer.gnome.org/atk/stable/",
-		"title": "ATK - Accessibility Toolkit",
-		"publisher": "The GNOME Project"
-	},
 	// Custom reference for the Mac OSX Accessibility API
 	"AXAPI": {
 		"href": "https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/index.html#//apple_ref/doc/uid/TP40001078",
