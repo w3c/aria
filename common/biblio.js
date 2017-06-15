@@ -35,12 +35,6 @@ var biblio = {
 			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
-	// Custom reference for the Mac OSX Accessibility API
-	"AXAPI": {
-		"href": "https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/index.html#//apple_ref/doc/uid/TP40001078",
-		"title": "Accessibility Programming Guide for OS X",
-		"publisher": "Apple Corporation"
-	},
 	"CORE-AAM": {
 		"title": "Core Accessibility API Mappings 1.1",
 		"href": "http://www.w3.org/TR/core-aam-1.1/",
