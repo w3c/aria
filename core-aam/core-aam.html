@@ -2489,7 +2489,12 @@ var mappingTableLabels = {
                 <tr id="ariaReadonlyTrue">
                   <th><a class="property-reference" href="#aria-readonly"><code>aria-readonly</code></a><code>=&quot;true&quot;</code></th>
                   <td><p>Expose as <code>STATE_SYSTEM_READONLY</code></p>
-                    <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>STATE_SYSTEM_READONLY</code>.</p></td>
+                      <p>[ARIA 1.1] For text input roles, including <a class="role-reference" href="#textbox">textbox</a> and <a class="role-reference" href="#searchbox">searchbox</a>:</p>
+                      <ul>
+                        <li>Clear <code>IA2_STATE_EDITABLE</code>.</li>
+                        <li>Do not implement the <code>IAccessibleEditableText</code> interface. Alternatively, user agents MAY return <code>S_FALSE</code> for all <code>IAccessibleEditableText</code> methods.</li>
+                      </ul>
+                      <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>STATE_SYSTEM_READONLY</code>.</p></td>
                   <td><p>Set <code>Value.IsReadOnly=&quot;true&quot;</code></p>
                     <p>For elements with <code>role='gridcell'</code>, and no <code>aria-readonly</code> property, the grid cell MUST inherit any author <code>aria-readonly='true'</code> property from the containing <code>grid</code> or <code>treegrid</code> and expose <code>Value.IsReadOnly=&quot;true&quot;</code>.</p></td>
                   <td><p>[ARIA 1.1]</p>
@@ -2509,7 +2514,7 @@ var mappingTableLabels = {
                 </tr>
                 <tr id="ariaReadonlyFalse">
                   <th><a class="property-reference" href="#aria-readonly"><code>aria-readonly</code></a><code>=&quot;false&quot;</code> (default)</th>
-                  <td>Expose <code>IA2_STATE_EDITABLE</code></td>
+                  <td><p>[ARIA 1.1] Clear <code>STATE_SYSTEM_READONLY</code>.</p></td>
                   <td>Set <code>Value.IsReadOnly=&quot;false&quot;</code></td>
                   <td><p>[ARIA 1.1] Clear <code>STATE_READ_ONLY</code>.</p></td>
                   <td>
@@ -3478,6 +3483,7 @@ var mappingTableLabels = {
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
+				<li>03-Aug-2017: Change mapping of aria-readonly="false" from exposing IA2_STATE_EDITABLE on textbox to clearing STATE_SYSTEM_READONLY. For aria-readonly="true", add statement that IA2_STATE_EDITABLE should be cleared and IAccessibleEditableText should not be implemented or should return S_FALSE for all methods.</li>
 				<li>02-Aug-2017: Replace STATE_LINKED with STATE_SYSTEM_LINKED for MSAA + IAccessible2 mapping of role link.</li>
 				<li>02-Aug-2017: Change mapping of aria-readonly="false" from exposing ATK_STATE_EDITABLE on textbox to clearing ATK_STATE_READ_ONLY. For aria-readonly="true", add statement that AtkEditableText should not be implemented, and that ATK_STATE_CHECKABLE not be exposed on roles which support aria-checked.</li>
 				<li>01-Aug-2017: Remove explicit "do not expose STATE_EDITABLE" for roles which are by definition not editable from the ATK mappings.</li>
