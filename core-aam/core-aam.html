@@ -545,9 +545,9 @@ var mappingTableLabels = {
 			<thead>
 				<tr>
 					<th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role</th>
-					<th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
-					<th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
-                    <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+					<th>MSAA + IAccessible2</th>
+					<th><abbr title="User Interface Automation">UIA</abbr></th>
+					<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
 					<th><abbr title="macOS Accessibility Protocol">AX API</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup></th>
 				</tr>
 			</thead>
@@ -556,8 +556,15 @@ var mappingTableLabels = {
 					<th><a class="role-reference" href="#alert"><code>alert</code></a></th>
 					<td><code>ROLE_SYSTEM_ALERT</code><br />
                         <p>The user agent SHOULD fire <code>EVENT_SYSTEM_ALERT</code> <sup>[<a href="#ftn.note2">Note 2</a>]</sup></p></td>
-                    <td><code>Text</code><br />
-                        <p>The user agent SHOULD fire a system alert <a class="termref">event</a>.<sup>[<a href="#ftn.note2">Note 2</a>]</sup></p></td>
+                    	<td>
+				<ul>
+					<li>Control Type is <code>Group</code></li>
+					<li>Localized Control Type is <code>alert</code></li>
+					<li><code>LiveSettingProperty = Assertive (2)</code>.</li>
+				</ul>
+					<br />
+                        		<p>The user agent SHOULD fire a system alert <a class="termref">event</a>.<sup>[<a href="#ftn.note2">Note 2</a>]</sup></p>
+			</td>
 					<td><code>ROLE_ALERT</code><br />
 			            <p>The user agent SHOULD fire a system alert event.<sup>[<a href="#ftn.note2">Note 2</a>]</sup></p></td>
 					<td>AXRole: <code>AXGroup</code><br />
@@ -630,25 +637,55 @@ var mappingTableLabels = {
 						AXRoleDescription: <code>'banner'</code></td>
 				</tr>
 				<tr id="role-map-button">
-					<th><a class="role-reference" href="#button"><code>button</code></a></th>
-					<td><code>ROLE_SYSTEM_PUSHBUTTON</code>
-                        <p>If <a class="property-reference" href="#aria-haspopup"><code>aria-haspopup</code></a><code>=&quot;true&quot;</code>, expose as <code>ROLE_SYSTEM_BUTTONMENU</code></p>
-                           If <a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a> is not <strong>undefined</strong>, expose as <code>IA2_ROLE_TOGGLE_BUTTON</code></td>
-					<td><code>Button</code></td>               
-                    <td><code>ROLE_PUSH_BUTTON</code>
-                        <p>If <a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a> is not <strong>undefined</strong>, expose as <code>ROLE_TOGGLE_BUTTON</code></p></td>
-					<td><p>If <a class="property-reference" href="#aria-pressed"><code>aria-pressed</code></a> is defined (true/false/mixed) use:</p>
-					    AXRole: <code>AXCheckBox</code><br />
-					    AXSubrole: <code>AXToggleButton</code><br />
-					    AXRoleDescription: <code>'toggle button'</code>
-					    <p>[Aria 1.1] Otherwise if <a class="property-reference" href="#aria-haspopup"><code>aria-haspopup</code></a> is not false use:</p>
-					    AXRole: <code>AXPopUpButton</code><br />
-					    AXSubrole: <code>&lt;nil&gt;</code><br />
-					    AXRoleDescription: <code>'pop up button'</code>
-					    <p>Otherwise use:</p>
-					    AXRole: <code>AXButton</code><br />
-					    AXSubrole: <code>&lt;nil&gt;</code><br />
-					    AXRoleDescription: <code>'button'</code>
+					<th><a class="role-reference" href="#button"><code>button</code></a> with default values for <a class="property-reference" href="#aria-pressed"><code>aria-pressed</code></a> and <a class="property-reference" href="#aria-haspopup"><code>aria-haspopup</code></a></th>
+					<td>
+						<code>ROLE_SYSTEM_PUSHBUTTON</code>
+					</td>
+					<td>
+						Control Type: <code>Button</code>
+					</td>
+					<td>
+						<code>ROLE_PUSH_BUTTON</code>
+					</td>
+					<td>
+						AXRole: <code>AXButton</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'button'</code>
+					</td>
+				</tr>
+				<tr id="role-map-button-haspopup">
+					<th><a class="role-reference" href="#button"><code>button</code></a> with non-<code>false</code> value for <code>aria-haspopup</code> [ARIA 1.1]</th>
+					<td>
+						<code>ROLE_SYSTEM_BUTTONMENU</code>
+					</td>
+					<td>
+						Control Type: <code>Button</code>
+					</td>
+					<td>
+						<code>ROLE_PUSH_BUTTON</code>
+					</td>
+					<td>
+						AXRole: <code>AXPopUpButton</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'pop up button'</code>
+					</td>
+				</tr>
+				<tr id="role-map-button-pressed">
+					<th><a class="role-reference" href="#button"><code>button</code></a> with defined value for <a class="property-reference" href="#aria-pressed"><code>aria-pressed</code></a></th>
+					<td>
+						<code>ROLE_SYSTEM_PUSHBUTTON</code><br />
+						<code>IA2_ROLE_TOGGLE_BUTTON</code>
+					</td>
+					<td>
+						Control Type: <code>Button</code>
+					</td>
+					<td>
+						<code>ROLE_TOGGLE_BUTTON</code>
+					</td>
+					<td>
+						AXRole: <code>AXCheckBox</code><br />
+						AXSubrole: <code>AXToggleButton</code><br />
+						AXRoleDescription: <code>'toggle button'</code>
 					</td>
 				</tr>
 				<tr id="role-map-cell">
@@ -661,9 +698,7 @@ var mappingTableLabels = {
 					</td>
                     <td>
                       <ul>
-                        <li>Control Type is <code>TableItem</code></li>
-                        <li>Supports the <code>selection</code> pattern</li>
-                        <li>MUST NOT support the <code>invoke</code> pattern</li>
+                        <li>Control Type is <code>DataItem</code></li>
                       </ul>
                     </td>
 					<td>
@@ -897,8 +932,7 @@ var mappingTableLabels = {
               AXRoleDescription: <code>'group'</code></td>
 				</tr>
 				<tr id="role-map-heading">
-					<th><a class="role-reference" href="#heading"><code>heading</code></a>
-					  <span class="el-context">&#8211; The heading level is specified by the <a href="#ariaLevel"><code>aria-level</code></a> property.</span></th>
+					<th><a class="role-reference" href="#heading"><code>heading</code></a></th>
 					<td>Expose as object attribute <code>xml-roles:heading</code>.<p>Also, expose <code>IA2_ROLE_HEADING</code></p></td>
           <td>
 		  	<ul>
@@ -939,7 +973,13 @@ var mappingTableLabels = {
 					    <li>Implement Interface <code>IAccessibleHypertext</code></li>
 					  </ul>
 					</td>
-					<td><code>HyperLink</code></td>
+					<td>
+						<ul>
+							<li>Control Type is <code>HyperLink</code></li>
+							<li>Implement <code>ValuePattern</code></li>
+							<li>Expose <code>href</code> attribute as <code>Value.Value</code> in the <code>ValuePattern</code></li>
+						</ul>
+					</td>
 					<td>
 					  <ul>
 					    <li><code>ROLE_LINK</code></li>
@@ -1025,7 +1065,13 @@ var mappingTableLabels = {
 				<tr id="role-map-marquee">
 					<th><a class="role-reference" href="#marquee"><code>marquee</code></a></th>
           <td><code>ROLE_SYSTEM_ANIMATION</code> + object attributes <code>xml-roles:marquee;container-live:off;live:off</code></td>
-          <td><code>Text</code></td>
+			<td>
+				<ul>
+					<li>Control Type is <code>Group</code></li>
+					<li>Localized Control Type is <code>marquee</code></li>
+					<li><code>LiveSettingProperty = Off (0)</code>.</li>
+				</ul>						
+			</td>
 					<td><code>ROLE_MARQUEE</code> + object attributes <code>container-live:off;live:off</code></td>
 					<td>AXRole: <code>AXGroup</code><br />
               AXSubrole: <code>AXApplicationMarquee</code><br />
@@ -1060,7 +1106,6 @@ var mappingTableLabels = {
                         <li>Implement Interface <code>Selection</code></li>
                       </ul>
                       <p>Because <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> does not support modifying the selection via the accessibility API, user agents MUST return <code>false</code> for all <code>Selection</code> methods that provide a means to modify the selection.</p>
-			          <p>These <a class="termref">objects</a> are not exposed for a submenu if there is a parent menu item spawning the submenu.  Since <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> allows menuitems to have menuitem children, interposing menu objects are not exposed, except for the root parent. </p>
 			        </td>
 					<td>AXRole: <code>AXMenu</code><br />
                         AXSubrole: <code>&lt;nil&gt;</code><br />
@@ -1153,7 +1198,7 @@ var mappingTableLabels = {
       		<th><a class="role-reference" href="#none"><code>none</code></a> [ARIA 1.1]</th>
       	  <td>
             <p>See <a href="#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics</a>.</p>
-            <p>For objects that have required owned descendants (e.g., a grid owns gridcells, a list owns listitems), and the descendant is in the <a class="termref">accessibility tree</a>, expose it as <code>IA2_ROLE_TEXTFRAME</code>.  <a class="termref">User agents</a> SHOULD prune empty descendants from the <a class="termref">accessibility tree</a>. </p>
+            <p>For objects that have required owned descendants (e.g., a grid owns gridcells, a list owns listitems), and the descendant is in the <a class="termref">accessibility tree</a>, expose it as <code>IA2_ROLE_TEXT_FRAME</code>.  <a class="termref">User agents</a> SHOULD prune empty descendants from the <a class="termref">accessibility tree</a>. </p>
           </td>
           <td>
             <p>See <a href="#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics</a>.</p>
@@ -1183,8 +1228,7 @@ var mappingTableLabels = {
               AXRoleDescription: <code>'note'</code></td>
                 </tr>
 				<tr id="role-map-option">
-					<th><a class="role-reference" href="#option"><code>option</code></a>
-					   <span class="el-context">&#8211; If <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a> is undefined treat as <code>aria-selected = "false"</code>.</span></th>
+					<th><a class="role-reference" href="#option"><code>option</code></a></th>
 					<td><code>ROLE_SYSTEM_LISTITEM</code>
 		        <p>If <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a> is not <strong>undefined</strong>, support object attribute <code>checkable:true</code></p></td>
           <td><code>ListItem</code> + <code>Invoke</code> pattern </td>
@@ -1201,7 +1245,7 @@ var mappingTableLabels = {
 		  <th><a class="role-reference" href="#presentation"><code>presentation</code></a></th>
       	  <td>
             <p>See <a href="#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics</a>.</p>
-            <p>For objects that have required owned descendants (e.g., a grid owns gridcells, a list owns listitems), and the descendant is in the <a class="termref">accessibility tree</a>, expose it as <code>IA2_ROLE_TEXTFRAME</code>.  <a class="termref">User agents</a> SHOULD prune empty descendants from the <a class="termref">accessibility tree</a>. </p>
+            <p>For objects that have required owned descendants (e.g., a grid owns gridcells, a list owns listitems), and the descendant is in the <a class="termref">accessibility tree</a>, expose it as <code>IA2_ROLE_TEXT_FRAME</code>.  <a class="termref">User agents</a> SHOULD prune empty descendants from the <a class="termref">accessibility tree</a>. </p>
           </td>
           <td>
             <p>See <a href="#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics</a>.</p>
@@ -1268,28 +1312,38 @@ var mappingTableLabels = {
               AXRoleDescription: <code>'radio group'</code></td>
 				</tr>
 				<tr id="role-map-region">
-					<th><a class="role-reference" href="#region"><code>region</code></a> [ARIA 1.1]</th>
+					<th><a class="role-reference" href="#region"><code>region</code></a> with an accessible name [ARIA 1.1]</th>
 					<td>
-					    <p><code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code></p>
-					    <p>Special case:  if the <code>region</code> does not have an <a class="termref">accessible name</a>, do not expose the <a class="termref">element</a> as a landmark.  Use the native host language role of the element instead.</p>
+					    <code>IA2_ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code>
 					</td>
 					<td>
-                        <ul>
-                            <li>Control Type is <code>Group</code>.</li>
-                            <li>Localized Control Type is <code>region</code>.</li>
-                            <li>Landmark Type is <code>Custom</code>.</li>
-                            <li>Localized Landmark Type is <code>region</code>.</li>
-                        </ul>
-					    <p>Special case:  if the <code>region</code> does not have an <a class="termref">accessible name</a>, do not expose the <a class="termref">element</a> as a landmark.  Use the native host language role of the element instead.</p>
-                    </td>
-					<td>
-					  <p><code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code></p>
-					    <p>Special case:  if the <code>region</code> does not have an <a class="termref">accessible name</a>, do not expose the <a class="termref">element</a> as a landmark.  Use the native host language role of the element instead.</p>
+						Control Type: <code>Group</code><br />
+						Localized Control Type: <code>region</code><br />
+						Landmark Type: <code>Custom</code><br />
+						Localized Landmark Type: <code>region</code>
 					</td>
-					<td>AXRole: <code>AXGroup</code><br />
+					<td>
+						<code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:region</code>
+					</td>
+					<td>
+						AXRole: <code>AXGroup</code><br />
 						AXSubrole: <code>AXLandmarkRegion</code><br />
 						AXRoleDescription: <code>'region'</code>
-					    <p>Special case:  if the <code>region</code> does not have an <a class="termref">accessible name</a>, do not expose the <a class="termref">element</a> as a landmark.  Use the native host language role of the element instead.</p>
+					</td>
+				</tr>
+				<tr id="role-map-region-nameless">
+					<th><a class="role-reference" href="#region"><code>region</code></a> without an accessible name [ARIA 1.1]</th>
+					<td>
+						Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.
+					</td>
+					<td>
+						Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.
+					</td>
+					<td>
+						Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.
+					</td>
+					<td>
+						Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.
 					</td>
 				</tr>
 				<tr id="role-map-row">
@@ -1308,8 +1362,7 @@ var mappingTableLabels = {
                         AXRoleDescription: <code>'row'</code></td>
 				</tr>
 				<tr id="role-map-rowgroup">
-				  <th><a class="role-reference" href="#rowgroup"><code>rowgroup</code></a>
-				      <span class="el-context">&#8211; The <code>rowgroup</code> role exists to support role symmetry in <abbr title="Hypertext Markup Language">HTML</abbr>, and allows for the propagation of presentation inheritance on tables with an explicit presentation role applied.</span></th>
+				  <th><a class="role-reference" href="#rowgroup"><code>rowgroup</code></a></th>
 				  <td><code>ROLE_SYSTEM_GROUPING</code></td>
 				  <td><code>group</code></td>
 				  <td><code>ROLE_PANEL</code></td>
@@ -1393,40 +1446,41 @@ var mappingTableLabels = {
               AXRoleDescription: <code>'search text field'</code></td>
 				</tr>
 				<tr id="role-map-separator">
-					<th><a class="role-reference" href="#separator"><code>separator</code></a></th>
+					<th><a class="role-reference" href="#separator"><code>separator</code></a> (non-focusable)</th>
 					<td>
-					  <ul>
-					    <li>If a static separator:  <code>ROLE_SYSTEM_SEPARATOR</code></li>
-					    <li>[ARIA 1.1] If a focusable splitter, also:
-					      <ul>
-					        <li>Implement Interface <code>IAccessibleValue</code></li>
-					    </ul>
-					    </li>
-					  </ul>
-					</td>
-                    <td>
-					  <ul>
-					    <li>If a static separator:  <code>Separator</code></li>
-					    <li>[ARIA 1.1] If a focusable splitter, also expose:
-					    <ul>
-					      <li>Control Type: <code>Thumb</code></li>
-					    </ul>
-					    </li>
-					  </ul>
+						<code>ROLE_SYSTEM_SEPARATOR</code>
 					</td>
 					<td>
-                      <ul>
-					    <li>If a static separator: <code>ROLE_SEPARATOR</code></li>
-					    <li>[ARIA 1.1] If a focusable splitter, also:
-					    <ul>
-					      <li>Implement Interface <code>Value</code></li>
-					    </ul>
-					    </li>
-					  </ul>
+						Control Type: <code>Separator</code>
 					</td>
-					<td>AXRole: <code>AXSplitter</code><br />
-                        AXSubrole: <code>&lt;nil&gt;</code><br />
-                        AXRoleDescription: <code>'splitter'</code></td>
+					<td>
+						<code>ROLE_SEPARATOR</code>
+					</td>
+					<td>
+						AXRole: <code>AXSplitter</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'splitter'</code>
+					</td>
+				</tr>
+				<tr id="role-map-separator-focusable">
+					<th><a class="role-reference" href="#separator"><code>separator</code></a> (focusable) [ARIA 1.1]</th>
+					<td>
+						<code>ROLE_SYSTEM_SEPARATOR</code><br />
+						Implement Interface <code>IAccessibleValue</code>
+					</td>
+					<td>
+						Control Type: <code>Thumb</code>
+					</td>
+					<td>
+						<code>ROLE_SEPARATOR</code><br />
+						Implement Interface <code>Value</code>
+						<p>Because <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> does not support modifying the value via the accessibility API, user agents MUST return <code>false</code> for all <code>Value</code> methods that provide a means to modify the value.</p>
+					</td>
+					<td>
+						AXRole: <code>AXSplitter</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'splitter'</code>
+					</td>
 				</tr>
 				<tr id="role-map-slider">
 					<th><a class="role-reference" href="#slider"><code>slider</code></a></th>
@@ -1491,7 +1545,9 @@ var mappingTableLabels = {
 				</tr>
         <tr id="role-map-switch">
 		  <th><a class="role-reference" href="#switch"><code>switch</code></a> [ARIA 1.1]</th>
-          <td><code>IA2_ROLE_TOGGLE_BUTTON</code> + object attribute <code>xml-roles:switch</code> </td>
+          <td><p><code>ROLE_SYSTEM_CHECKBUTTON</code></p>
+              <p><code>IA2_ROLE_TOGGLE_BUTTON</code> + object attribute <code>xml-roles:switch</code></p>
+          </td>
           <td>Control Type is <code>Button</code> + <code>Toggle</code> Pattern. Localized Control Type is "<code>toggleswitch</code>".</td>
           <td><code>ROLE_TOGGLE_BUTTON</code> + object attribute <code>xml-roles:switch</code></td>
           <td>AXRole: <code>AXCheckBox</code><br />
@@ -1499,8 +1555,7 @@ var mappingTableLabels = {
               AXRoleDescription: <code>'switch'</code></td>
 				</tr>
 				<tr id="role-map-tab">
-					<th><a class="role-reference" href="#tab"><code>tab</code></a>
-              <span class="el-context">&#8211; If <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a> is undefined treat as <code>aria-selected = "false"</code>.</span></th>
+					<th><a class="role-reference" href="#tab"><code>tab</code></a></th>
 					<td><code>ROLE_SYSTEM_PAGETAB</code>.
               <p>Expose <code>SELECTED</code> state if focus is inside <a class="role-reference" href="#tabpanel"><code>tabpanel</code></a> associated with <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a>.</p></td>
           <td><code>TabItem</code></td>
@@ -1565,13 +1620,12 @@ var mappingTableLabels = {
 				</tr>
                 <tr id="role-map-term">
                         <th><a class="role-reference" href="#term"><code>term</code></a> [ARIA 1.1]</th>        
-                        <td>
+                        <td><code>IA2_ROLE_TEXT_FRAME</code> and object attribute <code>xml-roles:term</code></td>
+			<td>
 				<ul>
-					<li><code>ROLE_SYSTEM_LISTITEM</code></li>
-					<li><code>STATE_SYSTEM_READONLY</code></li>
+					<li>Control Type is <code>Text</code></li>
+					<li>Localized Control Type is <code>term</code></li>
 				</ul>
-			</td>                        
-			<td>Control Type is <code>ListItem</code>
                         </td>
                         <td><code>ROLE_DESCRIPTION_TERM</code></td>
                         <td>    AXRole: <code>AXGroup</code><br />
@@ -1620,7 +1674,13 @@ var mappingTableLabels = {
 				<tr id="role-map-timer">
 					<th><a class="role-reference" href="#timer"><code>timer</code></a></th>
           <td>Object attribute <code>xml-roles:timer;container-live:off;live:off;container-live-role:timer</code></td>
-          <td>Expose as text string in <code>AriaRole</code></td>
+		<td>
+			<ul>
+				<li>Control Type is <code>Group</code></li>
+				<li>Localized Control Type is <code>timer</code></li>
+ 				<li><code>LiveSettingProperty = Off (0)</code>.</li>
+ 			</ul>	
+		</td>
           <td><code>ROLE_TIMER</code> + object attributes <code>container-live:off;live:off;container-live-role:timer</code></td>
           <td>AXRole: <code>AXGroup</code><br />
               AXSubrole: <code>AXApplicationTimer</code><br />
@@ -1794,7 +1854,7 @@ var mappingTableLabels = {
                     <p>Object attribute <code>autocomplete:&lt;value&gt;</code></p>
                     <p>Expose the <code>IA2_STATE_SUPPORTS_AUTOCOMPLETION</code> equivalent state</p>
                   </td>
-                  <td>Expose <code>autocomplete=&lt;value&gt;</code> in <code>AriaProperties</code></td>
+                  <td><a href="#not_mapped">Not mapped</a></td>
                   <td>
                     <p>Object attribute <code>autocomplete:&lt;value&gt;</code></p>
                     <p>Expose the <code>SUPPORTS_AUTOCOMPLETION</code> equivalent state</p></td>
@@ -1877,6 +1937,7 @@ var mappingTableLabels = {
                   </td>
                   <td>
                         <ul>
+                                <li>If the value of <code>aria-colcount</code> is <code>-1</code>, calculate the column count based on the number of columns in the <abbr title="Document Object Model">DOM</abbr> and expose that value as described below along with <code>STATE_INDETERMINATE</code>.</li>
                                 <li>Expose the value of <code>aria-colcount</code> in object attribute <code>colcount:&lt;value&gt;</code>.</li>
                                 <li>Expose via <code>AccessibleTable</code> interface method <code>atk_table_get_n_columns()</code></li>
                         </ul>
@@ -2004,7 +2065,7 @@ var mappingTableLabels = {
                   <td>
                     <p>If the referenced object is in the accessibility tree, expose a pointer to the accessible object using <code>RELATION_DETAILS</code>, and expose reverse relations as described in <a href="#mapping_additional_relations">Relations</a>.</p>
                   </td>
-                  <td>TBD.</td>
+                  <td>Not mapped</td>
                 </tr>
 
                 <tr id="ariaDisabledTrue">
@@ -2460,7 +2521,7 @@ var mappingTableLabels = {
                 </tr>
                 <tr id="ariaPressedMixed">
                   <th><a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a><code>=&quot;mixed&quot;</code> (state)</th>
-                  <td>Set the <code>STATE_SYSTEM_PRESSED</code> state.
+                  <td>Set the <code>STATE_SYSTEM_MIXED</code> state.
                     <p>If on a button, expose the role as <code>IA2_ROLE_TOGGLE_BUTTON</code>.  </p>
                   </td>
                   <td><p>Expose as <code>ToggleState</code> property of <code>Toggle</code> Control Pattern</p>
@@ -2588,6 +2649,7 @@ var mappingTableLabels = {
                   </ul></td>
                   <td>
                         <ul>
+                                <li>If the value of <code>aria-rowcount</code> is <code>-1</code>, calculate the row count based on the number of rows in the <abbr title="Document Object Model">DOM</abbr> and expose that value as described below along with <code>STATE_INDETERMINATE</code>.</li>
                                 <li>Expose the value of <code>aria-rowcount</code> in object attribute <code>rowcount:&lt;value&gt;</code>.</li>
                                 <li>Expose via <code>AccessibleTable</code> interface method <code>atk_table_get_n_rows()</code></li>
                         </ul>
@@ -2676,7 +2738,8 @@ var mappingTableLabels = {
                     <span class="el-context">&#8211; If not provided for relevant roles, user agents calculate <a class="property-reference" href="#aria-setsize"><code>aria-setsize</code></a> and <a class="property-reference" href="#aria-posinset"><code>aria-posinset</code></a> for each object in the container based on the number of objects in the <abbr title="Document Object Model">DOM</abbr>.</span></th>
                   <td><p>Expose object attribute <code>setsize:&lt;value&gt;</code> and <a href="#mapping_group_position"><code>groupPosition()</code></a>. </p></td>
                   <td><p>Expose as <code>setsize=&lt;value&gt;</code> in <code>AriaProperties. </code></p></td>
-                  <td><p>Expose object attribute <code>setsize:&lt;value&gt;</code>. </p></td>
+                  <td><p>If the value of <code>aria-setsize</code> is <code>-1</code>, calculate the set size based on the number of objects in the <abbr title="Document Object Model">DOM</abbr> and expose that value as described below along with <code>STATE_INDETERMINATE</code>.</p>
+                      <p>Expose object attribute <code>setsize:&lt;value&gt;</code>.</p></td>
                   <td><code>AXARIASetSize: &lt;value&gt;</code></td>
                 </tr>
                 <tr id="ariaSortAscendingDescendingOther">
@@ -3480,6 +3543,12 @@ var mappingTableLabels = {
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2015/WD-core-aam-1.1-20151119/">last public working draft</a></h2>
 			<ul>
 				<li>09-Aug-2017: Add macOS AXValidationError/AXValidationErrorChanged for aria-errormessage.</li>
+				<li>08-Aug-2017: Remove erroneous statement about not exposing submenus in ATK. Menu items are expected to be contained in menus/submenus; not in other menuitems.</li>
+				<li>08-Aug-2017: Update UIA mappings for link, term, timer, marquee, alert, cell, and aria-autocomplete.</li>
+				<li>07-Aug-2017: Update ATK mappings for indeterminate setsize, colcount, and rowcount.</li>
+				<li>04-Aug-2017: Correct IAccessible2 mapping for term role, changing it from ROLE_SYSTEM_LISTITEM to IA2_ROLE_TEXT_FRAME.</li>
+				<li>04-Aug-2017: Correct MSAA mapping for aria-pressed="mixed", changing it from STATE_SYSTEM_PRESSED to STATE_SYSTEM_MIXED.</li>
+				<li>04-Aug-2017: Add MSAA mapping for the switch role.</li>
 				<li>02-Aug-2017: Replace STATE_LINKED with STATE_SYSTEM_LINKED for MSAA + IAccessible2 mapping of role link.</li>
 				<li>02-Aug-2017: Change mapping of aria-readonly="false" from exposing ATK_STATE_EDITABLE on textbox to clearing ATK_STATE_READ_ONLY. For aria-readonly="true", add statement that AtkEditableText should not be implemented, and that ATK_STATE_CHECKABLE not be exposed on roles which support aria-checked.</li>
 				<li>01-Aug-2017: Remove explicit "do not expose STATE_EDITABLE" for roles which are by definition not editable from the ATK mappings.</li>
