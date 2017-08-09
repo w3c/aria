@@ -263,6 +263,18 @@ require(["core/pubsubhub"], function(respecEvents) {
     });
 });
 
+// Change the authors credit to mapping contributors credit
+require(["core/pubsubhub"], function(respecEvents) {
+    "use strict";
+    respecEvents.sub('end', function(message) {
+    	if (message === 'core/link-to-dfn') {
+    		document.querySelectorAll("div.head dt").forEach(function(node){
+    			if (node.textContent == "Authors:") node.textContent = "Platform Mapping Maintainers:";
+    		});
+    	}
+	})
+})
+
 // included files are brought in after proProc.  Create a DOM tree
 // of content then call the updateReferences method above on it.  Return
 // the transformed content
