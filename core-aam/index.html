@@ -1152,7 +1152,7 @@ var mappingTableLabels = {
 					</td>
 				</tr>
 				<tr id="role-map-listbox">
-					<th><a class="role-reference" href="#listbox"><code>listbox</code></a></th>
+					<th><a class="role-reference" href="#listbox"><code>listbox</code></a> not owned by or child of <code>combobox</code></th>
 					<td>
 						Role: <code>ROLE_SYSTEM_LIST</code><br />
 						Method: <code>IAccessible::accSelect()</code><br />
@@ -1166,7 +1166,28 @@ var mappingTableLabels = {
 						Role: <code>ROLE_LIST_BOX</code><br />
 						Interface: <code>Selection</code>
 						<p>Because <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> does not support modifying the selection via the accessibility API, user agents MUST return <code>false</code> for all <code>Selection</code> methods that provide a means to modify the selection.</p>
-						<p>Special case: if a <a class="role-reference" href="#listbox"><code>listbox</code></a> has a parent or is owned by (via <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>) a <a class="role-reference" href="#combobox"><code>combobox</code></a>, expose as Role: <code>ROLE_MENU</code>.</p>
+					</td>
+					<td>
+						AXRole: <code>AXList</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'list'</code>
+					</td>
+				</tr>
+				<tr id="role-map-listbox-in-combobox">
+					<th><a class="role-reference" href="#listbox"><code>listbox</code></a> owned by or child of <code>combobox</code></th>
+					<td>
+						Role: <code>ROLE_SYSTEM_LIST</code><br />
+						Method: <code>IAccessible::accSelect()</code><br />
+						Method: <code>IAccessible::get_accSelection()</code>
+					</td>
+					<td>
+						Control Type: <code>List</code><br />
+						Control Pattern: <code>Selection</code>
+					</td>
+					<td>
+						Role: <code>ROLE_MENU</code><br />
+						Interface: <code>Selection</code>
+						<p>Because <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> does not support modifying the selection via the accessibility API, user agents MUST return <code>false</code> for all <code>Selection</code> methods that provide a means to modify the selection.</p>
 					</td>
 					<td>
 						AXRole: <code>AXList</code><br />
@@ -1326,7 +1347,7 @@ var mappingTableLabels = {
 					</td>
 				</tr>
 				<tr id="role-map-menuitem">
-					<th><a class="role-reference" href="#menuitem"><code>menuitem</code></a></th>
+					<th><a class="role-reference" href="#menuitem"><code>menuitem</code></a> not owned by or child of <code>group</code></th>
 					<td>
 						Role: <code>ROLE_SYSTEM_MENUITEM</code>
 					</td>
@@ -1340,7 +1361,23 @@ var mappingTableLabels = {
 						AXRole: <code>AXMenuItem</code><br />
 						AXSubrole: <code>&lt;nil&gt;</code><br />
 						AXRoleDescription: <code>'menu item'</code>
-						<p>If the option's parent has a <a class="role-reference" href="#group"><code>group</code></a> role, then <code>role=&quot;menuitem&quot;</code> maps to <code>AXMenuButton</code></p>
+					</td>
+				</tr>
+				<tr id="role-map-menuitem-group-parent">
+					<th><a class="role-reference" href="#menuitem"><code>menuitem</code></a> owned by or child of <code>group</code></th>
+					<td>
+						Role: <code>ROLE_SYSTEM_MENUITEM</code>
+					</td>
+					<td>
+						Control Type: <code>MenuItem</code>
+					</td>
+					<td>
+						Role: <code>ROLE_MENU_ITEM</code>
+					</td>
+					<td>
+						AXRole: <code>AXMenuButton</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'menu button'</code>
 					</td>
 				</tr>
 				<tr id="role-map-menuitemcheckbox">
@@ -1449,7 +1486,7 @@ var mappingTableLabels = {
 					</td>
 				</tr>
 				<tr id="role-map-option">
-					<th><a class="role-reference" href="#option"><code>option</code></a></th>
+					<th><a class="role-reference" href="#option"><code>option</code></a> not inside <code>combobox</code></th>
 					<td>
 						Role: <code>ROLE_SYSTEM_LISTITEM</code><br />
 						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a>
@@ -1462,11 +1499,30 @@ var mappingTableLabels = {
 					<td>
 						Role: <code>ROLE_LIST_ITEM</code><br />
 						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a><br />
-						<p>Special case: if an <a class="role-reference" href="#option"><code>option</code></a> has a parent that was exposed as a Role: <code>ROLE_MENU</code>, the <a class="role-reference" href="#option"><code>option</code></a> is exposed as an Role: <code>ROLE_MENU_ITEM</code>.</p>
 					</td>
 					<td>
-						<!-- If the option's parent has a <a class="role-reference" href="#menu"><code>menu</code></a> role, then <code>role=&quot;option&quot;</code> maps to <code>AXMenuItem</code> -->
-						<!--<p> If the option's parent has a <a class="role-reference" href="#listbox"><code>listbox</code></a> role, then <code>role=&quot;option&quot;</code> maps to <code>AXStaticText</code></p> -->
+						AXRole: <code>AXStaticText</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'text'</code><br />
+						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a>
+					</td>
+				</tr>
+				<tr id="role-map-option-in-combobox">
+					<th><a class="role-reference" href="#option"><code>option</code></a> inside <code>combobox</code></th>
+					<td>
+						Role: <code>ROLE_SYSTEM_LISTITEM</code><br />
+						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a>
+					</td>
+					<td>
+						Control Type: <code>ListItem</code><br />
+						Control Pattern: <code>Invoke</code><br />
+						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a>
+					</td>
+					<td>
+						Role: <code>ROLE_MENU_ITEM</code><br />
+						See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Table</a><br />
+					</td>
+					<td>
 						AXRole: <code>AXStaticText</code><br />
 						AXSubrole: <code>&lt;nil&gt;</code><br />
 						AXRoleDescription: <code>'text'</code><br />
@@ -1593,10 +1649,28 @@ var mappingTableLabels = {
 
 				</tr>
 				<tr id="role-map-row">
-					<th><a class="role-reference" href="#row"><code>row</code></a></th>
+					<th><a class="role-reference" href="#row"><code>row</code></a> not inside <code>treegrid</code></th>
 					<td>
-						Role: <code>ROLE_SYSTEM_ROW</code> unless inside a <a class="role-reference" href="#treegrid"><code>treegrid</code></a>, in which case Role: <code>ROLE_SYSTEM_OUTLINEITEM</code><br />
-						Interface: <code>IAccessibleTable2</code> for the container <a class="role-reference" href="#grid"><code>grid</code></a> role
+						Role: <code>ROLE_SYSTEM_ROW</code>
+					</td>
+					<td>
+						Control Type: <code>DataItem</code><br />
+						Localized Control Type: <code>row</code><br />
+						Control Pattern: <code>SelectionItem</code>
+					</td>
+					<td>
+						Role: <code>ROLE_TABLE_ROW</code>
+					</td>
+					<td>
+						AXRole: <code>AXRow</code><br />
+						AXSubrole: <code>&lt;nil&gt;</code><br />
+						AXRoleDescription: <code>'row'</code>
+					</td>
+				</tr>
+				<tr id="role-map-row-in-treegrid">
+					<th><a class="role-reference" href="#row"><code>row</code></a> inside <code>treegrid</code></th>
+					<td>
+						Role: <code>ROLE_SYSTEM_OUTLINEITEM</code>
 					</td>
 					<td>
 						Control Type: <code>DataItem</code><br />
