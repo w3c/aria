@@ -140,6 +140,15 @@ var biblio = {
 		"title": "Microsoft Active Accessibility (MSAA) 2.0",
 		"publisher": "Microsoft Corporation"
 	},
+	"SGML-CATALOG": {
+		"href": "https://www.oasis-open.org/specs/tr9401.html",
+		"title": "Entity Management: OASIS Technical Resolution 9401:1997 (Amendment 2 to TR 9401)",
+		"date": "10 September 2007",
+		"authors": [
+			"Paul Grosso"
+		],
+		"publisher": "Entity Management Subcommittee, SGML Open."
+	},
 	"SVG-AAM": {
 		"title": "SVG2 Accessibility API Mappings 1.0",
 		"href": "http://www.w3.org/TR/svg-aam-1.0/",
