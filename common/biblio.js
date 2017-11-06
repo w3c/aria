@@ -16,25 +16,6 @@ var biblio = {
 			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
-	"ARIA-PRACTICES": {
-		"title": "WAI-ARIA Authoring Practicess 1.1",
-		"href": "http://www.w3.org/TR/wai-aria-practices-1.1/",
-		"status": "WD",
-		"publisher": "W3C",
-		"authors": [
-			"Matt King",
-			"James Nurthen",
-			"Michael Cooper",
-			"Michiel Bijl",
-			"Joseph Scheuhammer",
-			"Lisa Pappas",
-			"Richard Schwerdtfeger"
-		],
-		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/WAI/ARIA/"
-		]
-	},
 	"CORE-AAM": {
 		"title": "Core Accessibility API Mappings 1.1",
 		"href": "http://www.w3.org/TR/core-aam-1.1/",
