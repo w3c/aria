@@ -200,8 +200,8 @@ var biblio = {
 	},
 	"SVG2": {
 		"title": "Scalable Vector Graphics (SVG) 2",
-		"href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
-		"status": "WD",
+		"href": "https://www.w3.org/TR/2016/CR-SVG2-20160915/",
+		"status": "CR",
 		"publisher": "W3C",
 		"authors": [
 			"Nikos Andronikos",
@@ -209,6 +209,7 @@ var biblio = {
 			"Tavmjong Bah",
 			"Amelia Bellamy-Royds",
 			"Brian Birtles",
+			"Bogdan Brinza",
 			"Cyril Concolato",
 			"Erik Dahlström",
 			"Chris Lilley",
