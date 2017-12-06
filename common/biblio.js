@@ -156,12 +156,6 @@ var biblio = {
 		"title": "UI Automation",
 		"publisher": "Microsoft Corporation"
 	},
-	// Custom reference for UIA Express (not available from SpecRef biblio).
-	"UIA-EXPRESS": {
-		"href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
-		"title": "The IAccessibleEx Interface",
-		"publisher": "Microsoft Corporation"
-	},
 	"WAI-ARIA": {
 		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
 		"href": "http://www.w3.org/TR/wai-aria-1.1/",
