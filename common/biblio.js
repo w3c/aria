@@ -163,67 +163,6 @@ var biblio = {
 			"http://www.w3.org/WAI/PF/"
 		]
 	},
-	"SVG1": {
-		"title": "Scalable Vector Graphics (SVG) 1.0 Specification",
-		"href": "http://www.w3.org/TR/SVG10/",
-		"status": "REC",
-		"publisher": "W3C",
-		"authors": [
-			"John Ferraiolo"
-		],
-		"etAl": true,
-		"deliveredBy": [
-		"http://www.w3.org/SVG"
-		]
-	},
-	"SVG11": {
-		"title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
-		"href": "http://www.w3.org/TR/SVG11/",
-		"status": "REC",
-		"publisher": "W3C",
-		"authors": [
-			"Erik Dahlström",
-			"Patrick Dengler",
-			"Anthony Grasso",
-			"Chris Lilley",
-			"Cameron McCormack",
-			"Doug Schepers",
-			"Jonathan Watt",
-			"John Ferraiolo",
-			"藤沢 淳 (FUJISAWA Jun)",
-			"Dean Jackson"
-		],
-		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/SVG"
-		]
-	},
-	"SVG2": {
-		"title": "Scalable Vector Graphics (SVG) 2",
-		"href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
-		"status": "WD",
-		"publisher": "W3C",
-		"authors": [
-			"Nikos Andronikos",
-			"Rossen Atanassov",
-			"Tavmjong Bah",
-			"Amelia Bellamy-Royds",
-			"Brian Birtles",
-			"Cyril Concolato",
-			"Erik Dahlström",
-			"Chris Lilley",
-			"Cameron McCormack",
-			"Doug Schepers",
-			"Dirk Schulze",
-			"Richard Schwerdtfeger",
-			"Satoru Takagi",
-			"Jonathan Watt"
-		],
-		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
-		]
-	},
 	"UI-AUTOMATION": {
 		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
 		"title": "UI Automation",
