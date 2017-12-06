@@ -100,13 +100,6 @@ var biblio = {
                         "http://www.w3.org/SVG/"
                 ]
         },
-
-	"EPUB-SSV": {
-		"href": "http://www.idpf.org/epub/vocab/structure/",
-		"title": "EPUB Structural Semantics Vocabulary",
-		"publisher": "IDPF"
-	},
-
 	"EPUB-Content": {
 		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
 		"title": "EPUB Content Documents 3.1",
@@ -135,11 +128,6 @@ var biblio = {
 			"http://www.w3.org/WAI/PF/"
 		]
 	},
-	"MSAA": {
-		"href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
-		"title": "Microsoft Active Accessibility (MSAA) 2.0",
-		"publisher": "Microsoft Corporation"
-	},
 	"SGML-CATALOG": {
 		"href": "https://www.oasis-open.org/specs/tr9401.html",
 		"title": "Entity Management: OASIS Technical Resolution 9401:1997 (Amendment 2 to TR 9401)",
@@ -162,17 +150,6 @@ var biblio = {
 		"deliveredBy": [
 			"http://www.w3.org/WAI/PF/"
 		]
-	},
-	"UI-AUTOMATION": {
-		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
-		"title": "UI Automation",
-		"publisher": "Microsoft Corporation"
-	},
-	// Custom reference for UIA Express (not available from SpecRef biblio).
-	"UIA-EXPRESS": {
-		"href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
-		"title": "The IAccessibleEx Interface",
-		"publisher": "Microsoft Corporation"
 	},
 	"WAI-ARIA": {
 		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
