@@ -151,11 +151,6 @@ var biblio = {
 			"http://www.w3.org/WAI/PF/"
 		]
 	},
-	"UI-AUTOMATION": {
-		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
-		"title": "UI Automation",
-		"publisher": "Microsoft Corporation"
-	},
 	"WAI-ARIA": {
 		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
 		"href": "http://www.w3.org/TR/wai-aria-1.1/",
