@@ -128,11 +128,6 @@ var biblio = {
 			"http://www.w3.org/WAI/PF/"
 		]
 	},
-	"MSAA": {
-		"href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
-		"title": "Microsoft Active Accessibility (MSAA) 2.0",
-		"publisher": "Microsoft Corporation"
-	},
 	"SGML-CATALOG": {
 		"href": "https://www.oasis-open.org/specs/tr9401.html",
 		"title": "Entity Management: OASIS Technical Resolution 9401:1997 (Amendment 2 to TR 9401)",
