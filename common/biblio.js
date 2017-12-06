@@ -100,13 +100,6 @@ var biblio = {
                         "http://www.w3.org/SVG/"
                 ]
         },
-
-	"EPUB-SSV": {
-		"href": "http://www.idpf.org/epub/vocab/structure/",
-		"title": "EPUB Structural Semantics Vocabulary",
-		"publisher": "IDPF"
-	},
-
 	"EPUB-Content": {
 		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
 		"title": "EPUB Content Documents 3.1",
