@@ -629,14 +629,9 @@
 				<li><rref>rowgroup</rref></li>
 				<li><rref>rowheader</rref></li>
 				<li><rref>separator</rref> (when not focusable)</li>
+				<li><rref>static</rref></li>
 				<li><rref>table</rref></li>
 				<li><rref>term</rref></li>
-
-<!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
-     but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
-     the 1.1 branch and uncommented for the master branch.
-				<li><rref>text</rref></li>
--->
 				<li><rref>toolbar</rref></li>
 				<li><rref>tooltip</rref></li>
 			</ul>
@@ -6477,6 +6472,116 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="role" id="static">
+			<rdef>static</rdef>
+			<div class="role-description">
+				<p>A named <rref>section</rref> of non-interactive, non-navigable content.</p>
+				<p>The <code>static</code> role flattens an <a>element</a> and its entire subtree into a single object which is not interactive and which exposes its content <em>solely</em> through its accessible name. Authors wishing to retain the semantics of subtree contents could consider the <rref>presentation</rref> or <rref>none</rref> role instead.</p>
+				<p>Authors SHOULD limit the use of the <code>static</code> role to content representing words or phrases. As a general rule, if the content would be deemed too long for use as a heading or label, authors SHOULD NOT use the <code>static</code> role.</p>
+				<p>Authors SHOULD NOT use the <code>static</code> role on interactive elements such as widgets or links, or on the ancestors of such elements. If an element with a role of <code>static</code> is, or contains content that is, focusable or otherwise interactive, user agents MUST ignore the normal effect of the role and expose the element with implicit native semantics in order to ensure that the element is both <a>understandable</a> and <a>operable</a>.</p>
+				<p>Because the <a href="#namecalculation">accessible name calculation</a> rules prefer author-provided names over names derived from content, an explicit name will be treated as the replacement for the content.</p>
+				<pre class="example highlight">
+					<span class="comment">&lt;!-- This: --&gt;</span>
+					&lt;p&gt;Rating: &lt;span role="static" aria-label="3 of 5 stars"&gt;★★★☆☆&lt;/span&gt;&lt;/p&gt;
+
+					<span class="comment">&lt;!-- is equivalent to: --&gt;</span>
+					&lt;p&gt;Rating: &lt;span role="static" aria-label="3 of 5 stars"&gt;&lt;/span&gt;&lt;/p&gt;
+				</pre>
+				<p>Because an author-provided name replaces the content of <code>static</code> elements, authors MUST ensure the name they provide fully represents the information displayed by the element.</p>
+				<p>If the element's content is the best representation of the information being displayed, authors do not need to provide a name. In that instance, the content will become the name:</p>
+				<pre class="example highlight">
+					<span class="comment">&lt;!-- This: --&gt;</span>
+					&lt;div role="static"&gt;
+					  &lt;p&gt;I&lt;/p&gt;
+					  &lt;p&gt;like&lt;/p&gt;
+					  &lt;p&gt;turtles&lt;/p&gt;
+					&lt;/div&gt;
+
+					<span class="comment">&lt;!-- is equivalent to: --&gt;</span>
+					&lt;div role="static" aria-label="I like turtles"&gt;&lt;/div&gt;
+				</pre>
+				<p>Authors MAY provide a fallback role for user agents that do not support the <code>static</code> role. In the following example, <rref>img</rref> is provided as the fallback role. If the browser supports the <code>static</code> role, the screen reader would be expected to present "I love New York." Otherwise, the browser would expose the <code>span</code> element as an image, and the screen reader might instead say "I, love image, New York."</p>
+				<pre class="example highlight">
+					&lt;p&gt;I &lt;span role="static img" aria-label="love"&gt;♥︎&lt;/span&gt; New York.&lt;/p&gt;
+				</pre>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>structure</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">
+							<ul>
+								<li>author</li>
+								<li>contents</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired"> </td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational">True</td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<div class="role" id="status">
 			<rdef>status</rdef>
 			<div class="role-description">
@@ -7185,129 +7290,6 @@
 				</tbody>
 			</table>
 		</div>
-<!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
-     but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
-     the 1.1 branch and uncommented for the master branch.
-		<div class="role" id="text">
-			<rdef>text</rdef>
-			<div class="role-description">
-				<p>An element whose entire subtree should be exposed to accessibility APIs as plain text.</p>
-				<p>The <code>text</code> role allows authors to mark an element and all of its subtree contents as plain text.</p>
-				<p>Authors SHOULD NOT use the <code>text</code> role on interactive controls (buttons, links, etc.) or ancestors of those controls, because it could prevent users of assistive technologies from accessing the controls. Authors wishing to retain the semantics of subtree contents could consider the ARIA 1.0 <rref>presentation</rref> or ARIA 1.1 <rref>none</rref> role instead.</p>
-				<div class="note">
-					<p>As with any ARIA 1.1 role, authors may provide a fallback ARIA 1.0 role.</p>
-					<pre class="example highlight">
-						&lt;p&gt;I &lt;span role="text img" aria-label="love"&gt;♥︎&lt;/span&gt; New York.&lt;/p&gt;
-						&lt;p&gt;My &lt;span role="text img" aria-label="heart"&gt;♥︎&lt;/span&gt; bleeds.&lt;/p&gt;
-						&lt;p&gt;&lt;span role="text img" aria-label="3 of 5 stars"&gt;★★★☆☆︎&lt;/span&gt;&lt;/p&gt;
-					</pre>
-					<p>In a screen reader using an ARIA 1.1-capable browsers, the user would hear "I love New York." In an ARIA 1.0-capable browser, the user might hear "I, love image, New York."</p>
-				</div>
-				<div class="note">
-					<p>It is not necessary to use the fallback role if the implicit role for the element provides sufficient fallback. In this example, an ARIA 1.0-capable browser would not recognize the "text" role token, and fall back to the default image role.</p>
-					<pre class="example highlight">
-						&lt;p&gt;I &lt;img src="icon.gif" alt="love" role="text"&gt; New York.︎&lt;/p&gt;
-						&lt;p&gt;My &lt;img src="icon.gif" alt="heart" role="text"&gt; bleeds.︎&lt;/p&gt;
-					</pre>
-				</div>
-				<div class="note">
-					<p>The text role can also be used to flatten structural semantics without providing an explicit label. The following example would be presented to assistive technologies as one static text element ("I like turtles") rather than three separate paragraphs.</p>
-					<pre class="example highlight">
-						&lt;div role="text"&gt;
-						  &lt;p&gt;I&lt;/p&gt;
-						  &lt;p&gt;like&lt;/p&gt;
-						  &lt;p&gt;turtles&lt;/p&gt;
-						&lt;/div&gt;
-					</pre>
-					<p>Use caution when using the text role on structural elements. In particular, avoid using the text role on elements with interactive descendants.</p>
-					<pre class="example highlight">
-						&lt;p role="text"&gt;
-						  &lt;!&dash;&dash; Example of incorrect usage. &dash;&dash;&gt;
-						  This &lt;a href="#"&gt;link&lt;/a&gt; becomes presentational, so
-						  it is no longer a link. The paragraph is just plain text.
-						  This is probably not what the author intended.
-						&lt;/p&gt;
-					</pre>
-				</div>
-			</div>
-			<table class="role-features">
-				<caption>Characteristics:</caption>
-				<thead>
-					<tr>
-						<th scope="col">Characteristic</th>
-						<th scope="col">Value</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th class="role-abstract-head" scope="row">Is Abstract:</th>
-						<td class="role-abstract"> </td>
-					</tr>
-					<tr>
-						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>structure</rref></td>
-					</tr>
-					<tr>
-						<th class="role-children-head" scope="row">Subclass Roles:</th>
-						<td class="role-children">Placeholder</td>
-					</tr>
-					<tr>
-						<th class="role-base-head" scope="row">Base Concept:</th>
-						<td class="role-base"> </td>
-					</tr>
-					<tr>
-						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"> </td>
-					</tr>
-					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
-						<td class="role-scope"> </td>
-					</tr>
-					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
-						<td class="role-mustcontain"> </td>
-					</tr>
-					<tr>
-						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties"> </td>
-					</tr>
-					<tr>
-						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
-					</tr>
-					<tr>
-						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
-						<td class="role-inherited">Placeholder</td>
-					</tr>
-					<tr>
-						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">
-							<ul>
-								<li>contents</li>
-								<li>author</li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
-						<td class="role-namerequired"> </td>
-					</tr>
-					<tr>
-						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
-						<td class="role-namerequired-inherited"> </td>
-					</tr>
-					<tr>
-						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational">True</td>
-					</tr>
-					<tr>
-						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
-						<td class="role-presentational-inherited"> </td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		-->
 		<div class="role" id="textbox">
 			<rdef>textbox</rdef>
 			<div class="role-description">
