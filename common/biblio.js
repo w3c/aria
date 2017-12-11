@@ -51,6 +51,46 @@ var biblio = {
 			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
+    "core-aam-1.1": {
+        "authors": [
+            "Joanmarie Diggs",
+            "Joseph Scheuhammer",
+            "Richard Schwerdtfeger",
+            "Michael Cooper",
+            "Andi Snow-Weaver",
+            "Aaron Leventhal"
+        ],
+        "href": "https://www.w3.org/TR/core-aam-1.1/",
+        "title": "Core Accessibility API Mappings 1.1",
+        "status": "REC",
+        "publisher": "W3C",
+        "deliveredBy": [{
+            "url": "https://www.w3.org/WAI/ARIA/",
+            "shortname": "wai_aria"
+        }],
+        "edDraft": "https://w3c.github.io/core-aam/",
+        "repository": "https://github.com/w3c/core-aam",
+        "id": "core-aam-1.1",
+        "date": "14 December 2017"
+    },
+    "dpub-aam-1.0": {
+        "authors": [
+            "Richard Schwerdtfeger",
+            "Joanmarie Diggs"
+        ],
+        "href": "https://www.w3.org/TR/dpub-aam-1.0/",
+        "title": "Digital Publishing Accessibility API Mappings",
+        "status": "REC",
+        "publisher": "W3C",
+        "edDraft": "https://w3c.github.io/dpub-aam/",
+        "deliveredBy": [{
+            "url": "https://www.w3.org/WAI/ARIA/",
+            "shortname": "wai_aria"
+        }],
+        "repository": "https://github.com/w3c/dpub-aam",
+        "id": "dpub-aam-1.0",
+        "date": "14 December 2017"
+    },
         "DPUB-ARIA": {
                 "title": "Digital Publishing WAI-ARIA Module 1.0",
                 "href": "http://www.w3.org/TR/dpub-aria-1.0/",
@@ -67,6 +107,26 @@ var biblio = {
                         "http://www.w3.org/WAI/ARIA/"
                 ]
         },
+    "dpub-aria-1.0": {
+        "authors": [
+            "Matt Garrish",
+            "Tzviya Siegman",
+            "Markus Gylling",
+            "Shane McCarron"
+        ],
+        "href": "https://www.w3.org/TR/dpub-aria-1.0/",
+        "title": "Digital Publishing WAI-ARIA Module 1.0",
+        "status": "REC",
+        "publisher": "W3C",
+        "edDraft": "https://w3c.github.io/dpub-aria/",
+        "deliveredBy": [{
+            "url": "https://www.w3.org/WAI/ARIA/",
+            "shortname": "wai_aria"
+        }],
+        "repository": "https://github.com/w3c/dpub-aria",
+        "id": "dpub-aria-1.0",
+        "date": "14 December 2017"
+    },
         "GRAPHICS-ARIA": {
                 "title": "WAI-ARIA Graphics",
                 "href": "http://www.w3.org/TR/graphics-aria-1.0/",
@@ -263,5 +323,76 @@ var biblio = {
 		"deliveredBy": [
 			"http://www.w3.org/WAI/PF/"
 		]
-	}
+	},
+    "wai-aria-1.1": {
+        "authors": [
+            "Joanmarie Diggs",
+            "Shane McCarron",
+            "Michael Cooper",
+            "Richard Schwerdtfeger",
+            "James Craig"
+        ],
+        "href": "https://www.w3.org/TR/wai-aria-1.1/",
+        "title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
+        "status": "REC",
+        "publisher": "W3C",
+        "deliveredBy": [{
+            "url": "https://www.w3.org/WAI/ARIA/",
+            "shortname": "wai_aria"
+        }],
+        "edDraft": "https://w3c.github.io/aria/",
+        "repository": "https://github.com/w3c/aria",
+        "id": "wai-aria-1.1",
+        "date": "14 December 2017"
+    },
+    "wai-aria-implementation-1.0": {
+	    "authors": [
+	        "Joseph Scheuhammer",
+	        "Michael Cooper"
+	    ],
+	    "href": "https://www.w3.org/TR/wai-aria-implementation/",
+	    "title": "WAI-ARIA 1.0 User Agent Implementation Guide",
+	    "status": "REC",
+	    "publisher": "W3C",
+	    "deliveredBy": [{
+	        "url": "https://www.w3.org/WAI/PF/",
+	        "shortname": "wai_pf"
+	    }],
+	    "versions": [
+	        "wai-aria-implementation-20140320",
+	        "wai-aria-implementation-20140206",
+	        "wai-aria-implementation-20131217",
+	        "wai-aria-implementation-20131105",
+	        "wai-aria-implementation-20120816",
+	        "wai-aria-implementation-20120110",
+	        "wai-aria-implementation-20100916",
+	        "wai-aria-implementation-20091215",
+	        "wai-aria-implementation-20090224"
+	    ],
+	    "id": "wai-aria-implementation",
+	    "date": "20 March 2014"
+	},
+    "wai-aria-practices-1.1": {
+        "authors": [
+            "Matthew King",
+            "James Nurthen",
+            "Michiel Bijl",
+            "Michael Cooper",
+            "Joseph Scheuhammer",
+            "Lisa Pappas",
+            "Richard Schwerdtfeger"
+        ],
+        "href": "https://www.w3.org/TR/wai-aria-practices-1.1/",
+        "title": "WAI-ARIA Authoring Practices 1.1",
+        "status": "NOTE",
+        "publisher": "W3C",
+        "edDraft": "https://w3c.github.io/aria-practices/",
+        "deliveredBy": [{
+            "url": "https://www.w3.org/WAI/ARIA/",
+            "shortname": "wai_aria"
+        }],
+        "repository": "https://github.com/w3c/aria-practices",
+        "id": "wai-aria-practices-1.1",
+        "date": "14 December 2017"
+    }
 };
