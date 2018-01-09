@@ -2,8 +2,9 @@
 
 This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
-* TOC
-{:toc}
+## Other Repositories
+
+This repository is for the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications. There are several other deliverables, such as ARIA modules, Accessibility API Mappings, and support documents. These are maintained in separate repositories listed on the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification to which the issue applies.
 
 ## Contributing to this Repository
 
@@ -103,58 +104,21 @@ The set of class values currently defined are:
 
 ### Shared Resources
 
-#### Terms
-
-The specifications share a common set of term definitions, located in [common/terms.html](common/terms.html). Add and update terms there, keeping in mind your edits will affect all specifications. To use the terms, at the place you want the terms to be included, provide the following line:
-
-```
-<div data-include="../common/terms.html" data-oninclude="restrictReferences"></div>
-```
-
-This includes the terms file and filters it to only output ones that are referenced in that particular specification.
-
-#### Bibliography
-
-The Respec processor loads a bibliography called [Specref](https://github.com/tobie/specref). This resource automatically includes most publications that have been published to the W3C Technical Reports page. While it is possible to request additions to this via pull requests, in practice to use references that are not in that database, it is easier to use a [`localBiblio`](https://github.com/tobie/specref). This allows the Respec configuration to load additional bibliographic entries, structured in the same way as in Specref.
-
-Many of the supplementary bibliographic entries needed for the ARIA publications are common to several specifications. Therefore the bibliographic entries are all stored in [common/biblio.js](common/biblio.js). This is loaded with the other scripts at the top of the file with the following line:
-
-```
-<script src="../common/biblio.js" class="remove"></script>
-```
-
-In the respecConfig, instead of providing the set of bibliographic entries directly, simply reference the object created by that script:
-
-```
-localBiblio: biblio,
-```
-
-#### Images, CSS, and Scripts
-
-The [common](common) directory also contains shared images, CSS, and scripts. Some of the scripts extend the Respec formatting processor, and others are meant to be used with the final output version. When a resource is, or is likely to be, shared, put it in the common directory. Resources specific to a particular specification, including overriding CSS, can be placed in the directory for that specification. Use the same sub-directory structure of `img`, `css`, and `script` to help keep files organized.
+The ARIA repositories share a common set of resources to reduce redundancy. Shared resources are in the [aria-common](https://github.com/w3c/aria-common/) repository, and copied to a "common" folder in this and other ARIA repositories. *It is important to make edits in the aria-common repository*; making edits in the common folder of another repository will allow the edits to be overridden.
 
 ### Special Structures
 
 Todo: special characteristics table classes etc. used by the script
 
-### Generating Editors' Drafts
+### Editors' Drafts
 
-Official editors' drafts are published to a URI beginning with https://w3c.github.io/aria/. This URI is suitable for public references. Documents published here are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts.
-
-It is desired to automate publishing to this URI when commits are pushed to the server, and there are actions items open for this, but that feature does not exist yet. Editors can manually generate the editors drafts using the following procedure:
-
-* Push your edits to the server. Take note of the relative path of the document and branch name (usually master).
-* On your local machine, change to the gh-pages branch.
-* Point your browser to the rawgit URI for the document. This is https://rawgit.com/w3c/aria/{branch}/{path}.
-* Use the "ReSpec" button to "Save Snapshot", choose "Save as HTML", and save the file in the appropriate location for the editors' draft.
-* Commit that change to your local github branch and push that to the server. That puts the static snapshot in the location known by the github.io URI.
-* On your local machine, switch back to the branch in which you were editing.
+Official editors' drafts are published to  [https://w3c.github.io/aria/]. This URI is suitable for public references. Documents published to that location are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts. Editors' drafts are automatically updated (if there are no errors) by a [Travis-CI](https://travis-ci.org/) service run when commits are pushed to the master branch.
 
 ### How ARIA Extension Specs are Built
 
 An extension spec is one that defines additional roles, states, and / or properties that augment
 the collection defined in the core ARIA specification (aria/aria.html).  Extension specs must be
-built in conjunction with the W3C PFWG if any new roles are to be in the default vocabulary space
+built in conjunction with the W3C ARIA WG if any new roles are to be in the default vocabulary space
 (http://www.w3.org/1999/xhtml/vocab).
 
 When building an extension spec, use the boiler plate provided in aria/template.html as a basis.  
@@ -167,6 +131,8 @@ The ariaChild.js script relies upon an input script (aria/script/roleInfo.js).  
 If you want to ensure the file is up to date, access the core ARIA spec with the special query string "#saveRoles"
 from a browser on a client that has write access to the copy of the extension spec you are editing. When the dialog appears, click
 the save button and tell your browser to save the roleInfo.js file into the aria/script directory.
+
+The scripts to support extension modules are stored in the aria-common repository. Therefore, updates to roleInfo.js must be saved and committed to that repository, even though they are generated from content in this repository.
 
 ### Style guidelines
 
@@ -217,13 +183,14 @@ In general, but particularly when preparing documents for TR publication, editor
 * Editor / author credits
 * [Participant credits](common/acknowledgements.html)
 * Documents are [valid HTML 5](http://validator.w3.org/)
+* Documents use the [HTML Polyglot](https://www.w3.org/TR/html-polyglot/) syntax to allow XML-based tools to process them and help catch errors caused by markup ambiguities.
 * Dcouments do not have [broken links or unnecessary redirects](http://validator.w3.org/checklink)
 * Spelling / typos
 * Consistent use of approved spellings when multiple are possible
 
 ### Semi-Automated Sanity Checking
 
-There is some automated sanity checking available, currently run by XSLT. Documentation on how to run to follow. The sanity check report helps determine the following potential issues:
+There was some automated sanity checking available, previously run by XSLT. This feature may be restored. The sanity check report helped determine the following potential issues:
 
 * When inheritance of roles change, the states they support may change. The tools will indicate when there is a change of supported states by comparison to an earlier version of the spec. It is a manual decision whether the changes are desired or if the set of supported states needs to be updated.
 * Ensure that supported state not defined if the state is also inherited
