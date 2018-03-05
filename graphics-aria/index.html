@@ -412,8 +412,12 @@
              would be subclasses of <code>graphics-document</code>.
            </p>
         </div>
-				<pre class="example highlight">
-&lt;!-- An SVG diagram of an electrical circuit --&gt;
+              <aside class="example">
+                <p>
+                  An SVG diagram of an electrical circuit is a simple graphical document:
+                </p>
+<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
+				<pre class="highlight">
 &lt;svg xmlns="https://www.w3.org/2000/svg" 
      width="400" height="200" viewBox="0 0 200 100"
      role="graphics-document document" &gt;
@@ -422,27 +426,19 @@
      &lt;style type="text/css"&gt;
         /* omitted */
      &lt;/style&gt;
-     &lt;g id="battery-1" role="graphics-symbol img" 
-        aria-roledescription="source" 
-        aria-label="battery"
-        aria-flowto="switch-1" 
-        transform="translate(20,50)" &gt;
-        &lt;path d="M-15,-5 h30 M-5,5 h10" /&gt;
+     &lt;g id="battery-1" role="graphics-symbol img"
+        aria-roledescription="source" aria-label="battery"
+        transform="translate(20,50)"&gt;
+        &lt;path d="M-15,-5 h30 M-5,5 h10"/&gt;
      &lt;/g&gt;
-     &lt;path class="wire" d="M20,45 V20 H90"/&gt;
-     &lt;g id="switch-1" role="graphics-symbol img" 
-        aria-roledescription="switch" 
-        aria-label="single-pole switch"
-        aria-flowto="lightbulb-1" &gt;
-        &lt;path d="M90,20 L105,30" /&gt;
-        &lt;circle class="connection" cx="90" cy="20" r="2" /&gt;
-        &lt;circle class="connection" cx="110" cy="20" r="2" /&gt;
-     &lt;/g&gt;
-     &lt;!-- more wires and a light bulb --&gt; 
+     &lt;path id="wire-1" role="graphics-symbol img"
+          aria-label="wire connecting"
+          aria-labelledby="wire-1 battery-1 switch-1"
+          class="wire" d="M20,45 V20 H90"/&gt;
+     &lt;!-- the switch, more wires, and a light bulb --&gt; 
 &lt;/svg&gt;
-
-<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
 </pre>
+              </aside>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -565,7 +561,7 @@
         </p>
 
         
-<div class="example">
+<aside class="example">
   <p>
     The code that follows is a portion of the markup for a 
     structured graphic.  It includes SVG <code>g</code> grouping
@@ -669,7 +665,7 @@
     &lt;!-- more markup for the trees --&gt;
 &lt;/svg&gt;
 </pre>    
-</div>
+</aside>
       <!-- 
 FRED: I've added more explanation to the house example,
 which I think covers the factors you were trying to emphasize here.
@@ -830,8 +826,12 @@ OK to omit the second example?
             in the form <code>role="graphics-symbol img"</code>, 
             if that is not already the default semantic role for the element.
         </p>
-				<pre class="example highlight">
-&lt;!-- Within an HTML document listing a restaurant menu --&gt;
+              <aside class="example">
+                <p>
+                  Within an HTML document for a restaurant menu,
+                  an <code>img</code> element can represent a repeated symbol:
+                </p>
+				<pre class="highlight">
 &lt;h2&gt;Appetizers&lt;/h2&gt;
 &lt;ul&gt;
     &lt;li&gt; Spinach Salad with Strawberry &amp; Almonds
@@ -844,44 +844,78 @@ OK to omit the second example?
     &lt;!-- &#8230; --&gt;
 &lt;/ul&gt;
 </pre>
-				<pre class="example highlight">
-&lt;!-- Within an SVG diagram of an electrical circuit --&gt;
-&lt;g id="lightbulb-1" role="graphics-symbol img" 
-   aria-roledescription="load" 
+              </aside>
+              <aside class="example">
+                <p>
+                  Within an SVG diagram of an electrical circuit,
+                  the graphics that represent batteries, switches, 
+                  and loads like this lightbulb are each symbols:
+                </p>
+<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
+				<pre class="highlight">
+&lt;g id="lightbulb-1" role="graphics-symbol img"
+   aria-roledescription="load"
    aria-label="lightbulb"
-   aria-describedby="lightbulb-1-label"
-   aria-flowto="battery-1" 
+   aria-labelledby="lightbulb-1 lightbulb-1-label"
    transform="translate(180,50)"&gt;
     &lt;text id="lightbulb-1-label"
         x="-15" dy="0.5ex" text-anchor="end" &gt;10W&lt;/text&gt;
     &lt;circle r="10" /&gt;
     &lt;path d="M0,-10 C0,8 5,8 5,0 C5,-8 0,-8 0,10" /&gt;
 &lt;/g&gt;
-
-<object type="image/svg+xml" data="img/circuit-diagram.svg" ></object>
-
 </pre>
-				<pre class="example highlight">
-&lt;!-- Within an architectural blueprint-style SVG diagram --&gt;
-&lt;g role="graphics-symbol img"&gt;
-    &lt;title&gt;Door&lt;/title&gt;
-    &lt;desc&gt;on West side of South wall&lt;/desc&gt;
-    &lt;line stroke-width="8" stroke="white" 
-          x1="50" y1="275" x2="150" y2="275"/&gt;
-    &lt;line stroke-width="4" stroke="#444" 
-          x1="50" y1="275" x2="125" y2="225"/&gt;        
-&lt;/g&gt;
-&lt;!-- &#8230; --&gt;
-&lt;use xlink:href="#outlet" role="graphics-symbol img" 
-     x="5" y="130" width="40" height="40"&gt;
-    &lt;title&gt;Electrical outlet&lt;/title&gt;
-    &lt;desc&gt;at center of West wall&lt;/desc&gt;
-&lt;/use&gt;
-
+                <p>
+                  Note that the visible text must be included in the label
+                  for its parent symbol, in this example.
+                  As the child of a <rref>graphics-symbol</rref>,
+                  it is treated as presentational content,
+                  and is therefore not accessible as a separate element of the graphic.
+                </p>
+              </aside>
+              <aside class="example">
+                <p>
+                  Within an architectural blueprint-style SVG diagram,
+                  each SVG <code>use</code> element that creates a copy
+                  of a simple SVG <code>symbol</code> is a <rref>graphics-symbol</rref>:
+                </p>
 <object type="image/svg+xml" data="img/blueprint.svg" ></object>
-
-</pre>
-
+				<pre class="highlight">
+&lt;svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="300" viewBox="0 0 400 300"
+     role="graphics-document document" xml:lang="en"&gt;
+    &lt;title&gt;Room with 5 outlets&lt;/title&gt;
+    &lt;desc&gt;Schematic showing the minimum number and position of 
+        electrical outlets for a mid-sized room with one door.
+    &lt;/desc&gt;
+    &lt;defs&gt; 
+        &lt;symbol id="outlet" viewBox="0 0 30 20"
+                stroke="#000" stroke-width="1.5" pointer-events="all"&gt;
+          &lt;desc&gt;The symbol for an electrical outlet is a circle with 
+          a plug shape overlaid on top.  The plug consists of two horizontal 
+          lines extending from a vertical line.&lt;/desc&gt;
+          &lt;circle cx="15" cy="10" r="9" fill="none"/&gt;
+          &lt;line x1="1" y1="7" x2="29" y2="7"/&gt;
+          &lt;line x1="1" y1="13" x2="29" y2="13"/&gt;
+          &lt;line x1="1" y1="1" x2="1" y2="19"/&gt;
+        &lt;/symbol&gt;
+    &lt;/defs&gt;
+&lt;!-- &#8230; --&gt;
+    &lt;g role="group"&gt;
+        &lt;use xlink:href="#outlet" role="graphics-symbol img"
+             x="100" y="15" width="45" height="30"&gt;
+            &lt;title&gt;Electrical outlet&lt;/title&gt;
+            &lt;desc&gt;on West side of North wall&lt;/desc&gt;
+        &lt;/use&gt;
+        &lt;use xlink:href="#outlet" role="graphics-symbol img"
+             x="250" y="15" width="45" height="30"&gt;
+            &lt;title&gt;Electrical outlet&lt;/title&gt;
+            &lt;desc&gt;on East side of North wall&lt;/desc&gt;
+        &lt;/use&gt;
+&lt;!-- &#8230; --&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;</pre>
+              </aside>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -992,7 +1026,7 @@ OK to omit the second example?
       in a document.
     </p>
     
-<div class="example">
+<aside class="example">
   <p>
     Within an HTML 5 document, an inline SVG
     may sometimes represent an atomic <code>img</code>.
@@ -1001,7 +1035,7 @@ OK to omit the second example?
   </p>
 
 <object type="text/html" data="img/img-role-for-svg.html"></object>
-<pre class="example highlight">
+<pre class="highlight">
 &lt;p&gt;A repeating SVG gradient is defined using the
     &lt;code&gt;spreadMethod&lt;/code&gt; attribute.  
     A value of &lt;code&gt;repeat&lt;/code&gt; causes the color stops
@@ -1028,7 +1062,7 @@ OK to omit the second example?
       separately from the flow of paragraph text.
   </p>
     <object type="text/html" data="img/nested-figures.html"></object>
-<pre class="example highlight">
+<pre class="highlight">
 &lt;figure id="fig1" role="figure region"&gt;
     &lt;svg id="fig1A" class="nested-figure" role="figure"
          aria-labelledby="fig1-caption, fig1A-caption"&gt;
@@ -1064,7 +1098,7 @@ OK to omit the second example?
     while the annotations have individual labels and descriptions.
   </p>
     <object type="text/html" data="img/figure-graphics-doc.html"></object>
-    <pre class="example highlight">
+    <pre class="highlight">
 &lt;figure id="fig1" role="figure region"&gt;
     &lt;svg role="graphics-document"&gt;
         &lt;title&gt;Repeating versus reflecting linear gradients&lt;/title&gt;
@@ -1122,13 +1156,16 @@ OK to omit the second example?
         repeating SVG gradients&lt;/figcaption&gt;
 &lt;/figure&gt;
     </pre>
-</div>    
+</aside>    
 
-				<pre class="example highlight">
-&lt;!-- Within the fallback DOM dynamically constructed
+<aside class="example">
+  <p>
+     Within the fallback DOM dynamically constructed
      for an HTML 5 canvas game,
      elements may represent the different images
-     that create the composite graphic --&gt;
+     that create the composite graphic:
+  </p>
+				<pre class="highlight">
 &lt;canvas role="graphics-document"&gt;
     &lt;p id="scene-desc" role="img" 
        aria-label="The Dungeon"
@@ -1146,6 +1183,7 @@ OK to omit the second example?
    &lt;!-- more DOM elements representing game controls --&gt;
 &lt;/canvas&gt;
 </pre>
+      </aside>
     
   	</section>
 </section>
