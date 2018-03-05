@@ -377,103 +377,8 @@
   </section>
   <section>
     <h3>Accessible Name and Description Mapping</h3>
-    <p>Each step of the algorithm generates a <code>flat text string</code>.  An implementation trims the text and concatenates it with the text alternative computed by previous steps.  The result is a single flat string name or description associated with the <a class="termref">element</a> for which the text alternative computation was executed.  The computed string is used to set the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> <a class="termref">property</a> of the <a class="termref">accessible object</a> corresponding to the <a class="termref">element</a>.  The specifics of  each <a class="termref">accessibility <abbr title="Application Programming Interfaces">API</abbr></a> mapping is given in the following table.</p>
-    <table id="nameMappingTable">
-    <caption>
-      Accessible name and accessible description mapping table
-    </caption>
-    <thead>
-      <tr>
-        <th>Accessibility <abbr title="Application Programming Interfaces">API</abbr> Property</th>
-        <th>MSAA + IAccessible2 </th>
-        <th><abbr title="User Interface Automation">UIA</abbr></th>
-        <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-        <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr id="accName">
-      <th><a class="termref"><code>accessible name</code></a></th>
-      <td>Expose in <code>accName</code> property.
-      <p><code>aria-labelledby</code>:  If the referenced objects are in the accessibility tree expose pointers to them using <code>IA2_RELATION_LABELLED_BY</code>, and expose reverse relations as described in <a class="core-mapping" href="#mapping_additional_relations">Relations</a>. </p>
-      </td>
-      <td>Expose in <code>Name</code> property.
-        <p><code>aria-labelledby</code>:  If the referenced objects are in the accessibility tree, expose pointers to them using the <code>LabeledBy</code> property.</p>
-      </td>
-      <td>Expose in the name property of the accessible object.
-        <p><code>aria-labelledby</code>: If the referenced objects are in the accessibility tree, expose pointers to them using <code>RELATION_LABELLED_BY</code>, and expose reverse relations as described in <a class="core-mapping" href="#mapping_additional_relations">Relations</a>. </p>
-      </td>
-      <td>Expose as <code>string AXTitle</code>, <code>AXDescription</code>, or <code>AXTitleUIElement</code>:
-        <ul>
-        <li>Accessible name values that are exposed visually, as in the case of a button, should be exposed as string <code>AXTitle</code>. </li>
-        <li><code>AXDescription</code> is recommended for accessible name values that are not exposed visually, such as <code>@alt</code> and <code>@aria-label</code>. </li>
-        </ul>
-        <p><code>aria-labelledby</code>: </p>
-        <ul>
-          <li>If <code>aria-labelledby</code> references a single element, expose the labeling relationship as element <code>AXTitleUIElement</code>. </li>
-          <li>If <code>aria-labelledby</code> references multiple elements, or if the labeling element is invisible or otherwise not exposed in the accessibility tree, expose as <code>string AXDescription</code>. </li>
-        </ul>
-      </td>
-    </tr>
-    <tr id="accDesc">
-      <th><a class="termref"><code>accessible description</code></a></th>
-      <td>Expose in <code>accDescription</code> property.
-        <p><code>aria-describedby</code>: If the referenced objects are in the accessibility tree, expose pointers to them using <code>IA2_RELATION_DESCRIBED_BY</code>, and expose reverse relations as described in <a class="core-mapping" href="#mapping_additional_relations">Relations</a>.</p>
-      </td>
-      <td>Expose in the <code>FullDescription</code> property.
-        <p><code>aria-describedby</code>: If the referenced objects are in the accessibility tree, expose pointers to the referenced accessible objects using the <code>DescribedBy</code> property.</p>
-      </td>
-      <td>Expose in the description property of the accessible object.
-        <p><code>aria-describedby</code>: If the referenced objects are in the accessibility tree, expose reverse relations as described in <a class="core-mapping" href="#mapping_additional_relations">Relations</a>.</p>
-      </td>
-      <td>Expose as <code>string AXHelp</code>.</td>
-    </tr>
-  </tbody>
-  </table>
-    <p>More information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the <a class="core-mapping" href="">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> document [[!CORE-AAM]].  See the mapping table entries for <a class="core-mapping" href="#ariaLabel"><code>aria-label</code></a>, <a class="core-mapping" href="#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a class="core-mapping" href="#ariaDescribedBy"><code>aria-describedby</code></a>.  </p>
+    <p>Information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> specification [[!CORE-AAM]]. See the mapping table entries for <a class="core-mapping" href="#ariaLabel"><code>aria-label</code></a>, <a class="core-mapping" href="#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a class="core-mapping" href="#ariaDescribedBy"><code>aria-describedby</code></a>.</p>
   </section>
-	<section id="events">
-	<h2>Name and Description Change Events</h2>
-    <p class="ednote">(Joseph) Certain Accessibility APIs emit events for name and/or description property changes.  Document that here (see, for example, <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=991969" target="_blank">FF bugzilla 991969</a>).</p>
-    <p>Although rare, sometimes an <a class="termref">accessible name</a> or <a class="termref">accessible description</a> may change.  Examples include: </p>
-    <ul>
-      <li>Buttons such as the "Play" button in a media player whose label can switch between "Pause" and "Play" depending on its state. </li>
-      <li>On/Off switches whose label changes between "On" and "Off". </li>
-      <li>Labels with embedded controls as described in step 2E above, since the user can change the value of the embedded control. </li>
-      <li>Situations where description text is loaded or set only when needed, such as when the mouse hovers over an object, or the object gains focus. </li>
-    </ul>
-    <p>The following table lists the events or notifications provided by Accessibility <abbr title="Application Programming Interfaces">APIs</abbr> if the name or description changes. <a class="termref">Assistive technologies</a> can make use of these events to provide the current label as needed. </p>
-    <table id="nameDescChangeEvents">
-    <caption>
-      Table of events fired in each API for changes in name or desription property.
-    </caption>
-    <thead>
-      <tr>
-        <th>Accessibility <abbr title="Application Programming Interfaces">API</abbr> Property</th>
-        <th>MSAA + IAccessible2 </th>
-        <th><abbr title="User Interface Automation">UIA</abbr></th>
-        <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology-Service Provider Interface">AT-SPI</abbr></th>
-        <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr id="accNameChange">
-      <th><a class="termref"><code>accessible name</code></a></th>
-      <td><code>EVENT_OBJECT_NAMECHANGE</code></td>
-      <td><code>PropertyChangeEvent</code></td>
-      <td><code>object:property-change:accessible-name</code></td>
-      <td><code>TitleChangedNotification</code></td>
-    </tr>
-    <tr id="accDescChange">
-      <th><a class="termref"><code>accessible description</code></a></th>
-      <td><code>EVENT_OBJECT_DESCRIPTIONCHANGE</code></td>
-      <td><code>PropertyChangeEvent</code></td>
-      <td><code>object:property-change:accessible-description</code></td>
-      <td>TBD.</td>
-    </tr>
-  </tbody>
-  </table>
-	</section>
 <section>
   <h2>Appendices</h2>
 	<section class="appendix" id="changelog">
@@ -481,6 +386,7 @@
 		<section>
 			<h2>Substantive changes since the <a href="http://www.w3.org/TR/2014/WD-accname-aam-1.1-20141211/">last public working draft</a></h2>
 			<ul>
+                                <li>5-March-2018: Remove mapping table content as it is redundant to what is in Core AAM.</li>
                                 <li>9-August-2017: Added interim step to be able to process recursions of elements who are descendants of an element whose name/description is being computed</li>
 				<li>27-July-2017: Modify step 2F to handle elements that are descendants of text alternative elements in host languages. </li>
 				<li>08-June-2017: Remove list style information from the accessible name computation.</li>
