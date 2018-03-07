@@ -260,7 +260,9 @@ var mappingTableLabels = {
     <a class="termref" data-lt="Semantics">semantics</a>  
     about the user interface to 
     <a class="termref" data-lt="Assistive Technologies">assistive technologies</a> 
-    used by people with disabilities. 
+    used by people with disabilities.
+  </p>
+  <p>
     These <abbr title="application programming interfaces">APIs</abbr> constitute 
     a contract between applications and assistive technologies, 
     such as screen readers, magnifiers, alternate input devices, and speech command and control, 
@@ -276,28 +278,29 @@ var mappingTableLabels = {
     For web documents and applications, 
     the essential semantic information is encapsulated 
     within the Document Object Model (<abbr title="Document Object Model">DOM</abbr>).  
-    Assistive technologies obtain this information from the user agent, 
+    Assistive technologies obtain this information from the <a>user agent</a> (web browser), 
     which maps elements and attributes 
     to the platform Accessibility <abbr title="Application Programming Interface">API</abbr>.
   </p>
   <p>
-    In traditional <abbr title="Scalable Vector Graphics">SVG</abbr> documents, 
-    most SVG <a class="termref" data-lt="Element">element</a>s
+    In Scalable Vector Graphics (SVG) documents, 
+    most SVG <a class="termref" data-lt="Element">elements</a>
     do not provide semantic information of value to assistive technologies.  
     Instead, they represent low-level vector graphics drawing directives. 
     That element only has meaning to assistive technologies 
     if the author provides alternative text, descriptions, or WAI-ARIA semantics.
   </p>
   <p>
-    Both Scalable Vector Graphics (SVG) version 1 [[SVG1]] and version 1.1 [[SVG11]] 
-    included elements for accessibility purposes, 
-    such as <code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code>.  
-    However, prior to this specification there was no normative guidance 
+    Both version 1 [[SVG1]] and version 1.1 [[SVG11]] of the SVG specifications
+    included elements for defining <a>accessible names</a> and <a data-lt="accessible description">descriptions</a> 
+    (<code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code>).  
+    However, prior to this specification, there was no normative guidance 
     as to how user agents should expose this information to assistive technologies, 
     or how to integrate it with host languages and validators that support WAI-ARIA.
+    There was similarly no guidance on how user agents should make interactive SVG <a>keyboard accessible</a>.
   </p>
   <p>
-    SVG 2 now incorporates traditional keyboard navigation from HTML 5. 
+    SVG 2 now incorporates keyboard navigation based on the established model from HTML 5. 
     The <a class="termref" data-lt="user agent">user agent</a> 
     provides sequential focus navigation to <abbr title="Scalable Vector Graphics">SVG</abbr> elements 
     that are interactive by default (links and audio/video elements with controls), 
@@ -308,25 +311,28 @@ var mappingTableLabels = {
     more complex keyboard focus patterns.
   </p>
   <p>
-    SVG closely aligns with <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Level 3 Core</a>
-    and HTML5 events to facilitate JavaScript use. 
-    Through the use of technologies 
-    such as JavaScript, Ajax, and <abbr title="cascading style sheets">CSS</abbr>, 
-    authors can make SVG look and behave more interactive 
-    without having to reload the page with each user interaction. 
-    With SVG, authors are able to produce rich interactive charts and drawings.
+    SVG closely aligns with the core DOM Standard [[DOM]],
+    supporting JavaScript manipulation of the graphic in interactive environments.
+    Through the use of JavaScript, <abbr title="cascading style sheets">CSS</abbr>, and related APIs, 
+    authors can make SVG look and behave as an interactive application, 
+    to produce rich interactive charts and drawings.
   </p>
   <p>
-    To allow the author to express and dynamically update their intended semantics, 
+    To allow the author to express and dynamically update their intended semantics
+    in both static and interactive graphics, 
     SVG 2 supports the use of 
     <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles, states, and properties.
-    WAI-ARIA enables rich SVG-drawn Internet applications 
-    to have the same accessibility features as 
-    <abbr title="graphical user interface">GUI</abbr> applications installed on their operating system.
     Authors may include 
     <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attributes in their markup 
     and user agents will translate it 
     to the platform accessibility <abbr title="application programming interfaces">APIs</abbr>.
+  </p>
+  <p>
+    WAI-ARIA enables rich SVG-drawn Internet applications 
+    to have the same accessibility features as 
+    <abbr title="graphical user interface">GUI</abbr> applications installed on their operating system.
+    In complex static graphics,
+    WAI-ARIA provides the missing document structure that is provided in HTML by semantic elements.
   </p>
   <p>
     For an introduction to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>, 
@@ -485,12 +491,14 @@ var mappingTableLabels = {
       The <a class="termref" data-lt="Accessibility Tree">accessibility tree</a> 
       and the <abbr title="Document Object Model">DOM</abbr> tree are parallel structures.  
       Roughly speaking, the accessibility tree is a subset 
-      of the <abbr title="Document Object Model">DOM</abbr> tree,
-      augmented to
-      include the user interface <a class="termref" data-lt="Object">object</a>s 
+      of the flattened <abbr title="Document Object Model">DOM</abbr> tree,
+      which is then augmented to
+      include the user interface <a class="termref" data-lt="Object">objects</a> 
       of the <a class="termref" data-lt="user agent">user agent</a> 
-      as well as the objects of the document. 
-      <a class="termref" data-lt="Accessible object">Accessible object</a>s are created 
+      as well as the objects of the document.
+    </p>
+    <p>
+      <a class="termref" data-lt="Accessible object">Accessible objects</a> are created 
       in the accessibility tree for every 
       <abbr title="Document Object Model">DOM</abbr>  <a class="termref" href="#dfn-element">element</a> 
       that should be exposed to an 
@@ -498,7 +506,10 @@ var mappingTableLabels = {
       An element could be exposed because it may fire an accessibility <a href="#dfn-event" class="termref">event</a> 
       or because it has a <a class="termref" data-lt="Property">property</a>, 
       relationship or feature which needs to be exposed. 
-      Generally, if something can be omitted it will be, 
+    </p>
+    <p>
+      Generally, if a DOM element can be omitted from the accessibility tree
+      without affecting meaning, it will be, 
       for reasons of performance and  simplicity. 
       For example, a <code>&lt;span&gt;</code> with just a style change 
       and no <a class="termref" data-lt="semantics">semantics</a> 
