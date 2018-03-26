@@ -203,7 +203,7 @@ var biblio = {
 	},
 	"SVG2": {
 		"title": "Scalable Vector Graphics (SVG) 2",
-		"href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
+		"href": "https://www.w3.org/TR/SVG2/",
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
