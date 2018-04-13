@@ -247,12 +247,13 @@ require(["core/pubsubhub"], function(respecEvents) {
             });
     // delete any terms that were not referenced.
             Object.keys(termNames).forEach(function(term) {
-                var $p = $("#"+term) ;
+                var $p = $("#"+term);
                 if ($p) {
-                    var tList = $p.getDfnTitles();
+                    // Delete altered dfn elements and refs
                     $p.parent().next().remove();
-                    $p.remove() ;
-                    tList.forEach(function( item ) {
+                    $p.parent().remove();
+
+                    $p.getDfnTitles().forEach(function( item ) {
                         if (respecConfig.definitionMap[item]) {
                             delete respecConfig.definitionMap[item];
                         }
