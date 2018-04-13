@@ -1,7 +1,18 @@
-/* globals $, require */
+//check for require() and respec context
+if (typeof require !== "undefined") {
+	/* globals $, require */
+	require(["core/pubsubhub"], function(respecEvents) {
+		mapTables(respecEvents);
+	});
+} else {
+	$(document).ready(function() {
+		mapTables(false);
+	});
+}
 
-require(["core/pubsubhub"], function(respecEvents) {
-    "use strict";
+function mapTables(respecEvents) {
+
+  "use strict";
 
 	var mappingTableInfos = [];
 
@@ -249,6 +260,6 @@ require(["core/pubsubhub"], function(respecEvents) {
 			});
 		});
 	} else {
-		$(document).ready(mappingTables);
+		mappingTables();
 	}
-});
+}
