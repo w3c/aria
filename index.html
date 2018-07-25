@@ -11151,6 +11151,54 @@
 		</div>
 	</section>
 </section>
+<section class="normative" id="accessibility_tree">
+	<h1>Accessibility Tree</h1>
+	<section id="tree_exclusion">
+	  <h2>Excluding Elements from the Accessibility Tree</h2>
+	  <p>The following <a>elements</a> are not exposed via the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
+	  <ul>
+	    <li>Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional and depends on other factors. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a> section.</li>
+	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code>, <code>visibility:hidden</code>, or the HTML 5 <code>hidden</code> attribute.</li>
+          </ul>
+	  <p>If not already excluded from the accessibility tree per the above rules, user agents SHOULD NOT include the following elements in the accessibility tree:</p>
+	  <ul>
+	    <li>Elements, including their descendants, that have <sref>aria-hidden</sref> set to <code>true</code>. In other words, <code>aria-hidden=&quot;true&quot;</code> on a parent overrides <code>aria-hidden=&quot;false&quot;</code> on descendants.</li>
+            <li>
+              <p>Any descendants of elements that have the characteristic &quot;<a href="#childrenArePresentational">Children Presentational: True</a>&quot; unless the descendant is not allowed to be presentational because it meets one of the conditions for exception described in <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a>. However, the text content of any excluded descendants is included.</p>
+              <p>Elements having one of the following roles have the characteristic &quot;Children Presentational: True&quot;:</p>
+	        <ul>
+	          <li><rref>button</rref></li>
+	          <li><rref>checkbox</rref></li>
+	          <li><rref>img</rref></li>
+	          <li><rref>math</rref></li>
+	          <li><rref>menuitemcheckbox</rref></li>
+	          <li><rref>menuitemradio</rref></li>
+	          <li><rref>option</rref></li>
+	          <li><rref>progressbar</rref></li>
+	          <li><rref>radio</rref></li>
+	          <li><rref>scrollbar</rref></li>
+	          <li><rref>separator</rref></li>
+	          <li><rref>slider</rref></li>
+	          <li><rref>switch</rref></li>
+	          <li><rref>tab</rref></li>
+		</ul>
+            </li>
+          </ul>
+	</section>
+	<section id="tree_inclusion">
+	  <h2>Including Elements in the Accessibility Tree</h2>
+          <p>If not already excluded from the accessibility tree per the rules above in <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a>, user agents MUST provide an <a>accessible object</a> in the <a>accessibility tree</a> for <abbr title="Document Object Model">DOM</abbr> <a>elements</a> that meet any of the following criteria:</p>
+          <ul>
+            <li>Text nodes</li>
+            <li>Elements that may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> <a>event</a>.</li>
+            <li>Elements that are focusable, or have an ID <a>attribute</a> and an ancestor with the <pref>aria-activedescendant</pref> attribute that matches the implicit or explicit <a>semantics</a> of the required context role. In either case, the element may receive focus and may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> focus event.</li>
+            <li>Elements that have an explicit role or a global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attribute and do not have <sref>aria-hidden</sref> set to <code>true</code>. (See <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a> for additional guidance on <sref>aria-hidden</sref>.)</li>
+            <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property and are not <a>hidden</a>.
+              <p class="note">Text equivalents for hidden referenced objects may still be used in the <a href="#mapping_additional_nd">name and description calculation</a> even when not included in the accessibility tree.</p>
+            </li>
+          </ul>
+	</section>
+</section>
 <section class="normative" id="host_languages">
 	<h1>Implementation in Host Languages</h1>
 	<p>The <a>roles</a>, <a>state</a>, and <a>properties</a> defined in this specification do not form a complete web language or format. They are intended to be used in the context of a host language. This section discusses how host languages are to implement <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>, to ensure that the markup specified here will integrate smoothly and effectively with the host language markup.</p>
