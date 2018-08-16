@@ -197,4 +197,4 @@ There was some automated sanity checking available, previously run by XSLT. This
 * Check that the role spec and the UML Class Diagram express the same thing
 * Roles list only supported states that are defined
 * States indicate applicability only to roles that are defined
-* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepencies called out for manual attention
+* Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepancies called out for manual attention
