@@ -9,6 +9,7 @@ This repository is for the main deliverable of the ARIA Working Group, Accessibl
 ## Contributing to this Repository
 
 ### Role of Editors
+
 Only formally designated editors have commit access to this repository. Editors are designated by the Working Group Chair and make the following commitments:
 
 * Execute the consensus of the Working Group regardless of personal opinion;
@@ -57,7 +58,7 @@ Links with special class attributes allow cross references into other specs in t
 
 First, for each document that might be referenced, a set of URLs is provided. The URLs are indexed by values of the [respec spec status](http://www.w3.org/respec/ref.html#specstatus), which ensures the target at the same level of maturity as the current version is used. A typical set of values for the main ARIA spec is:
 
-```
+```js
 // Spec URLs
 ariaSpecURLs: {
   "FPWD": "http://www.w3.org/TR/wai-aria-1.1/",
@@ -78,13 +79,13 @@ The following properties for cross references are currently available *(todo: we
 
 The task of fixing up links is done by a script that needs to be hooked in via the following line in the respecConfig:
 
-```
+```js
 preProcess: [ linkCrossReferences ]
 ```
 
 Once all this is defined in the `respecConfig`, use the `class` attribute on the links to activate the script for that link. The value of the `href` should be the fragment you want to target, i.e,. the hash tag and fragment ID. For example, a link to the list of roles in the ARIA spec would be:
 
-```
+```html
 <a href="#role_definitions" class="specref">ARIA roles</a>
 ```
 
