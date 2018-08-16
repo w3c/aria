@@ -184,7 +184,7 @@ In general, but particularly when preparing documents for TR publication, editor
 * [Participant credits](common/acknowledgements.html)
 * Documents are [valid HTML 5](http://validator.w3.org/)
 * Documents use the [HTML Polyglot](https://www.w3.org/TR/html-polyglot/) syntax to allow XML-based tools to process them and help catch errors caused by markup ambiguities.
-* Dcouments do not have [broken links or unnecessary redirects](http://validator.w3.org/checklink)
+* Documents do not have [broken links or unnecessary redirects](http://validator.w3.org/checklink)
 * Spelling / typos
 * Consistent use of approved spellings when multiple are possible
 
