@@ -11272,6 +11272,13 @@
 		<p>However, <em>required</em> states and properties that are absent are an author error. Missing required states and properties are treated as if they were present and have an implicit neutral value that is not necessarily their default value. For example, the default value of <code>aria-expanded</code> is <code>undefined</code>, meaning neither expandable nor collapsible.  But that does not apply to the case of a <code>combobox</code>. In this case, <code>aria-expanded</code> is needed to convey the expandable/collapsible nature of the <code>combobox</code>.  Thus, the implicit value of <code>aria-expanded</code> for the <code>combobox</code> role is <code>false</code>, meaning expandable (and currently collapsed).   The characteristics table associated with each WAI-ARIA role has an "<a href="#implictValueForRole">Implicit Value for Role</a>" entry that specifies the value of a state or property to use in the context of that role when the state or property is missing.  </p>
 		<p>Elements that have implicit WAI-ARIA semantics support the full set of WAI-ARIA states and properties supported by the corresponding role. Therefore, authors MAY omit the role when setting states and properties. The role is only needed when the implicit WAI-ARIA role of the element needs to be changed.</p>
 		<p>Sometimes states and properties are present in the DOM but have a zero-length string ("") as their value.  This is equivalent to their absence.  User agents SHOULD treat state and property attributes with a value of "" the same as they treat an absent attribute.  For supported states and properties, this corresponds to the default value, but if it is a required attribute, it signals an author error, and the implicit value for the role is used. </p>
+		<section id="mapping_additional_relations_error_processing">
+	        <h3>ID Reference Error Processing</h3>
+	        <p><a>User agents</a> SHOULD ignore ID references that do not match the ID of another <a>element</a> in the same document.</p>
+	        <p>It is the web author's responsibility to ensure that IDs are unique. If more than one element has the same ID, the user agent SHOULD use the first element found with the given ID. The behavior will be the same as <code>getElementById</code>.</p>
+	        <p>If the same element is specified multiple times in a single <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> relation, user agents SHOULD return multiple pointers to the same <a>element</a>.</p>
+	        <p><pref>aria-activedescendant</pref> is defined as referencing only a single ID reference. Any <code>aria-activedescendant</code> value that does not match an existing IDREF exactly is  an author error and will not match any element in the <abbr title="Document Object Model">DOM</abbr>.</p>
+        </section>
 	</section>
 	<section id="document-handling_css-selectors">
 		<h3>CSS Selectors</h3>
@@ -11282,7 +11289,7 @@
 			<h3>Handling Author Errors</h3>
 			<p>In general, <a>user agents</a> do not do much validation of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">properties</a>. User agents MAY do some minor validation on request, such as making sure <a data-lt="valid idref">valid IDs</a> are specified for <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relations, and enforcing things like <pref>aria-posinset</pref> being within 1 and <pref>aria-setsize</pref>, inclusive. User agents are not  responsible for logical validation, such as the following:</p>
 				<ol>
-					<li>Circular references created by relations, such as specifying that two <a class="termref">elements</a> own each other. </li>
+					<li>Circular references created by relations, such as specifying that two <a>elements</a> own each other. </li>
 					<li>Correct usage with regard to <abbr title="Document Object Model">DOM</abbr> tree structure, such as an <pref>aria-activedescendant</pref> being a <abbr title="Document Object Model">DOM</abbr>-descendant of the element with the  relation.</li>
 					<li>Elements with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>roles</a> correctly implement the  behavior of the specified role. For example, user agents do not verify that an element with a role of <rref>checkbox</rref> actually behaves like a checkbox.</li>
 					<li>Elements that do not correctly observe required child / parent role relationships or that appear elsewhere than in their required parent.</li>
