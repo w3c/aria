@@ -324,46 +324,13 @@ var mappingTableLabels = {
 		<p>Platform <a class="termref" href="#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> traditionally have had a finite set of predefined <a class="termref">roles</a> that are expected by <a class="termref">assistive technologies</a> on that platform and only one or two roles may be exposed. In  contrast, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> allows multiple roles to be specified as an ordered set of space-separated valid role tokens. The additional roles are fallback roles similar to the concept of specifying multiple fonts in case the first choice font type is not supported.</p>
 		<section id="roleMappingGeneralRules">
 		  <h2>General rules</h2>
-      <p>The following rules describe how to expose WAI-ARIA  roles using the accessibility <abbr title="application programming interface">API</abbr>:</p>
-      <ol>
-        <li>The user agent MUST use the first token in the sequence of tokens in the role <a class="termref">attribute</a> value which matches the name of any non-abstract <abbr title="Accessible Internet Application">WAI-ARIA</abbr> role according to rules that are specified in the <a href="#mapping_role_table">Role Mapping Table</a> below.  See <a href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> for additional information. Note that when <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles override host language semantics, there are no changes in the <abbr title="Document Object Model">DOM</abbr>, only in the <a class="termref">accessibility tree</a>. In the absence of author-supplied scripts, the presence of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles might not make sense. But user agents MUST map <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles even in the absence of author-supplied scripts.
-          <p>The following steps will correctly identify the applicable <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role:</p>
-          <ol>
-            <li>Use the rules of the host language to detect that an element has a role attribute and to identify the attribute value string for it.</li>
-            <li>Separate the attribute value string for that attribute into a sequence of whitespace-free substrings by separating on whitespace.</li>
-            <li>Do a comparison of the substrings to all the names of the non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles. Case-sensitivity of the comparison inherits from the case-sensitivity of the host language.</li>
-            <li>Use the first such substring in textual order that matches the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role for the <abbr title="application programming interface">API</abbr> role mapping. See the <a href="#mapping_role_table">Role Mapping Table</a> below for details.</li>
-          </ol>
-        </li>
-        <li>User agents MUST NOT map roles defined in the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> specification as &quot;abstract&quot; via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.  Use the fallback procedure specified in the next rule if only an abstract role is provided. The abstract roles are:
-          <ul>
-            <li><a class="role-reference" href="#command"><code>command</code></a></li>
-            <li><a class="role-reference" href="#composite"><code>composite</code></a></li>
-            <li><a class="role-reference" href="#input"><code>input</code></a></li>
-            <li><a class="role-reference" href="#landmark"><code>landmark</code></a></li>
-            <li><a class="role-reference" href="#range"><code>range</code></a></li>
-            <li><a class="role-reference" href="#roletype"><code>roletype</code></a></li>
-            <li><a class="role-reference" href="#section"><code>section</code></a></li>
-            <li><a class="role-reference" href="#sectionhead"><code>sectionhead</code></a></li>
-            <li><a class="role-reference" href="#select"><code>select</code></a></li>
-            <li><a class="role-reference" href="#structure"><code>structure</code></a></li>
-            <li><a class="role-reference" href="#widget"><code>widget</code></a></li>
-            <li><a class="role-reference" href="#window"><code>window</code></a></li>
-          </ul>
-        </li>
-        <li>If the element does not have a role attribute, or if the role attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST fall back on normal processing of the base markup for the element. For example, for <samp>&lt;table role=&quot;foo&quot;&gt;</samp> use the  <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element to determine the platform accessibility <abbr title="application programming interface">API</abbr> role mapping. For <samp>&lt;input type=&quot;text&quot;  role=&quot;bar&quot;&gt;</samp>, use the mapping for an  <abbr title="Hypertext Markup Language">HTML</abbr> <code>text input</code>.</li>
-        <li>When an explicit or inherited role of <code>none</code> or <code>presentation</code> is applied to an element, the user agent MUST implement  the rules for the <a class="role-reference" href="#none"><code>none</code></a> or the <a class="role-reference" href="#presentation"><code>presentation</code></a> <a class="termref">role</a> defined in <cite><a class="specref" href="">Accessible Rich Internet Applications (WAI-ARIA) 1.1</a></cite> [[!WAI-ARIA]]. </li>
-        <li id="exposeRoleString">User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. 
-          <ul>
-            <li>
-              <abbr title="Microsoft Active Accessibility">MSAA</abbr>: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd373608(v=vs.85).aspx" title="Object Roles (Windows)">not supported</a>. User agents SHOULD NOT expose a custom role in MSAA's <code>accRole</code> property.</li>
-            <li>IAccessible2: expose as an object attribute pair (<code>xml-roles:&quot;string&quot;</code>)</li>
-            <li><abbr title="User Interface Automation">UIA</abbr>: expose as <code>AriaRole</code> property. The <code>AriaRole property</code> can also support secondary roles using a space as a separator.</li>
-            <li><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr>: expose as an object attribute pair (<code>xml-roles:&quot;string&quot;</code>)</li>
-          </ul>
-        </li>
-        <li>Platform accessibility <abbr title="application programming interfaces">APIs</abbr> typically do not provide a vehicle to notify assistive technologies that a role has changed. Due to this and document caching, assistive technologies are unlikely to process a change in role attribute value. Authors who wish to change a role are advised by the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> specification to delete the associated element and its children and replace it with a new element having the appropriate role. If a role is changed, however, user agents SHOULD update the mapping in order to reflect the content in the <abbr title="Document Object Model">DOM</abbr>. Since assistive technologies will not know that the role has changed, user agents MAY address this error condition by treating it as removing a subtree item and inserting a new one as described in <a href="#mapping_events_visibility">Changes to document content or node visibility</a>.</li>
-      </ol>
+		  <p id="exposeRoleString">User agents MUST expose the <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role string if the <abbr title="application programming interface">API</abbr> supports a mechanism to do so. This allows assistive technologies to do their own  additional processing of roles. </p>
+		  <ul>
+			<li><abbr title="Microsoft Active Accessibility">MSAA</abbr>: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd373608(v=vs.85).aspx" title="Object Roles (Windows)">not supported</a>. User agents SHOULD NOT expose a custom role in MSAA's <code>accRole</code> property.</li>
+			<li>IAccessible2: expose as an object attribute pair (<code>xml-roles:&quot;string&quot;</code>)</li>
+			<li><abbr title="User Interface Automation">UIA</abbr>: expose as <code>AriaRole</code> property. The <code>AriaRole property</code> can also support secondary roles using a space as a separator.</li>
+			<li><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr>: expose as an object attribute pair (<code>xml-roles:&quot;string&quot;</code>)</li>
+		  </ul>
     </section>
     <section id="mapping_role_table">
 		<h3>Role Mapping Table</h3>
