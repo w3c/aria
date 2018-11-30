@@ -270,7 +270,7 @@
 	<h1>Using <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></h1>
 	<p>Complex web applications become inaccessible when <a>assistive technologies</a> cannot determine the <a>semantics</a> behind portions of a document or when the user is unable to effectively navigate to all parts of it in a usable way (see <cite><a href="https://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[WAI-ARIA-PRACTICES-1.1]]). <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> divides the semantics into <a>roles</a> (the type defining a user interface element) and <a>states</a> and <a>properties</a> supported by the roles.</p>
 	<p>Authors need to associate <a>elements</a> in the document to a WAI-ARIA role and the appropriate states and properties (aria-* <a>attributes</a>) during its life-cycle, unless the elements already have the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantics</a> for states and properties. In these instances the equivalent host language states and properties take precedence to avoid a conflict while the role attribute will take precedence over the implicit role of the host language element.</p>
-	<section id="usage_intro">
+	<section id="introroles" class="normative">
 		<h2><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Roles</h2>
 		<p>A <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>role</a> is set on an <a>element</a> using a <code>role</code> <a>attribute</a>, similar to the <code>role</code> attribute defined in <cite><a href="https://www.w3.org/TR/role-attribute/">Role Attribute</a></cite> [[ROLE-ATTRIBUTE]].</p>
 		<pre class="example highlight">&lt;li role="menuitem"&gt;Open file…&lt;/li&gt;</pre>
@@ -284,7 +284,15 @@
 			<li>use of <abbr title="Web Ontology Language">OWL</abbr> to provide a type hierarchy allowing for <a>semantic</a> inheritance (similar to a <a>class</a> hierarchy); and</li>
 			<li>supported <a>states</a> and <a>properties</a> for each role (e.g., a <rref>checkbox</rref> supports being checked via <sref>aria-checked</sref>).</li>
 		</ul>
-		<p>Attaching a role gives <a>assistive technologies</a> information about how to handle each element.</p>
+		<p>Attaching a role gives <a>assistive technologies</a> information about how to handle each element. When <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles override host language semantics, there are no changes in the <abbr title="Document Object Model">DOM</abbr>, only in the <a class="termref">accessibility tree</a>.</p>
+		<p>User agents MUST use the first token in the sequence of tokens in the <code>role</code> <a>attribute</a> value that matches the name of any non-abstract <abbr title="Accessible Internet Application">WAI-ARIA</abbr> <a>role</a>. The following steps will correctly identify the applicable <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role:</p>
+		<ol>
+			<li>Use the rules of the host language to detect that an element has a role attribute and to identify the attribute value string for it.</li>
+			<li>Separate the attribute value string for that attribute into a sequence of whitespace-free substrings by separating on whitespace.</li>
+			<li>Compare the substrings to all the names of the non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> roles. Case-sensitivity of the comparison inherits from the case-sensitivity of the host language.</li>
+			<li>Use the first such substring in textual order that matches the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role.</li>
+		</ol>
+		<p>Platform accessibility <abbr title="application programming interfaces">APIs</abbr> typically do not provide a vehicle to notify assistive technologies that a role has changed. Due to this and document caching, assistive technologies are unlikely to process a change in role attribute value. Authors who wish to change a role are advised to delete the associated element and its children and replace it with a new element having the appropriate role. If a role is changed, however, user agents SHOULD update the mapping in order to reflect the content in the <abbr title="Document Object Model">DOM</abbr>. Since assistive technologies might not detect that the role has changed, user agents MAY address this condition by removing the item from the accessibility tree and inserting a new item in its place.</p>
 	</section>
 	<section id="introstates">
 		<h2><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> States and Properties</h2>
@@ -11319,8 +11327,17 @@
 		<p class="note">This section might be removed in a future version.</p>
 		<p>Support for <a class="termref">attribute</a> selectors MUST include <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. For example, <samp>.fooMenuItem[aria-haspop=&quot;true&quot;]</samp> would select all <a class="termref">elements</a>  with class <code>fooMenuItem</code>, and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property <pref>aria-haspopup</pref> with value of <code>true</code>. The presentation MUST be updated for dynamic changes to <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. This allows authors to match styling with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>semantics</a>. </p>
 	</section>
-		<section id="document-handling_author-errors">
-			<h3>Handling Author Errors</h3>
+</section>
+<section id="document-handling_author-errors">
+	<h2>Handling Author Errors</h2>
+	<section id="document-handling_author-errors_roles">
+		<h3>Roles</h3>
+		<p>User agents are expected to perform validation of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>roles</a>.</p>
+		<p>As stated in the <a href="#role_definitions">Definition of Roles</a> section, it is considered an authoring error to use <a href="#abstract_roles">abstract roles</a> in content. User agents MUST NOT map abstract roles via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.</p>
+		<p>If the <code>role</code> attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST treat the element as if no <a>role</a> had been provided. For example, <code>&lt;table&nbsp;role=&quot;foo&quot;&gt;</code> should be exposed in the same way as <code>&lt;table&gt;</code> and <code>&lt;input&nbsp;type=&quot;text&quot;&nbsp;role=&quot;structure&quot;&gt;</code> in the same way as <code>&lt;input&nbsp;type=&quot;text&quot;&gt;</code>.</p>
+	</section>
+	<section id="document-handling_author-errors_states-properties">
+		<h3>States and Properties</h3>
 			<p>In general, <a>user agents</a> do not do much validation of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">properties</a>. User agents MAY do some minor validation on request, such as making sure <a data-lt="valid idref">valid IDs</a> are specified for <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relations, and enforcing things like <pref>aria-posinset</pref> being within 1 and <pref>aria-setsize</pref>, inclusive. User agents are not  responsible for logical validation, such as the following:</p>
 				<ol>
 					<li>Circular references created by relations, such as specifying that two <a>elements</a> own each other. </li>
