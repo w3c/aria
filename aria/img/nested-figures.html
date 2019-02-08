@@ -1,0 +1,108 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta lang="en" />
+    <title>img role for SVG elements</title>    
+    <style>
+        body {
+            max-width: 30em;
+            margin: auto;
+            padding: 0.5em;
+            font-family: serif;
+        }
+        svg.nested-figure {
+            display: block;
+            width: 100%;
+            height: 5em;
+            margin: 0 auto 1em;
+            overflow: visible
+        }
+        text {
+            fill: currentColor;
+        }
+        figcaption, .caption {
+            font-style: italic;
+        }
+        figure {
+            display: block;
+            margin: 1em 2em;
+            background-color: #DBE4F0;
+            color: midnightBlue;
+            padding: 0.5em 1em;
+        }
+        :link {
+            color: midnightBlue;
+        }
+        @media (max-width: 25em) {
+            figure {
+                margin: 0.5em 0;
+                padding: 0.5em;
+            }
+        }
+        @media (min-width: 50em) {
+            body {max-width: 60em;}
+            body > * {width: 28em;}
+            figure {
+                float: right;
+                margin: 0;
+                margin-left: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <figure id="fig1" role="figure region">
+        <svg id="fig1A" class="nested-figure" role="figure"
+             aria-labelledby="fig1-caption, fig1A-caption">
+            <linearGradient id="repeat" x2="25%" spreadMethod="repeat">
+                <stop offset="0"     stop-color="black" />
+                <stop offset="0.8" stop-color="white" />
+                <stop offset="1"     stop-color="black" />
+            </linearGradient>
+            <text id="fig1A-caption" class="caption" dy="1em"
+                  >a) spreadMethod="repeat"</text>
+            <rect role="img"
+                  y="25%" width="100%" height="75%" fill="url(#repeat)" >
+                <title>A repeating linear gradient</title>
+                <desc>The gradient starts dark, slowly shifting to light, 
+                  then quickly dark again.  This pattern repeats four
+                  times left to right, each time brightening across a large
+                  region and then getting dark within a short space.
+                </desc>
+            </rect>
+        </svg>
+        <svg id="fig1B" class="nested-figure" role="figure"
+             aria-labelledby="fig1-caption, fig1B-caption">
+            <linearGradient id="reflect" spreadMethod="reflect"
+                            xlink:href="#repeat" />
+            <text id="fig1B-caption" class="caption" dy="1em"
+                  >b) spreadMethod="reflect"</text>
+            <rect role="img"
+                  y="25%" width="100%" height="75%" fill="url(#reflect)" >
+                <title>A reflecting linear gradient</title>
+                <desc>The gradient again starts dark, slowly shifting to light, 
+                  then quickly dark again.  However, the next repeat shifts
+                  quickly to the light, then slowly back dark.  
+                  The original pattern is then repeated, followed by the reflected
+                  version again.
+                </desc>
+            </rect>
+        </svg>
+        <figcaption id="fig1-caption"
+                    >Figure 1: Repeating SVG gradients</figcaption>
+    </figure>
+    <p>A repeating SVG gradient is defined using the
+        <code>spreadMethod</code> attribute.  
+        A value of <code>repeat</code> causes the color stops
+        to repeat in the same order, from beginning to end, 
+        as shown in <a href="#fig1A">Figure 1-a</a>.</p>
+    <p>In contrast, a value of <code>reflect</code>
+        causes the order and spacing of colors 
+        to alternate in each repeat, 
+        as in <a href="#fig1A">Figure 1-b</a>.</p>
+    <p>Both of the gradients in <a href="#fig1A">Figure 1</a> 
+        repeat the sequence of color stops four times,
+        with the initial cycle from left to right.</p>
+</body>
+</html>
