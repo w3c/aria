@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta name="generator" content="ReSpec 24.7.0"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta name="generator" content="ReSpec 24.9.1"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
 span.example-title {
     text-transform: none;
 }
@@ -229,6 +229,19 @@ a.idlEnumItem {
  * Robin Berjon - http://berjon.com/
  *****************************************************************/
 
+@keyframes pop {
+  0% {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(1.25, 1.25);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
 /* Override code highlighter background */
 .hljs {
   background: transparent !important;
@@ -265,8 +278,34 @@ a.bibref {
   text-decoration: none;
 }
 
+.respec-offending-element:target {
+  animation: pop 0.25s ease-in-out 0s 1;
+}
+
+/* TODO: Remove once https://github.com/w3c/tr-design/pull/176 is merged. */
+.respec-offending-element a[href] {
+  margin: 0;
+}
+
+.respec-offending-element {
+  display: inline-block;
+  position: relative;
+  /* Red squiggly line */
+  background: url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=)
+    bottom repeat-x;
+}
+@supports (text-decoration-style: wavy) {
+  .respec-offending-element {
+    background: none;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: red;
+  }
+}
+
 #references :target {
   background: #eaf3ff;
+  animation: pop 0.4s ease-in-out 0s 1;
 }
 
 cite .bibref {
@@ -279,6 +318,15 @@ code {
 
 th code {
   color: inherit;
+}
+
+a[href].orcid {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+a[href].orcid > svg {
+    margin-bottom: -2px;
 }
 
 /* --- TOC --- */
@@ -335,11 +383,11 @@ table.simple {
 
 /* --- DL --- */
 
-.section dd>p:first-child {
+.section dd > p:first-child {
   margin-top: 0;
 }
 
-.section dd>p:last-child {
+.section dd > p:last-child {
   margin-bottom: 0;
 }
 
@@ -352,7 +400,7 @@ table.simple {
   margin-bottom: 0;
 }
 
-#issue-summary>ul,
+#issue-summary > ul,
 .respec-dfn-list {
   column-count: 2;
 }
@@ -368,7 +416,7 @@ details.respec-tests-details {
   vertical-align: top;
 }
 
-details.respec-tests-details>* {
+details.respec-tests-details > * {
   padding-right: 2em;
 }
 
@@ -381,19 +429,19 @@ details.respec-tests-details[open] {
   padding-bottom: 0.5em;
 }
 
-details.respec-tests-details[open]>summary {
+details.respec-tests-details[open] > summary {
   border-bottom: thin solid #cad3e2;
   padding-left: 1em;
   margin-bottom: 1em;
   line-height: 2em;
 }
 
-details.respec-tests-details>ul {
+details.respec-tests-details > ul {
   width: 100%;
   margin-top: -0.3em;
 }
 
-details.respec-tests-details>li {
+details.respec-tests-details > li {
   padding-left: 1em;
 }
 
@@ -415,30 +463,30 @@ aside.example .marker > a.self-link {
   color: inherit;
 }
 
-h2>a.self-link,
-h3>a.self-link,
-h4>a.self-link,
-h5>a.self-link,
-h6>a.self-link {
+h2 > a.self-link,
+h3 > a.self-link,
+h4 > a.self-link,
+h5 > a.self-link,
+h6 > a.self-link {
   border: none;
   color: inherit;
   font-size: 83%;
   height: 2em;
   left: -1.6em;
-  opacity: .5;
+  opacity: 0.5;
   position: absolute;
   text-align: center;
   text-decoration: none;
   top: 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   width: 2em;
 }
 
-h2>a.self-link::before,
-h3>a.self-link::before,
-h4>a.self-link::before,
-h5>a.self-link::before,
-h6>a.self-link::before {
+h2 > a.self-link::before,
+h3 > a.self-link::before,
+h4 > a.self-link::before,
+h5 > a.self-link::before,
+h6 > a.self-link::before {
   content: "§";
   display: block;
 }
@@ -449,11 +497,11 @@ h6>a.self-link::before {
   }
 
   /* Don't position self-link in headings off-screen */
-  h2>a.self-link,
-  h3>a.self-link,
-  h4>a.self-link,
-  h5>a.self-link,
-  h6>a.self-link {
+  h2 > a.self-link,
+  h3 > a.self-link,
+  h4 > a.self-link,
+  h5 > a.self-link,
+  h6 > a.self-link {
     left: auto;
     top: auto;
   }
@@ -697,16 +745,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   "preProcess": [
     null
   ],
-  "publishDate": "2019-03-27",
-  "publishISODate": "2019-03-27T00:00:00.000Z",
-  "generatedSubtitle": "Editor's Draft 27 March 2019"
+  "publishDate": "2019-04-03",
+  "publishISODate": "2019-04-03T00:00:00.000Z",
+  "generatedSubtitle": "Editor's Draft 03 April 2019"
 }</script><meta name="description" content="Accessibility of web content requires semantic information about widgets, structures, and behaviors, in order to allow assistive technologies to convey appropriate information to persons with disabilities. This specification provides an ontology of roles, states, and properties that define accessible user interface elements and can be used to improve the accessibility and interoperability of web content and applications. These semantics are designed to allow an author to properly convey user interface behaviors and structural information to assistive technologies in document-level markup. This version adds features new since WAI-ARIA 1.1 [wai-aria-1.1] to improve interoperability with assistive technologies to form a more consistent accessibility model for [HTML5] and [SVG2]. This specification complements both [HTML5] and [SVG2]."><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED"></head>
 <body class="h-entry"><div class="head">
-      <a href="https://www.w3.org/" class="logo"><img alt="W3C" width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C"></a> <h1 id="title" class="title p-name">Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>) 1.2</h1>
+      <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C"></a> <h1 id="title" class="title p-name">Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>) 1.2</h1>
       
       <h2>
         <abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft
-        <time class="dt-published" datetime="2019-03-27">27 March 2019</time>
+        <time class="dt-published" datetime="2019-04-03">03 April 2019</time>
       </h2>
       <dl>
         <dt>This version:</dt><dd>
@@ -1504,6 +1552,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 				<li><a href="#cell" class="role-reference"><code>cell</code></a></li>
 				<li><a href="#columnheader" class="role-reference"><code>columnheader</code></a></li>
 				<li><a href="#definition" class="role-reference"><code>definition</code></a></li>
+        <li><a href="#deletion" class="role-reference"><code>deletion</code></a></li>
 				<li><a href="#directory" class="role-reference"><code>directory</code></a></li>
 				<li><a href="#document" class="role-reference"><code>document</code></a></li>
 				<li><a href="#feed" class="role-reference"><code>feed</code></a></li>
@@ -1511,6 +1560,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 				<li><a href="#group" class="role-reference"><code>group</code></a></li>
 				<li><a href="#heading" class="role-reference"><code>heading</code></a></li>
 				<li><a href="#img" class="role-reference"><code>img</code></a></li>
+        <li><a href="#insertion" class="role-reference"><code>insertion</code></a></li>
 				<li><a href="#list" class="role-reference"><code>list</code></a></li>
 				<li><a href="#listitem" class="role-reference"><code>listitem</code></a></li>
 				<li><a href="#math" class="role-reference"><code>math</code></a></li>
@@ -1608,6 +1658,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <dd>A large perceivable region that contains information about the parent document.</dd>
 <dt><a href="#definition" class="role-reference"><code>definition</code></a></dt>
 <dd>A definition of a term or concept. See related <a href="#term" class="role-reference"><code>term</code></a>.</dd>
+<dt><a href="#deletion" class="role-reference"><code>deletion</code></a></dt>
+<dd>A deletion contains content that is marked as removed or content that is being suggested for removal. See related <a href="#insertion" class="role-reference"><code>insertion</code></a>.</dd>
 <dt><a href="#dialog" class="role-reference"><code>dialog</code></a></dt>
 <dd>A dialog is a descendant window of the primary window of a web application. For <abbr title="Hypertext Markup Language">HTML</abbr> pages, the primary application window is the entire web document, i.e., the <code>body</code> element.</dd>
 <dt><a href="#directory" class="role-reference"><code>directory</code></a></dt>
@@ -1632,6 +1684,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <dd>A container for a collection of <a href="#dfn-element" class="internalDFN" data-link-type="dfn">elements</a> that form an image.</dd>
 <dt><a href="#input" class="role-reference"><code>input</code> (abstract role) </a></dt>
 <dd>A generic type of <a href="#dfn-widget" class="internalDFN" data-link-type="dfn">widget</a> that allows user input.</dd>
+<dt><a href="#insertion" class="role-reference"><code>insertion</code></a></dt>
+<dd>An insertion contains content that is marked as added or content that is being suggested for addition. See related <a href="#deletion" class="role-reference"><code>deletion</code></a>.</dd>
 <dt><a href="#landmark" class="role-reference"><code>landmark</code> (abstract role) </a></dt>
 <dd>A perceivable <a href="#section" class="role-reference"><code>section</code></a> containing content that is relevant to a specific, author-specified  purpose and sufficiently important that users will likely want to be able to navigate to the section easily and to have it listed in a summary of the page. Such a page summary could be generated dynamically by a user agent or assistive technology.</dd>
 <dt><a href="#link" class="role-reference"><code>link</code></a></dt>
@@ -3182,6 +3236,77 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 				</tbody>
 			</table>
 		</section>
+    <section class="role notoc" id="deletion">
+      <h4 class="role-name" title="deletion" aria-describedby="desc-deletion" id="deletion-0"><code>deletion</code> <span class="type-indicator">(role)</span><a class="self-link" aria-label="§" href="#deletion"></a></h4>
+      <div class="role-description" id="desc-deletion" role="definition">
+        <p>A deletion contains content that is marked as removed or content that is being suggested for removal. See related <a href="#insertion" class="role-reference"><code>insertion</code></a>.</p>
+        <p>Deletions are typically used to either mark differences between two versions of content or to designate content suggested for removal in scenarios where multiple people are revising content.</p>
+      </div>
+      <table class="role-features">
+        <caption>Characteristics:</caption>
+        <thead>
+          <tr>
+            <th scope="col">Characteristic</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <th class="role-parent-head" scope="row">Superclass Role:</th>
+            <td class="role-parent"><a href="#section" class="role-reference"><code>section</code></a></td>
+          </tr>
+          
+          <tr>
+            <th class="role-related-head" scope="row">Related Concepts:</th>
+            <td class="role-related"><a href="https://www.w3.org/TR/html5/edits.html#the-del-element"><abbr title="Hypertext Markup Language">HTML</abbr> <code>del</code></a></td>
+          </tr>
+          
+          
+          
+          
+          <tr>
+            <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+            <td class="role-inherited"><ul>
+<li><a href="#aria-atomic" class="property-reference"><code>aria-atomic</code></a></li>
+<li><a href="#aria-busy" class="state-reference"><code>aria-busy (state)</code></a></li>
+<li><a href="#aria-controls" class="property-reference"><code>aria-controls</code></a></li>
+<li><a href="#aria-current" class="state-reference"><code>aria-current (state)</code></a></li>
+<li><a href="#aria-describedby" class="property-reference"><code>aria-describedby</code></a></li>
+<li><a href="#aria-details" class="property-reference"><code>aria-details</code></a></li>
+<li><a href="#aria-disabled" class="state-reference"><code>aria-disabled (state)</code></a></li>
+<li><a href="#aria-dropeffect" class="property-reference"><code>aria-dropeffect</code></a></li>
+<li><a href="#aria-errormessage" class="property-reference"><code>aria-errormessage</code></a></li>
+<li><a href="#aria-expanded" class="state-reference"><code>aria-expanded (state)</code></a></li>
+<li><a href="#aria-flowto" class="property-reference"><code>aria-flowto</code></a></li>
+<li><a href="#aria-grabbed" class="state-reference"><code>aria-grabbed (state)</code></a></li>
+<li><a href="#aria-haspopup" class="property-reference"><code>aria-haspopup</code></a></li>
+<li><a href="#aria-hidden" class="state-reference"><code>aria-hidden (state)</code></a></li>
+<li><a href="#aria-invalid" class="state-reference"><code>aria-invalid (state)</code></a></li>
+<li><a href="#aria-keyshortcuts" class="property-reference"><code>aria-keyshortcuts</code></a></li>
+<li><a href="#aria-label" class="property-reference"><code>aria-label</code></a></li>
+<li><a href="#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a></li>
+<li><a href="#aria-live" class="property-reference"><code>aria-live</code></a></li>
+<li><a href="#aria-owns" class="property-reference"><code>aria-owns</code></a></li>
+<li><a href="#aria-relevant" class="property-reference"><code>aria-relevant</code></a></li>
+<li><a href="#aria-roledescription" class="property-reference"><code>aria-roledescription</code></a></li>
+</ul>
+</td>
+          </tr>
+          <tr>
+            <th class="role-namefrom-head" scope="row">Name From:</th>
+            <td class="role-namefrom">author</td>
+          </tr>
+          <tr>
+            <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+            <td class="role-namerequired">False</td>
+          </tr>
+          
+          
+          
+        </tbody>
+      </table>
+    </section>
 		<section class="role notoc" id="dialog">
 			<h4 class="role-name" title="dialog" aria-describedby="desc-dialog" id="dialog-0"><code>dialog</code> <span class="type-indicator">(role)</span><a class="self-link" aria-label="§" href="#dialog"></a></h4>
 			<div class="role-description" id="desc-dialog" role="definition">
@@ -4193,6 +4318,77 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 				</tbody>
 			</table>
 		</section>
+    <section class="role notoc" id="insertion">
+      <h4 class="role-name" title="insertion" aria-describedby="desc-insertion" id="insertion-0"><code>insertion</code> <span class="type-indicator">(role)</span><a class="self-link" aria-label="§" href="#insertion"></a></h4>
+      <div class="role-description" id="desc-insertion" role="definition">
+        <p>An insertion contains content that is marked as added or content that is being suggested for addition. See related <a href="#deletion" class="role-reference"><code>deletion</code></a>.</p>
+        <p>Insertions are typically used to either mark differences between two versions of content or to designate content suggested for addition in scenarios where multiple people are revising content.</p>
+      </div>
+      <table class="role-features">
+        <caption>Characteristics:</caption>
+        <thead>
+          <tr>
+            <th scope="col">Characteristic</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <th class="role-parent-head" scope="row">Superclass Role:</th>
+            <td class="role-parent"><a href="#section" class="role-reference"><code>section</code></a></td>
+          </tr>
+          
+          <tr>
+            <th class="role-related-head" scope="row">Related Concepts:</th>
+            <td class="role-related"><a href="https://www.w3.org/TR/html5/edits.html#the-ins-element"><abbr title="Hypertext Markup Language">HTML</abbr> <code>ins</code></a></td>
+          </tr>
+          
+          
+          
+          
+          <tr>
+            <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+            <td class="role-inherited"><ul>
+<li><a href="#aria-atomic" class="property-reference"><code>aria-atomic</code></a></li>
+<li><a href="#aria-busy" class="state-reference"><code>aria-busy (state)</code></a></li>
+<li><a href="#aria-controls" class="property-reference"><code>aria-controls</code></a></li>
+<li><a href="#aria-current" class="state-reference"><code>aria-current (state)</code></a></li>
+<li><a href="#aria-describedby" class="property-reference"><code>aria-describedby</code></a></li>
+<li><a href="#aria-details" class="property-reference"><code>aria-details</code></a></li>
+<li><a href="#aria-disabled" class="state-reference"><code>aria-disabled (state)</code></a></li>
+<li><a href="#aria-dropeffect" class="property-reference"><code>aria-dropeffect</code></a></li>
+<li><a href="#aria-errormessage" class="property-reference"><code>aria-errormessage</code></a></li>
+<li><a href="#aria-expanded" class="state-reference"><code>aria-expanded (state)</code></a></li>
+<li><a href="#aria-flowto" class="property-reference"><code>aria-flowto</code></a></li>
+<li><a href="#aria-grabbed" class="state-reference"><code>aria-grabbed (state)</code></a></li>
+<li><a href="#aria-haspopup" class="property-reference"><code>aria-haspopup</code></a></li>
+<li><a href="#aria-hidden" class="state-reference"><code>aria-hidden (state)</code></a></li>
+<li><a href="#aria-invalid" class="state-reference"><code>aria-invalid (state)</code></a></li>
+<li><a href="#aria-keyshortcuts" class="property-reference"><code>aria-keyshortcuts</code></a></li>
+<li><a href="#aria-label" class="property-reference"><code>aria-label</code></a></li>
+<li><a href="#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a></li>
+<li><a href="#aria-live" class="property-reference"><code>aria-live</code></a></li>
+<li><a href="#aria-owns" class="property-reference"><code>aria-owns</code></a></li>
+<li><a href="#aria-relevant" class="property-reference"><code>aria-relevant</code></a></li>
+<li><a href="#aria-roledescription" class="property-reference"><code>aria-roledescription</code></a></li>
+</ul>
+</td>
+          </tr>
+          <tr>
+            <th class="role-namefrom-head" scope="row">Name From:</th>
+            <td class="role-namefrom">author</td>
+          </tr>
+          <tr>
+            <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+            <td class="role-namerequired">False</td>
+          </tr>
+          
+          
+          
+        </tbody>
+      </table>
+    </section>
 		<section class="role notoc" id="landmark">
 			<h4 class="role-name" title="landmark" aria-describedby="desc-landmark" id="landmark-0"><code>landmark</code> <span class="type-indicator">(abstract role)</span><a class="self-link" aria-label="§" href="#landmark"></a></h4>
 			<div class="role-description" id="desc-landmark" role="definition">
@@ -7294,9 +7490,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#caption" class="role-reference"><code>caption</code></a></li>
 <li><a href="#cell" class="role-reference"><code>cell</code></a></li>
 <li><a href="#definition" class="role-reference"><code>definition</code></a></li>
+<li><a href="#deletion" class="role-reference"><code>deletion</code></a></li>
 <li><a href="#figure" class="role-reference"><code>figure</code></a></li>
 <li><a href="#group" class="role-reference"><code>group</code></a></li>
 <li><a href="#img" class="role-reference"><code>img</code></a></li>
+<li><a href="#insertion" class="role-reference"><code>insertion</code></a></li>
 <li><a href="#landmark" class="role-reference"><code>landmark</code></a></li>
 <li><a href="#list" class="role-reference"><code>list</code></a></li>
 <li><a href="#listitem" class="role-reference"><code>listitem</code></a></li>
@@ -10851,6 +11049,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#complementary" class="role-reference"><code>complementary</code></a></li>
 <li><a href="#contentinfo" class="role-reference"><code>contentinfo</code></a></li>
 <li><a href="#definition" class="role-reference"><code>definition</code></a></li>
+<li><a href="#deletion" class="role-reference"><code>deletion</code></a></li>
 <li><a href="#dialog" class="role-reference"><code>dialog</code></a></li>
 <li><a href="#directory" class="role-reference"><code>directory</code></a></li>
 <li><a href="#feed" class="role-reference"><code>feed</code></a></li>
@@ -10861,6 +11060,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#group" class="role-reference"><code>group</code></a></li>
 <li><a href="#heading" class="role-reference"><code>heading</code></a></li>
 <li><a href="#img" class="role-reference"><code>img</code></a></li>
+<li><a href="#insertion" class="role-reference"><code>insertion</code></a></li>
 <li><a href="#landmark" class="role-reference"><code>landmark</code></a></li>
 <li><a href="#list" class="role-reference"><code>list</code></a></li>
 <li><a href="#listbox" class="role-reference"><code>listbox</code></a></li>
