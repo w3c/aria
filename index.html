@@ -530,8 +530,8 @@
 					<ol>
 						<li>author: name comes from values provided by the author in explicit markup features such as the <pref>aria-label</pref> attribute, the <pref>aria-labelledby</pref> attribute, or the host language labeling mechanism, such as the <code>alt</code> or <code>title</code> attributes in <abbr title="Hypertext Markup Language">HTML</abbr>, with HTML <code>title</code> attribute having the lowest precedence for specifying a text alternative.</li>
 						<li>contents: name comes from the text value of the <a>element</a> node. Although this may be allowed in addition to "author" in some <a>roles</a>, this is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
-            <li>legend: name comes from the text value of the first descendant <a>element</a> node with the role of <code>legend</code>.  Although "legend" may be allowed in addition to "author" in some <a>roles</a>, "legend" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]
-            </li>
+            <li>encapsulation: name comes from the text value of the <a>element</a> node with role <code>label</code> that is the closest ancestor. Although "encapsulation" may be allowed in addition to "author" and "contents" in some <a>roles</a>, "encapsulation" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
+            <li>legend: name comes from the text value of the first descendant <a>element</a> node with the role of <code>legend</code>.  Although "legend" may be allowed in addition to "author" in some <a>roles</a>, "legend" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
 					</ol>
 				</dd>
 			</dl>
@@ -673,6 +673,7 @@
 				<li><rref>heading</rref></li>
 				<li><rref>img</rref></li>
         <li><rref>insertion</rref></li>
+        <li><rref>label</rref></li>
         <li><rref>legend</rref></li>
 				<li><rref>list</rref></li>
 				<li><rref>listitem</rref></li>
@@ -689,6 +690,7 @@
 				<li><rref>superscript</rref></li>
 				<li><rref>table</rref></li>
 				<li><rref>term</rref></li>
+				<li><rref>time</rref></li>
 
 <!-- FIXME: This is commented out because the ARIA Working Group agreed to move the text role to ARIA 2.0,
      but we've not branched for 1.1 yet. Once we have branched, this entire section should be deleted from
@@ -1575,6 +1577,7 @@
 						<td class="role-namefrom">
 							<ul>
 								<li>contents</li>
+                <li>encapsulation</li>
 								<li>author</li>
 							</ul>
 						</td>
@@ -3382,6 +3385,117 @@
         </tbody>
       </table>
     </div>
+    <div class="role" id="label">
+      <rdef>label</rdef>
+      <div class="role-description">
+        <p>A visible name or caption for a user interface component.</p>
+        <p>An element with role <code>label</code> can provide an accessible name for a user interface component if it is programatically associated with the element. Authors MAY associate an element with role <code>label</code> with another element by using one of two methods:</p>
+
+        <ul>
+          <li>encapsulation: The element with role <code>label</code> contains the element it names.
+          <li>reference: The element with role <code>label</code> is referenced by the element it names via the <pref>aria-labelledby</pref> attribute.</li>
+        </ul>
+
+        <p>The encapsulation method of naming is supported only if the element being named has one of the following roles:</p>
+        <ul>
+          <li><pref>checkbox</pref></li>
+          <li><pref>listbox</pref></li>
+          <li><pref>meter</pref></li>
+          <li><pref>radio</pref></li>
+          <li><pref>searchbox</pref></li>
+          <li><pref>spinbutton</pref></li>
+          <li><pref>switch</pref></li>
+          <li><pref>textbox</pref></li>
+        </ul>
+
+        <p>Authors SHOULD ensure that:</p>
+
+        <ul>
+          <li>All elements with role <code>label</code> are associated with one or more other elements.</li>
+          <li>When an element with role <code>label</code> is activated by touch or a pointer and its associated element is focusable, focus moves to the associated element. If more than one focusable element is associated with the same label, focus moves to the first element.</li>
+        </ul>
+      </div>
+      <table class="role-features">
+        <caption>Characteristics:</caption>
+        <thead>
+          <tr>
+            <th scope="col">Characteristic</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="role-abstract-head" scope="row">Is Abstract:</th>
+            <td class="role-abstract"> </td>
+          </tr>
+          <tr>
+            <th class="role-parent-head" scope="row">Superclass Role:</th>
+            <td class="role-parent">
+              <ul>
+                <li><rref>section</rref></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th class="role-children-head" scope="row">Subclass Roles:</th>
+            <td class="role-children"></td>
+          </tr>
+          <tr>
+            <th class="role-base-head" scope="row">Base Concept:</th>
+            <td class="role-base"><a href="https://www.w3.org/TR/html5/sec-forms.html#the-label-element"><abbr title="Hypertext Markup Language">HTML</abbr> <code>label</code></a></td>
+          </tr>
+          <tr>
+            <th class="role-related-head" scope="row">Related Concepts:</th>
+            <td class="role-related"> </td>
+          </tr>
+          <tr>
+            <th class="role-scope-head" scope="row">Required Context Role:</th>
+            <td class="role-scope"><rref></rref></td>
+          </tr>
+          <tr>
+            <th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+            <td class="role-mustcontain"> </td>
+          </tr>
+          <tr>
+            <th class="role-required-properties-head">Required States and Properties:</th>
+            <td class="role-required-properties"> </td>
+          </tr>
+          <tr>
+            <th class="role-properties-head" scope="row">Supported States and Properties:</th>
+            <td class="role-properties"></td>
+          </tr>
+          <tr>
+            <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+            <td class="role-inherited">Placeholder</td>
+          </tr>
+          <tr>
+            <th class="role-namefrom-head" scope="row">Name From:</th>
+            <td class="role-namefrom">
+              <ul>
+                <li>contents</li>
+                <li>author</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+            <td class="role-namerequired">True</td>
+          </tr>
+          <tr>
+            <th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+            <td class="role-namerequired-inherited"> </td>
+          </tr>
+          <tr>
+            <th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+            <td class="role-childpresentational"> </td>
+          </tr>
+          <tr>
+            <th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+            <td class="role-presentational-inherited"> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 		<div class="role" id="landmark">
 			<rdef>landmark</rdef>
 			<div class="role-description">
@@ -3832,7 +3946,12 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+              <ul>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
+            </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -4385,7 +4504,12 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+              <ul>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
+            </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -5651,6 +5775,7 @@
 						<td class="role-namefrom">
 							<ul>
 								<li>contents</li>
+                <li>encapsulation</li>
 								<li>author</li>
 							</ul>
 						</td>
@@ -6545,7 +6670,12 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+              <ul>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
+            </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -7093,7 +7223,12 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+              <ul>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
+            </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -7504,10 +7639,11 @@
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">
-							<ul>
-								<li>contents</li>
-								<li>author</li>
-							</ul>
+              <ul>
+                <li>contents</li>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
 						</td>
 					</tr>
 					<tr>
@@ -8171,11 +8307,128 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+              <ul>
+                <li>encapsulation</li>
+                <li>author</li>
+              </ul>
+           </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
 						<td class="role-namerequired">True</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+				<div class="role" id="time">
+			<rdef>time</rdef>
+			<div class="role-description">
+				<p>An element that represents a specific point in time.</p>
+				<p class="note">At the present time, there are no <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> properties corresponding to the <code>datetime</code> attribute supported on <a href="https://www.w3.org/TR/html52/textlevel-semantics.html#the-time-element"><abbr title="Hypertext Markup Language">HTML</abbr> <code>time</code></a>. The addition of this property will be considered for ARIA version 1.3.</p>
+				<p>Authors SHOULD limit text contents to a valid date- or time-related string, or apply this future <code>datetime</code>-equivalent property to the element which has role <code>time</code>.</p>
+				<p>Examples of valid date- or time-related strings as text contents of an element with the <code>time</code> role:</p>
+				<ul>
+					<li>
+						A valid month string: <code><span role="time">2019-11</span></code>
+					</li>
+					<li>
+						A valid date string: <code><span role="time">2019-11-18</span></code>
+					</li>
+					<li>
+						A valid yearless date string: <code><span role="time">11-18</span></code>
+					</li>
+					<li>
+						A valid time string: <code><span role="time">09:54:39</span></code>
+					</li>
+					<li>
+						A valid floating date and time string: <code><span role="time">2019-11-18T14:54</span></code>
+					</li>
+					<li>
+						A valid time-zone offset string: <code><span role="time">-08:00</span></code>
+					</li>
+					<li>
+						A valid global date and time string: <code><span role="time">2019-11-18T14:54Z</span></code>
+					</li>
+					<li>
+						A valid week string: <code><span role="time">2019-W47</span></code>
+					</li>
+					<li>
+						Four or more ASCII digits, at least one of which is not U+0030 DIGIT ZERO (0): <code><span role="time">0001</span></code>
+					</li>
+					<li>
+						A valid duration string: <code><span role="time">4h 18m 3s</span></code>
+					</li>
+				</ul>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>section</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children"> </td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><a href="https://www.w3.org/TR/html52/textlevel-semantics.html#the-time-element"><abbr title="Hypertext Markup Language">HTML</abbr> <code>time</code></a></td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired"> </td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
