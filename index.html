@@ -362,7 +362,7 @@
 	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all <a>elements</a>. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
 	    <p>
         Authors MAY use <pref>aria-activedescendant</pref> to inform <a>assistive technologies</a> which descendant of a <rref>widget</rref> element is treated as having keyboard focus in the user interface if the role of the widget element supports <code>aria-activedescendant</code>.
-        This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.  
+        This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.
       </p>
 	    <p>Typically, the author will use host language <a>semantics</a> to put the widget in the <kbd>Tab</kbd> sequence (e.g., <code>tabindex="0"</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) and <code>aria-activedescendant</code> to point to the ID of the currently active descendant. The author, not the user agent, is responsible for styling the currently active descendant to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.</p>
 	    <p>More information on managing focus can be found in the <a href="#keyboard" class="practices">Developing a Keyboard Interface</a> section of the <cite><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</cite>.</p>
@@ -2208,7 +2208,7 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties">					
+						<td class="role-properties">
 							<ul>
                 <li><pref>aria-activedescendant</pref></li>
 								<li><pref>aria-autocomplete</pref></li>
@@ -5002,9 +5002,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>									 
+							</ul>
 						</td>
-					</tr>													 
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -11397,7 +11397,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 					<tr>
 							<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
 							<td class="property-descendants">Placeholder</td>
-					</tr>					
+					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
 						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
@@ -11568,8 +11568,8 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 				<p>The <code>aria-haspopup</code> property is an enumerated type. <a>User agents</a> MUST treat any value of <code>aria-haspopup</code> that is not included in the list of allowed values, including an empty string, as if the value <code>false</code> had been provided. To provide backward compatibility with ARIA 1.0 content, user agents MUST treat an <code>aria-haspopup</code> value of <code>true</code> as equivalent to a value of <code>menu</code>.</p>
 				<p><a>Assistive technologies</a> SHOULD NOT expose the <code>aria-haspopup</code> property if it has a value of <code>false</code>.</p>
 				<p class="note">A <rref>tooltip</rref> is not considered to be a popup in this context.</p>
-				<p class="note"><code>aria-haspopup</code> is most relevant to use when there is a visual indicator in the element that triggers the popup. 
-					For example, many controls styled with a downward pointing triangle, chevron, or ellipsis (three consecutive dots) have become standard visual indicators that a popup will display when the control is activated. 
+				<p class="note"><code>aria-haspopup</code> is most relevant to use when there is a visual indicator in the element that triggers the popup.
+					For example, many controls styled with a downward pointing triangle, chevron, or ellipsis (three consecutive dots) have become standard visual indicators that a popup will display when the control is activated.
 					If some functional difference is relevant to display to a sighted user by means of a different visual style, that functional difference is usually relevant to convey to users of assistive technology.
 					If there is no visual indication that an element will trigger a popup, authors are advised to consider whether use of <code>aria-haspopup</code> is necessary, and avoid using it when it's not.
 				</p>
@@ -13538,22 +13538,13 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 </section>
 <section id="idl-interface" class="normative">
 	<h2>IDL Interface</h2>
-	<p>Conforming user agents MUST implement the following IDL interfaces.</p>
-	<section id="AccessibilityRole" class="normative" data-dfn-for="AccessibilityRole" data-link-for="AccessibilityRole">
-		<h2>Interface Mixin <dfn>AccessibilityRole</dfn></h2>
+	<p>Conforming user agents MUST implement the following IDL interface.</p>
+	<section id="ARIAMixin" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
+		<h2>Interface Mixin <dfn>ARIAMixin</dfn></h2>
 		<pre class="idl">
-			interface mixin AccessibilityRole {
-				attribute DOMString role;
-			};
-			Element includes AccessibilityRole;
-		</pre>
-		<p>User agents MUST <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflecting-content-attributes-in-idl-attributes">reflect</a> the <code><dfn>role</dfn></code> content attribute as the <code>role</code> IDL attribute.</p>
-	</section>
+			interface mixin ARIAMixin {
+				attribute DOMString? role;
 
-	<section id="AriaAttributes" class="normative" data-dfn-for="AriaAttributes" data-link-for="AriaAttributes">
-		<h2>Interface Mixin <dfn>AriaAttributes</dfn></h2>
-		<pre class="idl">
-			interface mixin AriaAttributes {
 				<!-- attribute Element ariaActiveDescendantElement; -->
 				attribute DOMString ariaAtomic;
 				attribute DOMString ariaAutoComplete;
@@ -13604,65 +13595,93 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 				attribute DOMString ariaValueNow;
 				attribute DOMString ariaValueText;
 			};
-			Element includes AriaAttributes;
 		</pre>
-		<section id="reflection" class="normative">
-			<h2>ARIA Attribute Reflection</h2>
-			<p>User agents MUST <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflecting-content-attributes-in-idl-attributes">reflect</a> the following content attributes to each of the corresponding IDL attributes.</p>
-			<table>
-				<tr><th>IDL Attribute</th><th>Reflected ARIA Content Attribute</th></tr>
-				<!-- <tr><td><dfn>ariaActiveDescendantElement</dfn></td><td><pref>aria-activedescendant</pref></td></tr> -->
-				<tr><td><dfn>ariaAtomic</dfn></td><td><pref>aria-atomic</pref></td></tr>
-				<tr><td><dfn>ariaAutoComplete</dfn></td><td><pref>aria-autocomplete</pref></td></tr>
-				<tr><td><dfn>ariaBusy</dfn></td><td><sref>aria-busy</sref></td></tr>
-				<tr><td><dfn>ariaChecked</dfn></td><td><sref>aria-checked</sref></td></tr>
-				<tr><td><dfn>ariaColCount</dfn></td><td><pref>aria-colcount</pref></td></tr>
-				<tr><td><dfn>ariaColIndex</dfn></td><td><pref>aria-colindex</pref></td></tr>
-				<tr><td><dfn>ariaColIndexText</dfn></td><td><pref>aria-colindextext</pref></td></tr>
-				<tr><td><dfn>ariaColSpan</dfn></td><td><pref>aria-colspan</pref></td></tr>
-				<!-- <tr><td><dfn>ariaControlsElements</dfn></td><td><pref>aria-controls</pref></td></tr> -->
-				<tr><td><dfn>ariaCurrent</dfn></td><td><sref>aria-current</sref></td></tr>
-				<!-- <tr><td><dfn>ariaDescribedByElements</dfn></td><td><pref>aria-describedby</pref></td></tr> -->
-				<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
-				<!-- <tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr> -->
-				<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
-				<!-- <tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr> -->
-				<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
-				<!-- <tr><td><dfn>ariaFlowToElements</dfn></td><td><pref>aria-flowto</pref></td></tr> -->
-				<tr><td><dfn>ariaHasPopup</dfn></td><td><pref>aria-haspopup</pref></td></tr>
-				<tr><td><dfn>ariaHidden</dfn></td><td><sref>aria-hidden</sref></td></tr>
-				<tr><td><dfn>ariaInvalid</dfn></td><td><sref>aria-invalid</sref></td></tr>
-				<tr><td><dfn>ariaKeyShortcuts</dfn></td><td><pref>aria-keyshortcuts</pref></td></tr>
-				<tr><td><dfn>ariaLabel</dfn></td><td><pref>aria-label</pref></td></tr>
-				<!-- <tr><td><dfn>ariaLabelledByElements</dfn></td><td><pref>aria-labelledby</pref></td></tr> -->
-				<tr><td><dfn>ariaLevel</dfn></td><td><pref>aria-level</pref></td></tr>
-				<tr><td><dfn>ariaLive</dfn></td><td><pref>aria-live</pref></td></tr>
-				<tr><td><dfn>ariaModal</dfn></td><td><pref>aria-modal</pref></td></tr>
-				<tr><td><dfn>ariaMultiLine</dfn></td><td><pref>aria-multiline</pref></td></tr>
-				<tr><td><dfn>ariaMultiSelectable</dfn></td><td><pref>aria-multiselectable</pref></td></tr>
-				<tr><td><dfn>ariaOrientation</dfn></td><td><pref>aria-orientation</pref></td></tr>
-				<!-- <tr><td><dfn>ariaOwnsElements</dfn></td><td><pref>aria-owns</pref></td></tr> -->
-				<tr><td><dfn>ariaPlaceholder</dfn></td><td><pref>aria-placeholder</pref></td></tr>
-				<tr><td><dfn>ariaPosInSet</dfn></td><td><pref>aria-posinset</pref></td></tr>
-				<tr><td><dfn>ariaPressed</dfn></td><td><sref>aria-pressed</sref></td></tr>
-				<tr><td><dfn>ariaReadOnly</dfn></td><td><pref>aria-readonly</pref></td></tr>
-				<!-- <tr><td><dfn>ariaRelevant</dfn></td><td><pref>aria-relevant</pref></td></tr> -->
-				<tr><td><dfn>ariaRequired</dfn></td><td><pref>aria-required</pref></td></tr>
-				<tr><td><dfn>ariaRoleDescription</dfn></td><td><pref>aria-roledescription</pref></td></tr>
-				<tr><td><dfn>ariaRowCount</dfn></td><td><pref>aria-rowcount</pref></td></tr>
-				<tr><td><dfn>ariaRowIndex</dfn></td><td><pref>aria-rowindex</pref></td></tr>
-				<tr><td><dfn>ariaRowIndexText</dfn></td><td><pref>aria-rowindextext</pref></td></tr>
-				<tr><td><dfn>ariaRowSpan</dfn></td><td><pref>aria-rowspan</pref></td></tr>
-				<tr><td><dfn>ariaSelected</dfn></td><td><sref>aria-selected</sref></td></tr>
-				<tr><td><dfn>ariaSetSize</dfn></td><td><pref>aria-setsize</pref></td></tr>
-				<tr><td><dfn>ariaSort</dfn></td><td><pref>aria-sort</pref></td></tr>
-				<tr><td><dfn>ariaValueMax</dfn></td><td><pref>aria-valuemax</pref></td></tr>
-				<tr><td><dfn>ariaValueMin</dfn></td><td><pref>aria-valuemin</pref></td></tr>
-				<tr><td><dfn>ariaValueNow</dfn></td><td><pref>aria-valuenow</pref></td></tr>
-				<tr><td><dfn>ariaValueText</dfn></td><td><pref>aria-valuetext</pref></td></tr>
-			</table>
-			<p class="note">Note: Attributes <pref>aria-dropeffect</pref> and <sref>aria-grabbed</sref> were deprecated in ARIA 1.1 and do not have corresponding IDL attributes.</p>
-		</section>
+
+		<p>Interfaces that include <code>ARIAMixin</code> must provide the following algorithms:</p>
+
+		<ul>
+			<li><dfn>get the accessibility IDL attribute</dfn>, which takes the host interface instance, IDL attribute name, and content attribute name, and must return a string value; and
+			<li><dfn>set the accessibility IDL attribute</dfn>, which takes the host interface instance, IDL attribute name, content attribute name, and string value, and must return nothing.</li>
+		</ul>
+
+		<p>For every IDL attribute <var>idlAttribute</var> defined in <code>ARIAMixin</code>, on getting, it must perform the following steps:</p>
+
+		<ol>
+			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
+
+			<li><p>Return the result of <a>get the accessibility IDL attribute</a>, given this, <var>idlAttribute</var>, and <var>contentAttribute</var>.</p></li>
+		</ol>
+
+		<p>Similarly, on setting, it must perform the following steps:</p>
+
+		<ol>
+			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
+
+			<li><p><a>Set the accessibility IDL attribute</a>, given this, <var>idlAttribute</var>, <var>contentAttribute</var>, and the given value.</p></li>
+		</ol>
+
+		<p class="note">This very general framework is motivated by the desire for different host interfaces, such as <code>Element</code> and <code>ElementInternals</code>, to give these IDL attributes different behaviors. The alternative is requiring each host interface to duplicate the IDL attributes independently, so that they can specify independent behaviors, but that comes with a high risk of them getting out of sync.</p>
+	</section>
+
+	<section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
+		<h2>ARIA Attribute Correspondence</h2>
+		<p>The following table provides a correspondence between IDL attribute names and content attribute names, for use by <code>ARIAMixin</code>.</p>
+
+		<table>
+			<tr><th>IDL Attribute</th><th>Reflected ARIA Content Attribute</th></tr>
+			<tr><td><dfn>role</dfn></td><td><pref>role</pref></td></tr>
+			<!-- <tr><td><dfn>ariaActiveDescendantElement</dfn></td><td><pref>aria-activedescendant</pref></td></tr> -->
+			<tr><td><dfn>ariaAtomic</dfn></td><td><pref>aria-atomic</pref></td></tr>
+			<tr><td><dfn>ariaAutoComplete</dfn></td><td><pref>aria-autocomplete</pref></td></tr>
+			<tr><td><dfn>ariaBusy</dfn></td><td><sref>aria-busy</sref></td></tr>
+			<tr><td><dfn>ariaChecked</dfn></td><td><sref>aria-checked</sref></td></tr>
+			<tr><td><dfn>ariaColCount</dfn></td><td><pref>aria-colcount</pref></td></tr>
+			<tr><td><dfn>ariaColIndex</dfn></td><td><pref>aria-colindex</pref></td></tr>
+			<tr><td><dfn>ariaColIndexText</dfn></td><td><pref>aria-colindextext</pref></td></tr>
+			<tr><td><dfn>ariaColSpan</dfn></td><td><pref>aria-colspan</pref></td></tr>
+			<!-- <tr><td><dfn>ariaControlsElements</dfn></td><td><pref>aria-controls</pref></td></tr> -->
+			<tr><td><dfn>ariaCurrent</dfn></td><td><sref>aria-current</sref></td></tr>
+			<!-- <tr><td><dfn>ariaDescribedByElements</dfn></td><td><pref>aria-describedby</pref></td></tr> -->
+			<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
+			<!-- <tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr> -->
+			<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
+			<!-- <tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr> -->
+			<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
+			<!-- <tr><td><dfn>ariaFlowToElements</dfn></td><td><pref>aria-flowto</pref></td></tr> -->
+			<tr><td><dfn>ariaHasPopup</dfn></td><td><pref>aria-haspopup</pref></td></tr>
+			<tr><td><dfn>ariaHidden</dfn></td><td><sref>aria-hidden</sref></td></tr>
+			<tr><td><dfn>ariaInvalid</dfn></td><td><sref>aria-invalid</sref></td></tr>
+			<tr><td><dfn>ariaKeyShortcuts</dfn></td><td><pref>aria-keyshortcuts</pref></td></tr>
+			<tr><td><dfn>ariaLabel</dfn></td><td><pref>aria-label</pref></td></tr>
+			<!-- <tr><td><dfn>ariaLabelledByElements</dfn></td><td><pref>aria-labelledby</pref></td></tr> -->
+			<tr><td><dfn>ariaLevel</dfn></td><td><pref>aria-level</pref></td></tr>
+			<tr><td><dfn>ariaLive</dfn></td><td><pref>aria-live</pref></td></tr>
+			<tr><td><dfn>ariaModal</dfn></td><td><pref>aria-modal</pref></td></tr>
+			<tr><td><dfn>ariaMultiLine</dfn></td><td><pref>aria-multiline</pref></td></tr>
+			<tr><td><dfn>ariaMultiSelectable</dfn></td><td><pref>aria-multiselectable</pref></td></tr>
+			<tr><td><dfn>ariaOrientation</dfn></td><td><pref>aria-orientation</pref></td></tr>
+			<!-- <tr><td><dfn>ariaOwnsElements</dfn></td><td><pref>aria-owns</pref></td></tr> -->
+			<tr><td><dfn>ariaPlaceholder</dfn></td><td><pref>aria-placeholder</pref></td></tr>
+			<tr><td><dfn>ariaPosInSet</dfn></td><td><pref>aria-posinset</pref></td></tr>
+			<tr><td><dfn>ariaPressed</dfn></td><td><sref>aria-pressed</sref></td></tr>
+			<tr><td><dfn>ariaReadOnly</dfn></td><td><pref>aria-readonly</pref></td></tr>
+			<!-- <tr><td><dfn>ariaRelevant</dfn></td><td><pref>aria-relevant</pref></td></tr> -->
+			<tr><td><dfn>ariaRequired</dfn></td><td><pref>aria-required</pref></td></tr>
+			<tr><td><dfn>ariaRoleDescription</dfn></td><td><pref>aria-roledescription</pref></td></tr>
+			<tr><td><dfn>ariaRowCount</dfn></td><td><pref>aria-rowcount</pref></td></tr>
+			<tr><td><dfn>ariaRowIndex</dfn></td><td><pref>aria-rowindex</pref></td></tr>
+			<tr><td><dfn>ariaRowIndexText</dfn></td><td><pref>aria-rowindextext</pref></td></tr>
+			<tr><td><dfn>ariaRowSpan</dfn></td><td><pref>aria-rowspan</pref></td></tr>
+			<tr><td><dfn>ariaSelected</dfn></td><td><sref>aria-selected</sref></td></tr>
+			<tr><td><dfn>ariaSetSize</dfn></td><td><pref>aria-setsize</pref></td></tr>
+			<tr><td><dfn>ariaSort</dfn></td><td><pref>aria-sort</pref></td></tr>
+			<tr><td><dfn>ariaValueMax</dfn></td><td><pref>aria-valuemax</pref></td></tr>
+			<tr><td><dfn>ariaValueMin</dfn></td><td><pref>aria-valuemin</pref></td></tr>
+			<tr><td><dfn>ariaValueNow</dfn></td><td><pref>aria-valuenow</pref></td></tr>
+			<tr><td><dfn>ariaValueText</dfn></td><td><pref>aria-valuetext</pref></td></tr>
+		</table>
+		<p class="note">Note: Attributes <pref>aria-dropeffect</pref> and <sref>aria-grabbed</sref> were deprecated in ARIA 1.1 and do not have corresponding IDL attributes.</p>
+
 		<section class="informative" id="idl_attr_disambiguation">
 			<h3>Disambiguation Pattern</h3>
 			<p>Though specification authors may make exceptions to this pattern, the following rules were used to disambiguate names and case of the IDL attributes listed above.</p>
@@ -13681,6 +13700,24 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 				<li><code>ariaPosInSet</code>: The <pref>aria-posinset</pref> attribute refers to an item's position in a set (two words: "in set") rather than the "inset" of an item from the beginning of the collection. Therefore the IDL attribute name is <code>ariaPosInSet</code> with the P, I, and second S capitalized, <em>not</em> <code>ariaPosInset</code>.</li>
 			</ul>
 		</section>
+	</section>
+
+	<section id="idl_element">
+		<h2><code>ARIAMixin</code> Mixed in to <code>Element</code></h2>
+
+		<p>User agents MUST include <code>ARIAMixin</code> on <code>Element</code>:</p>
+
+		<pre class="idl">
+			Element includes ARIAMixin;
+		</pre>
+
+		<p>For <code>Element</code>:</p>
+		<ul>
+			<li><p>To <a>get the accessibility IDL attribute</a> given <var>element</var>, <var>idlAttribute</var>, and <var>contentAttribute</var>, return the result of the getter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>.</p></li>
+			<li><p>To <a>set the accessibility IDL attribute</a> given <var>element</var>, <var>idlAttribute</var>, <var>contentAttribute</var>, and <var>value</var>, perform the setter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>, given <var>value</var>.</p></li>
+		</ul>
+
+		<p class="note">In practice, this means that, e.g., the <code>role</code> IDL on <code>Element</code> reflects the <code>role</code> content attribute; the <code>ariaValueMin</code> IDL attribute reflects the <code>aria-valuemin</code> content attribute; etc.</p>
 	</section>
 
 	<section class="informative" id="idl_example_usage">
@@ -13826,8 +13863,8 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 			<li>11-Oct-2019: Remove allowance of <rref>group</rref> in <rref>list</rref></li>
             <li>09-Oct-2019: Add missing implicit value for <rref>progressbar</rref></li>
 			<li>09-Oct-2019: Remove accessible name required from <rref>log</rref> and <rref>timer</rref></li>
-			<li>22-Aug-2019: Remove <pref>aria-level</pref> from <rref>grid</rref></li>			
-			<li>23-Jul-2019: Add <rref>generic</rref> role</li>			
+			<li>22-Aug-2019: Remove <pref>aria-level</pref> from <rref>grid</rref></li>
+			<li>23-Jul-2019: Add <rref>generic</rref> role</li>
 			<li>11-Jul-2019: Remove advice against changing roles</li>
 			<li>11-Jul-2019: Set Accessible Name Required to false on <rref>gridcell</rref></li>
 			<li>11-Jul-2019: Add <rref>associationlist</rref>, <rref>associationlistitemkey</rref>, and <rref>associationlistitemvalue</rref> roles</li>
