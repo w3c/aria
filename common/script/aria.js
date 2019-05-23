@@ -310,7 +310,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     }
                     // are there supported states / properties in this role?  
                     var attrs = [];
-                    $.each(container.querySelectorAll(".role-properties, .role-required-properties"), function(i, node) {
+                    $.each(container.querySelectorAll(".role-properties, .role-required-properties, .role-disallowed"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                             // looks like we do
                             $.each(node.querySelectorAll("pref,sref"), function(i, item) {
@@ -323,7 +323,11 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 if ($(node).hasClass("role-required-properties") ) {
                                     req = true;
                                 }
-                                attrs.push( { is: type, name: name, required: req } );
+                                var dis = false;
+                                if ($(node).hasClass("role-disallowed") ) {
+                                    dis = true;
+                                }                                
+                                attrs.push( { is: type, name: name, required: req, disallowed: dis } );
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
