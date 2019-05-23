@@ -86,7 +86,7 @@
         "FPWD": "https://www.w3.org/TR/accname-aam-1.1/",
         "REC": "https://www.w3.org/TR/accname-aam/"
       },
-
+      xref: ["HTML"],
       localBiblio: biblio,
       preProcess: [ linkCrossReferences ]
 
@@ -113,45 +113,48 @@
 </head>
 <body>
   <section id="abstract">
-  	<p>HTML Accessibility API Mappings (HTML-AAM) defines how <a class="termref" data-lt="User Agent">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr> 5.2 [[HTML52]] elements and attributes to platform <a class="termref" data-lt="Accessibility API">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It leverages and extends the <cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings 1.1</a></cite> [[CORE-AAM]] and the <cite><a href="https://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings 1.1</a></cite> [[ACCNAME-AAM]] for use with the HTML 5.2 host language. Documenting these mappings promotes interoperable exposure of roles, states, properties, and events implemented by accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.</p>
+    <p>HTML Accessibility API Mappings (HTML-AAM) defines how <a class="termref">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr> [[HTML]] elements and attributes to platform <a class="termref" data-lt="accessibility API">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It leverages and extends the [[[core-aam-1.2]]] and the [[[accname-aam-1.1]]] for use with the HTML host language. Documenting these mappings promotes interoperable exposure of roles, states, properties, and events implemented by accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.</p>
   	<p>The HTML-AAM is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
   </section>
   <section id="sotd">
-    <div class="note">
-    	<p><strong>This document is subject to change without notice.</strong></p>
-      <p>You can <a href="https://github.com/w3c/html-aam/issues/">file an issue</a> on this specification.</p>
-    </div>
+    <p class="note"><strong>This document is subject to change without notice.</strong></p>
   	<p>This document was initially developed by and with the approval of the <a href="https://www.w3.org/WAI/PF/html-accessibility-tf.html">HTML Accessibility Taskforce</a>, a joint task force of the <a href="https://www.w3.org/WAI/PF/">Protocols and Formats Working Group</a> and the <a href="https://www.w3.org/html/wg/">HTML Working Group</a>. Work continued with the successor groups <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> and the <a href="https://www.w3.org/2019/webapps/">Web Applications Working Group</a>. The document is now maintained solely by the Web Applications WG, formerly the <a href="https://www.w3.org/WebPlatform/WG/">Web Platform WG</a>.</p>
   </section>
   <section id="intro" class="informative">
     <h2>Introduction</h2>
-    <p>This specification defines how HTML user agents must respond to and expose <a class="termref">role</a>, <a class="termref">state</a> and <a class="termref">property</a> information provided for Web content. Unless indicated otherwise, an HTML element or attribute with default <cite><a href="https://www.w3.org/TR/wai-aria-1.1/">Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>) 1.1</a></cite> [[WAI-ARIA]] semantics must be exposed to the platform <a class="termref" data-lt="Accessibility API">accessibility APIs</a> according to the relevant WAI-ARIA mappings defined in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]] specification. In some cases, often due to features of the HTML host language or the accessibility API in question, an element or attribute's mapping differs from the corresponding ARIA mappings specified in the [[CORE-AAM]]. Where an HTML element or attribute does not have any default WAI-ARIA semantics, the applicable mapping for each platform <a class="termref" data-lt="Accessibility API">accessibility API</a> is defined by this specification.</p>
-    <p>This document also adapts the <a href="https://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings</a> [[ACCNAME-AAM]] for deriving the <a class="termref" data-lt="Accessible Name">accessible names</a> and <a class="termref" data-lt="Accessible Description">accessible descriptions</a> of HTML 5.2 [[HTML52]] elements, and provides accessible implementation examples for specific HTML 5.2 elements and features.</p>
+    <p>This specification defines how HTML user agents respond to and expose <a class="termref">role</a>, <a class="termref">state</a> and <a class="termref">property</a> information provided for Web content. Unless indicated otherwise, an HTML element or attribute with default [[[WAI-ARIA]]] semantics must be exposed to the platform <a class="termref">accessibility APIs</a> according to the relevant WAI-ARIA mappings defined in the [[[core-aam-1.2]]] ([[core-aam-1.2]]) specification.
+    <p>In some cases, often due to features of the HTML host language or the accessibility API in question, an element or attribute's mapping differs from the corresponding ARIA mappings specified in the [[core-aam-1.2]]. Where an HTML element or attribute does not have any default WAI-ARIA semantics, the applicable mapping for each platform <a class="termref">accessibility API</a> is defined by this specification.</p>
+    <p>This document also adapts the [[[accname-1.1]]] ([[accname-1.1]]) for deriving the <a class="termref">accessible names</a> and <a class="termref">accessible descriptions</a> of [[HTML]] elements, and provides accessible implementation examples for specific HTML elements and features.</p>
     <p>Users often access HTML content using assistive technologies that rely on platform <a class="termref">accessibility <abbr title="Application Programming Interface">API</abbr></a> to obtain and interact with information from the page. This document is part of the following suite of accessibility API mapping specifications for content rendered by user agents: </p>
     <ul>
-      <li><cite><a href="https://www.w3.org/TR/accname-aam-1.1/">Accessible Name and Description: Computation and API Mappings</a></cite> [[ACCNAME-AAM]]</li>
-      <li><cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[CORE-AAM]]</li>
-      <li><cite><a href="https://www.w3.org/TR/html-aam-1.0/">HTML Accessibility API Mappings</a></cite> [[HTML-AAM]]</li>
-      <li><cite><a href="https://www.w3.org/TR/svg-aam-1.0/">SVG Accessibility API Mappings</a></cite> [[SVG-AAM]]</li>
+      <li>[[[accname-1.1]]]</li>
+      <li>[[[core-aam-1.2]]]</li>
+      <li>HTML Accessibility API Mappings 1.0 (this specification)</li>
+      <li>[[[svg-aam-1.0]]]</li>
     </ul>
     <section id="intro_aapi">
       <h3>Accessibility APIs</h3>
-      <p><a class="termref" data-lt="Accessibility API">Accessibility APIs</a> covered by this document are:</p>
+      <p><a class="termref">Accessibility APIs</a> covered by this document are:</p>
       <ul>
         <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="https://wiki.linuxfoundation.org/accessibility/iaccessible2/start">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
         <li><cite><a href="https://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]</li>
         <li><cite>Linux/GNOME <a href="https://developer.gnome.org/atk/stable/">ATK - Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI"</li>
       	<li><cite><a href="https://developer.apple.com/reference/appkit/nsaccessibility">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
       </ul>
-      <p>If user agent developers need to expose information using other <a class="termref" data-lt="accessibility API">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.</p>
-      <p>For more information regarding <a class="termref" data-lt="Accessibility API">accessibility APIs</a>, refer to <a href="https://www.w3.org/TR/core-aam-1.1/#intro_aapi">section 1.1 Accessibility APIs</a> of the <cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[CORE-AAM]].</p>
+      <p>If user agent developers need to expose information using other <a class="termref">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.</p>
+      <p>For more information regarding <a class="termref">accessibility APIs</a>, refer to <a href="https://www.w3.org/TR/core-aam-1.1/#intro_aapi">section 1.1 Accessibility APIs</a> of the <cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> [[core-aam-1.2]].</p>
     </section>
   </section>
   <section id="conformance">
-    <p>These <a class="bibref" href="#bib-rfc2119">RFC2119</a> key words are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When these key words are used, but do not share this format, they do not convey any formal conformance requirements in the RFC2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usage is avoided in this specification.</p>
     <p>The classification of a section as normative or non-normative applies to the entire section and all sub-sections of that section.</p>
     <p>Normative sections provide requirements that authors, user agents, and assistive technologies MUST follow for an implementation to conform to this specification.</p>
     <p>Non-normative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+    <section id="deprecated">
+      <h3>Deprecated</h3>
+      <p>
+        There are currently no deprecated requirements.
+      </p>
+    </section>
   </section>
   <section id="glossary">
     <h2>Important Terms</h2>
@@ -161,27 +164,30 @@
     <h2>Mapping HTML to Accessibility APIs</h2>
     <section id="mapping_general">
       <h3>General Rules for Exposing WAI-ARIA Semantics</h3>
+      <p class="note">
+          WAI-ARIA support was first introduced to HTML in [[HTML5]].
+      </p>
       <p>
-        WAI-ARIA support was first introduced to HTML in HTML5 [[!HTML5]]. Where an HTML element or attribute has default WAI-ARIA semantics, it <span class="rfc2119">MUST</span> be exposed to the platform <a class="termref" data-lt="Accessibility API">accessibility APIs</a> in a way that conforms to <a class="core-mapping" href="#mapping_general">General rules for exposing WAI-ARIA semantics</a> in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]].
+        Where an HTML element or attribute has default WAI-ARIA semantics, it MUST be exposed to the platform <a class="termref">accessibility APIs</a> in a way that conforms to <a class="core-mapping" href="#mapping_general">General rules for exposing WAI-ARIA semantics</a> in the [[[core-aam-1.2]]].
       </p>
     </section>
     <section id="mapping_conflicts">
       <h3>Conflicts Between Native Markup Semantics and WAI-ARIA</h3>
       <p>
-        Where the host language is HTML 5.2 [[!HTML52]], user agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]].
+        Where the host language is [[HTML]], user agents MUST conform to <a class="core-mapping" href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> in the [[[core-aam-1.2]]].
       </p>
     </section>
     <section id="mapping_nodirect">
       <h3>Exposing HTML Features That Do Not Directly Map to Accessibility APIs</h3>
-      <p>HTML may have features that are not supported by <a class="termref" data-lt="accessibility API">accessibility APIs</a> at the time of publication. There is not a one to one relationship between all features and platform <a class="termref" data-lt="accessibility API">accessibility APIs</a>. When HTML roles, states and properties do not directly map to an <a class="termref">accessibility API</a>, and there is a method in the API to expose a text string, user agents <span class="rfc2119">MUST</span> expose the undefined role, states and properties via that method.</p>
-      <p>For HTML elements or attributes with default WAI-ARIA semantics, user agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a> in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]].</p>
+      <p>HTML may have features that are not supported by <a class="termref">accessibility APIs</a> at the time of publication. There is not a one to one relationship between all features and platform <a class="termref">accessibility APIs</a>. When HTML roles, states and properties do not directly map to an <a class="termref">accessibility API</a>, and there is a method in the API to expose a text string, user agents MUST expose the undefined role, states and properties via that method.</p>
+      <p>For HTML elements or attributes with default WAI-ARIA semantics, user agents MUST conform to <a class="core-mapping" href="#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a> in the [[core-aam-1.2]].</p>
       <section>
         <h4>Other Accessibility Implementations</h4>
-        <section>
-          <h5>Use of MSAA VARIANT by Some <a class="termref" data-lt="User Agent">User Agents</a></h5>
-          <p>In MSAA, the value of an <a>accessible object</a>'s <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd373625%28v=vs.85%29.aspx">Role property</a> is retrieved with the <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd318485%28v=vs.85%29.aspx">IAccessible::get_accRole method</a>. This method returns a <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms221627%28v=vs.85%29.aspx">VARIANT</a> that is limited to a finite number of <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd373608%28v=vs.85%29.aspx">integer role constants</a> insufficient for describing the role of every HTML element, especially new elements introduced by HTML5. To address this limitation, some user agents, e.g., Firefox and Chrome in cooperation with some screen readers, have elected to expose certain roles by returning a string value (<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms221069%28v=vs.85%29.aspx">BSTR</a>) in that VARIANT in a way that is not described by the MSAA specification.</p>
-          <p>For example, Firefox returns the element's tag name as a BSTR for the following: <code>abbr</code>, <code>address</code>, <code>aside</code>, <code>blockquote</code>, <code>canvas</code>, <code>caption</code>, <code>dd</code>, <code>div</code>, <code>figcaption</code>, <code>footer</code>, <code>form</code>, <code>h1</code>–<code>h6</code>, <code>header</code>, <code>iframe</code>, <code>input type="file"</code>, <code>main</code>, <code>menu</code>, <code>nav</code>, <code>output</code>, <code>p</code>, <code>pre</code>, <code>q</code>, <code>section</code>, <code>time</code>.</p>
-          <p>Similarly, Chrome returns the element's tag name for: <code>blockquote</code>, <code>div</code>, <code>dl</code>, <code>figcaption</code>, <code>form</code>, <code>h1-h6</code>, <code>menu</code>, <code>meter</code>, <code>p</code>, <code>pre</code>.</p>
+        <section data-cite="HTML">
+          <h5>Use of MSAA VARIANT by Some <a class="termref">User Agents</a></h5>
+          <p>In MSAA, the value of an <a>accessible object</a>'s <a href="https://docs.microsoft.com/en-us/windows/desktop/WinAuto/role-property">Role property</a> is retrieved with the <a href="https://docs.microsoft.com/en-us/windows/desktop/api/oleacc/nf-oleacc-iaccessible-get_accrole">IAccessible::get_accRole method</a>. This method returns a <a href="https://docs.microsoft.com/en-us/windows/desktop/api/oaidl/ns-oaidl-tagvariant">VARIANT</a> that is limited to a finite number of <a href="https://docs.microsoft.com/en-us/windows/desktop/WinAuto/object-roles">integer role constants</a> insufficient for describing the role of every HTML element, especially new elements introduced by HTML. To address this limitation, some user agents, e.g., Firefox and Chrome in cooperation with some screen readers, have elected to expose certain roles by returning a string value (<a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/automat/bstr">BSTR</a>) in that VARIANT in a way that is not described by the MSAA specification.</p>
+          <p>For example, Firefox returns the element's tag name as a BSTR for the following: <a>abbr</a>, <a>address</a>, <a>aside</a>, <a>blockquote</a>, <a>canvas</a>, <a>caption</a>, <a>dd</a>, <a>div</a>, <a>figcaption</a>, <a>footer</a>, <a>form</a>, <a data-cite="html/sections.html#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements">h1–h6</a>, <a>header</a>, <a>iframe</a>, <a data-cite="html/input.html#file-upload-state-(type=file)">input type="file"</a>, <a>main</a>, <a>menu</a>, <a>nav</a>, <a>output</a>, <a>p</a>, <a>pre</a>, <a>q</a>, <a>section</a>, <a>time</a>.</p>
+          <p>Similarly, Chrome returns the element's tag name for: <a>blockquote</a>, <a>div</a>, <a>dl</a>, <a>figcaption</a>, <a>form</a>, <a data-cite="html/sections.html#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements">h1-h6</a>, <a>menu</a>, <a>meter</a>, <a>p</a>, <a>pre</a>.</p>
         </section>
         <section>
           <h5>Use of the DOM by Some Assistive Technologies</h5>
@@ -193,11 +199,11 @@
       <h3>HTML Element Role Mappings</h3>
     	<p><strong>Notes:</strong> </p>
     	<ul>
-    		<li>HTML elements with default WAI-ARIA role semantics <span class="rfc2119">must</span> be mapped to platform <a class="termref" data-lt="accessibility API">accessibility APIs</a> according to those WAI-ARIA roles' mappings as defined in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]] specification.</li>
+    		<li>HTML elements with default WAI-ARIA role semantics MUST be mapped to platform <a class="termref">accessibility APIs</a> according to those WAI-ARIA roles' mappings as defined in the [[core-aam-1.2]] specification.</li>
         <li>A '?' in a cell indicates the data has yet to be provided.</li>
     		<li>"Not mapped" (Not Applicable) means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user interface.</li>
         <li>Where applicable, how an element participates in the computation of its own or another element's <a class="termref">accessible name</a> and/or <a class="termref">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section below.</li>
-        <li>Where an element is indicated as having &quot;No corresponding [WAI-ARIA] role&quot;, user agents <span class="rfc2119">must not</span> expose the <a class="core-mapping" href="#ariaRoleDescription"><code>aria-roledescription</code></a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming <code>role</code> attribute value.</li>
+        <li>Where an element is indicated as having &quot;No corresponding [WAI-ARIA] role&quot;, user agents MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription"><code>aria-roledescription</code></a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming <code>role</code> attribute value.</li>
         <li><strong>IAccessible2:</strong>
           <ul>
             <li>All elements with accessible objects should implement the IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
@@ -217,11 +223,11 @@
     	</ul>
     	<div class="table-container">
       	<table class="map-table elements" id="element-mapping-table">
-      		<caption>Mappings of HTML elements to platform <a class="termref" data-lt="accessibility API">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX</caption>
+      		<caption>Mappings of HTML elements to platform <a class="termref">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX</caption>
       		<thead>
       			<tr>
       				<th>Element</th>
-      				<th><a href="https://www.w3.org/TR/wai-aria-1.1/">WAI-ARIA</a></th>
+      				<th>[[[WAI-ARIA]]]</th>
       				<th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
       				<th><a href="https://developer.gnome.org/atk/stable/">ATK</a></th>
@@ -231,7 +237,7 @@
       		</thead>
           <tbody>
             <tr tabindex="-1" id="el-a">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-a-element"><code>a</code></a> <span class="el-context">(represents a <a href="https://www.w3.org/TR/html/links.html#hyperlink">hyperlink</a>)</span></th>
+                <th><a data-cite="HTML">`a`</a> <span class="el-context">(represents a <a data-cite="html">hyperlink</a>)</span></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-link"><code>link</code></a> role </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -240,7 +246,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-a-parentmenu">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-a-element"><code>a</code></a> <span class="el-context">(represents a <a href="https://www.w3.org/TR/html/links.html#hyperlink">hyperlink</a> and parent is a menu)</span></th>
+                <th><a data-cite="HTML">`a`</a> <span class="el-context">(represents a <a data-cite="html">hyperlink</a> and parent is a menu)</span></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-menuitem"><code>menuitem</code></a> role </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -249,7 +255,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-a-nohref">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-a-element"><code>a</code></a> <span class="el-context">(no <a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-href"><code>href</code></a> attribute)</span></th>
+                <th><a data-cite="HTML">`a`</a> <span class="el-context">(no <a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-href"><code>href</code></a> attribute)</span></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -289,57 +295,57 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-abbr">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-abbr-element"><code>abbr</code></a></th>
-                <td class="aria">No corresponding role</td>
-                <td class="ia2">
-                  <div class="role">
-                    <span class="type">Roles: </span><code>ROLE_SYSTEM_TEXT</code>; <code>IA2_ROLE_TEXT_FRAME</code>
-                  </div>
-                  <div class="objattrs">
-                    <span class="type">Object attributes: </span>
-                    "abbr" attribute on the containing <a href="#el-td"><code>td</code></a> if a single child,
-                    text content used as a value
-                  </div>
-                  <div class="ifaces">
-                    <span class="type">Interfaces: </span>
-                    <code>IAccessibleText2</code>; <code>IAccessibleHypertext2</code>;
-                  </div>
-                </td>
-                <td class="uia">
-                    <div class="ctrltype">
-                        <span class="type">Control Type: </span><code>Text</code>
-                    </div>
-                </td>
-                <td class="atk">
-                  <div class="role">
-                    <span class="type">Role: </span>
-                    <code>ATK_ROLE_STATIC</code>
-                  </div>
-                  <div class="objattrs">
-                    <span class="type">Object attributes: </span>
-                    "abbr" attribute on the containing <a href="#el-td"><code>td</code></a> if a single child,
-                    text content used as a value
-                  </div>
-                  <div class="ifaces">
-                    <span class="type">Interfaces: </span>
-                    <code>AtkText</code>; <code>AtkHypertext</code>
-                  </div>
-                </td>
-                <td class="ax">
-                    <div class="role">
-                        <span class="type">AXRole: </span><code>AXGroup</code>
-                    </div>
-                    <div class="subrole">
-                        <span class="type">AXSubrole: </span><code>(nil)</code>
-                    </div>
-                    <div class="roledesc">
-                        <span class="type">AXRoleDescription: </span><code>"group"</code>
-                    </div>
-                </td>
-                <td class="comments"></td>
+              <th><a data-cite="HTML">`abbr`</a></th>
+              <td class="aria">No corresponding role</td>
+              <td class="ia2">
+                <div class="role">
+                  <span class="type">Roles: </span><code>ROLE_SYSTEM_TEXT</code>; <code>IA2_ROLE_TEXT_FRAME</code>
+                </div>
+                <div class="objattrs">
+                  <span class="type">Object attributes: </span>
+                  "abbr" attribute on the containing <a href="#el-td"><code>td</code></a> if a single child,
+                  text content used as a value
+                </div>
+                <div class="ifaces">
+                  <span class="type">Interfaces: </span>
+                  <code>IAccessibleText2</code>; <code>IAccessibleHypertext2</code>;
+                </div>
+              </td>
+              <td class="uia">
+                <div class="ctrltype">
+                  <span class="type">Control Type: </span><code>Text</code>
+                </div>
+              </td>
+              <td class="atk">
+                <div class="role">
+                  <span class="type">Role: </span>
+                  <code>ATK_ROLE_STATIC</code>
+                </div>
+                <div class="objattrs">
+                  <span class="type">Object attributes: </span>
+                  "abbr" attribute on the containing <a href="#el-td"><code>td</code></a> if a single child,
+                  text content used as a value
+                </div>
+                <div class="ifaces">
+                  <span class="type">Interfaces: </span>
+                  <code>AtkText</code>; <code>AtkHypertext</code>
+                </div>
+              </td>
+              <td class="ax">
+                <div class="role">
+                  <span class="type">AXRole: </span><code>AXGroup</code>
+                </div>
+                <div class="subrole">
+                  <span class="type">AXSubrole: </span><code>(nil)</code>
+                </div>
+                <div class="roledesc">
+                  <span class="type">AXRoleDescription: </span><code>"group"</code>
+                </div>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-address">
-                <th><a href="https://www.w3.org/TR/html/sections.html#the-address-element"><code>address</code></a></th>
+                <th><a data-cite="HTML">`address`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -363,21 +369,21 @@
                   </div>
                 </td>
                 <td class="ax">
-                    <div class="role">
-                        <span class="type">AXRole: </span><code>AXGroup</code>
-                    </div>
-                    <div class="subrole">
-                        <span class="type">AXSubrole: </span><code>(nil)</code>
-                    </div>
-                    <div class="roledesc">
-                        <span class="type">AXRoleDescription: </span><code>"group"</code>
-                    </div>
+                  <div class="role">
+                    <span class="type">AXRole: </span><code>AXGroup</code>
+                  </div>
+                  <div class="subrole">
+                    <span class="type">AXSubrole: </span><code>(nil)</code>
+                  </div>
+                  <div class="roledesc">
+                    <span class="type">AXRoleDescription: </span><code>"group"</code>
+                  </div>
                 </td>
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-area">
               <th>
-                <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-area-element"><code>area</code></a> <span class="el-context">(represents a <a href="https://www.w3.org/TR/html/links.html#hyperlink">hyperlink</a>)</span>
+                <a data-cite="HTML">`area`</a> <span class="el-context">(represents a <a data-cite="HTML">hyperlink</a>)</span>
               </th>
               <td class="aria">
                 <a class="core-mapping" href="#role-map-link"><code>link</code></a> role
@@ -411,16 +417,16 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-article">
-                <th><a href="https://www.w3.org/TR/html/sections.html#the-article-element"><code>article</code></a></th>
-                <td class="aria"><a class="core-mapping" href="#role-map-article"><code>article</code></a> role </td>
-                <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="comments"></td>
+              <th><a data-cite="HTML">`article`</a></th>
+              <td class="aria"><a class="core-mapping" href="#role-map-article"><code>article</code></a> role </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-aside">
-                <th><a href="https://www.w3.org/TR/html/sections.html#the-aside-element"><code>aside</code></a></th>
+                <th><a data-cite="HTML">`aside`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-complementary"><code>complementary</code></a> role </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia">
@@ -432,7 +438,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-audio">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-audio-element"><code>audio</code></a></th>
+                <th><a data-cite="HTML">`audio`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -469,7 +475,7 @@
                   <td class="comments"></td>
               </tr>
             <tr tabindex="-1" id="el-b">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-b-element"><code>b</code></a></th>
+                <th><a>`b`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object. Exposed as
@@ -488,65 +494,65 @@
                   </div>
                 </td>
                 <td class="ax">
-                    <div class="role">
-                        <span class="type">AXRole: </span><code>AXGroup</code>
-                    </div>
-                    <div class="subrole">
-                        <span class="type">AXSubrole: </span><code>(nil)</code>
-                    </div>
-                    <div class="roledesc">
-                        <span class="type">AXRoleDescription: </span><code>"group"</code>
-                    </div>
+                  <div class="role">
+                    <span class="type">AXRole: </span><code>AXGroup</code>
+                  </div>
+                  <div class="subrole">
+                    <span class="type">AXSubrole: </span><code>(nil)</code>
+                  </div>
+                  <div class="roledesc">
+                    <span class="type">AXRoleDescription: </span><code>"group"</code>
+                  </div>
                 </td>
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-base">
-                <th><a href="https://www.w3.org/TR/html/document-metadata.html#the-base-element"><code>base</code></a></th>
-                <td class="aria">No corresponding role</td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia"><div class="general">Not mapped</div></td>
-                <td class="atk"><div class="general">Not mapped</div></td>
-                <td class="ax"><div class="general">Not mapped</div></td>
-                <td class="comments"></td>
+              <th><a data-cite="HTML">`base`</a></th>
+              <td class="aria">No corresponding role</td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-bdi">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdi-element"><code>bdi</code></a></th>
-                <td class="aria">No corresponding role</td>
-                <td class="ia2">
-                  <div class="general">
-                    No accessible object. May affect on
-                    "writing-mode" text attribute on its text container.
-                  </div>
-                </td>
-                <td class="uia">
-                    <div class="ctrltype">
-                        <span class="type">Control Type: </span><code>Text</code>
-                    </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
+              <th><a data-cite="HTML">`bdi`</a></th>
+              <td class="aria">No corresponding role</td>
+              <td class="ia2">
+                <div class="general">
                   No accessible object. May affect on
                   "writing-mode" text attribute on its text container.
-                  </div>
-                </td>
-                <td class="ax"></td>
-                <td class="comments"></td>
+                </div>
+              </td>
+              <td class="uia">
+                <div class="ctrltype">
+                  <span class="type">Control Type: </span><code>Text</code>
+                </div>
+              </td>
+              <td class="atk">
+                <div class="general">
+                No accessible object. May affect on
+                "writing-mode" text attribute on its text container.
+                </div>
+              </td>
+              <td class="ax"></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-bdo">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdo-element"><code>bdo</code></a></th>
+                <th><a data-cite="HTML">`bdo`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
-                      <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
+                    <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
                   </div>
                   <div class="properties">
-                        <span class="type">Text attributes: </span><code>writing-mode</code> on the text container
+                    <span class="type">Text attributes: </span><code>writing-mode</code> on the text container
                   </div>
                 </td>
                 <td class="uia">
-                    <div class="ctrltype">
-                        <span class="type">Control Type: </span><code>Text</code>
-                    </div>
+                  <div class="ctrltype">
+                    <span class="type">Control Type: </span><code>Text</code>
+                  </div>
                 </td>
                 <td class="atk">
                   <div class="general">
@@ -555,20 +561,20 @@
                   </div>
                 </td>
                 <td class="ax">
-                    <div class="role">
-                        <span class="type">AXRole: </span><code>AXGroup</code>
-                    </div>
-                    <div class="subrole">
-                        <span class="type">AXSubrole: </span><code>(nil)</code>
-                    </div>
-                    <div class="roledesc">
-                        <span class="type">AXRoleDescription: </span><code>"group"</code>
-                    </div>
+                  <div class="role">
+                    <span class="type">AXRole: </span><code>AXGroup</code>
+                  </div>
+                  <div class="subrole">
+                    <span class="type">AXSubrole: </span><code>(nil)</code>
+                  </div>
+                  <div class="roledesc">
+                    <span class="type">AXRoleDescription: </span><code>"group"</code>
+                  </div>
                 </td>
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-blockquote">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-blockquote-element"><code>blockquote</code></a></th>
+                <th><a data-cite="HTML">`blockquote`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -609,7 +615,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-body">
-                <th><a href="https://www.w3.org/TR/html/sections.html#the-body-element"><code>body</code></a></th>
+                <th><a data-cite="HTML">`body`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -642,7 +648,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-br">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-br-element"><code>br</code></a></th>
+                <th><a data-cite="HTML">`br`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object. Exposed as '\n' character
@@ -659,7 +665,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-button">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-button-element"><code>button</code></a></th>
+                <th><a data-cite="HTML">`button`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-button"><code>button</code></a> role </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -668,7 +674,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-canvas">
-                <th><a href="https://www.w3.org/TR/html/semantics-scripting.html#the-canvas-element"><code>canvas</code></a></th>
+                <th><a data-cite="HTML">`canvas`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -703,7 +709,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-caption">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-caption-element"><code>caption</code></a></th>
+                <th><a data-cite="HTML">`caption`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -1162,7 +1168,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-figcaption">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-figcaption-element"><code>figcaption</code></a></th>
+                <th><a data-cite="HTML">`figcaption`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2058,7 +2064,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-ins">
-                <th><a href="https://www.w3.org/TR/html/edits.html#the-ins-element"><code>ins</code></a></th>
+                <th><a data-cite="HTML">`ins`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -2089,7 +2095,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-kbd">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-kbd-element"><code>kbd</code></a></th>
+                <th><a data-cite="HTML">`kbd`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object.</div>
@@ -2121,17 +2127,8 @@
                 </td>
                 <td class="comments"></td>
             </tr>
-            <tr tabindex="-1" id="el-keygen">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-keygen-element"><code>keygen</code></a></th>
-                <td class="aria"><a class="core-mapping" href="#role-map-listbox"><code>listbox</code></a> role, with the <a class="core-mapping" href="#ariaMultiselectableFalse"><code>aria-multiselectable</code></a> property set to "false" </td>
-                <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="comments"></td>
-            </tr>
             <tr tabindex="-1" id="el-label">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-label-element"><code>label</code></a></th>
+                <th><a data-cite="HTML">`label`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2184,7 +2181,7 @@
                 <td class="comments"></td>
             </tr>
                 <tr tabindex="-1" id="el-legend">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-legend-element"><code>legend</code></a></th>
+                <th><a data-cite="HTML">`legend`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2244,7 +2241,7 @@
             </tr>
             <tr tabindex="-1" id="el-li-parentmenu">
                 <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-li-element"><code>li</code></a> <span class="el-context">(parent is a <a href="https://www.w3.org/TR/html/interactive-elements.html#the-menu-element"><code>menu</code></a>)</span></th>
-                <td class="aria"><a class="core-mapping" href="#role-map-listitem"><code>listitem</code></a> role  with <a href="https://www.w3.org/TR/core-aam-1.1/#ariaSetsize"><code>aria-setsize</code></a> value reflecting number of <code>li</code> elements within the parent <code>menu</code><code></code> and <a href="https://www.w3.org/TR/core-aam-1.1/#ariaPosinset"><code>aria-posinset</code></a> value reflecting the <code>li</code> elements position within the set. </td>
+                <td class="aria"><a class="core-mapping" href="#role-map-listitem"><code>listitem</code></a> role  with <a href="https://www.w3.org/TR/core-aam-1.1/#ariaSetsize"><code>aria-setsize</code></a> value reflecting number of <code>li</code> elements within the parent <code>menu</code> and <a href="https://www.w3.org/TR/core-aam-1.1/#ariaPosinset"><code>aria-posinset</code></a> value reflecting the <code>li</code> elements position within the set. </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -2252,7 +2249,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-link">
-                <th><a href="https://www.w3.org/TR/html/document-metadata.html#the-link-element"><code>link</code></a></th>
+                <th><a data-cite="HTML">`link`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -2261,7 +2258,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-main">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-main-element"><code>main</code></a></th>
+                <th><a data-cite="HTML">`main`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-main"><code>main</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -2270,7 +2267,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-map">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-map-element"><code>map</code></a></th>
+                <th><a data-cite="HTML">`map`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -2302,7 +2299,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-mark">
-              <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-mark-element"><code>mark</code></a></th>
+              <th><a data-cite="HTML">`mark`</a></th>
               <td class="aria">No corresponding role</td>
               <td class="ia2">
                 <div class="general">
@@ -2402,7 +2399,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-meta">
-                <th><a href="https://www.w3.org/TR/html/document-metadata.html#the-meta-element"><code>meta</code></a></th>
+                <th><a data-cite="HTML">`meta`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -2411,7 +2408,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-meter">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-meter-element"><code>meter</code></a></th>
+                <th><a data-cite="HTML">`meter`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2457,7 +2454,7 @@
                 <td class="comments">See <a href="https://github.com/w3c/html-aam/issues/2">GitHub issue #2</a>.</td>
             </tr>
             <tr tabindex="-1" id="el-nav">
-                <th><a href="https://www.w3.org/TR/html/sections.html#the-nav-element"><code>nav</code></a></th>
+                <th><a data-cite="HTML">`nav`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-navigation"><code>navigation</code></a> role </td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -2466,7 +2463,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-noscript">
-                <th><a href="https://www.w3.org/TR/html/semantics-scripting.html#the-noscript-element"><code>noscript</code></a></th>
+                <th><a data-cite="HTML">`noscript`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -2475,7 +2472,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-object">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-object-element"><code>object</code></a></th>
+                <th><a data-cite="HTML">`object`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">Depends on format of data file. If it contains a plugin then,</div>
@@ -2502,7 +2499,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-ol">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-ol-element"><code>ol</code></a></th>
+                <th><a data-cite="HTML">`ol`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-list"><code>list</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -2511,7 +2508,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-optgroup">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-optgroup-element"><code>optgroup</code></a></th>
+                <th><a data-cite="HTML">`optgroup`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-group"><code>group</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -2529,7 +2526,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-output">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-output-element"><code>output</code></a></th>
+                <th><a data-cite="HTML">`output`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-status"><code>status</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia">
@@ -2541,7 +2538,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-p">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-p-element"><code>p</code></a></th>
+                <th><a data-cite="HTML">`p`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2580,7 +2577,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-param">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-param-element"><code>param</code></a></th>
+                <th><a data-cite="HTML">`param`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -2589,7 +2586,7 @@
                 <td class="comments"></td>
             </tr>
             <tr id="el-picture" tabindex="-1">
-              <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-picture-element"><code>picture</code></a></th>
+              <th><a data-cite="HTML">`picture`</a></th>
               <td class="aria">No corresponding role</td>
               <td class="ia2"><div class="general">Not mapped</div></td>
               <td class="uia"><div class="general">Not mapped</div></td>
@@ -2598,7 +2595,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-pre">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-pre-element"><code>pre</code></a></th>
+                <th><a data-cite="HTML">`pre`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2654,7 +2651,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-q">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-q-element"><code>q</code></a></th>
+                <th><a data-cite="HTML">`q`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2718,7 +2715,7 @@
             </tr>
 
             <tr tabindex="-1" id="el-rp">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rp-element"><code>rp</code></a></th>
+                <th><a data-cite="HTML">`rp`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -2740,7 +2737,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-rt">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rt-element"><code>rt</code></a></th>
+                <th><a data-cite="HTML">`rt`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -2780,7 +2777,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-ruby">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-ruby-element"><code>ruby</code></a></th>
+                <th><a data-cite="HTML">`ruby`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -2813,7 +2810,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-s">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-s-element"><code>s</code></a></th>
+                <th><a data-cite="HTML">`s`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object.</div>
@@ -2844,7 +2841,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-samp">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-samp-element"><code>samp</code></a></th>
+                <th><a data-cite="HTML">`samp`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -2884,12 +2881,12 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-section">
-                  <th><a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a></th>
+                  <th><a data-cite="HTML">`section`</a></th>
                   <td class="aria">
-                    <a class="core-mapping" href="#role-map-region"><code>region</code></a> role if the <a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a> element has an <a class="termref">accessible name</a>. Otherwise, no corresponding role.
+                    <a class="core-mapping" href="#role-map-region"><code>region</code></a> role if the <a>`section`</a> element has an <a class="termref">accessible name</a>. Otherwise, no corresponding role.
                   </td>
                   <td class="ia2">
-                    <div class="general">If the <a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
+                    <div class="general">If the <a>`section`</a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
                     <div class="role">
                       <span class="type">Roles: </span><code>ROLE_SYSTEM_GROUPING</code>; <code>IA2_ROLE_SECTION</code>
                     </div>
@@ -2898,7 +2895,7 @@
                     </div>
                   </td>
                   <td class="uia">
-                    <div class="general">If the <a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a> element has an <a class="termref">accessible name</a>:</div>
+                    <div class="general">If the <a>`section`</a> element has an <a class="termref">accessible name</a>:</div>
                     <div class="ctrltype"><span class="type">Control Type: </span><code>Group</code></div>
                     <div class="ctrltype"><span class="type">Localized Control Type:</span> <code>"section"</code> (all lower-case)</div>
                     <div class="ctrltype"><span class="type">Landmark Type:</span> <code>Custom</code></div>
@@ -2907,7 +2904,7 @@
                     <div class="ctrltype"><span class="type">Control Type: </span><code>Group</code></div>
                   </td>
                   <td class="atk">
-                    <div class="general">If the <a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
+                    <div class="general">If the <a>`section`</a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
                     <div class="role">
                       <span class="type">Role: </span>
                       <code>ATK_ROLE_SECTION</code>
@@ -2917,7 +2914,7 @@
                     </div>
                   </td>
                   <td class="ax">
-                    <div class="general">If the <a href="https://www.w3.org/TR/html5/sections.html#the-section-element"><code>section</code></a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
+                    <div class="general">If the <a>`section`</a> element has an <a class="termref">accessible name</a>, use WAI-ARIA mapping. Otherwise:</div>
                     <div class="role">
                       <span class="type">AXRole: </span><code>AXGroup</code>
                     </div>
@@ -2961,7 +2958,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-small">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-small-element"><code>small</code></a></th>
+                <th><a data-cite="HTML">`small`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object.</div>
@@ -2993,7 +2990,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-source">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-source-element"><code>source</code></a></th>
+                <th><a data-cite="HTML">`source`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3002,7 +2999,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-span">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-span-element"><code>span</code></a></th>
+                <th><a data-cite="HTML">`span`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia">
@@ -3025,7 +3022,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-strong">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-strong-element"><code>strong</code></a></th>
+                <th><a data-cite="HTML">`strong`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -3056,7 +3053,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-style">
-                <th><a href="https://www.w3.org/TR/html/document-metadata.html#the-style-element"><code>style</code></a></th>
+                <th><a data-cite="HTML">`style`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3106,7 +3103,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-summary">
-                <th><a href="https://www.w3.org/TR/html/interactive-elements.html#the-summary-element"><code>summary</code></a></th>
+                <th><a data-cite="HTML">`summary`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -3193,7 +3190,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-table">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-table-element"><code>table</code></a></th>
+                <th><a data-cite="HTML">`table`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-table"><code>table</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -3202,7 +3199,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-tbody">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-tbody-element"><code>tbody</code></a></th>
+                <th><a data-cite="HTML">`tbody`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-rowgroup"><code>rowgroup</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -3229,7 +3226,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-template">
-                <th><a href="https://www.w3.org/TR/html/semantics-scripting.html#the-template-element"><code>template</code></a></th>
+                <th><a data-cite="HTML">`template`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3238,7 +3235,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-textarea">
-                <th><a href="https://www.w3.org/TR/html/sec-forms.html#the-textarea-element"><code>textarea</code></a></th>
+                <th><a data-cite="HTML">`textarea`</a></th>
                 <td class="aria">textbox role, with the <a class="core-mapping" href="#ariaMultilineTrue"><code>aria-multiline</code></a> property set to "true"</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -3247,7 +3244,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-tfoot">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-tfoot-element"><code>tfoot</code></a></th>
+                <th><a data-cite="HTML">`tfoot`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-rowgroup"><code>rowgroup</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -3292,7 +3289,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-thead">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-thead-element"><code>thead</code></a></th>
+                <th><a data-cite="HTML">`thead`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-rowgroup"><code>rowgroup</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia">
@@ -3305,7 +3302,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-time">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-time-element"><code>time</code></a></th>
+                <th><a data-cite="HTML">`time`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="role">
@@ -3350,7 +3347,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-title">
-                <th><a href="https://www.w3.org/TR/html/document-metadata.html#the-title-element"><code>title</code></a></th>
+                <th><a data-cite="HTML">`title`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3359,7 +3356,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-tr">
-                <th><a href="https://www.w3.org/TR/html/tabular-data.html#the-tr-element"><code>tr</code></a></th>
+                <th><a data-cite="HTML">`tr`</a></th>
                 <td class="aria"><a class="core-mapping" href="#role-map-row"><code>row</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Generally not mapped. If the element must be included per Core-AAM Section 5.1.2, map as <code>Group</code>.</div></td>
@@ -3368,7 +3365,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-track">
-                <th><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#the-track-element"><code>track</code></a></th>
+                <th><a data-cite="HTML">`track`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3377,7 +3374,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-u">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-u-element"><code>u</code></a></th>
+                <th><a data-cite="HTML">`u`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object. Exposed as "text-underline-style:solid" text attribute on its text container.
@@ -3396,7 +3393,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-ul">
-                <th><a href="https://www.w3.org/TR/html/grouping-content.html#the-ul-element"><code>ul</code></a></th>
+                <th><a data-cite="HTML">`ul`</th>
                 <td class="aria"><a class="core-mapping" href="#role-map-list"><code>list</code></a> role</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -3405,7 +3402,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-var">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-var-element"><code>var</code></a></th>
+                <th><a data-cite="HTML">`var`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">No accessible object. Styles used are mapped to text attributes on its text container.</div>
@@ -3431,7 +3428,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-video">
-              <th><a href="https://www.w3.org/TR/html/semantics.html#the-video-element"><code>video</code></a></th>
+              <th><a data-cite="HTML">`video`</a></th>
               <td class="aria">No corresponding role</td>
               <td class="ia2">
                 <div class="role">
@@ -3467,7 +3464,7 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-wbr">
-                <th><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-wbr-element"><code>wbr</code></a></th>
+                <th><a data-cite="HTML">`wbr`</a></th>
                 <td class="aria">No corresponding role</td>
                 <td class="ia2">
                   <div class="general">
@@ -3501,19 +3498,19 @@
       <h3>HTML Attribute State and Property Mappings</h3>
       <p><strong>Notes:</strong> </p>
       <ul>
-        <li>HTML attributes with default WAI-ARIA state and property semantics <span class="rfc2119">must</span> be mapped to platform <a class="termref" data-lt="accessibility API">accessibility APIs</a> according to those WAI-ARIA state and property mappings as defined in the <a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a> [[CORE-AAM]] specification.</li>
+        <li>HTML attributes with default WAI-ARIA state and property semantics MUST be mapped to platform <a class="termref">accessibility APIs</a> according to those WAI-ARIA state and property mappings as defined in the [[core-aam-1.2]] specification.</li>
         <li>A '?' in a cell indicates the data has yet to be provided.</li>
         <li>"Not mapped" (Not Applicable) means the attribute does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the attribute is not displayed as part of the user interface.</li>
         <li>All elements having an accessible object in IAccessible2 mapping are supposed to implement IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
       </ul>
       <div class="table-container">
         <table class="map-table attributes" id="attribute-mapping-table">
-          <caption>Mappings of HTML attributes (excluding event handler content attributes) to platform <a class="termref" data-lt="accessibility API">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
+          <caption>Mappings of HTML attributes (excluding event handler content attributes) to platform <a class="termref">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
           <thead>
             <tr>
               <th>Attribute</th>
               <th>Element(s)</th>
-              <th><a href="https://www.w3.org/TR/wai-aria-1.1/">WAI-ARIA</a></th>
+              <th>[[[WAI-ARIA]]]</th>
               <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <th><a href="https://developer.gnome.org/atk/stable/">ATK</a></th>
@@ -3575,7 +3572,7 @@
                 </td>
                 <td class="uia">
                   <div class="properties">
-                      <span class="type">Properties: </span><code>AccessKey: &lt;value&gt;</code>
+                    <span class="type">Properties: </span><code>AccessKey: &lt;value&gt;</code>
                   </div>
                 </td>
                 <td class="atk">
@@ -3682,7 +3679,7 @@
             </tr>
             <tr tabindex="-1" id="att-autofocus">
                 <th><code>autofocus</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>keygen</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>textarea</code></a></td>
+                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-autofocus"><code>textarea</code></a></td>
                 <td class="aria">Not mapped - <a class="core-mapping" href="#ariaFlowto"><code>aria-flowto</code></a>?</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -3693,16 +3690,6 @@
             <tr tabindex="-1" id="att-autoplay">
                 <th><code>autoplay</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-media-autoplay"><code>audio</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-media-autoplay"><code>video</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia"><div class="general">Not mapped</div></td>
-                <td class="atk"><div class="general">Not mapped</div></td>
-                <td class="ax"><div class="general">Not mapped</div></td>
-                <td class="comments"></td>
-            </tr>
-            <tr tabindex="-1" id="att-challenge">
-                <th><code>challenge</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-keygen-challenge"><code>keygen</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -4007,7 +3994,7 @@
             </tr>
             <tr tabindex="-1" id="att-disabled">
                 <th><code>disabled</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-fieldset-disabled"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>keygen</code></a>; <a href="https://www.w3.org/TR/html/interactive-elements.html#element-attrdef-menuitem-disabled"><code>menuitem</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-optgroup-disabled"><code>optgroup</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-option-disabled"><code>option</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>textarea</code></a></td>
+                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-fieldset-disabled"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>input</code></a>; <a href="https://www.w3.org/TR/html/interactive-elements.html#element-attrdef-menuitem-disabled"><code>menuitem</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-optgroup-disabled"><code>optgroup</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-option-disabled"><code>option</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-disabledformelements-disabled"><code>textarea</code></a></td>
                 <td class="aria"><a class="core-mapping" href="#ariaDisabledTrue"><code>aria-disabled</code></a>="true"</td>
                 <td class="ia2">
                   <div class="states">
@@ -4126,7 +4113,7 @@
             </tr>
             <tr tabindex="-1" id="att-form">
                 <th><code>form</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>keygen</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>label</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>object</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>output</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>textarea</code></a></td>
+                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>label</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>object</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>output</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-form"><code>textarea</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -4252,8 +4239,9 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-href">
-                <th><code>href</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-href"><code>a</code></a>; <a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-href"><code>area</code></a></td>
+                <th><a data-cite=
+            "html/links.html#attr-hyperlink-href">`href`</a></th>
+                <td class="elements">`a`; `area`</td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2">
                   <div class="general">
@@ -4336,16 +4324,6 @@
             <tr tabindex="-1" id="att-ismap">
                 <th><code>ismap</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-img-ismap"><code>img</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia"><div class="general">Not mapped</div></td>
-                <td class="atk"><div class="general">Not mapped</div></td>
-                <td class="ax"><div class="general">Not mapped</div></td>
-                <td class="comments"></td>
-            </tr>
-            <tr tabindex="-1" id="att-keytype">
-                <th><code>keytype</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-keygen-keytype"><code>keygen</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -4462,8 +4440,9 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-low">
-                <th><code>low</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-meter-low"><code>meter</code></a></td>
+              <th><code>low</code></th>
+              <td class="elements"><a data-cite=
+            "html/form-elements.html#attr-meter-low">`meter`</a></td>
                 <td class="aria">?</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><code>RangeValue.Minimum</code></td>
@@ -4613,7 +4592,7 @@
             </tr>
             <tr tabindex="-1" id="att-name">
                 <th><code>name</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>keygen</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>output</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>textarea</code></a></td>
+                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>button</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>fieldset</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>output</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>select</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-formelements-name"><code>textarea</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
@@ -4760,7 +4739,7 @@
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="comments"><div class="general">When the <code>placeholder</code> and <code>aria-placeholder</code> attributes are both present, and the <code>placeholder</code> attribute's value is non-empty, user agents <strong class="rfc2119">MUST</strong> expose the value of the <code>placeholder</code> attribute, and ignore <code>aria-placeholder</code>. If the <code>placeholder</code> attribute's value is empty, then user agents <strong class="rfc2119">MUST</strong> expose the value of the <code>aria-placeholder</code> attribute.</div></td>
+                <td class="comments"><div class="general">When the <code>placeholder</code> and <code>aria-placeholder</code> attributes are both present, and the <code>placeholder</code> attribute's value is non-empty, user agents MUST expose the value of the <code>placeholder</code> attribute, and ignore <code>aria-placeholder</code>. If the <code>placeholder</code> attribute's value is empty, then user agents MUST expose the value of the <code>aria-placeholder</code> attribute.</div></td>
             </tr>
             <tr tabindex="-1" id="att-poster">
                 <th><code>poster</code></th>
@@ -5569,7 +5548,7 @@
   </section>
   <section class="normative">
     <h2>Accessible Name and Description Computation</h2>
-    <p>The terms <a class="termref">accessible name</a> and <a class="termref">accessible description</a> are properties provided in all <a class="termref" data-lt="accessibility API">accessibility APIs</a>. The name of the properties may differ across APIs but they serve the same function: as a container for a short (name) or longer (description) string of text. </p>
+    <p>The terms <a class="termref">accessible name</a> and <a class="termref">accessible description</a> are properties provided in all <a class="termref">accessibility APIs</a>. The name of the properties may differ across APIs but they serve the same function: as a container for a short (name) or longer (description) string of text. </p>
     <p>The <a href="#mapping_additional_nd_te" class="accname">text alternative computation</a> is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref" data-lt="element">elements</a>, <a class="termref" data-lt="node">nodes</a>, and combinations of markup.</p>
     <section>
       <h3><code>input type="text"</code>, <code>input type="password"</code>,<code> input type="search"</code>,<code> input type="tel"</code>, <code>input type="url"</code> and <code>textarea</code> Element</h3>
@@ -5874,7 +5853,7 @@
             If none of the above yield a usable text string there is no <a class="termref">accessible name</a>.
           </li>
         </ol>
-        <!--<p class="note">If the <code>img</code> element is exposed in the <a class="termref">accessibility tree</a> and the computed text alternative is empty, then check for the presence of <code>role="presentation"</code> or any labeling attribute that specifies an empty label, specifically <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a>, <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a>, <code>alt</code> or <code>title</code>. The presence of any of these indicates the author's intention to indicate that the <code>img</code> is decorative or redundant. In this case, the user agent <strong class="rfc2119">must</strong> set the name to an empty string. If none of these attributes are present, this indicates the author simply did not provide an accessible label for the image, and the implementation <strong class="rfc2119">must</strong> return an <a class="termref">accessible name</a> of NULL instead of an empty string if the <a class="termref">accessibility API</a> supports it. This hints to the <a class="termref" data-lt="Assistive Technologies">assistive technology</a> to do its own heuristic processing to repair the missing <a class="termref">accessible name</a>.</p>-->
+        <!--<p class="note">If the <code>img</code> element is exposed in the <a class="termref">accessibility tree</a> and the computed text alternative is empty, then check for the presence of <code>role="presentation"</code> or any labeling attribute that specifies an empty label, specifically <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-label"><code>aria-label</code></a>, <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby"><code>aria-labelledby</code></a>, <code>alt</code> or <code>title</code>. The presence of any of these indicates the author's intention to indicate that the <code>img</code> is decorative or redundant. In this case, the user agent MUST set the name to an empty string. If none of these attributes are present, this indicates the author simply did not provide an accessible label for the image, and the implementation MUST return an <a class="termref">accessible name</a> of NULL instead of an empty string if the <a class="termref">accessibility API</a> supports it. This hints to the <a class="termref" data-lt="Assistive Technologies">assistive technology</a> to do its own heuristic processing to repair the missing <a class="termref">accessible name</a>.</p>-->
       </section>
       <section>
         <h4><code>img</code> Element Accessible Description Computation</h4>
@@ -6074,7 +6053,7 @@
     </section>
     <section>
       <h3>Text Level Elements Not Listed Elsewhere</h3>
-      <p><a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-abbr-element"><code>abbr</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-b-element"><code>b</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdi-element"><code>bdi</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdo-element"><code>bdo</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-br-element"><code>br</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-cite-element"><code>cite</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-code-element"><code>code</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-dfn-element"><code>dfn</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-em-element"><code>em</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-i-element"><code>i</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-kbd-element"><code>kbd</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-mark-element"><code>mark</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-q-element"><code>q</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rp-element"><code>rp</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rt-element"><code>rt</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-ruby-element"><code>ruby</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-s-element"><code>s</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-samp-element"><code>samp</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-small-element"><code>small</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-strong-element"><code>strong</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-sub-and-sup-elements"><code>sub</code> and <code>sup</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-time-element"><code>time</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-u-element"><code>u</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-var-element"><code>var</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-wbr-element"><code>wbr</code></a></p>
+      <p><a data-cite="html">`abbr`</a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-b-element"><code>b</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdi-element"><code>bdi</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-bdo-element"><code>bdo</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-br-element"><code>br</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-cite-element"><code>cite</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-code-element"><code>code</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-dfn-element"><code>dfn</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-em-element"><code>em</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-i-element"><code>i</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-kbd-element"><code>kbd</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-mark-element"><code>mark</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-q-element"><code>q</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rp-element"><code>rp</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-rt-element"><code>rt</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-ruby-element"><code>ruby</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-s-element"><code>s</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-samp-element"><code>samp</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-small-element"><code>small</code></a>, <a>`strong`</a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-sub-and-sup-elements"><code>sub</code> and <code>sup</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-time-element"><code>time</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-u-element"><code>u</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-var-element"><code>var</code></a>, <a href="https://www.w3.org/TR/html/textlevel-semantics.html#the-wbr-element"><code>wbr</code></a></p>
       <section>
         <h4>Text Level Element Accessible Name Computation</h4>
         <ol>
@@ -6116,7 +6095,7 @@
       </section>
       <section>
         <h4>Role, Name, State and Property Mapping</h4>
-        <p>The <code>summary</code> element should be mapped to a disclosure triangle role in <a class="termref" data-lt="accessibility API">accessibility APIs</a> that have such a role. For example the Mac <a class="termref">accessibility API</a> includes the <code>AXDisclosureTriangle</code> role. In <a class="termref" data-lt="accessibility API">accessibility APIs</a> that do not have such a fine grained role, the <code>summary</code> element should be mapped to a <code>button</code> role. The role mapping table contains <a href="#el-summary">recommended mappings for the summary element</a>.</p>
+        <p>The <code>summary</code> element should be mapped to a disclosure triangle role in <a class="termref">accessibility APIs</a> that have such a role. For example the Mac <a class="termref">accessibility API</a> includes the <code>AXDisclosureTriangle</code> role. In <a class="termref">accessibility APIs</a> that do not have such a fine grained role, the <code>summary</code> element should be mapped to a <code>button</code> role. The role mapping table contains <a href="#el-summary">recommended mappings for the summary element</a>.</p>
         <p>The default <a class="termref">accessible name</a> for the <code>summary</code> element is the text content of the <code>summary</code> element.</p>
 
         <p>When the <code>details</code> element content is hidden, the state of the content should be reflected by an accessible state or property.</p>
