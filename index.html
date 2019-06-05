@@ -492,6 +492,11 @@
 			<h3>Inherited States and Properties</h3>
 			<p>Informative list of properties that are inherited onto a <a>role</a> from superclass roles. <a>States</a> and <a>properties</a> are inherited from superclass roles in the role <a>taxonomy</a>, not from ancestor <a>elements</a> in the <abbr title="Document Object Model">DOM</abbr> tree. These properties are not explicitly defined on the role, as the inheritance of properties is automatic. This information is provided to facilitate reading of the specification. The set of supported states and properties combined with inherited states and properties forms the full set of states and properties supported by the role.</p>
 		</section>
+		<section id="prohibitedattributes">
+				<h3>Prohibited States and Properties</h3>
+				<p>List of properties that are prohibited on a <a>role</a>. Authors MUST NOT specify a prohibited state or property.</p>
+				<p class="note">A host language attribute with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> would also prohibit a state or property in this section. </p>
+			</section>		
 		<section id="mustContain">
 			<h3>Required Owned Elements</h3>
 			<dl class="runin">
@@ -531,7 +536,7 @@
 						<li>contents: name comes from the text value of the <a>element</a> node. Although this may be allowed in addition to "author" in some <a>roles</a>, this is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
             <li>encapsulation: name comes from the text value of the <a>element</a> node with role <code>label</code> that is the closest ancestor. Although "encapsulation" may be allowed in addition to "author" and "contents" in some <a>roles</a>, "encapsulation" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
             <li>legend: name comes from the text value of the first descendant <a>element</a> node with the role of <code>legend</code>.  Although "legend" may be allowed in addition to "author" in some <a>roles</a>, "legend" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
-            <li>prohibited: the element has no name. If an author uses an explicit naming method this is an author error.</li>
+            <li>prohibited: the element has no name. Authors MUST NOT use the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attributes to name the element.</li>
 					</ol>
 				</dd>
 			</dl>
@@ -12434,10 +12439,11 @@
 					</ul>
 				</li>
 				</ul>
+			<p>If the author specfies a WAI-ARIA property on a role where that property is prohibited, the user agent SHOULD treat the property as if it were allowed. </p>
 			<p>If a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property contains an unknown or disallowed value, the user agent SHOULD expose to platform <a>accessibility APIs</a> as follows:</p>
 			<ul>
 				<li>When exposing as a platform accessibility API attribute, expose the unknown value &#8212; do not vet it against possible values. </li>
-				<li> When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean state:
+				<li>When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean state:
 				<ul>
 					<li>For values of &quot;&quot; (empty string),  &quot;undefined&quot; or no <a class="termref">attribute</a> present:
 					<ul>
@@ -12449,7 +12455,7 @@
 				</ul>
 				</li>
 				<li>Otherwise, ignore the value and treat the property as not present.</li>
-			</ul>
+			</ul>	
 			<p class="note">In <abbr title="User Interface Automation">UIA</abbr>, the user agent might leave the corresponding property set to &quot;unsupported.&quot;</p>
 			<p>User agents MUST NOT expose <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes that reference unresolved IDs. For example:</p>
 			<ul>
