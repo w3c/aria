@@ -319,14 +319,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                     name = item.textContent || item.innerText;
                                 }
                                 var type = (item.localName === "pref" ? "property" : "state");
-                                var req = false;
-                                if ($(node).hasClass("role-required-properties") ) {
-                                    req = true;
-                                }
-                                var dis = false;
-                                if ($(node).hasClass("role-disallowed") ) {
-                                    dis = true;
-                                }                                
+                                var req = $(node).hasClass("role-required-properties");
+                                var dis = $(node).hasClass("role-disallowed");                              
                                 attrs.push( { is: type, name: name, required: req, disallowed: dis } );
                                 // remember that the state or property is
                                 // referenced by this role
