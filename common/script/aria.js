@@ -172,8 +172,11 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     propList[title] = { is: type, title: title, name: content, desc: desc, roles: [] };
                     var abstract = container.querySelector("." + type + "-applicability");
                     if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
-                        globalSP.push({ is: type, title: title, name: content, desc: desc });
-                    }
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false });
+                    } 
+                    else if ((abstract.textContent || abstract.innerText) === "All elements of the base markup except for some roles or elements that prohibit its use") {
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true });
+                    } 
                     
                     // the rdef is gone.  if we are in a div, convert that div to a section
 
@@ -222,6 +225,9 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             globalSPIndex += "<sref title=\"" + lItem.name + "\">" + lItem.name + " (state)</sref>";
                         } else {
                             globalSPIndex += "<pref>" + lItem.name + "</pref>";
+                        }
+                        if (lItem.prohibited) {
+                            globalSPIndex += " (Except where prohibited)";
                         }
                         globalSPIndex += "</li>\n";
                     }
