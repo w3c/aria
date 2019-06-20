@@ -259,6 +259,9 @@ require(["core/pubsubhub"], function( respecEvents ) {
                 var roleIndex = "";
                 var fromAuthor = "";
                 var fromContent = "";
+                var fromEncapsulation = "";
+                var fromLegend = "";
+                var fromProhibited = "";
 
                 $.each(document.querySelectorAll("rdef"), function(i,item) {
                     var container = item.parentNode;
@@ -339,22 +342,21 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 req = " (name required)";
                             }
 
-                            if ($(node).find("li").length) {
-                                // there is a list; put it in both lists
+                            if (node.textContent.indexOf("author") !== -1) {
                                 fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                                if (!isAbstract) {
-                                    fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
-                                }
-                            } else {
-                                // it is a text node; use that
-                                if (node.textContent.indexOf("author") !== -1) {
-                                    fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                                } else if (node.textContent.indexOf("content") !== -1) {
-                                    if (!isAbstract) {
-                                        fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
-                                    }
-                                }
+                            } 
+                            if (!isAbstract && node.textContent.indexOf("content") !== -1) {
+                                fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
                             }
+                            if (node.textContent.indexOf("prohibited") !== -1) {
+                                fromProhibited += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                            }
+                            if (node.textContent.indexOf("encapsulation") !== -1) {
+                                fromEncapsulation += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>"; 
+                            }
+                            if (node.textContent.indexOf("legend") !== -1) {
+                                fromLegend += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                            }                                                               
                         });
                     }
                     if (container.nodeName.toLowerCase() == "div") {
@@ -530,6 +532,36 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         list.id = "index_fromcontent";
                         list.className = "compact";
                         list.innerHTML = fromContent;
+                        parentNode.replaceChild(list, node);
+                    }
+
+                    node = document.getElementById("index_fromencapsulation");
+                    if (node) {
+                        parentNode = node.parentNode;
+                        list = document.createElement("ul");
+                        list.id = "index_fromencapsulation";
+                        list.className = "compact";
+                        list.innerHTML = fromEncapsulation;
+                        parentNode.replaceChild(list, node);
+                    }
+
+                    node = document.getElementById("index_fromlegend");
+                    if (node) {
+                        parentNode = node.parentNode;
+                        list = document.createElement("ul");
+                        list.id = "index_fromlegend";
+                        list.className = "compact";
+                        list.innerHTML = fromLegend;
+                        parentNode.replaceChild(list, node);
+                    }
+
+                    node = document.getElementById("index_fromprohibited");
+                    if (node) {
+                        parentNode = node.parentNode;
+                        list = document.createElement("ul");
+                        list.id = "index_fromprohibited";
+                        list.className = "compact";
+                        list.innerHTML = fromProhibited;
                         parentNode.replaceChild(list, node);
                     }
 
