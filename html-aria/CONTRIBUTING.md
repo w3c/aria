@@ -44,7 +44,7 @@ up later. Add the `type:untestable` or `type:missing-coverage` label as appropri
 ## Running HTML5 Tidy
 
 Please make sure you have HTML5 tidy installed, instead of
-the the one that ships with \*nix systems. You can confirm this by running:
+the one that ships with \*nix systems. You can confirm this by running:
 
 ```bash
 tidy --version
