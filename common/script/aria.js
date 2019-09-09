@@ -266,7 +266,6 @@ require(["core/pubsubhub"], function( respecEvents ) {
                 var fromAuthor = "";
                 var fromContent = "";
                 var fromEncapsulation = "";
-                var fromLegend = "";
                 var fromCaption = "";
                 var fromProhibited = "";
 
@@ -362,10 +361,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             if (node.textContent.indexOf("encapsulation") !== -1) {
                                 fromEncapsulation += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             }
-                            if (node.textContent.indexOf("legend") !== -1) {
-                                fromLegend += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                            }
-                            if (node.textContent.indexOf("caption") !== -1) {
+                            if ((node.textContent.indexOf("caption") !== -1) || (node.textContent.indexOf("legend") !== -1)) {
                                 fromCaption += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             }
                         });
@@ -556,13 +552,13 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         parentNode.replaceChild(list, node);
                     }
 
-                    node = document.getElementById("index_fromlegend");
+                    node = document.getElementById("index_fromcontent");
                     if (node) {
                         parentNode = node.parentNode;
                         list = document.createElement("ul");
                         list.id = "index_fromlegend";
                         list.className = "compact";
-                        list.innerHTML = fromLegend;
+                        list.innerHTML = fromContent;
                         parentNode.replaceChild(list, node);
                     }
 

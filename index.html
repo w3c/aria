@@ -531,10 +531,9 @@
 				<dd>One of the following values:
 					<ol>
 						<li>author: name comes from values provided by the author in explicit markup features such as the <pref>aria-label</pref> attribute, the <pref>aria-labelledby</pref> attribute, or the host language labeling mechanism, such as the <code>alt</code> or <code>title</code> attributes in <abbr title="Hypertext Markup Language">HTML</abbr>, with HTML <code>title</code> attribute having the lowest precedence for specifying a text alternative.</li>
-            <li>caption: name comes from the text value of the first or last child <a>element</a> node with the role of <code>caption</code>.  Although "caption" may be allowed in addition to "author" in some <a>roles</a>, "caption" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
+            <li>caption/legend: name comes from the text value of the first descendant <a>element</a> node with the role of <code>legend</code> or <code>caption</code>.  In the case of the role <code>caption</code> name is also allowed from the last child node of the <a>elemnt</a>.  Although "caption" or "legend" may be allowed in addition to "author" in some <a>roles</a>, "caption" or "legend" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
 						<li>contents: name comes from the text value of the <a>element</a> node. Although this may be allowed in addition to "author" in some <a>roles</a>, this is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
             <li>encapsulation: name comes from the text value of the <a>element</a> node with role <code>label</code> that is the closest ancestor. Although "encapsulation" may be allowed in addition to "author" and "contents" in some <a>roles</a>, "encapsulation" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
-            <li>legend: name comes from the text value of the first descendant <a>element</a> node with the role of <code>legend</code>.  Although "legend" may be allowed in addition to "author" in some <a>roles</a>, "legend" is used in content only if higher priority "author" features are not provided. Priority is defined by the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_te">accessible name and description computation</a> algorithm.  [[ACCNAME-1.1]]</li>
             <li>prohibited: the element has no name. Authors MUST NOT use the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attributes to name the element.</li>
 					</ol>
 				</dd>
@@ -555,8 +554,8 @@
                 <h4>Roles Supporting Name from Author</h4>
                 <div id="index_fromauthor">
 			</section>
-            <section id="namefromcaption">
-                <h4>Roles Supporting Name from Caption</h4>
+            <section id="namefromcaptioncaption">
+                <h4>Roles Supporting Name from Caption or Legend</h4>
                 <div id="index_fromcaption">
                 </div>
 			</section>
@@ -568,11 +567,6 @@
             <section id="namefromencapsulation">
                 <h4>Roles Supporting Name from Encapsulation</h4>
                 <div id="index_fromencapsulation">
-                </div>
-			</section>
-            <section id="namefromlegend">
-                <h4>Roles Supporting Name from Legend</h4>
-                <div id="index_fromlegend">
                 </div>
 			</section>
 			<section id="namefromprohibited">
@@ -1642,8 +1636,18 @@
 		<div class="role" id="caption">
 			<rdef>caption</rdef>
 			<div class="role-description">
-				<p>On-screen descriptive text for a figure or table in the page.</p>
-				<p>Authors SHOULD reference the element with role <code>caption</code> by setting <pref>aria-describedby</pref> on the figure or table.</p>
+				<p>A visible name or caption for an image, table or grid roles.  See synonym <rref>legend</rref>.</p>
+				<p>An element with role <code>caption</code> MAY provide an accessible name for  <a href="#namefromcaptioncaption">elements that support the "caption/legend" naming technique</a> by using one of three methods:</p>
+				<ul>
+					<li>caption: The element with role <code>caption</code> is the first child of the element it is naming.</li>
+					<li>caption: The element with role <code>caption</code> is the last child of the element it is naming.</li>
+					<li>reference: The element with role <code>caption</code> is referenced by the element it names via the <pref>aria-labelledby</pref> attribute.</li>
+				</ul>
+				<p>Authors SHOULD ensure that:</p>
+				<ul>
+					<li>All elements with role <code>caption</code> are associated with one or more elements with roles that support the "caption/legend" naming technique.</li>
+					<li>When an element with role <code>caption</code> is activated by touch or a pointer, focus moves to the element that is the first focusable user interface component which is part of the sequential tab order of the page that is a descendant of the associated table, grid or treegrid.</li>
+				</ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1672,7 +1676,12 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><code>&lt;figcaption&gt;</code> in [[HTML]]<br />&lt;caption&gt;</code> in [[HTML]]</td>
+						<td class="role-related">
+							<ul>
+								<li><code>&lt;caption&gt;</code> in [[HTML]]</li>
+								<li><code>&lt;figcaption&gt;</code> in [[HTML]]</li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -4173,20 +4182,15 @@
 		<div class="role" id="legend">
 			<rdef>legend</rdef>
 			<div class="role-description">
-				<p>A visible name or caption for a group of related user interface components.</p>
-				<p>A element with role <code>legend</code> element can provide an accessible name for elements with grouping roles if it is progammatically associated with the element.  Authors MAY associate an element with role <code>legend</code> with an element by using one of two methods:</p>
+				<p>A visible name or caption for a group of related user interface components.  See synonym <rref>caption</rref>.</p>
+				<p>An element with role <code>legend</code> MAY provide an accessible name for <a href="#namefromcaptioncaption">elements that support the "caption/legend" naming technique</a> by using one of two methods:</p>
 				<ul>
-					<li>legend: The element contains an element with role <code>legend</code> element.  If the element contains more than one element with role <code>legend</code>, only the first descendant element with role <code>legend</code> is used for computing the accessible name.</li>
+					<li>legend: The element with role <code>legend</code> is the first child of the element it is naming.</li>
 					<li>reference: The element with role <code>legend</code> is referenced by the element it names via the <pref>aria-labelledby</pref> attribute.</li>
-				</ul>
-				<p>The legend method of naming is supported only if the element being named has one of the following grouping roles:</p>
-				<ul>
-					<li><pref>group</pref></li>
-					<li><pref>radiogroup</pref> </li>
 				</ul>
 				<p>Authors SHOULD ensure that:</p>
 				<ul>
-					<li>All elements with role <code>legend</code> are associated with one or more elements with grouping roles.</li>
+					<li>All elements with role <code>legend</code> are associated with one or more elements with roles that support the "caption/legend" naming technique.</li>
 					<li>When an element with role <code>legend</code> is activated by touch or a pointer, focus moves to the first focusable element in the associated group of user interface components.</li>
 				</ul>
 			</div>
@@ -4237,20 +4241,20 @@
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
-						<td class="role-inherited">Placeholder</td>
+						<td class="role-inherited"></td>
 					</tr>
 					<tr>
-						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">
+						<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
+						<td class="role-disallowed">
 							<ul>
-								<li>contents</li>
-								<li>author</li>
+								<li><pref>aria-label</pref></li>
+								<li><pref>aria-labelledby</pref></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
-						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
-						<td class="role-namerequired">True</td>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">prohibited</td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
@@ -9523,7 +9527,13 @@
 					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">author</td>
+						<td class="role-namefrom">
+							<ul>
+								<li>caption</li>
+								<li>author</li>
+							</ul>
+						</td>
+					</tr>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
