@@ -2060,29 +2060,31 @@
 			<div class="role-description">
 				<p>An <rref>input</rref> that controls another element, such as a <rref>listbox</rref> or <rref>grid</rref>, that can dynamically pop up to help the user set the value of the <rref>input</rref>.</p>
         <p>
-          A <code>combobox</code> input MAY be either a single-line text field that supports editing and typing or an element that displays the current value.
+          A <code>combobox</code> functionally combines a named input field with the ability to assist value selection via a supplementary popup element.
+          A <code>combobox</code> input MAY be either a single-line text field that supports editing and typing or an element that only displays the current value of the <code>combobox</code>.
           If an element with role <code>combobox</code> supports text input, authors MUST ensure that the text input has <pref>aria-multiline</pref> set to <code>false</code>.
           If the <code>combobox</code> supports text input and provides autocompletion behavior as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <code>combobox</code> element to the value that corresponds to the provided behavior.
         </p>
 				<p>
           Typically, the initial state of a <code>combobox</code> is collapsed.
-          In the collapsed state, only the element that displays the value is visible.
-          A <code>combobox</code> is said to be expanded when both the element that displays the value and a secondary element that serves as its popup are visible.
+          In the collapsed state, only the <code>combobox</code> element and an optional popup control <rref>button</rref> are visible.
+          A <code>combobox</code> is said to be expanded when both the <code>combobox</code> element showing its current value and its associated popup element are visible.
           Authors MUST set <sref>aria-expanded</sref> to <code>true</code> on an element with role <code>combobox</code> when it is expanded and <code>false</code> when it is collapsed.
         </p>
 				<p>
-          When a <code>combobox</code> is expanded, authors MUST ensure it displays an element that has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>.
-          This additional element is the <code>combobox</code> popup.
-          When the <code>combobox</code> is expanded, authors MUST set <pref>aria-controls</pref> on the <code>combobox</code> element to a value that refers to the <code>combobox</code> popup element.
+          Authors MUST ensure the popup element associated with a <code>combobox</code> has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>.
+          Authors MUST set <pref>aria-controls</pref> on a <code>combobox</code> element to a value that refers to the <code>combobox</code> popup element.
         </p>
 				<p>
-          Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the type of its popup.
+          Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>.
+          If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the type of its popup.
         </p>
 				<p>
-          To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.
-        </p>
-				<p>
-          Authors SHOULD provide keyboard mechanisms for moving focus between the <rref>textbox</rref> element and the elements contained in the popup. For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the text input to the first focusable descendant of the popup element. If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <rref>textbox</rref> element. When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <rref>textbox</rref> to a value that refers to the active element within the popup while focus remains on the <rref>textbox</rref> element.
+          If the user interface includes an additional icon that allows the visibility of the popup to be controlled via pointer and touch events, authors SHOULD ensure that element has role <rref>button</rref> and that it is focusable but not included in the page <kbd>Tab</kbd> sequence.
+          In addition, to be keyboard accessible, authors SHOULD provide keyboard mechanisms for moving focus between the <code>combobox</code> element and elements contained in the popup.
+          For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the input to the first focusable descendant of the popup element.
+          If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <code>combobox</code> element.
+          When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <code>combobox</code> to a value that refers to the active element within the popup while focus remains on the <code>combobox</code> element.
         </p>
 				<pre class="example highlight">
 				  &lt;div aria-label="Tag" role="combobox" aria-expanded="true" aria-owns="owned_listbox" aria-haspopup="listbox"&gt;
