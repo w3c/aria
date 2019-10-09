@@ -189,9 +189,9 @@ In general, but particularly when preparing documents for TR publication, editor
 * Spelling / typos
 * Consistent use of approved spellings when multiple are possible
 
-### Semi-Automated Sanity Checking
+### Semi-Automated Checking
 
-There was some automated sanity checking available, previously run by XSLT. This feature may be restored. The sanity check report helped determine the following potential issues:
+There was some automated checking available, previously run by XSLT. This feature may be restored. This report helped determine the following potential issues:
 
 * When inheritance of roles change, the states they support may change. The tools will indicate when there is a change of supported states by comparison to an earlier version of the spec. It is a manual decision whether the changes are desired or if the set of supported states needs to be updated.
 * Ensure that supported state not defined if the state is also inherited
