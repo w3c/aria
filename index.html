@@ -497,11 +497,11 @@
 				<dt>Values</dt>
 				<dd>Any valid <abbr title="Resource Description Framework">RDF</abbr> object reference, such as a <abbr title="Uniform Resource Identifier">URI</abbr>.</dd>
 			</dl>
-			<p>Any <a>element</a> that will be <a>owned</a> by the element with this <a>role</a>. For example, an element with the role <rref>list</rref> will own at least one element with the role <rref>group</rref> or <rref>listitem</rref>.</p>
+			<p>Any <a>element</a> that will be <a>owned</a> by the element with this <a>role</a>. For example, an element with the role <rref>list</rref> will own at least one element with the role <rref>listitem</rref>.</p>
 			<p>When multiple roles are specified as <em>required owned elements</em> for a role, at least one instance of one required owned element is expected. This specification does <em>not</em> require an instance of each of the listed owned roles. For example, a <code>menu</code> should have at least one instance of a <code>menuitem</code>, <code>menuitemcheckbox</code>, <em>or</em> <code>menuitemradio</code>. The <code>menu</code> role does not require one instance of each. </p>
 			<p>There may be times that required owned elements are missing, for example, while editing or while loading a data set. When a widget is missing <em>required owned elements</em> due to script execution or loading, authors MUST mark a containing element with <sref>aria-busy</sref> equal to <code>true</code>. For example, until a page is fully initialized and complete, an author could mark the document element as busy.</p>
 			<p class="note">A role that has 'required owned elements' does not imply the reverse relationship. While processing of a role may be incomplete without elements of given roles present as descendants, elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">required context role</a> for requirements about the context where elements of a given role will be contained.</p>
-			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'required owned element' does not fulfill this requirement. For example, the <rref>list</rref> role requires ownership of an element using either the <rref>listitem</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a owned element with a role of <rref>row</rref> will not fulfill the requirement that <rref>list</rref> must own a <rref>listitem</rref> or a <rref>group</rref>.</p>
+			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'required owned element' does not fulfill this requirement. For example, the <rref>listbox</rref> role requires ownership of an element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a owned element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> must own a <rref>option</rref> or a <rref>group</rref>.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
 		<section id="scope">
@@ -2902,7 +2902,7 @@
 			<div class="role-description">
 				<p>A set of user interface <a>objects</a> that is not intended to be included in a page summary or table of contents by <a>assistive technologies</a>.</p>
 				<p>Contrast with <rref>region</rref>, which is a grouping of user interface objects that will be included in a page summary or table of contents.</p>
-				<p>Authors SHOULD use a <code>group</code> to form a logical collection of items in a <a>widget</a>, such as children in a tree widget forming a collection of siblings in a hierarchy, or a collection of items having the same container in a directory. However, when a <code>group</code> is used in the context of a <rref>list</rref>, authors MUST limit its children to <rref>listitem</rref> elements. Therefore, proper handling of <code>group</code> by authors and assistive technologies is determined by the context in which it is provided.</p>
+				<p>Authors SHOULD use a <code>group</code> to form a logical collection of items in a <a>widget</a>, such as children in a tree widget forming a collection of siblings in a hierarchy. However, when a <code>group</code> is used in the context of a <rref>listbox</rref>, authors MUST limit its children to <rref>option</rref> elements. Therefore, proper handling of <code>group</code> by authors and assistive technologies is determined by the context in which it is provided.</p>
 				<p>Authors MAY nest <code>group</code> elements. If a section is significant enough to warrant inclusion in the web page's table of contents, the author SHOULD assign it a <a>role</a> of <rref>region</rref> or a <a href="#landmark_roles">standard landmark role</a>.</p>
 			</div>
 			<table class="role-features">
@@ -3393,7 +3393,7 @@
 			<rdef>list</rdef>
 			<div class="role-description">
 				<p>A <rref>section</rref> containing <rref>listitem</rref> elements. See related <rref>listbox</rref>.</p>
-				<p>Lists contain children whose <a>role</a> is <rref>listitem</rref>, or elements whose <a>role</a> is <rref>group</rref> which in turn contains children whose <a>role</a> is <rref>listitem</rref>.</p>
+				<p>Lists contain children whose <a>role</a> is <rref>listitem</rref>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -3435,12 +3435,7 @@
 					</tr>
 					<tr>
 						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
-						<td class="role-mustcontain">
-							<ul>
-								<li><rref>group</rref> <abbr title="containing" class="symbol">→</abbr> <rref>listitem</rref></li>
-								<li><rref>listitem</rref></li>
-							</ul>
-						</td>
+						<td class="role-mustcontain"><rref>listitem</rref></td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
@@ -3582,7 +3577,7 @@
 			<rdef>listitem</rdef>
 			<div class="role-description">
 				<p>A single item in a list or directory.</p>
-				<p>Authors MUST ensure <a>elements</a> whose <a>role</a> is <code>listitem</code> are contained in, or owned by, an <a>element</a> whose <a>role</a> is <rref>list</rref>, or an <a>element</a> whose <a>role</a> is <rref>group</rref> which in turn is contained or owned by an <a>element</a> whose <a>role</a> is <rref>list</rref>.</p>
+				<p>Authors MUST ensure <a>elements</a> whose <a>role</a> is <code>listitem</code> are contained in, or owned by, an <a>element</a> whose <a>role</a> is <rref>list</rref>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -3618,7 +3613,6 @@
 						<td class="role-scope">
 							<ul>
 								<li><rref>directory</rref></li>
-								<li><rref>group</rref></li>
 								<li><rref>list</rref></li>
 							</ul>
 						</td>
