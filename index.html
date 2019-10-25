@@ -1305,8 +1305,26 @@
 		<div class="role" id="caption">
 			<rdef>caption</rdef>
 			<div class="role-description">
-				<p>On-screen descriptive text for a figure or table in the page.</p>
-				<p>Authors SHOULD reference the element with role <code>caption</code> by setting <pref>aria-describedby</pref> on the figure or table.</p>
+				<p>Visible content that names, and may also describe, a <rref>figure</rref>, <rref>table</rref>, or <rref>grid</rref>.</p>
+				<p>When using <code>caption</code> authors SHOULD ensure:</p>
+				<ul>
+					<li>The <code>caption</code> is a direct child of a <rref>figure</rref>, <rref>table</rref>, or <rref>grid</rref>.</li>
+					<li>The <code>caption</code> is the first child of a <rref>table</rref> or <rref>grid</rref>.</li>
+					<li>The <code>caption</code> is the first or last child of a <rref>figure</rref>.</li>
+				</ul>
+				<p>Authors SHOULD set <pref>aria-labelledby</pref> on the parent <code>figure</code>, <code>table</code>, or <code>grid</code> to reference the element with role <code>caption</code>. However, if a <code>caption</code> contains content that serves as both a name and description for its parent, authors MAY instead set <pref>aria-labelledby</pref> to reference an element within the <code>caption</code> that contains a concise name, and set <pref>aria-describedby</pref> to reference an element within the <code>caption</code> that contains the descriptive content.</p>
+
+				<pre class="example highlight">
+					&lt;div role="table" aria-labelledby="name" aria-describedby="desc"&gt;
+				    &lt;div role="caption"&gt;
+				      &lt;div id="name"&gt;Contest Entrants&lt;/div&gt;
+				      &lt;div id="desc"&gt;
+				        This table shows the total number of entrants (500) the
+				        contest accepted over the past four weeks.
+				      &lt;/div&gt;
+				    &lt;/div&gt;
+				    &lt;!-- ... --&gt;
+				</pre>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1335,11 +1353,17 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><code>&lt;figcaption&gt;</code> in [[HTML]]<br />&lt;caption&gt;</code> in [[HTML]]</td>
+						<td class="role-related">&lt;caption&gt;</code> in [[HTML]] <br> <code>&lt;figcaption&gt;</code> in [[HTML]]</td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
-						<td class="role-scope"> </td>
+						<td class="role-scope"> 
+							<ul>
+								<li><rref>figure</rref></li>
+								<li><rref>grid</rref></li>
+								<li><rref>table</rref></li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
@@ -12662,6 +12686,7 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 		<h2>Substantive changes since the last public working draft</h2>
 		<ul>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
+			<li>25-Oct-2019: Modify <rref>caption</rref> authoring advice</li> 			
 			<li>25-Oct-2019: Change <sref>aria-disabled</sref>, <pref>aria-errormessage</pref>, <pref>aria-haspopup</pref> and <sref>aria-invalid</sref> from global to widget specific.</li>
 			<li>24-Oct-2019: Prohibits Labeling of <rref>caption</rref>, <rref>code</rref>, <rref>deletion</rref>, <rref>emphasis</rref>, <rref>insertion</rref>, <rref>paragraph</rref>, <rref>presentation</rref>, <rref>strong</rref>, <rref>subscript</rref>, <rref>superscript</rref></li>
 			<li>24-Oct-2019: Remove accessible name required from <rref>log</rref> and <rref>timer</rref></li>
