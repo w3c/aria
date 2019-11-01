@@ -308,14 +308,19 @@
 	  <p>When using standard <abbr title="Hypertext Markup Language">HTML</abbr> interactive elements and simple <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>widgets</a>, application developers can manipulate the tab order or associate keyboard shortcuts with elements in the document.</p>
 	  <p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> includes a number of &quot;managing container&quot; widgets, also known as &quot;composite&quot; widgets. When appropriate, the container is responsible for tracking the last descendant that was active (the default is usually the first item in the container). It is essential that a container maintain a usable and consistent strategy when focus leaves a container and is then later refocused. While there may be exceptions, it is recommended that when a previously focused container is refocused, the active descendant be the same element as the active descendant when the container was last focused. Exceptions include cases where the contents of a container widget have changed, and widgets like a menubar where the user expects to always return to the first item when focus leaves the menu bar. For example, if the second item of a tree group was the active descendant when the user tabbed out of the tree group, then the second item of the tree group remains the active descendant when the tree group gets focus again. The user may also activate the container by clicking on one of the descendants within it. When the container or its active descendant has focus, the user may navigate through the container by pressing additional keys, such as the arrow keys, to change the currently active descendant. Any additional press of the main navigation key (generally the <kbd>TAB</kbd> key) will move out of the container to the next widget.</p>
 	  <p>Usable keyboard navigation in a rich internet application is different from the tabbing paradigm among interactive elements, such as links and form controls, in a static document. In rich internet applications, the user tabs to significantly complex <a class="termref">widgets</a>, such as a menu or spreadsheet, and uses the arrow keys to navigate within the widget. The changes that <abbr title="accessible rich internet applications">WAI-ARIA</abbr> introduces to keyboard navigation make this enhanced accessibility possible. In <abbr title="accessible rich internet applications">WAI-ARIA</abbr>, any element can be keyboard focusable. In addition to host language mechanisms such as <code>tabindex</code>, <pref>aria-activedescendant</pref> provides another mechanism for keyboard operation. Most other aspects of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> widget development depend on keyboard navigation functioning properly.</p>
-          <p>When implementing <pref>aria-activedescendant</pref> as described below, the user agent keeps the <abbr title="Document Object Model">DOM</abbr> focus on the container element but communicates <a>desktop focus events</a> and states to the assistive technology as if the active descendant has focus. User agents are not expected to validate that the active descendant is a descendant of the focused container. It is the responsibility of the user agent to ensure that keyboard events are processed at the container <a>element</a> that has <abbr title="Document Object Model">DOM</abbr> focus. Any keyboard events directed at the active descendant bubble up to the <abbr title="Document Object Model">DOM</abbr> container element with focus for processing.</p>
+          <p>
+            When implementing <pref>aria-activedescendant</pref> as described below, the user agent keeps the <abbr title="Document Object Model">DOM</abbr> focus on the container element or on an input element that controls the container element.
+            However, the user agent communicates <a>desktop focus events</a> and states to the assistive technology as if the element referenced by <pref>aria-activedescendant</pref> has focus.
+            User agents are not expected to validate that the active descendant is a descendant of the container element.
+            It is the responsibility of the user agent to ensure that keyboard events are processed at the <a>element</a> that has <abbr title="Document Object Model">DOM</abbr> focus.
+            Any keyboard events directed at the active descendant bubble up to the <abbr title="Document Object Model">DOM</abbr> element with focus for processing.
+          </p>
 	  <section id="managingfocus_authors">
 	    <h3>Information for Authors</h3>
 	    <p>If the author removes the element with focus, the author SHOULD move focus to a logical element. Similarly, authors SHOULD not scroll the element with focus off screen unless the user performed a scrolling action.</p>
 	    <p>Authors SHOULD ensure that all interactive <a>elements</a> are focusable and that all parts of composite widgets are either focusable or have a documented alternative method to achieve their function.</p>
 	    <p>Authors MUST manage focus on the following container roles:</p>
 	    <ul>
-	      <li><rref>combobox</rref></li>
 	      <li><rref>grid</rref></li>
 	      <li><rref>listbox</rref></li>
 	      <li><rref>menu</rref></li>
@@ -326,17 +331,20 @@
 	      <li><rref>tablist</rref></li>
 	    </ul>
 	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all <a>elements</a>. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
-	    <p>Authors MAY use <pref>aria-activedescendant</pref> to enable keyboard accessibility on elements whose role supports this <a>property</a>. It is often a more convenient way of creating container <a>widget</a> keyboard navigation (where the entire widget is in the tab order just once, but the user can use other keys, typically <kbd>arrow</kbd> keys, to navigate to descendant items of the container).</p>
-	    <p>Typically, the author will use host language <a>semantics</a> to put the container element in the sequential tab order (e.g., <code>tabindex=&quot;0&quot;</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) and <code>aria-activedescendant</code> to point to the ID of the currently active descendant. The author, not the user agent, is responsible for styling the currently active descendant to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.</p>
+	    <p>
+        Authors MAY use <pref>aria-activedescendant</pref> to inform <a>assistive technologies</a> which descendant of a <rref>widget</rref> element is treated as having keyboard focus in the user interface if the role of the widget element supports <code>aria-activedescendant</code>.
+        This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.  
+        </p>
+	    <p>Typically, the author will use host language <a>semantics</a> to put the widget in the <kbd>Tab</kbd> sequence (e.g., <code>tabindex="0"</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) and <code>aria-activedescendant</code> to point to the ID of the currently active descendant. The author, not the user agent, is responsible for styling the currently active descendant to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.</p>
 	    <p>More information on managing focus can be found in the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard">Developing a Keyboard Interface</a> section of the <cite><a href="https://www.w3.org/TR/wai-aria-practices-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[WAI-ARIA-PRACTICES-1.1]].</p>
 	  </section>
 	  <section id="managingfocus_useragents">
 	    <h3>Information for User Agents</h3>
 	    <p>The user agent MUST do the following to implement <pref>aria-activedescendant</pref>:</p>
 	    <ol>
-	      <li>Implement the host language method for keyboard navigation so that the container widget may be included in the tab order.</li>
+	      <li>Implement the host language method for keyboard navigation so that widgets that support <code>aria-activedescendant</code> may be included in the tab order.</li>
 	      <li>For platforms that expose <a>desktop focus</a> or <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> focus separately from <abbr title="Document Object Model">DOM</abbr> focus, do not expose the focused state in the accessibility <abbr title="application programming interface">API</abbr> for any element when it has <abbr title="Document Object Model">DOM</abbr> focus and also has <pref>aria-activedescendant</pref> which points to a valid <a href="#valuetype_idref">ID reference</a>.</li>
-	      <li>When the <pref>aria-activedescendant</pref> attribute changes on an element that currently has <abbr title="Document Object Model">DOM</abbr> focus, remove the focused state from the previously focused object and fire an accessibility <abbr title="application programming interface">API</abbr> <a>desktop focus event</a> on the new active descendant. If <pref>aria-activedescendant</pref> is cleared or does not point to an element in the current document, fire a desktop focus event for the container <a>object</a> that had the attribute change.</li>
+	      <li>When the <pref>aria-activedescendant</pref> attribute changes on an element that currently has <abbr title="Document Object Model">DOM</abbr> focus, remove the focused state from the previously focused object and fire an accessibility <abbr title="application programming interface">API</abbr> <a>desktop focus event</a> on the new element referenced by <code>aria-activedescendant</code>. If <pref>aria-activedescendant</pref> is cleared or does not point to an element in the current document, fire a desktop focus event for the <a>object</a> that had the attribute change.</li>
 	      <li>For any element with an ID attribute, where the element is a descendant of an element with the <pref>aria-activedescendant</pref> attribute, apply the following accessibility <abbr title="Application Programming Interface">API</abbr> states to the target to ensure the object is accessible:
 		<ol>
 		  <li>Focusable, if the element also has a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">role</a>, because the <pref>aria-activedescendant</pref> of the container can potentially point to it. It is not  absolutely necessary to check this when there is no role, because elements that would be focusable would already have the focusable state.</li>
@@ -1805,23 +1813,59 @@
 		<div class="role" id="combobox">
 			<rdef>combobox</rdef>
 			<div class="role-description">
-				<p>A composite <rref>widget</rref> containing a single-line <rref>textbox</rref> and another element, such as a <rref>listbox</rref> or <rref>grid</rref>, that can dynamically pop up to help the user set the value of the <rref>textbox</rref>.</p>
-				<p>Authors MUST ensure an element with role <code>combobox</code> contains or owns a text input element with role <rref>textbox</rref> or <rref>searchbox</rref> and that the text input has <pref>aria-multiline</pref> set to <code>false</code>. If the <code>combobox</code> provides autocompletion behavior for the text input as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <rref>textbox</rref> element to the value that corresponds to the provided behavior.</p>
-				<p>Typically, the default state of a <code>combobox</code> is collapsed. In the collapsed state, only the <rref>textbox</rref> element of a <code>combobox</code> is visible. A <code>combobox</code> is said to be expanded when both the <rref>textbox</rref> and a secondary element that serves as its popup are visible. Authors MUST set <sref>aria-expanded</sref> to <code>true</code> on an element with role <code>combobox</code> when it is expanded and <code>false</code> when it is collapsed. Elements with the role <code>combobox</code> have an implicit <sref>aria-expanded</sref> value of <code>false</code>.</p>
-				<p>When a <code>combobox</code> is expanded, authors MUST ensure it contains or owns an element that has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>. This element is the <code>combobox</code> popup. When the <code>combobox</code> is expanded, authors MUST set <pref>aria-controls</pref> on the <rref>textbox</rref> element to a value that refers to the <code>combobox</code> popup element.</p>
-				<p>Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the type of its popup.</p>
-				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>. When a <code>combobox</code> receives focus, authors SHOULD ensure focus is placed on the <rref>textbox</rref> element.</p>
-				<p>Authors SHOULD provide keyboard mechanisms for moving focus between the <rref>textbox</rref> element and the elements contained in the popup. For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the text input to the first focusable descendant of the popup element. If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <rref>textbox</rref> element. When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <rref>textbox</rref> to a value that refers to the active element within the popup while focus remains on the <rref>textbox</rref> element.</p>
+				<p>An <rref>input</rref> that controls another element, such as a <rref>listbox</rref> or <rref>grid</rref>, that can dynamically pop up to help the user set the value of the <rref>input</rref>.</p>
+				<p class="ednote" title="Major Changes to combobox role in ARIA 1.2">
+					The Guidance for <rref>combobox</rref> has changed significantly in ARIA 1.2 due to problems with implementation of the previous patterns.
+					Authors and developers of User Agents, Assistive Technologies, and Conformance Checkers are advised to review this section carefully to understand the changes.
+                    Explanation of the changes is available in the <a href="https://github.com/w3c/aria/wiki/Resolving-ARIA-1.1-Combobox-Issues">ARIA repository wiki</a>.
+				</p>
+				<p>
+				A <code>combobox</code> functionally combines a named input field with the ability to assist value selection via a supplementary popup element.
+				A <code>combobox</code> input MAY be either a single-line text field that supports editing and typing or an element that only displays the current value of the <code>combobox</code>.
+				If an element with role <code>combobox</code> supports text input, authors MUST ensure that the text input has <pref>aria-multiline</pref> set to <code>false</code>.
+				If the <code>combobox</code> supports text input and provides autocompletion behavior as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <code>combobox</code> element to the value that corresponds to the provided behavior.
+				</p>
+				<p>
+				Typically, the initial state of a <code>combobox</code> is collapsed.
+				In the collapsed state, only the <code>combobox</code> element and an optional popup control <rref>button</rref> are visible.
+				A <code>combobox</code> is said to be expanded when both the <code>combobox</code> element showing its current value and its associated popup element are visible.
+				Authors MUST set <sref>aria-expanded</sref> to <code>true</code> on an element with role <code>combobox</code> when it is expanded and <code>false</code> when it is collapsed.
+				</p>
+				<p>
+				Authors MUST ensure the popup element associated with a <code>combobox</code> has a role of <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>.
+				Authors MUST set <pref>aria-controls</pref> on a <code>combobox</code> element to a value that refers to the <code>combobox</code> popup element.
+				</p>
+				<p>
+				Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>.
+				If the <code>combobox</code> popup element has a role other than <rref>listbox</rref>, authors MUST specify a value for <pref>aria-haspopup</pref> that corresponds to the role of its popup.
+				</p>
+				<p>
+				If the user interface includes an additional icon that allows the visibility of the popup to be controlled via pointer and touch events, authors SHOULD ensure that element has role <rref>button</rref> and that it is focusable but not included in the page <kbd>Tab</kbd> sequence.
+				In addition, to be keyboard accessible, authors SHOULD provide keyboard mechanisms for moving focus between the <code>combobox</code> element and elements contained in the popup.
+				For example, one common convention is that <kbd>Down Arrow</kbd> moves focus from the input to the first focusable descendant of the popup element.
+				If the popup element supports <pref>aria-activedescendant</pref>, in lieu of moving focus, such keyboard mechanisms can control the value of <pref>aria-activedescendant</pref> on the <code>combobox</code> element.
+				When a descendant of the popup element is active, authors MAY set <pref>aria-activedescendant</pref> on the <code>combobox</code> to a value that refers to the active element within the popup while focus remains on the <code>combobox</code> element.
+				</p>
 				<pre class="example highlight">
-				  &lt;div aria-label="Tag" role="combobox" aria-expanded="true" aria-owns="owned_listbox" aria-haspopup="listbox"&gt;
-				      &lt;input type="text" aria-autocomplete="list" aria-controls="owned_listbox" aria-activedescendant="selected_option"&gt;
-				  &lt;/div&gt;
-				  &lt;ul role="listbox" id="owned_listbox"&gt;
-				      &lt;li role="option"&gt;Zebra&lt;/li&gt;
-				      &lt;li role="option" id="selected_option"&gt;Zoom&lt;/li&gt;
+          &lt;label for="tag_combo">Tag&lt;/label>
+		      &lt;input type="text" id="tag_combo"
+            role="combobox" aria-autocomplete="list"
+            aria-haspopup="listbox" aria-expanded="true"
+            aria-controls="popup_listbox" aria-activedescendant="selected_option"&gt;
+				  &lt;ul role="listbox" id="popup_listbox"&gt;
+			      &lt;li role="option"&gt;Zebra&lt;/li&gt;
+			      &lt;li role="option" id="selected_option"&gt;Zoom&lt;/li&gt;
 				  &lt;/ul&gt;
 				</pre>
-				<p>The ARIA 1.0 specification describes a <code>combobox</code> pattern where a text input element has the <code>combobox</code> role and owns a <rref>listbox</rref> element. <a>User agents</a>, <a>assistive technologies</a>, and conformance checkers SHOULD continue to support the ARIA 1.0 pattern so that existing implementations of the ARIA 1.0 pattern remain functional.</p>
+				<p class="ednote" title="Validity changes combobox for ARIA 1.2">
+					Please review the following carefully. As a result of these changes a combobox following the ARIA 1.1 combobox specification will no longer conform with the ARIA specification.
+				</p>
+				<p>
+					The ARIA 1.0 specification describes a <code>combobox</code> pattern where the input element with the <code>combobox</code> role references the popup element with <pref>aria-owns</pref> instead of <pref>aria-controls</pref>.
+					<a>User agents</a>, <a>assistive technologies</a>, and conformance checkers SHOULD continue to support the ARIA 1.0 pattern so that existing implementations of the ARIA 1.0 pattern remain functional.
+					The ARIA 1.1 specification describes a <code>combobox</code> pattern where the element with role <code>combobox</code> is a composite container instead of a focusable input.
+					<a>User agents</a> and <a>assistive technologies</a> did not adequately support the ARIA 1.1 pattern, so the ARIA 1.2 pattern supersedes the ARIA 1.1 pattern, which authors SHOULD abandon. 
+				</p>
 				<p>The features and behaviors of combobox implementations vary widely. Consequently, there are many important authoring considerations. See the <cite><a href="https://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite> [[WAI-ARIA-PRACTICES-1.1]] for additional details on implementing combobox design patterns.</p>
 			</div>
 			<table class="role-features">
@@ -1839,7 +1883,7 @@
 					</tr>
 					<tr>
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>select</rref></td>
+						<td class="role-parent"><rref>input</rref></td>
 					</tr>
 					<tr>
 						<th class="role-children-head" scope="row">Subclass Roles:</th>
@@ -1861,15 +1905,7 @@
 					</tr>
 					<tr>
 						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
-						<td class="role-mustcontain">
-							<rref>textbox</rref> and, when expanded, one of:
-							<ul>
-								<li><rref>listbox</rref></li>
-								<li><rref>tree</rref></li>
-								<li><rref>grid</rref></li>
-								<li><rref>dialog</rref></li>
-							</ul>
-						</td>
+						<td class="role-mustcontain"></td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
@@ -1884,6 +1920,7 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">					
 							<ul>
+                				<li><pref>aria-activedescendant</pref></li>
 								<li><pref>aria-autocomplete</pref></li>
 								<li><pref>aria-errormessage</pref></li>
 								<li><pref>aria-haspopup</pref></li>
@@ -9450,12 +9487,15 @@
 		<div class="property" id="aria-activedescendant">
 			<pdef>aria-activedescendant</pdef>
 			<div class="property-description">
-				<p>Identifies the currently active element when DOM focus is on a <rref>composite</rref> widget, <rref>textbox</rref>, <rref>group</rref>, or <rref>application</rref>.</p>
+				<p>Identifies the currently active element when DOM focus is on a <rref>composite</rref> widget, <rref>combobox</rref>, <rref>textbox</rref>, <rref>group</rref>, or <rref>application</rref>.</p>
 				<p>The <code>aria-activedescendant</code> property provides an alternative method of managing focus for interactive elements that may contain multiple focusable descendants, such as menus, grids, and toolbars. Instead of moving DOM focus among descendant elements, authors MAY set DOM focus on an <a>element</a> that supports <code>aria-activedescendant</code> and then use <code>aria-activedescendant</code> to refer to the element that is active.</p>
 				<p> Authors MUST ensure that one of the following two sets of conditions is met when setting the value of <code>aria-activedescendant</code> on an element with DOM focus:</p>
 				<ol>
 					<li>The value of <code>aria-activedescendant</code> refers to an element that is either a descendant of the element with DOM focus or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute.</li>
-					<li>The element with DOM focus is a <rref>textbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> specified for the <code>textbox</code> refers to either a descendant of the element controlled by the <rref>textbox</rref> or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute. For example, in a <rref>combobox</rref>, focus may remain on the <rref>textbox</rref> while the value of <code>aria-activedescendant</code> on the <rref>textbox</rref> element refers to a descendant of a popup <rref>listbox</rref> that is controlled by the <rref>textbox</rref>.</li>
+					<li>
+						The element with DOM focus is a <rref>combobox</rref> or <rref>textbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> refers to either a descendant of the controlled element or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute.
+						For example, in a <rref>combobox</rref>, focus may remain on the <rref>combobox</rref> while the value of <code>aria-activedescendant</code> on the <rref>combobox</rref> element refers to a descendant of a popup <rref>listbox</rref> that is controlled by the <rref>combobox</rref>.
+					</li>
 				</ol>
 				<p> Authors SHOULD also ensure that the currently active descendant is visible and in view (or scrolls into view) when focused.</p>
 			</div>
@@ -9550,14 +9590,14 @@
 		<div class="property" id="aria-autocomplete">
 			<pdef>aria-autocomplete</pdef>
 			<div class="property-description">
-				<p>Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be presented if they are made.</p>
+				<p>Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for a <rref>combobox</rref>, <rref>searchbox</rref>, or <rref>textbox</rref> and specifies how predictions would be presented if they were made.</p>
 				<p>The <code>aria-autocomplete</code> property describes the type of interaction model a <rref>textbox</rref>, <rref>searchbox</rref>, or <rref>combobox</rref> employs when dynamically helping users complete text input. It distinguishes between two models: the inline model (<code>aria-autocomplete="inline"</code>) that presents a value completion prediction inside the text input and the list model (<code>aria-autocomplete="list"</code>) that presents a collection of possible values in a separate element that pops up adjacent to the text input. It is possible for an input to offer both models at the same time (<code>aria-autocomplete="both"</code>).</p>
 				<p>The <code>aria-autocomplete</code> property is limited to describing predictive behaviors of an input element. Authors SHOULD either omit specifying a value for <code>aria-autocomplete</code> or set <code>aria-autocomplete</code> to <code>none</code> if an input element provides one or more input proposals where none of the proposals are dependent on the specific input provided by the user. For instance, a combobox where the value of <code>aria-autocomplete</code> would be <code>none</code> is a search field that displays suggested values by listing the 5 most recently used search terms without any filtering of the list based on the user's input. Elements with a role that supports <code>aria-autocomplete</code> have a default value for <code>aria-autocomplete</code> of <code>none</code>.</p>
 				<p>When an inline suggestion is made as a user types in an input, suggested text for completing the value of the field dynamically appears in the field after the input cursor, and the suggested value is accepted as the value of the input if the user performs an action that causes focus to leave the field. When an element has <code>aria-autocomplete</code> set to <code>inline</code> or <code>both</code>, authors SHOULD ensure that the automatically suggested portion of the text is presented as selected text. This enables assistive technologies to distinguish between a user's input and the automatic suggestion and, in the event that the suggestion is not the desired value, enables the user to easily delete the suggestion or replace it by continuing to type.</p>
 				<p> If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, authors MUST ensure both of the following conditions are met:</p>
 				<ol>
 					<li>The element has a value specified for <pref>aria-controls</pref> that refers to the element that contains the collection of suggested values.</li>
-					<li>Either the element or a containing element with role <rref>combobox</rref> has a value for <pref>aria-haspopup</pref> that matches the role of the element that contains the collection of suggested values.</li>
+					<li>The element has a value for <pref>aria-haspopup</pref> that matches the role of the element that contains the collection of suggested values.</li>
 				</ol>
 				<p>Some implementations of the list model require the user to perform an action, such as moving focus to the suggestion with the <kbd>Down Arrow</kbd> or clicking on the suggestion, in order to choose the suggestion. In such implementations, authors MAY manage focus by either using <pref>aria-activedescendant</pref> if the collection container supports it or by moving DOM focus to the suggestion. However, other implementations of the list model automatically highlight one suggestion as the selected value that will be accepted when the field loses focus, e.g., when the user presses the <kbd>Tab</kbd> key or clicks on a different field. If an element has <code>aria-autocomplete</code> set to <code>list</code> or <code>both</code>, and if a suggestion is automatically selected as the user provides input, authors MUST ensure all the following conditions are met:</p>
 				<ol>
@@ -12686,6 +12726,7 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 		<h2>Substantive changes since the last public working draft</h2>
 		<ul>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
+			<li>01-Nov-2019: Modify <rref>combobox</rref> to new ARIA 1.2 pattern.</li>
 			<li>25-Oct-2019: Modify <rref>caption</rref> authoring advice</li> 			
 			<li>25-Oct-2019: Change <sref>aria-disabled</sref>, <pref>aria-errormessage</pref>, <pref>aria-haspopup</pref> and <sref>aria-invalid</sref> from global to widget specific.</li>
 			<li>24-Oct-2019: Prohibits Labeling of <rref>caption</rref>, <rref>code</rref>, <rref>deletion</rref>, <rref>emphasis</rref>, <rref>insertion</rref>, <rref>paragraph</rref>, <rref>presentation</rref>, <rref>strong</rref>, <rref>subscript</rref>, <rref>superscript</rref></li>
