@@ -3506,7 +3506,7 @@
                     "text-underline-style:solid" text attribute on its text container.
                   </div>
                 </td>
-                <td class="ax">?</td>
+                <td class="ax">Not mapped</td>
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-ul">
@@ -3617,12 +3617,16 @@
       <ul>
         <li>HTML attributes with default WAI-ARIA state and property semantics MUST be mapped to platform <a class="termref">accessibility APIs</a> according to those WAI-ARIA state and property mappings as defined in the [[core-aam-1.2]] specification.</li>
         <li>A '?' in a cell indicates the data has yet to be provided.</li>
-        <li>"Not mapped" (Not Applicable) means the attribute does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the attribute is not displayed as part of the user interface.</li>
+        <li>"Not mapped" (Not Applicable) means the attribute does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the attribute is not displayed as part of the user interface.
+          <div class="note">
+            In some cases, while not directly exposed to accessibility APIs, an attribute can still impact the accessibility of an element. e.g. <a href="#att-autoplay">`autoplay`</a> will automatically start playing <a href="#el-video">`video`</a> or <a href="#el-audio">`audio`</a> elements.
+          </div>
+        </li>
         <li>All elements having an accessible object in IAccessible2 mapping are supposed to implement IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
       </ul>
       <div class="table-container">
         <table class="map-table attributes" id="attribute-mapping-table">
-          <caption>Mappings of HTML attributes (excluding event handler content attributes) to platform <a class="termref">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
+          <caption>Mappings of <a data-cite="html/https://html.spec.whatwg.org/multipage/indices.html#attributes-3">HTML attributes (excluding event handler content attributes)</a> to platform <a class="termref">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX </caption>
           <thead>
             <tr>
               <th>Attribute</th>
@@ -3690,7 +3694,7 @@
               <td class="aria"><div class="general">Not mapped</div></td>
               <td class="ia2">
                 <div class="general">
-                  a key binding accessible by
+                  A key binding accessible by
                   <a href="https://msdn.microsoft.com/en-us/library/accessibility.iaccessible.acckeyboardshortcut.aspx">`accKeyboardShortcut`</a>
                   and `IAccessibleAction::keyBinding`
                 </div>
@@ -3909,9 +3913,7 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-checked">
-              <th>
-                `checked` (if present)
-              </th>
+              <th>`checked` (if present)</th>
               <td class="elements">
                 <a data-cite="html/input.html#attr-input-checked">`input`</a>
               </td>
@@ -4259,19 +4261,10 @@
                 <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">`textarea`</a>
               </td>
               <td class="aria"><a class="core-mapping" href="#ariaDisabledTrue">`aria-disabled="true"`</a></td>
-              <td class="ia2">
-                <div class="states">
-                  <span class="type">States:</span> `STATE_SYSTEM_UNAVAILABLE`
-                </div>
-              </td>
-              <td class="uia"></td>
-              <td class="atk">
-                <div class="states">
-                  <span class="type">States:</span>
-                  No interactive states like `ATK_STATE_FOCUSABLE`
-                </div>
-              </td>
-              <td class="ax">`AXEnabled: NO`</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments">
                 If the element includes both the `disabled` attribute and the `aria-disabled` attribute with a valid value, User Agents MUST expose only the `disabled` attribute value.
               </td>
@@ -4296,15 +4289,13 @@
               <td class="aria"><div class="general">Not mapped</div></td>
               <td class="ia2">
                 <div class="objattrs">
-                  <span class="objattrs">Object attributes: </span>
-                  draggable:true
+                  <span class="objattrs">Object attributes:</span> draggable:true
                 </div>
               </td>
               <td class="uia"><div class="general">Not mapped</div></td>
               <td class="atk">
                 <div class="objattrs">
-                  <span class="objattrs">Object attributes: </span>
-                  draggable:true
+                  <span class="objattrs">Object attributes:</span> draggable:true
                 </div>
               </td>
               <td class="ax"><div class="general">Not mapped</div></td>
@@ -4481,7 +4472,7 @@
             <tr tabindex="-1" id="att-hidden">
                 <th><code>hidden</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/editing.html#the-hidden-attribute">HTML elements</a></td>
-                <td class="aria"><a class="core-mapping" href="#ariaHiddenTrue"><code>aria-hidden</code></a>="true" if the element is <code>display: none</code>, or if the element is <code>visibility: hidden</code>. If the element is no longer <code>display: none</code> or <code>visibility: hidden</code> then it does not map.</td>
+                <td class="aria"><a class="core-mapping" href="#ariaHiddenTrue"><code>aria-hidden="true"</code></a> if the element is <code>display: none</code>, or if the element is <code>visibility: hidden</code>. If the element is no longer <code>display: none</code> or <code>visibility: hidden</code> then it does not map.</td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -4501,8 +4492,7 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-href">
-                <th><a data-cite=
-            "html/links.html#attr-hyperlink-href">`href`</a></th>
+                <th><a data-cite="html/links.html#attr-hyperlink-href">`href`</a></th>
                 <td class="elements">`a`; `area`</td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2">
@@ -4602,7 +4592,7 @@
                 <a data-cite="html/#attr-option-label">`option`</a>;
                 <a data-cite="html/#attr-track-label">`track`</a>
               </td>
-              <td class="aria">?</td>
+              <td class="aria"><div class="general">Not mapped</div></td>
               <td class="ia2">
                 <div class="name">
                   Associates the <a class="termref">accessible name</a>
@@ -4668,7 +4658,7 @@
                 </td>
                 <td class="ax"><div class="general">Not mapped</div></td>
                 <td class="comments">
-                  Refer to <a href="#el-datalist"><code>datalist</code></a>  and <a href="#el-input-textetc-autocomplete"><code>input</code></a> elements mapping.
+                  Refer to <a href="#el-datalist"><code>datalist</code></a> and <a href="#el-input-textetc-autocomplete"><code>input</code></a> elements mapping.
                 </td>
             </tr>
             <tr tabindex="-1" id="att-longdesc">
@@ -4756,7 +4746,7 @@
             <tr tabindex="-1" id="att-maxlength">
                 <th><code>maxlength</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-maxlength"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-textarea-maxlength"><code>textarea</code></a></td>
-                <td class="aria">?</td>
+                <td class="aria">Not mapped</td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
                 <td class="uia"><div class="general">Not mapped</div></td>
                 <td class="atk"><div class="general">Not mapped</div></td>
@@ -4825,6 +4815,39 @@
               <td class="ax">`AXMinValue: &lt;value&gt;`</td>
               <td class="comments"></td>
             </tr>
+            <tr tabindex="-1" id="att-minlength">
+              <th>`minlength`</th>
+              <td class="elements">
+                <a data-cite="html/input.html#attr-input-minlength">`input`</a>;
+                <a data-cite="html/form-elements.html#attr-textarea-minlength">`textarea`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `IA2_STATE_INVALID_ENTRY` if value doesn't meet the designated minimum length value.
+                </div>
+              </td>
+              <td class="uia">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `IsDataValidForForm` if value doesn't meet the designated minimum length value.
+                </div>
+              </td>
+              <td class="atk">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `ATK_STATE_INVALID_ENTRY` if value doesn't meet the designated minimum length value.
+                </div>
+              </td>
+              <td class="ax">
+                <div class="property">
+                  <span class="type">Property:</span>
+                  `AXInvalid`: `true` if value doesn't meet the designated minimum length value.
+                </div>
+              </td>
+              <td class="comments"></td>
+            </tr>
             <tr tabindex="-1" id="att-multiple-input">
                 <th><code>multiple</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-multiple"><code>input</code></a></td>
@@ -4838,7 +4861,7 @@
             <tr tabindex="-1" id="att-multiple-select">
               <th><code>multiple</code></th>
               <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-select-multiple"><code>select</code></a></td>
-              <td class="aria"><a href="https://www.w3.org/TR/wai-aria-1.1/#aria-multiselectable"><code>aria-multiselectable</code></a><code>="true"</code></td>
+              <td class="aria"><a href="https://www.w3.org/TR/wai-aria-1.1/#aria-multiselectable">`aria-multiselectable="true"`</a></td>
               <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -4986,29 +5009,48 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-pattern">
-                <th><code>pattern</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-pattern"><code>input</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>IA2_STATE_INVALID_ENTRY</code> if value doesn't meet the pattern
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>IsDataValidForForm</code> if value doesn't meet the pattern
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>ATK_STATE_INVALID_ENTRY</code> if value doesn't meet the pattern
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`pattern`</th>
+              <td class="elements">
+                <a data-cite="html/input.html#attr-input-pattern">`input`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `IA2_STATE_INVALID_ENTRY` if value doesn't meet the pattern
+                </div>
+              </td>
+              <td class="uia">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `IsDataValidForForm` if value doesn't meet the pattern
+                </div>
+              </td>
+              <td class="atk">
+                <div class="states">
+                  <span class="type">States:</span>
+                  `ATK_STATE_INVALID_ENTRY` if value doesn't meet the pattern
+                </div>
+              </td>
+              <td class="ax">
+                <div class="property">
+                  <span class="type">Property:</span>
+                  `AXInvalid`: `true` if value doesn't meet the pattern
+                </div>
+              </td>
+              <td class="comments"></td>
+            </tr>
+            <tr tabindex="-1" id="att-ping">
+              <th>`ping`</th>
+              <td class="elements">
+                <a data-cite="html/links.html#ping">`a` and `area`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-placeholder">
                 <th><code>placeholder</code></th>
@@ -5019,6 +5061,18 @@
                 <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="comments"><div class="general">When the <code>placeholder</code> and <code>aria-placeholder</code> attributes are both present, and the <code>placeholder</code> attribute's value is non-empty, user agents MUST expose the value of the <code>placeholder</code> attribute, and ignore <code>aria-placeholder</code>. If the <code>placeholder</code> attribute's value is empty, then user agents MUST expose the value of the <code>aria-placeholder</code> attribute.</div></td>
+            </tr>
+            <tr tabindex="-1" id="att-playsinline">
+              <th>`playsinline`</th>
+              <td class="elements">
+                <a data-cite="html/media.html#attr-video-playsinline">`video`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-poster">
               <th>`poster`</th>
@@ -5054,6 +5108,23 @@
                 <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="comments"></td>
             </tr>
+            <tr tabindex="-1" id="att-referrerpolicy">
+              <th><code>referrerpolicy</code></th>
+              <td class="elements">
+                <a data-cite="html/links.html#attr-hyperlink-referrerpolicy">`a`</a>;
+                <a data-cite="html/links.html#attr-hyperlink-referrerpolicy">`area`</a>;
+                <a data-cite="html/iframe-embed-object.html#attr-iframe-referrerpolicy">`iframe`</a>;
+                <a data-cite="html/embedded-content.html#attr-img-referrerpolicy">`img`</a>;
+                <a data-cite="html/semantics.html#attr-link-referrerpolicy">`link`</a>;
+                <a data-cite="html/scripting.html#attr-script-referrerpolicy">`script`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
+            </tr>
             <tr tabindex="-1" id="att-rel">
                 <th><code>rel</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-rel"><code>a</code></a>; <a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-rel"><code>area</code></a>; <a href="https://www.w3.org/TR/html/document-metadata.html#element-attrdef-link-rel"><code>link</code></a></td>
@@ -5072,35 +5143,49 @@
                 <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
                 <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
-                <td class="comments"></td>
+                <td class="comments">
+                  If the element includes both the `required` attribute and the `aria-required` attribute with a valid value, User Agents MUST expose only the `required` attribute value.
+                </td>
             </tr>
             <tr tabindex="-1" id="att-reversed">
-                <th><code>reversed</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/grouping-content.html#element-attrdef-ol-reversed"><code>ol</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="general">
-                    Reverses the numbering of the child list item accessible objects.
-                  </div>
-                </td>
-                <td class="uia">Reverses the order of the child list items in the accessibility tree and reverses the numbering of the child list items.</td>
-                <td class="atk">
-                  <div class="general">
-                    Reverses the numbering of the child list item accessible objects.
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`reversed`</th>
+              <td class="elements">
+                <a data-cite="html/grouping-content.html#attr-ol-reversed">`ol`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2">
+                <div class="general">
+                  Reverses the numbering of the child list item accessible objects.
+                </div>
+              </td>
+              <td class="uia">
+                <div class="general">
+                  Reverses the order of the child list items in the accessibility tree and reverses the numbering of the child list items.
+                </div>
+              </td>
+              <td class="atk">
+                <div class="general">
+                  Reverses the numbering of the child list item accessible objects.
+                </div>
+              </td>
+              <td class="ax">
+                <div class="general">
+                  Reverses the numbering of the child list markers.
+                </div>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-rows">
-                <th><code>rows</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-textarea-rows"><code>textarea</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia"><div class="general">Not mapped</div></td>
-                <td class="atk"><div class="general">Not mapped</div></td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`rows`</th>
+              <td class="elements">
+                <a data-cite="html/form-elements.html#attr-textarea-rows">`textarea`</a>
+              </td>
+              <td class="aria">Not mapped</td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax">Not mapped</td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-rowspan">
                 <th><code>rowspan</code></th>
@@ -5123,29 +5208,26 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-scope">
-                <th><code>scope</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/tabular-data.html#element-attrdef-th-scope"><code>th</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="general">
-                    Defines whether the element is a row or column header (refer to <a href="#el-th"><code>th</code></a> element)
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">
-                    Defines whether the element is a row or column header (refer to <a href="#el-th"><code>th</code></a> element)
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    Defines whether the element is a row or column header (refer to <a href="#el-th"><code>th</code></a> element)
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`scope`</th>
+              <td class="elements">
+                <a data-cite="html/tables.html#attr-th-scope">`th`</a>
+              </td>
+              <td class="aria">
+                <div class="general">
+                  If `scope="row"` then map `th` to <a class="core-mapping" href="#role-map-columnheader">`rowheader`</a>
+                </div>
+                <div class="general">
+                  If `scope="col"` then map `th` to <a class="core-mapping" href="#role-map-columnheader">`columnheader`</a>
+                </div>
+              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-selected">
-                <th><code>selected</code></th>
+                <th>`selected`</th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-option-selected"><code>option</code></a></td>
                 <td class="aria"><a class="core-mapping" href="#ariaSelectedTrue"><code>aria-selected="true"</code></a></td>
                 <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -5155,7 +5237,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-shape">
-                <th><code>shape</code></th>
+                <th>`shape`</th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-area-shape"><code>area</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
@@ -5165,26 +5247,38 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-size">
-                <th><code>size</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-size"><code>input</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-select-size"><code>select</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="general">
-                    If greater than 1, then creates a listbox accessible object. Refer to <a href="#el-select-listbox"><code>select</code></a> element for details.
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">
-                    If greater than 1, then creates a <code>List</code> accessible object. Refer to <a href="#el-select-listbox"><code>select</code></a> element for details.
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    If greater than 1, then creates a listbox accessible object. Refer to <a href="#el-select-listbox"><code>select</code></a> element for details.
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th><code>size</code></th>
+              <td class="elements">
+                <a data-cite="html/input.html#attr-input-size">`input`</a>;
+                <a data-cite="html/form-elements.html#attr-select-size">`select`</a>
+              </td>
+              <td class="aria">
+                <div class="general">
+                  Not mapped for `input` elements.
+                </div>
+                <div class="general">
+                  If greater than 1, then creates a listbox accessible object. Refer to <a href="#el-select-listbox">`select`</a> element for details.
+                </div>
+              </td>
+              <td class="ia2">
+                <div class="general">Not mapped for `input` elements.</div>
+                <div class="general">For `select` element use WAI-ARIA mapping.</div>
+              </td>
+              <td class="uia">
+                <div class="general">Not mapped for `input` elements.</div>
+                <div class="general">For `select` element use WAI-ARIA mapping.</div>
+              </td>
+              <td class="atk">
+                <div class="general">Not mapped for `input` elements.</div>
+                <div class="general">For `select` element use WAI-ARIA mapping.</div>
+              </td>
+              <td class="ax">
+                <div class="general">Not mapped for `input` elements.</div>
+                <div class="general">For `select` element use WAI-ARIA mapping.</div>
+              </td>
+              <td class="comments">
+                For `input` elements that allow the `size` attribute, the attribute will modify their default width. A width provided by CSS will negate the effects of the `size` attribute on these `input` elements.
+              </td>
             </tr>
             <tr tabindex="-1" id="att-sizes">
               <th>`sizes`</th>
@@ -5204,11 +5298,11 @@
                 <a data-cite="html/embedded-content.html#attr-img-sizes">`img`</a>;
                 <a data-cite="html/embedded-content.html#attr-source-sizes">`source`</a>
               </td>
-              <td class="aria"><div class="general">???</div></td>
-              <td class="ia2"><div class="general">???</div></td>
-              <td class="uia"><div class="general">???</div></td>
-              <td class="atk"><div class="general">???</div></td>
-              <td class="ax"><div class="general">???</div></td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-slot">
@@ -5224,75 +5318,82 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-span">
-                <th><code>span</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/tabular-data.html#element-attrdef-col-span"><code>col</code></a>; <a href="https://www.w3.org/TR/html/tabular-data.html#element-attrdef-colgroup-span"><code>colgroup</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="general">
-                    exposed as <code>IAccessibleTableCell::columnExtent</code> on
-                    all cells at the column
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">
-                    Exposed as <code>GridItem.ColumnSpan</code> on
-                    all cells at the column
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    Exposed via <code>atk_table_get_column_extent_at</code>
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`span`</th>
+              <td class="elements">
+                <a href="https://www.w3.org/TR/html/tabular-data.html#element-attrdef-col-span">`col`</a>;
+                <a href="https://www.w3.org/TR/html/tabular-data.html#element-attrdef-colgroup-span">`colgroup`</a>
+              </td>
+              <!--
+                TODO for issue #259
+              -->
+              <td class="aria">?</td>
+              <td class="ia2">
+                <div class="general">
+                  Exposed as `IAccessibleTableCell::columnExtent` on all cells at the column
+                </div>
+              </td>
+              <td class="uia">
+                <div class="general">
+                  Exposed as `GridItem.ColumnSpan` on all cells at the column
+                </div>
+              </td>
+              <td class="atk">
+                <div class="general">
+                  Exposed via `atk_table_get_column_extent_at`
+                </div>
+              </td>
+              <td class="ax">
+                <div class="general">
+                  `AXColumnIndexRange.length: &lt;value>`
+                </div>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-spellcheck">
-                <th><code>spellcheck</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/editing.html#element-attrdef-global-spellcheck">HTML elements</a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="textattrs">
-                    Mapped to "invalid" text attribute on the text container
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="textattrs">
-                    Mapped to <code>SpellingError</code> <code>AnnotationTypes</code> text attribute on the text range
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="textattrs">
-                    Mapped to "invalid" text attribute on the text container
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`spellcheck`</th>
+              <td class="elements">
+                <a data-cite="html/interaction.html#attr-spellcheck">HTML elements</a>
+              </td>
+              <td class="aria"><a class="core-mapping" href="#ariaInvalidSpellingGrammar"><code>aria-selected="true"</code></a></td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-src-media">
-                <th><code>src</code></th>
-                <td class="elements"> <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#elementdef-audio"><code>audio</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-embed-src"><code>embed</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-iframe-src"><code>iframe</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-img-src"><code>img</code></a>; <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-src"><code>input</code></a>; <a href="https://www.w3.org/TR/html/semantics-scripting.html#element-attrdef-script-src"><code>script</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-source-src"><code>source</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#element-attrdef-track-src"><code>track</code></a>; <a href="https://www.w3.org/TR/html/semantics-embedded-content.html#elementdef-video"><code>video</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="objattrs">
-                    <span class="type">Object attributes: </span>
-                    src on <a href="#el-img"><code>img</code></a> only
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="objattrs">
-                    <span class="type">Object attributes: </span>
-                    src on <a href="#el-img"><code>img</code></a> only
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="objattrs">
-                    <span class="type">Object attributes: </span>
-                    src on <a href="#el-img"><code>img</code></a> only
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`src`</th>
+              <td class="elements">
+                <a data-cite="html/media.html#attr-media-src">`audio`</a>;
+                <a data-cite="html/iframe-embed-object.html#attr-embed-src">`embed`</a>;
+                <a data-cite="html/iframe-embed-object.html#attr-iframe-src">`iframe`</a>;
+                <a data-cite="html/embedded-content.html#attr-img-src">`img`</a>;
+                <a data-cite="html/input.html#attr-input-src">`input`</a>;
+                <a data-cite="html/scripting.html#attr-script-src">`script`</a>;
+                <a data-cite="html/embedded-content.html#attr-source-src">`source`</a>;
+                <a data-cite="html/media.html#attr-track-src">`track`</a>;
+                <a data-cite="html/media.html#attr-media-src">`video`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2">
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  `src` on <a href="#el-img">`img`</a> only
+                </div>
+              </td>
+              <td class="uia">
+                <div class="general">Not mapped</div>
+              </td>
+              <td class="atk">
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  `src` on <a href="#el-img">`img`</a> only
+                </div>
+              </td>
+              <td class="ax">
+                `AXURL: &lt;value&gt;` on <a href="#el-img">`img`</a> and <a href="#el-input-image">`input type="image"`</a>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-srcdoc">
               <th>`srcdoc`</th>
@@ -5318,81 +5419,93 @@
               <td class="ax"><div class="general">Not mapped</div></td>
               <td class="comments"></td>
             </tr>
+            <tr tabindex="-1" id="att-srcset">
+              <th>`srcset`</th>
+              <td class="elements">
+                <a data-cite="html/embedded-content.html#attr-img-srcset">`img`</a>;
+                <a data-cite="html/embedded-content.html#attr-source-srcset">`source`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not Mapped</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-start">
-                <th><code>start</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/grouping-content.html#element-attrdef-ol-start"><code>ol</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="general">
-                    Changes the first number of the child list item accessible objects to match the <code>start</code> attribute's value.
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">
-                    Changes the first number of the child list item accessible objects to match the <code>start</code> attribute's value.
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    Changes the first number of the child list item accessible objects to match the <code>start</code> attribute's value.
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`start`</th>
+              <td class="elements">
+                <a data-cite="html/grouping-content.html#attr-ol-start">`ol`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2">
+                <div class="general">
+                  Changes the first number of the child list item accessible objects to match the `start` attribute's value.
+                </div>
+              </td>
+              <td class="uia">
+                <div class="general">
+                  Changes the first number of the child list item accessible objects to match the `start` attribute's value.
+                </div>
+              </td>
+              <td class="atk">
+                <div class="general">
+                  Changes the first number of the child list item accessible objects to match the `start` attribute's value.
+                </div>
+              </td>
+              <td class="ax">
+                <div class="general">
+                  Changes the first number of the child list item accessible objects to match the `start` attribute's value.
+                </div>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-step">
-                <th><code>step</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-step"><code>input</code></a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia">If the input is in the <a href="#el-input-range"><code>Range</code></a> state, set both <code>RangeValue.SmallChange</code> and <code>RangeValue.LargeChange</code> to the value of <code>step</code></td>
-                <td class="atk">
-                  <div class="general">
-                    Exposed as <code>atk_value_get_minimum_increment</code> if the element
-                    implements the <code>AtkValue</code> interface
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`step`</th>
+              <td class="elements">
+                <a data-cite="html/input.html#attr-input-step">`input`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia">
+                If the `input` is in the <a href="#el-input-range">`Range`</a> state, set both `RangeValue.SmallChange` and `RangeValue.LargeChange` to the value of `step`.
+              </td>
+              <td class="atk">
+                <div class="general">
+                  Exposed as `atk_value_get_minimum_increment` if the element implements the `AtkValue` interface.
+                </div>
+              </td>
+              <td class="ax">Not mapped</td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-style">
-                <th><code>style</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/dom.html#element-attrdef-global-style">HTML elements</a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2"><div class="general">Not mapped</div></td>
-                <td class="uia"><div class="general">Not mapped</div></td>
-                <td class="atk"><div class="general">Not mapped</div></td>
-                <td class="ax"><div class="general">Not mapped</div></td>
-                <td class="comments"></td>
+              <th>`style`</th>
+              <td class="elements">
+                <a data-cite="html/dom.html#the-style-attribute">HTML elements</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-tabindex">
-                <th><code>tabindex</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/editing.html#element-attrdef-global-tabindex">HTML elements</a></td>
-                <td class="aria"><div class="general">Not mapped</div></td>
-                <td class="ia2">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>STATE_SYSTEM_FOCUSABLE</code>; also set <code>STATE_SYSTEM_FOCUSED</code> when the element has DOM focus
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>IsKeyboardFocusable</code>; also set <code>HasKeyboardFocus</code> when the element has DOM focus
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="states">
-                    <span class="type">States: </span>
-                    <code>ATK_STATE_FOCUSABLE</code>; also set <code>ATK_STATE_FOCUSED</code> when the element has DOM focus
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`tabindex`</th>
+              <td class="elements">
+                <a data-cite="html/interaction.html#attr-tabindex">HTML elements</a>
+              </td>
+              <td class="aria">
+                <a class="core-mapping" href="#focus_state_event_table">See Focus States and Events Table</a>
+              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-target">
-                <th><code>target</code></th>
+                <th>`target`</th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-target"><code>a</code></a>; <a href="https://www.w3.org/TR/html/links.html#element-attrdef-a-target"><code>area</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
@@ -5402,7 +5515,7 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-target-base">
-                <th><code>target</code></th>
+                <th>`target`</th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/document-metadata.html#element-attrdef-base-target"><code>base</code></a></td>
                 <td class="aria"><div class="general">Not mapped</div></td>
                 <td class="ia2"><div class="general">Not mapped</div></td>
@@ -5422,27 +5535,37 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-title">
-                <th><code>title</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/dom.html#element-attrdef-global-title">HTML elements</a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="name">
-                    Associates the <a class="termref">accessible name</a> or if it was provided otherwise then <a class="termref">accessible description</a>
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="name">
-                    Associates the <a class="termref">accessible name</a> or if it was provided otherwise then <a class="termref">accessible description</a>
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="name">
-                    Associates the <a class="termref">accessible name</a> or if it was provided otherwise then
-                    <a class="termref">accessible description</a>
-                  </div>
-                </td>
-                <td class="ax"><code>AXHelp: &lt;value&gt;</code></td>
-                <td class="comments"></td>
+              <th>`title`</th>
+              <td class="elements">
+                <a href="https://www.w3.org/TR/html/dom.html#element-attrdef-global-title">HTML elements</a>
+              </td>
+              <!--
+                TODO for issue #259
+              -->
+              <td class="aria">?</td>
+              <td class="ia2">
+                <div class="name">
+                  Associates the <a class="termref">accessible name</a> or if it was provided otherwise then <a class="termref">accessible description</a>
+                </div>
+              </td>
+              <td class="uia">
+                <div class="name">
+                  Associates the <a class="termref">accessible name</a> or if it was provided otherwise then <a class="termref">accessible description</a>
+                </div>
+              </td>
+              <td class="atk">
+                <div class="name">
+                  Associates the <a class="termref">accessible name</a> or if it was provided otherwise then <a class="termref">accessible description</a>
+                </div>
+              </td>
+              <td class="ax">`AXHelp: &lt;value&gt;`</td>
+              <td class="comments">
+                <div class="general">
+                  <!--
+                    TODO for issue #260
+                  -->
+                </div>
+              </td>
             </tr>
             <tr tabindex="-1" id="att-title-abbr">
                 <th><code>title</code></th>
@@ -5467,8 +5590,10 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-title-link">
-              <th><code>title</code></th>
-              <td class="elements"><a href="https://www.w3.org/TR/html/document-metadata.html#element-attrdef-link-title">`link`</a></td>
+              <th>`title`</th>
+              <td class="elements">
+                <a data-cite="html/semantics.html#attr-link-title">`link`</a>
+              </td>
               <td class="aria">Not mapped</td>
               <td class="ia2">Not mapped</td>
               <td class="uia">Not mapped</td>
@@ -5507,26 +5632,32 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-type-button">
-                <th><code>type</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-button-type"><code>button</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="general">
-                    <a href="#el-input-submit">`submit`</a> type may be a default button in the form
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">
-                    <a href="#el-input-submit">`submit`</a> type may be a default button in the form
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    <a href="#el-input-submit">`submit`</a> type may be a default button in the form
-                  </div>
-                </td>
-                <td class="ax">?</td>
-                <td class="comments"></td>
+              <th>`type`</th>
+              <td class="elements">
+                <a data-cite="html/form-elements.html#attr-button-type">`button`</a>
+              </td>
+              <td class="aria">Not mapped</td>
+              <td class="ia2">
+                <div class="general">
+                  <a href="#el-input-submit">`submit`</a> type may be a default button in the form.
+                </div>
+              </td>
+              <td class="uia">
+                <div class="general">
+                  <a href="#el-input-submit">`submit`</a> type may be a default button in the form.
+                </div>
+              </td>
+              <td class="atk">
+                <div class="general">
+                  <a href="#el-input-submit">`submit`</a> type may be a default button in the form.
+                </div>
+              </td>
+              <td class="ax">
+                <div class="general">
+                  <a href="#el-input-submit">`submit`</a> type may be a default button in the form.
+                </div>
+              </td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-type-embed">
                 <th><code>type</code></th>
@@ -5539,9 +5670,11 @@
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-type-input">
-                <th><code>type</code></th>
-                <td><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-type"><code>input</code></a></td>
-                <td class="aria">?</td>
+                <th>`type`</th>
+                <td>
+                  <a data-cite="html/input.html#attr-input-type">`input`</a>
+                </td>
+                <td class="aria">Refer to WAI-ARIA mappings for input types with defined ARIA roles.</td>
                 <td class="ia2">
                   <div class="general">
                     Defines the accessible role, states and other properties, refer to
@@ -5566,13 +5699,20 @@
                     type="<a href="#el-input-button"><code>button</code></a>", etc
                   </div>
                 </td>
-                <td class="ax">?</td>
+                <td class="ax">
+                  <div class="general">
+                    Defines the accessible role, states and other properties, refer to
+                    type="<a href="#el-input-text"><code>text</code></a>",
+                    type="<a href="#el-input-password"><code>password</code></a>",
+                    type="<a href="#el-input-button"><code>button</code></a>", etc
+                  </div>
+                </td>
                 <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-type-ol">
                 <th><code>type</code></th>
                 <td class="elements"><a href="https://www.w3.org/TR/html/grouping-content.html#element-attrdef-ol-type"><code>ol</code></a></td>
-                <td class="aria">None</td>
+                <td class="aria">Not mapped</td>
                 <td class="ia2">
                   <div class="general">
                     Defines the list item marker, which has no <a class="termref">accessible object</a>, but is exposed as content in the accessible text of the associated list item.
@@ -5632,7 +5772,11 @@
                   Responsible for image map creation.
                 </div>
               </td>
-              <td class="ax">?</td>
+              <td class="ax">
+                <div class="general">
+                  Responsible for image map creation.
+                </div>
+              </td>
               <td class="comments">Refer to <a href="#el-img">`img`</a> element.</td>
             </tr>
             <tr tabindex="-1" id="att-value-button">
@@ -5645,30 +5789,44 @@
                 <td class="ax"><div class="general">Not mapped</div></td>
                 <td class="comments"></td>
             </tr>
+            <tr tabindex="-1" id="att-value-data">
+              <th>`value`</th>
+              <td class="elements">
+                <a data-cite="html/text-level-semantics.html#attr-data-value">`data`</a>
+              </td>
+              <td class="aria"><div class="general">Not mapped</div></td>
+              <td class="ia2"><div class="general">Not mapped</div></td>
+              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="atk"><div class="general">Not mapped</div></td>
+              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="comments"></td>
+            </tr>
             <tr tabindex="-1" id="att-value-input">
-                <th><code>value</code></th>
-                <td class="elements"><a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-input-value"><code>input</code></a></td>
-                <td class="aria">?</td>
-                <td class="ia2">
-                  <div class="name">
-                    Associates the accessible value for entry type input elements
-                    and <a class="termref">accessible name</a> for button type input elements
-                  </div>
-                </td>
-                <td class="uia">
+              <th>`value`</th>
+              <td class="elements">
+                <a data-cite="html/input.html#attr-input-value">`input`</a>
+              </td>
+              <td class="aria">Not mapped</td> <!-- related: https://github.com/w3c/aria/issues/711 -->
+              <td class="ia2">
                 <div class="name">
-                    Associates the accessible value for entry type input elements
-                    and <a class="termref">accessible name</a> for button type input elements
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="name">
-                    Associates the accessible value for entry type input elements
-                    and <a class="termref">accessible name</a> for button type input elements
-                  </div>
-                </td>
-                <td class="ax"><code>AXValue: &lt;value&gt;</code></td>
-                <td class="comments"></td>
+                  Associates the accessible value for entry type input elements
+                  and <a class="termref">accessible name</a> for button type input elements
+                </div>
+              </td>
+              <td class="uia">
+                <div class="name">
+                  Associates the accessible value for entry type input elements
+                  and <a class="termref">accessible name</a> for button type input elements
+                </div>
+              </td>
+              <td class="atk">
+                <div class="name">
+                  Associates the accessible value for entry type input elements
+                  and <a class="termref">accessible name</a> for button type input elements
+                </div>
+              </td>
+              <td class="ax">`AXValue: &lt;value&gt;`</td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-value-li">
                 <th><code>value</code></th>
@@ -5679,7 +5837,11 @@
                     Exposed as first text node of <code>li</code>'s accessible object.
                   </div>
                 </td>
-                <td class="uia">Expose the value of the <code>value</code> attribute as the first text node in the list item. If the value of the <code>value</code> attribute is an iteger, set the UIA <code>PositionInSet</code> property to the integer value. </td>
+                <td class="uia">
+                  <div class="general">
+                    Expose the value of the `value` attribute as the first text node in the list item. If the value of the `value` attribute is an integer, set the UIA `PositionInSet` property to the integer value.
+                  </div>
+                </td>
                 <td class="atk">
                   <div class="general">
                     Exposed as first text node of <code>li</code>'s accessible object.
@@ -6363,6 +6525,7 @@
         <section>
           <h4>Substantive changes since moving entirely to the Web Application Working Group (formerly Web Platform WG) (01-Oct-2016)</h4>
           <ul>
+            <li>26-Nov-2019: Updates mappings for `disabled`, `scope`, `spellcheck`, `tabindex` to point to WAI-ARIA.  Adds AX `pattern`, `reversed`, `rows`, `size`, `span`, `src`, `start`, `step`, `type` attribute mappings. Adds `min-length`, `ping`, `playsinline`, `referrerpolicy`, `sizes`, `srcset`, `data[value]` attribute mappings. See <a href="https://github.com/w3c/html-aam/pull/245">GitHub pull request #245</a>.</li>
             <li>30-Sept-2019: Remove mappings for `rb` and `rtc` elements as they are marked as obsolete in HTML. See <a href="https://github.com/w3c/html-aam/issues/115">GitHub issue #115</a> and <a href="https://github.com/w3c/html-aam/pull/253">pull request #253</a>.
             <li>23-Sept-2019: Update attribute mappings for `high`, `low`, `max`, `min`, and `meter` and `progress`'s `value` attribute.  See <a href="https://github.com/w3c/html-aam/pull/244">GitHub pull request #244</a>.</li>
             <li>18-Sept-2019: Update `mark` element's UIA `LocalizedControlType` and AX `AXRoleDescription`.  See <a href="https://github.com/w3c/html-aam/issues/236">GitHub issue #236</a>.</li>
