@@ -1,4 +1,4 @@
-var biblio = {
+var localBiblio = {
 	// Correct reference for ATK
 	"ATK": {
 		"href": "https://developer.gnome.org/atk/stable/",
