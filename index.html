@@ -2568,7 +2568,7 @@
 			<rdef>definition</rdef>
 			<div class="role-description">
 				<p>A definition of a term or concept. See related <rref>term</rref>.</p>
-				<p>Authors SHOULD identify the <a>element</a> being defined by giving that element a role of <rref>term</rref> and referencing it with the <pref>aria-labelledby</pref> <a>attribute</a> or by making the element with role <rref>term</rref> a descendant of the element with role <code>definition</code>.</p>
+				<p>Authors SHOULD identify the <a>element</a> being defined by giving that element a role of <rref>term</rref> and referencing it with the <pref>aria-details</pref> <a>attribute</a> or by making the element with role <rref>term</rref> a descendant of the element with role <code>definition</code>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -10827,9 +10827,18 @@
 		<div class="property" id="aria-details">
 			<pdef>aria-details</pdef>
 			<div class="property-description">
-				<p>Identifies the <a>element</a> that provides a detailed, extended description for the <a>object</a>. See related <pref>aria-describedby</pref>.</p>
-				<p>The <code>aria-details</code> attribute references a single element that provides more detailed information than would normally be provided by <pref>aria-describedby</pref>. It enables <a>assistive technologies</a> to make users aware of the availability of an extended description as well as navigate to it. Authors SHOULD ensure the element referenced by <code>aria-details</code> is visible to all users.</p>
-				<p>Unlike elements referenced by <code>aria-describedby</code>, the element referenced by <code>aria-details</code> is not used in either the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_name">Name Computation</a> or the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of an element referenced by <code>aria-details</code> is not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended description more difficult to understand.</p>
+				<p>Identifies one or more elements that provide additional, extended information about the <a>object</a>.</p>
+				<p>The additional information can be:</p>
+				<ul>
+					<li>A description or general annotation (this is the default). See related <pref>aria-describedby</pref>.</li>
+					<li>A <rref>comment</rref> &mdash; in this case the element referred to SHOULD use the <rref>comment</rref> role.</li>
+					<li>A <rref>definition</rref> &mdash; in this case the referring element SHOULD use the <rref>term</rref> role and the element referred to SHOULD use the <rref>definition</rref> role.</li>
+					<li>A footnote &mdash; in this case the element referred to SHOULD use the <code>doc-footnote</code> role from [[DPUB-ARIA]].</li>
+					<li>An endnote &mdash; in this case the element referred to SHOULD use the <code>doc-endnote</code> role from [[DPUB-ARIA]].</li>
+				</ul>
+
+				<p>The <code>aria-details</code> attribute references elements that provide more detailed information than would normally be provided by <pref>aria-describedby</pref>. It enables <a>assistive technologies</a> to make users aware of the availability of extended information as well as navigate to it. Authors SHOULD ensure elements referenced by <code>aria-details</code> are visible to all users.</p>
+				<p>Unlike elements referenced by <code>aria-describedby</code>, elements referenced by <code>aria-details</code> are not used in either the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_name">Name Computation</a> or the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of elements referenced by <code>aria-details</code> are not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended description more difficult to understand.</p>
 				<p>In some user agents, multiple reference relationships for descriptive information are not supported by the accessibility API. In such cases, if both <pref>aria-describedby</pref> and <code>aria-details</code> are provided on an element, <code>aria-details</code> takes precedence.</p>
 				<p>A common use for <code>aria-details</code> is in digital publishing where an extended description needs to be conveyed in a book that requires structural markup or the embedding of other technology to provide illustrative content. The following example demonstrates this scenario.</p>
 				<pre class="example highlight">
@@ -10879,7 +10888,7 @@
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
+						<td class="property-value"><a href="#valuetype_idref_list">ID reference list</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -13241,7 +13250,7 @@
 				attribute DOMString? ariaCurrent;
 				attribute FrozenArray&lt;Element&gt;? ariaDescribedByElements;
 				attribute DOMString? ariaDescription;
-				attribute Element? ariaDetailsElement;
+				attribute FrozenArray&lt;Element&gt;? ariaDetailsElements;
 				attribute DOMString? ariaDisabled;
 				attribute Element? ariaErrorMessageElement;
 				attribute DOMString? ariaExpanded;
@@ -13298,7 +13307,7 @@
 				<tr><td><dfn>ariaCurrent</dfn></td><td><sref>aria-current</sref></td></tr>
 				<tr><td><dfn>ariaDescribedByElements</dfn></td><td><pref>aria-describedby</pref></td></tr>
 				<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
-				<tr><td><dfn>ariaDetailsElement</dfn></td><td><pref>aria-details</pref></td></tr>
+				<tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr>
 				<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
 				<tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr>
 				<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
