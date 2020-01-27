@@ -2332,18 +2332,23 @@
 			<rdef>comment</rdef>
 			<div class="role-description">
 				<p>A comment contains content expressing reaction to other content.</p>
-				<p>The relationship of comments to other content SHOULD be exposed as follows:</p>
+				<p>Comments can annotate any visible content, from small spans of text, to other comments, to entire articles. Authors SHOULD identify the relationships between comments and the commented content, as follows:</p>
 				<ol>
-					<li>If the comment refers to other content within the page, the source content SHOULD use <pref>aria-details</pref> to point to the related comment.</li>
-					<li>If the comment is a reply to another comment:
+					<li>If the comment is a reply to another <code>comment</code>:
 						<ul>
-							<li>If all ancestor comments are available in the DOM, the reply comment SHOULD be a semantic descendant of the comment it relates to, either as a DOM descendant element, or via <pref>aria-owns</pref>. In this case, user agents MUST automatically compute the level and expose it to assistive technologies. This is the preferred method for defining
-								the comment hierarchy, as it creates a single root comment that can be referred to by commented content via <pref>aria-details</pref>.</li>
+							<li>If all ancestor comments are available in the DOM, make the reply <code>comment</code> a semantic descendant of the parent <code>comment</code> being replied to, either as a DOM descendant element, or via <pref>aria-owns</pref>.</li>
 							<li>Alternatively, if all ancestor comments are not in the DOM, such as when comments are paginated, the hierarchical
-								level MAY be indicated via <pref>aria-level</pref>.</li>
+								level MAY be indicated via <pref>aria-level</pref>. Additional group positional information MAY be indicated via <pref>aria-posinset</pref> and <pref>aria-setsize</pref>.</li>
+						</ul>
+					</li>
+					<li>Otherwise, if the comment relates to other content in the page:
+						<ul>
+							<li>Provide <pref>aria-details</pref> on the commented content, identifying the commented element.</li>
+							<li>If there are many comments relating to the same commented content, either identify all of them individually via <pref>aria-details</pref>, or identify a parent container of the comments, and assign a role of <rref>complementary</rref> to the container.</li>
 						</ul>
 					</li>
 				</ol>
+				<p>If the author has not explicitly declared <pref>aria-level</pref>, <pref>aria-posinset</pref>, or <pref>aria-setsize</pref> for a <code>comment</code> element, user agents MUST automatically compute the missing values and expose them to assistive technologies.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
