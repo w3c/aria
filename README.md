@@ -199,7 +199,6 @@ the save button and tell your browser to save the roleInfo.js file into the aria
 #### Preferred terminology
 
 * When referring to an instance of a role, use "element with a role of X", not "X role" or "X element". "X role" refers to role in the taxonomy itself; "X element" is not technically meaningful.
-* "Ajax" is not spelled "AJAX"
 * "Assistive technologies" is plural, not singular.
 * Use "WAI-ARIA" instead of "ARIA", to avoid trademark confusion.
 * Use "text alternative" instead of "text equivalent" or the like, for consistency with WCAG 2.0 usage.
