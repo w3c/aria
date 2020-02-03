@@ -172,11 +172,14 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     propList[title] = { is: type, title: title, name: content, desc: desc, roles: [] };
                     var abstract = container.querySelector("." + type + "-applicability");
                     if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
-                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false });
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false, deprecated: false });
                     } 
                     else if ((abstract.textContent || abstract.innerText) === "All elements of the base markup except for some roles or elements that prohibit its use") {
-                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true });
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true, deprecated: false });
                     } 
+                    else if ((abstract.textContent || abstract.innerText) === "Use as a global state deprecated in ARIA 1.2") {
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false, deprecated: true });
+                    }
                     
                     // the rdef is gone.  if we are in a div, convert that div to a section
 
@@ -222,12 +225,15 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var lItem = sortedList[i];
                         globalSPIndex += "<li>";
                         if (lItem.is === "state") {
-                            globalSPIndex += "<sref title=\"" + lItem.name + "\">" + lItem.name + " (state)</sref>";
+                            globalSPIndex += "<sref "+(lItem.prohibited?"data-prohibited ":"")+(lItem.deprecated?"data-deprecated ":"") +"title=\"" + lItem.name + "\">" + lItem.name + " (state)</sref>";
                         } else {
-                            globalSPIndex += "<pref>" + lItem.name + "</pref>";
+                            globalSPIndex += "<pref "+(lItem.prohibited?"data-prohibited ":"")+(lItem.deprecated?"data-deprecated ":"") +">" + lItem.name + "</pref>";
                         }
                         if (lItem.prohibited) {
                             globalSPIndex += " (Except where prohibited)";
+                        }
+                        if (lItem.deprecated) {
+                            globalSPIndex += " (Global use deprecated in ARIA 1.2)"
                         }
                         globalSPIndex += "</li>\n";
                     }
@@ -330,7 +336,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 var type = (item.localName === "pref" ? "property" : "state");
                                 var req = $(node).hasClass("role-required-properties");
                                 var dis = $(node).hasClass("role-disallowed");
-                                attrs.push( { is: type, name: name, required: req, disallowed: dis } );                                
+                                var dep = item.hasAttribute("data-deprecated");
+                                attrs.push( { is: type, name: name, required: req, disallowed: dis, deprecated: dep } );                                
                                 
                                 // remember that the state or property is
                                 // referenced by this role
@@ -425,15 +432,19 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             for (var k = 0; k < sortedList.length; k++) {
                                 var role = sortedList[k];
                                 var req = "";
+                                var dep = "";
                                 if (role.required) {
                                     req = " <strong>(required)</strong>";
+                                }
+                                if (role.deprecated) {
+                                    dep = " <strong>(deprecated)</strong>"
                                 }
                                 if (prev != role.name) {
                                     output += "<li>";
                                     if (role.is === "state") {
-                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req;
+                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req + dep;
                                     } else {
-                                        output += "<pref>" + role.name + "</pref>" + req;
+                                        output += "<pref>" + role.name + "</pref>" + req + dep;
                                     }
                                     output += "</li>\n";
                                     prev = role.name;
@@ -469,7 +480,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var output = "";
                         var section = document.querySelector("#" + item.name);
                         var placeholder = section.querySelector(".state-applicability, .property-applicability");
-                        if (placeholder && ((placeholder.textContent || placeholder.innerText) === "Placeholder") && item.roles.length) {
+                        if (placeholder && (((placeholder.textContent || placeholder.innerText) === "Placeholder")||((placeholder.textContent || placeholder.innerText) ==="Use as a global state deprecated in ARIA 1.2")) && item.roles.length) {
                             // update the used in roles list
                             var sortedList = [];
                             sortedList = item.roles.sort();
