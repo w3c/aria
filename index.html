@@ -10929,10 +10929,20 @@
 		<div class="property" id="aria-details">
 			<pdef>aria-details</pdef>
 			<div class="property-description">
-				<p>Identifies the <a>element</a> that provides a detailed, extended description for the <a>object</a>. See related <pref>aria-describedby</pref>.</p>
-				<p>The <code>aria-details</code> attribute references a single element that provides more detailed information than would normally be provided by <pref>aria-describedby</pref>. It enables <a>assistive technologies</a> to make users aware of the availability of an extended description as well as navigate to it. Authors SHOULD ensure the element referenced by <code>aria-details</code> is visible to all users.</p>
-				<p>Unlike elements referenced by <code>aria-describedby</code>, the element referenced by <code>aria-details</code> is not used in either the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_name">Name Computation</a> or the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of an element referenced by <code>aria-details</code> is not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended description more difficult to understand.</p>
-				<p>In some user agents, multiple reference relationships for descriptive information are not supported by the accessibility API. In such cases, if both <pref>aria-describedby</pref> and <code>aria-details</code> are provided on an element, <code>aria-details</code> takes precedence.</p>
+				<p>Identifies the <a>element</a> (or elements) that provide additional information related to the <a>object</a>. See related <pref>aria-describedby</pref>.</p>
+				<p>The <code>aria-details</code> property is for referencing elements that provide more detailed information than would normally be provided via <pref>aria-describedby</pref>. The presence of <code>aria-details</code> enables <a>assistive technologies</a> to make users aware of the availability of extended information and navigate to it. Authors SHOULD ensure that elements referenced by <code>aria-details</code> are visible to all users.</p>
+				<p>Assistive technologies MAY use the role of elements referenced by the <code>aria-details</code> property to help users understand the types of information associated with the element. Authors MAY convey the type of details associated with an element as follows:</p>
+				<ul>
+					<li>Comment: <code>aria-details</code> refers to an element with role <rref>comment</rref>.</li>
+					<li>Definition: <code>aria-details</code> is applied to an element with role <rref>term</rref> and refers to an element with role <rref>definition</rref>.</li>
+					<li>Footnote: <code>aria-details</code> refers to an element with role <code>doc-footnote</code>. This role is defined in [[DPUB-ARIA-1.0]].</li>
+					<li>Endnote: <code>aria-details</code> refers to an element with role <code>doc-endnote</code>. This role is defined in [[DPUB-ARIA-1.0]].</li>
+					<li>Description or general annotation: <code>aria-details</code> refers to an element with any other role.</li>
+				</ul>
+
+				<p>Unlike elements referenced by <code>aria-describedby</code>, elements referenced by <code>aria-details</code> are not used in the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of elements referenced by <code>aria-details</code> are not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended information more difficult to understand.</p>
+				<p>The <code>aria-details</code> property supports referring to multiple elements. For example, a paragraph in a document editor may reference multiple comments that are not related to each other. If a user agent relies on an accessibility API that does not support exposing multiple descriptive relations, the user agent SHOULD expose the relationship to the first element referenced by <code>aria-details</code>.</p>
+				<p>It is valid for an element to have both <code>aria-details</code> and a description specified with either <code>aria-describedby</code> or <code>aria-description</code>. If a user agent relies on an accessibility API that does not support exposing multiple descriptive relations, and if an element has both <code>aria-details</code> and <rref>aria-describedby</rref>, the user agent SHOULD expose the <code>aria-details</code> relation and the description string computed from the <rref>aria-describedby</rref> relationship.</p>
 				<p>A common use for <code>aria-details</code> is in digital publishing where an extended description needs to be conveyed in a book that requires structural markup or the embedding of other technology to provide illustrative content. The following example demonstrates this scenario.</p>
 				<pre class="example highlight">
                                 &lt;!-- Provision of an extended description --&gt;
@@ -10950,7 +10960,7 @@
                                   &lt;/p&gt;
                                   &lt;object data="skatebd-ramp.svg"  type="image/svg+xml"&gt;&lt;/object&gt;
                                   &lt;p&gt;
-                                    In this example you will notice a skateboard with a base and vertical board whose width
+                                    In this example you will notice a skateboard ramp with a base and vertical board whose width
                                     is the width of the ramp. To compute how long the ramp must be, simply calculate the
                                     base length, square it, sum it with the square of the height of the ramp, and take the
                                     square root of the sum.
@@ -10981,7 +10991,7 @@
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
+						<td class="property-value"><a href="#valuetype_idref_list">ID reference list</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -13343,7 +13353,7 @@
 				attribute DOMString? ariaCurrent;
 				attribute FrozenArray&lt;Element&gt;? ariaDescribedByElements;
 				attribute DOMString? ariaDescription;
-				attribute Element? ariaDetailsElement;
+				attribute FrozenArray&lt;Element&gt;? ariaDetailsElements;
 				attribute DOMString? ariaDisabled;
 				attribute Element? ariaErrorMessageElement;
 				attribute DOMString? ariaExpanded;
@@ -13400,7 +13410,7 @@
 				<tr><td><dfn>ariaCurrent</dfn></td><td><sref>aria-current</sref></td></tr>
 				<tr><td><dfn>ariaDescribedByElements</dfn></td><td><pref>aria-describedby</pref></td></tr>
 				<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
-				<tr><td><dfn>ariaDetailsElement</dfn></td><td><pref>aria-details</pref></td></tr>
+				<tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr>
 				<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
 				<tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr>
 				<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
