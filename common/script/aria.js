@@ -177,7 +177,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     else if ((abstract.textContent || abstract.innerText) === "All elements of the base markup except for some roles or elements that prohibit its use") {
                         globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true, deprecated: false });
                     } 
-                    else if ((abstract.textContent || abstract.innerText) === "Use as a global state deprecated in ARIA 1.2") {
+                    else if ((abstract.textContent || abstract.innerText) === "Use as a global deprecated in ARIA 1.2") {
                         globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false, deprecated: true });
                     }
                     
@@ -480,7 +480,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var output = "";
                         var section = document.querySelector("#" + item.name);
                         var placeholder = section.querySelector(".state-applicability, .property-applicability");
-                        if (placeholder && (((placeholder.textContent || placeholder.innerText) === "Placeholder")||((placeholder.textContent || placeholder.innerText) ==="Use as a global state deprecated in ARIA 1.2")) && item.roles.length) {
+                        if (placeholder && (((placeholder.textContent || placeholder.innerText) === "Placeholder")||((placeholder.textContent || placeholder.innerText) ==="Use as a global deprecated in ARIA 1.2")) && item.roles.length) {
                             // update the used in roles list
                             var sortedList = [];
                             sortedList = item.roles.sort();
