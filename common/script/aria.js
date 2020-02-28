@@ -437,7 +437,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                     req = " <strong>(required)</strong>";
                                 }
                                 if (role.deprecated) {
-                                    dep = " <strong>(deprecated)</strong>"
+                                    dep = " <strong>(deprecated in ARIA 1.2)</strong>"
                                 }
                                 if (prev != role.name) {
                                     output += "<li>";
