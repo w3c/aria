@@ -5638,16 +5638,19 @@
 				<section id="conflict_resolution_presentation_none">
 					<h5>Presentational Roles Conflict Resolution</h5>
 					<p>There are a number of ways presentational role conflicts are resolved.</p>
-					<p>Host languages elements having implicit presentational roles for which no roles may be applied MUST never be exposed in the accessibility tree, with this exception: user agents MUST always expose global WAI-ARIA states and properties to accessibility APIs. In this case, the user agent ignores the explicit or inherited <code>presentation</code> role and exposes the element as described in the accessibility API mappings for presentational objects which remain in the accessibility tree. However, user agents MUST ignore any non-global, role-specific WAI-ARIA states and properties, unless it is on an inherited presentational role where an explicit role is applied.</p>
-					<p>For example, <pref>aria-haspopup</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
+					<p>User agents MUST NOT expose <a>elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+					<ul>
+						<li>If an element is focusable, or otherwise interactive, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
+						<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+						<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
+					</ul>
+					<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
 					<pre class="example highlight">
-						<span class="comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-haspopup property. --&gt;</span>
-&lt;h1 role="presentation" aria-haspopup="true"&gt; Sample Content &lt;/h1&gt;
-						<span class="comment">&lt;!-- 2. [role="presentation"] negates the both the implicit 'heading' and the non-global level. --&gt;</span>
+<span class="comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-describedby property. --&gt;</span>
+&lt;h1 role="presentation" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+<span class="comment">&lt;!-- 2. [role="presentation"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
 &lt;h1 role="presentation" aria-level="2"&gt; Sample Content &lt;/h1&gt;
 					</pre>
-					<p>Explicit roles on a descendant or <a>owned</a> element override the inherited role of <code>presentation</code>, and cause the owned element to behave as any other element with an explicit role. If the action of exposing the implicit role causes the accessibility tree to be malformed, the expected results are undefined and the user agent MAY resort to an internal recovery mechanism to repair the accessibility tree.</p>
-					<p>If an element with a role of presentation is focusable, or otherwise interactive, user agents MUST ignore the normal effect of the role and expose the element with implicit native semantics, in order to ensure that the element is both <a>understandable</a> and <a>operable</a>.</p>
 				</section>
 			</div>
 			<table class="role-features">
