@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta name="generator" content="ReSpec 25.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta name="generator" content="ReSpec 25.3.1"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><style>/* --- EXAMPLES --- */
 span.example-title {
     text-transform: none;
 }
@@ -862,16 +862,16 @@ var[data-type]:hover::before {
   "preProcess": [
     null
   ],
-  "publishDate": "2020-02-20",
-  "publishISODate": "2020-02-20T00:00:00.000Z",
-  "generatedSubtitle": "Editor's Draft 20 February 2020"
+  "publishDate": "2020-03-03",
+  "publishISODate": "2020-03-03T00:00:00.000Z",
+  "generatedSubtitle": "Editor's Draft 03 March 2020"
 }</script><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED"></head>
 <body class="h-entry" data-cite="WebIDL"><div class="head">
-      <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C"></a> <h1 id="title" class="title p-name">Accessible Rich Internet Applications (WAI-ARIA) 1.2</h1>
+      <a class="logo" href="https://www.w3.org/"><img alt="W3C" width="72" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C"></a> <h1 id="title" class="title">Accessible Rich Internet Applications (WAI-ARIA) 1.2</h1>
       
       <h2>
         W3C Editor's Draft
-        <time class="dt-published" datetime="2020-02-20">20 February 2020</time>
+        <time class="dt-published" datetime="2020-03-03">03 March 2020</time>
       </h2>
       <dl>
         <dt>This version:</dt><dd>
@@ -7142,18 +7142,21 @@ var[data-type]:hover::before {
 				<section id="conflict_resolution_presentation_none">
 					<h5 id="presentational-roles-conflict-resolution">Presentational Roles Conflict Resolution<a class="self-link" aria-label="§" href="#conflict_resolution_presentation_none"></a></h5>
 					<p>There are a number of ways presentational role conflicts are resolved.</p>
-					<p>Host languages elements having implicit presentational roles for which no roles may be applied <em class="rfc2119" title="MUST">MUST</em> never be exposed in the accessibility tree, with this exception: user agents <em class="rfc2119" title="MUST">MUST</em> always expose global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> states and properties to accessibility <abbr title="Application Programing Interfaces">APIs</abbr>. In this case, the user agent ignores the explicit or inherited <code>presentation</code> role and exposes the element as described in the accessibility <abbr title="application programming interface">API</abbr> mappings for presentational objects which remain in the accessibility tree. However, user agents <em class="rfc2119" title="MUST">MUST</em> ignore any non-global, role-specific <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> states and properties, unless it is on an inherited presentational role where an explicit role is applied.</p>
-					<p>For example, <a href="#aria-haspopup" class="property-reference"><code>aria-haspopup</code></a> is a global attribute and would always be applied; <a href="#aria-level" class="property-reference"><code>aria-level</code></a> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
+					<p>User agents <em class="rfc2119" title="MUST NOT">MUST NOT</em> expose <a href="#dfn-element" class="internalDFN" data-link-type="dfn">elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+					<ul>
+						<li>If an element is focusable, or otherwise interactive, user agents <em class="rfc2119" title="MUST">MUST</em> ignore the <code>presentation</code> role and expose the element with its implicit role, in order to ensure that the element is <a href="#dfn-operable" class="internalDFN" data-link-type="dfn">operable</a>.</li>
+						<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents <em class="rfc2119" title="MUST">MUST</em> ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+						<li>If an element has global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> states or properties, user agents <em class="rfc2119" title="MUST">MUST</em> ignore the <code>presentation</code> role and expose the element with its implicit role. However, if an element has only non-global, role-specific <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> states or properties, the element <em class="rfc2119" title="MUST NOT">MUST NOT</em> be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
+					</ul>
+					<p>For example, <a href="#aria-describedby" class="property-reference"><code>aria-describedby</code></a> is a global attribute and would always be applied; <a href="#aria-level" class="property-reference"><code>aria-level</code></a> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
 					<div class="example" id="example-13">
           <div class="marker">
       <a class="self-link" href="#example-13">Example<bdi> 13</bdi></a>
-    </div> <pre class="highlight" aria-busy="false"><code class="hljs xml">						<span class="hljs-comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-haspopup property. --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"presentation"</span> <span class="hljs-attr">aria-haspopup</span>=<span class="hljs-string">"true"</span>&gt;</span> Sample Content <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-						<span class="hljs-comment">&lt;!-- 2. [role="presentation"] negates the both the implicit 'heading' and the non-global level. --&gt;</span>
+    </div> <pre class="highlight" aria-busy="false"><code class="hljs xml"><span class="hljs-comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-describedby property. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"presentation"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string">"comment-1"</span>&gt;</span> Sample Content <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 2. [role="presentation"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"presentation"</span> <span class="hljs-attr">aria-level</span>=<span class="hljs-string">"2"</span>&gt;</span> Sample Content <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></code></pre>
         </div>
-					<p>Explicit roles on a descendant or <a href="#dfn-owned-element" class="internalDFN" data-link-type="dfn">owned</a> element override the inherited role of <code>presentation</code>, and cause the owned element to behave as any other element with an explicit role. If the action of exposing the implicit role causes the accessibility tree to be malformed, the expected results are undefined and the user agent <em class="rfc2119" title="MAY">MAY</em> resort to an internal recovery mechanism to repair the accessibility tree.</p>
-					<p>If an element with a role of presentation is focusable, or otherwise interactive, user agents <em class="rfc2119" title="MUST">MUST</em> ignore the normal effect of the role and expose the element with implicit native semantics, in order to ensure that the element is both <a href="#dfn-understandable" class="internalDFN" data-link-type="dfn">understandable</a> and <a href="#dfn-operable" class="internalDFN" data-link-type="dfn">operable</a>.</p>
 				</section>
 			</div>
 			<table class="role-features">
