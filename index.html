@@ -263,7 +263,42 @@
 		<p>While some assistive technologies interact with these accessibility APIs, others may access the content directly from the <abbr title="Document Object Model">DOM</abbr>. These technologies can restructure, simplify, style, or reflow the content to help a different set of users. Common use cases for these types of adaptations may be the aging population, persons with cognitive impairments, or persons in environments that interfere with use of their tools. For example, the availability of regional navigational landmarks may allow for a mobile device adaptation that shows only portions of the content at any one time based on its semantics. This could reduce the amount of information the user needs to process at any one time. In other situations it may be appropriate to replace a custom user interface control with something that is easier to navigate with a keyboard, or touch screen device.</p>
 	</section>
 </section>
-<section class="informative" id="usage">
+<section class="informative" id="terms">
+	<h1>Important Terms</h1>
+	<div data-include="common/terms.html" data-oninclude="restrictReferences"></div>
+</section>
+<section class="normative override" id="conformance">
+	<h2>Conformance</h2>
+	<p>The main content of Accessible Rich Internet Applications is <a>normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are <a>informative</a> (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
+	<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <em class="rfc2119">MUST</em>, <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">REQUIRED</em>, <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>, <em class="rfc2119">SHOULD</em>, <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">MAY</em>, and <em class="rfc2119">OPTIONAL</em> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in an element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
+	<p>Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
+	<p>Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+	<section id="ua_noninterference">
+		<h2>Non-interference with the Host Language</h2>
+		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> processing by the <a>user agent</a> MUST NOT interfere with the normal operation of the built-in features of the host language.</p>
+		<p>If a CSS selector includes a WAI-ARIA attribute (e.g., <code class="highlight lang-css">input[aria-invalid="true"]</code>), user agents MUST update the visual display of any elements matching (or no longer matching) the selector any time the attribute is added/changed/removed in the <abbr title="Document Object Model">DOM</abbr>. The user agent MAY alter the mapping of the host language features into an <a>accessibility <abbr title="Application Programing Interface">API</abbr></a>, but the user agent MUST NOT alter the <abbr title="Document Object Model">DOM</abbr> in order to remap <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup into host language features.</p>
+	</section>
+	<section id="ua_dom">
+		<h2>All <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> in <abbr title="Document Object Model">DOM</abbr></h2>
+		<p>A conforming <a>user agent</a> which implements a document object model that does not conform to the W3C DOM specification MUST include the content attribute for role and its <a href="#roles_categorization">WAI-ARIA role values</a>, as well as the <a href="#states_and_properties">WAI-ARIA States and Properties</a> in the DOM as specified by the author, even though processing may affect how the elements are exposed to accessibility APIs. Doing so ensures that each role attribute and all <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties, including their values, are in the document in an unmodified form so other tools, such as assistive technologies, can access them. A conforming W3C <abbr title="Document Object Model">DOM</abbr> meets this criterion.</p>
+	</section>
+	<section id="ua_domchanges">
+		<h2>Assistive Technology Notifications Communicated to Web Applications</h2>
+		<p><a>Assistive technologies</a>, such as speech recognition systems and alternate input devices for users with mobility impairments, require the ability to control a web application in a device-independent way. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>states</a> and <a>properties</a> reflect the current state of rich internet application components. The ability for assistive technologies to notify web applications of necessary changes is essential because it allows these alternative input solutions to control an application without being dependent on the standard input device which the user is unable to effectively control directly.</p>
+		<p>User agents MUST provide a method to notify the web application when a change occurs to states or properties in the system accessibility API. Likewise, web application authors SHOULD update the web application accordingly when notified of a change request from the user agent or assistive technology.</p>
+		<p class="note">Many state and properties can be changed by assistive technologies through existing accessibility APIs by responding to a default action event. For example, the <sref>aria-selected</sref> state of a <rref>tab</rref> in a <rref>tabpanel</rref> can be changed by triggering the default action on the element.</p>
+	</section>
+	<section id="conformance_checkers">
+		<h2>Conformance Checkers</h2>
+		<p>Any application or script verifying document conformance or validity SHOULD include a test for all of the <a href="#dfn-normative">normative</a> author requirements in this specification. If testing for a given requirement, conformance checkers MUST issue an error if an author "MUST" requirement isn't met, and MUST issue a warning if an author "SHOULD" requirement isn't met.</p>
+	</section>
+	<section id="deprecated">
+		<!-- Deprecated requirements should begin with <p><em>This requirement is <a href="#deprecated">deprecated</a>.</em></p> -->
+		<h2>Deprecated Requirements</h2>
+		<p>As the technology evolves, sometimes new ways to meet a use case become available, that work better than a feature that was previously defined. But because of existing implementation of the older feature, that feature cannot be removed from the conformance model without rendering formerly conforming content non-conforming. In this case, the older feature is marked as "deprecated". This indicates that the feature is allowed in the conformance model and expected to be supported by user agents, but it is recommended that authors do not use it for new content. In future versions of the specification, if the feature is no longer widely used, the feature could be removed and no longer expected to be supported by user agents.</p>
+	</section>
+</section>
+<section class="normative" id="usage">
 	<h1>Using <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></h1>
 	<p>Complex web applications become inaccessible when <a>assistive technologies</a> cannot determine the <a>semantics</a> behind portions of a document or when the user is unable to effectively navigate to all parts of it in a usable way (see <cite><a href="https://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[WAI-ARIA-PRACTICES-1.1]]). <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> divides the semantics into <a>roles</a> (the type defining a user interface element) and <a>states</a> and <a>properties</a> supported by the roles.</p>
 	<p>Authors need to associate <a>elements</a> in the document to a WAI-ARIA role and the appropriate states and properties (aria-* <a>attributes</a>) during its life-cycle, unless the elements already have the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantics</a> for states and properties. In these instances the equivalent host language states and properties take precedence to avoid a conflict while the role attribute will take precedence over the implicit role of the host language element.</p>
@@ -353,7 +388,7 @@
 		</ol>
 	      </li>
 	    </ol>
-	    <p>When an assistive technology uses its platform's acessibility <abbr title="Application Programming Interfaces">API</abbr> to request a change of focus, user agents MUST do the following:</p>
+	    <p>When an assistive technology uses its platform's accessibility <abbr title="Application Programming Interfaces">API</abbr> to request a change of focus, user agents MUST do the following:</p>
 	    <ol>
 	      <li>Remove the platform's focused state from the previously focused object.</li>
 	      <li>Set the <abbr title="Document Object Model">DOM</abbr> focus:
@@ -369,41 +404,6 @@
 	    </ol>
 	  </section>
 	</section>
-</section>
-<section class="normative" id="conformance">
-	<h2>Conformance</h2>
-	<p>The main content of Accessible Rich Internet Applications is <a>normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are <a>informative</a> (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
-	<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <em class="rfc2119">MUST</em>, <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">REQUIRED</em>, <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>, <em class="rfc2119">SHOULD</em>, <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">MAY</em>, and <em class="rfc2119">OPTIONAL</em> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in an element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
-	<p>Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
-	<p>Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
-	<section id="ua_noninterference">
-		<h2>Non-interference with the Host Language</h2>
-		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> processing by the <a>user agent</a> MUST NOT interfere with the normal operation of the built-in features of the host language.</p>
-		<p>If a CSS selector includes a WAI-ARIA attribute (e.g., <code class="highlight lang-css">input[aria-invalid="true"]</code>), user agents MUST update the visual display of any elements matching (or no longer matching) the selector any time the attribute is added/changed/removed in the <abbr title="Document Object Model">DOM</abbr>. The user agent MAY alter the mapping of the host language features into an <a>accessibility <abbr title="Application Programing Interface">API</abbr></a>, but the user agent MUST NOT alter the <abbr title="Document Object Model">DOM</abbr> in order to remap <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup into host language features.</p>
-	</section>
-	<section id="ua_dom">
-		<h2>All <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> in <abbr title="Document Object Model">DOM</abbr></h2>
-		<p>A conforming <a>user agent</a> which implements a document object model that does not conform to the W3C DOM specification MUST include the content attribute for role and its <a href="#roles_categorization">WAI-ARIA role values</a>, as well as the <a href="#states_and_properties">WAI-ARIA States and Properties</a> in the DOM as specified by the author, even though processing may affect how the elements are exposed to accessibility APIs. Doing so ensures that each role attribute and all <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties, including their values, are in the document in an unmodified form so other tools, such as assistive technologies, can access them. A conforming W3C <abbr title="Document Object Model">DOM</abbr> meets this criterion.</p>
-	</section>
-	<section id="ua_domchanges">
-		<h2>Assistive Technology Notifications Communicated to Web Applications</h2>
-		<p><a>Assistive technologies</a>, such as speech recognition systems and alternate input devices for users with mobility impairments, require the ability to control a web application in a device-independent way. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>states</a> and <a>properties</a> reflect the current state of rich internet application components. The ability for assistive technologies to notify web applications of necessary changes is essential because it allows these alternative input solutions to control an application without being dependent on the standard input device which the user is unable to effectively control directly.</p>
-		<p>User agents MUST provide a method to notify the web application when a change occurs to states or properties in the system accessibility API. Likewise, web application authors SHOULD update the web application accordingly when notified of a change request from the user agent or assistive technology.</p>
-		<p class="note">Many state and properties can be changed by assistive technologies through existing accessibility APIs by responding to a default action event. For example, the <sref>aria-selected</sref> state of a <rref>tab</rref> in a <rref>tabpanel</rref> can be changed by triggering the default action on the element.</p>
-	</section>
-	<section id="conformance_checkers">
-		<h2>Conformance Checkers</h2>
-		<p>Any application or script verifying document conformance or validity SHOULD include a test for all of the <a href="#dfn-normative">normative</a> author requirements in this specification. If testing for a given requirement, conformance checkers MUST issue an error if an author "MUST" requirement isn't met, and MUST issue a warning if an author "SHOULD" requirement isn't met.</p>
-	</section>
-	<section id="deprecated">
-		<!-- Deprecated requirements should begin with <p><em>This requirement is <a href="#deprecated">deprecated</a>.</em></p> -->
-		<h2>Deprecated Requirements</h2>
-		<p>As the technology evolves, sometimes new ways to meet a use case become available, that work better than a feature that was previously defined. But because of existing implementation of the older feature, that feature cannot be removed from the conformance model without rendering formerly conforming content non-conforming. In this case, the older feature is marked as "deprecated". This indicates that the feature is allowed in the conformance model and expected to be supported by user agents, but it is recommended that authors do not use it for new content. In future versions of the specification, if the feature is no longer widely used, the feature could be removed and no longer expected to be supported by user agents.</p>
-	</section>
-</section>
-<section class="informative" id="terms">
-	<h1>Important Terms</h1>
-	<div data-include="common/terms.html" data-oninclude="restrictReferences"></div>
 </section>
 <section class="normative" id="roles">
 	<h1>The Roles Model</h1>
@@ -527,7 +527,7 @@
                 <h4>Roles Supporting Name from Legend</h4>
                 <div id="index_fromlegend">
                 </div>
-			</section>						
+			</section>
 			<section id="namefromprohibited">
                 <h4>Roles which cannot be named (Name prohibited)</h4>
                 <div id="index_fromprohibited">
@@ -640,6 +640,7 @@
 				<li><rref>caption</rref></li>
 				<li><rref>cell</rref></li>
 				<li><rref>columnheader</rref></li>
+				<li><rref>comment</rref></li>
 				<li><rref>definition</rref></li>
 				<li><rref>deletion</rref></li>
 				<li><rref>directory</rref></li>
@@ -656,6 +657,7 @@
 				<li><rref>legend</rref></li>
 				<li><rref>list</rref></li>
 				<li><rref>listitem</rref></li>
+				<li><rref>mark</rref></li>
 				<li><rref>math</rref></li>
 				<li><rref>meter</rref></li>
 				<li><rref>none</rref></li>
@@ -668,6 +670,7 @@
 				<li><rref>separator</rref> (when not focusable)</li>
 				<li><rref>strong</rref></li>
 				<li><rref>subscript</rref></li>
+				<li><rref>suggestion</rref></li>
 				<li><rref>superscript</rref></li>
 				<li><rref>table</rref></li>
 				<li><rref>term</rref></li>
@@ -935,7 +938,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><a href="https://www.w3.org/TR/di-gloss/#def-delivery-unit">Device Independence Delivery Unit</a></td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -1480,7 +1483,7 @@
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
 						<td class="role-inherited">Placeholder</td>
-					</tr>				
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">author</td>
@@ -1600,14 +1603,14 @@
 		<div class="role" id="caption">
 			<rdef>caption</rdef>
 			<div class="role-description">
-				<p>Visible content that names, and may also describe, a <rref>figure</rref>, <rref>table</rref>, or <rref>grid</rref>.</p>
+				<p>Visible content that names, and may also describe, a <rref>figure</rref>, <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>.</p>
 				<p>When using <code>caption</code> authors SHOULD ensure:</p>
 				<ul>
-					<li>The <code>caption</code> is a direct child of a <rref>figure</rref>, <rref>table</rref>, or <rref>grid</rref>.</li>
-					<li>The <code>caption</code> is the first child of a <rref>table</rref> or <rref>grid</rref>.</li>
+					<li>The <code>caption</code> is a direct child of a <rref>figure</rref>, <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>.</li>
+					<li>The <code>caption</code> is the first child of a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>.</li>
 					<li>The <code>caption</code> is the first or last child of a <rref>figure</rref>.</li>
 				</ul>
-				<p>Authors SHOULD set <pref>aria-labelledby</pref> on the parent <code>figure</code>, <code>table</code>, or <code>grid</code> to reference the element with role <code>caption</code>. However, if a <code>caption</code> contains content that serves as both a name and description for its parent, authors MAY instead set <pref>aria-labelledby</pref> to reference an element within the <code>caption</code> that contains a concise name, and set <pref>aria-describedby</pref> to reference an element within the <code>caption</code> that contains the descriptive content.</p>
+				<p>Authors SHOULD set <pref>aria-labelledby</pref> on the parent <code>figure</code>, <code>table</code>, <code>grid</code>, or <rref>treegrid</rref> to reference the element with role <code>caption</code>. However, if a <code>caption</code> contains content that serves as both a name and description for its parent, authors MAY instead set <pref>aria-labelledby</pref> to reference an element within the <code>caption</code> that contains a concise name, and set <pref>aria-describedby</pref> to reference an element within the <code>caption</code> that contains the descriptive content.</p>
 
 				<pre class="example highlight">
 					&lt;div role="table" aria-labelledby="name" aria-describedby="desc"&gt;
@@ -1652,11 +1655,12 @@
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
-						<td class="role-scope"> 
+						<td class="role-scope">
 							<ul>
 								<li><rref>figure</rref></li>
 								<li><rref>grid</rref></li>
 								<li><rref>table</rref></li>
+								<li><rref>treegrid</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -1682,9 +1686,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>		
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -1970,9 +1974,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>						
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -2107,7 +2111,6 @@
         <p>
           A <code>combobox</code> functionally combines a named input field with the ability to assist value selection via a supplementary popup element.
           A <code>combobox</code> input MAY be either a single-line text field that supports editing and typing or an element that only displays the current value of the <code>combobox</code>.
-          If an element with role <code>combobox</code> supports text input, authors MUST ensure that the text input has <pref>aria-multiline</pref> set to <code>false</code>.
           If the <code>combobox</code> supports text input and provides autocompletion behavior as described in <pref>aria-autocomplete</pref>, authors MUST set <pref>aria-autocomplete</pref> on the <code>combobox</code> element to the value that corresponds to the provided behavior.
         </p>
 				<p>
@@ -2281,7 +2284,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><code>&lt;menuitem&gt;</code></a> in [[HTML]]</td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -2306,6 +2309,107 @@
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">author</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired"> </td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="role" id="comment">
+			<rdef>comment</rdef>
+			<div class="role-description">
+				<p>A comment contains content expressing reaction to other content.</p>
+				<p>Comments can annotate any visible content, from small spans of text, to other comments, to entire articles. Authors SHOULD identify the relationships between comments and the commented content, as follows:</p>
+				<ol>
+					<li>If the comment is a reply to another <code>comment</code>:
+						<ul>
+							<li>If all ancestor comments are available in the DOM, make each reply <code>comment</code> a semantic descendant of the <code>comment</code> to which it is replying, either by making it a DOM descendant element or by using <pref>aria-owns</pref>.</li>
+							<li>Alternatively, if all ancestor comments are not in the DOM, such as when comments are paginated, the hierarchical
+								level MAY be indicated via <pref>aria-level</pref>. Additional group positional information MAY be indicated via <pref>aria-posinset</pref> and <pref>aria-setsize</pref>.</li>
+						</ul>
+					</li>
+					<li>Otherwise, if the comment relates to other content in the page:
+						<ul>
+							<li>Provide <pref>aria-details</pref> on the element containing the commented content with a value refering to the element with role <code>comment</code>.</li>
+							<li>If there are multiple comments related to the same commented content, either provide a value for <pref>aria-details</pref> on the commented content that refers to each individual comment, or use <pref>aria-details</pref> to refer to a parent container of the comments. If <pref>aria-details</pref> refers to an element containing comments rather than <code>comment</code> elements, authors SHOULD assign a role of <rref>group</rref> or <rref>region</rref> to the referenced container.</li>
+						</ul>
+					</li>
+				</ol>
+				<p>If the author has not explicitly declared <pref>aria-level</pref>, <pref>aria-posinset</pref>, or <pref>aria-setsize</pref> for a <code>comment</code> element, user agents MUST automatically compute the missing values and expose them to assistive technologies.</p>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>article</rref></td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-level</pref></li>
+								<li><pref>aria-posinset</pref></li>
+								<li><pref>aria-setsize</pref></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">
+							<ul>
+								<li>contents</li>
+								<li>author</li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -2694,9 +2798,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>							
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -2725,7 +2829,7 @@
 			<div class="role-description">
 				<p>A dialog is a descendant window of the primary window of a web application. For <abbr title="Hypertext Markup Language">HTML</abbr> pages, the primary application window is the entire web document, i.e., the <code>body</code> element.</p>
 				<p>Dialogs are most often used to prompt the user to enter or respond to information. A dialog that is designed to interrupt workflow is usually modal. See related <rref>alertdialog</rref>.</p>
-<p>Authors SHOULD provide a dialog label, which can be done with the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
+				<p>Authors MUST provide an accessible name for a dialog, which can be done with the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
 				<p>Authors SHOULD ensure that all dialogs (both modal and non-modal) have at least one focusable descendant element. Authors SHOULD focus an element in the modal dialog when it is displayed, and authors SHOULD manage focus of modal dialogs.</p>
 				<p class="note">In the description of this role, the term "web application" does not refer to the <rref>application</rref> role, which specifies specific assistive technology behaviors.</p>
 			</div>
@@ -2835,7 +2939,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><a href="http://www.daisy.org/z3986/2005/Z3986-2005.html#Guide"><abbr title="Digital Accessible Information System">DAISY</abbr> Guide</a></td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -2914,7 +3018,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><a href="https://www.w3.org/TR/di-gloss/#def-delivery-unit">Device Independence Delivery Unit</a></td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -3021,9 +3125,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>						
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -3220,7 +3324,7 @@
 			<div class="role-description">
 				<p>A <rref>landmark</rref> region that contains a collection of items and objects that, as a whole, combine to create a form. See related <rref>search</rref>.</p>
 				<p>A form may contain a mix of host language form controls, scripted controls, and hyperlinks. Authors are reminded to use native host language semantics to create form controls whenever possible. If the purpose of a form is to submit search criteria, authors SHOULD use the <rref>search</rref> role instead of the generic <code>form</code> role.</p>
-				<p>Authors MUST give each element with role <code>form</code> a brief label that describes the purpose of the form. Authors SHOULD reference a visible label with <pref>aria-labelledby</pref> if a visible label is present. Authors SHOULD include the label inside of a heading whenever possible. The heading MAY be an instance of the standard host language heading element or an instance of an element with role <rref>heading</rref>.</p> 
+				<p>Authors MUST give each element with role <code>form</code> a brief label that describes the purpose of the form. Authors SHOULD reference a visible label with <pref>aria-labelledby</pref> if a visible label is present. Authors SHOULD include the label inside of a heading whenever possible. The heading MAY be an instance of the standard host language heading element or an instance of an element with role <rref>heading</rref>.</p>
 				<p>If an author uses a script to submit a form based on a user action that would otherwise not trigger an <code>onsubmit</code> event (for example, a form submission triggered by the user changing a form element's value), the author SHOULD provide the user with advance notification of the behavior.</p>
 				<p>User agents SHOULD treat elements with the role of <code>form</code> as navigational <a>landmarks</a>.</p>
 			</div>
@@ -3357,6 +3461,7 @@
 						<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
 						<td class="role-disallowed">
 							<ul>
+								<li><pref>aria-brailleroledescription</pref></li>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
 								<li><pref>aria-roledescription</pref></li>
@@ -3696,7 +3801,7 @@
 			<rdef>heading</rdef>
 			<div class="role-description">
 				<p>A heading for a section of the page.</p>
-				<p>Often, <code>heading</code> elements will be referenced with the <pref>aria-labelledby</pref> <a>attribute</a> of the section for which they serve as a heading. To ensure headings are organized into a logical outline, authors MUST use the <pref>aria-level</pref> attribute to indicate the proper nesting level.</p>
+				<p>To ensure elements with a role of <code>heading</code> are organized into a logical outline, authors MUST use the <pref>aria-level</pref> attribute to indicate the proper nesting level.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -3980,9 +4085,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>						
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -4146,7 +4251,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related">&#160;</td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -4832,6 +4937,94 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="role" id="mark">
+			<rdef>mark</rdef>
+			<div class="role-description">
+				<p>Content which is marked or highlighted for reference or notation purposes, due to the content's relevance in the enclosing context.</p>
+				<p>Example uses for <code>mark</code> include:</p>
+				<ul>
+					<li>Highlighting text in a quotation which is of special interest but is not marked in the original source material, comparable to using a highlighter pen to mark passages of a print article.</li>
+					<li>Indicating portions of the content that are relevant to the user's current activity, such as highlighting text matches found by a search feature.</li>
+				</ul>
+				<p>Authors SHOULD NOT use <code>mark</code> for purely decorative styling such as syntax highlighting.</p>
+			</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>section</rref></td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"><code>&lt;mark&gt;</code> in [[HTML]]</td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
+						<td class="role-disallowed">
+							<ul>
+								<li><pref>aria-label</pref></li>
+								<li><pref>aria-labelledby</pref></li>
+							</ul>									 
+						</td>
+					</tr>													 
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">prohibited</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired"> </td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<div class="role" id="marquee">
 			<rdef>marquee</rdef>
 			<div class="role-description">
@@ -5171,12 +5364,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related">
-							<ul>
-								<li><rref>list</rref></li>
-								<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/accessibility/AccessibleRole.html#MENU"><abbr title="Java Accessibility Application Programing Interface">JAPI</abbr> MENU</a></li>
-							</ul>
-						</td>
+						<td class="role-related"><rref>list</rref></td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -5369,8 +5557,6 @@
 						<th class="role-related-head" scope="row">Related Concepts:</th>
 						<td class="role-related">
 							<ul>
-								<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/accessibility/AccessibleRole.html#MENU_ITEM">MENU_ITEM</a> in <abbr title="Java Accessibility Application Programing Interface">JAPI</abbr></li>
-								<li><code>&lt;menuitem&gt;</code></a> in [[HTML]]</li>
 								<li><rref>listitem</rref></li>
 								<li><rref>option</rref></li>
 							</ul>
@@ -5559,7 +5745,7 @@
 						<th class="role-parent-head" scope="row">Superclass Role:</th>
 						<td class="role-parent">
 							<ul>
-								<li><rref>menuitemcheckbox</rref> (see structure)</li>
+								<li><rref>menuitemcheckbox</rref></li>
 								<li><rref>radio</rref></li>
 							</ul>
 						</td>
@@ -6050,9 +6236,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>					
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -6143,16 +6329,19 @@
 				<section id="conflict_resolution_presentation_none">
 					<h5>Presentational Roles Conflict Resolution</h5>
 					<p>There are a number of ways presentational role conflicts are resolved.</p>
-					<p>Host languages elements having implicit presentational roles for which no roles may be applied MUST never be exposed in the accessibility tree, with this exception: user agents MUST always expose global WAI-ARIA states and properties to accessibility APIs. In this case, the user agent ignores the explicit or inherited <code>presentation</code> role and exposes the element as described in the accessibility API mappings for presentational objects which remain in the accessibility tree. However, user agents MUST ignore any non-global, role-specific WAI-ARIA states and properties, unless it is on an inherited presentational role where an explicit role is applied.</p>
-					<p>For example, <pref>aria-haspopup</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
+					<p>User agents MUST NOT expose <a>elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+					<ul>
+						<li>If an element is focusable, or otherwise interactive, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
+						<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+						<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
+					</ul>
+					<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
 					<pre class="example highlight">
-						<span class="comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-haspopup property. --&gt;</span>
-&lt;h1 role="presentation" aria-haspopup="true"&gt; Sample Content &lt;/h1&gt;
-						<span class="comment">&lt;!-- 2. [role="presentation"] negates the both the implicit 'heading' and the non-global level. --&gt;</span>
+<span class="comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-describedby property. --&gt;</span>
+&lt;h1 role="presentation" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+<span class="comment">&lt;!-- 2. [role="presentation"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
 &lt;h1 role="presentation" aria-level="2"&gt; Sample Content &lt;/h1&gt;
 					</pre>
-					<p>Explicit roles on a descendant or <a>owned</a> element override the inherited role of <code>presentation</code>, and cause the owned element to behave as any other element with an explicit role. If the action of exposing the implicit role causes the accessibility tree to be malformed, the expected results are undefined and the user agent MAY resort to an internal recovery mechanism to repair the accessibility tree.</p>
-					<p>If an element with a role of presentation is focusable, or otherwise interactive, user agents MUST ignore the normal effect of the role and expose the element with implicit native semantics, in order to ensure that the element is both <a>understandable</a> and <a>operable</a>.</p>
 				</section>
 			</div>
 			<table class="role-features">
@@ -6210,9 +6399,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>							
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -6247,7 +6436,7 @@
 						<li>If <code>aria-valuemax</code> is missing or not a <a href="#valuetype_number">number</a>, it defaults to 100.</li>
 					</ul>
 				</p>
-				<p>The author SHOULD supply a <span>value</span> for <pref>aria-valuenow</pref> unless the value is indeterminate, in which case the author SHOULD omit the <pref>aria-valuenow</pref> attribute. 
+				<p>The author SHOULD supply a <span>value</span> for <pref>aria-valuenow</pref> unless the value is indeterminate, in which case the author SHOULD omit the <pref>aria-valuenow</pref> attribute.
 				Authors SHOULD update this value when the visual progress indicator is updated. If the <code>progressbar</code> is describing the loading progress of a particular region of a page, the author SHOULD use <pref>aria-describedby</pref> to point to the status, and set the <sref>aria-busy</sref> attribute to <code>true</code> on the region until it is finished loading. It is not possible for the user to alter the value of a <code>progressbar</code> because it is always read-only.</p>
 				<p class="note">Assistive technologies generally will render the value of <pref>aria-valuenow</pref> as a percent of a range between the value of <pref>aria-valuemin</pref> and <pref>aria-valuemax</pref>, unless <pref>aria-valuetext</pref> is specified.</p>
 			</div>
@@ -6635,9 +6824,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related">
-						    <rref>section</rref>
-						</td>
+						<td class="role-related"><code>&lt;section&gt;</code> in [[HTML]]</td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -6716,12 +6903,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related">
-							<ul>
-								<li><a href="https://www.w3.org/TR/xhtml-role/#s_role_module_attributes"><abbr title="Extensible Hypertext Markup Language">XHTML</abbr> role</a></li>
-								<li><a href="http://dublincore.org/documents/2012/06/14/dcmi-terms/">Dublin Core type</a></li>
-							</ul>
-						</td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
@@ -8028,9 +8210,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>	
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -8096,7 +8278,7 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties">&#160;</td>
+						<td class="role-properties"> </td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -8190,9 +8372,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>						
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -8214,6 +8396,107 @@
 						<td class="role-presentational-inherited"> </td>
 					</tr>
 				</tbody>
+			</table>
+		</div>
+		<div class="role" id="suggestion">
+			<rdef>suggestion</rdef>
+			<div class="role-description">
+					<p>A single proposed change to content.</p>
+					<p>For example, in an editing system that supports multiple users, one user may suggest a change, and another user would be responsible
+					for accepting or rejecting the suggestion.</p>
+					<p>Authors MUST ensure that a <code>suggestion</code> contains either one <rref>insertion</rref> child or one <rref>deletion</rref> child or ensure that it contains two children where one is an <rref>insertion</rref> and the other is a <rref>deletion</rref>. Authors MUST ensure a <code>suggestion</code> does not contain any other children.</p>
+					<p>Authors MAY use <pref>aria-details</pref> or <pref>aria-description</pref> to associate the <code>suggestion</code> with related information such as comments, authoring info, and time stamps.</p>
+					<pre class="example highlight">
+						&lt;p&gt;
+						  The best pet is a
+						  &lt;span role="suggestion"&gt;
+						    &lt;span role="deletion"&gt;cat&lt;/span&gt;
+						    &lt;span role="insertion"&gt;dog&lt;/span&gt;
+						  &lt;/span&gt;
+						&lt;/p&gt;
+					</pre>
+					<p>When a suggestion is accepted, authors SHOULD remove the <code>suggestion</code> role, indicating that the proposed revision has been made.
+						After the <code>suggestion</code> role is removed, child <rref>insertion</rref> and <rref>deletion</rref> elements can either be retained to document the revision or replaced with the revised content.
+					  </p>
+			</div>
+			<table class="role-features">
+					<caption>Characteristics:</caption>
+					<thead>
+							<tr>
+									<th scope="col">Characteristic</th>
+									<th scope="col">Value</th>
+							</tr>
+					</thead>
+					<tbody>
+							<tr>
+									<th class="role-abstract-head" scope="row">Is Abstract:</th>
+									<td class="role-abstract"> </td>
+							</tr>
+							<tr>
+									<th class="role-parent-head" scope="row">Superclass Role:</th>
+									<td class="role-parent"><rref>section</rref></td>
+							</tr>
+							<tr>
+									<th class="role-base-head" scope="row">Base Concept:</th>
+									<td class="role-base"> </td>
+							</tr>
+							<tr>
+									<th class="role-related-head" scope="row">Related Concepts:</th>
+									<td class="role-related"> </td>
+							</tr>
+							<tr>
+									<th class="role-scope-head" scope="row">Required Context Role:</th>
+									<td class="role-scope"> </td>
+							</tr>
+							<tr>
+									<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+									<td class="role-mustcontain">
+											<li><rref>insertion</rref></li>
+											<li><rref>deletion</rref></li>
+									</td>
+							</tr>
+							<tr>
+									<th class="role-required-properties-head">Required States and Properties:</th>
+									<td class="role-required-properties"> </td>
+							</tr>
+							<tr>
+									<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+									<td class="role-properties"> </td>
+							</tr>
+							<tr>
+									<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+									<td class="role-inherited">Placeholder</td>
+							</tr>
+							<tr>
+									<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
+									<td class="role-disallowed">
+											<ul>
+													<li><pref>aria-label</pref></li>
+													<li><pref>aria-labelledby</pref></li>
+											</ul>
+									</td>
+							</tr>
+							<tr>
+									<th class="role-namefrom-head" scope="row">Name From:</th>
+									<td class="role-namefrom">prohibited</td>
+							</tr>
+							<tr>
+									<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+									<td class="role-namerequired"> </td>
+							</tr>
+							<tr>
+									<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+									<td class="role-namerequired-inherited"> </td>
+							</tr>
+							<tr>
+									<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+									<td class="role-childpresentational"> </td>
+							</tr>
+							<tr>
+									<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+									<td class="role-presentational-inherited"> </td>
+							</tr>
+					</tbody>
 			</table>
 		</div>
 		<div class="role" id="superscript">
@@ -8277,9 +8560,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>					
+							</ul>
 						</td>
-					</tr>						
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -8634,7 +8917,7 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><a href="http://www.daisy.org/z3986/2005/Z3986-2005.html#Guide"><abbr title="Digital Accessible Information System">DAISY</abbr> Guide</a></td>
+						<td class="role-related"> </td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -9886,8 +10169,6 @@
 				<dd>One of a limited set of allowed values. An explicit value of <code>undefined</code> for this type is the equivalent of providing no value.</dd>
 				<dt id="valuetype_token_list">token list</dt>
 				<dd>A list of one or more tokens.</dd>
-				<dt id="valuetype_uri">URI</dt>
-				<dd>A Uniform Resource Identifier as defined by <cite><a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a></cite> [[RFC3986]]. It may reference a separate document, or a content fragment identifier in a separate document, or a content fragment identifier within the same document.</dd>
 			</dl>
 			<p>These are generic types for states and properties, but do not define specific representation. See <a href="#state_property_processing">State and Property Attribute Processing</a> for details on how these values are expressed and handled in host languages.</p>
 		</section>
@@ -10007,7 +10288,7 @@
 				<ol>
 					<li>The value of <code>aria-activedescendant</code> refers to an element that is either a descendant of the element with DOM focus or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute.</li>
 					<li>
-            The element with DOM focus is a <rref>combobox</rref> or <rref>textbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> refers to either a descendant of the controlled element or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute.
+            The element with DOM focus is a <rref>combobox</rref>, <rref>textbox</rref> or <rref>searchbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> refers to either a descendant of the controlled element or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute.
             For example, in a <rref>combobox</rref>, focus may remain on the <rref>combobox</rref> while the value of <code>aria-activedescendant</code> on the <rref>combobox</rref> element refers to a descendant of a popup <rref>listbox</rref> that is controlled by the <rref>combobox</rref>.
           </li>
 				</ol>
@@ -10172,6 +10453,64 @@
 					<tr>
 						<th class="value-name" scope="row"><strong class="default">none (default)</strong></th>
 						<td class="value-description">When a user is providing input, an automatic suggestion that attempts to predict how the user intends to complete the input is not displayed.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="property" id="aria-brailleroledescription">
+			<pdef>aria-brailleroledescription</pdef>
+			<div class="property-description">
+				<p>Defines a human-readable, author-localized abbreviated description for the <a>role</a> of an <a>element</a>, which is intended to be converted into Braille. See related <pref>aria-roledescription</pref>.</p>
+				<p>Some <a>assistive technologies</a>, such as screen readers, present the role of an element as part of the user experience. Such assistive technologies typically localize the name of the role, and they may customize it as well. Users of these assistive technologies depend on the presentation of the role name, such as "region," "button," or "slider," for an understanding of the purpose of the element and, if it is a widget, how to interact with it.</p>
+				<p>The <code>aria-brailleroledescription</code> property gives authors the ability to override how <a>assistive technologies</a> localize and express the name of a role in Braille. Thus inappropriately using <code>aria-brailleroledescription</code> may inhibit users' ability to understand or interact with an element on braille interfaces. Authors SHOULD limit use of <code>aria-brailleroledescription</code> to clarifying the purpose of non-interactive container roles like <rref>group</rref> or <rref>region</rref>, or to providing a <em>more specific</em> description of a <rref>widget</rref> in a braille context.</p>
+				<p>Authors MUST NOT use <code>aria-brailleroledescription</code> without providing <code>aria-roledescription</code>. In general, <code>aria-brailleroledescription</code> should only be used in rare cases when a <code>aria-roledescription</code> is excessively verbose when rendered in Braille.</p>
+				<p> When using <code>aria-brailleroledescription</code>, authors SHOULD also ensure that:</p>
+				<ol>
+					<li>The element to which <code>aria-brailleroledescription</code> is applied has a valid <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role or has an implicit WAI-ARIA role semantic.</li>
+					<li>The value of <code>aria-brailleroledescription</code> is not empty or does not contain only whitespace characters.</li>
+					<li>The value of <code>aria-brailleroledescription</code> does not contain any characters in Unicode Braille Patterns (U+2800..U+28FF) or consists of only characters in Unicode Braille Patterns (U+2800..U+28FF) while not only containing Braille Pattern dots-0 (U+2800).</li>
+					<li>The value of <code>aria-brailleroledescription</code> should not be identical to the element's WAI-ARIA <code>aria-roledescription</code>, WAI-ARIA <code>role</code> or implicit WAI-ARIA role semantic.</li>
+				</ol>
+				<p class="note">Note that <a>Assistive Technologies</a> with braille support can convert <code>aria-roledescription</code> content to Braille. In addition, assistive technologies will be able to customize such braille output according to user preferences. Using only <code>aria-roledescription</code> is <strong>almost always</strong> the better user experience and authors are <strong>strongly discouraged</strong> from using <code>aria-brailleroledescription</code> to replicate <code>aria-roledescription</code>. Instead, <code>aria-brailleroledescription</code> is meant to be used only when <code>aria-roledescription</code> cannot provide an adequate braille representation, i.e., when a specialized braille description is very different from a text description converted to Braille. It is very important to note that when using <code>aria-brailleroledescription</code> authors are solely responsible to align the attribute value with the document language and clearly communicate the use of this attribute to the user. This is even more important when the value consists of Unicode Braille Patterns because <a>Assistive Technologies</a> will pass such content directly to the user without applying user specific braille translations; in general, authors are <strong>strongly discouraged</strong> from using Unicode Braille Patterns in <code>aria-brailleroledescription</code>.
+				</p>
+				<p>User agents MUST NOT expose the <code>aria-brailleroledescription</code> property if any of the following conditions exist:</p>
+				<ol>
+					<li>The element to which <code>aria-brailleroledescription</code> is applied does not have a valid WAI-ARIA <code>role</code> or does not have an implicit WAI-ARIA role semantic.</li>
+					<li>The value of <code>aria-brailleroledescription</code> is empty or contains only whitespace characters or contains only Braille Pattern dots-0 (U+2800).</li>
+					<li>The element to which <code>aria-brailleroledescription</code> is applied does not have a valid WAI-ARIA <code>aria-roledescription</code>.</li>
+				</ol>
+				<p><a>Assistive technologies</a> SHOULD use the value of <code>aria-brailleroledescription</code> when presenting the role of an element in Braille, but SHOULD NOT change other functionality based on the role of an element that has a value for <code>aria-brailleroledescription</code>. For example, an assistive technology that provides functions for navigating to the next <rref>region</rref> or <rref>button</rref> SHOULD allow those functions to navigate to regions and buttons that have an <code>aria-brailleroledescription</code>.</p>
+				<p><a>Assistive technologies</a> SHOULD expose the <code>aria-brailleroledescription</code> property as follows:</p>
+				<ol>
+					<li>If the value of <code>aria-brailleroledescription</code> does not contain characters in Unicode Braille Patterns (U+2800..U+28FF), translate the value according to the user's preferred translation table.</li>
+					<li>Otherwise, pass the value to the user without translation.</li>
+				</ol>
+				<p>The following example shows the use of <code>aria-brailleroledescription</code> to indicate that a button's description has a particular braille contraction.</p>
+				<pre class="example highlight">&lt;button aria-roledescription="planet" aria-brailleroledescription="pln" id="jupiter"&gt;
+&lt;img alt="jupiter" src="images/jupiter.jpg"/&gt;
+&lt;/button&gt;</pre>
+				<p>In the previous example, a braille display may display "pln Jupiter" in Braille rather than the verbose "planet Jupiter".</p>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">All elements of the base markup</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_string">string</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10672,8 +11011,8 @@
 		<div class="property" id="aria-describedby">
 			<pdef>aria-describedby</pdef>
 			<div class="property-description">
-				<p>Identifies the <a>element</a> (or elements) that describes the <a>object</a>. See related <pref>aria-labelledby</pref>.</p>
-				<p>The <pref>aria-labelledby</pref> attribute is similar to the <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative, but a label should be concise, where a description is intended to provide more verbose information.</p>
+				<p>Identifies the <a>element</a> (or elements) that describes the <a>object</a>. See related <pref>aria-labelledby</pref> and <pref>aria-description</pref>.</p>
+				<p>The <pref>aria-labelledby</pref> attribute is similar to <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative, but a label should be concise, where a description is intended to provide more verbose information.</p>
 				<!-- keep previous sentence synced with the associated description in #aria-labelledby -->
 				<p>The element or elements referenced by the aria-describedby comprise the entire description. Include ID references to multiple elements if necessary, or enclose a set of elements (e.g., paragraphs) with the element referenced by the ID.</p>
 			</div>
@@ -10711,13 +11050,63 @@
 				</tbody>
 			</table>
 		</div>
-                <div class="property" id="aria-details">
+		<div class="property" id="aria-description">
+			<pdef>aria-description</pdef>
+			<div class="property-description">
+				<p>Defines a string value that describes or annotates the current element. See related <pref>aria-describedby</pref>.</p>
+				<p>The <pref>aria-description</pref> attribute is similar to <pref>aria-label</pref> in that both provide a flat string to associate with the element, but a label should be concise, whereas a description is intended to provide more verbose information.</p>
+				<p>The purpose of <pref>aria-description</pref> is the same as that of <pref>aria-describedby</pref>. It provides the user with additional descriptive text for the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a description is the <a>accessible description</a> property. User agents MUST give precedence to <pref>aria-describedby</pref> over <pref>aria-description</pref> when computing the accessible description property.</p>
+				<p>In cases where providing a visible description is not the desired user experience, authors MAY set the accessible description of the element using <pref>aria-description</pref>. However, if the description text is available in the DOM, authors SHOULD NOT use <pref>aria-description</pref>, but should use one of the following instead:</p>
+				<ul>
+					<li>Authors SHOULD use <pref>aria-describedby</pref> when the related description or annotation elements contain a simple, small description that is best experienced as a flat string, rather than by having the user navigate to them.</li>
+					<li>Authors SHOULD use <pref>aria-details</pref> when the related description or annotation elements contain useful semantics or structure, or there is a lot of content within them, making it difficult to experience as a flat string. Using <pref>aria-details</pref> will allow assistive technology users to visit the structured content and provide additional navigation commands, making it easier to understand the structure, or to experience the information in smaller pieces.</li>
+				</ul>
+			</div>
+			<table class="property-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="property-related-head" scope="row">Related Concepts:</th>
+						<td class="property-related"><code>title</code> attribute in [[HTML]]</td>
+					</tr>
+					<tr>
+						<th class="property-applicability-head" scope="row">Used in Roles:</th>
+						<td class="property-applicability">All elements of the base markup</td>
+					</tr>
+					<tr>
+						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
+						<td class="property-descendants">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="property-value-head" scope="row">Value:</th>
+						<td class="property-value"><a href="#valuetype_string">string</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="property" id="aria-details">
 			<pdef>aria-details</pdef>
 			<div class="property-description">
-				<p>Identifies the <a>element</a> that provides a detailed, extended description for the <a>object</a>. See related <pref>aria-describedby</pref>.</p>
-				<p>The <code>aria-details</code> attribute references a single element that provides more detailed information than would normally be provided by <pref>aria-describedby</pref>. It enables <a>assistive technologies</a> to make users aware of the availability of an extended description as well as navigate to it. Authors SHOULD ensure the element referenced by <code>aria-details</code> is visible to all users.</p>
-				<p>Unlike elements referenced by <code>aria-describedby</code>, the element referenced by <code>aria-details</code> is not used in either the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_name">Name Computation</a> or the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of an element referenced by <code>aria-details</code> is not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended description more difficult to understand.</p>
-				<p>In some user agents, multiple reference relationships for descriptive information are not supported by the accessibility API. In such cases, if both <pref>aria-describedby</pref> and <code>aria-details</code> are provided on an element, <code>aria-details</code> takes precedence.</p>
+				<p>Identifies the <a>element</a> (or elements) that provide additional information related to the <a>object</a>. See related <pref>aria-describedby</pref>.</p>
+				<p>The <code>aria-details</code> property is for referencing elements that provide more detailed information than would normally be provided via <pref>aria-describedby</pref>. The presence of <code>aria-details</code> enables <a>assistive technologies</a> to make users aware of the availability of extended information and navigate to it. Authors SHOULD ensure that elements referenced by <code>aria-details</code> are visible to all users.</p>
+				<p>Assistive technologies MAY use the role of elements referenced by the <code>aria-details</code> property to help users understand the types of information associated with the element. Authors MAY convey the type of details associated with an element as follows:</p>
+				<ul>
+					<li>Comment: <code>aria-details</code> refers to an element with role <rref>comment</rref>.</li>
+					<li>Definition: <code>aria-details</code> is applied to an element with role <rref>term</rref> and refers to an element with role <rref>definition</rref>.</li>
+					<li>Footnote: <code>aria-details</code> refers to an element with role <code>doc-footnote</code>. This role is defined in [[DPUB-ARIA-1.0]].</li>
+					<li>Endnote: <code>aria-details</code> refers to an element with role <code>doc-endnote</code>. This role is defined in [[DPUB-ARIA-1.0]].</li>
+					<li>Description or general annotation: <code>aria-details</code> refers to an element with any other role.</li>
+				</ul>
+
+				<p>Unlike elements referenced by <code>aria-describedby</code>, elements referenced by <code>aria-details</code> are not used in the Accessible <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd_description">Description Computation</a> as defined in the Accessible Name and Description specification [[ACCNAME-1.1]]. Thus, the content of elements referenced by <code>aria-details</code> are not flattened to a string when presented to assistive technology users. This makes <code>aria-details</code> particularly useful when converting the information to a string would cause a loss of information or make the extended information more difficult to understand.</p>
+				<p>The <code>aria-details</code> property supports referring to multiple elements. For example, a paragraph in a document editor may reference multiple comments that are not related to each other. If a user agent relies on an accessibility API that does not support exposing multiple descriptive relations, the user agent SHOULD expose the relationship to the first element referenced by <code>aria-details</code>.</p>
+				<p>It is valid for an element to have both <code>aria-details</code> and a description specified with either <code>aria-describedby</code> or <code>aria-description</code>. If a user agent relies on an accessibility API that does not support exposing multiple descriptive relations, and if an element has both <code>aria-details</code> and <rref>aria-describedby</rref>, the user agent SHOULD expose the <code>aria-details</code> relation and the description string computed from the <rref>aria-describedby</rref> relationship.</p>
 				<p>A common use for <code>aria-details</code> is in digital publishing where an extended description needs to be conveyed in a book that requires structural markup or the embedding of other technology to provide illustrative content. The following example demonstrates this scenario.</p>
 				<pre class="example highlight">
                                 &lt;!-- Provision of an extended description --&gt;
@@ -10735,7 +11124,7 @@
                                   &lt;/p&gt;
                                   &lt;object data="skatebd-ramp.svg"  type="image/svg+xml"&gt;&lt;/object&gt;
                                   &lt;p&gt;
-                                    In this example you will notice a skateboard with a base and vertical board whose width
+                                    In this example you will notice a skateboard ramp with a base and vertical board whose width
                                     is the width of the ramp. To compute how long the ramp must be, simply calculate the
                                     base length, square it, sum it with the square of the height of the ramp, and take the
                                     square root of the sum.
@@ -10766,7 +11155,7 @@
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
+						<td class="property-value"><a href="#valuetype_idref_list">ID reference list</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10920,6 +11309,7 @@
 				&lt;input id="startTime" type="text" aria-errormessage="msgID" aria-invalid="true" value="11:30 PM" &gt;
 				&lt;span id="msgID" aria-live="assertive"&gt;&lt;span style="visibility:visible"&gt;Invalid time: the time must be between 9:00 AM and 5:00 PM&lt;/span&gt;&lt;/span&gt;
 				</pre>
+				<p class="note">This example uses <code>aria-live="assertive"</code> to indicate that assistive technologies should immediately announce the error message rather than completing other queued announcements first. This increases the likelihood that users are aware of the error message before they move focus out of the input.</p>
       </div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -11362,7 +11752,7 @@
 			<div class="property-description">
 				<p>Defines a string value that labels the current element. See related <pref>aria-labelledby</pref>.</p>
 				<p>The purpose of <pref>aria-label</pref> is the same as that of <pref>aria-labelledby</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
-				<p>If the label text is visible on screen, authors SHOULD use <pref>aria-labelledby</pref> and SHOULD NOT use <pref>aria-label</pref>. There may be instances where the name of an element cannot be determined programmatically from the content of the element, and there are cases where providing a visible label is not the desired user experience. Most host languages provide an attribute that could be used to name the element (e.g., the <code>title</code> attribute in [[HTML]]), yet this could present a browser tooltip. In the cases where a visible label or visible tooltip is undesirable, authors MAY set the accessible name of the element using <pref>aria-label</pref>. As required by the <a href="#textalternativecomputation">accessible name and description computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <pref>aria-label</pref> when computing the accessible name property.</p>
+				<p>If the label text is available in the DOM (i.e. typically visible text content), authors SHOULD use <pref>aria-labelledby</pref> and SHOULD NOT use <pref>aria-label</pref>. There may be instances where the name of an element cannot be determined programmatically from the DOM, and there are cases where referencing DOM content is not the desired user experience. Most host languages provide an attribute that could be used to name the element (e.g., the <code>title</code> attribute in [[HTML]]), yet this could present a browser tooltip. In the cases where DOM content or a tooltip is undesirable, authors MAY set the accessible name of the element using <pref>aria-label</pref>. As required by the <a href="#textalternativecomputation">accessible name and description computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <pref>aria-label</pref> when computing the accessible name property.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -11375,7 +11765,7 @@
 				<tbody>
 					<tr>
 						<th class="property-related-head" scope="row">Related Concepts:</th>
-						<td class="property-related"><code>title</code> attribute in [[HTML]]</td>
+						<td class="property-related"> </td>
 					</tr>
 					<tr>
 						<th class="property-applicability-head" scope="row">Used in Roles:</th>
@@ -11395,7 +11785,7 @@
 		<div class="property" id="aria-labelledby">
 			<pdef>aria-labelledby</pdef>
 			<div class="property-description">
-				<p>Identifies the <a>element</a> (or elements) that labels the current element. See related <pref>aria-describedby</pref>.</p>
+				<p>Identifies the <a>element</a> (or elements) that labels the current element. See related <pref>aria-label</pref> and <pref>aria-describedby</pref>.</p>
 				<p>The purpose of <pref>aria-labelledby</pref> is the same as that of <pref>aria-label</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
 				<p>If the interface is such that it is not possible to have a visible label on the screen, authors SHOULD use <pref>aria-label</pref> and SHOULD NOT use <pref>aria-labelledby</pref>. As required by the <a href="#textalternativecomputation">accessible name and description computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <pref>aria-label</pref> when computing the accessible name property.</p>
 				<p>The <pref>aria-labelledby</pref> attribute is similar to <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative, but a label should be concise, where a description is intended to provide more verbose information.</p>
@@ -11792,6 +12182,7 @@
 				<p>Authors SHOULD NOT use <pref>aria-placeholder</pref> instead of a label as their purposes are different: The label indicates what kind of information is expected. The placeholder text is a hint about the expected value. See related <pref>aria-labelledby</pref> and <pref>aria-label</pref>.</p>
 				<p>Authors SHOULD present this hint to the user by displaying the hint text at any time the control's <span>value</span> is the empty string. This includes cases where the control first receives focus, and when users remove a previously-entered value.</p>
 				<p class="note">As is the case with the related <code>placeholder</code> attribute in [[HTML]], use of placeholder text as a replacement for a displayed label can reduce the accessibility and usability of the control for a range of users including older users and users with cognitive, mobility, fine motor skill or vision impairments. While the hint given by the control's label is shown at all times, the short hint given in the placeholder attribute is only shown before the user enters a value. Furthermore, placeholder text may be mistaken for a pre-filled value, and as commonly implemented the default color of the placeholder text provides insufficient contrast and the lack of a separate visible label reduces the size of the hit region available for setting focus on the control.</p>
+				<p class="note">The following examples do not use the HTML <code>label</code> element as it cannot be used to label HTML elements with <code>contenteditable</code>.</p>
 				<p>The following example shows a <rref>searchbox</rref> in which the user has entered a value:</p>
 				<pre class="example highlight">
 &lt;span id="label"&gt;Birthday:&lt;/span&gt;
@@ -12165,64 +12556,6 @@
 						<th class="property-related-head" scope="row">Related Concepts:</th>
 						<td class="property-related"> </td>
 					</tr>
-					<tr>
-						<th class="property-applicability-head" scope="row">Used in Roles:</th>
-						<td class="property-applicability">All elements of the base markup</td>
-					</tr>
-					<tr>
-						<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
-						<td class="property-descendants">Placeholder</td>
-					</tr>
-					<tr>
-						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_string">string</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="property" id="aria-brailleroledescription">
-			<pdef>aria-brailleroledescription</pdef>
-			<div class="property-description">
-				<p>Defines a human-readable, author-localized Braille description for the <a>role</a> of an <a>element</a>.</p>
-				<p>Some <a>assistive technologies</a>, such as screen readers, present the role of an element as part of the user experience. Such assistive technologies typically localize the name of the role, and they may customize it as well. Users of these assistive technologies depend on the presentation of the role name, such as "region," "button," or "slider," for an understanding of the purpose of the element and, if it is a widget, how to interact with it.</p>
-				<p>The <code>aria-brailleroledescription</code> property gives authors the ability to override how <a>assistive technologies</a> localize and express the name of a role in Braille. Thus inappropriately using <code>aria-brailleroledescription</code> may inhibit users' ability to understand or interact with an element on Braille interfaces. Authors SHOULD limit use of <code>aria-brailleroledescription</code> to clarifying the purpose of non-interactive container roles like <rref>group</rref> or <rref>region</rref>, or to providing a <em>more specific</em> description of a <rref>widget</rref> in a Braille context.</p>
-				<p>Authors MUST NOT use <code>aria-brailleroledescription</code> without providing a <em>more specific</em> <code>aria-roledescription</code>. In general, <code>aria-brailleroledescription</code> should only be used in rare cases when a <code>aria-roledescription</code> does not suffice.</p>
-				<p> When using <code>aria-brailleroledescription</code>, authors SHOULD also ensure that:</p>
-				<ol>
-					<li>The element to which <code>aria-brailleroledescription</code> is applied has a valid <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role or has an implicit WAI-ARIA role semantic.</li>
-					<li>The value of <code>aria-brailleroledescription</code> is not empty or does not contain only whitespace characters.</li>
-					<li>The value of <code>aria-brailleroledescription</code> consists of a string of either Unicode with no Unicode Braille Patterns (U+2800..U+28FF) or consists of a string of only Unicode Braille Patterns (U+2800..U+28FF) while not only containing Braille Pattern dots-0 (U+2800).</li>
-				</ol>
-				<p class="note">Note that <a>Assistive Technologies</a> with Braille support can convert <code>aria-roledescription</code> content to Braille. In addition, assistive technologies will be able to customize such Braille output according to user preferences. Using only <code>aria-roledescription</code> is <strong>almost always</strong> the better user experience and authors are <strong>strongly discouraged</strong> from using <code>aria-brailleroledescription</code> to replicate <code>aria-roledescription</code>. Instead, <code>aria-brailleroledescription</code> is meant be used only when <code>aria-roledescription</code> cannot provide an adequate Braille representation, i.e., when a specialized Braille description is very different from a text description converted to Braille. It is very important to note that when using <code>aria-brailleroledescription</code> authors are solely responsible to align the attribute value with the document language and clearly communicate the use of this attribute to the user. This is even more important when the value consists of Unicode Braille Patterns because <a>Assistive technologies</a> will pass such content directly to the user without applying user specific Braille translations; in general, authors are <strong>strongly discouraged</strong> from using Unicode Braille Patterns in <code>aria-brailleroledescription</code>.
-				</p>
-				<p>User agents MUST NOT expose the <code>aria-brailleroledescription</code> property if any of the following conditions exist:</p>
-				<ol>
-					<li>The element to which <code>aria-brailleroledescription</code> is applied does not have a valid WAI-ARIA <code>role</code> or does not have an implicit WAI-ARIA role semantic.</li>
-					<li>The value of <code>aria-brailleroledescription</code> is empty or contains only whitespace characters or contains only Braille Pattern dots-0 (U+2800).</li>
-					<li>The element to which <code>aria-brailleroledescription</code> is applied does not have a valid WAI-ARIA <code>aria-roledescription</code>.</li>
-					<li>The element to which <code>aria-brailleroledescription</code> is applied has a valid WAI-ARIA <code>aria-roledescription</code> that is identical to a WAI-ARIA <code>role</code> or an implicit WAI-ARIA role semantic.</li>
-				</ol>
-				<p><a>Assistive technologies</a> SHOULD use the value of <code>aria-brailleroledescription</code> when presenting the role of an element in Braille, but SHOULD NOT change other functionality based on the role of an element that has a value for <code>aria-brailleroledescription</code>. For example, an assistive technology that provides functions for navigating to the next <rref>region</rref> or <rref>button</rref> SHOULD allow those functions to navigate to regions and buttons that have an <code>aria-brailleroledescription</code>.</p>
-				<p><a>Assistive technologies</a> SHOULD expose the <code>aria-brailleroledescription</code> property as follows:</p>
-				<ol>
-					<li>If the value of <code>aria-brailleroledescription</code> consists only of Unicode characters that are not Unicode Braille Patterns, translate the value according to the user's preferred translation table.</li>
-					<li>If the value of <code>aria-brailleroledescription</code> consists only of Unicode Braille Patterns characters, pass the value to the user without translation.</li>
-				</ol>
-				<p>The following two examples show the use of <code>aria-brailleroledescription</code> to indicate that a button's description has a particular Braille contraction.</p>
-				<pre class="example highlight">&lt;button aria-roledescription="planet" aria-brailleroledescription="pln" id="jupiter" aria-label="jupiter"&gt;
-&lt;img alt\="" src\="images/jupiter.jpg"/&gt;
-&lt;/button&gt;</pre>
-				<p>In the previous example, a Braille display may display "Jupiter, pln" in Braille rather than the verbose "Jupiter, planet".</p>
-			</div>
-			<table class="property-features">
-				<caption>Characteristics:</caption>
-				<thead>
-					<tr>
-						<th scope="col">Characteristic</th>
-						<th scope="col">Value</th>
-					</tr>
-				</thead>
-				<tbody>
 					<tr>
 						<th class="property-applicability-head" scope="row">Used in Roles:</th>
 						<td class="property-applicability">All elements of the base markup</td>
@@ -12731,7 +13064,7 @@
 				<p>The value of <pref>aria-valuenow</pref> is a decimal number. If the range is a set of numeric values, then <pref>aria-valuenow</pref> is one of those values. For example, if the range is [0, 1], a valid <pref>aria-valuenow</pref> is 0.5. A value outside the range, such as -2.5 or 1.1, is invalid.</p>
 				<p>For <rref>progressbar</rref> elements and <rref>scrollbar</rref> elements, assistive technologies SHOULD render the value to users as a percent, calculated as a position on the range from <pref>aria-valuemin</pref> to <pref>aria-valuemax</pref> if both are defined, otherwise the actual value with a percent indicator. For elements with role <rref>slider</rref> and <rref>spinbutton</rref>, assistive technologies SHOULD render the actual value to users.</p>
 				<p>When the rendered value cannot be accurately represented as a number, authors SHOULD use the <pref>aria-valuetext</pref> attribute in conjunction with <pref>aria-valuenow</pref> to provide a user-friendly representation of the range's current value. For example, a slider may have rendered values of <code>small</code>, <code>medium</code>, and <code>large</code>. In this case, the values of <pref>aria-valuetext</pref> would be one of the strings: <code>small</code>, <code>medium</code>, or <code>large</code>.</p>
-				<p class="note">If <rref>aria-valuetext</rref> is specified, assistive technologies render that instead of the value of <pref>aria-valuenow</pref>.</p>
+				<p class="note">If <pref>aria-valuetext</pref> is specified, assistive technologies render that instead of the value of <pref>aria-valuenow</pref>.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -12768,7 +13101,7 @@
 				<p>This property is used, for example, on a range widget such as a slider or progress bar.</p>
 				<p>If the <pref>aria-valuetext</pref> attribute is set, authors SHOULD also set the <pref>aria-valuenow</pref> attribute, unless that value is unknown (for example, on an indeterminate <rref>progressbar</rref>).</p>
 				<p>Authors SHOULD only set the <pref>aria-valuetext</pref> attribute when the rendered value cannot be meaningfully represented as a number. For example, a slider may have rendered values of <code>small</code>, <code>medium</code>, and <code>large</code>. In this case, the values of <pref>aria-valuenow</pref> could range from 1 through 3, which indicate the position of each value in the value space, but the <pref>aria-valuetext</pref> would be one of the strings: <code>small</code>, <code>medium</code>, or <code>large</code>. If the <pref>aria-valuetext</pref> attribute is absent, the <a>assistive technologies</a> will rely solely on the <pref>aria-valuenow</pref> attribute for the current value.</p>
-				<p>If aria-valuetext is specified, assistive technologies SHOULD render that value instead of the value of <rref>aria-valuenow</rref>.</p>
+				<p>If <pref>aria-valuetext</pref> is specified, assistive technologies SHOULD render that value instead of the value of <pref>aria-valuenow</pref>.</p>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
@@ -12808,7 +13141,7 @@
 	  <p>The following <a>elements</a> are not exposed via the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
 	  <ul>
 	    <li>Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional and depends on other factors. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a> section.</li>
-	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code>, <code>visibility:hidden</code>, or the HTML 5 <code>hidden</code> attribute.</li>
+	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code>, <code>visibility:hidden</code>, or the HTML <code>hidden</code> attribute.</li>
           </ul>
 	  <p>If not already excluded from the accessibility tree per the above rules, user agents SHOULD NOT include the following elements in the accessibility tree:</p>
 	  <ul>
@@ -12879,7 +13212,7 @@
 	</section>
 	<section id="host_general_focus">
 		<h2>Focus Navigation</h2>
-		<p>An implementing host language MUST provide support for the author to make all interactive elements focusable, that is, any renderable or event-receiving elements. An implementing host language MUST provide a facility to allow web authors to define whether these focusable, interactive elements appear in the default tab navigation order. The <code>tabindex</code> <a>attribute</a> in <abbr title="Hypertext Markup Language">HTML</abbr> 5 is an example of one implementation.</p>
+		<p>An implementing host language MUST provide support for the author to make all interactive elements focusable, that is, any renderable or event-receiving elements. An implementing host language MUST provide a facility to allow web authors to define whether these focusable, interactive elements appear in the default tab navigation order. The <code>tabindex</code> <a>attribute</a> in <abbr title="Hypertext Markup Language">HTML</abbr> is an example of one implementation.</p>
 	</section>
 	<section id="implicit_semantics">
 		<h2>Implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Semantics</h2>
@@ -12899,6 +13232,7 @@
 		<p>Certain ARIA features are critical to building a complete model in the accessibility API. Such features are not expected to conflict with native host language semantics (though they may complement them). Therefore, host languages MUST NOT declare strong native semantics that prevent use of the following ARIA features:</p>
 		<ul>
 			<li><pref>aria-describedby</pref></li>
+			<li><pref>aria-description</pref></li>
 			<li><pref>aria-label</pref></li>
 			<li><pref>aria-labelledby</pref></li>
 		</ul>
@@ -13126,7 +13460,8 @@
 				attribute FrozenArray&lt;Element&gt;? ariaControlsElements;
 				attribute DOMString? ariaCurrent;
 				attribute FrozenArray&lt;Element&gt;? ariaDescribedByElements;
-				attribute Element? ariaDetailsElement;
+				attribute DOMString? ariaDescription;
+				attribute FrozenArray&lt;Element&gt;? ariaDetailsElements;
 				attribute DOMString? ariaDisabled;
 				attribute Element? ariaErrorMessageElement;
 				attribute DOMString? ariaExpanded;
@@ -13182,7 +13517,8 @@
 				<tr><td><dfn>ariaControlsElements</dfn></td><td><pref>aria-controls</pref></td></tr>
 				<tr><td><dfn>ariaCurrent</dfn></td><td><sref>aria-current</sref></td></tr>
 				<tr><td><dfn>ariaDescribedByElements</dfn></td><td><pref>aria-describedby</pref></td></tr>
-				<tr><td><dfn>ariaDetailsElement</dfn></td><td><pref>aria-details</pref></td></tr>
+				<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
+				<tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr>
 				<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
 				<tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr>
 				<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
@@ -13345,6 +13681,10 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 <section class="appendix" id="changelog">
 	<h2>Change Log</h2>
 	<section>
+		<h2>Substantive changes targetted for the 1.3 release</h2>
+		<ul>
+			<li>15-Jan-2020: Role <rref>mark</rref>: Added</li>
+		</ul>
 		<h2>Substantive changes since the last public working draft</h2>
 		<ul>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
