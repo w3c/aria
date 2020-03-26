@@ -367,7 +367,7 @@
 	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all <a>elements</a>. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
 	    <p>
         Authors MAY use <pref>aria-activedescendant</pref> to inform <a>assistive technologies</a> which descendant of a <rref>widget</rref> element is treated as having keyboard focus in the user interface if the role of the widget element supports <code>aria-activedescendant</code>.
-        This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.  
+        This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.
       </p>
 	    <p>Typically, the author will use host language <a>semantics</a> to put the widget in the <kbd>Tab</kbd> sequence (e.g., <code>tabindex="0"</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) and <code>aria-activedescendant</code> to point to the ID of the currently active descendant. The author, not the user agent, is responsible for styling the currently active descendant to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.</p>
 	    <p>More information on managing focus can be found in the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard">Developing a Keyboard Interface</a> section of the <cite><a href="https://www.w3.org/TR/wai-aria-practices-1.1/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> [[WAI-ARIA-PRACTICES-1.1]].</p>
@@ -379,10 +379,10 @@
 	      <li>Implement the host language method for keyboard navigation so that widgets that support <code>aria-activedescendant</code> may be included in the tab order.</li>
 	      <li>For platforms that expose <a>desktop focus</a> or <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> focus separately from <abbr title="Document Object Model">DOM</abbr> focus, do not expose the focused state in the accessibility <abbr title="application programming interface">API</abbr> for any element when it has <abbr title="Document Object Model">DOM</abbr> focus and also has <pref>aria-activedescendant</pref> which points to a valid <a href="#valuetype_idref">ID reference</a>.</li>
 	      <li>When the <pref>aria-activedescendant</pref> attribute changes on an element that currently has <abbr title="Document Object Model">DOM</abbr> focus, remove the focused state from the previously focused object and fire an accessibility <abbr title="application programming interface">API</abbr> <a>desktop focus event</a> on the new element referenced by <code>aria-activedescendant</code>. If <pref>aria-activedescendant</pref> is cleared or does not point to an element in the current document, fire a desktop focus event for the <a>object</a> that had the attribute change.</li>
-	      <li>For any element with an ID attribute, where the element is a descendant of an element with the <pref>aria-activedescendant</pref> attribute, apply the following accessibility <abbr title="Application Programming Interface">API</abbr> states to the target to ensure the object is accessible:
+	      <li>For any element with an ID attribute, where the element is <a>owned</a> by a containter element with the <pref>aria-activedescendant</pref> attribute, apply the following accessibility <abbr title="Application Programming Interface">API</abbr> states to the target to ensure the object is accessible:
 		<ol>
-		  <li>Focusable, if the element also has a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">role</a>, because the <pref>aria-activedescendant</pref> of the container can potentially point to it. It is not  absolutely necessary to check this when there is no role, because elements that would be focusable would already have the focusable state.</li>
-		  <li>Focused, whenever the container element sets <pref>aria-activedescendant</pref> to match the ID of this descendant and the container widget with <pref>aria-activedescendant</pref> has <abbr title="Document Object Model">DOM</abbr> focus.</li>
+		  <li>Focusable, if the element also has a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">role</a>, because the <pref>aria-activedescendant</pref> of the container element can potentially point to it. It is not  absolutely necessary to check this when there is no role, because elements that would be focusable would already have the focusable state.</li>
+		  <li>Focused, whenever the container element sets <pref>aria-activedescendant</pref> to match the ID of this element and the owning element with <pref>aria-activedescendant</pref> has <abbr title="Document Object Model">DOM</abbr> focus.</li>
 		</ol>
 	      </li>
 	    </ol>
@@ -392,13 +392,13 @@
 	      <li>Set the <abbr title="Document Object Model">DOM</abbr> focus:
 		<ol>
 		  <li>If the <a class="termref">element</a> can take <abbr title="Document Object Model">DOM</abbr> focus, the <a class="termref">user agent</a> MUST set the <abbr title="Document Object Model">DOM</abbr> focus to it.</li>
-		  <li>Otherwise, if the current element has an ID and an ancestor with the <pref>aria-activedescendant</pref> attribute present, and that ancestor is focusable, the user agent MUST set <abbr title="Document Object Model">DOM</abbr> focus to that ancestor.
+		  <li>Otherwise, if the current element has an ID and is <a>owned</a> by a container element with the <pref>aria-activedescendant</pref> attribute present, and the containter element is focusable, the user agent MUST set <abbr title="Document Object Model">DOM</abbr> focus to the container element.
 		    <p class="note">The inability to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element indicates an author error.</p>
 		  </li>
 		  <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the child element itself.</li>
 		</ol>
 	      </li>
-	      <li>If the current element has an ID and an ancestor with the <code>aria-activedescendant</code> attribute present, the user agent MUST set the accessibility <abbr title="Application Programming Interface">API</abbr> focused state and fire an accessibility <abbr title="Application Programming Interface">API</abbr> focus <a>event</a> on the new active descendant.</li>
+	      <li>If the current element has an ID and is owned by a container element with the <code>aria-activedescendant</code> attribute present, the user agent MUST set the accessibility <abbr title="Application Programming Interface">API</abbr> focused state and fire an accessibility <abbr title="Application Programming Interface">API</abbr> focus <a>event</a> on the element identified  by <code>aria-activedescendant</code> value.</li>
 	    </ol>
 	  </section>
 	</section>
@@ -907,7 +907,7 @@
 				<ol>
 					<li>Associate the content with a focusable element using <pref>aria-labelledby</pref> or <pref>aria-describedby</pref>.</li>
 					<li>Place the content in a focusable element that has role <rref>document</rref> or <rref>article</rref>.</li>
-					<li>Manage focus of descendants as described in <a href="#managingfocus">Managing Focus</a>, updating the value of <pref>aria-activedescendant</pref> to reference the <a>element</a> containing the focused content.</li>
+					<li>Manage focus of <a>owned</a> elements is described in <a href="#managingfocus">Managing Focus</a>, updating the value of <pref>aria-activedescendant</pref> to reference the <a>element</a> containing the focused content.</li>
 				</ol>
 				</div>
 			<table class="role-features">
@@ -2151,7 +2151,7 @@
 			The ARIA 1.0 specification describes a <code>combobox</code> pattern where the input element with the <code>combobox</code> role references the popup element with <pref>aria-owns</pref> instead of <pref>aria-controls</pref>.
 			<a>User agents</a>, <a>assistive technologies</a>, and conformance checkers SHOULD continue to support the ARIA 1.0 pattern so that existing implementations of the ARIA 1.0 pattern remain functional.
 			The ARIA 1.1 specification describes a <code>combobox</code> pattern where the element with role <code>combobox</code> is a composite container instead of a focusable input.
-			<a>User agents</a> and <a>assistive technologies</a> did not adequately support the ARIA 1.1 pattern, so the ARIA 1.2 pattern supersedes the ARIA 1.1 pattern, which authors SHOULD abandon. 
+			<a>User agents</a> and <a>assistive technologies</a> did not adequately support the ARIA 1.1 pattern, so the ARIA 1.2 pattern supersedes the ARIA 1.1 pattern, which authors SHOULD abandon.
 		  </p>
 				<p>The features and behaviors of combobox implementations vary widely. Consequently, there are many important authoring considerations. See the <cite><a href="https://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite> [[WAI-ARIA-PRACTICES-1.1]] for additional details on implementing combobox design patterns.</p>
 			</div>
@@ -2205,7 +2205,7 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties">					
+						<td class="role-properties">
 							<ul>
                 <li><pref>aria-activedescendant</pref></li>
 								<li><pref>aria-autocomplete</pref></li>
@@ -4998,9 +4998,9 @@
 							<ul>
 								<li><pref>aria-label</pref></li>
 								<li><pref>aria-labelledby</pref></li>
-							</ul>									 
+							</ul>
 						</td>
-					</tr>													 
+					</tr>
 					<tr>
 						<th class="role-namefrom-head" scope="row">Name From:</th>
 						<td class="role-namefrom">prohibited</td>
@@ -10282,12 +10282,12 @@
 			<pdef>aria-activedescendant</pdef>
 			<div class="property-description">
 				<p>Identifies the currently active element when DOM focus is on a <rref>composite</rref> widget, <rref>combobox</rref>, <rref>textbox</rref>, <rref>group</rref>, or <rref>application</rref>.</p>
-				<p>The <code>aria-activedescendant</code> property provides an alternative method of managing focus for interactive elements that may contain multiple focusable descendants, such as menus, grids, and toolbars. Instead of moving DOM focus among descendant elements, authors MAY set DOM focus on an <a>element</a> that supports <code>aria-activedescendant</code> and then use <code>aria-activedescendant</code> to refer to the element that is active.</p>
+				<p>The <code>aria-activedescendant</code> property provides an alternative method of managing focus for interactive elements that may contain multiple focusable descendants, such as menus, grids, and toolbars. Instead of moving DOM focus among <a>owned</a> elements, authors MAY set DOM focus on a container <a>element</a> that supports <code>aria-activedescendant</code> and then use <code>aria-activedescendant</code> to refer to the element that is active.</p>
 				<p> Authors MUST ensure that one of the following two sets of conditions is met when setting the value of <code>aria-activedescendant</code> on an element with DOM focus:</p>
 				<ol>
-					<li>The value of <code>aria-activedescendant</code> refers to an element that is either a descendant of the element with DOM focus or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute.</li>
+					<li>The value of <code>aria-activedescendant</code> refers to an <a>owned</a> element, an owned element is either a descendant of the element with DOM focus or is a logical descendant as indicated by the <pref>aria-owns</pref> attribute.</li>
 					<li>
-            The element with DOM focus is a <rref>combobox</rref>, <rref>textbox</rref> or <rref>searchbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> refers to either a descendant of the controlled element or is a logical descendant of that controlled element as indicated by the <pref>aria-owns</pref> attribute.
+            The element with DOM focus is a <rref>combobox</rref>, <rref>textbox</rref> or <rref>searchbox</rref> with <pref>aria-controls</pref> referring to an element that supports <code>aria-activedescendant</code>, and the value of <code>aria-activedescendant</code> refers to a owned element of the controlled element.
             For example, in a <rref>combobox</rref>, focus may remain on the <rref>combobox</rref> while the value of <code>aria-activedescendant</code> on the <rref>combobox</rref> element refers to a descendant of a popup <rref>listbox</rref> that is controlled by the <rref>combobox</rref>.
           </li>
 				</ol>
@@ -11326,7 +11326,7 @@
 					<tr>
 							<th class="property-descendants-head" scope="row">Inherits into Roles:</th>
 							<td class="property-descendants">Placeholder</td>
-					</tr>					
+					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
 						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
@@ -13223,7 +13223,7 @@
           <ul>
             <li>Text nodes</li>
             <li>Elements that may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> <a>event</a>.</li>
-            <li>Elements that are focusable, or have an ID <a>attribute</a> and an ancestor with the <pref>aria-activedescendant</pref> attribute that matches the implicit or explicit <a>semantics</a> of the required context role. In either case, the element may receive focus and may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> focus event.</li>
+            <li>Elements that are focusable, or have an ID <a>attribute</a> and is <a>owned</a> by an element with the <pref>aria-activedescendant</pref> attribute that matches the implicit or explicit <a>semantics</a> of the required context role. In either case, the element may receive focus and may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> focus event.</li>
             <li>Elements that have an explicit role or a global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attribute and do not have <sref>aria-hidden</sref> set to <code>true</code>. (See <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a> for additional guidance on <sref>aria-hidden</sref>.)</li>
             <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property and are not <a>hidden</a>.
             	<p class="note">Text equivalents for hidden referenced objects may still be used in the <a href="https://www.w3.org/TR/accname-aam-1.1/#mapping_additional_nd">name and description calculation</a> [[ACCNAME-1.1]] even when not included in the accessibility tree.</p>
@@ -13336,7 +13336,7 @@
 					<li>Correct usage with regard to <abbr title="Document Object Model">DOM</abbr> tree structure, such as an <a>element</a> being owned by more than one other element.</li>
 					<li>Elements with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>roles</a> correctly implement the  behavior of the specified role. For example, user agents do not verify that an element with a role of <rref>checkbox</rref> actually behaves like a checkbox.</li>
 					<li>Elements that do not correctly observe required child / parent role relationships or that appear elsewhere than in their required parent.</li>
-					<li>Determining whether <pref>aria-activedescendant</pref> actually points to a <abbr title="Document Object Model">DOM</abbr> descendant or owned element.</li>
+					<li>Determining whether <pref>aria-activedescendant</pref> actually points to a <abbr title="Document Object Model">DOM</abbr> <a>owned</a> element.</li>
 					<li>Determining implicit values of <pref>aria-setsize</pref> and <pref>aria-posinset</pref> when they are specified on some but not all the elements of the set.</li>
 				</ol>
 			<p>If the author specifies a non-numeric value for a decimal or integer value type, the user agent SHOULD do the following:</p>
@@ -13723,8 +13723,8 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 			<li>11-Oct-2019: Remove allowance of <rref>group</rref> in <rref>list</rref></li>
             <li>09-Oct-2019: Add missing implicit value for <rref>progressbar</rref></li>
 			<li>09-Oct-2019: Remove accessible name required from <rref>log</rref> and <rref>timer</rref></li>
-			<li>22-Aug-2019: Remove <pref>aria-level</pref> from <rref>grid</rref></li>			
-			<li>23-Jul-2019: Add <rref>generic</rref> role</li>			
+			<li>22-Aug-2019: Remove <pref>aria-level</pref> from <rref>grid</rref></li>
+			<li>23-Jul-2019: Add <rref>generic</rref> role</li>
 			<li>11-Jul-2019: Remove advice against changing roles</li>
 			<li>11-Jul-2019: Set Accessible Name Required to false on <rref>gridcell</rref></li>
 			<li>11-Jul-2019: Add <rref>associationlist</rref>, <rref>associationlistitemkey</rref>, and <rref>associationlistitemvalue</rref> roles</li>
