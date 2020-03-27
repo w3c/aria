@@ -437,7 +437,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                     req = " <strong>(required)</strong>";
                                 }
                                 if (role.deprecated) {
-                                    dep = " <strong>(deprecated in ARIA 1.2)</strong>"
+                                    dep = " <strong>(use deprecated on this role in ARIA 1.2)</strong>"
                                 }
                                 if (prev != role.name) {
                                     output += "<li>";
@@ -480,7 +480,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var output = "";
                         var section = document.querySelector("#" + item.name);
                         var placeholder = section.querySelector(".state-applicability, .property-applicability");
-                        if (placeholder && (((placeholder.textContent || placeholder.innerText) === "Placeholder")||((placeholder.textContent || placeholder.innerText) ==="Use as a global deprecated in ARIA 1.2")) && item.roles.length) {
+                        if (placeholder && ((placeholder.textContent || placeholder.innerText) === "Placeholder") && item.roles.length) {
                             // update the used in roles list
                             var sortedList = [];
                             sortedList = item.roles.sort();
@@ -520,6 +520,55 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 }
                                 placeholder.innerHTML = output;
                             }
+                        }
+                        else if (placeholder && (((placeholder.textContent || placeholder.innerText) ==="Use as a global deprecated in ARIA 1.2")) && item.roles.length)
+                        {
+                            // update the used in roles list
+                            var sortedList = [];
+                            sortedList = item.roles.sort();
+                            //remove roletype from the sorted list
+                            const index = sortedList.indexOf('roletype');
+                            if (index > -1) {
+                                sortedList.splice(index, 1);
+                            }
+
+
+                            for (var j = 0; j < sortedList.length; j++) {
+                                output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
+                            }
+                            if (output !== "") {
+                                output = "<ul>\n" + output + "</ul>\n";
+                            }
+                            placeholder.innerHTML = output;
+                            // also update any inherited roles
+                            var myList = [];
+                            $.each(item.roles, function(j, role) {
+                                var children = getAllSubRoles(role);
+                                // Some subroles have required properties which are also required by the superclass.
+                                // Example: The checked state of radio, which is also required by superclass checkbox.
+                                // We only want to include these one time, so filter out the subroles.
+                                children = $.grep(children, function(subrole) {
+                                    return $.inArray(subrole, propList[item.name].roles) == -1;
+                                });
+                                $.merge(myList, children);
+                            });
+                            placeholder = section.querySelector(".state-descendants, .property-descendants");
+                            if (placeholder && myList.length) {
+                                sortedList = myList.sort();
+                                output = "";
+                                var last = "";
+                                for (j = 0; j < sortedList.length; j++) {
+                                    var sItem = sortedList[j];
+                                    if (last != sItem) {
+                                        output += "<li><rref>" + sItem + "</rref></li>\n";
+                                        last = sItem;
+                                    }
+                                }
+                                if (output !== "") {
+                                    output = "<ul>\n" + output + "</ul>\n";
+                                }
+                                placeholder.innerHTML = output;
+                            }                                
                         }
                     });
                     
