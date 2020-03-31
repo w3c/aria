@@ -1,3 +1,4 @@
+var respecConfig;
 respecConfig.localBiblio = {
 
 	"ACCNAME-AAM": {
