@@ -5237,9 +5237,14 @@
 			<rdef>meter</rdef>
 			<div class="role-description">
 				<p>An <a>element</a> that represents a scalar measurement within a known range, or a fractional value. See related <rref>progressbar</rref>.</p>
-				<p>Authors MUST NOT use the <code>meter</code> role to represent a value whose minimum and maximum values are unknown. In addition, authors MUST use <pref>aria-valuemin</pref> and <pref>aria-valuemax</pref> to make the minimum and maximum values available to assistive technologies.</p>
+				<p>Authors MAY set <pref>aria-valuemin</pref> and <pref>aria-valuemax</pref> to indicate the minimum and maximum values for the <code>meter</code>. Otherwise, their implicit values follow the same rules as <code>&lt;input[type="range"]&gt;</code> in [[HTML]]:</p>
+				<ul>
+					<li>If <code>aria-valuemin</code> is missing or not a <a href="#valuetype_number">number</a>, it defaults to 0 (zero).</li>
+					<li>If <code>aria-valuemax</code> is missing or not a <a href="#valuetype_number">number</a>, it defaults to 100.</li>
+				</ul>
+				<p>The value of <pref>aria-valuenow</pref> MUST NOT fall below or exceed the computed values of <code>aria-valuemin</code> and <code>aria-valuemax</code>, respectively.</p>
 				<p>Authors SHOULD NOT use the <code>meter</code> role to indicate progress; the <rref>progressbar</rref> role exists to address that need.</p>
-				<p class="note">At the present time, there are no <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> properties corresponding to the <code>low</code>, <code>optimum</code>, and <code>high</code> attributes supported on the <code>&lt;meter&gt;</code> element in [[HTML]]. The addition of these properties will be considered for ARIA version 1.3.</p>
+				<p class="note">Presently, there are no <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> properties corresponding to the <code>low</code>, <code>optimum</code>, and <code>high</code> attributes supported on the <code>&lt;meter&gt;</code> element in [[HTML]]. The addition of these properties will be considered for ARIA version 1.3.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -5280,13 +5285,7 @@
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties">
-							<ul>
-								<li><pref>aria-valuemax</pref></li>
-								<li><pref>aria-valuemin</pref></li>
-								<li><pref>aria-valuenow</pref></li>
-							</ul>
-						</td>
+						<td class="role-required-properties"><pref>aria-valuenow</pref></td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
@@ -5320,6 +5319,13 @@
 					<tr>
 						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
 						<td class="role-presentational-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
+						<td class="implicit-values">
+							Default for <pref>aria-valuemin</pref> is <code class="default">0</code>. <br/>
+							Default for <pref>aria-valuemax</pref> is <code class="default">100</code>.
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -13445,6 +13451,11 @@
 					<td><rref>switch</rref></td>
 					<td><sref>aria-checked</sref></td>
 					<td><code>false</code> </td>
+				</tr>
+				<tr>
+					<td><rref>meter</rref></td>
+					<td><pref>aria-valuenow</pref></td>
+					<td>A value matching the implicit or explicitly set <code>aria-valuemin</code>.</td>
 				</tr>
 			</tbody>
 		</table>
