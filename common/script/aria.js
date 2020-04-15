@@ -424,30 +424,43 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                             myList.splice(j, 1);
                                         }
                                     });
-                                }
+                                                                    }
                             }
-                            var sortedList = [];
-                            sortedList = myList.sort(function(a,b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 });
+
+                            var reducedList = myList.reduce((uniqueList, item) => {
+                                return uniqueList.includes(item) ? uniqueList : [...uniqueList, item]
+                            }, [] )
+
+                            var sortedList = reducedList.sort((a,b) => { 
+                                if (a.name == b.name) {
+                                    // Ensure deprecated false properties occur first
+                                    if (a.deprecated !== b.deprecated) {
+                                        return a.deprecated ? 1 : b.deprecated ? -1 : 0
+                                    }
+                                }
+                                return a.name < b.name ? -1 : a.name > b.name ? 1 : 0 
+                            }, [] )
+
                             var prev;
                             for (var k = 0; k < sortedList.length; k++) {
-                                var role = sortedList[k];
+                                var property = sortedList[k];
                                 var req = "";
                                 var dep = "";
-                                if (role.required) {
+                                if (property.required) {
                                     req = " <strong>(required)</strong>";
                                 }
-                                if (role.deprecated) {
-                                    dep = " <strong>(use deprecated on this role in ARIA 1.2)</strong>"
+                                if (property.deprecated) {
+                                    dep = " <strong>(deprecated on this role in ARIA 1.2)</strong>"
                                 }
-                                if (prev != role.name) {
+                                if (prev != property.name) {
                                     output += "<li>";
-                                    if (role.is === "state") {
-                                        output += "<sref title=\"" + role.name + "\">" + role.name + " (state)</sref>" + req + dep;
+                                    if (property.is === "state") {
+                                        output += "<sref>" + property.name + "</sref> (state)" + req + dep;
                                     } else {
-                                        output += "<pref>" + role.name + "</pref>" + req + dep;
+                                        output += "<pref>" + property.name + "</pref>" + req + dep;
                                     }
                                     output += "</li>\n";
-                                    prev = role.name;
+                                    prev = property.name;
                                 }
                             }
                             if (output !== "") {
