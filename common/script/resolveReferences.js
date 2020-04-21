@@ -283,12 +283,3 @@ function fixIncludes(utils, content) {
     return (base.innerHTML);
 }
 
-// Fix the scroll-to-fragID problem:
-require(["core/pubsubhub"], function (respecEvents) {
-    "use strict";
-    respecEvents.sub("end-all", function () {
-        if(window.location.hash) {
-            window.location = window.location.hash;
-        }
-    });
-});
