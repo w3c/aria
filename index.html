@@ -461,7 +461,7 @@
     </dd>
     <dt><dfn id="dfn-node" data-dfn-type="dfn">Node</dfn></dt>
     <dd>
-      <p>Basic type of <a class="termref internalDFN" href="#dfn-object" data-link-type="dfn">object</a> in the <abbr title="Document Object Model">DOM</abbr> tree or <a class="termref internalDFN" href="#dfn-accessibility-tree" data-link-type="dfn">accessibility tree</a>. <abbr title="Document Object Model">DOM</abbr> nodes are further specified as <a class="termref internalDFN" href="#dfn-element" data-link-type="dfn">Element</a> or <a class="termref internalDFN" data-lt="Text node" href="#dfn-text-node" data-link-type="dfn">Text nodes</a>, among other types. The nodes of an <a class="termref internalDFN" href="#dfn-accessibility-tree" data-link-type="dfn">accessibility tree</a> are <a class="termref internalDFN" data-lt="accessible object" href="#dfn-accessible-object" data-link-type="dfn">accessible objects</a>.  </p>
+      <p>Basic type of <a class="termref internalDFN" href="#dfn-object" data-link-type="dfn">object</a> in the <abbr title="Document Object Model">DOM</abbr> tree or <a class="termref internalDFN" href="#dfn-accessibility-tree" data-link-type="dfn">accessibility tree</a>. <abbr title="Document Object Model">DOM</abbr> nodes are further specified as <a class="termref internalDFN" href="#dfn-element" data-link-type="dfn">Element</a> or <a class="termref internalDFN respec-offending-element" data-lt="Text node" href="#dfn-text-node" data-link-type="dfn" title="Linter (local-refs-exist): Broken local reference found in document. Please fix the links mentioned. See developer console. Occured" id="respec-offender-linter-local-refs-exist-broken-local-reference-found-in-document-please-fix-the-links-mentioned-see-developer-console-occured">Text nodes</a>, among other types. The nodes of an <a class="termref internalDFN" href="#dfn-accessibility-tree" data-link-type="dfn">accessibility tree</a> are <a class="termref internalDFN" data-lt="accessible object" href="#dfn-accessible-object" data-link-type="dfn">accessible objects</a>.  </p>
     </dd>
     <dt><dfn id="dfn-normative" data-dfn-type="dfn">Normative</dfn></dt>
     <dd>
@@ -518,10 +518,8 @@
     
     
     
-    <dt><dfn id="dfn-text-node" data-dfn-type="dfn" data-plurals="text nodes">Text node</dfn></dt>
-    <dd>
-      <p>Type of <abbr title="Document Object Model">DOM</abbr> <a class="termref internalDFN" data-lt="node" href="#dfn-node" data-link-type="dfn">node</a> that represents the textual content of an <a class="termref internalDFN" href="#dfn-attribute" data-link-type="dfn">attribute</a> or an <a class="termref internalDFN" href="#dfn-element" data-link-type="dfn">element</a>. A Text node has no child nodes.  </p>
-    </dd>
+    
+    
     
     
     
@@ -13584,22 +13582,22 @@
 	  <h3 id="x7-1-excluding-elements-from-the-accessibility-tree"><bdi class="secno">7.1 </bdi>Excluding Elements from the Accessibility Tree<a class="self-link" aria-label="§" href="#tree_exclusion"></a></h3>
 	  <p>The following <a href="#dfn-element" class="internalDFN" data-link-type="dfn">elements</a> are not exposed via the <a href="#dfn-accessibility-api" class="internalDFN" data-link-type="dfn">accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents <em class="rfc2119" title="MUST NOT">MUST NOT</em> include them in the <a class="termref internalDFN" href="#dfn-accessibility-tree" data-link-type="dfn">accessibility tree</a>:</p>
 	  <ul>
-	    <li>Elements with <a href="#none" class="role-reference"><code>none</code></a> or <a href="#presentation" class="role-reference"><code>presentation</code></a> as the first role in the role attribute. However, their exclusion is conditional and depends on other factors. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a> section.</li>
 	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as <abbr title="Cascading Style Sheets">CSS</abbr> <code>display:none</code>, <code>visibility:hidden</code>, or the <abbr title="Hypertext Markup Language">HTML</abbr> <code>hidden</code> attribute.</li>
-          </ul>
+	    <li>Elements with <a href="#none" class="role-reference"><code>none</code></a> or <a href="#presentation" class="role-reference"><code>presentation</code></a> as the first role in the role attribute. However, their exclusion is conditional. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#presentation">presentation (role)</a> section.</li>
+    </ul>
 	  <p>If not already excluded from the accessibility tree per the above rules, user agents <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em> include the following elements in the accessibility tree:</p>
 	  <ul>
 	    <li>Elements, including their descendants, that have <a href="#aria-hidden" class="state-reference"><code>aria-hidden</code></a> set to <code>true</code>. In other words, <code>aria-hidden="true"</code> on a parent overrides <code>aria-hidden="false"</code> on descendants.</li>
             <li>
               <p>Any descendants of elements that have the characteristic "<a href="#childrenArePresentational">Children Presentational: True</a>" unless the descendant is not allowed to be presentational because it meets one of the conditions for exception described in <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a>. However, the text content of any excluded descendants is included.</p>
-              <p>Elements having one of the following roles have the characteristic "Children Presentational: True":</p>
+              <p>Elements with the following roles have the characteristic "Children Presentational: True":</p>
 	        <ul>
 	          <li><a href="#button" class="role-reference"><code>button</code></a></li>
 	          <li><a href="#checkbox" class="role-reference"><code>checkbox</code></a></li>
 	          <li><a href="#img" class="role-reference"><code>img</code></a></li>
-	          <li><a href="#math" class="role-reference"><code>math</code></a></li>
 	          <li><a href="#menuitemcheckbox" class="role-reference"><code>menuitemcheckbox</code></a></li>
 	          <li><a href="#menuitemradio" class="role-reference"><code>menuitemradio</code></a></li>
+	          <li><a href="#meter" class="role-reference"><code>meter</code></a></li>
 	          <li><a href="#option" class="role-reference"><code>option</code></a></li>
 	          <li><a href="#progressbar" class="role-reference"><code>progressbar</code></a></li>
 	          <li><a href="#radio" class="role-reference"><code>radio</code></a></li>
@@ -13614,14 +13612,17 @@
 	</section>
 	<section id="tree_inclusion">
 	  <h3 id="x7-2-including-elements-in-the-accessibility-tree"><bdi class="secno">7.2 </bdi>Including Elements in the Accessibility Tree<a class="self-link" aria-label="§" href="#tree_inclusion"></a></h3>
-          <p>If not already excluded from the accessibility tree per the rules above in <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a>, user agents <em class="rfc2119" title="MUST">MUST</em> provide an <a href="#dfn-accessible-object" class="internalDFN" data-link-type="dfn">accessible object</a> in the <a href="#dfn-accessibility-tree" class="internalDFN" data-link-type="dfn">accessibility tree</a> for <abbr title="Document Object Model">DOM</abbr> <a href="#dfn-element" class="internalDFN" data-link-type="dfn">elements</a> that meet any of the following criteria:</p>
+          <p>If not excluded from the accessibility tree per the rules above in <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a>, user agents <em class="rfc2119" title="MUST">MUST</em> provide an <a href="#dfn-accessible-object" class="internalDFN" data-link-type="dfn">accessible object</a> in the <a href="#dfn-accessibility-tree" class="internalDFN" data-link-type="dfn">accessibility tree</a> for <abbr title="Document Object Model">DOM</abbr> <a href="#dfn-element" class="internalDFN" data-link-type="dfn">elements</a> that meet any of the following criteria:</p>
           <ul>
-            <li><a href="#dfn-text-node" class="internalDFN" data-link-type="dfn">Text nodes</a></li>
-            <li>Elements that may fire an <a href="#dfn-accessibility-api" class="internalDFN" data-link-type="dfn">accessibility <abbr title="Application Program Interface">API</abbr></a> <a href="#dfn-event" class="internalDFN" data-link-type="dfn">event</a>.</li>
-            <li>Elements that are focusable, or have an ID <a href="#dfn-attribute" class="internalDFN" data-link-type="dfn">attribute</a> and an ancestor with the <a href="#aria-activedescendant" class="property-reference"><code>aria-activedescendant</code></a> attribute that matches the implicit or explicit <a href="#dfn-semantics" class="internalDFN" data-link-type="dfn">semantics</a> of the required context role. In either case, the element may receive focus and may fire an <a href="#dfn-accessibility-api" class="internalDFN" data-link-type="dfn">accessibility <abbr title="Application Program Interface">API</abbr></a> focus event.</li>
-            <li>Elements that have an explicit role or a global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attribute and do not have <a href="#aria-hidden" class="state-reference"><code>aria-hidden</code></a> set to <code>true</code>. (See <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a> for additional guidance on <code>aria-hidden</code>.)</li>
-            <li>Elements that have an ID which is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property and are not <a href="#dfn-hidden" class="internalDFN" data-link-type="dfn">hidden</a>.
-            	<div class="note" role="note" id="issue-container-generatedID-71"><div role="heading" class="note-title marker" id="h-note-71" aria-level="4"><span>Note</span></div><p class="">Text equivalents for hidden referenced objects may still be used in the <a href="https://w3c.github.io/accname/#mapping_additional_nd" class="accname">name and description computation</a> even when not included in the accessibility tree.</p></div>
+            <li>Elements that are not <a href="#dfn-hidden" class="internalDFN" data-link-type="dfn">hidden</a> and may fire an <a href="#dfn-accessibility-api" class="internalDFN" data-link-type="dfn">accessibility <abbr title="Application Program Interface">API</abbr></a> <a href="#dfn-event" class="internalDFN" data-link-type="dfn">event</a>:
+              <ul>
+                <li>Elements that are <a class="respec-offending-element" title="Error: No matching dfn found." id="respec-offender-error-no-matching-dfn-found">focusable</a> even if the element or one of its ancestor elements has its <a href="#aria-hidden" class="state-reference"><code>aria-hidden</code></a> attribute set to <code>true</code>.</li>
+                <li>Elements that are a valid target of an <a href="#aria-activedescendant" class="property-reference"><code>aria-activedescendant</code></a> attribute.</li>
+              </ul>
+	        </li>
+            <li>Elements that have an explicit role or a global <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attribute and do not have <code>aria-hidden</code> set to <code>true</code>. (See <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a> for additional guidance on <code>aria-hidden</code>.)</li>
+            <li>Elements that are not <a href="#dfn-hidden" class="internalDFN" data-link-type="dfn">hidden</a> and have an ID that is referenced by another element via a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property.
+            <div class="note" role="note" id="issue-container-generatedID-71"><div role="heading" class="note-title marker" id="h-note-71" aria-level="4"><span>Note</span></div><p class="">Text equivalents for hidden referenced objects may still be used in the <a href="https://w3c.github.io/accname/#mapping_additional_nd" class="accname">name and description computation</a> even when not included in the accessibility tree.</p></div>
             </li>
           </ul>
 	</section>
@@ -14179,7 +14180,7 @@ el.getAttribute(<span class="hljs-string">"aria-label"</span>); <span class="hlj
 	<div data-include="acknowledgements/funders.html" data-include-replace="true"></div>
 </section>
 
-<script type="text/javascript">(function(){window['__CF$cv$params']={r:'587c2f38abe1ea08',m:'8096f38e9203e0b40b6b38289c2e2521fcddc959-1587525369-1800-AavCzoXuOusLEgWKaJoqeqWw3uGXzgpyz8Gio2EwMBjm9FsUGlndGr8El+wKy6WcVHuY+07QtOYkwfb+peXsEMfSjspVt96npPWnkTjrYsTjAq8svgPSgR1BO27wNEbNYmP49oCrslCGes7MjLcregU72nJCmmw0WANJJdwdpvJnZVyCV9q5fziDeIQl2NrdWQ==',s:[0x1929da72e9,0xfb05edc32e],fb:0,}})();</script>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'587c3a1e0b9800dd',m:'4eb9af1aabee69f8788e207fd4ba71c99cf600fd-1587525816-1800-Af5uwH/s9JNJk23BupK55DNO1QGpf+f7S4sPvccDFA+VZJ1Wp5E6ssZutkKS/bfyNlPCqsQhgLLqc95onLhZaAOavL0t1rfjiVFIvyWpSHGNoh0tB2r6RwlpJMY3hJxS8bVDFS03G89GYdv45BNtO17+L2YlbLtcHB7fjdgwmSH8BK6Kjvy6QYXoTbrCBpDdOw==',s:[0xa575adaac0,0x213704a53f],fb:0,}})();</script>
 
 <section id="references" class="appendix"><h2 id="d-references"><bdi class="secno">D. </bdi>References<a class="self-link" aria-label="§" href="#references"></a></h2><section id="normative-references">
       <h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>
