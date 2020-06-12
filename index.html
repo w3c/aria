@@ -10162,11 +10162,11 @@
 			<p>Value type of the <a>state</a> or <a>property</a>. The value may be one of the following types:</p>
 			<dl>
 				<dt id="valuetype_true-false">true/false</dt>
-				<dd>Value representing either true or false. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
+				<dd>Enumerated value representing either <code>true</code> or <code>false</code>. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
 				<dt id="valuetype_tristate">tristate</dt>
-				<dd>Value representing true or false, with an intermediate "mixed" value. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
+				<dd>Enumerated value representing <code>true</code>, <code>false</code>, <code>mixed</code>, or <code>undefined</code> values. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
 				<dt id="valuetype_true-false-undefined">true/false/undefined</dt>
-				<dd>Value representing true, false, or not applicable. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to <code>undefined</code> is not expandable. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
+				<dd>Enumerated value representing <code>true</code>, <code>false</code>, or <code>undefined</code> (not applicable). The default value for this value type is <code>undefined</code> unless otherwise specified. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to <code>undefined</code> is not expandable.</dd>
 				<dt id="valuetype_idref">ID reference</dt>
 				<dd>Reference to the ID of another <a>element</a> in the same document</dd>
 				<dt id="valuetype_idref_list">ID reference list</dt>
@@ -10178,16 +10178,72 @@
 				<dt id="valuetype_string">string</dt>
 				<dd>Unconstrained value type.</dd>
 				<dt id="valuetype_token">token</dt>
-				<dd>One of a limited set of allowed values. An explicit value of <code>undefined</code> for this type is the equivalent of providing no value.</dd>
+				<dd>One of a limited set of allowed enumerated values. The default value is defined in each attribute's Values table, as specified in the <a href="#enumerated-attribute-values">Enumerated Attribute Values</a> section.</dd>
 				<dt id="valuetype_token_list">token list</dt>
 				<dd>A list of one or more tokens.</dd>
 			</dl>
 			<p>These are generic types for states and properties, but do not define specific representation. See <a href="#state_property_processing">State and Property Attribute Processing</a> for details on how these values are expressed and handled in host languages.</p>
 		</section>
 	</section>
-	<section id="state_prop_values">
-		<h2>Values for States and Properties</h2>
-		<p>Many <a>states</a> and <a>properties</a> accept a specific set of tokens as <span>values</span>. The allowed values and explanation of their meaning is shown after the table of characteristics. The default value, if defined, is shown in <strong>strong</strong> type, followed by the parenthetical term 'default'. When a value is indicated as the default, the user agent MUST follow the behavior prescribed by this value when the state or property is empty or unspecified. Some <a>roles</a> also define what behavior to use when certain states or properties, that do not have default values, are not provided.</p>
+	<section id="enumerated-attribute-values">
+		<h2>Enumerated Attribute Values</h2>
+		<p>When the ARIA attribute definition includes a table enumerating the attribute's allowed <span>values</span>, that attribute is an <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>. Each value in the table is a keyword for the attribute, mapping to a state of the same name. When the values table notates one of the values as "(default)", that default value is the <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute.</p>
+		<section class="informative" id="enumeration-example">
+			<h3>Example Enumerated Attribute Usage</h3>
+			<p>As noted in <a href="#typemapping">Mapping <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Value Types to Languages</a>, attributes are included in host languages, and the syntax for representation of enumerated value types is governed by the host language.</p>
+			<p>All enumerated attribute getters and setters use string values, including the boolean-like enumerated <a href="#valuetype_true-false">true/false</a> type.</p>
+			<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// HTML hidden="" example (not aria-hidden="true")
+// Actual boolean type; defaults to false.
+
+// Note: Actual boolean assignment and return value.
+el.hidden = true;
+el.hidden; // true
+
+// Removal of content attribute results in missing value default: boolean false.
+el.removeAttribute("hidden");
+el.hidden; // false</pre>
+
+			</aside>
+			<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-busy example
+// true/false ~ enumerated boolean-like string; defaults to "false"
+
+// Note: String assignment and return value.
+el.ariaBusy = "true";
+el.ariaBusy; // "true"
+
+// Removal of content attribute results in missing value default: string "false".
+el.removeAttribute("aria-busy");
+el.ariaBusy; // "false"
+
+// Assignment of invalid "busy" value results in invalid value default: string "false".
+el.setAttribute("aria-busy", "busy");
+el.ariaBusy; // "false"</pre>
+
+			</aside>
+			<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-pressed example
+// Tristate ~ enumerated true/false/mixed/undefined string; defaults to "undefined".
+
+// A value of "true", "false", or "mixed" for aria-pressed on a button denotes a toggle button.
+button.setAttribute("aria-pressed", "true"); // Content attribute assignment.
+button.ariaPressed; // "true"
+button.ariaPressed = "false"; // DOM property assignment.
+button.ariaPressed; // "false"
+
+// Assignment of invalid "foo" value results in invalid value default, String "undefined".
+button.ariaPressed = "foo";
+button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)</pre>
+
+			</aside>
+		</section>
 	</section>
 	<section>
 		<h2>Translatable States and Properties</h2>
@@ -13493,55 +13549,55 @@
 		<h2>Interface Mixin <dfn>AriaAttributes</dfn></h2>
 		<pre class="idl">
 			interface mixin AriaAttributes {
-				<!-- attribute Element? ariaActiveDescendantElement; -->
-				attribute DOMString? ariaAtomic;
-				attribute DOMString? ariaAutoComplete;
-				attribute DOMString? ariaBusy;
-				attribute DOMString? ariaChecked;
-				attribute DOMString? ariaColCount;
-				attribute DOMString? ariaColIndex;
-				attribute DOMString? ariaColIndexText;
-				attribute DOMString? ariaColSpan;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaControlsElements; -->
-				attribute DOMString? ariaCurrent;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaDescribedByElements; -->
-				attribute DOMString? ariaDescription;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaDetailsElements; -->
-				attribute DOMString? ariaDisabled;
-				<!-- attribute Element? ariaErrorMessageElement; -->
-				attribute DOMString? ariaExpanded;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaFlowToElements; -->
-				attribute DOMString? ariaHasPopup;
-				attribute DOMString? ariaHidden;
-				attribute DOMString? ariaInvalid;
-				attribute DOMString? ariaKeyShortcuts;
-				attribute DOMString? ariaLabel;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaLabelledByElements; -->
-				attribute DOMString? ariaLevel;
-				attribute DOMString? ariaLive;
-				attribute DOMString? ariaModal;
-				attribute DOMString? ariaMultiLine;
-				attribute DOMString? ariaMultiSelectable;
-				attribute DOMString? ariaOrientation;
-				<!-- attribute FrozenArray&lt;Element&gt;? ariaOwnsElements; -->
-				attribute DOMString? ariaPlaceholder;
-				attribute DOMString? ariaPosInSet;
-				attribute DOMString? ariaPressed;
-				attribute DOMString? ariaReadOnly;
-				attribute DOMString? ariaRelevant;
-				attribute DOMString? ariaRequired;
-				attribute DOMString? ariaRoleDescription;
-				attribute DOMString? ariaRowCount;
-				attribute DOMString? ariaRowIndex;
-				attribute DOMString? ariaRowIndexText;
-				attribute DOMString? ariaRowSpan;
-				attribute DOMString? ariaSelected;
-				attribute DOMString? ariaSetSize;
-				attribute DOMString? ariaSort;
-				attribute DOMString? ariaValueMax;
-				attribute DOMString? ariaValueMin;
-				attribute DOMString? ariaValueNow;
-				attribute DOMString? ariaValueText;
+				<!-- attribute Element ariaActiveDescendantElement; -->
+				attribute DOMString ariaAtomic;
+				attribute DOMString ariaAutoComplete;
+				attribute DOMString ariaBusy;
+				attribute DOMString ariaChecked;
+				attribute DOMString ariaColCount;
+				attribute DOMString ariaColIndex;
+				attribute DOMString ariaColIndexText;
+				attribute DOMString ariaColSpan;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaControlsElements; -->
+				attribute DOMString ariaCurrent;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaDescribedByElements; -->
+				attribute DOMString ariaDescription;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaDetailsElements; -->
+				attribute DOMString ariaDisabled;
+				<!-- attribute Element ariaErrorMessageElement; -->
+				attribute DOMString ariaExpanded;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaFlowToElements; -->
+				attribute DOMString ariaHasPopup;
+				attribute DOMString ariaHidden;
+				attribute DOMString ariaInvalid;
+				attribute DOMString ariaKeyShortcuts;
+				attribute DOMString ariaLabel;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaLabelledByElements; -->
+				attribute DOMString ariaLevel;
+				attribute DOMString ariaLive;
+				attribute DOMString ariaModal;
+				attribute DOMString ariaMultiLine;
+				attribute DOMString ariaMultiSelectable;
+				attribute DOMString ariaOrientation;
+				<!-- attribute FrozenArray&lt;Element&gt; ariaOwnsElements; -->
+				attribute DOMString ariaPlaceholder;
+				attribute DOMString ariaPosInSet;
+				attribute DOMString ariaPressed;
+				attribute DOMString ariaReadOnly;
+				<!-- attribute DOMString ariaRelevant; -->
+				attribute DOMString ariaRequired;
+				attribute DOMString ariaRoleDescription;
+				attribute DOMString ariaRowCount;
+				attribute DOMString ariaRowIndex;
+				attribute DOMString ariaRowIndexText;
+				attribute DOMString ariaRowSpan;
+				attribute DOMString ariaSelected;
+				attribute DOMString ariaSetSize;
+				attribute DOMString ariaSort;
+				attribute DOMString ariaValueMax;
+				attribute DOMString ariaValueMin;
+				attribute DOMString ariaValueNow;
+				attribute DOMString ariaValueText;
 			};
 			Element includes AriaAttributes;
 		</pre>
@@ -13585,7 +13641,7 @@
 				<tr><td><dfn>ariaPosInSet</dfn></td><td><pref>aria-posinset</pref></td></tr>
 				<tr><td><dfn>ariaPressed</dfn></td><td><sref>aria-pressed</sref></td></tr>
 				<tr><td><dfn>ariaReadOnly</dfn></td><td><pref>aria-readonly</pref></td></tr>
-				<tr><td><dfn>ariaRelevant</dfn></td><td><pref>aria-relevant</pref></td></tr>
+				<!-- <tr><td><dfn>ariaRelevant</dfn></td><td><pref>aria-relevant</pref></td></tr> -->
 				<tr><td><dfn>ariaRequired</dfn></td><td><pref>aria-required</pref></td></tr>
 				<tr><td><dfn>ariaRoleDescription</dfn></td><td><pref>aria-roledescription</pref></td></tr>
 				<tr><td><dfn>ariaRowCount</dfn></td><td><pref>aria-rowcount</pref></td></tr>
@@ -13740,6 +13796,7 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 		<h2>Substantive changes since the last public working draft</h2>
 		<ul>
 			<!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
+			<li>15-May-2020: Remove nullable from IDL DOMStrings, add enumerated attributes prose and examples, and remove ariaRelevant IDL until Issue #1267 can be resolved.</li>
 			<li>03-Apr-2020: Clarify default values</li>
 			<li>03-Apr-2020: Revise <rref>meter</rref> authoring advice</li>
 			<li>26-Mar-2020: Add info about layout and bounds to <rref>generic</rref></li>
