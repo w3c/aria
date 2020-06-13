@@ -339,10 +339,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 attrs.push( { is: type, name: name, required: req, disallowed: dis, deprecated: dep } );                                               
 
                                 // remember that the state or property is
-                                // referenced by this role (unless disallowed)
-                                if (!dis) {
-                                    propList[name].roles.push(title);
-                                }
+                                // referenced by this role
+                                propList[name].roles.push(title);
                             });
                         }
                     });
@@ -494,18 +492,10 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         var output = "";
                         var section = document.querySelector("#" + item.name);
                         var placeholder = section.querySelector(".state-applicability, .property-applicability");
-                        var deprecatedAsGlobal = placeholder && ((placeholder.textContent || placeholder.innerText) === "Use as a global deprecated in ARIA 1.2");
-                        if ((placeholder && ((placeholder.textContent || placeholder.innerText) === "Placeholder") || deprecatedAsGlobal) && item.roles.length) {
+                        if (placeholder && ((placeholder.textContent || placeholder.innerText) === "Placeholder") && item.roles.length) {
                             // update the used in roles list
                             var sortedList = [];
                             sortedList = item.roles.sort();
-                            if (deprecatedAsGlobal) {
-                              // remove roletype from the sorted list
-                              const index = sortedList.indexOf('roletype');
-                              if (index > -1) {
-                                  sortedList.splice(index, 1);
-                              }
-                            }
                             for (var j = 0; j < sortedList.length; j++) {
                                 output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                             }
@@ -513,7 +503,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 output = "<ul>\n" + output + "</ul>\n";
                             }
                             placeholder.innerHTML = output;
-                            // update the inherits into roles list
+                            // also update any inherited roles
                             var myList = [];
                             $.each(item.roles, function(j, role) {
                                 var children = getAllSubRoles(role);
@@ -523,16 +513,54 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 children = $.grep(children, function(subrole) {
                                     return $.inArray(subrole, propList[item.name].roles) == -1;
                                 });
-                                // Filter out subroles where the attribute is disallowed.
+                                $.merge(myList, children);
+                            });
+                            placeholder = section.querySelector(".state-descendants, .property-descendants");
+                            if (placeholder && myList.length) {
+                                sortedList = myList.sort();
+                                output = "";
+                                var last = "";
+                                for (j = 0; j < sortedList.length; j++) {
+                                    var sItem = sortedList[j];
+                                    if (last != sItem) {
+                                        output += "<li><rref>" + sItem + "</rref></li>\n";
+                                        last = sItem;
+                                    }
+                                }
+                                if (output !== "") {
+                                    output = "<ul>\n" + output + "</ul>\n";
+                                }
+                                placeholder.innerHTML = output;
+                            }
+                        }
+                        else if (placeholder && (((placeholder.textContent || placeholder.innerText) ==="Use as a global deprecated in ARIA 1.2")) && item.roles.length)
+                        {
+                            // update the used in roles list
+                            var sortedList = [];
+                            sortedList = item.roles.sort();
+                            //remove roletype from the sorted list
+                            const index = sortedList.indexOf('roletype');
+                            if (index > -1) {
+                                sortedList.splice(index, 1);
+                            }
+
+
+                            for (var j = 0; j < sortedList.length; j++) {
+                                output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
+                            }
+                            if (output !== "") {
+                                output = "<ul>\n" + output + "</ul>\n";
+                            }
+                            placeholder.innerHTML = output;
+                            // also update any inherited roles
+                            var myList = [];
+                            $.each(item.roles, function(j, role) {
+                                var children = getAllSubRoles(role);
+                                // Some subroles have required properties which are also required by the superclass.
+                                // Example: The checked state of radio, which is also required by superclass checkbox.
+                                // We only want to include these one time, so filter out the subroles.
                                 children = $.grep(children, function(subrole) {
-                                    var dis = false;
-                                    $.each(roleInfo[subrole].localprops, function(k, attr) {
-                                        if (attr.name === item.name) {
-                                            dis = attr.disallowed;
-                                            return true; // break out of $.each
-                                        }
-                                    });
-                                    return !dis;
+                                    return $.inArray(subrole, propList[item.name].roles) == -1;
                                 });
                                 $.merge(myList, children);
                             });
