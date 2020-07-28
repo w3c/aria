@@ -55,5 +55,5 @@ Once you have confirmed (make sure you have committed your changes before
 running tidy, as the changes are destructive ... in a good way:)):
 
 ```bash
-tidy -config tidyconf.txt -o index.html index.html
+tidy -config tidyconfig.txt -o index.html index.html
 ```
