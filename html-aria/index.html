@@ -48,7 +48,7 @@
         ARIA in HTML is a [[HTML]] specification module. Any HTML features,
         conformance requirements, or terms that this specification module makes
         reference to, but does not explicitly define, are defined in the
-        [[HTML]] specification.
+        [[HTML|HTML specification]].
       </p>
       <p class="advisement">
         This is a draft document and its contents are subject to change without
@@ -75,9 +75,10 @@
       <p>
         Web developers MUST NOT use the ARIA `role` and `aria-*` attributes in
         a manner that conflicts with the semantics described in the
-        [[[#docconformance]]] table. Web developers SHOULD NOT set the ARIA
-        `role` and `aria-*` attributes to values that match the <a>implicit
-        ARIA semantics</a> defined in the table.
+        [[[#docconformance]]] table. It is NOT RECOMMENDED for web developers
+        to set the ARIA `role` and `aria-*` attributes to values that match the
+        <a>implicit ARIA semantics</a> defined in the table. Doing so is unnecessary
+        and can potentially lead to unintended consequences.
       </p>
       <aside class="example">
         The following uses a `role=heading` on a `button` element. This is not
@@ -87,6 +88,46 @@
           &lt;button role="heading"&gt;search&lt;/button&gt;
         </pre>
       </aside>
+
+      <aside class="example">
+        The following uses a `role=button` on a `button` element. This is unnecessary, as "button"
+        is already exposed as the implicit role for the element. In practice this redundancy will
+        likely not have any unforeseen side effects, other than unnecessarily making the markup more verbose, and incorrectly signaling to other developers that this practice is useful.
+        <pre class="HTML">
+          &lt;button role="button"&gt;...&lt;/button&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=group` on a `fieldset` element. This is unnecessary,
+        because the `fieldset` element is implicitly exposed as a `role=group`. Again,
+        in practice this will likely not have any unforeseen side effects.
+        <pre class="HTML">
+          &lt;fieldset role="group"&gt;...&lt;/fieldset&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=list` on an `ul` element. This is generally unnecessary,
+        because the `ul` element is implicitly exposed as a `role=list`. However, some user agents suppress a list's implicit ARIA semantics if list markers are removed. Authors can use `role=list` to reinstate the role if necessary, though this practice would generally not be recommended, otherwise.
+        <pre class="HTML">
+          &lt;ul role="list"&gt;...&lt;/ul&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=button` on a `summary` element. This is unnecessary and can
+        result in cross-platform issues, For instance, preventing the element from correctly
+        exposing its state, and forcing the role of `button`, when it might otherwise be exposed
+        with a different role.
+        <pre class="HTML">
+          &lt;details>
+            &lt;summary role="button"&gt;more information&lt;/summary&gt;
+            ...
+          &lt;/details>
+        </pre>
+      </aside>
+
     </section>
     <section>
       <h2 id="docconformance">
@@ -96,24 +137,23 @@
         The following table provides normative per-element document-conformance
         requirements for the use of ARIA markup in HTML documents and describes
         the <a>implicit ARIA semantics</a> that apply to <a data-cite=
-        "html/dom.html#elements">HTML elements</a> as defined in the HTML
-        Accessibility API Mappings 1.0 [[html-aam-1.0]] specification.
+        "html/dom.html#elements">HTML elements</a> as defined in the [[html-aam-1.0|HTML
+        Accessibility API Mappings 1.0]] specification.
       </p>
       <p>
-        Each language feature (element or attribute) in a cell in the first column
-        implies the ARIA semantics (any role, states, and properties) given in
-        the cell in the second column of the same row. The third cell in each
-        row defines which ARIA role values and aria-* attributes which MAY be
-        used. Where a cell in the third column includes the term
-        <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role`
-        value apart from the <a>implicit ARIA semantics</a> `role` value, MAY
-        be used. If an cell in the third column includes the term <dfn><strong>No `role`</strong></dfn> it indicates that authors MUST NOT overwrite the implicit ARIA semantics, or native semantics of the HTML element.
+        Each language feature (element or attribute) in a cell in the first column implies the
+        ARIA semantics (any role, states, and properties) given in the cell in the second column
+        of the same row. The third cell in each row defines which ARIA role values and `aria-*`
+        attributes which MAY be used. Where a cell in the third column includes the term
+        <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role` value apart from the
+        <a>implicit ARIA semantics</a> `role` value, MAY be used. If a cell in the third column
+        includes the term <dfn><strong>No `role`</strong></dfn> it indicates that authors MUST NOT
+        overwrite the implicit ARIA semantics, or native semantics of the HTML element.
       </p>
 
       <p class="note" id="aria-usage-note">
-        Setting an ARIA `role` and/or `aria-*` attribute that matches the
-        <span>implicit ARIA semantics</span> is unnecessary and is NOT
-        RECOMMENDED as these properties are already set by the browser.
+        While setting an ARIA `role` and/or `aria-*` attribute that matches the
+        <span>implicit ARIA semantics</span> is NOT RECOMMENDED, in some situations explicitly setting these attributes can be helpful. For instance, in user agents which lack specific implicit semantics.
       </p>
 
       <table class="simple">
@@ -126,10 +166,8 @@
           </th>
           <th>
             <p id="implicit">
-              Implicit ARIA semantics -
-            </p>
-            <p>
-              SHOULD NOT be used
+              Implicit ARIA semantics
+              <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
             </p>
           </th>
           <th>
@@ -806,27 +844,6 @@
               </p>
             </td>
           </tr>
-          <tr id="el-figcaption" tabindex="-1">
-            <td>
-              [^figcaption^]
-            </td>
-            <td>
-              <a>No corresponding role</a>
-            </td>
-            <td>
-              <p>
-                Roles:
-                <a href="#index-aria-group">`group`</a>,
-                <a href="#index-aria-presentation">`presentation`</a>
-                or <a href="#index-aria-none">`none`</a>.
-              </p>
-              <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the allowed roles and
-                implied role (if any).
-              </p>
-            </td>
-          </tr>
           <tr id="el-fieldset" tabindex="-1">
             <td>
               [^fieldset^]
@@ -848,6 +865,27 @@
               </p>
             </td>
           </tr>
+          <tr id="el-figcaption" tabindex="-1">
+            <td>
+              [^figcaption^]
+            </td>
+            <td>
+              <a>No corresponding role</a>
+            </td>
+            <td>
+              <p>
+                Roles:
+                <a href="#index-aria-group">`group`</a>,
+                <a href="#index-aria-presentation">`presentation`</a>
+                or <a href="#index-aria-none">`none`</a>.
+              </p>
+              <p>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                any `aria-*` attributes applicable to the allowed roles and
+                implied role (if any).
+              </p>
+            </td>
+          </tr>
           <tr id="el-figure" tabindex="-1">
             <td>
               [^figure^]
@@ -857,10 +895,14 @@
             </td>
             <td>
               <p>
-                Roles:
-                <a href="#index-aria-group">`group`</a>,
-                <a href="#index-aria-none">`none`</a>
-                or <a href="#index-aria-presentation">`presentation`</a>.
+                If the `figure` has no `figcaption` descendant:
+                <br>
+                Roles: <a><strong>Any</strong> `role`</a>
+              </p>
+              <p>
+                If the `figure` has a `figcaption` descendant:
+                <br>
+                <strong class="nosupport">No `role`</strong>.
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
@@ -889,7 +931,7 @@
               </p>
               <p>
                 DPub Roles:
-                <a data-cite="dpub-aria-1.0#doc-footnote">`doc-footnote`</a>
+                <a data-cite="dpub-aria-1.0#doc-footnote">`doc-footnote`</a>.
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
@@ -1111,7 +1153,7 @@
           </tr>
           <tr id="el-img" tabindex="-1">
             <td>
-              <code><a>img</a> with <a data-cite=
+              <code><a>img</a></code> with <code><a data-cite=
               "html/embedded-content.html#attr-img-alt">alt</a>="some text"</code>
             </td>
             <td>
@@ -1119,9 +1161,25 @@
             </td>
             <td>
               <p>
-                <a><strong>Any</strong> `role`</a> except
-                <a href="#index-aria-none">`none`</a>
-                or <a href="#index-aria-presentation">`presentation`</a>.
+                Roles:
+                <a href="#index-aria-button">`button`</a>,
+                <a href="#index-aria-checkbox">`checkbox`</a>,
+                <a href="#index-aria-link">`link`</a>,
+                <a href="#index-aria-menuitem">`menuitem`</a>,
+                <a href="#index-aria-menuitemcheckbox">`menuitemcheckbox`</a>,
+                <a href="#index-aria-menuitemradio">`menuitemradio`</a>,
+                <a href="#index-aria-option">`option`</a>,
+                <a href="#index-aria-progressbar">`progressbar`</a>,
+                <a href="#index-aria-scrollbar">`scrollbar`</a>,
+                <a href="#index-aria-separator">`separator`</a>,
+                <a href="#index-aria-slider">`slider`</a>,
+                <a href="#index-aria-switch">`switch`</a>,
+                <a href="#index-aria-tab">`tab`</a> or
+                <a href="#index-aria-treeitem">`treeitem`</a>
+              </p>
+              <p>
+                DPub Role:
+                <a data-cite="dpub-aria-1.0#doc-cover">`doc-cover`</a>.
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
@@ -1132,7 +1190,7 @@
           </tr>
           <tr id="el-img-empty-alt" tabindex="-1">
             <td>
-              <code><a>img</a> with <a data-cite=
+              <code><a>img</a></code> with <code><a data-cite=
               "html/embedded-content.html#attr-img-alt">alt</a>=""</code>
             </td>
             <td>
@@ -1152,19 +1210,19 @@
           </tr>
           <tr id="el-img-no-alt" tabindex="-1">
             <td>
-              <code><a>img</a> with no <a data-cite="html/images.html#unknown-images">alt</a>=""</code>
+              <code><a>img</a></code> without <code><a data-cite="html/images.html#unknown-images">alt</a></code> attribute
             </td>
             <td>
               <code>role=<a href="#index-aria-img">img</a></code>
             </td>
             <td>
               <p>
-                <a><strong>Any</strong> `role`</a>
+                If no author-defined accessible name is provided by other methods:
+                <strong class="nosupport">No `role`</strong>, and <strong>no `aria-*` attributes</strong> except
+                `aria-hidden`.
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the allowed roles and
-                implied role (if any).
+                Otherwise, if the `img` has an author defined accessible name, see <a href="#el-img">`img alt="some text"`</a>.
               </p>
             </td>
           </tr>
@@ -1518,7 +1576,7 @@
               <p>
                 Roles:
                 <a href="#index-aria-combobox">`combobox`</a>,
-                <a href="#index-aria-searchbox">`searchbox`</a></code>
+                <a href="#index-aria-searchbox">`searchbox`</a>
                 or <a href="#index-aria-spinbutton">`spinbutton`</a>.
               </p>
               <p>
@@ -1672,7 +1730,7 @@
           </tr>
           <tr id="el-li" tabindex="-1">
             <td>
-              [^li^] element whose parent is an [^ol^], [^ul^] or [^menu^]
+              [^li^]
             </td>
             <td>
               <code>role=<a href="#index-aria-listitem">listitem</a></code>
@@ -1784,11 +1842,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -1848,6 +1901,15 @@
             </td>
             <td>
               <p>
+                Roles:
+                <a href="#index-aria-group">`group`</a>,
+                <a href="#index-aria-menu">`menu`</a>,
+                <a href="#index-aria-menubar">`menubar`</a>,
+                <a href="#index-aria-none">`none`</a>,
+                <a href="#index-aria-presentation">`presentation`</a>
+                or <a href="#index-aria-tablist">`tablist`</a>.
+              </p>
+              <p>
                 DPub Roles:
                 <a data-cite="dpub-aria-1.0#doc-index">`doc-index`</a>,
                 <a data-cite="dpub-aria-1.0#doc-pagelist">`doc-pagelist`</a>,
@@ -1855,7 +1917,8 @@
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `navigation` role.
+                any `aria-*` attributes applicable to the allowed roles and
+                implied role (if any).
               </p>
             </td>
           </tr>
@@ -1897,11 +1960,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -2409,10 +2467,7 @@
             </td>
             <td>
               <p>
-                Role: `button` with `aria-expanded=true` if the
-                parent (`details`) element's <a data-cite=
-                "html/interactive-elements.html#attr-details-open">`open`</a>
-                attribute is present, `aria-expanded=false` otherwise.
+                <strong class="nosupport">No `role`</strong>
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
@@ -2576,7 +2631,8 @@
                 <code>role=<a href="#index-aria-cell">cell</a></code> if a
                 descendant of a `table` element.
               </p>
-              <!--<p><code>role=<a href="#index-aria-cell">gridcell</a></code> if a descendant of a <code>table</code> elementwith <code>role=grid</code></p>-->
+              <!--<p><code>role=<a href="#index-aria-cell">gridcell</a></code> if a descendant
+                of a <code>table</code> element with <code>role=grid</code></p>-->
             </td>
             <td>
               <p>
@@ -2663,11 +2719,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -2867,16 +2918,26 @@
           </tr>
           <tr id="att-contenteditable" tabindex="-1">
             <td>
-              Element with <a data-cite=
-              "html/interaction.html#attr-contenteditable">`contenteditable`</a>
-              attribute
+              <p>
+                Element with <code><a data-cite=
+                "html/interaction.html#attr-contenteditable">contenteditable</a>="true"</code>;
+                or<br>
+                Element without `contenteditable` attribute whose closest
+                ancestor with a `contenteditable` attribute has
+                `contenteditable="true"`.
+              </p>
+              <p>
+                Note: this is equivalent to the <a data-cite=
+                "html/interaction.html#dom-iscontenteditable">`isContentEditable`</a>
+                IDL attribute.
+              </p>
             </td>
             <td>
               `aria-readonly="false"`
             </td>
             <td>
-              Do not set `aria-readonly="true"` on an element that
-              has a `contenteditable` attribute set.
+              Do not set `aria-readonly="true"` on an element that has
+              `isContentEditable="true"`.
             </td>
           </tr>
         </tbody>
@@ -5209,8 +5270,7 @@
             </td>
             <td>
               An option item of a tree. This is an element within a tree that
-              may be expanded or collapsed if it contains a sub-level group of
-              treeitems.
+              may be expanded or collapsed if it contains a sub-level group of treeitems.
             </td>
             <td>
               none
@@ -5258,8 +5318,8 @@
         Documents MUST NOT use any `role`
         values with elements in the [[[#docconformance]]] table, other than the
         corresponding role value (if any) as listed for that element in the
-        third column, other than those indicated in the second column, which
-        SHOULD NOT be used.
+        third column, other than those indicated in the second column (whose
+        explicit use in markup is NOT RECOMMENDED).
       </p>
     </section>
 
