@@ -48,7 +48,7 @@
         ARIA in HTML is a [[HTML]] specification module. Any HTML features,
         conformance requirements, or terms that this specification module makes
         reference to, but does not explicitly define, are defined in the
-        [[HTML]] specification.
+        [[HTML|HTML specification]].
       </p>
       <p class="advisement">
         This is a draft document and its contents are subject to change without
@@ -75,9 +75,10 @@
       <p>
         Web developers MUST NOT use the ARIA `role` and `aria-*` attributes in
         a manner that conflicts with the semantics described in the
-        [[[#docconformance]]] table. Web developers SHOULD NOT set the ARIA
-        `role` and `aria-*` attributes to values that match the <a>implicit
-        ARIA semantics</a> defined in the table.
+        [[[#docconformance]]] table. It is NOT RECOMMENDED for web developers
+        to set the ARIA `role` and `aria-*` attributes to values that match the
+        <a>implicit ARIA semantics</a> defined in the table. Doing so is unnecessary
+        and can potentially lead to unintended consequences.
       </p>
       <aside class="example">
         The following uses a `role=heading` on a `button` element. This is not
@@ -87,6 +88,46 @@
           &lt;button role="heading"&gt;search&lt;/button&gt;
         </pre>
       </aside>
+
+      <aside class="example">
+        The following uses a `role=button` on a `button` element. This is unnecessary, as "button"
+        is already exposed as the implicit role for the element. In practice this redundancy will
+        likely not have any unforeseen side effects, other than unnecessarily making the markup more verbose, and incorrectly signaling to other developers that this practice is useful.
+        <pre class="HTML">
+          &lt;button role="button"&gt;...&lt;/button&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=group` on a `fieldset` element. This is unnecessary,
+        because the `fieldset` element is implicitly exposed as a `role=group`. Again,
+        in practice this will likely not have any unforeseen side effects.
+        <pre class="HTML">
+          &lt;fieldset role="group"&gt;...&lt;/fieldset&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=list` on an `ul` element. This is generally unnecessary,
+        because the `ul` element is implicitly exposed as a `role=list`. However, some user agents suppress a list's implicit ARIA semantics if list markers are removed. Authors can use `role=list` to reinstate the role if necessary, though this practice would generally not be recommended, otherwise.
+        <pre class="HTML">
+          &lt;ul role="list"&gt;...&lt;/ul&gt;
+        </pre>
+      </aside>
+
+      <aside class="example">
+        The following uses a `role=button` on a `summary` element. This is unnecessary and can
+        result in cross-platform issues, For instance, preventing the element from correctly
+        exposing its state, and forcing the role of `button`, when it might otherwise be exposed
+        with a different role.
+        <pre class="HTML">
+          &lt;details>
+            &lt;summary role="button"&gt;more information&lt;/summary&gt;
+            ...
+          &lt;/details>
+        </pre>
+      </aside>
+
     </section>
     <section>
       <h2 id="docconformance">
@@ -96,24 +137,23 @@
         The following table provides normative per-element document-conformance
         requirements for the use of ARIA markup in HTML documents and describes
         the <a>implicit ARIA semantics</a> that apply to <a data-cite=
-        "html/dom.html#elements">HTML elements</a> as defined in the HTML
-        Accessibility API Mappings 1.0 [[html-aam-1.0]] specification.
+        "html/dom.html#elements">HTML elements</a> as defined in the [[html-aam-1.0|HTML
+        Accessibility API Mappings 1.0]] specification.
       </p>
       <p>
-        Each language feature (element or attribute) in a cell in the first column
-        implies the ARIA semantics (any role, states, and properties) given in
-        the cell in the second column of the same row. The third cell in each
-        row defines which ARIA role values and aria-* attributes which MAY be
-        used. Where a cell in the third column includes the term
-        <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role`
-        value apart from the <a>implicit ARIA semantics</a> `role` value, MAY
-        be used. If an cell in the third column includes the term <dfn><strong>No `role`</strong></dfn> it indicates that authors MUST NOT overwrite the implicit ARIA semantics, or native semantics of the HTML element.
+        Each language feature (element or attribute) in a cell in the first column implies the
+        ARIA semantics (any role, states, and properties) given in the cell in the second column
+        of the same row. The third cell in each row defines which ARIA role values and `aria-*`
+        attributes which MAY be used. Where a cell in the third column includes the term
+        <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role` value apart from the
+        <a>implicit ARIA semantics</a> `role` value, MAY be used. If a cell in the third column
+        includes the term <dfn><strong>No `role`</strong></dfn> it indicates that authors MUST NOT
+        overwrite the implicit ARIA semantics, or native semantics of the HTML element.
       </p>
 
       <p class="note" id="aria-usage-note">
-        Setting an ARIA `role` and/or `aria-*` attribute that matches the
-        <span>implicit ARIA semantics</span> is unnecessary and is NOT
-        RECOMMENDED as these properties are already set by the browser.
+        While setting an ARIA `role` and/or `aria-*` attribute that matches the
+        <span>implicit ARIA semantics</span> is NOT RECOMMENDED, in some situations explicitly setting these attributes can be helpful. For instance, in user agents which lack specific implicit semantics.
       </p>
 
       <table class="simple">
@@ -126,10 +166,8 @@
           </th>
           <th>
             <p id="implicit">
-              Implicit ARIA semantics -
-            </p>
-            <p>
-              SHOULD NOT be used
+              Implicit ARIA semantics
+              <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
             </p>
           </th>
           <th>
@@ -1176,7 +1214,8 @@
             </td>
             <td>
               <p>
-                If not provided an author defined accessible name by other methods: <strong class="nosupport">No `role`</strong>, and <strong>no `aria-*` attributes</strong> except
+                If no author-defined accessible name is provided by other methods:
+                <strong class="nosupport">No `role`</strong>, and <strong>no `aria-*` attributes</strong> except
                 `aria-hidden`.
               </p>
               <p>
@@ -1800,11 +1839,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -1923,11 +1957,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -2693,11 +2722,6 @@
             </td>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
-              <p>
-                <strong>Note:</strong> some user agents suppress a list's
-                <a>implicit ARIA semantics</a> if list markers are removed.
-                Authors can use `role=list` to reinstate the role if necessary.
-              </p>
             </td>
             <td>
               <p>
@@ -5297,8 +5321,8 @@
         Documents MUST NOT use any `role`
         values with elements in the [[[#docconformance]]] table, other than the
         corresponding role value (if any) as listed for that element in the
-        third column, other than those indicated in the second column, which
-        SHOULD NOT be used.
+        third column, other than those indicated in the second column (whose
+        explicit use in markup is NOT RECOMMENDED).
       </p>
     </section>
 
