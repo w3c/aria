@@ -13600,8 +13600,8 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<p>Interfaces that include <code>ARIAMixin</code> must provide the following algorithms:</p>
 
 		<ul>
-			<li><dfn>get the accessibility IDL attribute</dfn>, which takes the host interface instance, IDL attribute name, and content attribute name, and must return a string value; and
-			<li><dfn>set the accessibility IDL attribute</dfn>, which takes the host interface instance, IDL attribute name, content attribute name, and string value, and must return nothing.</li>
+			<li><dfn><code>ARIAMixin</code> getter steps</dfn>, which takes the host interface instance, IDL attribute name, and content attribute name, and must return a string value; and
+			<li><dfn><code>ARIAMixin</code> setter steps</dfn>, which takes the host interface instance, IDL attribute name, content attribute name, and string value, and must return nothing.</li>
 		</ul>
 
 		<p>For every IDL attribute <var>idlAttribute</var> defined in <code>ARIAMixin</code>, on getting, it must perform the following steps:</p>
@@ -13609,7 +13609,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<ol>
 			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
 
-			<li><p>Return the result of <a>get the accessibility IDL attribute</a>, given this, <var>idlAttribute</var>, and <var>contentAttribute</var>.</p></li>
+			<li><p>Return the result of running the <a><code>ARIAMixin</code> getter steps</a>, given this, <var>idlAttribute</var>, and <var>contentAttribute</var>.</p></li>
 		</ol>
 
 		<p>Similarly, on setting, it must perform the following steps:</p>
@@ -13617,7 +13617,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<ol>
 			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
 
-			<li><p><a>Set the accessibility IDL attribute</a>, given this, <var>idlAttribute</var>, <var>contentAttribute</var>, and the given value.</p></li>
+			<li><p>Run the <a><code>ARIAMixin</code> setter steps</a>, given this, <var>idlAttribute</var>, <var>contentAttribute</var>, and the given value.</p></li>
 		</ol>
 
 		<p class="note">This very general framework is motivated by the desire for different host interfaces, such as <code>Element</code> and <code>ElementInternals</code>, to give these IDL attributes different behaviors. The alternative is requiring each host interface to duplicate the IDL attributes independently, so that they can specify independent behaviors, but that comes with a high risk of them getting out of sync.</p>
@@ -13713,8 +13713,8 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 
 		<p>For <code>Element</code>:</p>
 		<ul>
-			<li><p>To <a>get the accessibility IDL attribute</a> given <var>element</var>, <var>idlAttribute</var>, and <var>contentAttribute</var>, return the result of the getter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>.</p></li>
-			<li><p>To <a>set the accessibility IDL attribute</a> given <var>element</var>, <var>idlAttribute</var>, <var>contentAttribute</var>, and <var>value</var>, perform the setter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>, given <var>value</var>.</p></li>
+			<li><p>The <a><code>ARIAMixin</code> getter steps</a> given <var>element</var>, <var>idlAttribute</var>, and <var>contentAttribute</var> are to return the result of the getter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>.</p></li>
+			<li><p>The <a><code>ARIAMixin</code> setter steps</a> given <var>element</var>, <var>idlAttribute</var>, <var>contentAttribute</var>, and <var>value</var> are to perform the setter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>, given <var>value</var>.</p></li>
 		</ul>
 
 		<p class="note">In practice, this means that, e.g., the <code>role</code> IDL on <code>Element</code> reflects the <code>role</code> content attribute; the <code>ariaValueMin</code> IDL attribute reflects the <code>aria-valuemin</code> content attribute; etc.</p>
