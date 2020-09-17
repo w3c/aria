@@ -1,6 +1,8 @@
 /* globals respecConfig, $, localRoleInfo, roleInfo, require */
 /* exported linkCrossReferences, restrictReferences, fixIncludes */
 
+import { getDfnTitles } from "core/utils";
+
 function linkCrossReferences() {
   "use strict";
 
