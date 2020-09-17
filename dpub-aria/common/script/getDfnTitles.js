@@ -54,9 +54,28 @@ function norm(str) {
         id += txt;
         id = id.toLowerCase();
         if (id.length === 0) id = "generatedID";
-        id = this.sanitiseID(id);
+        id = sanitiseID(id);
         if (pfx) id = pfx + "-" + id;
-        id = this.idThatDoesNotExist(id);
+        id = idThatDoesNotExist(id);
         el.setAttribute("id", id);
+        return id;
+    }
+
+function sanitiseID(id) {
+        id = id.split(/[^\-.0-9a-zA-Z_]/).join("-");
+        id = id.replace(/^-+/g, "");
+        id = id.replace(/-+$/, "");
+        if (id.length > 0 && /^[^a-z]/.test(id)) id = "x" + id;
+        if (id.length === 0) id = "generatedID";
+        return id;
+    }
+    
+function idThatDoesNotExist(id) {
+        var inc = 1;
+        var cdoc = doc ? doc : document;
+        if (cdoc.getElementById(id)) {
+            while (cdoc.getElementById(id + "-" + inc)) inc++;
+            id = id + "-" + inc;
+        }
         return id;
     }
