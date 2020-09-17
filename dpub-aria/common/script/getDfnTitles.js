@@ -37,5 +37,7 @@ function getDfnTitles(elem) {
 }
 
 function norm(str) {
-  return str.trim().replace(/\s+/g, " ");
+  if (str) {
+    return str.trim().replace(/\s+/g, " ");
+  }
 }
