@@ -5,7 +5,7 @@ function getDfnTitles(elem) {
   // ltNodefault is === "data-lt-noDefault"... someone screwed up 😖
   const normText = (elem.dataset && ("ltNodefault" in elem.dataset)) ? "" : norm(elem.textContent);
   const child = /** @type {HTMLElement | undefined} */ (elem.children[0]);
-  if (elem.dataset.lt) {
+  if (elem.dataset.hasOwnProperty('lt')) {
     // prefer @data-lt for the list of title aliases
     elem.dataset.lt
       .split("|")
