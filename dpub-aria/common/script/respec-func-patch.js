@@ -83,10 +83,8 @@ function fixARIARelativeRefs() {
 	// hack to rewrite internal aria section links in imported vocabulary
 	var dl = document.querySelectorAll('section#terms dl.termlist dd a');
 	dl.forEach(atag => {
-		if (!atag.hasAttribute('class')) {
-			if (atag.hash == "#definition" || atag.hash == "#statevsprop") {
-				atag.href = 'https://www.w3.org/TR/wai-aria-1.1/' + atag.href;
-			}
+		if (atag.hash && (atag.hash == "#definition" || atag.hash == "#statevsprop")) {
+			atag.href = 'https://www.w3.org/TR/wai-aria-1.1/' + atag.hash;
 		}
 	})
 }
