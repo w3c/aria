@@ -72,9 +72,8 @@ function sanitiseID(id) {
     
 function idThatDoesNotExist(id) {
         var inc = 1;
-        var cdoc = doc ? doc : document;
-        if (cdoc.getElementById(id)) {
-            while (cdoc.getElementById(id + "-" + inc)) inc++;
+        if (document.getElementById(id)) {
+            while (document.getElementById(id + "-" + inc)) inc++;
             id = id + "-" + inc;
         }
         return id;
