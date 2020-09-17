@@ -42,7 +42,7 @@ function norm(str) {
   }
 }
 
- function makeID(el, pfx, txt) {
+ makeID: function (el, pfx, txt) {
         if (el.hasAttribute("id")) return el.getAttribute("id");
         var id = "";
         if (!txt) {
