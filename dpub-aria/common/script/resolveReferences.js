@@ -211,7 +211,7 @@ function restrictReferences(utils, content) {
     $.each(base.querySelectorAll("dfn"), function(i, item) {
         var $t = $(item) ;
         var titles = getDfnTitles($t[0]);
-        var n = makeID($t, "dfn", titles[0]);
+        var n = makeID($t[0], "dfn", titles[0]);
         if (n) {
             termNames[n] = $t.parent() ;
         }
@@ -243,7 +243,7 @@ require(["core/pubsubhub"], function(respecEvents) {
                         // is in the termNames array). If it is, we can ignore
                         // this particular internal reference.
                         var dfn = $item.closest('dd').prev().find('dfn');
-                        var parentTermId = makeID(dfn, 'dfn', getDfnTitles(dfn)[0]);
+                        var parentTermId = makeID(dfn[0], 'dfn', getDfnTitles(dfn[0]));
                         if (termNames[parentTermId])
                             return;
                     }
