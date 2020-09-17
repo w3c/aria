@@ -2,6 +2,7 @@
 /* exported linkCrossReferences, restrictReferences, fixIncludes */
 
 function getDfnTitles(elem) {
+  if (elem === null || typeof(elem) === 'undefined') { return; }
   const titleSet = new Set();
   // data-lt-noDefault avoid using the text content of a definition
   // in the definition list.
