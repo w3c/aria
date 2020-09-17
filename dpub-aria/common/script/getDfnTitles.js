@@ -41,3 +41,22 @@ function norm(str) {
     return str.trim().replace(/\s+/g, " ");
   }
 }
+
+ function makeID(el, pfx, txt) {
+        if (el.hasAttribute("id")) return el.getAttribute("id");
+        var id = "";
+        if (!txt) {
+            if (el.hasAttribute("title")) txt = el.getAttribute("title");
+            else                          txt = el.textContent;
+        }
+        txt = txt.replace(/^\s+/, "");
+        txt = txt.replace(/\s+$/, "");
+        id += txt;
+        id = id.toLowerCase();
+        if (id.length === 0) id = "generatedID";
+        id = this.sanitiseID(id);
+        if (pfx) id = pfx + "-" + id;
+        id = this.idThatDoesNotExist(id);
+        el.setAttribute("id", id);
+        return id;
+    }
