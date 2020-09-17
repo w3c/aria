@@ -78,3 +78,14 @@ function idThatDoesNotExist(id) {
         }
         return id;
     }
+
+function fixARIARelativeRefs() {
+	var dl = document.querySelectorAll('section#terms dl.termlist dd a');
+	dl.forEach(atag => {
+		if (!atag.hasAttribute('class')) {
+			if (atag.href.indexOf('#') == 1 && !atag.href.match(/^#dfn/)) {
+				atag.href = 'https://www.w3.org/TR/wai-aria-1.1/' + atag.href;
+			}
+		}
+	})
+}
