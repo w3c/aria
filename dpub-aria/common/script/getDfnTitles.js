@@ -35,3 +35,7 @@ function getDfnTitles(elem) {
   const titles = [...titleSet];
   return titles;
 }
+
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
