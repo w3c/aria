@@ -210,8 +210,8 @@ function restrictReferences(utils, content) {
     // strategy: Traverse the content finding all of the terms defined
     $.each(base.querySelectorAll("dfn"), function(i, item) {
         var $t = $(item) ;
-        var titles = getDfnTitles($t[0]);
-        var n = makeID($t[0], "dfn", titles[0]);
+        var titles = $t.getDfnTitles();
+        var n = $t.makeID("dfn", titles[0]);
         if (n) {
             termNames[n] = $t.parent() ;
         }
@@ -243,7 +243,7 @@ require(["core/pubsubhub"], function(respecEvents) {
                         // is in the termNames array). If it is, we can ignore
                         // this particular internal reference.
                         var dfn = $item.closest('dd').prev().find('dfn');
-                        var parentTermId = makeID(dfn[0], 'dfn', getDfnTitles(dfn[0]));
+                        var parentTermId = dfn.makeID('dfn', dfn.getDfnTitles[0]);
                         if (termNames[parentTermId])
                             return;
                     }
@@ -262,7 +262,7 @@ require(["core/pubsubhub"], function(respecEvents) {
                     $p.parent().next().remove();
                     $p.parent().remove();
 
-                    getDfnTitles($p).forEach(function( item ) {
+                    $p.getDfnTitles().forEach(function( item ) {
                         if (respecConfig.definitionMap[item]) {
                             delete respecConfig.definitionMap[item];
                         }
