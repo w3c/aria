@@ -5991,9 +5991,26 @@
 		<div class="role" id="option">
 			<rdef>option</rdef>
 			<div class="role-description">
-				<p>A selectable item in a <rref>listbox</rref>.</p>
+				<p>An item in a <rref>listbox</rref>.</p>
 				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>option</code> are contained in, or <a>owned</a> by, an element with the <a>role</a>  <rref>listbox</rref> or <rref>group</rref> within a <code>listbox</code>. Options not associated with a <rref>listbox</rref> might not be correctly mapped to an <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
-				<p>Elements with the role <code>option</code> have an implicit <sref>aria-selected</sref> value of <code>false</code>.</p>
+        <p>User agents MAY provide an implicit value of <sref>aria-selected</sref> for each <rref>option</rref> in a <rref>listbox</rref> if the following conditions are met, but user agents MUST NOT provide an implicit value of <sref>aria-selected</sref> if any of the following conditions are not met:</p>
+        <ul>
+          <li>The value of <pref>aria-multiselectable</pref> on the <rref>listbox</rref> is <code>false</code> or <code>undefined</code>.</li>
+          <li>None of the <rref>option</rref> elements in the <rref>listbox</rref> have an explicitly declared value for <sref>aria-selected</sref> or <sref>aria-checked</sref>.</li>  
+        </ul>
+        <p>
+          If a user agent provides an implicit <sref>aria-selected</sref> value for an <rref>option</rref>, the value SHOULD be <code>true</code> if the <rref>option</rref> has DOM focus or the <ref>listbox</ref> has DOM focus and the option is referenced by <pref>aria-activedescendant</pref>.
+          Otherwise, if a user agent provides an implicit <sref>aria-selected</sref> value for an <rref>option</rref>, the value SHOULD be <code>false</code>.
+        </p>
+        <p>
+          The <rref>option</rref> role supports both <sref>aria-selected</sref> and <sref>aria-checked</sref> because it is common for authors to use selection in single-select list boxes and check marks in multi-select list boxes.
+          However, authors SHOULD NOT specify both <sref>aria-selected</sref> and <sref>aria-checked</sref> on <rref>option</rref> elements contained by the same <rref>listbox</rref> except in the extremely rare circumstances where all the following conditions are met:
+        </p>
+        <ul>
+          <li>The meaning and purpose of <sref>aria-selected</sref> is different from the meaning and purpose of <sref>aria-checked</sref> in the user interface.</li>
+          <li>The user interface makes the mening and purpose of each state apparent.</li>
+          <li>The user interface provides a separate method for controling each state.</li>
+        </ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -6041,11 +6058,7 @@
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties">
-							<ul>
-								<li><sref>aria-selected</sref></li>
-							</ul>
-						</td>
+						<td class="role-required-properties"></td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
@@ -6053,6 +6066,7 @@
 							<ul>
 								<li><sref>aria-checked</sref></li>
 								<li><pref>aria-posinset</pref></li>
+                <li><sref>aria-selected</sref></li>
 								<li><pref>aria-setsize</pref></li>
 							</ul>
 						</td>
@@ -6088,7 +6102,7 @@
 					</tr>
 					<tr>
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
-						<td class="implicit-values">Default for <sref>aria-selected</sref> is <code class="default">false</code>.</td>
+						<td class="implicit-values"></td>
 					</tr>
 				</tbody>
 			</table>
