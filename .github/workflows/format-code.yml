@@ -1,0 +1,20 @@
+name: Prettier for HTML
+
+on: [pull_request]
+
+jobs:
+  cleanup_tasks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Cloning the repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Prettify the code
+      uses: creyD/prettier_action@v2.1
+      with:
+        prettier_options: '--html-whitespace-sensitivity ignore --no-semi --write **/*.html'
+        branch: ${{ github.head_ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
