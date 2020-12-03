@@ -477,31 +477,26 @@
 		</section>
 		<section id="scope">
 			<h3>Required Context Role</h3>
-			<p>The required context role defines the owning container where this <a>role</a> is allowed. If a role has a required context, authors MUST ensure that the element is contained inside (or <a>owned</a> by) an element with the required context role. There can be no other intermixed containing elements unless those elements are explicitly set as presentational, e.g. with a <rref>none</rref> role.</p>
+			<p>The required context role defines the owning container where this <a>role</a> is allowed. If a role has a required context, authors MUST ensure that any element with that role is contained inside (or <a>owned</a> by) an element with the required context role. There can be no other intermixed containing elements unless those elements are explicitly set as presentational, e.g. with role <rref>presentation</rref> or <rref>none</rref>.</p>
 			<p>For example, an element with role <code>listitem</code> is only meaningful when contained inside (or owned by) an element with role <code>list</code>, as demonstrated by the following code snippet.</p>
-			<div class="example">
-				<pre class="highlight">
-          &lt;div role="list" aria-owns="owned_item">
-            &lt;div role="listitem">Direct child of the list.&lt;/div>
-            &lt;div role="none">
-              &lt;div role="listitem">Descendant contained by a presentational element.&lt;/div>
-            &lt;/div>
+			<pre class="example highlight">
+        &lt;!-- 1. These listitem elements meet the required context role expectations. --&gt;
+        &lt;div role="list" aria-owns="owned_item">
+          &lt;div role="listitem">Direct child of the list.&lt;/div>
+          &lt;div role="none">
+            &lt;div role="listitem">Descendant contained by a presentational element.&lt;/div>
           &lt;/div>
-          &lt;div role="listitem" id="owned_item">List item that is "owned" by its sibling "list".&lt;/div>
-        </pre>
-      </div>
-
-      <p>The following example shows <code>listitem</code> elements that do not meet the required context role expectations.</p>
-      <div class="example">
-        <pre class="highlight">
-          &lt;div role="list">
-            &lt;div>
-              &lt;div role="listitem">...&lt;/div>
-            &lt;/div>
+        &lt;/div>
+        &lt;div role="listitem" id="owned_item">List item that is owned by its sibling list.&lt;/div>
+        
+        &lt;!-- 2. These listitem elements DO NOT meet the required context role expectations. --&gt;
+        &lt;div role="list">
+          &lt;div>
+            &lt;div role="listitem">Descendant with intervening non-presentational element.&lt;/div>
           &lt;/div>
-          &lt;div role="listitem">...&lt;/div>
-				</pre>
-			</div>
+        &lt;/div>
+        &lt;div role="listitem">List item that is not owned by a list.&lt;/div>
+			</pre>
 			<p class="note">A role that has 'required context role' does not imply the reverse relationship. While an element with the given role needs to appear within an element of the listed role(s) in order to be meaningful, elements of the listed roles do not always need descendant elements of the given role in order to be meaningful. See <a href="#mustContain">required owned elements</a> for requirements about elements that require presence of a given descendant to be processed properly.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
