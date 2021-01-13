@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY dc "http://dublincore.org/2003/03/24/dces#">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY states "http://www.w3.org/2005/07/aaa#">
+]>
+<rdf:RDF xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:role="http://www.w3.org/1999/xhtml/vocab#"
+         xmlns:states="http://www.w3.org/2005/07/aaa#"
+         xml:base="http://www.w3.org/WAI/ARIA/Schemata/aria-1"><!--==Objects==-->
+   <owl:ObjectProperty rdf:ID="baseConcept">
+      <rdfs:comment xml:lang="en">This is similar to type but without
+		  inheritance of limitations and properties. role:baseConcepts are designed as
+		  a substitute for inheritance for external concepts. </rdfs:comment>
+      <rdfs:subpropertyOf rdf:resource="rdfs:seeAlso"/>
+      <rdfs:domain rdf:resource="#roletype"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="supportedState">
+      <rdfs:comment xml:lang="en">A state that can be supported for this 
+		  Role</rdfs:comment>
+      <rdfs:domain rdf:resource="#roletype"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="requiredState">
+      <rdfs:comment xml:lang="en">A state that must be provided for this 
+				Role</rdfs:comment>
+      <rdfs:subpropertyOf rdf:resource="#supportedState"/>
+      <rdfs:domain rdf:resource="#roletype"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="scope">
+      <rdfs:comment xml:lang="en">Context where this role is
+		  allowed</rdfs:comment>
+      <rdfs:domain rdf:resource="#roletype"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="mustContain">
+      <rdfs:comment xml:lang="en">A child that must be contained by this
+		  role</rdfs:comment>
+      <rdfs:subpropertyOf rdf:resource="#scope"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="nameFrom">
+      <rdfs:comment>How a role type name is extracted and referenced 
+		  inside a document. Values are "author": name comes from values 
+		  provided by the author in explict markup features; and "subtree": 
+		  name comes from the text value of the element node.</rdfs:comment>
+      <rdfs:domain rdf:resource="#widget"/>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="childrenArePresentational">
+      <rdfs:comment xml:lang="en">The children are presenational. Assistive
+				technologies may choose to hid the children from the user.</rdfs:comment>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+      <rdfs:domain rdf:resource="#roletype"/>
+   </owl:ObjectProperty>
+   <owl:Class rdf:ID="alert">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-common-elements-alert"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="alertdialog">
+      <rdfs:subClassOf rdf:resource="#alert"/>
+      <rdfs:subClassOf rdf:resource="#dialog"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-common-elements-alert"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="application">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/di-gloss/#def-delivery-unit"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-activedescendant"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="article">
+      <rdfs:subClassOf rdf:resource="#document"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/sections.html#the-article-element"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="banner">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="button">
+      <rdfs:subClassOf rdf:resource="#command"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/forms.html#the-button-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-button"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-pressed"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="cell">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-td-element"/>
+      <role:scope rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-colindex"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-colspan"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-rowindex"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-rowspan"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="checkbox">
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-checked"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="columnheader">
+      <rdfs:subClassOf rdf:resource="#cell"/>
+      <rdfs:subClassOf rdf:resource="#gridcell"/>
+      <rdfs:subClassOf rdf:resource="#sectionhead"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#attr-th-scope"/>
+      <role:scope rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-sort"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="combobox">
+      <rdfs:subClassOf rdf:resource="#select"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#the-select-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-selectMany"/>
+      <role:mustContain rdf:resource="#textbox"/>
+      <role:mustContain rdf:resource="#listbox"/>
+      <role:mustContain rdf:resource="#tree"/>
+      <role:mustContain rdf:resource="#grid"/>
+      <role:mustContain rdf:resource="#dialog"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-autocomplete"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-controls"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="command">
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html51/semantics.html#the-menuitem-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="complementary">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="composite">
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-activedescendant"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="contentinfo">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="definition">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-dd-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-dfn-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="dialog">
+      <rdfs:subClassOf rdf:resource="#window"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="directory">
+      <rdfs:subClassOf rdf:resource="#list"/>
+      <rdfs:seeAlso rdf:resource="http://www.daisy.org/z3986/2005/Z3986-2005.html#Guide"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="document">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/di-gloss/#def-delivery-unit"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="feed">
+      <rdfs:subClassOf rdf:resource="#list"/>
+      <role:mustContain rdf:resource="#article"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="figure">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-figure-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="form">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/forms.html#the-form-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="grid">
+      <rdfs:subClassOf rdf:resource="#composite"/>
+      <rdfs:subClassOf rdf:resource="#table"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-table-element"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:mustContain rdf:resource="#rowgroup"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-level"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-multiselectable"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="gridcell">
+      <rdfs:subClassOf rdf:resource="#cell"/>
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-td-element"/>
+      <role:scope rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-selected"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="group">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#the-fieldset-element"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-activedescendant"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="heading">
+      <rdfs:subClassOf rdf:resource="#sectionhead"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/sections.html#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-level"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="img">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="http://www.loc.gov/nls/z3986/v100/dtbook110doc.htm#imggroup"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/embedded-content-0.html#the-img-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="input">
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-input"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="landmark">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="link">
+      <rdfs:subClassOf rdf:resource="#command"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/text-level-semantics.html#the-a-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/document-metadata.html#the-link-element"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="list">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-ol-element"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-ul-element"/>
+      <role:mustContain rdf:resource="#group"/>
+      <role:mustContain rdf:resource="#listitem"/>
+      <role:mustContain rdf:resource="#listitem"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="listbox">
+      <rdfs:subClassOf rdf:resource="#select"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#the-select-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-selectMany"/>
+      <role:mustContain rdf:resource="#option"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-multiselectable"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="listitem">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-li-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-common-elements-item"/>
+      <role:scope rdf:resource="#group"/>
+      <role:scope rdf:resource="#list"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-level"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="log">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="main">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="marquee">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="math">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="menu">
+      <rdfs:subClassOf rdf:resource="#select"/>
+      <rdfs:seeAlso rdf:resource="http://www.loc.gov/nls/z3986/v100/dtbook110doc.htm#sidebar"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-selectMany"/>
+      <rdfs:seeAlso rdf:resource="http://docs.oracle.com/javase/6/docs/api/javax/accessibility/AccessibleRole.html#MENU"/>
+      <role:mustContain rdf:resource="#group"/>
+      <role:mustContain rdf:resource="#menuitemradio"/>
+      <role:mustContain rdf:resource="#menuitem"/>
+      <role:mustContain rdf:resource="#menuitemcheckbox"/>
+      <role:mustContain rdf:resource="#menuitemradio"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="menubar">
+      <rdfs:subClassOf rdf:resource="#menu"/>
+      <role:mustContain rdf:resource="#group"/>
+      <role:mustContain rdf:resource="#menuitemradio"/>
+      <role:mustContain rdf:resource="#menuitem"/>
+      <role:mustContain rdf:resource="#menuitemcheckbox"/>
+      <role:mustContain rdf:resource="#menuitemradio"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="menuitem">
+      <rdfs:subClassOf rdf:resource="#command"/>
+      <rdfs:seeAlso rdf:resource="http://docs.oracle.com/javase/6/docs/api/javax/accessibility/AccessibleRole.html#MENU_ITEM"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html51/semantics.html#the-menuitem-element"/>
+      <role:scope rdf:resource="#group"/>
+      <role:scope rdf:resource="#menu"/>
+      <role:scope rdf:resource="#menubar"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="menuitemcheckbox">
+      <rdfs:subClassOf rdf:resource="#checkbox"/>
+      <rdfs:subClassOf rdf:resource="#menuitem"/>
+      <role:scope rdf:resource="#menu"/>
+      <role:scope rdf:resource="#menubar"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="menuitemradio">
+      <rdfs:subClassOf rdf:resource="#menuitemcheckbox"/>
+      <rdfs:subClassOf rdf:resource="#radio"/>
+      <role:scope rdf:resource="#group"/>
+      <role:scope rdf:resource="#menu"/>
+      <role:scope rdf:resource="#menubar"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="navigation">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/sections.html#the-nav-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="none"/>
+   <owl:Class rdf:ID="note">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="option">
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/forms.html#the-option-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-common-elements-item"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-checked"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-selected"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="presentation">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <role:nameFrom>author (if role discarded by error conditions)</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="progressbar">
+      <rdfs:subClassOf rdf:resource="#range"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="radio">
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-checked"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="radiogroup">
+      <rdfs:subClassOf rdf:resource="#select"/>
+      <role:mustContain rdf:resource="#radio"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="range">
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemax"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemin"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuenow"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuetext"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="region">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/obsolete.html#frame"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/di-gloss/#def-perceivable-unit"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="roletype">
+      <rdfs:subClassOf>
+         <owl:Restriction>
+            <owl:onProperty rdf:resource="http://dublincore.org/2003/03/24/dces#description"/>
+            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</owl:cardinality>
+         </owl:Restriction>
+      </rdfs:subClassOf>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-atomic"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-busy"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-controls"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-current"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-describedby"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-details"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-disabled"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-errormessage"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-flowto"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-haspopup"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-hidden"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-invalid"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-keyshortcuts"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-label"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-labelledby"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-live"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-owns"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-relevant"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-roledescription"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/xhtml-role/#s_role_module_attributes"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/document-metadata.html#attr-link-rel"/>
+      <rdfs:seeAlso rdf:resource="http://dublincore.org/documents/2012/06/14/dcmi-terms/"/>
+      <role:nameFrom>n/a</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="row">
+      <rdfs:subClassOf rdf:resource="#group"/>
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-tr-element"/>
+      <role:scope rdf:resource="#grid"/>
+      <role:scope rdf:resource="#rowgroup"/>
+      <role:scope rdf:resource="#table"/>
+      <role:scope rdf:resource="#treegrid"/>
+      <role:mustContain rdf:resource="#cell"/>
+      <role:mustContain rdf:resource="#columnheader"/>
+      <role:mustContain rdf:resource="#gridcell"/>
+      <role:mustContain rdf:resource="#rowheader"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-colindex"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-level"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-rowindex"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-selected"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="rowgroup">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-tbody-element"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-tfoot-element"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-thead-element"/>
+      <role:scope rdf:resource="#grid"/>
+      <role:scope rdf:resource="#table"/>
+      <role:scope rdf:resource="#treegrid"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="rowheader">
+      <rdfs:subClassOf rdf:resource="#cell"/>
+      <rdfs:subClassOf rdf:resource="#gridcell"/>
+      <rdfs:subClassOf rdf:resource="#sectionhead"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#attr-th-scope"/>
+      <role:scope rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-sort"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="scrollbar">
+      <rdfs:subClassOf rdf:resource="#range"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-controls"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemax"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemin"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuenow"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="search">
+      <rdfs:subClassOf rdf:resource="#landmark"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="searchbox">
+      <rdfs:subClassOf rdf:resource="#textbox"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/forms.html#text-(type=text)-state-and-search-state-(type=search)"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="section">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <rdfs:seeAlso rdf:resource="http://www.loc.gov/nls/z3986/v100/dtbook110doc.htm#frontmatter"/>
+      <rdfs:seeAlso rdf:resource="http://www.loc.gov/nls/z3986/v100/dtbook110doc.htm#level"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/SMIL3/smil-timing.html#edef-par"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:nameFrom>n/a</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="sectionhead">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="select">
+      <rdfs:subClassOf rdf:resource="#composite"/>
+      <rdfs:subClassOf rdf:resource="#group"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="separator">
+      <rdfs:subClassOf rdf:resource="#structure"/>
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-hr-element"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuetext"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemax"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemin"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuenow"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="slider">
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <rdfs:subClassOf rdf:resource="#range"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemax"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemin"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuenow"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="spinbutton">
+      <rdfs:subClassOf rdf:resource="#composite"/>
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <rdfs:subClassOf rdf:resource="#range"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemax"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuemin"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-valuenow"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="status">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="structure">
+      <rdfs:subClassOf rdf:resource="#roletype"/>
+      <role:nameFrom>n/a</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="switch">
+      <rdfs:subClassOf rdf:resource="#checkbox"/>
+      <role:requiredState rdf:resource="http://www.w3.org/2005/07/aaa#aria-checked"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="tab">
+      <rdfs:subClassOf rdf:resource="#sectionhead"/>
+      <rdfs:subClassOf rdf:resource="#widget"/>
+      <role:scope rdf:resource="#tablist"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-posinset"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-selected"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-setsize"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="table">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:baseConcept rdf:resource="https://www.w3.org/TR/html5/tabular-data.html#the-table-element"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:mustContain rdf:resource="#rowgroup"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-colcount"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-rowcount"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="tablist">
+      <rdfs:subClassOf rdf:resource="#composite"/>
+      <rdfs:seeAlso rdf:resource="http://www.daisy.org/z3986/2005/Z3986-2005.html#Guide"/>
+      <role:mustContain rdf:resource="#tab"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-level"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-multiselectable"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="tabpanel">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="term">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/grouping-content.html#the-dt-element"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="textbox">
+      <rdfs:subClassOf rdf:resource="#input"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/2007/REC-xforms-20071029/#ui-input"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#the-textarea-element"/>
+      <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/html5/forms.html#text-(type=text)-state-and-search-state-(type=search)"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-activedescendant"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-autocomplete"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-multiline"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-placeholder"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-readonly"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="timer">
+      <rdfs:subClassOf rdf:resource="#status"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="toolbar">
+      <rdfs:subClassOf rdf:resource="#group"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-orientation"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="tooltip">
+      <rdfs:subClassOf rdf:resource="#section"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="tree">
+      <rdfs:subClassOf rdf:resource="#select"/>
+      <role:mustContain rdf:resource="#group"/>
+      <role:mustContain rdf:resource="#treeitem"/>
+      <role:mustContain rdf:resource="#treeitem"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-multiselectable"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-required"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="treegrid">
+      <rdfs:subClassOf rdf:resource="#grid"/>
+      <rdfs:subClassOf rdf:resource="#tree"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:mustContain rdf:resource="#rowgroup"/>
+      <role:mustContain rdf:resource="#row"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="treeitem">
+      <rdfs:subClassOf rdf:resource="#listitem"/>
+      <rdfs:subClassOf rdf:resource="#option"/>
+      <role:scope rdf:resource="#group"/>
+      <role:scope rdf:resource="#tree"/>
+      <role:nameFrom>contents</role:nameFrom>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="widget">
+      <rdfs:subClassOf rdf:resource="#roletype"/>
+      <role:nameFrom>n/a</role:nameFrom>
+   </owl:Class>
+   <owl:Class rdf:ID="window">
+      <rdfs:subClassOf rdf:resource="#roletype"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-expanded"/>
+      <role:supportedState rdf:resource="http://www.w3.org/2005/07/aaa#aria-modal"/>
+      <role:nameFrom>author</role:nameFrom>
+   </owl:Class>
+</rdf:RDF>

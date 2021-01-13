@@ -1,0 +1,607 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ARIA Splitter Example</title>
+<meta http-equiv="X-UA-Compatible" content="IE=8"/>   
+
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+/**
+* Cookie plugin
+*
+* Copyright (c) 2006 Klaus Hartl (stilbuero.de)
+* Dual licensed under the MIT and GPL licenses:
+* http://www.opensource.org/licenses/mit-license.php
+* http://www.gnu.org/licenses/gpl.html
+*
+*/
+
+/**
+ * Create a cookie with the given name and value and other optional parameters.
+ *
+ * @example $.cookie('the_cookie', 'the_value');
+ * @desc Set the value of a cookie.
+ * @example $.cookie('the_cookie', 'the_value', {expires: 7, path: '/', domain: 'jquery.com', secure: true});
+ * @desc Create a cookie with all available options.
+ * @example $.cookie('the_cookie', 'the_value');
+ * @desc Create a session cookie.
+ * @example $.cookie('the_cookie', null);
+ * @desc Delete a cookie by passing null as value.
+ *
+ * @param String name The name of the cookie.
+ * @param String value The value of the cookie.
+ * @param Object options An object literal containing key/value pairs to provide optional cookie attributes.
+ * @option Number|Date expires Either an integer specifying the expiration date from now on in days or a Date object.
+ * If a negative value is specified (e.g. a date in the past), the cookie will be deleted.
+ * If set to null or omitted, the cookie will be a session cookie and will not be retained
+ * when the the browser exits.
+ * @option String path The value of the path atribute of the cookie (default: path of page that created the cookie).
+ * @option String domain The value of the domain attribute of the cookie (default: domain of page that created the cookie).
+ * @option Boolean secure If true, the secure attribute of the cookie will be set and the cookie transmission will
+ * require a secure protocol (like HTTPS).
+ * @type undefined
+ *
+ * @name $.cookie
+ * @cat Plugins/Cookie
+ * @author Klaus Hartl/klaus.hartl@stilbuero.de
+ */
+
+/**
+ * Get the value of a cookie with the given name.
+ *
+ * @example $.cookie('the_cookie');
+ * @desc Get the value of a cookie.
+ *
+ * @param String name The name of the cookie.
+ * @return The value of the cookie.
+ * @type String
+ *
+ * @name $.cookie
+ * @cat Plugins/Cookie
+ * @author Klaus Hartl/klaus.hartl@stilbuero.de
+ */
+
+    jQuery.cookie = function (name, value, options) {
+        if (typeof value != 'undefined') { // name and value given, set cookie
+            options = options || {};
+            if (value === null) {
+                value = '';
+                options.expires = -1;
+            }
+            var expires = '';
+            if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+                var date;
+                if (typeof options.expires == 'number') {
+                    date = new Date();
+                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+                } else {
+                    date = options.expires;
+                }
+                expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+            }
+            var path = options.path ? '; path=' + options.path : '';
+            var domain = options.domain ? '; domain=' + options.domain : '';
+            var secure = options.secure ? '; secure' : '';
+            document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+        } else { // only name given, get cookie
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    };
+
+</script>
+
+<script type="text/javascript">
+
+/*
+* jQuery.splitter.js - two-pane splitter window plugin
+*
+* version 1.6 (2010/01/03)
+*
+* Dual licensed under the MIT and GPL licenses:
+* http://www.opensource.org/licenses/mit-license.php
+* http://www.gnu.org/licenses/gpl.html
+*/
+
+/**
+ * The splitter() plugin implements a two-pane resizable splitter window.
+ * The selected elements in the jQuery object are converted to a splitter;
+ * each selected element should have two child elements, used for the panes
+ * of the splitter. The plugin adds a third child element for the splitbar.
+ *
+ * For more details see: http://methvin.com/jquery/splitter/
+ *
+ *
+ * @example $('#MySplitter').splitter();
+ * @desc Create a vertical splitter with default settings
+ *
+ * @example $('#MySplitter').splitter({type: 'h', accessKey: 'M'});
+ * @desc Create a horizontal splitter resizable via Alt+Shift+M
+ *
+ * @name splitter
+ * @type jQuery
+ * @param Object options Options for the splitter (not required)
+ * @cat Plugins/Splitter
+ * @return jQuery
+ * @author Dave Methvin (dave.methvin@gmail.com)
+ */
+;(function ($) {
+
+    var splitterCounter = 0;
+
+    $.fn.splitter = function (args) {
+        args = args || {};
+        return this.each(function () {
+            if ($(this).is(".splitter")) // already a splitter
+                return;
+            var zombie; // left-behind splitbar for outline resizes
+
+            function setBarState(state) {
+                bar.removeClass(opts.barStateClasses).addClass(state);
+            }
+
+            function startSplitMouse(evt) {
+                if (evt.which != 1)
+                    return; // left button only
+                bar.removeClass(opts.barHoverClass);
+                if (opts.outline) {
+                    zombie = zombie || bar.clone(false).insertAfter(A);
+                    bar.removeClass(opts.barDockedClass);
+                }
+                setBarState(opts.barActiveClass)
+                // Safari selects A/B text on a move; iframes capture mouse events so hide them
+                panes.css("-webkit-user-select", "none").find("iframe").addClass(opts.iframeClass);
+                A._posSplit = A[0][opts.pxSplit] - evt[opts.eventPos];
+                $(document)
+	            .bind("mousemove" + opts.eventNamespace, doSplitMouse)
+	            .bind("mouseup" + opts.eventNamespace, endSplitMouse);
+            }
+
+            function doSplitMouse(evt) {
+                var pos = A._posSplit + evt[opts.eventPos],
+	             range = Math.max(0, Math.min(pos, splitter._DA - bar._DA)),
+	             limit = Math.max(A._min, splitter._DA - B._max,
+	             Math.min(pos, A._max, splitter._DA - bar._DA - B._min));
+                if (opts.outline) {
+                    // Let docking splitbar be dragged to the dock position, even if min width applies
+                    if ((opts.dockPane == A && pos < Math.max(A._min, bar._DA)) || (opts.dockPane == B && pos > Math.min(pos, A._max, splitter._DA - bar._DA - B._min))) {
+                       bar.addClass(opts.barDockedClass).css(opts.origin, range);
+                    }
+                    else {
+                        bar.removeClass(opts.barDockedClass).css(opts.origin, limit);
+                    }
+                    bar._DA = bar[0][opts.pxSplit];
+                } else
+                    resplit(pos);
+                setBarState(pos == limit ? opts.barActiveClass : opts.barLimitClass);
+            }
+
+            function endSplitMouse(evt) {
+                setBarState(opts.barNormalClass);
+                bar.addClass(opts.barHoverClass);
+                var pos = A._posSplit + evt[opts.eventPos];
+                if (opts.outline) {
+                    zombie.remove(); zombie = null;
+                    resplit(pos);
+                }
+                panes.css("-webkit-user-select", "text").find("iframe").removeClass(opts.iframeClass);
+                $(document).unbind("mousemove" + opts.eventNamespace + " mouseup" + opts.eventNamespace);
+            }
+
+            function resplit(pos) {
+                bar._DA = bar[0][opts.pxSplit]; // bar size may change during dock
+                // Constrain new splitbar position to fit pane size and docking limits
+                if ((opts.dockPane == A && pos < Math.max(A._min, bar._DA)) || (opts.dockPane == B && pos > Math.min(pos, A._max, splitter._DA - bar._DA - B._min))) {
+                    bar.addClass(opts.barDockedClass);
+                    bar._DA = bar[0][opts.pxSplit];
+                    pos = opts.dockPane == A ? 0 : splitter._DA - bar._DA;
+                    if (bar._pos == null)
+                        bar._pos = A[0][opts.pxSplit];
+                }
+                else {
+                    bar.removeClass(opts.barDockedClass);
+                    bar._DA = bar[0][opts.pxSplit];
+                    bar._pos = null;
+                    pos = Math.max(A._min, splitter._DA - B._max,
+            		Math.min(pos, A._max, splitter._DA - bar._DA - B._min));
+                }
+                // Resize/position the two panes
+                bar.css(opts.origin, pos).css(opts.fixed, splitter._DF);
+                A.css(opts.origin, 0).css(opts.split, pos).css(opts.fixed, splitter._DF);
+                B.css(opts.origin, pos + bar._DA).css(opts.split, splitter._DA - bar._DA - pos).css(opts.fixed, splitter._DF);
+                // IE fires resize for us; all others pay cash
+                if (!$.browser.msie)
+                    panes.trigger("resize");
+            }
+
+            function dimSum(jq, dims) {
+                // Opera returns -1 for missing min/max width, turn into 0
+                var sum = 0;
+                for (var i = 1; i < arguments.length; i++)
+                    sum += Math.max(parseInt(jq.css(arguments[i]), 10) || 0, 0);
+                return sum;
+            }
+
+            // Determine settings based on incoming opts, element classes, and defaults
+            var vh = (args.splitHorizontal ? 'h' : args.splitVertical ? 'v' : args.type) || 'v';
+            var opts = $.extend({
+                // Defaults here allow easy use with ThemeRoller
+                splitterClass: "splitter ui-widget ui-widget-content",
+                paneClass: "splitter-pane",
+                barClass: "splitter-bar",
+                barNormalClass: "ui-state-default", // splitbar normal
+                barHoverClass: "ui-state-hover", // splitbar mouse hover
+                barActiveClass: "ui-state-highlight", // splitbar being moved
+                barLimitClass: "ui-state-error", // splitbar at limit
+                iframeClass: "splitter-iframe-hide", // hide iframes during split
+                eventNamespace: ".splitter" + (++splitterCounter),
+                pxPerKey: 8, // splitter px moved per keypress
+                tabIndex: 0, // tab order indicator
+                accessKey: '' // accessKey for splitbar
+            }, {
+                // user can override
+                v: { // Vertical splitters:
+                    keyLeft: 39, keyRight: 37, cursor: "e-resize",
+                    barStateClass: "splitter-bar-vertical",
+                    barDockedClass: "splitter-bar-vertical-docked"
+                },
+                h: { // Horizontal splitters:
+                    keyTop: 40, keyBottom: 38, cursor: "n-resize",
+                    barStateClass: "splitter-bar-horizontal",
+                    barDockedClass: "splitter-bar-horizontal-docked"
+                }
+            }[vh], args, {
+                // user cannot override
+                v: { // Vertical splitters:
+                    type: 'v', eventPos: "pageX", origin: "left",
+                    split: "width", pxSplit: "offsetWidth", side1: "Left", side2: "Right",
+                    fixed: "height", pxFixed: "offsetHeight", side3: "Top", side4: "Bottom"
+                },
+                h: { // Horizontal splitters:
+                    type: 'h', eventPos: "pageY", origin: "top",
+                    split: "height", pxSplit: "offsetHeight", side1: "Top", side2: "Bottom",
+                    fixed: "width", pxFixed: "offsetWidth", side3: "Left", side4: "Right"
+                }
+            }[vh]);
+
+            opts.barStateClasses = [opts.barNormalClass, opts.barHoverClass, opts.barActiveClass, opts.barLimitClass].join(' ');
+
+            // Create jQuery object closures for splitter and both panes
+            var splitter = $(this).css({ position: "relative" }).addClass(opts.splitterClass);
+            var panes = $(">*", splitter[0]).addClass(opts.paneClass).css({
+                position: "absolute", // positioned inside splitter container
+                "z-index": "1", // splitbar is positioned above
+                "-moz-outline-style": "none" // don't show dotted outline
+            });
+            var A = $(panes[0]), B = $(panes[1]); // A = left/top, B = right/bottom
+            opts.dockPane = opts.dock && (/right|bottom/.test(opts.dock) ? B : A);
+
+            // Focuser element, provides keyboard support; title is shown by Opera accessKeys
+
+            // Splitbar element, apply initial ARIA role + properties, can't use jQuery attr because of "-" in attribute
+            var astr = '<a href="javascript:void(0)" style="outline:0" role="separator" aria-controls="' + panes[0].id + 
+                        " " + panes[1].id + '" aria-expanded="true"></a>';
+
+            var focuser = $(astr)             
+             .attr({ accessKey: opts.accessKey, tabIndex: opts.tabIndex, title: opts.title }) //provide splitter label in title
+             .bind(($.browser.opera ? "click" : "focus") + opts.eventNamespace,
+              function () { this.focus(); bar.addClass(opts.barActiveClass) })
+              
+	         .bind("keydown" + opts.eventNamespace, function (e) {
+	             var key = e.which || e.keyCode;
+	             var dir = key == opts["key" + opts.side1] ? 1 : key == opts["key" + opts.side2] ? -1 : 0;
+	             
+                 if (dir)
+	                 resplit(A[0][opts.pxSplit] + dir * opts.pxPerKey, false);
+                 
+	         })
+            
+            .bind("blur" + opts.eventNamespace, function () { bar.removeClass(opts.barActiveClass) });
+
+            var bar = $('<div></div>')
+             .insertAfter(A).addClass(opts.barClass).addClass(opts.barStateClass)
+             .append(focuser).attr({ unselectable: "on" })
+             .append(focuser).attr({ title: opts.title })
+             .css({ position: "absolute", "user-select": "none", "-webkit-user-select": "none",
+                 "-khtml-user-select": "none", "-moz-user-select": "none", "z-index": "100"
+             })
+             .bind("mousedown" + opts.eventNamespace, startSplitMouse)
+             .bind("mouseover" + opts.eventNamespace, function () {
+                 $(this).addClass(opts.barHoverClass);
+             })
+             .bind("mouseout" + opts.eventNamespace, function () {
+                 $(this).removeClass(opts.barHoverClass);
+             });
+
+
+            // Use our cursor unless the style specifies a non-default cursor
+            if (/^(auto|default|)$/.test(bar.css("cursor")))
+                bar.css("cursor", opts.cursor);
+
+            // Cache several dimensions for speed, rather than re-querying constantly
+            // These are saved on the A/B/bar/splitter jQuery vars, which are themselves cached
+            // DA=dimension adjustable direction, PBF=padding/border fixed, PBA=padding/border adjustable
+            bar._DA = bar[0][opts.pxSplit];
+            splitter._PBF = dimSum(splitter, "border" + opts.side3 + "Width", "border" + opts.side4 + "Width");
+            splitter._PBA = dimSum(splitter, "border" + opts.side1 + "Width", "border" + opts.side2 + "Width");
+            A._pane = opts.side1;
+            B._pane = opts.side2;
+            $.each([A, B], function () {
+                this._splitter_style = this.style;
+                this._min = opts["min" + this._pane] || dimSum(this, "min-" + opts.split);
+                this._max = opts["max" + this._pane] || dimSum(this, "max-" + opts.split) || 9999;
+                this._init = opts["size" + this._pane] === true ?
+            parseInt($.curCSS(this[0], opts.split), 10) : opts["size" + this._pane];
+            });
+
+            // Determine initial position, get from cookie if specified
+            var initPos = A._init;
+            if (!isNaN(B._init)) // recalc initial B size as an offset from the top or left side
+                initPos = splitter[0][opts.pxSplit] - splitter._PBA - B._init - bar._DA;
+            if (opts.cookie) {
+                if (!$.cookie)
+                    alert('jQuery.splitter(): jQuery cookie plugin required');
+                initPos = parseInt($.cookie(opts.cookie), 10);
+                $(window).bind("unload" + opts.eventNamespace, function () {
+                    var state = String(bar.css(opts.origin)); // current location of splitbar
+                    $.cookie(opts.cookie, state, { expires: opts.cookieExpires || 365,
+                        path: opts.cookiePath || document.location.pathname
+                    });
+                });
+            }
+            if (isNaN(initPos)) // King Solomon's algorithm
+                initPos = Math.round((splitter[0][opts.pxSplit] - splitter._PBA - bar._DA) / 2);
+
+            // Resize event propagation and splitter sizing
+            if (opts.anchorToWindow)
+                opts.resizeTo = window;
+            if (opts.resizeTo) {
+                splitter._hadjust = dimSum(splitter, "borderTopWidth", "borderBottomWidth", "marginBottom");
+                splitter._hmin = Math.max(dimSum(splitter, "minHeight"), 20);
+                $(window).bind("resize" + opts.eventNamespace, function () {
+                    var top = splitter.offset().top;
+                    var eh = $(opts.resizeTo).height();
+                    splitter.css("height", Math.max(eh - top - splitter._hadjust, splitter._hmin) + "px");
+                    if (!$.browser.msie) splitter.trigger("resize");
+                }).trigger("resize" + opts.eventNamespace);
+            }
+            else if (opts.resizeToWidth && !$.browser.msie) {
+                $(window).bind("resize" + opts.eventNamespace, function () {
+                    splitter.trigger("resize");
+                });
+            }
+
+            // Docking support
+            if (opts.dock) {
+                splitter
+                 .bind("toggleDock" + opts.eventNamespace, function () {
+                     var pw = opts.dockPane[0][opts.pxSplit];
+                     splitter.trigger(pw ? "dock" : "undock");
+                 })
+                 .bind("dock" + opts.eventNamespace, function () {
+                     var pw = A[0][opts.pxSplit];
+                     if (!pw) return;
+                     bar._pos = pw;
+                     var x = {};
+                     x[opts.origin] = opts.dockPane == A ? 0 :
+                 splitter[0][opts.pxSplit] - splitter._PBA - bar[0][opts.pxSplit];
+                     bar.animate(x, opts.dockSpeed || 1, opts.dockEasing, function () {
+                         bar.addClass(opts.barDockedClass);
+                         resplit(x[opts.origin]);
+                     });
+                 })
+                 .bind("undock" + opts.eventNamespace, function () {
+                     var pw = opts.dockPane[0][opts.pxSplit];
+                     if (pw) return;
+                     var x = {}; x[opts.origin] = bar._pos + "px";
+                     bar.removeClass(opts.barDockedClass)
+	                 .animate(x, opts.undockSpeed || opts.dockSpeed || 1, opts.undockEasing || opts.dockEasing, function () {
+	                     resplit(bar._pos);
+	                     bar._pos = null;
+	                 });
+                 });
+                if (opts.dockKey)
+                    $('<a title="' + opts.splitbarClass + ' toggle dock" href="javascript:void(0)"></a>')
+                      .attr({ accessKey: opts.dockKey, tabIndex: -1 }).appendTo(bar)
+                      .bind($.browser.opera ? "click" : "focus", function () {
+                          splitter.trigger("toggleDock"); this.blur();
+                      });
+                        bar.bind("dblclick", function () { splitter.trigger("toggleDock"); })
+                    }
+
+            // Resize event handler; triggered immediately to set initial position
+            splitter
+             .bind("destroy" + opts.eventNamespace, function () {
+                 $([window, document]).unbind(opts.eventNamespace);
+                 bar.unbind().remove();
+                 panes.removeClass(opts.paneClass);
+                 splitter
+             .removeClass(opts.splitterClass)
+             .add(panes)
+             .unbind(opts.eventNamespace)
+             .attr("style", function (el) {
+                 return this._splitter_style || ""; //TODO: save style
+             });
+                 splitter = bar = focuser = panes = A = B = opts = args = null;
+             })
+             .bind("resize" + opts.eventNamespace, function (e, size) {
+                 // Custom events bubble in jQuery 1.3; avoid recursion
+                 if (e.target != this) return;
+                 // Determine new width/height of splitter container
+                 splitter._DF = splitter[0][opts.pxFixed] - splitter._PBF;
+                 splitter._DA = splitter[0][opts.pxSplit] - splitter._PBA;
+                 // Bail if splitter isn't visible or content isn't there yet
+                 if (splitter._DF <= 0 || splitter._DA <= 0) return;
+                 // Re-divvy the adjustable dimension; maintain size of the preferred pane
+                 resplit(!isNaN(size) ? size : (!(opts.sizeRight || opts.sizeBottom) ? A[0][opts.pxSplit] : splitter._DA - B[0][opts.pxSplit] - bar._DA));
+                 setBarState(opts.barNormalClass);
+             })
+             .trigger("resize", [initPos]);
+        });
+    };
+
+})(jQuery);
+
+</script>
+
+
+<script type="text/javascript">
+
+    $().ready(function () {
+        makeSplitter();
+    });
+
+    function makeSplitter() {
+        $("#MySplitter").splitter({
+            type: "v",
+            outline: true,
+            sizeLeft: 300,
+            minLeft: 100,
+            minRight: 100,
+            resizeToWidth: true,
+            //dock: "right",
+            //dockSpeed: 100,
+            //cookie: "docksplitter",
+            //dockKey: 'Z', // Alt-Shift-Z in FF/IE
+            accessKey: '6',	// Alt-Shift-I in FF/IE
+            title: "Vertical Divider"
+        });
+    }
+
+</script>
+
+
+<style type="text/css">
+    
+a 
+{
+    text-decoration:none;
+}    
+    
+a:focus, a:hover {
+	outline: 2px solid orange;
+	text-decoration:underline;
+}
+
+    
+div#LeftPane 
+{   
+    background-color: #ECF8E0;
+}    
+
+div#RightPane 
+{
+    background-color: #F2F2F2;
+}  
+
+.sampletext 
+{
+    padding:0.5em;
+}
+
+.splitter {
+	height: 400px;
+	margin: 1em 3em;
+	border: 3px solid #CCCCCC;
+	background: white;
+}
+
+.ui-state-default { background-color: #AAAAAA }
+.ui-state-hover { background-color: orange }
+.ui-state-highlight { background-color: #DF7401 }
+.ui-state-error { background-color: red }
+
+.splitter-pane {
+	overflow: auto;
+}
+.splitter-bar-vertical {
+	width: 6px;
+	background-image: url(img/vgrabber.gif); /* Example works without images, too */
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar-vertical-docked {
+	width: 10px;
+	background-image: url(img/vdockbar-trans.gif); /* Example works without images, too */
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar.ui-state-highlight 
+{
+    /* cross-browser */
+	-moz-opacity: .80; 
+	filter: alpha(opacity=80); 
+	opacity: .80;
+}
+
+.splitter-iframe-hide {
+	visibility: hidden;
+}
+
+.hidden 
+{
+    position: absolute;
+    top: -500px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<a href="#">Before Example</a>
+
+ <div id="MySplitter">
+   <div id="LeftPane"> 
+    <p class="sampletext">
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut 
+        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores 
+        et ea rebum. 
+    </p>
+   </div>
+   <div id="RightPane"> 
+    <p class="sampletext">
+        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, 
+        vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit 
+        praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+    </p>
+   </div>
+</div> 
+
+<a href="#">After Example</a>
+
+<p>ARIA</p>
+
+<ul>
+    <li>role=separator</li>
+    <li>title attribute "Vertical Divider" (for accessible name computation)</li>
+    <li>aria-controls</li>
+    <li>aria-expanded</li>
+</ul>
+
+<p>Keyboard</p>
+
+<ul>
+    <li>Tab - The tab key is used to move focus to the splitter. A second tab will move focus to the next tabbable item on the page. </li>
+    <li>Left Arrow and Right Arrow - These keys will move the splitter to the left and to the right.</li>
+    <li>Alt+Shift+6 (FF) and Alt+6 (IE) - Brings focus directly to the splitter.</li>
+</ul>
+
+</body>
+</html>
+
