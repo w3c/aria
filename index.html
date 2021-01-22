@@ -6010,9 +6010,27 @@
 		<div class="role" id="option">
 			<rdef>option</rdef>
 			<div class="role-description">
-				<p>A selectable item in a <rref>listbox</rref>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>option</code> are contained in, or <a>owned</a> by, an element with the <a>role</a>  <rref>listbox</rref> or <rref>group</rref> within a <code>listbox</code>. Options not associated with a <rref>listbox</rref> might not be correctly mapped to an <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
-				<p>Elements with the role <code>option</code> have an implicit <sref>aria-selected</sref> value of <code>false</code>.</p>
+				<p>An item in a <rref>listbox</rref>.</p>
+				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>option</code> are contained in, or <a>owned</a> by, an element with <a>role</a> <rref>listbox</rref> or an element with <a>role</a> <rref>group</rref> that is contained in, or <a>owned</a> by, an element with <a>role</a> <code>listbox</code>. Options not associated with a <rref>listbox</rref> might not be correctly mapped to an <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
+        <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>option</rref> in a <rref>listbox</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
+        <ul>
+          <li>The value of <pref>aria-multiselectable</pref> on the <rref>listbox</rref> is <code>false</code> or <code>undefined</code>.</li>
+          <li>None of the <rref>option</rref> elements in the <rref>listbox</rref> have an explicitly declared value for <sref>aria-selected</sref> or <sref>aria-checked</sref>.</li>  
+        </ul>
+        <p>
+          If a user agent provides an implicit <sref>aria-selected</sref> value for an <rref>option</rref>, the value SHOULD be <code>true</code> if the <rref>option</rref> has DOM focus or the <rref>listbox</rref> has DOM focus and the <rref>option</rref> is referenced by <pref>aria-activedescendant</pref>.
+          Otherwise, if a user agent provides an implicit <sref>aria-selected</sref> value for an <rref>option</rref>, the value SHOULD be <code>false</code>.
+        </p>
+        <p>
+          Authors MAY indicate selection for <rref>option</rref> elements  using either <sref>aria-selected</sref> or <sref>aria-checked</sref>.
+          Some user interfaces indicate selection with <sref>aria-selected</sref> in single-select list boxes and with <sref>aria-checked</sref> in multi-select list boxes.
+          Authors SHOULD NOT specify both <sref>aria-selected</sref> and <sref>aria-checked</sref> on <rref>option</rref> elements contained by the same <rref>listbox</rref> except in the extremely rare circumstances where all the following conditions are met:
+        </p>
+        <ul>
+          <li>The meaning and purpose of <sref>aria-selected</sref> is different from the meaning and purpose of <sref>aria-checked</sref> in the user interface.</li>
+          <li>The user interface makes the meaning and purpose of each state apparent.</li>
+          <li>The user interface provides a separate method for controlling each state.</li>
+        </ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -6060,11 +6078,7 @@
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties">
-							<ul>
-								<li><sref>aria-selected</sref></li>
-							</ul>
-						</td>
+						<td class="role-required-properties"></td>
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
@@ -6072,6 +6086,7 @@
 							<ul>
 								<li><sref>aria-checked</sref></li>
 								<li><pref>aria-posinset</pref></li>
+                <li><sref>aria-selected</sref></li>
 								<li><pref>aria-setsize</pref></li>
 							</ul>
 						</td>
@@ -6107,7 +6122,7 @@
 					</tr>
 					<tr>
 						<th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
-						<td class="implicit-values">Default for <sref>aria-selected</sref> is <code class="default">false</code>.</td>
+						<td class="implicit-values"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -8715,11 +8730,14 @@
 				<p>If a  <rref>tabpanel</rref> or item in a <rref>tabpanel</rref> has focus, the associated <code>tab</code> is the currently active tab in the <rref>tablist</rref>, as defined in <a href="#managingfocus">Managing Focus</a>. <rref>tablist</rref> elements, which contain a set of associated <rref>tab</rref> elements, are typically placed near a series of <rref>tabpanel</rref> elements, usually preceding it. See the <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> for details on implementing a tab set design pattern.</p>
 				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <rref>tab</rref> are contained in, or <a>owned</a> by, an element with the role <rref>tablist</rref>.</p>
 				<p>Authors SHOULD ensure the <rref>tabpanel</rref> associated with the currently active tab is <a>perceivable</a> to the user.</p>
-
 				<!-- keep following para synced with its counterpart in #tablist -->
 				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a>elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure that the <rref>tab</rref> for each visible <rref>tabpanel</rref> has the <sref>aria-expanded</sref> <a>attribute</a> set to <code>true</code>, and that the <code>tabs</code> associated with the remaining hidden <code>tabpanel</code> elements have their <sref>aria-expanded</sref> attributes set to <code>false</code>.</p>
-
-				<p>In either case, authors SHOULD ensure that a selected tab has its <sref>aria-selected</sref> attribute set to <code>true</code>, that inactive tab elements have their <sref>aria-selected</sref> attribute set to <code>false</code>, and that the currently selected tab provides a visual indication that it is selected. In the absence of an <sref>aria-selected</sref> attribute on the current tab, <a>user agents</a> SHOULD indicate to <a>assistive technologies</a> through the platform <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> that the currently focused tab is selected.</p>
+				<p>Authors SHOULD ensure that a selected tab has its <sref>aria-selected</sref> attribute set to <code>true</code>, that inactive tab elements have their <sref>aria-selected</sref> attribute set to <code>false</code>, and that the currently selected tab provides a visual indication that it is selected.</p>
+        <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>tab</rref> in a <rref>tablist</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
+        <ul>
+          <li>The value of <pref>aria-multiselectable</pref> on the <rref>tablist</rref> is <code>false</code> or <code>undefined</code>.</li>
+          <li>None of the <rref>tab</rref> elements in the <rref>tablist</rref> have an explicitly declared value for <sref>aria-selected</sref> or <sref>aria-expanded</sref>.</li>  
+        </ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -9921,9 +9939,28 @@
 		<div class="role" id="treeitem">
 			<rdef>treeitem</rdef>
 			<div class="role-description">
-				<p>An option item of a <rref>tree</rref>. This is an <a>element</a> within a tree that may be expanded or collapsed if it contains a sub-level group of tree item elements.</p>
-				<p>A collection of <code>treeitem</code> elements to be expanded and collapsed are enclosed in an element with the <rref>group</rref> <a>role</a>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>treeitem</code> are contained in, or <a>owned</a> by, an element with the role <rref>group</rref> or <rref>tree</rref>.</p>
+				<p>An item in a <rref>tree</rref>.</p>
+        				<p>A <rref>treeitem</rref> <a>element</a> may contain a sub-level group of elements that can be expanded or collapsed. An expandable collection of <code>treeitem</code> elements are enclosed in an element with the <rref>group</rref> <a>role</a>.</p>
+				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>treeitem</code> are contained in, or <a>owned</a> by, an element with role <rref>tree</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>treeitem</rref>.</p>
+        <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>treeitem</rref> in a <rref>tree</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
+        <ul>
+          <li>The value of <pref>aria-multiselectable</pref> on the <rref>tree</rref> is <code>false</code> or <code>undefined</code>.</li>
+          <li>None of the <rref>treeitem</rref> elements in the <rref>tree</rref> have an explicitly declared value for <sref>aria-selected</sref> or <sref>aria-checked</sref>.</li>  
+        </ul>
+        <p>
+          If a user agent provides an implicit <sref>aria-selected</sref> value for a <rref>treeitem</rref>, the value SHOULD be <code>true</code> if the <rref>treeitem</rref> has DOM focus or the <rref>tree</rref> has DOM focus and the <rref>treeitem</rref> is referenced by <pref>aria-activedescendant</pref>.
+          Otherwise, if a user agent provides an implicit <sref>aria-selected</sref> value for a <rref>treeitem</rref>, the value SHOULD be <code>false</code>.
+        </p>
+        <p>
+          Authors MAY indicate selection for <rref>treeitem</rref> elements  using either <sref>aria-selected</sref> or <sref>aria-checked</sref>.
+          Some user interfaces indicate selection with <sref>aria-selected</sref> in single-select trees and with <sref>aria-checked</sref> in multi-select trees.
+          Authors SHOULD NOT specify both <sref>aria-selected</sref> and <sref>aria-checked</sref> on <rref>treeitem</rref> elements contained by the same <rref>tree</rref> except in the extremely rare circumstances where all the following conditions are met:
+        </p>
+        <ul>
+          <li>The meaning and purpose of <sref>aria-selected</sref> is different from the meaning and purpose of <sref>aria-checked</sref> in the user interface.</li>
+          <li>The user interface makes the meaning and purpose of each state apparent.</li>
+          <li>The user interface provides a separate method for controlling each state.</li>
+        </ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -12969,12 +13006,8 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 			<sdef>aria-selected</sdef>
 			<div class="state-description">
 				<p>Indicates the current "selected" <a>state</a> of various <a>widgets</a>. See related <sref>aria-checked</sref> and <sref>aria-pressed</sref>.</p>
-				<p>This <a>attribute</a> is used with single-selection and multiple-selection widgets:</p>
-				<ol>
-					<li>Single-selection containers where the currently focused item is not selected. The selection normally follows the focus, and is managed by the <a>user agent</a>.</li>
-					<li>Multiple-selection containers. Authors SHOULD ensure that any selectable descendant of a container in which the <pref>aria-multiselectable</pref> attribute is <code>true</code> specifies a value of either <code>true</code> or <code>false</code> for the <sref>aria-selected</sref> attribute.</li>
-				</ol>
-				<p>Any explicit assignment of <sref>aria-selected</sref> takes precedence over the implicit selection based on focus. If no <abbr title="Document Object Model">DOM</abbr> element in the widget is explicitly marked as selected, assistive technologies MAY convey implicit selection which follows the keyboard focus of the <a href="#managingfocus">managed focus</a> widget. If any <abbr title="Document Object Model">DOM</abbr> element in the widget is explicitly marked as selected, the user agent MUST NOT convey implicit selection for the widget.</p>
+				<p>This <a>attribute</a> is used to indicate which elements within single-selection and multiple-selection <rref>composite</rref> widgets are selected.</p>
+        <p>The <rref>option</rref>, <rref>tab</rref>, and <rref>treeitem</rref> roles permit user agents to provide an implicit value for <sref>aria-selected</sref> when specified conditions are met. User agents MUST NOT provide an implicit value for aria-selected in any other circumstance.</p>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
