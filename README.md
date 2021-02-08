@@ -2,6 +2,16 @@
 
 This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
 
+## The default branch has been renamed
+
+If you have a local clone, run the following commands to update the name of the default branch.
+
+```
+$ git branch -m master main
+$ git fetch origin
+$ git branch -u origin/main main
+```
+
 ## Other Repositories
 
 This repository is for the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications. There are several other deliverables, such as ARIA modules, Accessibility API Mappings, and support documents. These are maintained in separate repositories listed on the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification to which the issue applies.
