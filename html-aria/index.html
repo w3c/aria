@@ -66,12 +66,15 @@
       <p>
         Web developers MAY use the ARIA `role` and `aria-*` attributes on
         <a data-cite="html/dom.html#elements">HTML elements</a>, in accordance
-        with the requirements described in [[wai-aria-1.1]], except where these
+        with the requirements described in [[wai-aria-1.1|WAI-ARIA]], except where these
         conflict with the
         <dfn><a data-cite="wai-aria-1.1#host_general_conflict">strong native semantics</a></dfn>
         or are equal to the
         <dfn><a data-cite="wai-aria-1.1#implicit_semantics">implicit ARIA semantics</a></dfn>
-        of a given HTML element. These constraints are intended to prevent
+        of a given HTML element. The <a>implicit ARIA semantics</a> for an HTML element are defined in the <dfn>[[html-aam-1.0|HTML Accessibility API Mappings]] specification.
+      </p>
+      <p>
+        The constraints defined in this specification are intended to prevent
         developers from making assistive technology products report nonsensical
         user interface (UI) information that does not represent the actual UI
         of the document.
@@ -79,7 +82,7 @@
       <p>
         Web developers MUST NOT use the ARIA `role` and `aria-*` attributes in
         a manner that conflicts with the semantics described in the
-        [[[#docconformance]]] table. It is NOT RECOMMENDED for web developers
+        [[[#docconformance]]] and [[[#docconformance-attr]]] tables. It is NOT RECOMMENDED for web developers
         to set the ARIA `role` and `aria-*` attributes to values that match the
         <a>implicit ARIA semantics</a> defined in the table. Doing so is unnecessary
         and can potentially lead to unintended consequences.
@@ -135,7 +138,6 @@
           &lt;/details>
         </pre>
       </aside>
-
     </section>
     <section>
       <h2 id="docconformance">
@@ -145,12 +147,11 @@
         The following table provides normative per-element document-conformance
         requirements for the use of ARIA markup in HTML documents and describes
         the <a>implicit ARIA semantics</a> that apply to
-        <a data-cite="html/dom.html#elements">HTML elements</a> as defined in
-        the [[html-aam-1.0|HTML Accessibility API Mappings 1.0]] specification.
+        <a data-cite="html/dom.html#elements">HTML elements</a> as defined in [[html-aam-1.0|HTML AAM]].
       </p>
       <p>
-        Each language feature (element or attribute) in a cell in the first column implies the
-        ARIA semantics (any role, states, and properties) given in the cell in the second column
+        Each language feature (element) in a cell in the first column implies the
+        ARIA semantics (role, states, and properties) given in the cell in the second column
         of the same row. The third cell in each row defines which ARIA role values and `aria-*`
         attributes which MAY be used. Where a cell in the third column includes the term
         <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role` value apart from the
@@ -162,27 +163,29 @@
       <p class="note" id="aria-usage-note">
         While setting an ARIA `role` and/or `aria-*` attribute that matches the
         <span>implicit ARIA semantics</span> is NOT RECOMMENDED, in some situations explicitly setting
-        these attributes can be helpful. For instance, in user agents which lack specific implicit semantics.
+        these attributes can be helpful. For instance, in user agents which lack exposing specific implicit ARIA semantics.
       </p>
 
       <table class="simple">
         <caption>
-          Rules of ARIA attribute usage by HTML feature
+          Rules of ARIA attribute usage by HTML element
         </caption>
-        <tr>
-          <th>
-            HTML feature
-          </th>
-          <th>
-            <p id="implicit">
-              Implicit ARIA semantics
-              <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
-            </p>
-          </th>
-          <th>
-            ARIA roles, states and properties which MAY be used
-          </th>
-        </tr>
+        <thead>
+          <tr>
+            <th>
+              HTML element
+            </th>
+            <th>
+              <p id="implicit">
+                Implicit ARIA semantics
+                <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
+              </p>
+            </th>
+            <th>
+              ARIA roles, states and properties which MAY be used
+            </th>
+          </tr>
+        </thead>
         <tbody>
           <tr id="el-a" tabindex="-1">
             <td>
@@ -217,6 +220,7 @@
                 any `aria-*` attributes applicable to the allowed roles and
                 implied role (if any).
               </p>
+              <p><strong>Note:</strong> it is not recommended to use `aria-disabled` on an `a` element with an `href` attribute.
             </td>
           </tr>
           <tr id="el-a-no-href" tabindex="-1">
@@ -906,7 +910,7 @@
               <p>
                 If the `figure` has no `figcaption` descendant:
                 <br>
-                Roles: <a><strong>Any</strong> `role`</a>
+                <a><strong>Any</strong> `role`</a>
               </p>
               <p>
                 If the `figure` has a `figcaption` descendant:
@@ -1272,7 +1276,10 @@
                 or <a href="#index-aria-switch">`switch`</a>.
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors <a href="#att-checked">SHOULD NOT use the `aria-checked` attribute on `input type=checkbox` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the allowed roles and
                 implied role (if any).
               </p>
@@ -1313,7 +1320,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1329,7 +1336,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1416,7 +1423,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1449,7 +1456,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and `aria-required`
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1467,7 +1474,10 @@
                 <a href="#index-aria-menuitemradio">`menuitemradio`</a>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors <a href="#att-checked">SHOULD NOT use the `aria-checked` attribute on `input type=radio` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `menuitemradio` role.
               </p>
               <p>
@@ -1490,7 +1500,10 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors SHOULD NOT use the <a href="#att-max">`aria-valuemax`</a> or <a href="#att-min">`aria-valuemin`</a> attributes on `input type=range` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `slider` role.
               </p>
             </td>
@@ -1596,7 +1609,7 @@
               <a data-cite="html/input.html#telephone-state-(type=tel)">`tel`</a>,
               <a data-cite="html/input.html#url-state-(type=url)">`url`</a>,
               <a data-cite="html/input.html#e-mail-state-(type=email)">`email`</a>,
-              or with a missing or invalid `type`, with a <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
+              or with a missing or invalid `type`, <strong>with a <a data-cite="html/input.html#attr-input-list">`list`</a> attribute</strong>
             </td>
             <td>
               <code>role=<a href="#index-aria-combobox">combobox</a></code>
@@ -1606,7 +1619,13 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors SHOULD NOT use the `aria-haspopup` attribute on the indicated `input`s with a `list` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use the `aria-haspopup` attribute with a value other than `listbox` on the indicated `input`s with a `list` attribute.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `combobox` role.
               </p>
             </td>
@@ -1623,7 +1642,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1658,7 +1677,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
@@ -1889,7 +1908,7 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a>.
               </p>
             </td>
           </tr>
@@ -2013,6 +2032,9 @@
             <td>
               <p>
                 <strong class="nosupport">No `role`</strong>
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-selected` attribute on the `option` element.
               </p>
               <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
@@ -2315,9 +2337,10 @@
               <p>
                 Role: <a href="#index-aria-menu">`menu`</a>
               </p>
+              <p>Authors SHOULD NOT use the `aria-multiselectable` attribute on a `select` element.</p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `combobox` or `menu` role.
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
+                any other `aria-*` attributes applicable to the `combobox` or `menu` role.
               </p>
             </td>
           </tr>
@@ -2333,9 +2356,10 @@
               <p>
                 <strong class="nosupport">No `role`</strong>
               </p>
+              <p>Authors SHOULD NOT use the `aria-multiselectable` attribute on a `select` element.</p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `listbox` role.
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
+                any other `aria-*` attributes applicable to the `listbox` role.
               </p>
             </td>
           </tr>
@@ -2808,153 +2832,9 @@
               </p>
             </td>
           </tr>
-          <tr id="att-disabled" tabindex="-1">
-            <td>
-              Element with a
-              <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">`disabled`</a> attribute
-            </td>
-            <td>
-              `aria-disabled="true"`
-            </td>
-            <td>
-              <p>
-                Use the `disabled` attribute on any element that is
-                <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">
-                allowed the `disabled` attribute</a> in HTML.
-              </p>
-              <p>
-                Only use the `aria-disabled` attribute for elements
-                that are <strong>not allowed</strong> to have a `disabled` attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-placeholder" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute
-            </td>
-            <td>
-              `aria-placeholder=""`
-            </td>
-            <td>
-              <p>
-                Use the `placeholder` attribute on any element that is allowed the
-                <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute in HTML.
-              </p>
-              <p>
-                Only use the `aria-placeholder` attribute on elements that are
-                <strong>not allowed</strong> to have a `placeholder` attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-required" tabindex="-1">
-            <td>
-              Element with a
-              <a data-cite="html/input.html#attr-input-required">`required`</a> attribute
-            </td>
-            <td>
-              `aria-required="true"`
-            </td>
-            <td>
-              <p>
-                Use the `aria-required` attribute on any element
-                that is <a data-cite="html/input.html#attr-input-required">allowed the
-                `required` attribute</a> in HTML. MUST NOT be set
-                to `false` if the <a data-cite="html/input.html#attr-input-required">`required`</a>
-                attribute is set.
-              </p>
-              <p>
-                MAY also be used for elements that have an ARIA role which
-                allows the `aria-required` attribute.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-readonly" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/input.html#attr-input-readonly">`readonly`</a>
-              attribute
-            </td>
-            <td>
-              `aria-readonly="true"`
-            </td>
-            <td>
-              <p>
-                Use the `readonly` attribute on any element that is
-                <a data-cite="html/input.html#attr-input-readonly">allowed the `readonly` attribute</a> in HTML.
-              </p>
-              <p>
-                Only use the `aria-readonly` attribute for elements
-                that are <em>not allowed</em> to have a `readonly`
-                attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-hidden" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/interaction.html#the-hidden-attribute">`hidden`</a>
-              attribute
-            </td>
-            <td>
-              `aria-hidden="true"`
-            </td>
-            <td>
-              <p>
-                Use the `aria-hidden` attribute on any HTML element.
-              </p>
-              <p>
-                <strong>Note:</strong> If an element has a `hidden`
-                attribute, an `aria-hidden` attribute is not required.
-              </p>
-            </td>
-          </tr>
-          <tr id="IDL-ValidityState" tabindex="-1">
-            <td>
-              Element that is a <a data-cite=
-              "html/form-control-infrastructure.html#candidate-for-constraint-validation">candidate for
-              constraint validation</a> but that does not <a data-cite=
-              "html/form-control-infrastructure.html#concept-fv-valid">satisfy its
-              constraints</a>
-            </td>
-            <td>
-              `aria-invalid="true"`
-            </td>
-            <td>
-              <p>
-                The `aria-invalid` attribute may be used on any
-                HTML element that allows <a href="#index-aria-global">global
-                `aria-*` attributes</a> except for a <a data-cite=
-                "html/forms.html#category-submit">submittable element</a> that
-                does not satisfy its <a data-cite=
-                "html/form-control-infrastructure.html#constraints">validation
-                constraints</a>.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-contenteditable" tabindex="-1">
-            <td>
-              <p>
-                Element with <code><a data-cite=
-                "html/interaction.html#attr-contenteditable">contenteditable</a>="true"</code>;
-                or<br>
-                Element without `contenteditable` attribute whose closest
-                ancestor with a `contenteditable` attribute has
-                `contenteditable="true"`.
-              </p>
-              <p>
-                Note: this is equivalent to the <a data-cite=
-                "html/interaction.html#dom-iscontenteditable">`isContentEditable`</a>
-                IDL attribute.
-              </p>
-            </td>
-            <td>
-              `aria-readonly="false"`
-            </td>
-            <td>
-              Do not set `aria-readonly="true"` on an element that has
-              `isContentEditable="true"`.
-            </td>
-          </tr>
         </tbody>
       </table>
+
       <p>
         The elements marked with <dfn>No corresponding role</dfn>, in the
         second column of the table do not have any <a>implicit ARIA semantics</a>,
@@ -2992,7 +2872,7 @@
         </p>
         <pre>
 &lt;figure&gt;
-  &lt;pre role="img" aria-label="An ASCII art fish"&gt;
+  &lt;pre role="img"&gt;
   o           .'`/
     '      /  (
   O    .-'` ` `'-._      .')
@@ -3007,8 +2887,320 @@
     October 1997. ASCII on electrons. 28×8.
   &lt;/figcaption&gt;
 &lt;/figure&gt;
-</pre><!-- source: https://web.archive.org/web/20130313111807/http://www.geocities.com/SoHo/7373/aquatic.htm -->
+</pre><!-- source: http://www.geocities.com/SoHo/7373/aquatic.htm#fish -->
       </aside>
+
+      <h3 id="docconformance-attr">
+        Document conformance requirements for use of ARIA attributes with HTML attributes
+      </h3>
+      <p>
+        Unless otherwise stated, authors MAY use `aria-*` attributes in place of their HTML equivalents on HTML elements where the `aria-*` semantics would be expected. For example, authors MAY use `aria-disabled=true` on a `button` rather than the `disabled` attribute. However, authors SHOULD NOT use both the native HTML attribute and the `aria-*` attribute together. As stated in <a data-cite="wai-aria-1.1#host_general_conflict">WAI-ARIA's Conflicts with Host Language Semantics</a>, user agents MUST ignore WAI-ARIA attributes and use the host language (HTML) attribute with the same <a>implicit ARIA semantics</a>.
+      </p>
+      <p>
+        The following table represents HTML elements and their attributes which have `aria-*` attribute parity.
+      </p>
+      <p>
+        Each language feature (element and attribute) in a cell in the first column implies the
+        ARIA semantics (states, and properties) given in the cell in the second column
+        of the same row. The third cell in each row defines how authors can use the native HTML feature, along with requirements for using the `aria-*` attributes that supply the same <a>implicit ARIA semantics</a>.
+      </p>
+      <table class="simple">
+        <caption>
+          Rules of ARIA attribute usage by HTML feature
+        </caption>
+        <thead>
+          <tr>
+            <th>
+              HTML feature
+            </th>
+            <th>
+              <p id="implicit-attr">
+                Implicit ARIA semantics
+              </p>
+            </th>
+            <th>
+              HTML feature and `aria-*` attribute author guidance
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="att-checked" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-checked">`checked`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-checked="true"`
+            </td>
+            <td>
+              <p>
+                Use the `checked` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-checked">allowed the `checked` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-checked` attribute on any element where the <a data-cite="html/form-control-infrastructure.html#concept-fe-checked">checkedness</a> of the element can be in opposition to the current value of the  <a data-cite="wai-aria-1.1#aria-checked">`aria-checked` attribute</a>.
+              </p>
+              <p>
+                Authors MAY use the `aria-checked` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-disabled" tabindex="-1">
+            <th>
+              Any element where the
+              <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">`disabled`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-disabled="true"`
+            </td>
+            <td>
+              <p>
+                Use the `disabled` attribute on any element that is <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">allowed the `disabled` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-disabled` attribute on any element that is allowed the `disabled` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-disabled">`aria-disabled` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-disabled="true"` on any element which also has a `disabled` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-disabled="false"` on any element which also has a `disabled` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-hidden" tabindex="-1">
+            <th>
+              Any element with a <a data-cite="html/interaction.html#the-hidden-attribute">`hidden`</a>
+              attribute
+            </th>
+            <td>
+              `aria-hidden="true"`
+            </td>
+            <td>
+              <p>
+                Authors MAY use the `aria-hidden` attribute on any HTML element, with the following exceptions:
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-hidden` attribute on any element which also has a `hidden` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-hidden="true"` on an element that can still receive keyboard focus, or on an ancestor element to an element or elements which can still receive keyboard focus.
+              </p>
+              <p>
+                Any elements which can receive keyboard focus, interactive elements or otherwise, MUST have their ability to receive keyboard focus removed while the `aria-hidden="true"` attribute is present. For instance, by using `tabindex="-1"` on any focusable elements with `aria-hidden="true"`, or setting `tabindex="-1"` to focusable elements that are descendants of an `aria-hidden="true"` containing element.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-placeholder" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-placeholder="..."`
+            </td>
+            <td>
+              <p>
+                Use the `placeholder` attribute on any element that is <a data-cite="html/input.html#the-placeholder-attribute">allowed the
+                `placeholder` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-placeholder` attribute on any element that is allowed the `placeholder` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-placeholder">`aria-placeholder` attribute</a>.
+              </p>
+              <p>
+                Authors MUST NOT use the `aria-placeholder` attribute on any element which also has a `placeholder` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-max" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-max">`max`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-valuemax="..."`
+            </td>
+            <td>
+              <p>
+                Use the `max` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-max">allowed the `max` attribute</a> in HTML. It is NOT RECOMMENDED to use the <a data-cite="wai-aria-1.1#aria-valuemax">`aria-valuemax` attribute</a> on these elements.
+              </p>
+              <p>
+                Authors MAY use the `aria-valuemax` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-valuemax` on any element which also has a `max` attribute, even if the values of each attribute match.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-valuemax` on any element which also has a `max` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-min" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-min">`min`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-valuemin="..."`
+            </td>
+            <td>
+              <p>
+                Use the `min` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-min">allowed the `min` attribute</a> in HTML. It is NOT RECOMMENDED to use the <a data-cite="wai-aria-1.1#aria-valuemin">`aria-valuemin` attribute</a> on these elements.
+              </p>
+              <p>
+                Authors MAY use the `aria-valuemin` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-valuemin` on any element which also has a `min` attribute, even if the values of each attribute match.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-valuemin` on any element which also has a `min` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-readonly" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-readonly">`readonly`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-readonly="true"`
+            </td>
+            <td>
+              <p>
+                Use the `readonly` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-readonly">allowed the `readonly` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-readonly` attribute on any element that is allowed the `readonly` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-readonly="true"` on any element which also has a `readonly` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-readonly="false"` on any element which also has a `readonly` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-contenteditable" tabindex="-1">
+            <th>
+              <p>
+                Element with <code><a data-cite=
+                "html/interaction.html#attr-contenteditable">contenteditable</a>="true"</code>;
+                or<br>
+                Element without `contenteditable` attribute whose closest
+                ancestor with a `contenteditable` attribute has
+                `contenteditable="true"`.
+              </p>
+              <p>
+                <strong>Note:</strong> this is equivalent to the <a data-cite=
+                "html/interaction.html#dom-iscontenteditable">`isContentEditable`</a>
+                IDL attribute.
+              </p>
+            </th>
+            <td>
+              `aria-readonly="false"`
+            </td>
+            <td>
+              Authors MUST NOT set `aria-readonly="true"` on an element that has `isContentEditable="true"`.
+            </td>
+          </tr>
+          <tr id="att-required" tabindex="-1">
+            <th>
+              Any element where the
+              <a data-cite="html/input.html#attr-input-required">`required`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-required="true"`
+            </td>
+            <td>
+              <p>
+                Use the `required` attribute on any element
+                that is <a data-cite="html/input.html#attr-input-required">allowed the
+                `required` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-required` attribute on any element that is allowed the `required` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-required">`aria-required` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-required="true"` on any element which also has a `required` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-required="false"` on any element which also has a `required` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-colspan" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/tables.html#attr-tdth-colspan">`colspan`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-colspan="..."`
+            </td>
+            <td>
+              <p>
+                Use the `colspan` attribute on any element that is
+                <a data-cite="html/tables.html#attr-tdth-colspan">allowed the `colspan` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-colspan` attribute on any element that is allowed the `colspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-colspan">`aria-colspan` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-colspan` attribute on any element which also has a `colspan` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-colspan` on any element which also has a `colspan` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-rowspan" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/tables.html#attr-tdth-rowspan">`rowspan`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-rowspan="..."`
+            </td>
+            <td>
+              <p>
+                Use the `rowspan` attribute on any element that is
+                <a data-cite="html/tables.html#attr-tdth-rowspan">allowed the `rowspan` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-rowspan` attribute on any element that is allowed the `rowspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-rowspan">`aria-rowspan` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-rowspan` attribute on any element which also has a `rowspan` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-rowspan` on any element which also has a `rowspan` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+
+
+          <tr id="IDL-ValidityState" tabindex="-1">
+            <th>
+              Element that is a <a data-cite=
+              "html/form-control-infrastructure.html#candidate-for-constraint-validation">candidate for
+              constraint validation</a> but that does not <a data-cite=
+              "html/form-control-infrastructure.html#concept-fv-valid">satisfy its
+              constraints</a>
+            </th>
+            <td>
+              `aria-invalid="true"`
+            </td>
+            <td>
+              <p>
+                The `aria-invalid` attribute MAY be used on any
+                HTML element that allows <a href="#index-aria-global">global `aria-*` attributes</a> except for a <a data-cite="html/forms.html#category-submit">submittable element</a> that does not satisfy its <a data-cite="html/form-control-infrastructure.html#constraints">validation constraints</a>.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
       <h2 id="case-sensitivity">
