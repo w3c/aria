@@ -2207,7 +2207,7 @@
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
 						<td class="role-properties">
 							<ul>
-                <li><pref>aria-activedescendant</pref></li>
+                				<li><pref>aria-activedescendant</pref></li>
 								<li><pref>aria-autocomplete</pref></li>
 								<li><pref>aria-controls</pref></li>
 								<li><pref>aria-errormessage</pref></li>
@@ -2215,6 +2215,7 @@
 								<li><sref>aria-invalid</sref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
+								<li><pref>aria-valuetext</pref></li>
 							</ul>
 						</td>
 					</tr>
@@ -4655,6 +4656,7 @@
 								<li><pref>aria-multiselectable</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
+								<li><pref>aria-valuetext</pref></li>
 							</ul>
 						</td>
 					</tr>
@@ -8639,6 +8641,7 @@
 			<div class="role-description">
 				<p>A type of checkbox that represents on/off values, as opposed to checked/unchecked values. See related <rref>checkbox</rref>.</p>
 				<p>The <sref>aria-checked</sref> <a>attribute</a> of a <code>switch</code> indicates whether the input is on (<code>true</code>) or off (<code>false</code>). The <code>mixed</code> value is invalid, and user agents MUST treat a <code>mixed</code> value as equivalent to <code>false</code> for this role.</p>
+				<p>The <pref>aria-valuetext</pref> <a>attribute</a> is used to specify the value to be used when the switch's true and false values are not on and off. If specified, authors MUST change the <pref>aria-valuetext</pref> <a>attribute</a> when the switch's aria-checked is modified.</li>
 				<p class="note">A <code>switch</code> provides approximately the same functionality as a <code>checkbox</code> and toggle <code>button</code>, but makes it possible for assistive technologies to present the widget in a fashion consistent with its on-screen appearance.</p>
 			</div>
 			<table class="role-features">
@@ -8688,7 +8691,8 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
+						<td class="role-properties"><pref>aria-valuetext</pref>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -9317,6 +9321,7 @@
 			<rdef>textbox</rdef>
 			<div class="role-description">
 				<p>A type of input that allows free-form text as its value.</p>
+				<p>If the <pref>aria-valuetext</pref> <a>attribute</a> is set it indicates the <a>value</a> of the textbox. If it is not set then the value is the child content of the textbox.</p>
 				<p>If the <pref>aria-multiline</pref> <a>attribute</a> is <code>true</code>, the <a>widget</a> accepts line breaks within the input, as in an <abbr title="Hypertext Markup Language">HTML</abbr> <code>textarea</code>. Otherwise, this is a simple text box. The intended use is for languages that do not have a text input <a>element</a>, or cases in which an element with different <a>semantics</a> is repurposed as a text field.</p>
 				<!-- keep the following para synced with its equivalent in #aria-multiline -->
 				<p class="note">In most user agent implementations, the default behavior of the <kbd>ENTER</kbd> or <kbd>RETURN</kbd> key is different between the single-line and multi-line text fields in HTML. When user has focus in a single-line <code>&lt;input type="text"&gt;</code> element, the keystroke usually submits the form. When user has focus in a multi-line <code>&lt;textarea&gt;</code> element, the keystroke inserts a line break. The <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <code>textbox</code> role differentiates these types of boxes with the <pref>aria-multiline</pref> attribute, so authors are advised to be aware of this distinction when designing the field.</p>
@@ -9372,6 +9377,7 @@
 								<li><pref>aria-placeholder</pref></li>
 								<li><pref>aria-readonly</pref></li>
 								<li><pref>aria-required</pref></li>
+								<li><pref>aria-valuetext</pref></li>
 							</ul>
 						</td>
 					</tr>
@@ -13286,11 +13292,22 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<div class="property" id="aria-valuetext">
 			<pdef>aria-valuetext</pdef>
 			<div class="property-description">
-				<p>Defines the human readable text alternative of <pref>aria-valuenow</pref> for a range <a>widget</a>.</p>
-				<p>This property is used, for example, on a range widget such as a slider or progress bar.</p>
-				<p>If the <pref>aria-valuetext</pref> attribute is set, authors SHOULD also set the <pref>aria-valuenow</pref> attribute, unless that value is unknown (for example, on an indeterminate <rref>progressbar</rref>).</p>
-				<p>Authors SHOULD only set the <pref>aria-valuetext</pref> attribute when the rendered value cannot be meaningfully represented as a number. For example, a slider may have rendered values of <code>small</code>, <code>medium</code>, and <code>large</code>. In this case, the values of <pref>aria-valuenow</pref> could range from 1 through 3, which indicate the position of each value in the value space, but the <pref>aria-valuetext</pref> would be one of the strings: <code>small</code>, <code>medium</code>, or <code>large</code>. If the <pref>aria-valuetext</pref> attribute is absent, the <a>assistive technologies</a> will rely solely on the <pref>aria-valuenow</pref> attribute for the current value.</p>
-				<p>If <pref>aria-valuetext</pref> is specified, assistive technologies SHOULD render that value instead of the value of <pref>aria-valuenow</pref>.</p>
+				<p>Defines the human readable text value for a <a>widget</a>.</p>
+				<p>When this property is used on a range widget such as a <rref>slider</rref> or <rref>progressbar</rref>:</p>
+				<ul>
+					<li>If the <pref>aria-valuetext</pref> attribute is set, authors SHOULD also set the <pref>aria-valuenow</pref> attribute, unless that value is unknown (for example, on an indeterminate <rref>progressbar</rref>).</li>
+					<li>Authors SHOULD only set the <pref>aria-valuetext</pref> attribute when the rendered value cannot be meaningfully represented as a number. For example, a slider may have rendered values of <code>small</code>, <code>medium</code>, and <code>large</code>. In this case, the values of <pref>aria-valuenow</pref> could range from 1 through 3, which indicate the position of each value in the value space, but the <pref>aria-valuetext</pref> would be one of the strings: <code>small</code>, <code>medium</code>, or <code>large</code>. If the <pref>aria-valuetext</pref> attribute is absent, the <a>assistive technologies</a> will rely solely on the <pref>aria-valuenow</pref> attribute for the current value.</li>
+					<li>If <pref>aria-valuetext</pref> is specified, assistive technologies SHOULD render that value instead of the value of <pref>aria-valuenow</pref>.</li>
+				</ul>
+				<p>When this property is used on <rref>textbox</rref>, <rref>combobox</rref> or <rref>listbox</rref>:</p>
+				<ul>
+					<li>Authors SHOULD only set the <pref>aria-valuetext</pref> <a>attribute</a> when the widget's child content does not represent the value of the widget.</li>
+				</ul>
+				<p>When this property is used on a <rref>switch</rref>:</p>
+				<ul>
+					<li>Authors SHOULD only set the <pref>aria-valuetext</pref> <a>attribute</a> when the switch's true and false values are not on and off .</li>
+					<li>If <pref>aria-valuetext</pref> is specified authors MUST change the value when the switch is toggled on and off.</li>
+				</ul>				
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
