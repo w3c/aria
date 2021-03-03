@@ -327,7 +327,7 @@
 [aria-checked=&quot;true&quot;]::before { background-image: url(checked.gif); }</pre>
 		<p>If CSS is not used to toggle the visual representation of the check mark, the author could include additional markup and scripts to manage an image that represents whether or not the <rref>menuitemcheckbox</rref> is checked.</p>
 		<pre class="example highlight">&lt;li role=&quot;menuitemcheckbox&quot; aria-checked=&quot;true&quot;&gt;
-  &lt;img src=&quot;checked.gif&quot; role=&quot;presentation&quot; alt=&quot;&quot;&gt;
+  &lt;img src=&quot;checked.gif&quot; role=&quot;none&quot; alt=&quot;&quot;&gt;
   <span class="comment">&lt;!-- note: additional scripts required to toggle image source --&gt;</span>
   Sort by Last Modified
 &lt;/li&gt;</pre>
@@ -3415,7 +3415,7 @@
 			<div class="role-description">
 				<p>A nameless container <a>element</a> that has no semantic meaning on its own.</p>
 				<p>The <code>generic</code> role is intended for use as the implicit role of generic elements in host languages (such as <abbr title="Hypertext Markup Language">HTML</abbr> <code>div</code> or <code>span</code>), so is primarily for implementors of user agents. Authors SHOULD NOT use this role in content. Authors MAY use <rref>presentation</rref> or <rref>none</rref> to remove implicit accessibility semantics, or a semantic container role such as <rref>group</rref> to semantically group descendants in a named container.</p>
-				<p>Like an element with role <rref>presentation</rref>, an element with role <code>generic</code> can provide a limited number of accessible states and properties for its descendants, such as <pref>aria-live</pref> attributes. However, unlike elements with role <rref>presentation</rref>, <code>generic</code> elements are exposed in <a>accessibility APIs</a> so that assistive technologies can gather certain properties such as layout and bounds.</p>
+				<p>Like an element with role <rref>none</rref>, an element with role <code>generic</code> can provide a limited number of accessible states and properties for its descendants, such as <pref>aria-live</pref> attributes. However, unlike elements with role <rref>none</rref>, <code>generic</code> elements are exposed in <a>accessibility APIs</a> so that assistive technologies can gather certain properties such as layout and bounds.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -5924,12 +5924,165 @@
 			<rdef>none</rdef>
 			<div class="role-description">
 				<p>An <a>element</a> whose implicit native role semantics will not be mapped to the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>. See synonym <rref>presentation</rref>.</p>
-				<div class="note" id="role-none-note-none">
-					<h5>Note regarding the ARIA 1.1 <code>none</code> role.</h5>
-					<p>In ARIA 1.1, the working group introduced <code>none</code> as a synonym to the <rref>presentation</rref> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
+				<div class="note" id="role-presentation-note-none">
+					<h5>Note regarding the ARIA 1.1 <rref>none</rref> role.</h5>
+					<p>In ARIA 1.1, the working group introduced <rref>none</rref> as a synonym to the <code>presentation</code> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
+                    <p>The specification has now been re-organized so that <code>presentation</code> is now the synonym for <code>none</code>.</p>
 				</div>
+				<p>The intended use is when an element is used to change the look of the page but does not have all the functional, interactive, or structural relevance implied by the element type, or may be used to provide for an accessible fallback in older browsers that do not support <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</p>
+				<p>Example use cases:</p>
+				<ul>
+					<li>An element whose content is completely presentational (like a spacer image, decorative graphic, or clearing element);</li>
+					<li>An image that is in a container with the <rref>img</rref> <a>role</a> and where the full text alternative is available and is marked up with <pref>aria-labelledby</pref> and (if needed) <pref>aria-describedby</pref>;</li>
+					<li>An element used as an additional markup "hook" for <abbr title="Cascading Style Sheets">CSS</abbr>; or</li>
+					<li>A layout table and/or any of its associated rows, cells, etc.</li>
+				</ul>
+				<p>For any element with a <code>role="none"</code> and which is not focusable, the user agent MUST NOT expose the implicit native semantics of the element (the role and its states and properties) to accessibility <abbr title="Application Programing Interfaces">APIs</abbr>. However, the user agent MUST expose content and descendant elements that do not have an explicit or inherited role of none. Thus, the role <code>none</code> causes a given element to be treated as having no role or to be removed from the accessibility tree, but does not cause the content contained within the element to be removed from the accessibility tree.</p>
+				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no role) and identical content.</p>
+				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="none"] negates the implicit 'heading' role semantics but does not affect the contents. --&gt;</span>
+&lt;h1 role="none"&gt; Sample Content &lt;/h1&gt;
+
+<span class="comment">&lt;!-- 2. There is no implicit role for span, so only the contents are exposed. --&gt;</span>
+&lt;span&gt; Sample Content &lt;/span&gt;
+
+<span class="comment">&lt;!-- 3. Depending on styling and other factors, this role declaration is redundant in some implementations. --&gt;</span>
+&lt;span role="none"&gt; Sample Content &lt;/span&gt;
+
+<span class="comment">&lt;!-- 4. In all cases, the element contents are exposed to accessibility APIs without any implied role semantics. --&gt;</span>
+<span class="comment">&lt;!-- &lt;&gt; --&gt;</span> Sample Content <span class="comment">&lt;!-- &lt;/&gt; --&gt;</span>
+</pre>
+				<p>The role <code>none</code> is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (the <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>cell</rref>, <rref>columnheader</rref>, <rref>rowheader</rref> roles). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">required owned elements</a>.</p>
+				<p>When an explicit or inherited role of <code>none</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">required owned elements</a>, in addition to the element with the explicit role of <code>none</code>, the user agent MUST apply an inherited role of <code>none</code> to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of <code>none</code> is applied to a host language element which has required children as defined by the host language specification, in addition to the element with the explicit role of none, the user agent MUST apply an inherited role of <code>none</code> to any required children that do not have an explicit role defined.</p>
+				<p>In <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>&lt;img&gt;</code> <a>element</a> is treated as a single entity regardless of the type of image file. Consequently, using <code>role="none"</code> or <code>role="presentation"</code> on an <abbr title="Hypertext Markup Language">HTML</abbr> <code>img</code> is equivalent to using <code>aria-hidden="true"</code>. In order to make the image contents accessible, authors can embed the object using an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code> <a>element</a>, or use inline <abbr title="Scalable Vector Graphics">SVG</abbr> code, and follow the accessibility guidelines for the image content.</p>
+				<p>For any element with an explicit or inherited role of <code>none</code> and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, a <code>ul</code> or <code>ol</code> element with a role of <code>none</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">required owned element</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the <abbr title="Hypertext Markup Language">HTML</abbr> specification indicates that these are required structural descendants of the <code>table</code> element.</p>
+				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">required owned elements</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>none</code> applied.</p>
+				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no roles) and identical content.</p>
+				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="none"] negates the implicit 'list' and 'listitem' role semantics but does not affect the contents. --&gt;</span>
+&lt;ul role="none"&gt;
+  &lt;li&gt; Sample Content &lt;/li&gt;
+  &lt;li&gt; More Sample Content &lt;/li&gt;
+&lt;/ul&gt;
+
+<span class="comment">&lt;!-- 2. There is no implicit role for "foo", so only the contents are exposed. --&gt;</span>
+&lt;foo&gt;
+  &lt;foo&gt; Sample Content &lt;/foo&gt;
+  &lt;foo&gt; More Sample Content &lt;/foo&gt;
+&lt;/foo&gt;</pre>
+				<p class="note">There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with required children for which this situation is applicable (e.g., radiogroups and listboxes), but tables and lists are the most common real-world cases in which the presentation inheritance is likely to apply.</p>
+				<p>For any element with an explicit or inherited role of <code>none</code>, user agents MUST apply an inherited role of <code>none</code> to all host-language-specific labeling elements for the presentational element. For example, a <code>table</code> element with a role of <code>none</code> will have the implicit native semantics of its <code>caption</code> element removed, because the caption is merely a label for the presentational table.</p>
+				<p>Authors SHOULD NOT provide meaningful alternative text (for example, use <code>alt=""</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) when the <code>none</code> role is applied to an image.</p>
+				<p>In the following code sample, the containing <rref>img</rref> and is appropriately labeled by the caption paragraph. In this example the <code>img</code> element can be marked with <code>role="none"</code> because the role and the text alternatives are provided by the containing element.</p>
+				<pre class="example highlight">&lt;div role="img" aria-labelledby="caption"&gt;
+  &lt;img src="example.png" role="none" alt=""&gt;
+  &lt;p id="caption"&gt;A visible text caption labeling the image.&lt;/p&gt;
+&lt;/div&gt;</pre>
+				<p>In the following code sample, because the anchor (<abbr title="Hypertext Markup Language">HTML</abbr> <code>a</code> element) is acting as the treeitem, the list item (<abbr title="Hypertext Markup Language">HTML</abbr> <code>li</code> element) is assigned an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role of <code>none</code> to override the user agent's implicit native semantics for list items.</p>
+				<pre class="example highlight">
+&lt;ul role="tree"&gt;
+  &lt;li role="none"&gt;
+	&lt;a role="treeitem" aria-expanded="true"&gt;An expanded tree node&lt;/a&gt;
+  &lt;/li&gt;
+  …
+&lt;/ul&gt;</pre>
+				<section id="conflict_resolution_presentation_none">
+					<h5>Presentational Roles Conflict Resolution</h5>
+					<p>There are a number of ways presentational role conflicts are resolved.</p>
+					<p>User agents MUST NOT expose <a>elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+					<ul>
+						<li>If an element is focusable, or otherwise interactive, user agents MUST ignore the <code>none</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
+						<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+						<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>none</code> role and expose the element with its implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
+					</ul>
+					<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
+					<pre class="example highlight">
+<span class="comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
+&lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+<span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
+&lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
+					</pre>
+				</section>
 			</div>
-		</div>
+			<table class="role-features">
+				<caption>Characteristics:</caption>
+				<thead>
+					<tr>
+						<th scope="col">Characteristic</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class="role-abstract-head" scope="row">Is Abstract:</th>
+						<td class="role-abstract"> </td>
+					</tr>
+					<tr>
+						<th class="role-parent-head" scope="row">Superclass Role:</th>
+						<td class="role-parent"><rref>structure</rref></td>
+					</tr>
+					<tr>
+						<th class="role-children-head" scope="row">Subclass Roles:</th>
+						<td class="role-children">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-base-head" scope="row">Base Concept:</th>
+						<td class="role-base"> </td>
+					</tr>
+					<tr>
+						<th class="role-related-head" scope="row">Related Concepts:</th>
+						<td class="role-related"> </td>
+					</tr>
+					<tr>
+						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<td class="role-scope"> </td>
+					</tr>
+					<tr>
+						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<td class="role-mustcontain"> </td>
+					</tr>
+					<tr>
+						<th class="role-required-properties-head">Required States and Properties:</th>
+						<td class="role-required-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
+						<td class="role-properties"> </td>
+					</tr>
+					<tr>
+						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+						<td class="role-inherited">Placeholder</td>
+					</tr>
+					<tr>
+						<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
+						<td class="role-disallowed">
+							<ul>
+								<li><pref>aria-label</pref></li>
+								<li><pref>aria-labelledby</pref></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th class="role-namefrom-head" scope="row">Name From:</th>
+						<td class="role-namefrom">prohibited</td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+						<td class="role-namerequired"> </td>
+					</tr>
+					<tr>
+						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+						<td class="role-namerequired-inherited"> </td>
+					</tr>
+					<tr>
+						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+						<td class="role-childpresentational"> </td>
+					</tr>
+					<tr>
+						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+						<td class="role-presentational-inherited"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>			
 		<div class="role" id="note">
 			<rdef>note</rdef>
 			<div class="role-description">
@@ -6310,164 +6463,12 @@
 			<rdef>presentation</rdef>
 			<div class="role-description">
 				<p>An <a>element</a> whose implicit native role semantics will not be mapped to the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>. See synonym <rref>none</rref>.</p>
-				<div class="note" id="role-presentation-note-none">
-					<h5>Note regarding the ARIA 1.1 <rref>none</rref> role.</h5>
-					<p>In ARIA 1.1, the working group introduced <rref>none</rref> as a synonym to the <code>presentation</code> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
-					<p>Until implementations include sufficient support for <code>role="none"</code>, web authors are advised to use the <code>presentation</code> role alone <code>role="presentation"</code> or redundantly as a fallback to the <rref>none</rref> role <code>role="none presentation"</code>.</p>
+				<div class="note" id="role-none-note-none">
+					<h5>Note regarding the ARIA 1.1 <code>none</code> role.</h5>
+					<p>In ARIA 1.1, the working group introduced <code>none</code> as a synonym to the <rref>presentation</rref> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
+                    <p>The specification has now been re-organized so that <code>presentation</code> is now the synonym for <code>none</code>.</p>
 				</div>
-				<p>The intended use is when an element is used to change the look of the page but does not have all the functional, interactive, or structural relevance implied by the element type, or may be used to provide for an accessible fallback in older browsers that do not support <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</p>
-				<p>Example use cases:</p>
-				<ul>
-					<li>An element whose content is completely presentational (like a spacer image, decorative graphic, or clearing element);</li>
-					<li>An image that is in a container with the <rref>img</rref> <a>role</a> and where the full text alternative is available and is marked up with <pref>aria-labelledby</pref> and (if needed) <pref>aria-describedby</pref>;</li>
-					<li>An element used as an additional markup "hook" for <abbr title="Cascading Style Sheets">CSS</abbr>; or</li>
-					<li>A layout table and/or any of its associated rows, cells, etc.</li>
-				</ul>
-				<p>For any element with a role of presentation and which is not focusable, the user agent MUST NOT expose the implicit native semantics of the element (the role and its states and properties) to accessibility <abbr title="Application Programing Interfaces">APIs</abbr>. However, the user agent MUST expose content and descendant elements that do not have an explicit or inherited role of presentation. Thus, the <code>presentation</code> role causes a given element to be treated as having no role or to be removed from the accessibility tree, but does not cause the content contained within the element to be removed from the accessibility tree.</p>
-				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no role) and identical content.</p>
-				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="presentation"] negates the implicit 'heading' role semantics but does not affect the contents. --&gt;</span>
-&lt;h1 role="presentation"&gt; Sample Content &lt;/h1&gt;
-
-<span class="comment">&lt;!-- 2. There is no implicit role for span, so only the contents are exposed. --&gt;</span>
-&lt;span&gt; Sample Content &lt;/span&gt;
-
-<span class="comment">&lt;!-- 3. Depending on styling and other factors, this role declaration is redundant in some implementations. --&gt;</span>
-&lt;span role="presentation"&gt; Sample Content &lt;/span&gt;
-
-<span class="comment">&lt;!-- 4. In all cases, the element contents are exposed to accessibility APIs without any implied role semantics. --&gt;</span>
-<span class="comment">&lt;!-- &lt;&gt; --&gt;</span> Sample Content <span class="comment">&lt;!-- &lt;/&gt; --&gt;</span>
-</pre>
-				<p>The <code>presentation</code> role is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (the <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>cell</rref>, <rref>columnheader</rref>, <rref>rowheader</rref> roles). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">required owned elements</a>.</p>
-				<p>When an explicit or inherited role of <code>presentation</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">required owned elements</a>, in addition to the element with the explicit role of <code>presentation</code>, the user agent MUST apply an inherited role of presentation to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of presentation is applied to a host language element which has required children as defined by the host language specification, in addition to the element with the explicit role of presentation, the user agent MUST apply an inherited role of presentation to any required children that do not have an explicit role defined.</p>
-				<p>In <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>&lt;img&gt;</code> <a>element</a> is treated as a single entity regardless of the type of image file. Consequently, using <code>role="presentation"</code> or <code>role="none"</code> on an <abbr title="Hypertext Markup Language">HTML</abbr> <code>img</code> is equivalent to using <code>aria-hidden="true"</code>. In order to make the image contents accessible, authors can embed the object using an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code> <a>element</a>, or use inline <abbr title="Scalable Vector Graphics">SVG</abbr> code, and follow the accessibility guidelines for the image content.</p>
-				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">required owned element</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the <abbr title="Hypertext Markup Language">HTML</abbr> specification indicates that these are required structural descendants of the <code>table</code> element.</p>
-				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">required owned elements</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>presentation</code> applied.</p>
-				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no roles) and identical content.</p>
-				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="presentation"] negates the implicit 'list' and 'listitem' role semantics but does not affect the contents. --&gt;</span>
-&lt;ul role="presentation"&gt;
-  &lt;li&gt; Sample Content &lt;/li&gt;
-  &lt;li&gt; More Sample Content &lt;/li&gt;
-&lt;/ul&gt;
-
-<span class="comment">&lt;!-- 2. There is no implicit role for "foo", so only the contents are exposed. --&gt;</span>
-&lt;foo&gt;
-  &lt;foo&gt; Sample Content &lt;/foo&gt;
-  &lt;foo&gt; More Sample Content &lt;/foo&gt;
-&lt;/foo&gt;</pre>
-				<p class="note">There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with required children for which this situation is applicable (e.g., radiogroups and listboxes), but tables and lists are the most common real-world cases in which the presentation inheritance is likely to apply.</p>
-				<p>For any element with an explicit or inherited role of <code>presentation</code>, user agents MUST apply an inherited role of <code>presentation</code> to all host-language-specific labeling elements for the presentational element. For example, a <code>table</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>caption</code> element removed, because the caption is merely a label for the presentational table.</p>
-				<p>Authors SHOULD NOT provide meaningful alternative text (for example, use <code>alt=""</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) when the <code>presentation</code> role is applied to an image.</p>
-				<p>In the following code sample, the containing <rref>img</rref> and is appropriately labeled by the caption paragraph. In this example the <code>img</code> element can be marked as presentation because the role and the text alternatives are provided by the containing element.</p>
-				<pre class="example highlight">&lt;div role="img" aria-labelledby="caption"&gt;
-  &lt;img src="example.png" role="presentation" alt=""&gt;
-  &lt;p id="caption"&gt;A visible text caption labeling the image.&lt;/p&gt;
-&lt;/div&gt;</pre>
-				<p>In the following code sample, because the anchor (<abbr title="Hypertext Markup Language">HTML</abbr> <code>a</code> element) is acting as the treeitem, the list item (<abbr title="Hypertext Markup Language">HTML</abbr> <code>li</code> element) is assigned an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role of presentation to override the user agent's implicit native semantics for list items.</p>
-				<pre class="example highlight">
-&lt;ul role="tree"&gt;
-  &lt;li role="presentation"&gt;
-	&lt;a role="treeitem" aria-expanded="true"&gt;An expanded tree node&lt;/a&gt;
-  &lt;/li&gt;
-  …
-&lt;/ul&gt;</pre>
-				<section id="conflict_resolution_presentation_none">
-					<h5>Presentational Roles Conflict Resolution</h5>
-					<p>There are a number of ways presentational role conflicts are resolved.</p>
-					<p>User agents MUST NOT expose <a>elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
-					<ul>
-						<li>If an element is focusable, or otherwise interactive, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
-						<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
-						<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
-					</ul>
-					<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
-					<pre class="example highlight">
-<span class="comment">&lt;!-- 1. [role="presentation"] is ignored due to the global aria-describedby property. --&gt;</span>
-&lt;h1 role="presentation" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 2. [role="presentation"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
-&lt;h1 role="presentation" aria-level="2"&gt; Sample Content &lt;/h1&gt;
-					</pre>
-				</section>
 			</div>
-			<table class="role-features">
-				<caption>Characteristics:</caption>
-				<thead>
-					<tr>
-						<th scope="col">Characteristic</th>
-						<th scope="col">Value</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th class="role-abstract-head" scope="row">Is Abstract:</th>
-						<td class="role-abstract"> </td>
-					</tr>
-					<tr>
-						<th class="role-parent-head" scope="row">Superclass Role:</th>
-						<td class="role-parent"><rref>structure</rref></td>
-					</tr>
-					<tr>
-						<th class="role-children-head" scope="row">Subclass Roles:</th>
-						<td class="role-children">Placeholder</td>
-					</tr>
-					<tr>
-						<th class="role-base-head" scope="row">Base Concept:</th>
-						<td class="role-base"> </td>
-					</tr>
-					<tr>
-						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"> </td>
-					</tr>
-					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
-						<td class="role-scope"> </td>
-					</tr>
-					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
-						<td class="role-mustcontain"> </td>
-					</tr>
-					<tr>
-						<th class="role-required-properties-head">Required States and Properties:</th>
-						<td class="role-required-properties"> </td>
-					</tr>
-					<tr>
-						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"> </td>
-					</tr>
-					<tr>
-						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
-						<td class="role-inherited">Placeholder</td>
-					</tr>
-					<tr>
-						<th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
-						<td class="role-disallowed">
-							<ul>
-								<li><pref>aria-label</pref></li>
-								<li><pref>aria-labelledby</pref></li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<th class="role-namefrom-head" scope="row">Name From:</th>
-						<td class="role-namefrom">prohibited</td>
-					</tr>
-					<tr>
-						<th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
-						<td class="role-namerequired"> </td>
-					</tr>
-					<tr>
-						<th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
-						<td class="role-namerequired-inherited"> </td>
-					</tr>
-					<tr>
-						<th class="role-childpresentational-head" scope="row">Children Presentational:</th>
-						<td class="role-childpresentational"> </td>
-					</tr>
-					<tr>
-						<th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
-						<td class="role-presentational-inherited"> </td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 		<div class="role" id="progressbar">
 			<rdef>progressbar</rdef>
@@ -7113,7 +7114,7 @@
 				<p>A structure containing one or more row elements in a tabular container.</p>
 				<p>The <code>rowgroup</code> role establishes a <a>relationship</a> between <a>owned</a> <rref>row</rref> elements. It is a structural equivalent to the <code>thead</code>, <code>tfoot</code>, and <code>tbody</code> elements in an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> <a>element</a>.</p>
 				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>rowgroup</code> are contained in, or <a>owned</a> by, an element with the role <rref>grid</rref>, <rref>table</rref>, or <rref>treegrid</rref>.</p>
-				<p class="note">The <code>rowgroup</code> role exists, in part, to support role symmetry in HTML, and allows for the propagation of presentation inheritance on HTML <code>table</code> elements with an explicit <code>presentation</code> role applied.</p>
+				<p class="note">The <code>rowgroup</code> role exists, in part, to support role symmetry in HTML, and allows for the propagation of presentation inheritance on HTML <code>table</code> elements with an explicit <code>none</code> role applied.</p>
 				<p class="note">This role does not differentiate between types of row groups (e.g., <code>thead</code> vs. <code>tbody</code>), but an issue has been raised for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 2.0.</p>
 			</div>
 			<table class="role-features">
@@ -13330,7 +13331,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	  <p>The following <a>elements</a> are not exposed via the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
 	  <ul>
 	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code>, <code>visibility:hidden</code>, or the HTML <code>hidden</code> attribute.</li>
-	    <li>Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#presentation">presentation (role)</a> section.</li>
+	    <li>Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#presentation">none (role)</a> section.</li>
     </ul>
 	  <p>If not already excluded from the accessibility tree per the above rules, user agents SHOULD NOT include the following elements in the accessibility tree:</p>
 	  <ul>
