@@ -66,12 +66,15 @@
       <p>
         Web developers MAY use the ARIA `role` and `aria-*` attributes on
         <a data-cite="html/dom.html#elements">HTML elements</a>, in accordance
-        with the requirements described in [[wai-aria-1.1]], except where these
+        with the requirements described in [[wai-aria-1.1|WAI-ARIA]], except where these
         conflict with the
         <dfn><a data-cite="wai-aria-1.1#host_general_conflict">strong native semantics</a></dfn>
         or are equal to the
         <dfn><a data-cite="wai-aria-1.1#implicit_semantics">implicit ARIA semantics</a></dfn>
-        of a given HTML element. These constraints are intended to prevent
+        of a given HTML element. The <a>implicit ARIA semantics</a> for an HTML element are defined in the <dfn>[[html-aam-1.0|HTML Accessibility API Mappings]]</dfn> specification.
+      </p>
+      <p>
+        The constraints defined in this specification are intended to prevent
         developers from making assistive technology products report nonsensical
         user interface (UI) information that does not represent the actual UI
         of the document.
@@ -79,7 +82,7 @@
       <p>
         Web developers MUST NOT use the ARIA `role` and `aria-*` attributes in
         a manner that conflicts with the semantics described in the
-        [[[#docconformance]]] table. It is NOT RECOMMENDED for web developers
+        [[[#docconformance]]] and [[[#docconformance-attr]]] tables. It is NOT RECOMMENDED for web developers
         to set the ARIA `role` and `aria-*` attributes to values that match the
         <a>implicit ARIA semantics</a> defined in the table. Doing so is unnecessary
         and can potentially lead to unintended consequences.
@@ -135,7 +138,6 @@
           &lt;/details>
         </pre>
       </aside>
-
     </section>
     <section>
       <h2 id="docconformance">
@@ -145,13 +147,12 @@
         The following table provides normative per-element document-conformance
         requirements for the use of ARIA markup in HTML documents and describes
         the <a>implicit ARIA semantics</a> that apply to
-        <a data-cite="html/dom.html#elements">HTML elements</a> as defined in
-        the [[html-aam-1.0|HTML Accessibility API Mappings 1.0]] specification.
+        <a data-cite="html/dom.html#elements">HTML elements</a> as defined in [[html-aam-1.0|HTML AAM]].
       </p>
       <p>
-        Each language feature (element or attribute) in a cell in the first column implies the
-        ARIA semantics (any role, states, and properties) given in the cell in the second column
-        of the same row. The third cell in each row defines which ARIA role values and `aria-*`
+        Each language feature (element) in a cell in the first column implies the
+        ARIA semantics (role, states, and properties) given in the cell in the second column
+        of the same row. The third cell in each row defines the ARIA role values and `aria-*`
         attributes which MAY be used. Where a cell in the third column includes the term
         <dfn><strong>Any</strong> `role`</dfn> it indicates that any `role` value apart from the
         <a>implicit ARIA semantics</a> `role` value, MAY be used. If a cell in the third column
@@ -162,32 +163,34 @@
       <p class="note" id="aria-usage-note">
         While setting an ARIA `role` and/or `aria-*` attribute that matches the
         <span>implicit ARIA semantics</span> is NOT RECOMMENDED, in some situations explicitly setting
-        these attributes can be helpful. For instance, in user agents which lack specific implicit semantics.
+        these attributes can be helpful. For instance, in user agents which lack exposing specific implicit ARIA semantics.
       </p>
 
       <table class="simple">
         <caption>
-          Rules of ARIA attribute usage by HTML feature
+          Rules of ARIA attribute usage by HTML element
         </caption>
-        <tr>
-          <th>
-            HTML feature
-          </th>
-          <th>
-            <p id="implicit">
-              Implicit ARIA semantics
-              <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
-            </p>
-          </th>
-          <th>
-            ARIA roles, states and properties which MAY be used
-          </th>
-        </tr>
+        <thead>
+          <tr>
+            <th>
+              HTML element
+            </th>
+            <th>
+              <p id="implicit">
+                Implicit ARIA semantics
+                <small>(explicitly assigning these in markup is NOT RECOMMENDED)</small>
+              </p>
+            </th>
+            <th>
+              ARIA roles, states and properties which MAY be used
+            </th>
+          </tr>
+        </thead>
         <tbody>
           <tr id="el-a" tabindex="-1">
-            <td>
+            <th>
               [^a^] with <a data-cite="html/links.html#attr-hyperlink-href">`href`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-link">link</a></code>
             </td>
@@ -217,12 +220,13 @@
                 any `aria-*` attributes applicable to the allowed roles and
                 implied role (if any).
               </p>
+              <p><strong>Note:</strong> it is not recommended to use `aria-disabled` on an `a` element with an `href` attribute.
             </td>
           </tr>
           <tr id="el-a-no-href" tabindex="-1">
-            <td>
+            <th>
               [^a^] without <a data-cite="html/links.html#attr-hyperlink-href">`href`</a>
-            </td>
+            </th>
             <td>
               <a href="#dfn-no-corresponding-role" class="internalDFN" data-link-type="dfn">No corresponding role</a>
             </td>
@@ -238,9 +242,9 @@
             </td>
           </tr>
           <tr id="el-abbr" tabindex="-1">
-            <td>
+            <th>
               [^abbr^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -256,9 +260,9 @@
             </td>
           </tr>
           <tr id="el-address" tabindex="-1">
-            <td>
+            <th>
               [^address^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -274,9 +278,9 @@
             </td>
           </tr>
           <tr id="el-area" tabindex="-1">
-            <td>
+            <th>
               [^area^] with <a data-cite="html/links.html#attr-hyperlink-href">`href`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-link">link</a></code>
             </td>
@@ -292,9 +296,9 @@
             </td>
           </tr>
           <tr id="el-area-no-href" tabindex="-1">
-            <td>
+            <th>
               [^area^] without <a data-cite="html/links.html#attr-hyperlink-href">`href`</a>
-            </td>
+            </th>
             <td><a>No corresponding role</a></td>
             <td>
               <p><strong class="nosupport">No `role`</strong></p>
@@ -304,9 +308,9 @@
             </td>
           </tr>
           <tr id="el-article" tabindex="-1">
-            <td>
+            <th>
               [^article^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-article">article</a></code>
             </td>
@@ -329,9 +333,9 @@
             </td>
           </tr>
           <tr id="el-aside" tabindex="-1">
-            <td>
+            <th>
               [^aside^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-complementary">complementary</a></code>
             </td>
@@ -361,9 +365,9 @@
             </td>
           </tr>
           <tr id="el-audio" tabindex="-1">
-            <td>
+            <th>
               [^audio^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -380,9 +384,9 @@
             </td>
           </tr>
           <tr id="el-autonomous-custom-element" tabindex="-1">
-            <td>
+            <th>
               <a>autonomous custom element</a>
-            </td>
+            </th>
             <td>
               Role exposed from author defined <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#the-elementinternals-interface">`ElementInternals`</a>.
               Otherwise <a>no corresponding role</a>.
@@ -400,9 +404,9 @@
             </td>
           </tr>
           <tr id="el-b" tabindex="-1">
-            <td>
+            <th>
               [^b^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -416,9 +420,9 @@
             </td>
           </tr>
           <tr id="el-base" tabindex="-1">
-            <td>
+            <th>
               [^base^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -427,9 +431,9 @@
             </td>
           </tr>
           <tr id="el-bdi" tabindex="-1">
-            <td>
+            <th>
               [^bdi^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -443,9 +447,9 @@
             </td>
           </tr>
           <tr id="el-bdo" tabindex="-1">
-            <td>
+            <th>
               [^bdo^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -459,9 +463,9 @@
             </td>
           </tr>
           <tr id="el-blockquote" tabindex="-1">
-            <td>
+            <th>
               [^blockquote^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -477,9 +481,9 @@
             </td>
           </tr>
           <tr id="el-body" tabindex="-1">
-            <td>
+            <th>
               [^body^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-document">document</a></code>
             </td>
@@ -495,9 +499,9 @@
             </td>
           </tr>
           <tr id="el-br" tabindex="-1">
-            <td>
+            <th>
               [^br^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -515,9 +519,9 @@
             </td>
           </tr>
           <tr id="el-button" tabindex="-1">
-            <td>
+            <th>
               [^button^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -542,9 +546,9 @@
             </td>
           </tr>
           <tr id="el-canvas" tabindex="-1">
-            <td>
+            <th>
               [^canvas^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -560,9 +564,9 @@
             </td>
           </tr>
           <tr id="el-caption" tabindex="-1">
-            <td>
+            <th>
               [^caption^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -576,9 +580,9 @@
             </td>
           </tr>
           <tr id="el-cite" tabindex="-1">
-            <td>
+            <th>
               [^cite^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -592,9 +596,9 @@
             </td>
           </tr>
           <tr id="el-code" tabindex="-1">
-            <td>
+            <th>
               [^code^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -608,11 +612,9 @@
             </td>
           </tr>
           <tr id="el-col" tabindex="-1">
-            <td>
-              <p>
-                [^col^]
-              </p>
-            </td>
+            <th>
+              [^col^]
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -621,11 +623,9 @@
             </td>
           </tr>
           <tr id="el-colgroup" tabindex="-1">
-            <td>
-              <p>
-                [^colgroup^]
-              </p>
-            </td>
+            <th>
+              [^colgroup^]
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -634,9 +634,9 @@
             </td>
           </tr>
           <tr id="el-data" tabindex="-1">
-            <td>
+            <th>
               [^data^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -650,9 +650,9 @@
             </td>
           </tr>
           <tr id="el-datalist" tabindex="-1">
-            <td>
+            <th>
               [^datalist^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-listbox">listbox</a></code>
             </td>
@@ -668,9 +668,9 @@
             </td>
           </tr>
           <tr id="el-dd" tabindex="-1">
-            <td>
+            <th>
               [^dd^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-definition">definition</a></code>
             </td>
@@ -685,9 +685,9 @@
             </td>
           </tr>
           <tr id="el-del" tabindex="-1">
-            <td>
+            <th>
               [^del^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -703,9 +703,9 @@
             </td>
           </tr>
           <tr id="el-dfn" tabindex="-1">
-            <td>
+            <th>
               [^dfn^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-term">term</a></code>
             </td>
@@ -719,9 +719,9 @@
             </td>
           </tr>
           <tr id="el-details" tabindex="-1">
-            <td>
+            <th>
               [^details^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-group">group</a></code>
             </td>
@@ -736,9 +736,9 @@
             </td>
           </tr>
           <tr id="el-dialog" tabindex="-1">
-            <td>
+            <th>
               [^dialog^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-dialog">dialog</a></code>
             </td>
@@ -754,9 +754,9 @@
             </td>
           </tr>
           <tr id="el-div" tabindex="-1">
-            <td>
+            <th>
               [^div^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -772,9 +772,9 @@
             </td>
           </tr>
           <tr id="el-dl" tabindex="-1">
-            <td>
+            <th>
               [^dl^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -794,9 +794,9 @@
             </td>
           </tr>
           <tr id="el-dt" tabindex="-1">
-            <td>
+            <th>
               [^dt^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-term">term</a></code>
             </td>
@@ -813,9 +813,9 @@
             </td>
           </tr>
           <tr id="el-em" tabindex="-1">
-            <td>
+            <th>
               [^em^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -831,9 +831,9 @@
             </td>
           </tr>
           <tr id="el-embed" tabindex="-1">
-            <td>
+            <th>
               [^embed^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -854,9 +854,9 @@
             </td>
           </tr>
           <tr id="el-fieldset" tabindex="-1">
-            <td>
+            <th>
               [^fieldset^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-group">group</a></code>
             </td>
@@ -875,9 +875,9 @@
             </td>
           </tr>
           <tr id="el-figcaption" tabindex="-1">
-            <td>
+            <th>
               [^figcaption^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -896,9 +896,9 @@
             </td>
           </tr>
           <tr id="el-figure" tabindex="-1">
-            <td>
+            <th>
               [^figure^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-figure">figure</a></code>
             </td>
@@ -906,7 +906,7 @@
               <p>
                 If the `figure` has no `figcaption` descendant:
                 <br>
-                Roles: <a><strong>Any</strong> `role`</a>
+                <a><strong>Any</strong> `role`</a>
               </p>
               <p>
                 If the `figure` has a `figcaption` descendant:
@@ -921,9 +921,9 @@
             </td>
           </tr>
           <tr id="el-footer" tabindex="-1">
-            <td>
+            <th>
               [^footer^]
-            </td>
+            </th>
             <td>
               If not a descendant of an `article`, `aside`, `main`, `nav`
               or `section` element, or an element with `role=article`, `complementary`,
@@ -949,9 +949,9 @@
             </td>
           </tr>
           <tr id="el-form" tabindex="-1">
-            <td>
+            <th>
               [^form^]
-            </td>
+            </th>
             <td>
               If the [^form^] element has an
               <a data-cite="html-aam-1.0#dfn-accessible-name" data-link-type="dfn">accessible name</a>:
@@ -973,9 +973,9 @@
             </td>
           </tr>
           <tr id="el-form-associated-custom-element" tabindex="-1">
-            <td>
+            <th>
               <a>form-associated custom element</a>
-            </td>
+            </th>
             <td>
               Role exposed from author defined <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#the-elementinternals-interface">`ElementInternals`</a>.
               Otherwise <a>no corresponding role</a>.
@@ -1006,9 +1006,9 @@
             </td>
           </tr>
           <tr id="el-h1-h6" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/sections.html#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements">`h1 to h6`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-heading">heading</a></code>,
               with the `aria-level` = positive integer.
@@ -1032,9 +1032,9 @@
             </td>
           </tr>
           <tr id="el-head" tabindex="-1">
-            <td>
+            <th>
               [^head^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1043,9 +1043,9 @@
             </td>
           </tr>
           <tr id="el-header" tabindex="-1">
-            <td>
+            <th>
               [^header^]
-            </td>
+            </th>
             <td>
               If not a descendant of an `article`, `aside`, `main`,
               `nav` or `section` element, or an element with `role=article`,
@@ -1072,9 +1072,9 @@
             </td>
           </tr>
           <tr id="el-hgroup" tabindex="-1">
-            <td>
+            <th>
               [^hgroup^]
-            </td>
+            </th>
             <td><a>No corresponding role</a></td>
             <td>
               <p><a><strong>Any</strong> `role`</a>.</p>
@@ -1086,9 +1086,9 @@
             </td>
           </tr>
           <tr id="el-hr" tabindex="-1">
-            <td>
+            <th>
               [^hr^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-separator">separator</a></code>
             </td>
@@ -1109,9 +1109,9 @@
             </td>
           </tr>
           <tr id="el-html" tabindex="-1">
-            <td>
+            <th>
               [^html^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1120,9 +1120,9 @@
             </td>
           </tr>
           <tr id="el-i" tabindex="-1">
-            <td>
+            <th>
               [^i^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1138,9 +1138,9 @@
             </td>
           </tr>
           <tr id="el-iframe" tabindex="-1">
-            <td>
+            <th>
               [^iframe^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1161,10 +1161,10 @@
             </td>
           </tr>
           <tr id="el-img" tabindex="-1">
-            <td>
+            <th>
               <code><a>img</a></code> with <code><a data-cite=
               "html/embedded-content.html#attr-img-alt">alt</a>="some text"</code>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-img">img</a></code>
             </td>
@@ -1198,10 +1198,10 @@
             </td>
           </tr>
           <tr id="el-img-empty-alt" tabindex="-1">
-            <td>
+            <th>
               <code><a>img</a></code> with
               <code><a data-cite="html/embedded-content.html#attr-img-alt">alt</a>=""</code>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1211,9 +1211,9 @@
             </td>
           </tr>
           <tr id="el-img-no-alt" tabindex="-1">
-            <td>
+            <th>
               <code><a>img</a></code> without <code><a data-cite="html/images.html#unknown-images">alt</a></code> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-img">img</a></code>
             </td>
@@ -1229,9 +1229,9 @@
             </td>
           </tr>
           <tr id="el-input-button" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#button-state-(type=button)">`input type=button`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -1255,9 +1255,9 @@
             </td>
           </tr>
           <tr id="el-input-checkbox" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#checkbox-state-(type=checkbox)">`input type=checkbox`</a>
-            </td>
+            </th>
             <td>
               <p>
                 <code>role=<a href="#index-aria-checkbox">checkbox</a></code>
@@ -1272,23 +1272,26 @@
                 or <a href="#index-aria-switch">`switch`</a>.
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors <a href="#att-checked">SHOULD NOT use the `aria-checked` attribute on `input type=checkbox` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the allowed roles and
                 implied role (if any).
               </p>
               <p>
                 <strong>Note:</strong> the HTML
                 <a data-cite="html/input.html#attr-input-checked">`checked`</a>
-                attribute may be used instead of the `aria-checked`
+                attribute can be used instead of the `aria-checked`
                 attribute for `menuitemcheckbox`, `option` or `switch` when used on
                 `type=checkbox`.
               </p>
             </td>
           </tr>
           <tr id="el-input-color" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#color-state-(type=color)">`input type=color`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1302,9 +1305,9 @@
             </td>
           </tr>
           <tr id="el-input-date" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#date-state-(type=date)">`input type=date`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1313,14 +1316,14 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-datetime-local" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#local-date-and-time-state-(type=datetime-local)">`input type=datetime-local`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1329,17 +1332,17 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-email" tabindex="-1">
-            <td>
+            <th>
               <a data-cite=
               "html/input.html#e-mail-state-(type=email)">`input type=email`</a>
               with no
               <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-checkbox">textbox</a></code>
             </td>
@@ -1354,9 +1357,9 @@
             </td>
           </tr>
           <tr id="el-input-file" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#file-upload-state-(type=file)">`input type=file`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1370,9 +1373,9 @@
             </td>
           </tr>
           <tr id="el-input-hidden" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#hidden-state-(type=hidden)">`input type=hidden`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1381,9 +1384,9 @@
             </td>
           </tr>
           <tr id="el-input-image" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#image-button-state-(type=image)">`input type=image`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -1405,9 +1408,9 @@
             </td>
           </tr>
           <tr id="el-input-month" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#month-state-(type=month)">`input type=month`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1416,14 +1419,14 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-number" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#number-state-(type=number)">`input type=number`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-spinbutton">spinbutton</a></code>
             </td>
@@ -1438,9 +1441,9 @@
             </td>
           </tr>
           <tr id="el-input-password" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#password-state-(type=password)">`input type=password`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1449,15 +1452,15 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and `aria-required`
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-radio" tabindex="-1">
-            <td>
+            <th>
               <a data-cite=
               "html/input.html#radio-button-state-(type=radio)">`input type=radio`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-radio">radio</a></code>
             </td>
@@ -1467,21 +1470,24 @@
                 <a href="#index-aria-menuitemradio">`menuitemradio`</a>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `menuitemradio` role.
+                Authors <a href="#att-checked">SHOULD NOT use the `aria-checked` attribute on `input type=radio` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
+                any `aria-*` attributes applicable to the exposed role.
               </p>
               <p>
                 <strong>Note:</strong> the HTML <a data-cite=
                 "html/input.html#attr-input-checked">`checked`</a>
-                attribute may be used instead of the `aria-checked` attribute
+                attribute can be used instead of the `aria-checked` attribute
                 for `menuitemradio` when used on `type=radio`.
               </p>
             </td>
           </tr>
           <tr id="el-input-range" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#range-state-(type=range)">`input type=range`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-slider">slider</a></code>
             </td>
@@ -1490,15 +1496,18 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors SHOULD NOT use the <a href="#att-max">`aria-valuemax`</a> or <a href="#att-min">`aria-valuemin`</a> attributes on <a href="#el-input-range">`input type=range` elements</a>.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `slider` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-reset" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#reset-button-state-(type=reset)">`input type=reset`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -1513,10 +1522,10 @@
             </td>
           </tr>
           <tr id="el-input-search" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#text-(type=text)-state-and-search-state-(type=search)">`input type=search`</a>,
               with no <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-searchbox">searchbox</a></code>
             </td>
@@ -1531,9 +1540,9 @@
             </td>
           </tr>
           <tr id="el-input-submit" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#submit-button-state-(type=submit)">`input type=submit`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -1548,11 +1557,11 @@
             </td>
           </tr>
           <tr id="el-input-tel" tabindex="-1">
-            <td>
+            <th>
               <a data-cite=
               "html/input.html#telephone-state-(type=tel)">`input type=tel`</a>,
               with no <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-textbox">textbox</a></code>
             </td>
@@ -1567,10 +1576,10 @@
             </td>
           </tr>
           <tr id="el-input-text" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#text-(type=text)-state-and-search-state-(type=search)">`input type=text`</a>
               or with a missing or invalid `type`, with no <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-textbox">textbox</a></code>
             </td>
@@ -1588,7 +1597,7 @@
             </td>
           </tr>
           <tr id="el-input-text-list" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#text-(type=text)-state-and-search-state-(type=search)">
               `input type=text`</a>,
               <a data-cite="html/input.html#text-(type=text)-state-and-search-state-(type=search)">
@@ -1596,8 +1605,8 @@
               <a data-cite="html/input.html#telephone-state-(type=tel)">`tel`</a>,
               <a data-cite="html/input.html#url-state-(type=url)">`url`</a>,
               <a data-cite="html/input.html#e-mail-state-(type=email)">`email`</a>,
-              or with a missing or invalid `type`, with a <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+              or with a missing or invalid `type`, <strong>with a <a data-cite="html/input.html#attr-input-list">`list`</a> attribute</strong>
+            </th>
             <td>
               <code>role=<a href="#index-aria-combobox">combobox</a></code>
             </td>
@@ -1606,15 +1615,21 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
+                Authors SHOULD NOT use the `aria-haspopup` attribute on the indicated `input`s with a `list` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use the `aria-haspopup` attribute with a value other than `listbox` on the indicated `input`s with a `list` attribute.
+              </p>
+              <p>
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `combobox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-time" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#time-state-(type=time)">`input type=time`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1623,16 +1638,16 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-input-url" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#url-state-(type=url)">`input type=url`</a>
               with no
               <a data-cite="html/input.html#attr-input-list">`list`</a> attribute
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-textbox">textbox</a></code>
             </td>
@@ -1647,9 +1662,9 @@
             </td>
           </tr>
           <tr id="el-input-week" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/input.html#week-state-(type=week)">`input type=week`</a>
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1658,14 +1673,14 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a> and any `aria-*` attributes applicable to the `textbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-ins" tabindex="-1">
-            <td>
+            <th>
               [^ins^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1681,9 +1696,9 @@
             </td>
           </tr>
           <tr id="el-kbd" tabindex="-1">
-            <td>
+            <th>
               [^kbd^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1699,9 +1714,9 @@
             </td>
           </tr>
           <tr id="el-label" tabindex="-1">
-            <td>
+            <th>
               [^label^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1715,9 +1730,9 @@
             </td>
           </tr>
           <tr id="el-legend" tabindex="-1">
-            <td>
+            <th>
               [^legend^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1731,9 +1746,9 @@
             </td>
           </tr>
           <tr id="el-li" tabindex="-1">
-            <td>
+            <th>
               [^li^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-listitem">listitem</a></code>
             </td>
@@ -1764,9 +1779,9 @@
             </td>
           </tr>
           <tr id="el-link" tabindex="-1">
-            <td>
+            <th>
               [^link^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1775,9 +1790,9 @@
             </td>
           </tr>
           <tr id="el-main" tabindex="-1">
-            <td>
+            <th>
               [^main^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-main">main</a></code>
             </td>
@@ -1792,9 +1807,9 @@
             </td>
           </tr>
           <tr id="el-map" tabindex="-1">
-            <td>
+            <th>
               [^map^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1803,9 +1818,9 @@
             </td>
           </tr>
           <tr id="el-math" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/embedded-content-other.html#mathml">`math`</a>
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-math">math</a></code>
             </td>
@@ -1820,9 +1835,9 @@
             </td>
           </tr>
           <tr id="el-mark" tabindex="-1">
-            <td>
+            <th>
               [^mark^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1838,9 +1853,9 @@
             </td>
           </tr>
           <tr id="el-menu" tabindex="-1">
-            <td>
+            <th>
               [^menu^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
             </td>
@@ -1867,9 +1882,9 @@
             </td>
           </tr>
           <tr id="el-meta" tabindex="-1">
-            <td>
+            <th>
               [^meta^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1878,9 +1893,9 @@
             </td>
           </tr>
           <tr id="el-meter" tabindex="-1">
-            <td>
+            <th>
               [^meter^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1889,14 +1904,14 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
-                <a href="#index-aria-global">global `aria-*` attributes</a>
+                <a href="#index-aria-global">Global `aria-*` attributes</a>.
               </p>
             </td>
           </tr>
           <tr id="el-nav" tabindex="-1">
-            <td>
+            <th>
               [^nav^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-navigation">navigation</a></code>
             </td>
@@ -1924,9 +1939,9 @@
             </td>
           </tr>
           <tr id="el-noscript" tabindex="-1">
-            <td>
+            <th>
               [^noscript^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1935,9 +1950,9 @@
             </td>
           </tr>
           <tr id="el-object" tabindex="-1">
-            <td>
+            <th>
               [^object^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -1956,9 +1971,9 @@
             </td>
           </tr>
           <tr id="el-ol" tabindex="-1">
-            <td>
+            <th>
               [^ol^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
             </td>
@@ -1985,9 +2000,9 @@
             </td>
           </tr>
           <tr id="el-optgroup" tabindex="-1">
-            <td>
+            <th>
               [^optgroup^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-group">group</a></code>
             </td>
@@ -2002,11 +2017,11 @@
             </td>
           </tr>
           <tr id="el-option" tabindex="-1">
-            <td>
+            <th>
               [^option^] element that is in a <a data-cite=
               "html/input.html#attr-input-list">list of options</a> or that
               represents a suggestion in a [^datalist^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-option">option</a></code>
             </td>
@@ -2015,15 +2030,18 @@
                 <strong class="nosupport">No `role`</strong>
               </p>
               <p>
+                Authors SHOULD NOT use the `aria-selected` attribute on the `option` element.
+              </p>
+              <p>
                 <a href="#index-aria-global">Global `aria-*` attributes</a> and
                 any `aria-*` attributes applicable to the `option` role.
               </p>
             </td>
           </tr>
           <tr id="el-output" tabindex="-1">
-            <td>
+            <th>
               [^output^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-status">status</a></code>
             </td>
@@ -2039,9 +2057,9 @@
             </td>
           </tr>
           <tr id="el-p" tabindex="-1">
-            <td>
+            <th>
               [^p^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2057,9 +2075,9 @@
             </td>
           </tr>
           <tr id="el-param" tabindex="-1">
-            <td>
+            <th>
               [^param^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2068,9 +2086,9 @@
             </td>
           </tr>
           <tr id="el-picture" tabindex="-1">
-            <td>
+            <th>
               [^picture^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2079,9 +2097,9 @@
             </td>
           </tr>
           <tr id="el-pre" tabindex="-1">
-            <td>
+            <th>
               [^pre^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2097,9 +2115,9 @@
             </td>
           </tr>
           <tr id="el-progress" tabindex="-1">
-            <td>
+            <th>
               [^progress^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-progressbar">progressbar</a></code>
             </td>
@@ -2114,9 +2132,9 @@
             </td>
           </tr>
           <tr id="el-q" tabindex="-1">
-            <td>
+            <th>
               [^q^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2132,9 +2150,9 @@
             </td>
           </tr>
           <tr id="el-rp" tabindex="-1">
-            <td>
+            <th>
               [^rp^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2150,9 +2168,9 @@
             </td>
           </tr>
           <tr id="el-rt" tabindex="-1">
-            <td>
+            <th>
               [^rt^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2168,9 +2186,9 @@
             </td>
           </tr>
           <tr id="el-ruby" tabindex="-1">
-            <td>
+            <th>
               [^ruby^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2186,9 +2204,9 @@
             </td>
           </tr>
           <tr id="el-s" tabindex="-1">
-            <td>
+            <th>
               [^s^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2204,9 +2222,9 @@
             </td>
           </tr>
           <tr id="el-samp" tabindex="-1">
-            <td>
+            <th>
               [^samp^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2222,9 +2240,9 @@
             </td>
           </tr>
           <tr id="el-script" tabindex="-1">
-            <td>
+            <th>
               [^script^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2233,9 +2251,9 @@
             </td>
           </tr>
           <tr id="el-section" tabindex="-1">
-            <td>
+            <th>
               [^section^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-region">region</a></code> if the
               [^section^] element has an <a data-cite=
@@ -2304,10 +2322,10 @@
             </td>
           </tr>
           <tr id="el-select" tabindex="-1">
-            <td>
+            <th>
               [^select^] (with NO `multiple` attribute and NO `size`
               attribute having value greater than `1`)
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-combobox">combobox</a></code>
             </td>
@@ -2315,17 +2333,18 @@
               <p>
                 Role: <a href="#index-aria-menu">`menu`</a>
               </p>
+              <p>Authors SHOULD NOT use the `aria-multiselectable` attribute on a `select` element.</p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `combobox` or `menu` role.
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
+                any other `aria-*` attributes applicable to the `combobox` or `menu` role.
               </p>
             </td>
           </tr>
           <tr id="el-select-multiple-or-size-greater-1" tabindex="-1">
-            <td>
+            <th>
               [^select^] (with a `multiple` attribute or a `size` attribute
               having value greater than `1`)
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-list">listbox</a></code>
             </td>
@@ -2333,21 +2352,24 @@
               <p>
                 <strong class="nosupport">No `role`</strong>
               </p>
+              <p>Authors SHOULD NOT use the `aria-multiselectable` attribute on a `select` element.</p>
               <p>
-                <a href="#index-aria-global">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the `listbox` role.
+                Otherwise, any <a href="#index-aria-global">global `aria-*` attributes</a> and
+                any other `aria-*` attributes applicable to the `listbox` role.
               </p>
             </td>
           </tr>
           <tr id="el-slot" tabindex="-1">
-            <td>[^slot^]</td>
+            <th>
+              [^slot^]
+            </th>
             <td><a>No corresponding role</a></td>
             <td><strong class="nosupport">No `role` or `aria-*` attributes</strong></td>
           </tr>
           <tr id="el-small" tabindex="-1">
-            <td>
+            <th>
               [^small^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2363,9 +2385,9 @@
             </td>
           </tr>
           <tr id="el-source" tabindex="-1">
-            <td>
+            <th>
               [^source^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2374,9 +2396,9 @@
             </td>
           </tr>
           <tr id="el-span" tabindex="-1">
-            <td>
+            <th>
               [^span^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2392,9 +2414,9 @@
             </td>
           </tr>
           <tr id="el-strong" tabindex="-1">
-            <td>
+            <th>
               [^strong^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2410,9 +2432,9 @@
             </td>
           </tr>
           <tr id="el-style" tabindex="-1">
-            <td>
+            <th>
               [^style^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2421,9 +2443,9 @@
             </td>
           </tr>
           <tr id="el-svg" tabindex="-1">
-            <td>
+            <th>
               <a data-cite="html/embedded-content-other.html#svg-0">`SVG`</a>
-            </td>
+            </th>
             <td>
               `role=graphics-document` as defined by
               <a data-cite="svg-aam-1.0/#details-id-66">SVG AAM</a>
@@ -2440,9 +2462,9 @@
             </td>
           </tr>
           <tr id="el-sub" tabindex="-1">
-            <td>
+            <th>
               [^sub^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2458,9 +2480,9 @@
             </td>
           </tr>
           <tr id="el-summary" tabindex="-1">
-            <td>
+            <th>
               [^summary^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-button">button</a></code>
             </td>
@@ -2475,9 +2497,9 @@
             </td>
           </tr>
           <tr id="el-sup" tabindex="-1">
-            <td>
+            <th>
               [^sup^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2493,9 +2515,9 @@
             </td>
           </tr>
           <tr id="el-table" tabindex="-1">
-            <td>
+            <th>
               [^table^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-table">table</a></code>
             </td>
@@ -2511,9 +2533,9 @@
             </td>
           </tr>
           <tr id="el-tbody" tabindex="-1">
-            <td>
+            <th>
               [^tbody^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-rowgroup">rowgroup</a></code>
             </td>
@@ -2529,9 +2551,9 @@
             </td>
           </tr>
           <tr id="el-template" tabindex="-1">
-            <td>
+            <th>
               [^template^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2540,9 +2562,9 @@
             </td>
           </tr>
           <tr id="el-textarea" tabindex="-1">
-            <td>
+            <th>
               [^textarea^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-textbox">textbox</a></code>
             </td>
@@ -2557,9 +2579,9 @@
             </td>
           </tr>
           <tr id="el-tfoot" tabindex="-1">
-            <td>
+            <th>
               [^tfoot^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-rowgroup">rowgroup</a></code>
             </td>
@@ -2575,9 +2597,9 @@
             </td>
           </tr>
           <tr id="el-thead" tabindex="-1">
-            <td>
+            <th>
               [^thead^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-rowgroup">rowgroup</a></code>
             </td>
@@ -2593,9 +2615,9 @@
             </td>
           </tr>
           <tr id="el-time" tabindex="-1">
-            <td>
+            <th>
               [^time^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2611,9 +2633,9 @@
             </td>
           </tr>
           <tr id="el-title" tabindex="-1">
-            <td>
+            <th>
               [^title^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2622,9 +2644,9 @@
             </td>
           </tr>
           <tr id="el-td" tabindex="-1">
-            <td>
+            <th>
               [^td^]
-            </td>
+            </th>
             <td>
               <p>
                 <code>role=<a href="#index-aria-cell">cell</a></code> if the ancestor
@@ -2649,15 +2671,15 @@
             </td>
           </tr>
           <tr id="el-th" tabindex="-1">
-            <td>
+            <th>
               [^th^]
-            </td>
+            </th>
             <td>
               <p>
                 If the ancestor `table` element is exposed as a `role=table`: <code>role=<a href="#index-aria-columnheader">columnheader</a></code>,
                 <a href="#index-aria-rowheader">`rowheader`</a> or <a href="#index-aria-rowheader">`cell`</a> according to
                 <a data-cite="html-aam-1.0#html-element-role-mappings">HTML AAM</a>.
-             </p>
+              </p>
               <p>
                 If the ancestor `table` element is exposed as a `role=grid` or `treegrid`: <code>role=<a href="#index-aria-columnheader">columnheader</a></code>,
                 <a href="#index-aria-rowheader">`rowheader`</a> or <a href="#index-aria-rowheader">`gridcell`</a> according to
@@ -2678,9 +2700,9 @@
             </td>
           </tr>
           <tr id="el-tr" tabindex="-1">
-            <td>
+            <th>
               [^tr^]
-            </td>
+            </th>
             <td>
               <a href="#index-aria-row">`role=row`</a>
             </td>
@@ -2698,9 +2720,9 @@
             </td>
           </tr>
           <tr id="el-track" tabindex="-1">
-            <td>
+            <th>
               [^track^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2709,9 +2731,9 @@
             </td>
           </tr>
           <tr id="el-u" tabindex="-1">
-            <td>
+            <th>
               [^u^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2727,9 +2749,9 @@
             </td>
           </tr>
           <tr id="el-ul" tabindex="-1">
-            <td>
+            <th>
               [^ul^]
-            </td>
+            </th>
             <td>
               <code>role=<a href="#index-aria-list">list</a></code>
             </td>
@@ -2756,9 +2778,9 @@
             </td>
           </tr>
           <tr id="el-var" tabindex="-1">
-            <td>
+            <th>
               [^var^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2774,9 +2796,9 @@
             </td>
           </tr>
           <tr id="el-video" tabindex="-1">
-            <td>
+            <th>
               [^video^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2791,9 +2813,9 @@
             </td>
           </tr>
           <tr id="el-wbr" tabindex="-1">
-            <td>
+            <th>
               [^wbr^]
-            </td>
+            </th>
             <td>
               <a>No corresponding role</a>
             </td>
@@ -2808,153 +2830,9 @@
               </p>
             </td>
           </tr>
-          <tr id="att-disabled" tabindex="-1">
-            <td>
-              Element with a
-              <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">`disabled`</a> attribute
-            </td>
-            <td>
-              `aria-disabled="true"`
-            </td>
-            <td>
-              <p>
-                Use the `disabled` attribute on any element that is
-                <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">
-                allowed the `disabled` attribute</a> in HTML.
-              </p>
-              <p>
-                Only use the `aria-disabled` attribute for elements
-                that are <strong>not allowed</strong> to have a `disabled` attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-placeholder" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute
-            </td>
-            <td>
-              `aria-placeholder=""`
-            </td>
-            <td>
-              <p>
-                Use the `placeholder` attribute on any element that is allowed the
-                <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute in HTML.
-              </p>
-              <p>
-                Only use the `aria-placeholder` attribute on elements that are
-                <strong>not allowed</strong> to have a `placeholder` attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-required" tabindex="-1">
-            <td>
-              Element with a
-              <a data-cite="html/input.html#attr-input-required">`required`</a> attribute
-            </td>
-            <td>
-              `aria-required="true"`
-            </td>
-            <td>
-              <p>
-                Use the `aria-required` attribute on any element
-                that is <a data-cite="html/input.html#attr-input-required">allowed the
-                `required` attribute</a> in HTML. MUST NOT be set
-                to `false` if the <a data-cite="html/input.html#attr-input-required">`required`</a>
-                attribute is set.
-              </p>
-              <p>
-                MAY also be used for elements that have an ARIA role which
-                allows the `aria-required` attribute.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-readonly" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/input.html#attr-input-readonly">`readonly`</a>
-              attribute
-            </td>
-            <td>
-              `aria-readonly="true"`
-            </td>
-            <td>
-              <p>
-                Use the `readonly` attribute on any element that is
-                <a data-cite="html/input.html#attr-input-readonly">allowed the `readonly` attribute</a> in HTML.
-              </p>
-              <p>
-                Only use the `aria-readonly` attribute for elements
-                that are <em>not allowed</em> to have a `readonly`
-                attribute in HTML.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-hidden" tabindex="-1">
-            <td>
-              Element with a <a data-cite="html/interaction.html#the-hidden-attribute">`hidden`</a>
-              attribute
-            </td>
-            <td>
-              `aria-hidden="true"`
-            </td>
-            <td>
-              <p>
-                Use the `aria-hidden` attribute on any HTML element.
-              </p>
-              <p>
-                <strong>Note:</strong> If an element has a `hidden`
-                attribute, an `aria-hidden` attribute is not required.
-              </p>
-            </td>
-          </tr>
-          <tr id="IDL-ValidityState" tabindex="-1">
-            <td>
-              Element that is a <a data-cite=
-              "html/form-control-infrastructure.html#candidate-for-constraint-validation">candidate for
-              constraint validation</a> but that does not <a data-cite=
-              "html/form-control-infrastructure.html#concept-fv-valid">satisfy its
-              constraints</a>
-            </td>
-            <td>
-              `aria-invalid="true"`
-            </td>
-            <td>
-              <p>
-                The `aria-invalid` attribute may be used on any
-                HTML element that allows <a href="#index-aria-global">global
-                `aria-*` attributes</a> except for a <a data-cite=
-                "html/forms.html#category-submit">submittable element</a> that
-                does not satisfy its <a data-cite=
-                "html/form-control-infrastructure.html#constraints">validation
-                constraints</a>.
-              </p>
-            </td>
-          </tr>
-          <tr id="att-contenteditable" tabindex="-1">
-            <td>
-              <p>
-                Element with <code><a data-cite=
-                "html/interaction.html#attr-contenteditable">contenteditable</a>="true"</code>;
-                or<br>
-                Element without `contenteditable` attribute whose closest
-                ancestor with a `contenteditable` attribute has
-                `contenteditable="true"`.
-              </p>
-              <p>
-                Note: this is equivalent to the <a data-cite=
-                "html/interaction.html#dom-iscontenteditable">`isContentEditable`</a>
-                IDL attribute.
-              </p>
-            </td>
-            <td>
-              `aria-readonly="false"`
-            </td>
-            <td>
-              Do not set `aria-readonly="true"` on an element that has
-              `isContentEditable="true"`.
-            </td>
-          </tr>
         </tbody>
       </table>
+
       <p>
         The elements marked with <dfn>No corresponding role</dfn>, in the
         second column of the table do not have any <a>implicit ARIA semantics</a>,
@@ -2992,7 +2870,7 @@
         </p>
         <pre>
 &lt;figure&gt;
-  &lt;pre role="img" aria-label="An ASCII art fish"&gt;
+  &lt;pre role="img"&gt;
   o           .'`/
     '      /  (
   O    .-'` ` `'-._      .')
@@ -3007,8 +2885,322 @@
     October 1997. ASCII on electrons. 28×8.
   &lt;/figcaption&gt;
 &lt;/figure&gt;
-</pre><!-- source: https://web.archive.org/web/20130313111807/http://www.geocities.com/SoHo/7373/aquatic.htm -->
+</pre><!-- source: http://www.geocities.com/SoHo/7373/aquatic.htm#fish -->
       </aside>
+
+      <h3 id="docconformance-attr">
+        Document conformance requirements for use of ARIA attributes with HTML attributes
+      </h3>
+      <p>
+        Unless otherwise stated, authors MAY use `aria-*` attributes in place of their HTML equivalents on HTML elements where the `aria-*` semantics would be expected. For example, authors MAY use `aria-disabled=true` on a `button` rather than the `disabled` attribute. However, authors SHOULD NOT use both the native HTML attribute and the `aria-*` attribute together. As stated in <a data-cite="wai-aria-1.1#host_general_conflict">WAI-ARIA's Conflicts with Host Language Semantics</a>, user agents MUST ignore WAI-ARIA attributes and use the host language (HTML) attribute with the same <a>implicit ARIA semantics</a>.
+      </p>
+      <p>
+        The following table represents HTML elements and their attributes which have `aria-*` attribute parity.
+      </p>
+      <p>
+        Each language feature (element and attribute) in a cell in the first column implies the
+        ARIA semantics (states, and properties) given in the cell in the second column
+        of the same row. The third cell in each row defines how authors can use the native HTML feature, along with requirements for using the `aria-*` attributes that supply the same <a>implicit ARIA semantics</a>.
+      </p>
+      <table class="simple">
+        <caption>
+          Rules of ARIA attribute usage by HTML feature
+        </caption>
+        <thead>
+          <tr>
+            <th>
+              HTML feature
+            </th>
+            <th>
+              <p id="implicit-attr">
+                Implicit ARIA semantics
+              </p>
+            </th>
+            <th>
+              HTML feature and `aria-*` attribute author guidance
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="att-checked" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-checked">`checked`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-checked="true"`
+            </td>
+            <td>
+              <p>
+                Use the `checked` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-checked">allowed the `checked` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-checked` attribute on any element where the <a data-cite="html/form-control-infrastructure.html#concept-fe-checked">checkedness</a> of the element can be in opposition to the current value of the  <a data-cite="wai-aria-1.1#aria-checked">`aria-checked` attribute</a>.
+              </p>
+              <p>
+                Authors MAY use the `aria-checked` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-disabled" tabindex="-1">
+            <th>
+              Any element where the
+              <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">`disabled`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-disabled="true"`
+            </td>
+            <td>
+              <p>
+                Use the `disabled` attribute on any element that is <a data-cite="html/form-control-infrastructure.html#attr-fe-disabled">allowed the `disabled` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-disabled` attribute on any element that is allowed the `disabled` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-disabled">`aria-disabled` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-disabled="true"` on any element which also has a `disabled` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-disabled="false"` on any element which also has a `disabled` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-hidden" tabindex="-1">
+            <th>
+              Any element with a <a data-cite="html/interaction.html#the-hidden-attribute">`hidden`</a>
+              attribute
+            </th>
+            <td>
+              `aria-hidden="true"`
+            </td>
+            <td>
+              <p>
+                Authors MAY use the `aria-hidden` attribute on any HTML element that allows <a href="#index-aria-global">global `aria-*` attributes</a>, with the following exceptions:
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-hidden="true"` attribute on any element which also has a `hidden` attribute.
+              </p>
+              
+              <!-- this will be covered as part of issue 221 -->
+              <!-- <p>
+                Authors MUST NOT use `aria-hidden="true"` on an element that can receive keyboard focus, or on an ancestor element to an element or elements which can receive keyboard focus.
+              </p>
+              <p>
+                Any elements which can receive keyboard focus, interactive elements or otherwise, MUST have their ability to receive keyboard focus removed while the `aria-hidden="true"` attribute is present. For instance, by using `tabindex="-1"` on any focusable elements with `aria-hidden="true"`, or setting `tabindex="-1"` to focusable elements that are descendants of an `aria-hidden="true"` containing element.
+              </p> -->
+            </td>
+          </tr>
+          <tr id="att-placeholder" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#the-placeholder-attribute">`placeholder`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-placeholder="..."`
+            </td>
+            <td>
+              <p>
+                Use the `placeholder` attribute on any element that is <a data-cite="html/input.html#the-placeholder-attribute">allowed the
+                `placeholder` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-placeholder` attribute on any element that is allowed the `placeholder` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-placeholder">`aria-placeholder` attribute</a>.
+              </p>
+              <p>
+                Authors MUST NOT use the `aria-placeholder` attribute on any element which also has a `placeholder` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-max" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-max">`max`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-valuemax="..."`
+            </td>
+            <td>
+              <p>
+                Use the `max` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-max">allowed the `max` attribute</a> in HTML. It is NOT RECOMMENDED to use the <a data-cite="wai-aria-1.1#aria-valuemax">`aria-valuemax` attribute</a> on these elements.
+              </p>
+              <p>
+                Authors MAY use the `aria-valuemax` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-valuemax` on any element which also has a `max` attribute, even if the values of each attribute match.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-valuemax` on any element which also has a `max` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-min" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-min">`min`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-valuemin="..."`
+            </td>
+            <td>
+              <p>
+                Use the `min` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-min">allowed the `min` attribute</a> in HTML. It is NOT RECOMMENDED to use the <a data-cite="wai-aria-1.1#aria-valuemin">`aria-valuemin` attribute</a> on these elements.
+              </p>
+              <p>
+                Authors MAY use the `aria-valuemin` attribute on any other element with a WAI-ARIA role which allows the  attribute.
+              </p>
+              <p>
+                Authors SHOULD NOT use `aria-valuemin` on any element which also has a `min` attribute, even if the values of each attribute match.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-valuemin` on any element which also has a `min` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-readonly" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/input.html#attr-input-readonly">`readonly`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-readonly="true"`
+            </td>
+            <td>
+              <p>
+                Use the `readonly` attribute on any element that is
+                <a data-cite="html/input.html#attr-input-readonly">allowed the `readonly` attribute</a> in HTML. It is NOT RECOMMENDED to use `aria-readonly` on these elements.
+              </p>
+              <p>
+                Authors MAY use the `aria-readonly` attribute on any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-readonly="true"` on any element which also has a `readonly` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-readonly="false"` on any element which also has a `readonly` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-contenteditable" tabindex="-1">
+            <th>
+              <p>
+                Element with <code><a data-cite=
+                "html/interaction.html#attr-contenteditable">contenteditable</a>="true"</code>;
+                or<br>
+                Element without `contenteditable` attribute whose closest
+                ancestor with a `contenteditable` attribute has
+                `contenteditable="true"`.
+              </p>
+              <p>
+                <strong>Note:</strong> this is equivalent to the <a data-cite=
+                "html/interaction.html#dom-iscontenteditable">`isContentEditable`</a>
+                IDL attribute.
+              </p>
+            </th>
+            <td>
+              `aria-readonly="false"`
+            </td>
+            <td>
+              Authors MUST NOT set `aria-readonly="true"` on an element that has `isContentEditable="true"`.
+            </td>
+          </tr>
+          <tr id="att-required" tabindex="-1">
+            <th>
+              Any element where the
+              <a data-cite="html/input.html#attr-input-required">`required`</a> attribute is allowed
+            </th>
+            <td>
+              `aria-required="true"`
+            </td>
+            <td>
+              <p>
+                Use the `required` attribute on any element
+                that is <a data-cite="html/input.html#attr-input-required">allowed the
+                `required` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-required` attribute on any element that is allowed the `required` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-required">`aria-required` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-required="true"` on any element which also has a `required` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-required="false"` on any element which also has a `required` attribute.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-colspan" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/tables.html#attr-tdth-colspan">`colspan`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-colspan="..."`
+            </td>
+            <td>
+              <p>
+                Use the `colspan` attribute on any element that is
+                <a data-cite="html/tables.html#attr-tdth-colspan">allowed the `colspan` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-colspan` attribute on any element that is allowed the `colspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-colspan">`aria-colspan` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-colspan` attribute on any element which also has a `colspan` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-colspan` on any element which also has a `colspan` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+          <tr id="att-rowspan" tabindex="-1">
+            <th>
+              Any element where the <a data-cite="html/tables.html#attr-tdth-rowspan">`rowspan`</a>
+              attribute is allowed
+            </th>
+            <td>
+              `aria-rowspan="..."`
+            </td>
+            <td>
+              <p>
+                Use the `rowspan` attribute on any element that is
+                <a data-cite="html/tables.html#attr-tdth-rowspan">allowed the `rowspan` attribute</a> in HTML.
+              </p>
+              <p>
+                Authors MAY use the `aria-rowspan` attribute on any element that is allowed the `rowspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-rowspan">`aria-rowspan` attribute</a>.
+              </p>
+              <p>
+                Authors SHOULD NOT use the `aria-rowspan` attribute on any element which also has a `rowspan` attribute.
+              </p>
+              <p>
+                Authors MUST NOT use `aria-rowspan` on any element which also has a `rowspan` attribute, and the values of each attribute do not match.
+              </p>
+            </td>
+          </tr>
+
+
+          <tr id="IDL-ValidityState" tabindex="-1">
+            <th>
+              Element that is a <a data-cite=
+              "html/form-control-infrastructure.html#candidate-for-constraint-validation">candidate for
+              constraint validation</a> but that does not <a data-cite=
+              "html/form-control-infrastructure.html#concept-fv-valid">satisfy its
+              constraints</a>
+            </th>
+            <td>
+              `aria-invalid="true"`
+            </td>
+            <td>
+              <p>
+                The `aria-invalid` attribute MAY be used on any
+                HTML element that allows <a href="#index-aria-global">global `aria-*` attributes</a> except for a <a data-cite="html/forms.html#category-submit">submittable element</a> that does not satisfy its <a data-cite="html/form-control-infrastructure.html#constraints">validation constraints</a>.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
       <h2 id="case-sensitivity">
@@ -3121,9 +3313,9 @@
         </thead>
         <tbody>
           <tr>
-            <td tabindex="-1" id="index-aria-global">
+            <th tabindex="-1" id="index-aria-global">
               any
-            </td>
+            </th>
             <td>
               ARIA <dfn>global states and properties</dfn> can be used on any
               HTML element.
@@ -3206,9 +3398,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-alert">
+            <th tabindex="-1" id="index-aria-alert">
               <a data-cite="wai-aria-1.1#alert">`alert`</a>
-            </td>
+            </th>
             <td>
               A type of live region with important, and usually
               time-sensitive, information. See related `alertdialog`
@@ -3228,9 +3420,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-alertdialog">
+            <th tabindex="-1" id="index-aria-alertdialog">
               <a data-cite="wai-aria-1.1#alertdialog">`alertdialog`</a>
-            </td>
+            </th>
             <td>
               A type of dialog that contains an alert message, where initial
               focus goes to an element within the dialog. See related
@@ -3257,9 +3449,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-application">
+            <th tabindex="-1" id="index-aria-application">
               <a data-cite="wai-aria-1.1#application">`application`</a>
-            </td>
+            </th>
             <td>
               A structure containing one or more focusable elements requiring
               user input, such as keyboard or gesture events, that do not
@@ -3286,9 +3478,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-article">
+            <th tabindex="-1" id="index-aria-article">
               <a data-cite="wai-aria-1.1#article">`article`</a>
-            </td>
+            </th>
             <td>
               A section of a page that consists of a composition that forms an
               independent part of a document, page, or site.
@@ -3309,9 +3501,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-banner">
+            <th tabindex="-1" id="index-aria-banner">
               <a data-cite="wai-aria-1.1#banner">`banner`</a>
-            </td>
+            </th>
             <td>
               A region that contains mostly site-oriented content, rather than
               page-specific content.
@@ -3333,9 +3525,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-button">
+            <th tabindex="-1" id="index-aria-button">
               <a data-cite="wai-aria-1.1#button">`button`</a>
-            </td>
+            </th>
             <td>
               An input that allows for user-triggered actions when clicked or
               pressed. See related `link`.
@@ -3363,9 +3555,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-checkbox">
+            <th tabindex="-1" id="index-aria-checkbox">
               <a data-cite="wai-aria-1.1#checkbox">`checkbox`</a>
-            </td>
+            </th>
             <td>
               A checkable input that has three possible values: true, false, or mixed.
             </td>
@@ -3385,9 +3577,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-cell">
+            <th tabindex="-1" id="index-aria-cell">
               <a data-cite="wai-aria-1.1#cell">`cell`</a>
-            </td>
+            </th>
             <td>
               A cell in a tabular container.
             </td>
@@ -3418,9 +3610,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-columnheader">
+            <th tabindex="-1" id="index-aria-columnheader">
               <a data-cite="wai-aria-1.1#columnheader">`columnheader`</a>
-            </td>
+            </th>
             <td>
               A cell containing header information for a column.
             </td>
@@ -3466,9 +3658,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-combobox">
+            <th tabindex="-1" id="index-aria-combobox">
               <a data-cite="wai-aria-1.1#combobox">`combobox`</a>
-            </td>
+            </th>
             <td>
               A presentation of a select; usually similar to a textbox where
               users can type ahead to select an option, or type to enter
@@ -3508,9 +3700,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-complementary">
+            <th tabindex="-1" id="index-aria-complementary">
               <a data-cite="wai-aria-1.1#complementary">`complementary`</a>
-            </td>
+            </th>
             <td>
               A supporting section of the document, designed to be
               complementary to the main content at a similar level in the DOM
@@ -3532,9 +3724,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-contentinfo">
+            <th tabindex="-1" id="index-aria-contentinfo">
               <a data-cite="wai-aria-1.1#contentinfo">`contentinfo`</a>
-            </td>
+            </th>
             <td>
               A large perceivable region that contains information about the
               parent document.
@@ -3557,9 +3749,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-definition">
+            <th tabindex="-1" id="index-aria-definition">
               <a data-cite="wai-aria-1.1#definition">`definition`</a>
-            </td>
+            </th>
             <td>
               A definition of a term or concept.
             </td>
@@ -3579,9 +3771,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-dialog">
+            <th tabindex="-1" id="index-aria-dialog">
               <a data-cite="wai-aria-1.1#dialog">`dialog`</a>
-            </td>
+            </th>
             <td>
               A dialog is an application window that is designed to interrupt
               the current processing of an application in order to prompt the
@@ -3608,9 +3800,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-directory">
+            <th tabindex="-1" id="index-aria-directory">
               <a data-cite="wai-aria-1.1#directory">`directory`</a>
-            </td>
+            </th>
             <td>
               A list of references to members of a group, such as a static
               table of contents.
@@ -3629,9 +3821,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-document">
+            <th tabindex="-1" id="index-aria-document">
              <a data-cite="wai-aria-1.1#document">`document`</a>
-            </td>
+            </th>
             <td>
               A region containing related information that is declared as
               document content, as opposed to a web application.
@@ -3652,9 +3844,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-feed">
+            <th tabindex="-1" id="index-aria-feed">
               <a data-cite="wai-aria-1.1#feed">`feed`</a>
-            </td>
+            </th>
             <td>
               A scrollable list of articles where scrolling may cause articles
               to be added to or removed from either end of the list.
@@ -3673,9 +3865,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-figure">
+            <th tabindex="-1" id="index-aria-figure">
               <a data-cite="wai-aria-1.1#figure">`figure`</a>
-            </td>
+            </th>
             <td>
               A perceivable section of content that typically contains a
               graphical document, images, code snippets, or example text.
@@ -3694,9 +3886,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-form">
+            <th tabindex="-1" id="index-aria-form">
               <a data-cite="wai-aria-1.1#form">`form`</a>
-            </td>
+            </th>
             <td>
               A landmark region that contains a collection of items and objects
               that, as a whole, combine to create a form. See related `search`.
@@ -3717,9 +3909,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-grid">
+            <th tabindex="-1" id="index-aria-grid">
               <a data-cite="wai-aria-1.1#grid">`grid`</a>
-            </td>
+            </th>
             <td>
               A grid is an interactive control which contains cells of tabular
               data arranged in rows and columns, like a table.
@@ -3765,9 +3957,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-gridcell">
+            <th tabindex="-1" id="index-aria-gridcell">
               <a data-cite="wai-aria-1.1#gridcell">`gridcell`</a>
-            </td>
+            </th>
             <td>
               A cell in a `grid` or `treegrid`.
             </td>
@@ -3815,9 +4007,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-group">
+            <th tabindex="-1" id="index-aria-group">
               <a data-cite="wai-aria-1.1#group">`group`</a>
-            </td>
+            </th>
             <td>
               A set of user interface objects which are not intended to be
               included in a page summary or table of contents by assistive technologies.
@@ -3843,9 +4035,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-heading">
+            <th tabindex="-1" id="index-aria-heading">
               <a data-cite="wai-aria-1.1#heading">`heading`</a>
-            </td>
+            </th>
             <td>
               A heading for a section of the page.
             </td>
@@ -3873,9 +4065,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-img">
+            <th tabindex="-1" id="index-aria-img">
               <a data-cite="wai-aria-1.1#img">`img`</a>
-            </td>
+            </th>
             <td>
               A container for a collection of elements that form an image.
             </td>
@@ -3895,9 +4087,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-link">
+            <th tabindex="-1" id="index-aria-link">
               <a data-cite="wai-aria-1.1#link">`link`</a>
-            </td>
+            </th>
             <td>
               An interactive reference to an internal or external resource
               that, when activated, causes the user agent to navigate to that
@@ -3922,9 +4114,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-list">
+            <th tabindex="-1" id="index-aria-list">
               <a data-cite="wai-aria-1.1#list">`list`</a>
-            </td>
+            </th>
             <td>
               A group of non-interactive list items. See related `listbox`.
             </td>
@@ -3944,9 +4136,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-listbox">
+            <th tabindex="-1" id="index-aria-listbox">
               <a data-cite="wai-aria-1.1#listbox">`listbox`</a>
-            </td>
+            </th>
             <td>
               A widget that allows the user to select one or more items from a
               list of choices. See related `combobox` and `list`.
@@ -3986,9 +4178,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-listitem">
+            <th tabindex="-1" id="index-aria-listitem">
               <a data-cite="wai-aria-1.1#listitem">`listitem`</a>
-            </td>
+            </th>
             <td>
               A single item in a `list` or `directory`.
             </td>
@@ -4019,9 +4211,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-log">
+            <th tabindex="-1" id="index-aria-log">
               <a data-cite="wai-aria-1.1#log">`log`</a>
-            </td>
+            </th>
             <td>
               A type of live region where new information is added in meaningful
               order and old information may disappear. See related `marquee`.
@@ -4042,9 +4234,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-main">
+            <th tabindex="-1" id="index-aria-main">
               <code><a data-cite="wai-aria-1.1#main">main</a></code>
-            </td>
+            </th>
             <td>
               The main content of a document.
             </td>
@@ -4065,9 +4257,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-marquee">
+            <th tabindex="-1" id="index-aria-marquee">
               <a data-cite="wai-aria-1.1#marquee">`marquee`</a>
-            </td>
+            </th>
             <td>
               A type of live region where non-essential information changes
               frequently. See related `log`.
@@ -4088,9 +4280,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-math">
+            <th tabindex="-1" id="index-aria-math">
               <a data-cite="wai-aria-1.1#math">`math`</a>
-            </td>
+            </th>
             <td>
               Content that represents a mathematical expression.
             </td>
@@ -4110,9 +4302,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-menu">
+            <th tabindex="-1" id="index-aria-menu">
               <a data-cite="wai-aria-1.1#menu">`menu`</a>
-            </td>
+            </th>
             <td>
               A type of widget that offers a list of choices to the user.
             </td>
@@ -4145,9 +4337,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-menubar">
+            <th tabindex="-1" id="index-aria-menubar">
               <a data-cite="wai-aria-1.1#menubar">`menubar`</a>
-            </td>
+            </th>
             <td>
               A presentation of menu that usually remains visible and is
               usually presented horizontally.
@@ -4181,9 +4373,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-menuitem">
+            <th tabindex="-1" id="index-aria-menuitem">
               <a data-cite="wai-aria-1.1#menuitem">`menuitem`</a>
-            </td>
+            </th>
             <td>
               An option in a group of choices contained by a `menu` or `menubar`.
             </td>
@@ -4211,9 +4403,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-menuitemcheckbox">
+            <th tabindex="-1" id="index-aria-menuitemcheckbox">
               <a data-cite="wai-aria-1.1#menuitemcheckbox">`menuitemcheckbox`</a>
-            </td>
+            </th>
             <td>
               A checkable menuitem that has three possible values: true, false,
               or mixed.
@@ -4242,9 +4434,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-menuitemradio">
+            <th tabindex="-1" id="index-aria-menuitemradio">
               <a data-cite="wai-aria-1.1#menuitemradio">`menuitemradio`</a>
-            </td>
+            </th>
             <td>
               A checkable `menuitem` in a group of `menuitemradio`
               roles, only one of which can be checked at a time.
@@ -4272,9 +4464,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-navigation">
+            <th tabindex="-1" id="index-aria-navigation">
               <a data-cite="wai-aria-1.1#navigation">`navigation`</a>
-            </td>
+            </th>
             <td>
               A collection of navigational elements (usually links) for
               navigating the document or related documents.
@@ -4296,9 +4488,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-none">
+            <th tabindex="-1" id="index-aria-none">
               <a data-cite="wai-aria-1.1#none">`none`</a>
-            </td>
+            </th>
             <td>
               An element whose implicit native role semantics will not be
               mapped to the accessibility
@@ -4318,9 +4510,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-note">
+            <th tabindex="-1" id="index-aria-note">
               <a data-cite="wai-aria-1.1#note">`note`</a>
-            </td>
+            </th>
             <td>
               A section whose content is parenthetic or ancillary to the main
               content of the resource.
@@ -4341,9 +4533,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-option">
+            <th tabindex="-1" id="index-aria-option">
               <a data-cite="wai-aria-1.1#option">`option`</a>
-            </td>
+            </th>
             <td>
               A selectable item in a select list.
             </td>
@@ -4377,9 +4569,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-presentation">
+            <th tabindex="-1" id="index-aria-presentation">
               <a data-cite="wai-aria-1.1#presentation">`presentation`</a>
-            </td>
+            </th>
             <td>
               An element whose implicit native role semantics will not be
               mapped to the accessibility API.
@@ -4396,9 +4588,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-progressbar">
+            <th tabindex="-1" id="index-aria-progressbar">
               <a data-cite="wai-aria-1.1#progressbar">`progressbar`</a>
-            </td>
+            </th>
             <td>
               An element that displays the progress status for tasks that take
               a long time.
@@ -4430,9 +4622,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-radio">
+            <th tabindex="-1" id="index-aria-radio">
               <a data-cite="wai-aria-1.1#radio">`radio`</a>
-            </td>
+            </th>
             <td>
               A checkable input in a group of radio roles, only one of which
               can be checked at a time.
@@ -4464,9 +4656,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-radiogroup">
+            <th tabindex="-1" id="index-aria-radiogroup">
               <a data-cite="wai-aria-1.1#radiogroup">`radiogroup`</a>
-            </td>
+            </th>
             <td>
               A group of radio buttons.
             </td>
@@ -4497,9 +4689,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-region">
+            <th tabindex="-1" id="index-aria-region">
               <a data-cite="wai-aria-1.1#region">`region`</a>
-            </td>
+            </th>
             <td>
               A large perceivable section of a web page or document, that the
               author feels is important enough to be included in a page summary
@@ -4522,9 +4714,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-row">
+            <th tabindex="-1" id="index-aria-row">
               <a data-cite="wai-aria-1.1#row">`row`</a>
-            </td>
+            </th>
             <td>
               <p>
                 A row of cells in a tabular container.
@@ -4573,9 +4765,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-rowgroup">
+            <th tabindex="-1" id="index-aria-rowgroup">
               <a data-cite="wai-aria-1.1#rowgroup">`rowgroup`</a>
-            </td>
+            </th>
             <td>
               A group containing one or more row elements in a grid.
             </td>
@@ -4593,9 +4785,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-rowheader">
+            <th tabindex="-1" id="index-aria-rowheader">
               <a data-cite="wai-aria-1.1#rowheader">`rowheader`</a>
-            </td>
+            </th>
             <td>
               A cell containing header information for a row in a grid.
             </td>
@@ -4638,9 +4830,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-scrollbar">
+            <th tabindex="-1" id="index-aria-scrollbar">
               <a data-cite="wai-aria-1.1#scrollbar">`scrollbar`</a>
-            </td>
+            </th>
             <td>
               A graphical object that controls the scrolling of content within
               a viewing area, regardless of whether the content is fully
@@ -4688,9 +4880,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-search">
+            <th tabindex="-1" id="index-aria-search">
               <a data-cite="wai-aria-1.1#search">`search`</a>
-            </td>
+            </th>
             <td>
               A landmark region that contains a collection of items and objects
               that, as a whole, combine to create a search facility. See
@@ -4712,9 +4904,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-searchbox">
+            <th tabindex="-1" id="index-aria-searchbox">
               <a data-cite="wai-aria-1.1#searchbox">`searchbox`</a>
-            </td>
+            </th>
             <td>
               A type of textbox intended for specifying search criteria.
             </td>
@@ -4754,9 +4946,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-separator">
+            <th tabindex="-1" id="index-aria-separator">
               <a data-cite="wai-aria-1.1#separator">`separator`</a>
-            </td>
+            </th>
             <td>
               A divider that separates and distinguishes sections of content or
               groups of menuitems.
@@ -4798,9 +4990,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-slider">
+            <th tabindex="-1" id="index-aria-slider">
               <a data-cite="wai-aria-1.1#slider">`slider`</a>
-            </td>
+            </th>
             <td>
               A user input where the user selects a value from within a given range.
             </td>
@@ -4835,9 +5027,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-spinbutton">
+            <th tabindex="-1" id="index-aria-spinbutton">
               <a data-cite="wai-aria-1.1#spinbutton">`spinbutton`</a>
-            </td>
+            </th>
             <td>
               A form of range that expects the user to select from among discrete choices.
             </td>
@@ -4880,9 +5072,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-status">
+            <th tabindex="-1" id="index-aria-status">
               <a data-cite="wai-aria-1.1#status">`status`</a>
-            </td>
+            </th>
             <td>
               A container whose content is advisory information for the user
               but is not important enough to justify an alert, often but not
@@ -4906,9 +5098,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-switch">
+            <th tabindex="-1" id="index-aria-switch">
               <a data-cite="wai-aria-1.1#switch">`switch`</a>
-            </td>
+            </th>
             <td>
               A type of checkbox that represents on/off values, as opposed to
               checked/unchecked values.
@@ -4931,9 +5123,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-tab">
+            <th tabindex="-1" id="index-aria-tab">
               <a data-cite="wai-aria-1.1#tab">`tab`</a>
-            </td>
+            </th>
             <td>
               A grouping label providing a mechanism for selecting the tab
               content that is to be rendered to the user.
@@ -4969,9 +5161,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-table">
+            <th tabindex="-1" id="index-aria-table">
               <a data-cite="wai-aria-1.1#table">`table`</a>
-            </td>
+            </th>
             <td>
               A section containing data arranged in rows and columns. The table
               role is intended for tabular containers which are not interactive.
@@ -4997,9 +5189,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-tablist">
+            <th tabindex="-1" id="index-aria-tablist">
               <a data-cite="wai-aria-1.1#tablist">`tablist`</a>
-            </td>
+            </th>
             <td>
               A list of `tab` elements, which are references to `tabpanel` elements.
             </td>
@@ -5030,9 +5222,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-tabpanel">
+            <th tabindex="-1" id="index-aria-tabpanel">
               <a data-cite="wai-aria-1.1#tabpanel">`tabpanel`</a>
-            </td>
+            </th>
             <td>
               A container for the resources associated with a `tab`,
               where each `tab` is contained in a `tablist`.
@@ -5053,9 +5245,9 @@
             </td>
           </tr>
           <tr>
-            <td id="index-aria-term" tabindex="-1">
+            <th id="index-aria-term" tabindex="-1">
               <a data-cite="wai-aria-1.1#term">`term`</a>
-            </td>
+            </th>
             <td>
               A word or phrase with a corresponding definition. See related
               <a href="#index-aria-definition">`definition`</a>.
@@ -5074,9 +5266,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-textbox">
+            <th tabindex="-1" id="index-aria-textbox">
               <a data-cite="wai-aria-1.1#textbox">`textbox`</a>
-            </td>
+            </th>
             <td>
               Input that allows free-form text as its value.
             </td>
@@ -5116,9 +5308,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-timer">
+            <th tabindex="-1" id="index-aria-timer">
               <a data-cite="wai-aria-1.1#timer">`timer`</a>
-            </td>
+            </th>
             <td>
               A type of live region containing a numerical counter which
               indicates an amount of elapsed time from a start point, or the
@@ -5140,9 +5332,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-toolbar">
+            <th tabindex="-1" id="index-aria-toolbar">
               <a data-cite="wai-aria-1.1#toolbar">`toolbar`</a>
-            </td>
+            </th>
             <td>
               A collection of commonly used function buttons represented in
               compact visual form.
@@ -5171,9 +5363,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-tooltip">
+            <th tabindex="-1" id="index-aria-tooltip">
               <a data-cite="wai-aria-1.1#tooltip">`tooltip`</a>
-            </td>
+            </th>
             <td>
               A contextual pop-up that displays a description for an element.
             </td>
@@ -5193,9 +5385,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-tree">
+            <th tabindex="-1" id="index-aria-tree">
               <code><a data-cite="wai-aria-1.1#tree">tree</a></code>
-            </td>
+            </th>
             <td>
               A type of list that may contain sub-level nested groups that can
               be collapsed and expanded.
@@ -5230,9 +5422,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-treegrid">
+            <th tabindex="-1" id="index-aria-treegrid">
               <a data-cite="wai-aria-1.1#treegrid">`treegrid`</a>
-            </td>
+            </th>
             <td>
               A grid whose rows can be expanded and collapsed in the same
               manner as for a tree.
@@ -5279,9 +5471,9 @@
             </td>
           </tr>
           <tr>
-            <td tabindex="-1" id="index-aria-treeitem">
+            <th tabindex="-1" id="index-aria-treeitem">
               <a data-cite="wai-aria-1.1#treeitem">`treeitem`</a>
-            </td>
+            </th>
             <td>
               An option item of a tree. This is an element within a tree that
               may be expanded or collapsed if it contains a sub-level group of treeitems.
