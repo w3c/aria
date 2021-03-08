@@ -90,64 +90,83 @@
         <a>implicit ARIA semantics</a> defined in the table. Doing so is
         unnecessary and can potentially lead to unintended consequences.
       </p>
-      <aside class="example">
-        The following uses a `role=heading` on a `button` element. This is not
-        allowed, because the `button` element has default characteristics that
-        conflict with the heading role.
-        <pre class="HTML">
-          &lt;button role="heading"&gt;search&lt;/button&gt;
-        </pre>
-      </aside>
-
-      <aside class="example">
-        The following uses a `role=button` on a `button` element. This is
-        unnecessary, as "button" is already exposed as the implicit role for
-        the element. In practice this redundancy will likely not have any
-        unforeseen side effects, other than unnecessarily making the markup
-        more verbose, and incorrectly signaling to other developers that this
-        practice is useful.
-        <pre class="HTML">
+    </section>
+    <section class="informative">
+      <h2>
+        Examples of incorrect usage
+      </h2>
+      <section class="informative">
+        <h3>
+          Don't override default roles
+        </h3>
+        <p>
+          The following uses a `role=heading` on a `button` element. This is
+          not allowed, because the `button` element has default characteristics
+          that conflict with the heading role.
+        </p>
+        <pre class="example HTML" title="Wrong role">
+            &lt;button role="heading"&gt;search&lt;/button&gt;
+          </pre>
+      </section>
+      <section class="informative">
+        <h3>
+          Don't add redundant roles
+        </h3>
+        <p>
+          The following uses a `role=button` on a `button` element. This is
+          unnecessary, as "button" is already exposed as the implicit role for
+          the element. In practice this redundancy will likely not have any
+          unforeseen side effects, other than unnecessarily making the markup
+          more verbose, and incorrectly signaling to other developers that this
+          practice is useful.
+        </p>
+        <pre class="example HTML" title="Redundant role on button">
+          &lt!-- Avoid doing this! -->
           &lt;button role="button"&gt;...&lt;/button&gt;
         </pre>
-      </aside>
-
-      <aside class="example">
-        The following uses a `role=group` on a `fieldset` element. This is
-        unnecessary, because the `fieldset` element is implicitly exposed as a
-        `role=group`. Again, in practice this will likely not have any
-        unforeseen side effects.
-        <pre class="HTML">
+        <p>
+          Similarly, the following uses a `role=group` on a `fieldset` element.
+          This is unnecessary, because the `fieldset` element is implicitly
+          exposed as a `role=group`. Again, in practice this will likely not
+          have any unforeseen side effects.
+        </p>
+        <pre class="HTML example" title="Redundant role on fieldset">
+          &lt!-- Avoid doing this! -->
           &lt;fieldset role="group"&gt;...&lt;/fieldset&gt;
         </pre>
-      </aside>
-
-      <aside class="example">
-        The following uses a `role=list` on an `ul` element. This is generally
-        unnecessary, because the `ul` element is implicitly exposed as a
-        `role=list`. However, some user agents suppress a list's implicit ARIA
-        semantics if list markers are removed.
-        Authors can use `role=list` to reinstate the role if necessary, though
-        this practice would generally not be recommended, otherwise.
-        <pre class="HTML">
+        <p>
+          The following uses a `role=list` on an `ul` element. This is
+          generally unnecessary, because the `ul` element is implicitly exposed
+          as a `role=list`. However, some user agents suppress a list's
+          implicit ARIA semantics if list markers are removed. Authors can use
+          `role=list` to reinstate the role if necessary, though this practice
+          would generally not be recommended, otherwise.
+        </p>
+        <pre class="HTML example" title="Redundant role on list">
+          &lt!-- Avoid doing this! -->    
           &lt;ul role="list"&gt;...&lt;/ul&gt;
         </pre>
-      </aside>
-
-      <aside class="example">
-        The following uses a `role=button` on a `summary` element. This is
-        unnecessary and can result in cross-platform issues. For instance,
-        preventing the element from correctly exposing its state, and forcing
-        the role of `button`, when it might otherwise be exposed with a
-        different role.
-        <pre class="HTML">
-          &lt;details>
-            &lt;summary role="button"&gt;more information&lt;/summary&gt;
-            ...
-          &lt;/details>
-        </pre>
-      </aside>
+      </section>
+      <section class="informative">
+        <h3>
+          Be cautious of side effects
+        </h3>
+        <p>
+          The following uses a `role=button` on a `summary` element. This is
+          unnecessary and can result in cross-platform issues. For instance,
+          preventing the element from correctly exposing its state, and forcing
+          the role of `button`, when it might otherwise be exposed with a
+          different role.
+        </p>
+        <pre class="HTML example" title="Unintended consequences">
+            &lt;details&gt;
+              &lt!-- Avoid doing this! -->
+              &lt;summary role="button"&gt;more information&lt;/summary&gt;
+              ...
+            &lt;/details&gt;
+          </pre>
+      </section>
     </section>
-
     <section>
       <h2 id="docconformance">
         Document conformance requirements for use of ARIA attributes in HTML
