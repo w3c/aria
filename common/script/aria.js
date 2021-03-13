@@ -197,8 +197,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     dRef.id = "desc-" + title;
                     dRef.setAttribute("role", "definition");
                     container.replaceChild(sp, item);
-                    roleIndex += "<dt><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                    roleIndex += "<dd>" + desc + "</dd>\n";
+                    roleIndex += "<dt" + ( isAbstract ? " class=\"toggle-abstract\"" : "" ) + "><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                    roleIndex += "<dd" + ( isAbstract ? " class=\"toggle-abstract\"" : "" ) + ">" + desc + "</dd>\n";
                     // grab info about this role
                     // do we have a parent class?  if so, put us in that parents list
                     var node = container.querySelectorAll(".role-parent rref");
@@ -576,9 +576,35 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     }
                 });
 
+                // remove abstract roles
+
+                $.each(document.querySelectorAll(".role-abstract"), function(i, item) {
+                    var content = $(item).text();
+                    if (content === "True") {
+                        item.closest(".role").classList.add("toggle-abstract");
+                        item.closest(".role").classList.add("hidden");
+                    }
+                });
+                $.each(document.querySelectorAll("#abstract_roles"), function(i, item) {
+                    item.querySelector("ul").classList.add("toggle-abstract");
+                    item.querySelector("p").classList.add("toggle-abstract");
+                    item.querySelector("ul").classList.add("hidden");
+                    item.querySelector("p").classList.add("hidden");                    
+                });    
+                
+                // remove superclass and subclass role sections
+                $.each(document.querySelectorAll(".role-parent, .role-children"), function(i, item) {
+                    item.closest("tr").classList.add("toggle-abstract");
+                    item.closest("tr").classList.add("hidden");
+                });
+
+
+
+
                 updateReferences(document);
 
             }
     });
 
 });
+
