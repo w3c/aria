@@ -197,8 +197,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     dRef.id = "desc-" + title;
                     dRef.setAttribute("role", "definition");
                     container.replaceChild(sp, item);
-                    roleIndex += "<dt" + ( isAbstract ? " class=\"toggle-abstract\"" : "" ) + "><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
-                    roleIndex += "<dd" + ( isAbstract ? " class=\"toggle-abstract\"" : "" ) + ">" + desc + "</dd>\n";
+                    roleIndex += "<dt" + ( isAbstract ? " class=\"toggle-abstract hidden\"" : "" ) + "><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code>" + ( isAbstract ? " (abstract role) " : "" ) + "</a></dt>\n";
+                    roleIndex += "<dd" + ( isAbstract ? " class=\"toggle-abstract hidden\"" : "" ) + ">" + desc + "</dd>\n";
                     // grab info about this role
                     // do we have a parent class?  if so, put us in that parents list
                     var node = container.querySelectorAll(".role-parent rref");
