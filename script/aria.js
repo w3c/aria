@@ -31,9 +31,10 @@ require(['core/pubsubhub'], function (respecEvents) {
     respecUI.freshModal('Save Aria roles as JSON', ariaUI, button);
     ariaUI.querySelector('a').focus();
   }
+});
 
-  respecEvents.sub('end', function (msg) {
-    if (msg == 'w3c/conformance') {
+function ariaAttributeReferences() {
+  {
       var propList = {};
       var globalSP = [];
 
@@ -765,5 +766,4 @@ require(['core/pubsubhub'], function (respecEvents) {
 
       updateReferences(document);
     }
-  });
-});
+  }
