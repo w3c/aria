@@ -458,7 +458,8 @@ require(['core/pubsubhub'], function (respecEvents) {
       if (!skipIndex) {
         // build up the complete inherited SP lists for each role
         // however, if the role already specifies an item, do not include it
-        Object.keys(roleInfo).forEach(function (item) {
+        Object.entries(roleInfo).forEach(function (index) {
+          var item = index[1];
           var output = '';
           var placeholder = document.querySelector(
             '#' + item.fragID + ' .role-inherited'
