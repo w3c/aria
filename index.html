@@ -601,18 +601,17 @@
 				<p class="note">A host language attribute with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> would also prohibit a state or property in this section. </p>
 			</section>
 		<section id="mustContain">
-			<h3>Required Owned Elements</h3>
-			<p>Any <a>element</a> that will be [=ARIA/owned=] by the element with this <a>role</a>. For example, an element with the role <rref>list</rref> will own at least one element with the role <rref>listitem</rref>.</p>
-			<p>When multiple roles are specified as <em>required owned elements</em> for a role, at least one instance of one required [=ARIA/owned=] element is expected. This specification does <em>not</em> require an instance of each of the listed owned roles. For example, a <code>menu</code> should have at least one instance of a <code>menuitem</code>, <code>menuitemcheckbox</code>, <em>or</em> <code>menuitemradio</code>. The <code>menu</code> role does not require one instance of each. </p>
-			<p>There might be times that required [=ARIA/owned=] elements are missing, for example, while editing or while loading a data set. When a widget is missing <em>required owned elements</em> due to script execution or loading, authors MUST mark a containing element with <sref>aria-busy</sref> equal to <code>true</code>. For example, until a page is fully initialized and complete, an author could mark the document element as busy.</p>
-			<p class="note">A role that has 'required owned elements' does not imply the reverse relationship. While processing of a role might be incomplete without elements of given roles present as descendants, elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">required context role</a> for requirements about the context where elements of a given role will be contained.</p>
-			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'required owned element' does not fulfill this requirement. For example, the <rref>listbox</rref> role requires ownership of an element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding an [=ARIA/owned=] element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> owns an <rref>option</rref> or a <rref>group</rref>.</p>
+			<h3>Allowed Child Elements</h3>
+			<p>Any <a>element</a> that is a direct <a>child</a> of the element with this <a>role</a>. For example, an element with the role <rref>list</rref> may own elements with the role <rref>listitem</rref>, but not elements with the role <rref>option</rref>.</p>
+			<p>To determine whether an element is the direct <a>child</a> of a role, any elements with the role <rref>generic</rref> or <rref>presentation</rref> are ignored.</p>
+			<p>Non-child descendents of the element are not included in <em>allowed child elements</em>. For example, an <code>image</code> is not an allowed child of a <code>list</code>, but it could exist within a <code>listitem</code> in a <code>list</code>.</p>
+			<p class="note">A role that has 'allowed child elements' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">allowed parent roles</a> for requirements about the context where elements of a given role will be contained.</p>
+			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'allowed child element' does not fulfill this requirement. For example, the <rref>listbox</rref> role allows a child element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a child element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> children must be an <rref>option</rref> or a <rref>group</rref>.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
 		<section id="scope">
-			<h3>Required Context Role</h3>
-			<p>The required context role defines the owning container where this <a>role</a> is allowed. If a role has a required context, authors MUST ensure that an element with the role is contained inside (or [=ARIA/owned=] by) an element with the required context role. For example, an element with role <code>listitem</code> is only meaningful when contained inside (or [=ARIA/owned=] by) an element with role <code>list</code>.</p>
-			<p class="note">A role that has 'required context role' does not imply the reverse relationship. While an element with the given role needs to appear within an element of the listed role(s) in order to be meaningful, elements of the listed roles do not always need descendant elements of the given role in order to be meaningful. See <a href="#mustContain">required owned elements</a> for requirements about elements that require presence of a given descendant to be processed properly.</p>
+			<h3>Required Parent Role</h3>
+			<p>The required <a>parent</a> role defines the parent container where this <a>role</a> is allowed. If a role has a required parent, authors MUST ensure that an element with the role is a direct <a>child</a> of an element with the required parent role. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an element with role <code>list</code>.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
 		<section id="namecalculation">
@@ -4625,15 +4624,16 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Parent Role:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Child Elements:</th>
 						<td class="role-mustcontain">
 							<ul>
-								<li><rref>group</rref> owning <rref>option</rref></li>
+								<li><rref>group</rref> with child <rref>option</rref></li>
 								<li><rref>option</rref></li>
+								<li><rref>button</rref> if <a>controlling</a> <rref>option</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -6086,16 +6086,16 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Parent Role:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>listbox</rref></li>
-								<li><rref>group</rref> owned by <rref>listbox</rref></li>
+								<li><rref>group</rref> with parent <rref>listbox</rref></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Child Elements:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -13636,7 +13636,7 @@ button.ariaPressed; // null</pre>
 		<p>User agents MUST NOT expose [=elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
 		<ul>
 			<li>If an element is focusable, user agents MUST ignore the <code>presentation</code>/<code>none</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
-			<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+			<li>If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
 			<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>presentation</code> role and instead expose the element's implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
 		</ul>
 		<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
