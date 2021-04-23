@@ -4,10 +4,10 @@
 		<meta charset="UTF-8" />
 		<title>Graphics Accessibility API Mappings</title>
 		<script src="https://www.w3.org/scripts/jquery/1.11/jquery.min.js"></script>
-		<script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove" defer="defer"></script>
+		<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="defer"></script>
 		<script src="common/script/resolveReferences.js" class="remove"></script>
 		<script src="common/biblio.js" class="remove" defer="defer"></script>
-		
+		<script src="common/script/mapping-tables.js"></script>
 		<link href="common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
 		<link href="common/css/common.css" rel="stylesheet" type="text/css" />
 		<!--<link href="css/dpub-aam.css" rel="stylesheet" type="text/css"/>-->
@@ -129,16 +129,7 @@
     */
     
     // Working group info
-    wg:           "Accessible Rich Internet Applications Working Group",
-    wgURI:        "https://www.w3.org/WAI/ARIA/",
-    wgPublicList: "public-aria",
-
-    // URI of the patent status for this WG, for Rec-track documents
-    // !!!! IMPORTANT !!!!
-    // This is important for Rec-track documents, do not copy a patent URI from a random
-    // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-    // Team Contact.
-    wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83726/status",
+    group: "aria",
     
     tocIntroductory: true,
     //maxTocLevel: 4,
@@ -191,14 +182,13 @@
       "PR" : "https://www.w3.org/TR/graphics-aam-1.0/",
       "REC": "https://www.w3.org/TR/graphics-aam-1.0/"
     },
-
-
-
-    preProcess: [ linkCrossReferences ] 
+    preProcess:[linkCrossReferences],
+		postProcess:[],
+		definitionMap:[],
+		xref: ["core-aam", "accname", "wai-aria"]
   }
 </script>
 		<script src="common/script/jquery.details.min.js"></script>
-		<script src="common/script/mapping-tables.js"></script>
 		<script type="text/javascript">
 
 var mappingTableLabels = {
@@ -222,11 +212,11 @@ var mappingTableLabels = {
 	</head>
 	<body>
 		<section id="abstract">
-  <p> The Graphics Accessibility API Mappings defines how <a class="termref">user agents</a> map the WAI-ARIA Graphics Module [[!GRAPHICS-ARIA-1.0]] markup to platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. It is intended for user agent developers responsible for accessibility in their user agent so that they can support the accessibility of graphics such as that created for [[SVG]] or [[HTML52]]. </p>
+  <p> The Graphics Accessibility API Mappings defines how <a class="termref">user agents</a> map the WAI-ARIA Graphics Module [[GRAPHICS-ARIA-1.0]] markup to platform <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. It is intended for user agent developers responsible for accessibility in their user agent so that they can support the accessibility of graphics such as that created for [[SVG]] or [[HTML52]]. </p>
   <p>
     The implementation of this specification in user agents enables authors to produce more accessible graphics
     by conveying common graphics semantics to assistive technologies.
-    It provides Accessibility API Mapping guidance for the roles defined in the WAI-ARIA Graphics Module [[!GRAPHICS-ARIA-1.0]].
+    It provides Accessibility API Mapping guidance for the roles defined in the WAI-ARIA Graphics Module [[GRAPHICS-ARIA-1.0]].
   </p>
   <p>
       The Graphics Accessibility API Mappings is part of the
@@ -236,7 +226,7 @@ var mappingTableLabels = {
 
 		</section>
 		<section id="sotd"> 
-			<p>This is an Editor's Draft of Graphics Accessibility API Mappings 1.0 by the <a href="https://www.w3.org/WAI/PF/svg-a11y-tf/">SVG Accessibility Task Force</a>, a joint task force of the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> and the <a href="https://www.w3.org/Graphics/SVG/WG/">SVG Working Group</a>. It provides guidance for mapping roles in <a href="" class="graphics">WAI-ARIA Graphics Module</a> [[!GRAPHICS-ARIA-1.0]] to accessibility APIs, and complements SVG-specific mappings in the <a href="" class="svg-mapping">SVG Accessibility API Mappings</a> [[SVG-AAM-1.0]]. It extends <a href="" class="core-mapping">Core Accessibility Mappings 1.1</a> [[!CORE-AAM-1.1]], and is part of a suite of similar technology-specific Accessibility API Mappings specifications.</p>
+			<p>This is an Editor's Draft of Graphics Accessibility API Mappings 1.0 by the <a href="https://www.w3.org/WAI/PF/svg-a11y-tf/">SVG Accessibility Task Force</a>, a joint task force of the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> and the <a href="https://www.w3.org/Graphics/SVG/WG/">SVG Working Group</a>. It provides guidance for mapping roles in <a href="" class="graphics">WAI-ARIA Graphics Module</a> [[GRAPHICS-ARIA-1.0]] to accessibility APIs, and complements SVG-specific mappings in the <a href="" class="svg-mapping">SVG Accessibility API Mappings</a> [[SVG-AAM-1.0]]. It extends <a href="" class="core-mapping">Core Accessibility Mappings 1.1</a> [[CORE-AAM-1.1]], and is part of a suite of similar technology-specific Accessibility API Mappings specifications.</p>
 			<p>Feedback on any aspect of the specification is accepted. For this publication, the SVG Accessibility Task Force particularly seeks feedback on the following questions:</p>
 			<ul>
 				<li>Are mappings of graphics features clear and appropriate?</li>
@@ -249,7 +239,7 @@ var mappingTableLabels = {
 		<section id="intro" class="informative">
 			<h2>Introduction</h2>
 			<p>The Graphics Accessibility API Mappings specification provides role mappings 
-    for the roles in the WAI-ARIA Graphics Module  [[!GRAPHICS-ARIA-1.0]].
+    for the roles in the WAI-ARIA Graphics Module  [[GRAPHICS-ARIA-1.0]].
    			</p>
   <p>
     For web documents and applications, 
@@ -295,14 +285,14 @@ var mappingTableLabels = {
     <li>
       <cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility API Mappings</a></cite> specification [[CORE-AAM-1.1]], 
       which expresses how <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 
-      <a href="#dfn-role" class="termref">roles</a>, <a href="#dfn-state" class="termref">states</a>, and <a href="#dfn-property" class="termref">properties</a> 
+      <a class="termref">roles</a>, <a class="termref">states</a>, and <a class="termref">properties</a> 
       should be supported in user agents 
       using platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>.
     </li>
     <li>
       <cite><a href="https://www.w3.org/TR/svg-aam-1.0/">SVG Accessibility API Mappings</a></cite> [[SVG-AAM-1.0]], a planned <abbr title="World Wide Web Consortium">W3C</abbr> recommendation,
       which expresses how <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>
-      <a href="#dfn-role" class="termref">roles</a>, <a href="#dfn-state" class="termref">states</a>, and <a href="#dfn-property" class="termref">properties</a>
+      <a class="termref">roles</a>, <a class="termref">states</a>, and <a class="termref">properties</a>
       should be supported in user agents
       using platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>.
     </li>
@@ -325,29 +315,25 @@ var mappingTableLabels = {
   </ul>
 			
 		</section>
-		<section class="normative">
+		<section class="normative" id="conformance">
 			<h2>Conformance</h2>
-			<p>The main content of this specification is <a>normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are <a>informative</a> (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
+			<p>The main content of this specification is <a class="termref">normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are <a class="termref">informative</a> (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
 			<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <em class="rfc2119">MUST</em>, <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">REQUIRED</em>, <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>, <em class="rfc2119">SHOULD</em>, <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">MAY</em>, and <em class="rfc2119">OPTIONAL</em> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in an element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
 			<p>Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
 			<p>Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
 		</section>
-		<section id="glossary">
-			<h2>Important Terms</h2>
-			<div data-include="common/terms.html" data-oninclude="restrictReferences">Placeholder for glossary</div>
-		</section>
-		<section id="mapping">
+		<section id="mapping" class="normative">
 			<h2>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
 			<section id="mapping_general">
 				<h3>General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</h3>
 				<p>This section <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_general">General rules for exposing WAI-ARIA semantics</a> in [[!CORE-AAM-1.1]].</p>
 			</section>
 		</section>
-		<section id="mapping_conflicts">
+		<section id="mapping_conflicts" class="normative">
 			<h3>Conflicts between native markup semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></h3>
 			<p>User agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> in [[!CORE-AAM-1.1]]. </p>
 		</section>
-		<section id="mapping_nodirect">
+		<section id="mapping_nodirect" class="normative">
 			<h3>Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</h3>
 			<p>User agents <span class="rfc2119">MUST</span> conform to <a class="core-mapping" href="#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a> in [[!CORE-AAM-1.1]].</p>
 		</section>
