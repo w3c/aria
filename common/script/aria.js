@@ -39,9 +39,9 @@ function ariaAttributeReferences() {
           sp.className = type + '-name';
           sp.title = title;
           sp.innerHTML =
-            '<code>' +
+            '<code><dfn data-dfn-for="html-global" id="attr-' + content + '" data-dfn-type="element-attr">' +
             content +
-            '</code> <span class="type-indicator">' +
+            '</dfn></code> <span class="type-indicator">' +
             type +
             '</span>';
           sp.setAttribute('aria-describedby', 'desc-' + title);
@@ -247,9 +247,9 @@ function ariaAttributeReferences() {
             isAbstract = true;
           }
           sp.innerHTML =
-            '<code>' +
+            '<code><dfn data-dfn-for="html-global/role" data-dfn-type="attr-value">' +
             content +
-            '</code> <span class="type-indicator">' +
+            '</dfn></code> <span class="type-indicator">' +
             type +
             '</span>';
           // sp.id = title;
