@@ -284,7 +284,26 @@
                 </pre>
               </details></div>
             </li>
-            <li id="step2C">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
+            <li id="step2C">Otherwise, if the <code>current node</code> is a control embedded within the label (e.g. the <code>label</code> element in HTML or any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then include the embedded control as part of the text alternative in the following manner:
+              <ul>
+                <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
+                <li>If the embedded control has role menu <a class="role-reference" href="#button">button</a>, return the text alternative of the button.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a> or <a class="role-reference" href="#listbox">listbox</a>, return the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>):
+                  <ul>
+                    <li>If the <code>aria-valuetext</code> property is present, return its value, </li>
+                    <li>Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
+                    <li>Otherwise, use the value as specified by a host language attribute. </li>
+                  </ul>
+                </li>
+              </ul>
+              <div><details>
+                <summary>Example:</summary>
+                <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
+                <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
+              </details></div>
+            </li>
+            <li id="step2D">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
@@ -305,29 +324,10 @@
 &lt;/ul&gt;</code></pre>
               </details></div>
             </li>
-            <li id="step2D">Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> (e.g. <code>title</code>) or <a class="termref">element</a> (e.g. HTML <code>label</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
+            <li id="step2E">Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> (e.g. <code>title</code>) or <a class="termref">element</a> (e.g. HTML <code>label</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
               <div><details>
                 <summary>Comment:</summary>
                 <p>For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
-              </details></div>
-            </li>
-            <li id="step2E">Otherwise, if the <code>current node</code> is a control embedded within the label (e.g. the <code>label</code> element in HTML or any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then include the embedded control as part of the text alternative in the following manner:
-              <ul>
-                <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
-                <li>If the embedded control has role menu <a class="role-reference" href="#button">button</a>, return the text alternative of the button.</li>
-                <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a> or <a class="role-reference" href="#listbox">listbox</a>, return the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
-                <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>):
-                  <ul>
-                    <li>If the <code>aria-valuetext</code> property is present, return its value, </li>
-                    <li>Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
-                    <li>Otherwise, use the value as specified by a host language attribute. </li>
-                  </ul>
-                </li>
-              </ul>
-              <div><details>
-                <summary>Example:</summary>
-                <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
-                <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
               </details></div>
             </li>
             <li id="step2F">Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or is a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative <a class="termref">element</a>:
