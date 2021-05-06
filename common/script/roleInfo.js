@@ -4241,6 +4241,22 @@ var roleInfo = {
     ],
     "localprops": []
   },
+  "meter": {
+    "name": "meter",
+    "fragID": "meter",
+    "parentRoles": [
+      "range"
+    ],
+    "localprops": [
+      {
+        "is": "property",
+        "name": "aria-valuenow",
+        "required": true,
+        "disallowed": false,
+        "deprecated": false
+      }
+    ]
+  },
   "menu": {
     "name": "menu",
     "fragID": "menu",
@@ -4905,22 +4921,6 @@ var roleInfo = {
       {
         "is": "state",
         "name": "aria-checked",
-        "required": true,
-        "disallowed": false,
-        "deprecated": false
-      }
-    ]
-  },
-  "meter": {
-    "name": "meter",
-    "fragID": "meter",
-    "parentRoles": [
-      "range"
-    ],
-    "localprops": [
-      {
-        "is": "property",
-        "name": "aria-valuenow",
         "required": true,
         "disallowed": false,
         "deprecated": false
