@@ -358,13 +358,21 @@
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
-			<dt><dfn data-export="" data-dfn-for="ARIA" data-local-lt="owned|owned element's">Owned Element</dfn></dt>
+			<dt><dfn data-export="" data-lt="owned child|child element|child|children|child elements">Owned Child</dfn></dt>
+			<dd>
+				<p>An 'owned child' is a direct <abbr title="Document Object Model">DOM</abbr> child of the <a>element</a>, a descendant of the <a>element</a> with only <rref>generic</rref> or <rref>presentation</rref> elements intervening, or a child specified via an <pref>aria-owns</pref> relationship to the element.</p>
+			</dd>
+			<dt><dfn data-export="" data-dfn-for="ARIA" data-export="" data-lt="owned element|owned|owned element's|owned elements">Owned Element</dfn></dt>
 			<dd>
 			  <p>An 'owned element' is any <abbr title="Document Object Model">DOM</abbr> descendant of the <a>element</a>, any element specified as a child via <pref>aria-owns</pref>, or any <abbr title="Document Object Model">DOM</abbr> descendant of the owned child.</p>
 			</dd>
 			<dt><dfn data-local-lt="owning">Owning Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
+			</dd>
+			<dt><dfn data-export="" data-lt="parent element|parent">Parent Element</dfn></dt>
+			<dd>
+				<p>An 'parent element' is a direct <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>, an ancestor of the <a>element</a> with only <rref>generic</rref> or <rref>presentation</rref> elements intervening, or any element with a child specified via <pref>aria-owns</pref>.</p>
 			</dd>
 			<dt><dfn data-export="">Perceivable</dfn></dt>
 			<dd>
@@ -5783,11 +5791,11 @@
 						<td class="role-related"><code>&lt;meter&gt;</code> in [[HTML]]</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Parent Role:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6370,7 +6378,7 @@
 				<h5>Presentational Role Inheritance</h5>
 				<p>The <code>presentation</code> role is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (which have an implicit <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>columnheader</rref> or <rref>rowheader</rref> and <rref>cell</rref> roles, respectively). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">allowed child roles</a>.</p>
 				<p>When an explicit or inherited role of <code>presentation</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">allowed child roles</a>, in addition to the element with the explicit role of <code>presentation</code>, the user agent MUST apply an inherited role of presentation to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of presentation is applied to a host language element which has required children as defined by the host language specification, in addition to the element with the explicit role of presentation, the user agent MUST apply an inherited role of presentation to any required children that do not have an explicit role defined.</p>
-				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">required owned element</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the <abbr title="Hypertext Markup Language">HTML</abbr> specification indicates that these are required structural descendants of the <code>table</code> element.</p>
+				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">allowed child role</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the <abbr title="Hypertext Markup Language">HTML</abbr> specification indicates that these are required structural descendants of the <code>table</code> element.</p>
 				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">allowed child roles</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>presentation</code> specified.</p>
 				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no roles) and identical content.</p>
 				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="presentation"] negates the implicit 'list' and 'listitem' role semantics but does not affect the contents. --&gt;</span>
@@ -13501,7 +13509,7 @@ button.ariaPressed; // null</pre>
 		<p>User agents are expected to perform validation of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>roles</a>.</p>
 		<p>As stated in the <a href="#role_definitions">Definition of Roles</a> section, it is considered an authoring error to use <a href="#abstract_roles">abstract roles</a> in content. User agents MUST NOT map abstract roles via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.</p>
 		<p>If the <code>role</code> attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST treat the element as if no <a>role</a> had been provided. For example, <code>&lt;table&nbsp;role=&quot;foo&quot;&gt;</code> should be exposed in the same way as <code>&lt;table&gt;</code> and <code>&lt;input&nbsp;type=&quot;text&quot;&nbsp;role=&quot;structure&quot;&gt;</code> in the same way as <code>&lt;input&nbsp;type=&quot;text&quot;&gt;</code>.</p>
-		<p>Certain landmark roles require names from authors. In situations where an author has not specified names for these landmarks, it is considered an authoring error. The user agent MUST treat such elements as if no <a>role</a> had been provided. If a valid fallback role had been specified, or if the element had an implicit ARIA role, then user agents would continue to expose that role, instead.  Instances of such roles are as follows:</p>
+		<p>Certain landmark roles require names from authors. In situations where an author has not specified names for these landmarks, it is considered an authoring error. The user agent MUST treat such elements as if no <a>role</a> had been provided. Igitf a valid fallback role had been specified, or if the element had an implicit ARIA role, then user agents would continue to expose that role, instead.  Instances of such roles are as follows:</p>
 		<ul>
 			<li><rref>form</rref></li>
 			<li><rref>region</rref></li>
