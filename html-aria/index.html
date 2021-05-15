@@ -3180,7 +3180,7 @@
         </pre>
       </aside>
     </section>
-    <section>
+    <section class="informative">
       <h2>
         Allowed ARIA roles, states and properties
       </h2>
@@ -3197,16 +3197,15 @@
         Properties</a> table defines extensions to the <a data-cite=
         "html/dom.html#kinds-of-content">Kinds of content</a> (defined in the
         [[HTML]] specification) categories each `role` has when it is used on a
-        HTML element. Column 5 defines what HTML elements can be descendants of
+        HTML element. Column 5 indicates what HTML elements can be descendants of
         an element with a particular <a href="#implicit">implicit</a> or
         explicit `role` value.
       </p>
       <p>
         For example, a [^button^] element has an implicit `role=button`.
-        A `button` element allows [=phrasing content=] as descendants and
-        does not allow [=interactive content=] or descendants with a
-        `tabindex` attribute.  Therefore, any elements specified with a
-        `role=button` also MUST NOT allow any interactive content descendants,
+        In HTML a `button` element allows [=phrasing content=] as descendants and does not allow [=interactive content=] 
+        or descendants with a `tabindex` attribute.  Therefore, any elements specified with a `role=button` would follow 
+        the same descendant restrictions, and not allow any interactive content descendants,
         elements with a `tabindex` specified or any elements with role values
         that are in the interactive content category (identified in Column 4).
       </p>
@@ -3226,6 +3225,12 @@
 &lt;/div&gt;
         </pre>
       </div>
+      
+      <p>
+        Additionally, there are certain roles which [[[wai-aria-1.1]]] has specified specific requirements for 
+        their allowed descendants. These have been identified in Column 5 as noting to "Refer to the 'Required Owned Elements'" for
+        those particular roles.
+      </p>
 
       <table id="aria-table" class="simple">
         <caption>
@@ -3247,7 +3252,7 @@
               Kind of content
             </th>
             <th>
-              Descendant restrictions
+              Descendant allowances
             </th>
           </tr>
         </thead>
@@ -3347,7 +3352,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3411,10 +3416,14 @@
               </p>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Sectioning content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              No <a>main</a> element descendants.
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3428,10 +3437,13 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              Document region
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              No <a>main</a>, <a>header</a> or <a>footer</a> element descendants.
+              [=Flow content=] but with no <a>main</a>, <a>header</a>, or <a>footer</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3452,29 +3464,16 @@
               </ul>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
               [=Phrasing content=], but there must be no
-              [=interactive content=] descendant.
-            </td>
-          </tr>
-          <tr>
-            <th tabindex="-1" id="index-aria-checkbox">
-              <a data-cite="wai-aria-1.1#checkbox">`checkbox`</a>
-            </th>
-            <td>
-              <a data-cite="wai-aria-1.1#aria-checked">`aria-checked`</a>
-            </td>
-            <td>
-              <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly`</a>
-            </td>
-            <td>
-              [=Interactive content=]
-            </td>
-            <td>
-              [=Phrasing content=], but there must be no
-              [=interactive content=] descendant.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -3501,10 +3500,32 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
+            </td>
+          </tr>
+          <tr>
+            <th tabindex="-1" id="index-aria-checkbox">
+              <a data-cite="wai-aria-1.1#checkbox">`checkbox`</a>
+            </th>
+            <td>
+              <a data-cite="wai-aria-1.1#aria-checked">`aria-checked`</a>
+            </td>
+            <td>
+              <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly`</a>
+            </td>
+            <td>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
+            </td>
+            <td>
+              [=Phrasing content=], but there must be no
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -3546,10 +3567,10 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a>, <a>header</a>, or <a>footer</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3583,10 +3604,15 @@
               </ul>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3600,10 +3626,14 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Sectioning content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=], but with no <a>main</a> element descendants.
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3617,10 +3647,13 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=], but with no <a>main</a>, <a>header</a> or <a>footer</a> element descendants.
+              [=Flow content=] but with no <a>main</a>, <a>header</a>, or <a>footer</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3636,7 +3669,11 @@
               </p>
             </td>
             <td>
-              [=Phrasing content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
               [=Phrasing content=]
@@ -3680,7 +3717,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3714,7 +3751,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3728,10 +3765,13 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3745,10 +3785,13 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=], but with no [^form^] element descendants.
             </td>
           </tr>
           <tr>
@@ -3784,15 +3827,14 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Interactive content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#grid">`grid`</a> role.
             </td>
           </tr>
           <tr>
@@ -3831,15 +3873,10 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              [=Interactive content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -3860,7 +3897,10 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
               [=Flow content=]
@@ -3884,12 +3924,17 @@
               </ul>
             </td>
             <td>
-              [=Heading content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Heading content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=], but with no [=Heading content=],
-              [=Sectioning content=], or
-              <a data-cite="html/sections.html#sectioning-root">Sectioning roots</a>.
+              [=Flow content=] but with no <a>main</a> element,
+              [=heading content=],
+              [=sectioning content=],
+              or <a data-cite="html/sections.html#sectioning-root">sectioning roots</a> descendants.
             </td>
           </tr>
           <tr>
@@ -3903,10 +3948,15 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Embedded content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Phrasing content=]
+              [=Phrasing content=], but with no [=interactive content=] descendants.
             </td>
           </tr>
           <tr>
@@ -3920,11 +3970,15 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=], but with no [=interactive content=] or
-              <a>a</a> element descendants.
+              [=Flow content=], there must be no [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -3941,7 +3995,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#list">`list`</a> role.
             </td>
           </tr>
           <tr>
@@ -3971,15 +4025,14 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Interactive content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#listbox">`listbox`</a> role.
             </td>
           </tr>
           <tr>
@@ -4006,10 +4059,10 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4026,7 +4079,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=], but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4060,7 +4113,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=], but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4101,15 +4154,13 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#menu">`menu`</a> role.
             </td>
           </tr>
           <tr>
@@ -4133,15 +4184,13 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#menubar">`menubar`</a> role.
             </td>
           </tr>
           <tr>
@@ -4165,8 +4214,8 @@
               [=Interactive content=]
             </td>
             <td>
-              [=Flow content=], but with no
-              [=interactive content=] descendants.
+              [=Phrasing content=], but with no
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4191,7 +4240,7 @@
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4216,7 +4265,7 @@
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4230,7 +4279,11 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Sectioning content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
               [=Flow content=], but with no <a>main</a> element descendants.
@@ -4246,10 +4299,10 @@
             <td>&nbsp;
             </td>
             <td>
-              [=Flow content=]
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              <a data-cite="html/dom.html#transparent-content-models">Transparent</a>
             </td>
           </tr>
           <tr>
@@ -4266,7 +4319,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=], but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4297,7 +4350,7 @@
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4309,10 +4362,10 @@
             </td>
             <td></td>
             <td>
-              [=Flow content=]
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              <a data-cite="html/dom.html#transparent-content-models">Transparent</a>
             </td>
           </tr>
           <tr>
@@ -4339,10 +4392,13 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+              </ul>
             </td>
             <td>
-              [=Phrasing content=]
+              [=Phrasing content=], but with no <a>progress</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4366,11 +4422,15 @@
               </ul>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4397,7 +4457,10 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
               [=Flow content=]
@@ -4414,10 +4477,14 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Sectioning content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=], but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4464,10 +4531,10 @@
               </ul>
             </td>
             <td>
-              none
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#row">`row`</a> role.
             </td>
           </tr>
           <tr>
@@ -4479,10 +4546,10 @@
             </td>
             <td></td>
             <td>
-              none
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#rowgroup">`rowgroup`</a> role.
             </td>
           </tr>
           <tr>
@@ -4521,10 +4588,10 @@
               </ul>
             </td>
             <td>
-              none
+              N/A
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4561,12 +4628,7 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              [=Interactive content=]
             </td>
             <td>
               [=Phrasing content=]
@@ -4583,10 +4645,13 @@
               <a data-cite="wai-aria-1.1#aria-expanded">`aria-expanded`</a>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4619,11 +4684,14 @@
               </ul>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=], but with no
-              [=interactive content=] descendants.
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4688,7 +4756,11 @@
               </ul>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
               [=Phrasing content=]
@@ -4725,15 +4797,14 @@
               </ul>
             </td>
             <td>
-              <p>
-                [=Flow content=]
-              </p>
-              <p>
-                [=Interactive content=]
-              </p>
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4750,7 +4821,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4764,11 +4835,15 @@
               <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly`</a>
             </td>
             <td>
-              [=Interactive content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Phrasing content=]</li>
+                <li>[=Interactive content=]</li>
+              </ul>
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4795,11 +4870,11 @@
               </ul>
             </td>
             <td>
-              [=interactive content=]
+              [=Interactive content=]
             </td>
             <td>
               [=Phrasing content=], but with no
-              [=interactive content=] descendants.
+              [=interactive content=] descendants, and no descendants with a `tabindex` attribute specified.
             </td>
           </tr>
           <tr>
@@ -4820,10 +4895,13 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#table">`table`</a> role.
             </td>
           </tr>
           <tr>
@@ -4850,10 +4928,13 @@
               </ul>
             </td>
             <td>
-              [=Flow content=]
+              <ul>
+                <li>[=Flow content=]</li>
+                <li>[=Palpable content=]</li>
+              </ul>
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <a data-cite="wai-aria-1.1#tablist">`tablist`</a> role.
             </td>
           </tr>
           <tr>
@@ -4925,8 +5006,7 @@
               [=Interactive content=]
             </td>
             <td>
-              [=Flow content=], but with no
-              [=interactive content=] descendants.
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4943,7 +5023,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4970,7 +5050,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Flow content=] but with no <a>main</a> element descendants.
             </td>
           </tr>
           <tr>
@@ -4987,7 +5067,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Phrasing content=]
             </td>
           </tr>
           <tr>
@@ -5020,7 +5100,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <code><a data-cite="wai-aria-1.1#tree">tree</a></code> role.
             </td>
           </tr>
           <tr>
@@ -5065,7 +5145,7 @@
               [=Flow content=]
             </td>
             <td>
-              [=Flow content=]
+              Refer to the "Required Owned Elements" as defined for the ARIA <code><a data-cite="wai-aria-1.1#treegrid">treegrid</a></code> role.
             </td>
           </tr>
           <tr>
@@ -5101,7 +5181,7 @@
               [=Interactive content=]
             </td>
             <td>
-              [=Flow content=]
+              [=Phrasing content=]
             </td>
           </tr>
         </tbody>
@@ -5150,6 +5230,10 @@
       </p>
 
       <ol reversed="">
+        <li>
+          13-May-2021:
+          <a href="https://github.com/w3c/html-aria/pull/322">Update allowed descendants for ARIA roles</a>, where specific children / descendants are necessary - link to ARIA specification.
+        </li>
         <li>
           07-Mar-2021:
           <a href="https://github.com/w3c/html-aria/commit/daca00dc304f5c3944ed0a0ae4d3b6f9d60039bc">Update allowed roles for `nav` element</a>.
