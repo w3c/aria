@@ -3,17 +3,18 @@
 <head>
 <title>Accessible Name and Description Computation 1.2</title>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<script src="https://www.w3.org/Tools/respec/respec-w3c-common" class="remove" defer></script>
-<script src="common/script/resolveReferences.js" class="remove"></script>
-<script src="common/biblio.js" class="remove"></script>
+<script src="https://www.w3.org/scripts/jquery/1.11.3/jquery.min.js"></script>
 <link href="common/css/common.css" rel="stylesheet" type="text/css"/>
-
+<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="defer"></script>
+<script src="common/script/resolveReferences.js" class="remove"></script>
+<script src="common/script/utility.js" class="remove"></script>
+<script src="common/biblio.js" class="remove" defer="defer"></script>
 <script class="remove">
   var respecConfig = {
-	github: "w3c/accname",
-	doJsonLd: true,
+    github: "w3c/accname",
+    doJsonLd: true,
     lint: true,
-    
+
     // specification status (e.g., WD, LC, NOTE, etc.). If in doubt use ED.
     specStatus:           "ED",
     //crEnd:                "2012-04-30",
@@ -22,7 +23,7 @@
 
     // the specifications short name, as in https://www.w3.org/TR/short-name/
     shortName:            "accname-1.2",
-          
+
     // if you wish the publication date to be other than today, set this
     //publishDate:  "2014-12-11",
     copyrightStart:  "2014",
@@ -49,10 +50,10 @@
           companyURL: "https://www.levelaccess.com/",
           w3cid: 67215
         },
-        { name: "Joanmarie Diggs",
-          company: "Igalia, S.L.",
-          companyURL: "https://www.igalia.com/",
-          w3cid: 68182
+        { name: "Melanie Sumner",
+          company: "LinkedIn",
+          companyURL: "https://www.linkedin.com/",
+          w3cid: 125865
         },
         { name: "Michael Cooper",
           company: "W3C",
@@ -61,6 +62,12 @@
         }
     ],
     formerEditors: [
+        { name: "Joanmarie Diggs",
+          company: "Igalia, S.L.",
+          companyURL: "https://www.igalia.com/",
+          w3cid: 68182,
+          note: "Editor until March 2021"
+        },
         { name: "Richard Schwerdtfeger",
           company: "Knowbility",
           companyURL: "https://knowbility.org/",
@@ -92,7 +99,7 @@
           note: "Editor until January 2009"
         },
     ],
-    // authors, add as many as you like. 
+    // authors, add as many as you like.
     // This is optional, uncomment if you have authors as well as editors.
     // only "name" is required. Same format as editors.
 
@@ -101,7 +108,7 @@
     //      company: "Your Company", companyURL: "https://example.com/" },
     //],
 
-	/*
+  /*
     alternateFormats: [
           { uri: 'aria-implementation-diff.html',
             label: "Diff from Previous Recommendation" } ,
@@ -111,22 +118,13 @@
             label: "PDF version" }
     ],
     */
-    
-    // Working group info
-    wg:           "Accessible Rich Internet Applications Working Group",
-    wgURI:        "https://www.w3.org/WAI/ARIA/",
-    wgPublicList: "public-aria",
 
-    // URI of the patent status for this WG, for Rec-track documents
-    // !!!! IMPORTANT !!!!
-    // This is important for Rec-track documents, do not copy a patent URI from a random
-    // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-    // Team Contact.
-    wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83726/status",
-    
+    // Working group info
+    group: "aria",
+
     tocIntroductory: true,
     //maxTocLevel: 4,
-    
+
     // Spec URLs
     ariaSpecURLs: {
       "ED": "https://w3c.github.io/aria/",
@@ -141,42 +139,39 @@
        "REC": "https://www.w3.org/TR/core-aam-1.2/"
     },
 
-    localBiblio: biblio,
-    
-    preProcess: [ linkCrossReferences ]
+    preProcess: [ linkCrossReferences ],
+	  postProcess: [ ],
+    //Pointing to the 1.2 versions but should remove the version in the publishing branch
+	  xref: ["core-aam-1.2", "wai-aria-1.2"]  
   }
 </script>
 </head>
 <body>
 <section id="abstract">
-	<p>This document describes how <a class="termref">user agents</a> determine the <a class="termref" data-lt="accessible name">names</a> and <a class="termref" data-lt="accessible description">descriptions</a> of <a class="termref">accessible objects</a> from web content languages. This information is in turn exposed through <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> so that <a class="termref">assistive technologies</a> can identify these objects and present their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.</p>
-	<p>The accessible name and description computation specification defines support that applies across multiple content technologies. This includes accessible name and description provided by general-purpose <cite><a href="https://www.w3.org/TR/wai-aria-1.2/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[WAI-ARIA]] <a class="termref">roles</a>, <a class="termref">states</a>, and <a class="termref">properties</a> as well as features specific to individual content languages.</p>
-	<p>This document updates and will eventually supersede the accessible name and description guidance in the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1</a> [[ACCNAME-1.1]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
+  <p>This document describes how <a class="termref">user agents</a> determine the <a class="termref" data-lt="accessible name">names</a> and <a class="termref" data-lt="accessible description">descriptions</a> of <a class="termref">accessible objects</a> from web content languages. This information is in turn exposed through <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> so that <a class="termref">assistive technologies</a> can identify these objects and present their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.</p>
+  <p>The accessible name and description computation specification defines support that applies across multiple content technologies. This includes accessible name and description provided by general-purpose <cite><a href="https://www.w3.org/TR/wai-aria-1.2/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[WAI-ARIA]] <a class="termref">roles</a>, <a class="termref">states</a>, and <a class="termref">properties</a> as well as features specific to individual content languages.</p>
+  <p>This document updates and will eventually supersede the accessible name and description guidance in the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1</a> [[ACCNAME-1.1]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
 </section>
 <section id="intro" class="informative">
-	<h2>Introduction</h2>
-      <p><a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> [[DOM]] and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>. An accessible object provides information about its <a class="termref">role</a>, <a class="termref">states</a>, and <a class="termref">properties</a>. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu. </p>
-      <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accessible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
-      <p>The description is a short explanation that further clarifies the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
-      <p><a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>      
-      <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref">accessible objects</a> as exposed by <a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".</p>
+  <h2>Introduction</h2>
+  <p><a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> [[DOM]] and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>. An accessible object provides information about its <a class="termref">role</a>, <a class="termref">states</a>, and <a class="termref">properties</a>. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu. </p>
+  <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accessible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
+  <p>The description is a short explanation that further clarifies the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
+  <p><a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>
+  <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref">accessible objects</a> as exposed by <a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".</p>
 </section>
 <section id="conformance">
-<section>
-<h3>RFC-2119 Keywords</h3>
-<p>RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
-</section>
-<section>
-<h3>Normative and Informative Sections</h3>
-<p>The indication whether a section is <a class="termref">normative</a> or <a class="termref">non-normative</a> (informative) applies to the entire section including sub-sections.</p>
-<p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
-</section>
-</section>
-<section id="glossary">
-  <h2>Important Terms</h2>
-  <div data-include="common/terms.html" data-oninclude="restrictReferences"></div>
+  <section>
+    <h3>RFC-2119 Keywords</h3>
+    <p>RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
+  </section>
+  <section>
+    <h3>Normative and Informative Sections</h3>
+    <p>The indication whether a section is <a class="termref">normative</a> or <a class="termref">non-normative</a> (informative) applies to the entire section including sub-sections.</p>
+    <p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
+  </section>
 </section>
 <section id="mapping_additional_nd" class="normative">
   <h2>Name and Description</h2>
@@ -203,13 +198,13 @@
     <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual tokens. </p>
     <section id="terminology">
       <h4>Terminology</h4>
-    	<dl>
+      <dl>
         <dt>Root node</dt>
         <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref">node</a> or <a class="termref">element</a> for which the text alternative is sought.</dd>
         <dt>Current node</dt>
         <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref">node</a> currently traversed to compute the <code>root node</code>'s text equivalent.  Initially, the <code>current node</code> is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
         <dt>Flat string</dt>
-        <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd> 
+        <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd>
         <dt>Total accumulated text</dt>
         <dd>The text equivalent computed up to, but not including the <code>current node</code>.</dd>
         <dt>Accumulated text</dt>
@@ -246,6 +241,8 @@
         </dd>
       </dl>
     </section>
+    <section>
+      <h4>Computation steps</h4>
       <p>The text alternative for a given element is computed as follows:</p>
       <ol>
         <li id="step1">Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").</li>
@@ -260,7 +257,7 @@
             <li id="step2B">Otherwise:
               <ul>
                 <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has an <code>aria-labelledby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
-                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur: 
+                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
                   <ol>
                     <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
                     <li id="step2B.ii">For each IDREF:
@@ -287,7 +284,25 @@
                 </pre>
               </details></div>
             </li>
-            <li id="step2C">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
+            <li id="step2C">Otherwise, if the <code>current node</code> is a control embedded within the label (e.g. the <code>label</code> element in HTML or any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then include the embedded control as part of the text alternative in the following manner:
+              <ul>
+                <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a> or <a class="role-reference" href="#listbox">listbox</a>, return the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
+                <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>):
+                  <ul>
+                    <li>If the <code>aria-valuetext</code> property is present, return its value, </li>
+                    <li>Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
+                    <li>Otherwise, use the value as specified by a host language attribute. </li>
+                  </ul>
+                </li>
+              </ul>
+              <div><details>
+                <summary>Example:</summary>
+                <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
+                <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
+              </details></div>
+            </li>
+            <li id="step2D">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
@@ -306,40 +321,22 @@
     <strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;</strong>
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-                </details></div>
+              </details></div>
             </li>
-            <li id="step2D">Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> (e.g. <code>title</code>) or <a class="termref">element</a> (e.g. HTML <code>label</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
+            <li id="step2E">Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> (e.g. <code>title</code>) or <a class="termref">element</a> (e.g. HTML <code>label</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
               <div><details>
                 <summary>Comment:</summary>
                 <p>For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
               </details></div>
             </li>
-            <li id="step2E">Otherwise, if the <code>current node</code> is a control embedded within the label (e.g. the <code>label</code> element in HTML or any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then include the embedded control as part of the text alternative in the following manner:
-              <ul>
-                <li>If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
-                <li>If the embedded control has role <a class="role-reference" href="#combobox">combobox</a> or <a class="role-reference" href="#listbox">listbox</a>, return the text alternative of the chosen <a class="role-reference" href="#option">option</a>.</li>
-                <li>If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or <a class="role-reference" href="#slider">slider</a>):
-                  <ul>
-                    <li>If the <code>aria-valuetext</code> property is present, return its value, </li>
-                    <li>Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
-                    <li>Otherwise, use the value as specified by a host language attribute. </li>
-                  </ul>
-                </li>
-              </ul>
-              <div><details>
-                <summary>Example:</summary>
-                <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
-                <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
-              </details></div>
-              </li>
             <li id="step2F">Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or is a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative <a class="termref">element</a>:
               <ol>
                 <li id="step2F.i">Set the <code>accumulated text</code> to the empty string.</li>
                 <li id="step2F.ii">Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements [[!CSS2]] can provide textual content for <a class="termref">elements</a> that have a content model.
-                      <ul>
-                        <li>For <code>:before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to the textual content of the <code>current node</code>. </li>
-                        <li>For <code>:after</code> pseudo elements, <a class="termref">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr>  textual content, without a space, to the textual content of the <code>current node</code>. </li>
-                      </ul>
+                  <ul>
+                    <li>For <code>:before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to the textual content of the <code>current node</code>. </li>
+                    <li>For <code>:after</code> pseudo elements, <a class="termref">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr>  textual content, without a space, to the textual content of the <code>current node</code>. </li>
+                  </ul>
                 </li>
                 <li id="step2F.iii">For each child node of the <code>current node</code>:
                   <ol>
@@ -357,9 +354,8 @@
               </details></div>
             </li>
             <li id="step2G">Otherwise, if the <code>current node</code> is a <a class="termref">Text node</a>, return its textual contents.</li>
-            <li id="step2H">Otherwise, if the <code>current node</code> is a descendant of an element whose <a class="termref">Accessible Name</a> or <a class="termref">Accessible Description</a> is being computed, and contains descendants, proceed to 2F.i.
-	    </li>
-            <li id="step2I">Otherwise, if the <code>current node</code> has a <a class="termref">Tooltip attribute</a>, return its value. 
+            <li id="step2H">Otherwise, if the <code>current node</code> is a descendant of an element whose <a class="termref">Accessible Name</a> or <a class="termref">Accessible Description</a> is being computed, and contains descendants, proceed to 2F.i.</li>
+            <li id="step2I">Otherwise, if the <code>current node</code> has a <a class="termref">Tooltip attribute</a>, return its value.
               <div><details>
                 <summary>Comment:</summary>
                 <p>Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
@@ -372,35 +368,36 @@
       <p>After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
     </section>
   </section>
-  <section>
-    <h3>Accessible Name and Description Mapping</h3>
-    <p>Information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the <a href="" class="core-mapping">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> specification [[!CORE-AAM-1.2]]. See the mapping table entries for <a class="core-mapping" href="#ariaLabel"><code>aria-label</code></a>, <a class="core-mapping" href="#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a class="core-mapping" href="#ariaDescribedBy"><code>aria-describedby</code></a>.</p>
-  </section>
+</section>
+<section>
+  <h3>Accessible Name and Description Mapping</h3>
+  <p>Information concerning name and description accessibility API mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the <a href="" class="core-mapping">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> specification [[!CORE-AAM-1.2]]. See the mapping table entries for <a class="core-mapping" href="#ariaLabel"><code>aria-label</code></a>, <a class="core-mapping" href="#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a class="core-mapping" href="#ariaDescribedBy"><code>aria-describedby</code></a>.</p>
+</section>
 <section>
   <h2>Appendices</h2>
-	<section class="appendix" id="changelog">
-		<h2>Change Log</h2>
-		<section>
-                        <h2>Substantive changes since the last public working draft</h2>
-			<ul>
-				<!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
-			</ul>
-		</section>
-		<section>
-               <h2>Substantive changes since the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1 Recommendation</a></h2>
-			<ul>
-				<!-- EdNote: After each WD publish, move previous list into this one. -->
-				<li>27-June-2019: Add statement allowing for the possibility of naming being prohibited on the root node. Note: This change in and of itself has no implementation impact, but it allows other specifications to optionally prohibit naming for a top-level element. Furthermore, even if this prohibition is made within a specification, that prohibition will not have any impact on calculating name from contents.</li>
-			</ul>
-		</section>
-	</section>
-	<section class="appendix informative section" id="acknowledgements">
-		<h3>Acknowledgments</h3>
-		<p>The following people contributed to the development of this document.</p>
-		<div data-include="common/acknowledgements/aria-wg-active.html" data-include-replace="true"></div>
-		<div data-include="common/acknowledgements/aria-contributors.html" data-include-replace="true"></div>
-		<div data-include="common/acknowledgements/funders.html" data-include-replace="true"></div>
-	</section>
+  <section class="appendix" id="changelog">
+    <h2>Change Log</h2>
+    <section>
+      <h2>Substantive changes since the last public working draft</h2>
+      <ul>
+        <!-- EdNote: After each WD publish, move contents of this list into the next one below.  -->
+      </ul>
+    </section>
+    <section>
+      <h2>Substantive changes since the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1 Recommendation</a></h2>
+      <ul>
+        <!-- EdNote: After each WD publish, move previous list into this one. -->
+        <li>27-June-2019: Add statement allowing for the possibility of naming being prohibited on the root node. Note: This change in and of itself has no implementation impact, but it allows other specifications to optionally prohibit naming for a top-level element. Furthermore, even if this prohibition is made within a specification, that prohibition will not have any impact on calculating name from contents.</li>
+      </ul>
+    </section>
+  </section>
+  <section class="appendix informative section" id="acknowledgements">
+    <h3>Acknowledgments</h3>
+    <p>The following people contributed to the development of this document.</p>
+    <div data-include="common/acknowledgements/aria-wg-active.html" data-include-replace="true"></div>
+    <div data-include="common/acknowledgements/aria-contributors.html" data-include-replace="true"></div>
+    <div data-include="common/acknowledgements/funders.html" data-include-replace="true"></div>
+  </section>
 </section>
 </body>
 </html>
