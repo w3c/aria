@@ -294,6 +294,14 @@
 			<dd>
 			  <p>A set of instance <a class="termref" href="#dfn-object">objects</a> that share similar characteristics.</p>
 			</dd>
+			<dt><dfn data-lt="controlled element|controlled|controlled element's|controlled elements">Controlled Element</dfn></dt>
+			<dd>
+				<p>A 'controlled element' is any <a class="termref" href="#dfn-element">element</a> referenced by <code>id</code> via <pref>aria-controls</pref>.</p>
+			</dd>
+			<dt><dfn data-lt="controlling element|controlling">Controlling Element</dfn></dt>
+			<dd>
+				<p>A 'controlling element' is any <a class="termref" href="#dfn-element">element</a> with an <pref>aria-controls</pref> attribute which references the ID of the element. </p>
+			</dd>
 			<dt><dfn data-export="" data-lt="deprecated|deprecate|deprecation">Deprecated</dfn></dt>
 			<dd>
 			  <p>A deprecated <a class="termref" href="#dfn-role">role</a>, <a class="termref" href="#dfn-state">state</a>, or <a class="termref" href="#dfn-property">property</a> is one which has been outdated by newer constructs or changed circumstances, and which may be removed in future versions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> specification. <a class="termref" data-lt="user agent">User agents</a> are encouraged to continue to support items identified as deprecated for backward compatibility. For more information, see <a href="#deprecated" class="specref">Deprecated Requirements</a> in the Conformance section.</p>
@@ -388,13 +396,17 @@
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
-			<dt><dfn data-export="" data-lt="owned element|owned|owned element's|owned elements">Owned Element</dfn></dt>
+			<dt><dfn data-export="" data-lt="owned child|child element|child|children|child elements">Owned Child</dfn></dt>
 			<dd>
-			  <p>An 'owned element' is any <abbr title="Document Object Model">DOM</abbr> descendant of the <a>element</a>, any element specified as a child via <pref>aria-owns</pref>, or any <abbr title="Document Object Model">DOM</abbr> descendant of the owned child.</p>
+				<p>An 'owned child' is a direct <abbr title="Document Object Model">DOM</abbr> child of the <a>element</a>, a descendant of the <a>element</a> with only <rref>generic</rref> or <rref>presentation</rref> elements intervening, or a child specified via an <pref>aria-owns</pref> relationship to the element.</p>
 			</dd>
 			<dt><dfn data-export="" data-lt="owning element|owning">Owning Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
+			</dd>
+			<dt><dfn data-export="" data-lt="parent element|parent">Parent Element</dfn></dt>
+			<dd>
+				<p>An 'parent element' is a direct <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>, an ancestor of the <a>element</a> with only <rref>generic</rref> or <rref>presentation</rref> elements intervening, or any element with a child specified via <pref>aria-owns</pref>.</p>
 			</dd>
 			<dt><dfn data-export="">Perceivable</dfn></dt>
 			<dd>
@@ -667,7 +679,7 @@
 			<p>Any <a>element</a> that is a direct <a>child</a> of the element with this <a>role</a>. For example, an element with the role <rref>list</rref> may own elements with the role <rref>listitem</rref>, but not elements with the role <rref>option</rref>.</p>
 			<p>To determine whether an element is the direct <a>child</a> of a role, <a>user agents</a> MUST ignore any elements with the role <rref>generic</rref> or <rref>presentation</rref>.</p>
 			<p>Descendents which are not direct children of an element ancestor are not constrained by <em>allowed child roles</em>. For example, an <code>image</code> is not an allowed child of a <code>list</code>, but it is a valid descendent so long as it is also a descendant of the <code>list</code>'s allowed child <code>listitem</code>.</p>
-			<p class="note">A role that has 'allowed child elements' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">allowed parent roles</a> for requirements about the context where elements of a given role will be contained.</p>
+			<p class="note">A role that has 'allowed child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">allowed parent roles</a> for requirements about the context where elements of a given role will be contained.</p>
 			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'allowed child role' does not fulfill this requirement. For example, the <rref>listbox</rref> role allows a child element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a child element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> allows children with <rref>option</rref> or <rref>group</rref> roles.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
@@ -4862,7 +4874,7 @@
 							<ul>
 								<li><rref>group</rref> with child <rref>option</rref></li>
 								<li><rref>option</rref></li>
-								<li><rref>button</rref> if <a>controlling</a> <rref>option</rref></li>
+								<li><rref>button</rref> if <a>controlling</a> a child <rref>option</rref></li>
 							</ul>
 						</td>
 					</tr>
