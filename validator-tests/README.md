@@ -48,30 +48,30 @@ link to the bug you filed. See what was done above for Name Prohibited for @axe-
 #### General Tips
 * Run a single test with no arguments to see all the errors:
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html
   ```
 * Run a single test with `--tags cat.aria` to just get the ARIA errors
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html --tags cat.aria
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html --tags cat.aria
   ```
 * If there is already an appropriate error rule, you can use it to see if it catches all errors:
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html --rules aria-allowed-attr
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html --rules aria-allowed-attr
   ```
 * If there is not already an appropriate error rule, you can disable the irrelevant rules:
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html \
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html \
   --tags cat.aria --disable=aria-roles
   ```
 * Having removed as much noise as possible by specifying or disabling rules, rerun the command with `--save`:
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html \
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html \
   --rules aria-allowed-attr --save name-prohibited.json
   ```
 * When you look at the resulting JSON file, you may notice that there are both violations and other serious warnings.
   In cases where we are only interested in violations, we can do some additional processing, e.g.:
   ```
-  axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html --rules aria-allowed-attr \
+  axe https://w3c.github.io/aria/validator-tests/name-prohibited.html --rules aria-allowed-attr \
   --stdout | jq ".[0].violations" > name-prohibited-axe.json
   ```
 
@@ -87,7 +87,7 @@ npm install @axe-core/cli --save
 Having done so, you can run @axe-core/cli from within `local-axe` using `npx axe`. For example:
 
 ```
-npx axe https://joanmarie.github.io/aria/validator-tests/name-prohibited.html --tags cat.aria
+npx axe https://w3c.github.io/aria/validator-tests/name-prohibited.html --tags cat.aria
 ```
 
 #### Testing Local Files
