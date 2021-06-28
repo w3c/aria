@@ -40,7 +40,7 @@
     </script>
     <link rel="stylesheet" href="makeup.css">
   </head>
-  <body data-cite="HTML WAI-ARIA">
+  <body data-cite="HTML WAI-ARIA INFRA">
     <section id="abstract">
       <p>
         This specification defines the authoring rules (author conformance requirements) for the use
@@ -123,14 +123,16 @@
           &lt;button role="button"&gt;...&lt;/button&gt;
         </pre>
         <p>
-          Similarly, the following uses a `role=group` on a [^fieldset^] element.
+          Similarly, the following uses a `role=group` on a [^fieldset^] element, and a `role=Main` on a [^main^] element.
           This is unnecessary, because the `fieldset` element is implicitly
-          exposed as a `role=group`. Again, in practice this will likely not
-          have any unforeseen side effects.
+          exposed as a `role=group`, as is the `main` element implicitly exposed as a `role=main`. Again, in practice this will likely not
+          have any unforeseen side effects to users of assistive technology, as long as the declaration of the `role` value uses [=ASCII lowercase=]. Please see [[[#case-sensitivity]]] for more information.
         </p>
-        <pre class="HTML example" title="Redundant role on fieldset">
+        <pre class="HTML example" title="Redundant role on fieldset and main">
           &lt;!-- Avoid doing this! -->
           &lt;fieldset role="group"&gt;...&lt;/fieldset&gt;
+          &lt;!-- or this! -->
+          &lt;main role="Main">...&lt;/main>
         </pre>
         <p>
           The following uses a `role=list` on an [^ul^] element. This is
@@ -141,7 +143,7 @@
           practice would generally not be recommended, otherwise.
         </p>
         <pre class="HTML example" title="Redundant role on list">
-          &lt;!-- Avoid doing this! -->
+          &lt;!-- Generally avoid doing this! -->
           &lt;ul role="list"&gt;...&lt;/ul&gt;
         </pre>
       </section>
@@ -3142,39 +3144,47 @@
           </tbody>
         </table>
       </section>
-    </section>
-    <section>
+      <section>
       <h2 id="case-sensitivity">
         Case requirements for ARIA role, state and property attributes
       </h2>
       <p>
-        Authors MUST use <a data-cite=
-        "html/infrastructure.html#lowercase-ascii-letters">lowercase ASCII
-        letters</a> for all `role` token values and any state or property
-        attributes (`aria-*`) whose values are <a data-cite=
-        "wai-aria-1.1#propcharacteristic_value">defined as tokens</a>.
+        Authors SHOULD use [=ASCII lowercase=] for all `role` token values
+        and any state or property attributes (`aria-*`) whose values are
+        <a data-cite="wai-aria-1.1#propcharacteristic_value">defined as tokens</a>.
       </p>
+
+      <div class="note">
+        <p>
+          While modern browsers treat the `role` or `aria-*` attribute values as [=ASCII case-insensitive=], not all assistive technologies will correctly parse these values.
+        </p>
+        <p>
+          To reduce interoperability issues, authors are strongly encouraged to use [=ASCII lowercase=] for `aria-*` and `role` attribute values. Further, authors are encouraged to rigorously test with different browser and assistive technology combinations to ensure that their content will be correctly exposed to their users.
+        </p>
+      </div>
       <aside class="example">
         <p>
           <strong>Correct (conforming) examples:</strong>
         </p>
         <pre>
-  &lt;div <mark>role="radiogroup"</mark>&gt;...&lt;/div&gt;
+  &lt;div <mark>role="main"</mark>&gt;...&lt;/div&gt;
 
   &lt;a href="home/" <mark>aria-current="page"</mark>&gt;home&lt;/a&gt;
         </pre>
         <p>
           <strong>Incorrect (non-conforming) examples:</strong>
         </p>
-        <pre>&lt;!-- DO NOT DO THIS --&gt;
-&lt;div <mark>role="radioGroup"</mark>&gt;...&lt;/div&gt;
+        <pre>&lt;!-- DO NOT DO THE FOLLOWING --&gt;
+&lt;div <mark>role="MAIN"</mark>&gt;...&lt;/div&gt;
 
-&lt;div <mark>role="RADIOGROUP"</mark>&gt;...&lt;/div&gt;
+&lt;div <mark>role="Main"</mark>&gt;...&lt;/div&gt;
 
 &lt;a href="home/" <mark>aria-current="Page"</mark>&gt;home&lt;/a&gt;
         </pre>
       </aside>
     </section>
+    </section>
+
     <section class="informative">
       <h2>
         Allowed descendants of ARIA roles
