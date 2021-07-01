@@ -9,6 +9,10 @@ corresponding changes in validators.
 
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
+* [Abstract Roles](abstract-roles-prohibited.html)
+  * @axe-core/cli: [Results](absract-roles-prohibited.json)
+* [Abstract Roles](must-have-owned-elements.html)
+  * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
 
 ## Writing Tests
 
@@ -74,6 +78,8 @@ link to the bug you filed. See what was done above for Name Prohibited for @axe-
   axe https://w3c.github.io/aria/validator-tests/name-prohibited.html --rules aria-allowed-attr \
   --stdout | jq ".[0].violations" > name-prohibited-axe.json
   ```
+
+  * You can download and install jq here: https://stedolan.github.io/jq/download/
 
 #### Local Installation
 If you cannot install @axe-core/cli globally as described in the documentation, install it locally:
