@@ -11,7 +11,7 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
 * [Abstract Roles](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
-* [Abstract Roles](must-have-owned-elements.html)
+* [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
 
 ## Writing Tests
