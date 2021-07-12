@@ -1,27 +1,17 @@
-name: Deploy to gh-pages on push to main
+name: Deploy to gh-pages on push to main, check on pull requests
 
-# Reference documentation: https://docs.github.com/en/actions/reference
+# See https://github.com/w3c/spec-prod/blob/main/docs/examples.md#deploy-to-github-pages
 
-# See https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestbranchestags
 on:
+  pull_request: {}
   push:
     branches: [main]
-
 jobs:
   main:
+    name: Build, Validate and Deploy
     runs-on: ubuntu-20.04
     steps:
-      - NAME: Checkout the repository
-        uses: actions/checkout@v2
-      - name: Build the specification
-        run: |
-          git clone --depth=1 --branch=gh-pages https://github.com/w3c/aria.git gh-pages
-          rm -rf gh-pages/common gh-pages/img
-          cp -R common img gh-pages
-          curl https://labs.w3.org/spec-generator/?type=respec"&"url=https://raw.githack.com/w3c/aria/main/index.html -o gh-pages/index.html -f  --retry 3
-      - name: Deploy
-        run: .github/scripts/deploy.sh
-        env:
-          BRANCH: gh-pages
-          LOCAL_DIR: gh-pages
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: w3c/spec-prod@v2
+        with:
+          GH_PAGES_BRANCH: gh-pages
