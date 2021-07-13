@@ -9,7 +9,7 @@ corresponding changes in validators.
 
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
-* [Dailog MUST have name](dialog-must-have-name.html)
+* [Dialog MUST have name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 
 ## Writing Tests
