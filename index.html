@@ -138,7 +138,7 @@
 
 	preProcess: [ linkCrossReferences ],
 	postProcess: [ ariaAttributeReferences ],
-	xref: ["core-aam-1.2", "accname", "wai-aria"],
+	xref: ["dom", "core-aam-1.2"],
 	definitionMap: []
 	};
 </script>
@@ -152,7 +152,7 @@
 <section id="sotd">
 	<p>The Accessible Rich Internet Applications Working Group seeks feedback on any aspect of the specification. When submitting feedback, please consider issues in the context of the companion documents. To comment, <a href="https://github.com/w3c/aria/issues/new">file an issue in the <abbr title="World Wide Web Consortium">W3C</abbr> ARIA GitHub repository</a>. If this is not feasible, send email to <a href="mailto:public-aria@w3.org?subject=Comment%20on%20WAI-ARIA%201.2">public-aria@w3.org</a> (<a href="http://lists.w3.org/Archives/Public/public-aria/">comment archive</a>). In-progress updates to the document may be viewed in the <a href="http://w3c.github.io/aria/">publicly visible editors' draft</a>.</p>
 </section>
-<section class="informative" id="introduction">
+<section class="informative" id="introduction" data-cite="dom">
 	<h1>Introduction</h1>
 	<p>The goals of this specification include:</p>
 	<ul>
@@ -170,10 +170,10 @@
 	<section class="section" id="intro_ria_accessibility">
 		<h2>Rich Internet Application Accessibility</h2>
 		<p>The domain of web accessibility defines how to make web content usable by persons with disabilities. Persons with certain types of disabilities use <a>assistive technologies</a> (<abbr title="Assistive Technologies">AT</abbr>) to interact with content. Assistive technologies can transform the presentation of content into a format more suitable to the user, and can allow the user to interact in different ways. For example, the user may need to, or choose to, interact with a slider widget via arrow keys, instead of dragging and dropping with a mouse. In order to accomplish this effectively, the software needs to understand the <a>semantics</a> of the content. Semantics is the science of meaning; in this case, used to assign roles, states, and properties that apply to user interface and content elements as a human would understand. For instance, if a paragraph is semantically identified as such, assistive technologies can interact with it as a unit separable from the rest of the content, knowing the exact boundaries of that paragraph. An adjustable range slider or collapsible list (a.k.a. a tree <a>widget</a>) are more complex examples, in which various parts of the widget have semantics that need to be properly identified for assistive technologies to support effective interaction.</p>
-		<p>New technologies often overlook semantics required for accessibility, and new authoring practices often misuse the intended semantics of those technologies. <a>Elements</a> that have one defined meaning in the language are used with a different meaning intended to be understood by the user.</p>
+		<p>New technologies often overlook semantics required for accessibility, and new authoring practices often misuse the intended semantics of those technologies. [=element|Elements=] that have one defined meaning in the language are used with a different meaning intended to be understood by the user.</p>
 		<p>For example, web application developers create collapsible tree widgets in HTML using CSS and JavaScript even though HTML has no semantic <code>tree</code> element. To a non-disabled user, it may look and act like a collapsible tree widget, but without appropriate semantics, the tree widget may not be <a>perceivable</a> to, or <a>operable</a> by, a person with a disability because assistive technologies may not recognize the role. Similarly, web application developers create interactive button widgets in SVG using JavaScript even though SVG has no semantic <code>button</code> element. To a non-disabled user, it may look and act like a button widget, but without appropriate semantics, the button widget may not be <a>perceivable</a> to, or <a>operable</a> by, a person with a disability because assistive technologies may not recognize the role.</p>
 		<p>The incorporation of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is a way for an author to provide proper semantics for custom widgets to make these widgets accessible, usable, and interoperable with assistive technologies. This specification identifies the types of widgets and structures that are commonly recognized by accessibility products, by providing an <a>ontology</a> of corresponding <a>roles</a> that can be attached to content. This allows elements with a given role to be understood as a particular widget or structural type regardless of any semantics inherited from the implementing host language. Roles are a common property of platform <a>accessibility <abbr title="Application Programing Interfaces">APIs</abbr></a> which assistive technologies use to provide the user with effective presentation and interaction.</p>
-		<p>The Roles Model includes interaction <a>widgets</a> and elements denoting document structure. The Roles Model describes inheritance and details the <a>attributes</a> each role supports. Information about mapping of roles to accessibility <abbr title="Application Programing Interfaces">APIs</abbr> is provided by the <cite><a href="" class="core-mapping">Core Accessibility API Mappings</a></cite> [[CORE-AAM-1.2]].</p>
+		<p>The Roles Model includes interaction <a>widgets</a> and elements denoting document structure. The Roles Model describes inheritance and details the [=attribute|attributes=] each role supports. Information about mapping of roles to accessibility <abbr title="Application Programing Interfaces">APIs</abbr> is provided by the <cite><a href="" class="core-mapping">Core Accessibility API Mappings</a></cite> [[CORE-AAM-1.2]].</p>
 		<p>Roles are element types and will not change with time or user actions. Role information is used by assistive technologies, through interaction with the user agent, to provide normal processing of the specified element type.</p>
 		<p>States and properties are used to declare important attributes of an element that affect and describe interaction. They enable the <a>user agent</a> and operating system to properly handle the element even when the attributes are dynamically changed by client-side scripts. For example, alternative input and output technology, such as screen readers and speech dictation software, need to be able to recognize and effectively manipulate and communicate various interaction states (e.g., disabled, checked) to the user.</p>
 		<p>While it is possible for assistive technologies to access these properties directly through the <cite><a href="https://www.w3.org/TR/dom/">Document Object Model</a></cite> [[DOM]], the preferred mechanism is for the user agent to map the states and properties to the accessibility <abbr title="Application Programing Interfaces">API</abbr> of the operating system. See the <cite><a href="" class="core-mapping">Core Accessibility API Mappings</a></cite> [[CORE-AAM-1.2]] and the <cite><a href="" class="accname">Accessible Name and Description Computation</a></cite> [[ACCNAME-1.2]] for details.</p>
@@ -244,30 +244,30 @@
 		<p>While some assistive technologies interact with these accessibility APIs, others may access the content directly from the <abbr title="Document Object Model">DOM</abbr>. These technologies can restructure, simplify, style, or reflow the content to help a different set of users. Common use cases for these types of adaptations may be the aging population, persons with cognitive impairments, or persons in environments that interfere with use of their tools. For example, the availability of regional navigational landmarks may allow for a mobile device adaptation that shows only portions of the content at any one time based on its semantics. This could reduce the amount of information the user needs to process at any one time. In other situations it may be appropriate to replace a custom user interface control with something that is easier to navigate with a keyboard, or touch screen device.</p>
 	</section>
 </section>
-<section class="informative" id="terms">
+<section class="informative" id="terms" data-cite="dom">
 	<h1>Important Terms</h1>
 	<div>
 		<p>While some terms are defined in place, the following definitions are used throughout this document. </p>
 		<dl class="termlist">
-			<dt><dfn data-lt="accessibility api|accessibility apis">Accessibility <abbr title="Application Programming Interface">API</abbr></dfn></dt>
+			<dt><dfn>Accessibility <abbr title="Application Programming Interface">API</abbr></dfn></dt>
 			<dd>
 			  <p>Operating systems and other platforms provide a set of interfaces that expose information about <a class="termref" data-lt="object">objects</a> and <a class="termref" data-lt="event">events</a> to <a>assistive technologies</a>. Assistive technologies use these interfaces to get information about and interact with those <a class="termref" data-lt="widget">widgets</a>. Examples of accessibility APIs are <a href="https://docs.microsoft.com/en-us/windows/win32/winauto/microsoft-active-accessibility">Microsoft Active Accessibility</a> [[MSAA]], <a href="https://docs.microsoft.com/en-us/windows/win32/winauto/entry-uiauto-win32">Microsoft User Interface Automation</a> [[UI-AUTOMATION]], <abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="https://docs.microsoft.com/en-us/windows/win32/winauto/iaccessibleex"><abbr title="User Interface Automation">UIA</abbr> Express</a></cite> [[UIA-EXPRESS]], the
 				  <a href="https://developer.apple.com/documentation/appkit/nsaccessibility">Mac <abbr title="OS Ten">OS X</abbr> Accessibility Protocol</a> [[AXAPI]], the <cite><a href="https://developer.gnome.org/atk/unstable/">Linux/Unix Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], and <a href="https://wiki.linuxfoundation.org/accessibility/iaccessible2/start">IAccessible2</a> [[IAccessible2]].</p>
 			</dd>
-			<dt><dfn >Accessible Description</dfn></dt>
+			<dt><dfn data-export="">Accessible Description</dfn></dt>
 			<dd>
 			  <p>An accessible description provides additional information, related to an interface element, that complements the <a>accessible name</a>. The accessible description might or might not be visually perceivable. </p>
 			</dd>
-			<dt><dfn data-lt="accessible name|accessible names">Accessible Name</dfn></dt>
+			<dt><dfn data-export="">Accessible Name</dfn></dt>
 			<dd>
 			  <p>The accessible name is the name of a user interface element. Each platform <a>accessibility <abbr title="application programming interface">API</abbr></a> provides the accessible name property. The value of the accessible name may be derived from a visible (e.g., the visible text on a button) or invisible (e.g., the text alternative that describes an icon) property of the user interface element.  See related <a>accessible description</a>.</p>
-			  <p>A simple use for the accessible name property may be illustrated by an &quot;OK&quot; button. The text &quot;OK&quot; is the accessible name. When the button receives focus, assistive technologies may concatenate the platform's role description with the accessible name. For example, a screen reader may speak &quot;push-button OK&quot; or &quot;OK button&quot;. The order of concatenation and specifics of the role description (e.g., &quot;button&quot;, &quot;push-button&quot;, &quot;clickable button&quot;) are determined by platform <a class="termref" data-lt="accessibility api">accessibility API</a>s or <a>assistive technologies</a>.</p>
+			  <p>A simple use for the accessible name property may be illustrated by an &quot;OK&quot; button. The text &quot;OK&quot; is the accessible name. When the button receives focus, assistive technologies may concatenate the platform's role description with the accessible name. For example, a screen reader may speak &quot;push-button OK&quot; or &quot;OK button&quot;. The order of concatenation and specifics of the role description (e.g., &quot;button&quot;, &quot;push-button&quot;, &quot;clickable button&quot;) are determined by platform <a class="termref">accessibility API</a>s or <a>assistive technologies</a>.</p>
 			</dd>
-			<dt><dfn data-lt="accessible object|accessible objects">Accessible object</dfn></dt>
+			<dt><dfn data-export="">Accessible object</dfn></dt>
 			<dd>
-			  <p>A <a>node</a> in the <a class="termref">accessibility tree</a> of a platform <a>accessibility <abbr title="application programming interface">API</abbr></a>. Accessible objects expose various <a class="termref" data-lt="state">states</a>, <a class="termref" data-lt="property">properties</a>, and <a class="termref" data-lt="event">events</a> for use by <a>assistive technologies</a>.  In the context of markup languages (e.g., HTML and SVG) in general, and of WAI-ARIA in particular, markup <a class="termref" data-lt="element">elements</a> and their <a class="termref" data-lt="attribute">attributes</a> are represented as accessible objects.  </p>
+			  <p>A <a>node</a> in the <a class="termref">accessibility tree</a> of a platform <a>accessibility <abbr title="application programming interface">API</abbr></a>. Accessible objects expose various <a class="termref">states</a>, <a class="termref" data-lt="property">properties</a>, and <a class="termref" data-lt="event">events</a> for use by <a>assistive technologies</a>.  In the context of markup languages (e.g., HTML and SVG) in general, and of WAI-ARIA in particular, markup <a class="termref" data-lt="element">elements</a> and their [=attribute|attributes=] are represented as accessible objects.  </p>
 			</dd>
-			<dt><dfn data-lt="assistive technology">Assistive Technologies</dfn></dt>
+			<dt><dfn data-export="">Assistive Technologies</dfn></dt>
 			<dd><p>Hardware and/or software that:</p>
 					<ul>
 						<li>relies on services provided by a <a>user agent</a> to retrieve and render Web content </li>
@@ -286,14 +286,6 @@
 			  <li>alternate pointing devices, which are used to simulate mouse pointing and clicking.</li>
 			</ul>
 			</dd>
-			<dt><dfn data-lt="attribute|attributes">Attribute</dfn></dt>
-			<dd>
-			  <p>In this specification, attribute is used as it is in markup languages. Attributes are structural features added to <a class="termref" href="#dfn-element">elements</a> to provide information about the <a class="termref" href="#dfn-state">states</a> and <a class="termref" href="#dfn-property">properties</a> of the <a class="termref" href="#dfn-object">object</a> represented by the element.</p>
-			</dd>
-			<dt><dfn data-lt="class|classes">Class</dfn></dt>
-			<dd>
-			  <p>A set of instance <a class="termref" href="#dfn-object">objects</a> that share similar characteristics.</p>
-			</dd>
 			<dt><dfn data-lt="deprecated|deprecate|deprecation">Deprecated</dfn></dt>
 			<dd>
 			  <p>A deprecated <a class="termref" href="#dfn-role">role</a>, <a class="termref" href="#dfn-state">state</a>, or <a class="termref" href="#dfn-property">property</a> is one which has been outdated by newer constructs or changed circumstances, and which may be removed in future versions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> specification. <a class="termref" data-lt="user agent">User agents</a> are encouraged to continue to support items identified as deprecated for backward compatibility. For more information, see <a href="#deprecated" class="specref">Deprecated Requirements</a> in the Conformance section.</p>
@@ -303,29 +295,23 @@
 			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is an <a href="#valuetype_integer">integer</a>, <a href="#valuetype_number">number</a>, or <a href="#valuetype_string">string</a>.</p>
 			  <p>Related Terms: <a>Identifies</a>, <a>Indicates</a></p>
 			</dd>
-			<dt><dfn data-lt="desktop focus|desktop focus events">Desktop focus event</dfn></dt>
+			<dt><dfn data-local-lt="desktop focus">Desktop focus event</dfn></dt>
 			<dd>
 			  <p>Event from/to the host operating system via the accessibility <abbr title="application programming interface">API</abbr>, notifying of a change of input focus.</p>
-			</dd>
-			<dt><dfn>DOMString</dfn>
-			<dd>Sequence of 16-bit unsigned integers, typically interpreted as UTF-16 code units. This corresponds to the JavaScript primitive String type.</dd>
-			<dt><dfn data-lt="element|elements|element's">Element</dfn></dt>
-			<dd>
-			  <p>In this specification, element is used as it is in markup languages. Elements are the structural elements in markup language that contains the data profile for <a class="termref" data-lt="object">objects</a>.</p>
 			</dd>
 			<dt><dfn data-lt="event|events">Event</dfn></dt>
 			<dd>
 			  <p>A programmatic message used to communicate discrete changes in the <a>state</a> of an <a>object</a> to other objects in a computational system. User input to a web page is commonly mediated through abstract events that describe the interaction and can provide notice of changes to the state of a document object. In some programming languages, events are more commonly known as notifications.</p>
 			</dd>
-			<dt><dfn >Expose</dfn></dt><!--Not used-->
+			<dt><dfn>Expose</dfn></dt><!--Not used-->
 			<dd>
-			  <p>Translated to platform-specific <a class="termref" data-lt="accessibility api">accessibility APIs</a> as defined in the <a href="" class="core-mapping">Core Accessibility API Mappings</a>.</p>
+			  <p>Translated to platform-specific <a class="termref">accessibility APIs</a> as defined in the <a href="" class="core-mapping">Core Accessibility API Mappings</a>.</p>
 			</dd>
 			<dt><dfn data-lt="graphical document|graphical documents">Graphical Document</dfn></dt>
 			<dd>
 			  <p>A document containing graphic representations with user-navigable parts. Charts, maps, diagrams, blueprints, and dashboards are examples of graphical documents. A graphical document is composed using any combination of symbols, images, text, and graphic primitives (shapes such as circles, points, lines, paths, rectangles, etc).</p>
 			</dd>
-			<dt><dfn >Hidden</dfn></dt>
+			<dt><dfn data-export="">Hidden</dfn></dt>
 			<dd>
 				<p>Indicates that the <a>element</a> is not visible, <a>perceivable</a>, or interactive to <em>any</em> user. An element is considered <em>hidden</em> if it or any one of its ancestor elements is not rendered or is explicitly hidden.</p>
 			</dd>
@@ -339,11 +325,7 @@
 			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is a named token or otherwise token-like, including the Boolean-like <a href="#valuetype_true-false">true/false</a>, <a href="#valuetype_true-false-undefined">true/false/undefined</a>, <a href="#valuetype_tristate">tristate (true/false/mixed)</a>, a single named <a href="#valuetype_token">token</a>, or a <a href="#valuetype_token_list">token list</a>.</p>
 			  <p>Related Terms: <a>Defines</a>, <a>Identifies</a></p>
 			</dd>
-			<dt><dfn data-lt="informative|non-normative">Informative</dfn></dt>
-			<dd>
-			  <p>Content provided for information purposes and not required for conformance. Content required for conformance is referred to as <a>normative</a>.</p>
-			</dd>
-			<dt><dfn >Keyboard Accessible</dfn></dt>
+			<dt><dfn>Keyboard Accessible</dfn></dt>
 			<dd>
 				<p>Accessible to the user using a keyboard or <a>assistive technologies</a> that mimic keyboard input, such as a sip and puff tube. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#keyboard-accessible"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Guideline 2.1: Make all functionality available from a keyboard</a></cite> [[WCAG21]].</p>
 			</dd>
@@ -355,7 +337,7 @@
 			<dd>
 			  <p>Live regions are perceivable regions of a web page that are typically updated as a result of an external event when user focus may be elsewhere. These regions are not always updated as a result of a user interaction. Examples of live regions include a chat log, stock ticker, or a sport scoring section that updates periodically to reflect game statistics. Since these asynchronous areas are expected to update outside the user's area of focus, assistive technologies such as screen readers have either been unaware of their existence or unable to process them for the user. WAI-ARIA has provided a collection of properties that allow the author to identify these live regions and process them: aria-live, aria-relevant, aria-atomic, and aria-busy.</p>
 			</dd>
-			<dt><dfn >Primary Content Element</dfn></dt><!--Not used-->
+			<dt><dfn>Primary Content Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An implementing host language's primary content element, such as the <code>body</code> element in HTML.</p>
 			</dd>
@@ -363,28 +345,23 @@
 			<dd>
 			  <p><a>Accessibility API</a> <a>state</a> that is controlled by the user agent, such as focus and selection. These are contrasted with &quot;unmanaged states&quot; that are typically controlled by the author. Nevertheless, authors can override some managed states, such as aria-posinset and aria-setsize. Many managed states have corresponding CSS pseudo-classes, such as :focus, and pseudo-elements, such as ::selection, that are also updated by the user agent.</p>
 			</dd>
-			<dt><dfn >Nemeth Braille</dfn></dt>
+			<dt><dfn>Nemeth Braille</dfn></dt>
 			<dd>
 				<p>The Nemeth Braille Code for Mathematics is a braille code for encoding mathematical and scientific notation. See <cite><a href="https://en.wikipedia.org/wiki/Nemeth_Braille">Nemeth Braille on Wikipedia</a>.</cite></p>
 			</dd>
-			<dt><dfn >Node</dfn></dt>
+			<dt><dfn>Node</dfn></dt>
 			<dd>
 			  <p>Basic type of <a class="termref">object</a> in the <abbr title="Document Object Model">DOM</abbr> tree or <a class="termref">accessibility tree</a>. <abbr title="Document Object Model">DOM</abbr> nodes are further specified as <a class="termref">Element</a> or <a class="termref" data-lt="Text node">Text nodes</a>, among other types. The nodes of an <a class="termref">accessibility tree</a> are <a class="termref" data-lt="accessible object">accessible objects</a>.  </p>
-			</dd>
-			<dt><dfn >Normative</dfn></dt>
-			<dd>
-			  <p>Required for conformance. By contrast, content identified as <a>informative</a> or &quot;non-normative&quot; is not required for conformance.</p>
 			</dd>
 			<dt><dfn data-lt="object|objects">Object</dfn></dt>
 			<dd>
 			  <p>In the context of user interfaces,  an item in the   perceptual user experience, represented in markup languages by one or   more <a class="termref" data-lt="element">elements</a>, and rendered by <a class="termref" data-lt="user agent">user agents</a>.</p>
-			In the context of programming, the instantiation of one or more <a class="termref" data-lt="class">classes</a> and interfaces which define the general characteristics of similar objects. An object in an <a>accessibility <abbr title="Application Programming Interfaces">API</abbr></a> may represent one or more DOM objects. <a class="termref" data-lt="accessibility api">Accessibility APIs</a> have defined interfaces that are distinct from DOM interfaces.</dd>
-
-			<dt><dfn >Ontology</dfn></dt>
+			In the context of programming, the instantiation of one or more classes and interfaces which define the general characteristics of similar objects. An object in an <a>accessibility <abbr title="Application Programming Interfaces">API</abbr></a> may represent one or more DOM objects. <a class="termref">Accessibility APIs</a> have defined interfaces that are distinct from DOM interfaces.</dd>
+			<dt><dfn>Ontology</dfn></dt>
 			<dd>
-			  <p>A description of the characteristics of <a class="termref" data-lt="class">classes</a> and how they relate to each other.</p>
+			  <p>A description of the characteristics of classes and how they relate to each other.</p>
 			</dd>
-			<dt><dfn >Operable</dfn></dt>
+			<dt><dfn>Operable</dfn></dt>
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
@@ -396,13 +373,13 @@
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
 			</dd>
-			<dt><dfn >Perceivable</dfn></dt>
+			<dt><dfn>Perceivable</dfn></dt>
 			<dd>
 			  <p>Presentable to users in ways they can sense. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#perceivable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 1: Content must be perceivable</a></cite> [[WCAG21]].</p>
 			</dd>
 			<dt><dfn data-lt="property|properties">Property</dfn></dt>
 			<dd>
-			  <p><a class="termref" data-lt="attribute">Attributes</a> that are essential to the nature of a given <a>object</a>, or that represent a data value associated with the object. A change of a property may significantly impact the meaning or presentation of an object. Certain properties (for example, <pref>aria-multiline</pref>) are less likely to change than <a class="termref" href="#dfn-state">states</a>, but note that the frequency of change difference is not a rule. A few properties, such as <pref>aria-activedescendant</pref>, <pref>aria-valuenow</pref>, and <pref>aria-valuetext</pref> are expected to change often. See <a class="specref" href="#statevsprop">clarification of states versus properties</a>.</p>
+			  <p>[=attribute|attributes=] that are essential to the nature of a given <a>object</a>, or that represent a data value associated with the object. A change of a property may significantly impact the meaning or presentation of an object. Certain properties (for example, <pref>aria-multiline</pref>) are less likely to change than <a class="termref" href="#dfn-state">states</a>, but note that the frequency of change difference is not a rule. A few properties, such as <pref>aria-activedescendant</pref>, <pref>aria-valuenow</pref>, and <pref>aria-valuetext</pref> are expected to change often. See <a class="specref" href="#statevsprop">clarification of states versus properties</a>.</p>
 			</dd>
 			<dt><dfn data-lt="relationship|relationships">Relationship</dfn></dt>
 			<dd>
@@ -412,39 +389,39 @@
 			<dd>
 			  <p>Main indicator of type. <!-- (removing, vague) The object's role is the class of <a class="termref" data-lt="object">objects</a> of which it is a member. --> This <a class="termref" data-lt="semantics">semantic</a> association allows tools to present and support interaction with the object in a manner that is consistent with user expectations about other objects of that type.</p>
 			</dd>
-			<dt><dfn >Root <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> node</dfn></dt><!--Not used-->
+			<dt><dfn>Root <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> node</dfn></dt><!--Not used-->
 			<dd>
 			  <p> The primary element containing non-metadata content. In many languages, this is  the document element but in <abbr title="Hypertext Markup Language">HTML</abbr>, it is the <code>&lt;body&gt;</code>.</p>
 			</dd>
 			<dt><dfn data-lt="semantics|semantic|semantically">Semantics</dfn></dt>
 			<dd>
-			  <p>The meaning of something as understood by a human, defined in a way that computers can process a representation of an <a>object</a>, such as <a class="termref" data-lt="element">elements</a> and <a class="termref" data-lt="attribute">attributes</a>, and reliably represent the object in a way that various humans will achieve a mutually consistent understanding of the object.</p>
+			  <p>The meaning of something as understood by a human, defined in a way that computers can process a representation of an <a>object</a>, such as <a class="termref" data-lt="element">elements</a> and [=attribute|attributes=], and reliably represent the object in a way that various humans will achieve a mutually consistent understanding of the object.</p>
 			</dd>
 			<dt><dfn data-lt="state|states">State</dfn></dt>
 			<dd>
 			  <p>A state is a dynamic <a class="termref" href="#dfn-property">property</a> expressing characteristics of an <a>object</a> that may change in response to user action or automated processes. States do not affect the essential nature of the object, but represent data associated with the object or user interaction possibilities. See <a class="specref" href="#statevsprop">clarification of states versus properties</a>.</p>
 			</dd>
-			<dt><dfn >Sub-document</dfn></dt><!--Not used-->
+			<dt><dfn>Sub-document</dfn></dt><!--Not used-->
 			<dd>
 			  <p>Any document created from a <code>&lt;frame&gt;</code>, <code>&lt;iframe&gt;</code> or similar mechanism. A sub-document may contain a document, an application or any widget such as a calendar pulled in from another server. In the <a class="termref">accessibility tree</a> there are two <a class="termref" data-lt="accessible object">accessible objects</a> for this situation&mdash;one represents the <code>&lt;frame&gt;</code>/<code>&lt;iframe&gt;</code> element in the parent document, which parents a single <a>accessible object</a> child representing the spawned document contents.</p>
 			</dd>
-			<dt><dfn >Target Element</dfn></dt>
+			<dt><dfn>Target Element</dfn></dt>
 			<dd>
 			  <p>An element specified in a <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relation. For example, in <code> &lt;div aria-controls=”elem1”&gt;</code>, where <code>“elem1”</code> is the ID for the target element.</p>
 			</dd>
-			<dt><dfn >Taxonomy</dfn></dt><!--Not used-->
+			<dt><dfn>Taxonomy</dfn></dt><!--Not used-->
 			<dd>
-			  <p>A hierarchical definition of how the characteristics of various <a class="termref" data-lt="class">classes</a> relate to each other, in which classes inherit the properties of superclasses in the hierarchy. A taxonomy can comprise part of the formal definition of an <a>ontology</a>.</p>
+			  <p>A hierarchical definition of how the characteristics of various classes relate to each other, in which classes inherit the properties of superclasses in the hierarchy. A taxonomy can comprise part of the formal definition of an <a>ontology</a>.</p>
 			</dd>
-			<dt><dfn >Text node</dfn></dt>
+			<dt><dfn>Text node</dfn></dt>
 			<dd>
 			  <p>Type of <abbr title="Document Object Model">DOM</abbr> <a class="termref" data-lt="node">node</a> that represents the textual content of an <a class="termref">attribute</a> or an <a class="termref">element</a>. A Text node has no child nodes.  </p>
 			</dd>
-			<dt><dfn >Tooltip attribute</dfn></dt><!--Accname-->
+			<dt><dfn>Tooltip attribute</dfn></dt><!--Accname-->
 			<dd>
 			  <p>Any host language attribute that would result in a user agent generating a tooltip such as in response to a mouse hover in desktop user agents.</p>
 			</dd>
-			<dt><dfn >Understandable</dfn></dt><!--Not used-->
+			<dt><dfn>Understandable</dfn></dt><!--Not used-->
 			<dd>
 			  <p>Presentable to users in ways they can construct an appropriate meaning. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#understandable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 3: Information and the operation of user interface must be understandable</a></cite> [[WCAG21]].</p>
 			</dd>
@@ -456,7 +433,7 @@
 			<dd>
 			  <p>Any software that retrieves, renders and facilitates end user interaction with Web content. This definition may differ from that used in other documents.</p>
 			</dd>
-			<dt><dfn >Valid IDREF</dfn></dt>
+			<dt><dfn>Valid IDREF</dfn></dt>
 			<dd>
 			  <p>A reference to a <a>target element</a> in the same document that has a matching ID</p>
 			</dd>
@@ -469,7 +446,7 @@
 </section>
 <section class="normative override" id="conformance">
 	<h2>Conformance</h2>
-	<p>The main content of Accessible Rich Internet Applications is <a>normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are <a>informative</a> (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
+	<p>The main content of Accessible Rich Internet Applications is normative and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as "non-normative" and their subsections, diagrams, examples, and notes are informative (non-normative). Non-normative material provides advisory information to help interpret the guidelines but does not create requirements that impact a conformance claim.</p>
 	<p>Normative sections provide requirements that <a class="termref">user agents</a> must follow for an implementation to conform to this specification. The keywords <em class="rfc2119">MUST</em>, <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">REQUIRED</em>, <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>, <em class="rfc2119">SHOULD</em>, <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">MAY</em>, and <em class="rfc2119">OPTIONAL</em> in this document are to be interpreted as described in <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [[!RFC2119]]. RFC-2119 keywords are formatted in uppercase and contained in an element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.</p>
 	<p>Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
 	<p>Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
@@ -489,7 +466,7 @@
 	</section>
 	<section id="conformance_checkers">
 		<h2>Conformance Checkers</h2>
-		<p>Any application or script verifying document conformance or validity SHOULD include a test for all of the <a href="#dfn-normative">normative</a> author requirements in this specification. If testing for a given requirement, conformance checkers MUST issue an error if an author "MUST" requirement isn't met, and MUST issue a warning if an author "SHOULD" requirement isn't met.</p>
+		<p>Any application or script verifying document conformance or validity SHOULD include a test for all of the normative author requirements in this specification. If testing for a given requirement, conformance checkers MUST issue an error if an author "MUST" requirement isn't met, and MUST issue a warning if an author "SHOULD" requirement isn't met.</p>
 	</section>
 	<section id="deprecated">
 		<!-- Deprecated requirements should begin with <p><em>This requirement is <a href="#deprecated">deprecated</a>.</em></p> -->
@@ -497,10 +474,10 @@
 		<p>As the technology evolves, sometimes new ways to meet a use case become available, that work better than a feature that was previously defined. But because of existing implementation of the older feature, that feature cannot be removed from the conformance model without rendering formerly conforming content non-conforming. In this case, the older feature is marked as "deprecated". This indicates that the feature is allowed in the conformance model and expected to be supported by user agents, but it is recommended that authors do not use it for new content. In future versions of the specification, if the feature is no longer widely used, the feature could be removed and no longer expected to be supported by user agents.</p>
 	</section>
 </section>
-<section class="normative" id="usage">
+<section class="normative" id="usage" data-cite="dom">
 	<h1>Using <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></h1>
 	<p>Complex web applications become inaccessible when <a>assistive technologies</a> cannot determine the <a>semantics</a> behind portions of a document or when the user is unable to effectively navigate to all parts of it in a usable way (see <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite>). <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> divides the semantics into <a>roles</a> (the type defining a user interface element) and <a>states</a> and <a>properties</a> supported by the roles.</p>
-	<p>Authors need to associate <a>elements</a> in the document to a WAI-ARIA role and the appropriate states and properties (aria-* <a>attributes</a>) during its life-cycle, unless the elements already have the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantics</a> for states and properties. In these instances the equivalent host language states and properties take precedence to avoid a conflict while the role attribute will take precedence over the implicit role of the host language element.</p>
+	<p>Authors need to associate [=element|elements=] in the document to a WAI-ARIA role and the appropriate states and properties (aria-* [=attribute|attributes=]) during its life-cycle, unless the elements already have the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantics</a> for states and properties. In these instances the equivalent host language states and properties take precedence to avoid a conflict while the role attribute will take precedence over the implicit role of the host language element.</p>
 	<section id="introroles" class="normative">
 		<h2><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Roles</h2>
 		<p>A <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>role</a> is set on an <a>element</a> using a <code>role</code> <a>attribute</a>, similar to the <code>role</code> attribute defined in <cite><a href="https://www.w3.org/TR/role-attribute/">Role Attribute</a></cite> [[ROLE-ATTRIBUTE]].</p>
@@ -519,7 +496,7 @@
 	<section id="introstates">
 		<h2><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> States and Properties</h2>
 		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> provides a collection of accessibility <a>states</a> and <a>properties</a> which are used to support platform <a>accessibility <abbr title="Application Programing Interfaces">APIs</abbr></a> on various operating system platforms. <a>Assistive technologies</a> may access this information through an exposed <a>user agent</a> DOM or through a mapping to the platform accessibility <abbr title="Application Programing Interfaces">API</abbr>. When combined with <a>roles</a>, the user agent can supply the assistive technologies with user interface information to convey to the user at any time. Changes in states or properties will result in a notification to assistive technologies, which could alert the user that a change has occurred.</p>
-		<p>In the following example, a list item (<code>html:li</code>) has been used to create a checkable menu item, and JavaScript <a>events</a> will capture mouse and keyboard events to toggle the value of <sref>aria-checked</sref>. A role is used to make the behavior of this simple <a>widget</a> known to the user agent. <a>Attributes</a> that change with user actions (such as <sref>aria-checked</sref>) are defined in the <a href="#states_and_properties">states and properties</a> section.</p>
+		<p>In the following example, a list item (<code>html:li</code>) has been used to create a checkable menu item, and JavaScript <a>events</a> will capture mouse and keyboard events to toggle the value of <sref>aria-checked</sref>. A role is used to make the behavior of this simple <a>widget</a> known to the user agent. [=attribute|Attributes=] that change with user actions (such as <sref>aria-checked</sref>) are defined in the <a href="#states_and_properties">states and properties</a> section.</p>
 		<pre class="example highlight">&lt;li role=&quot;menuitemcheckbox&quot; aria-checked=&quot;true&quot;&gt;Sort by Last Modified&lt;/li&gt;</pre>
 		<p>Some accessibility states, called <em><a>managed states</a></em>, are controlled by the user agent. Examples of managed state include keyboard focus and selection. Managed states often have corresponding <abbr title="Cascading Style Sheets">CSS</abbr> pseudo-classes (such as <code>:focus</code> and <code>::selection</code>) to define style changes. In contrast, the states in this specification are typically controlled by the author and are called <em>unmanaged states.</em> Some states are managed by the user agent, such as <pref>aria-posinset</pref> and <pref>aria-setsize</pref>, but the author can override them if the <abbr title="Document Object Model">DOM</abbr> is incomplete and would cause the user agent calculation to be incorrect. User agents map both managed and unmanaged states to the platform accessibility <abbr title="Application Programing Interfaces">APIs</abbr>.</p>
 		<p>Most modern user agents support <cite><a href="https://www.w3.org/TR/css3-selectors/#attribute-selectors"><abbr title="Cascading Style Sheets">CSS</abbr> attribute selectors</a></cite> ([[CSS3-SELECTORS]]), and can allow the author to create <abbr title="User Interface">UI</abbr> changes based on <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute information, reducing the amount of scripts necessary to achieve equivalent functionality. In the following example, a <abbr title="Cascading Style Sheets">CSS</abbr> selector is used to determine whether or not the text is bold and an image of a check mark is shown, based on the value of the <sref>aria-checked</sref> attribute.</p>
@@ -547,7 +524,7 @@
 	  <section id="managingfocus_authors">
 	    <h3>Information for Authors</h3>
 	    <p>If the author removes the element with focus, the author SHOULD move focus to a logical element. Similarly, authors SHOULD not scroll the element with focus off screen unless the user performed a scrolling action.</p>
-	    <p>Authors SHOULD ensure that all interactive <a>elements</a> are focusable and that all parts of composite widgets are either focusable or have a documented alternative method to achieve their function.</p>
+	    <p>Authors SHOULD ensure that all interactive [=element|elements=] are focusable and that all parts of composite widgets are either focusable or have a documented alternative method to achieve their function.</p>
 	    <p>Authors MUST manage focus on the following container roles:</p>
 	    <ul>
 	      <li><rref>grid</rref></li>
@@ -559,7 +536,7 @@
 	      <li><rref>treegrid</rref></li>
 	      <li><rref>tablist</rref></li>
 	    </ul>
-	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all <a>elements</a>. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
+	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all [=element|elements=]. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
 	    <p>
         Authors MAY use <pref>aria-activedescendant</pref> to inform <a>assistive technologies</a> which descendant of a <rref>widget</rref> element is treated as having keyboard focus in the user interface if the role of the widget element supports <code>aria-activedescendant</code>.
         This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.
@@ -609,7 +586,7 @@
 		<p>The Roles Model uses the following relationships to relate <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles to each other and to concepts from other specifications, such as HTML.</p>
 		<section id="superclassrole">
 			<h3>Superclass Role</h3>
-			<p>The <a>role</a> that the current subclassed role extends in the Roles Model. This extension causes all the properties and constraints of the superclass role to propagate to the subclass role. Other than well known stable specifications, inheritance may be restricted to items defined inside this specification, so that external items cannot be changed and affect inherited <a>classes</a>.</p>
+			<p>The <a>role</a> that the current subclassed role extends in the Roles Model. This extension causes all the properties and constraints of the superclass role to propagate to the subclass role. Other than well known stable specifications, inheritance may be restricted to items defined inside this specification, so that external items cannot be changed and affect inherited classes.</p>
 		</section>
 		<section id="subclassroles">
 			<h3>Subclass Roles</h3>
@@ -655,7 +632,7 @@
 		</section>
 		<section id="inheritedattributes">
 			<h3>Inherited States and Properties</h3>
-			<p>Informative list of properties that are inherited by a <a>role</a> from superclass roles. <a>States</a> and <a>properties</a> are inherited from superclass roles in the Roles Model, not from ancestor <a>elements</a> in the <abbr title="Document Object Model">DOM</abbr> tree. These properties are not explicitly defined on the role, as the inheritance of properties is automatic. This information is provided to facilitate reading of the specification. The set of supported states and properties combined with inherited states and properties forms the full set of states and properties supported by the role.</p>
+			<p>Informative list of properties that are inherited by a <a>role</a> from superclass roles. <a>States</a> and <a>properties</a> are inherited from superclass roles in the Roles Model, not from ancestor [=element|elements=] in the <abbr title="Document Object Model">DOM</abbr> tree. These properties are not explicitly defined on the role, as the inheritance of properties is automatic. This information is provided to facilitate reading of the specification. The set of supported states and properties combined with inherited states and properties forms the full set of states and properties supported by the role.</p>
 		</section>
 		<section id="prohibitedattributes">
 				<h3>Prohibited States and Properties</h3>
@@ -898,7 +875,7 @@
 			</ul>
 		</section>
 	</section>
-	<section id="role_definitions">
+	<section id="role_definitions" data-cite="dom">
 		<h2>Definition of Roles</h2>
 		<p>Below is an alphabetical list of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>roles</a> to be used by authors.</p>
 		<p>Abstract roles are used for the ontology. Authors MUST NOT use abstract roles in content.</p>
@@ -1263,7 +1240,7 @@
 
         <p>Association lists contain children whose <a>role</a> is <rref>associationlistitemkey</rref> and <rref>associationlistitemvalue</rref> to represent a list of key items each having one or more values.</p>
 
-        <p>Author requirements for <a>elements</a> whose <a>role</a> is <code>associationlist</code>:</p>
+        <p>Author requirements for [=element|elements=] whose <a>role</a> is <code>associationlist</code>:</p>
         <ul>
           <li>MUST only use an element with role <rref>associationlistitemkey</rref> as the first child in the <code>associationlist</code>.</li>
           <li>MUST contain at least one element with role <rref>associationlistitemkey</rref>.</li>
@@ -1355,10 +1332,10 @@
       <div class="role-description">
         <p>A single key item in an association list.</p>
 
-        <p>Author requirements for <a>elements</a> whose <a>role</a> is <code>associationlistitemkey</code>:</p>
+        <p>Author requirements for [=element|elements=] whose <a>role</a> is <code>associationlistitemkey</code>:</p>
         <ul>
           <li>MUST be contained in an element whose <a>role</a> is <rref>associationlist</rref>.</li>
-          <li>SHOULD be followed by one or more sibling <a>elements</a> whose <a>role</a> is <rref>associationlistitemvalue</rref>.</li>
+          <li>SHOULD be followed by one or more sibling [=element|elements=] whose <a>role</a> is <rref>associationlistitemvalue</rref>.</li>
           <li>MAY be followed by one or more sibling elements whose role is also <rref>associationlistitemkey</rref>.</li>
         </ul>
 
@@ -1442,7 +1419,7 @@
       <div class="role-description">
         <p>A single value item in an association list.</p>
 
-        <p>Author requirements for <a>elements</a> whose <a>role</a> is <code>associationlistitemvalue</code>:</p>
+        <p>Author requirements for [=element|elements=] whose <a>role</a> is <code>associationlistitemvalue</code>:</p>
         <ul>
           <li>MUST be contained in an element whose <a>role</a> is <rref>associationlist</rref>.</li>
           <li>SHOULD have a preceding sibling <a>element</a> whose <a>role</a> is <rref>associationlistitemkey</rref>.</li>
@@ -1897,7 +1874,7 @@
 			<rdef>cell</rdef>
 			<div class="role-description">
 				<p>A cell in a tabular container. See related <rref>gridcell</rref>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> cell are contained in, or owned by, an element with the <a>role</a> <rref>row</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> cell are contained in, or owned by, an element with the <a>role</a> <rref>row</rref>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1989,7 +1966,7 @@
 			<rdef>checkbox</rdef>
 			<div class="role-description">
 				<p>A checkable input that has three possible <span>values</span>: <code>true</code>, <code>false</code>, or <code>mixed</code>.</p>
-				<p>The <sref>aria-checked</sref> <a>attribute</a> of a <code>checkbox</code> indicates whether the input is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of <a>elements</a> that have a mixture of checked and unchecked values (<code>mixed</code>). Many checkboxes do not use the <code>mixed</code> value, and thus are effectively boolean checkboxes.</p>
+				<p>The <sref>aria-checked</sref> <a>attribute</a> of a <code>checkbox</code> indicates whether the input is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of [=element|elements=] that have a mixture of checked and unchecked values (<code>mixed</code>). Many checkboxes do not use the <code>mixed</code> value, and thus are effectively boolean checkboxes.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -2190,7 +2167,7 @@
 				<p>A cell containing header information for a column.</p>
 				<p><code>columnheader</code> can be used as a column header in a table or grid. It could also be used in a pie chart to show a similar <a>relationship</a> in the data.</p>
 				<p>The <code>columnheader</code> establishes a relationship between it and all cells in the corresponding column. It is the structural equivalent to an <abbr title="Hypertext Markup Language">HTML</abbr> <code>th</code> <a>element</a> with a column scope.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>columnheader</code> are contained in, or <a>owned</a> by, an element with the role <rref>row</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>columnheader</code> are contained in, or <a>owned</a> by, an element with the role <rref>row</rref>.</p>
 				<p>Applying the <sref>aria-selected</sref> state on a columnheader MUST not cause the user agent to automatically propagate the <sref>aria-selected</sref> state to all the cells in the corresponding column. An author MAY choose to propagate selection in this manner depending on the specific application.</p>
 				<p>While the <code>columnheader</code> role can be used in both interactive grids and non-interactive tables, the use of <pref>aria-readonly</pref> and <pref>aria-required</pref> is only applicable to interactive elements. Therefore, authors SHOULD NOT use <pref>aria-required</pref> or <pref>aria-readonly</pref> in a <code>columnheader</code> that descends from a <rref>table</rref>, and user agents SHOULD NOT expose either property to <a>assistive technologies</a> unless the <code>columnheader</code> descends from a <rref>grid</rref>.</p>
 				<p class="note">Because cells are organized into rows, there is not a single container element for the column. The column is the set of <rref>gridcell</rref> elements in a particular position within their respective <rref>row</rref> containers.</p>
@@ -2703,7 +2680,7 @@
 			<rdef>composite</rdef>
 			<div class="role-description">
 				<p>A <a>widget</a> that may contain navigable descendants or <a>owned</a> children.</p>
-				<p>Authors SHOULD ensure that a composite widget exists as a single navigation stop within the larger navigation system of the web page. Once the composite widget has focus, authors SHOULD provide a separate navigation mechanism for users to navigate to <a>elements</a> that are descendants or owned children of the composite element.</p>
+				<p>Authors SHOULD ensure that a composite widget exists as a single navigation stop within the larger navigation system of the web page. Once the composite widget has focus, authors SHOULD provide a separate navigation mechanism for users to navigate to [=element|elements=] that are descendants or owned children of the composite element.</p>
 				<p><code>composite</code> is an <a href="#isAbstract">abstract role</a> used for the ontology. Authors MUST NOT use <code>composite</code> role in content.</p>
 			</div>
 			<table class="role-features">
@@ -3698,7 +3675,7 @@
 			<rdef>grid</rdef>
 			<div class="role-description">
 				<p>A composite <rref>widget</rref> containing a collection of one or more rows with one or more cells where some or all cells in the grid are focusable by using methods of two-dimensional navigation, such as directional arrow keys.</p>
-				<p>The <code>grid</code> role does not imply a specific visual, e.g., tabular, presentation. It describes <a>relationships</a> among <a>elements</a>. It may be used for purposes as simple as grouping a collection of checkboxes or navigation links or as complex as creating a full-featured spreadsheet application.</p>
+				<p>The <code>grid</code> role does not imply a specific visual, e.g., tabular, presentation. It describes <a>relationships</a> among [=element|elements=]. It may be used for purposes as simple as grouping a collection of checkboxes or navigation links or as complex as creating a full-featured spreadsheet application.</p>
 				<p>The cell elements of a <code>grid</code> have role <rref>gridcell</rref>. Authors MAY designate a cell as a row or column header by using either the <rref>rowheader</rref> or <rref>columnheader</rref> <a>role</a> in lieu of the <rref>gridcell</rref> role. Authors MUST ensure elements with role <rref>gridcell</rref>, <rref>columnheader</rref>, or <rref>rowheader</rref> are <a>owned</a> by elements with role <rref>row</rref>, which are in turn owned by an element with role <rref>rowgroup</rref>, or <code>grid</code>.</p>
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants of a <code>grid</code> as described in <a href="#managingfocus">Managing Focus</a>. When a user is navigating the <code>grid</code> content with a keyboard, authors SHOULD set focus as follows:</p>
 				<ul>
@@ -3813,9 +3790,9 @@
 			<div class="role-description">
 				<p>A <rref>cell</rref> in a <rref>grid</rref> or <rref>treegrid</rref>.</p>
 				<p>A <code>gridcell</code> may be focusable, editable, and selectable. A <code>gridcell</code> may have <a>relationships</a> such as <pref>aria-controls</pref> to address the application of functional relationships.</p>
-				<p>If an author intends a <code>gridcell</code> to have a row header, column header, or both, and if the relevant headers cannot be determined from the <abbr title="Document Object Model">DOM</abbr> structure, authors SHOULD explicitly indicate which header cells are relevant to the <code>gridcell</code> by applying <pref>aria-describedby</pref> on the <code>gridcell</code> and referencing <a>elements</a> with <a>role</a> <rref>rowheader</rref> or <rref>columnheader</rref>.</p>
+				<p>If an author intends a <code>gridcell</code> to have a row header, column header, or both, and if the relevant headers cannot be determined from the <abbr title="Document Object Model">DOM</abbr> structure, authors SHOULD explicitly indicate which header cells are relevant to the <code>gridcell</code> by applying <pref>aria-describedby</pref> on the <code>gridcell</code> and referencing [=element|elements=] with <a>role</a> <rref>rowheader</rref> or <rref>columnheader</rref>.</p>
 				<p>In a <rref>treegrid</rref>, authors MAY define a <code>gridcell</code> as expandable by using the <sref>aria-expanded</sref> attribute. If the <sref>aria-expanded</sref> attribute is provided, it applies only to the individual cell. It is not a proxy for the container <rref>row</rref>, which also can be expanded. The main use case for providing this attribute on a <code>gridcell</code> is pivot table behavior.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> gridcell are contained in, or <a>owned</a> by, an element with the <a>role</a> <rref>row</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> gridcell are contained in, or <a>owned</a> by, an element with the <a>role</a> <rref>row</rref>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -4081,7 +4058,7 @@
 		<div class="role" id="image">
 			<rdef>image</rdef>
 			<div class="role-description">
-				<p>A container for a collection of <a>elements</a> that form an image. See synonym <rref>img</rref>.</p>
+				<p>A container for a collection of [=element|elements=] that form an image. See synonym <rref>img</rref>.</p>
 				<div class="note" id="role-image-note-image">
 					<h5>Note regarding the ARIA 1.3 <code>image</code> role.</h5>
 					<p>The <code>image</code> was added to ARIA in version 1.3 as a
@@ -4094,7 +4071,7 @@
 		<div class="role" id="img">
 			<rdef>img</rdef>
 			<div class="role-description">
-				<p>A container for a collection of <a>elements</a> that form an image. See synonym <rref>image</rref>.</p>
+				<p>A container for a collection of [=element|elements=] that form an image. See synonym <rref>image</rref>.</p>
 				<p>An <code>img</code> can contain captions and descriptive text, as well as multiple image files that when viewed together give the impression of a single image. An <code>img</code> represents a single graphic within a document, whether or not it is formed by a collection of drawing <a>objects</a>. In order for an element with a <a>role</a> of <code>img</code> to be <a>perceivable</a>, authors MUST provide the element with an <a>accessible name</a>. This can be done using the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
 			</div>
 			<table class="role-features">
@@ -4588,7 +4565,7 @@
 			<rdef>listbox</rdef>
 			<div class="role-description">
 				<p>A <a>widget</a> that allows the user to select one or more items from a list of choices. See related <rref>combobox</rref> and <rref>list</rref>.</p>
-				<p>Items within the list are static and, unlike standard <abbr title="Hypertext Markup Language">HTML</abbr> <code>select</code> <a>elements</a>, may contain images. List boxes contain children whose <a>role</a> is <rref>option</rref> or elements whose <a>role</a> is <rref>group</rref> which in turn contain children whose <a>role</a> is <rref>option</rref>.</p>
+				<p>Items within the list are static and, unlike standard <abbr title="Hypertext Markup Language">HTML</abbr> <code>select</code> [=element|elements=], may contain images. List boxes contain children whose <a>role</a> is <rref>option</rref> or elements whose <a>role</a> is <rref>group</rref> which in turn contain children whose <a>role</a> is <rref>option</rref>.</p>
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of <rref>option</rref> descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 				<p>Elements with the role <code>listbox</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
 			</div>
@@ -4695,7 +4672,7 @@
 			<rdef>listitem</rdef>
 			<div class="role-description">
 				<p>A single item in a list or directory.</p>
-				<p>Authors MUST ensure <a>elements</a> whose <a>role</a> is <code>listitem</code> are contained in, or <a>owned</a> by, an <a>element</a> whose <a>role</a> is <rref>list</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] whose <a>role</a> is <code>listitem</code> are contained in, or <a>owned</a> by, an <a>element</a> whose <a>role</a> is <rref>list</rref>.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -5439,7 +5416,7 @@
 			<rdef>menuitem</rdef>
 			<div class="role-description">
 				<p>An option in a set of choices contained by a <rref>menu</rref> or <rref>menubar</rref>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>menuitem</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>menuitem</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
 				<p>Authors MAY disable a menu item with the <sref>aria-disabled</sref> attribute. If the menu item has its <pref>aria-haspopup</pref> attribute set to <code>true</code>, it indicates that the menu item may be used to launch a sub-level menu, and authors SHOULD display a new sub-level menu when the menu item is activated.</p>
 				<p>In order to identify that they are related <a>widgets</a>, authors MUST ensure that menu items are <a>owned</a> by an element with role <rref>menu</rref> or <rref>menubar</rref>. Authors MAY separate menu items into sets by use of a <rref>separator</rref> or an element with an equivalent role from the native markup language.</p>
 			</div>
@@ -5548,7 +5525,7 @@
 			<rdef>menuitemcheckbox</rdef>
 			<div class="role-description">
 				<p>A <rref>menuitem</rref> with a checkable state whose possible <span>values</span> are <code>true</code>, <code>false</code>, or <code>mixed</code>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>menuitemcheckbox</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>menuitemcheckbox</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
 				<p>The <sref>aria-checked</sref> <a>attribute</a> of a <code>menuitemcheckbox</code> indicates whether the menu item is checked (<code>true</code>), unchecked (<code>false</code>), or represents a sub-level menu of other menu items that have a mixture of checked and unchecked values (<code>mixed</code>).</p>
 				<p>In order to identify that they are related <a>widgets</a>, authors MUST ensure that menu item checkboxes are <a>owned</a> by an element with role <rref>menu</rref> or <rref>menubar</rref>. Authors MAY separate menu items into sets by use of a <rref>separator</rref> or an element with an equivalent role from the native markup language.</p>
 			</div>
@@ -5648,7 +5625,7 @@
 			<rdef>menuitemradio</rdef>
 			<div class="role-description">
 				<p>A checkable <rref>menuitem</rref> in a set of elements with the same role, only one of which can be checked at a time.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>menuitemradio</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>menuitemradio</code> are contained in, or <a>owned</a> by, an element with role <rref>menu</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>menu</rref>.</p>
 				<p>Authors SHOULD enforce that only one <code>menuitemradio</code> in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes unchecked (its <sref>aria-checked</sref> <a>attribute</a> becomes <code>false</code>).</p>
 				<!-- keep previous sentence synced with radiogroup, etc. -->
 				<p>In order to identify that they are related <a>widgets</a>, authors MUST ensure that menu item radios are <a>owned</a> by an element with role <rref>menu</rref> or <rref>menubar</rref>, or by a role <rref>group</rref> which itself is <a>owned</a> by an element with role <rref>menu</rref> or <rref>menubar</rref>.</p>
@@ -5841,7 +5818,7 @@
 		<div class="role" id="navigation">
 			<rdef>navigation</rdef>
 			<div class="role-description">
-				<p>A <rref>landmark</rref> containing a collection of navigational <a>elements</a> (usually links) for navigating the document or related documents.</p>
+				<p>A <rref>landmark</rref> containing a collection of navigational [=element|elements=] (usually links) for navigating the document or related documents.</p>
 				<p><a>Assistive technologies</a> SHOULD enable users to quickly navigate to elements with role <code>navigation</code>.
   				<a>User agents</a> SHOULD treat elements with role <code>navigation</code> as navigational <a>landmarks</a>.
   				<a>User agents</a> MAY enable users to quickly navigate to elements with role <code>navigation</code>.</p>
@@ -6009,7 +5986,7 @@
 			<rdef>option</rdef>
 			<div class="role-description">
 				<p>An item in a <rref>listbox</rref>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>option</code> are contained in, or <a>owned</a> by, an element with <a>role</a> <rref>listbox</rref> or an element with <a>role</a> <rref>group</rref> that is contained in, or <a>owned</a> by, an element with <a>role</a> <code>listbox</code>. Options not associated with a <rref>listbox</rref> might not be correctly mapped to an <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>option</code> are contained in, or <a>owned</a> by, an element with <a>role</a> <rref>listbox</rref> or an element with <a>role</a> <rref>group</rref> that is contained in, or <a>owned</a> by, an element with <a>role</a> <code>listbox</code>. Options not associated with a <rref>listbox</rref> might not be correctly mapped to an <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>.</p>
         <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>option</rref> in a <rref>listbox</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
         <ul>
           <li>The value of <pref>aria-multiselectable</pref> on the <rref>listbox</rref> is <code>false</code> or <code>undefined</code>.</li>
@@ -6145,7 +6122,7 @@
 				<p class="warning">The <code>password</code> <a>role</a> does not convey or apply any of the security or privacy considerations found in native password fields. Authors are responsible for making sure that custom password fields have robust security and privacy protection, as befits their use.</p>
 				<p>The <code>password</code> <a>role</a> makes it possible for <a>assistive technologies</a> to customize their behavior in order to not inadvertently expose private information. For instance, a screen reader which normally echoes key presses might instead remain silent or echo each displayed character as it is inserted. In order to facilitate the latter behavior, authors SHOULD set the <code>password</code> element's text to characters which obscure the real value, when that value is obscured on screen. Authors SHOULD also update that text each time a character is inserted or deleted by the user.</p>
 				<p>In order to ensure that passwords will not be overheard during input, assistive technologies SHOULD NOT echo key presses of printable characters when an element with role <code>password</code> has focus, unless the user has explicitly enabled this option. If the user has enabled key echo, assistive technologies SHOULD present each rendered character as it is inserted rather than speaking a predetermined character, such as &quot;star.&quot; Presenting the rendered characters ensures that all users receive the same information, including notification when the value is being entered into an unobscured <code>password</code> field.</p>
-				<p>Authors SHOULD limit the use of the <code>password</code> role to single-line <a>elements</a> which are editable. Authors MAY use the <code>password</code> role on elements which are not currently editable due to application-specific conditions. However, in that instance, authors MUST indicate that the element is read only by setting <pref>aria-readonly</pref> to <code>true</code> or using the appropriate native host language attribute. User agents MUST ignore the <code>password</code> role when it is applied to elements which are neither editable nor explicitly marked as read only. Host languages SHOULD document that the <code>password</code> role can only be used on elements that are editable and not permanently read only.</p>
+				<p>Authors SHOULD limit the use of the <code>password</code> role to single-line [=element|elements=] which are editable. Authors MAY use the <code>password</code> role on elements which are not currently editable due to application-specific conditions. However, in that instance, authors MUST indicate that the element is read only by setting <pref>aria-readonly</pref> to <code>true</code> or using the appropriate native host language attribute. User agents MUST ignore the <code>password</code> role when it is applied to elements which are neither editable nor explicitly marked as read only. Host languages SHOULD document that the <code>password</code> role can only be used on elements that are editable and not permanently read only.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -6553,7 +6530,7 @@
 			<rdef>radio</rdef>
 			<div class="role-description">
 				<p>A checkable input in a group of elements with the same role, only one of which can be checked at a time.</p>
-				<p>Authors SHOULD ensure that <a>elements</a> with role <code>radio</code> are explicitly grouped in order to indicate which ones affect the same value. This is achieved by enclosing the radio elements in an element with role <rref>radiogroup</rref>. If it is not possible to make the radio buttons <abbr title="Document Object Model">DOM</abbr> children of the <rref>radiogroup</rref>, authors SHOULD use the <pref>aria-owns</pref> <a>attribute</a> on the <rref>radiogroup</rref> element to indicate the <a>relationship</a> to its children.</p>
+				<p>Authors SHOULD ensure that [=element|elements=] with role <code>radio</code> are explicitly grouped in order to indicate which ones affect the same value. This is achieved by enclosing the radio elements in an element with role <rref>radiogroup</rref>. If it is not possible to make the radio buttons <abbr title="Document Object Model">DOM</abbr> children of the <rref>radiogroup</rref>, authors SHOULD use the <pref>aria-owns</pref> <a>attribute</a> on the <rref>radiogroup</rref> element to indicate the <a>relationship</a> to its children.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -6969,10 +6946,10 @@
 			<rdef>row</rdef>
 			<div class="role-description">
 				<p>A row of cells in a tabular container.</p>
-				<p>Rows contain <rref>cell</rref> or <rref>gridcell</rref> <a>elements</a>, and thus serve to organize a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>.</p>
+				<p>Rows contain <rref>cell</rref> or <rref>gridcell</rref> [=element|elements=], and thus serve to organize a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>.</p>
 				<p>While the row role can be used in a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>, the semantics of <sref>aria-expanded</sref>, <pref>aria-posinset</pref>, <pref>aria-setsize</pref>, and <pref>aria-level</pref> are only applicable to the hierarchical structure of an interactive tree grid. Therefore, authors MUST NOT apply <sref>aria-expanded</sref>, <pref>aria-posinset</pref>, <pref>aria-setsize</pref>, and <pref>aria-level</pref> to a <rref>row</rref> that descends from a <rref>table</rref> or <rref>grid</rref>, and user agents SHOULD NOT expose any of these four properties to assistive technologies unless the <rref>row</rref> descends from a <rref>treegrid</rref>.
 				</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>row</code> are contained in, or <a>owned</a> by, an element with the role <rref>table</rref>, <rref>grid</rref>, <rref>rowgroup</rref>, or <rref>treegrid</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>row</code> are contained in, or <a>owned</a> by, an element with the role <rref>table</rref>, <rref>grid</rref>, <rref>rowgroup</rref>, or <rref>treegrid</rref>.</p>
 				<p class="note" title="Usage of aria-disabled">While <sref>aria-disabled</sref> is currently supported on <rref>row</rref>, in a future version the working group plans to prohibit its  on elements with role <rref>row</rref> except when the element is in the context of a <rref>grid</rref> or <rref>treegrid</rref>.</p>
 			</div>
 			<table class="role-features">
@@ -7089,7 +7066,7 @@
 			<div class="role-description">
 				<p>A structure containing one or more row elements in a tabular container.</p>
 				<p>The <code>rowgroup</code> role establishes a <a>relationship</a> between <a>owned</a> <rref>row</rref> elements. It is a structural equivalent to the <code>thead</code>, <code>tfoot</code>, and <code>tbody</code> elements in an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> <a>element</a>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>rowgroup</code> are contained in, or <a>owned</a> by, an element with the role <rref>grid</rref>, <rref>table</rref>, or <rref>treegrid</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>rowgroup</code> are contained in, or <a>owned</a> by, an element with the role <rref>grid</rref>, <rref>table</rref>, or <rref>treegrid</rref>.</p>
 				<p class="note">The <code>rowgroup</code> role exists, in part, to support role symmetry in HTML, and allows for the propagation of presentation inheritance on HTML <code>table</code> elements with an explicit <code>presentation</code> role applied.</p>
 				<p class="note">This role does not differentiate between types of row groups (e.g., <code>thead</code> vs. <code>tbody</code>), but an issue has been raised for <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 2.0.</p>
 			</div>
@@ -7176,7 +7153,7 @@
 			<div class="role-description">
 				<p>A cell containing header information for a row.</p>
 				<p>The <rref>rowheader</rref> role can be used to identify a cell as a header for a row in a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. The rowheader establishes a <a>relationship</a> between it and all cells in the corresponding row. It is a structural equivalent to setting <code>scope="row"</code> on an <abbr title="Hypertext Markup Language">HTML</abbr> <code>th</code> <a>element</a>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>rowheader</code> are contained in, or <a>owned</a> by, an element with the role <rref>row</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>rowheader</code> are contained in, or <a>owned</a> by, an element with the role <rref>row</rref>.</p>
 				<p>Applying the <sref>aria-selected</sref> state on a rowheader MUST NOT cause the user agent to automatically propagate the <sref>aria-selected</sref> state to all the cells in the corresponding row. An author MAY choose to propagate selection in this manner depending on the specific application.</p>
 				<p>While the <code>rowheader</code> role can be used in both interactive grids and non-interactive tables, the use of <sref>aria-expanded</sref>, <pref>aria-readonly</pref>, and <pref>aria-required</pref> is only applicable to interactive elements. Therefore, authors SHOULD NOT use <sref>aria-expanded</sref>, <pref>aria-readonly</pref>, or <pref>aria-required</pref> in a <code>rowheader</code> that descends from a <rref>table</rref>, and user agents SHOULD NOT expose these properties to <a>assistive technologies</a> unless the <code>rowheader</code> descends from a <rref>grid</rref> or <rref>treegrid</rref>.</p>
 				<p class="note" title="Usage of aria-disabled">While <sref>aria-disabled</sref> is currently supported on <rref>rowheader</rref>, in a future version the working group plans to prohibit its use on elements with role <rref>rowheader</rref> except when the element is in the context of a <rref>grid</rref> or <rref>treegrid</rref>.</p>
@@ -8696,10 +8673,10 @@
 			<div class="role-description">
 				<p>A grouping label providing a mechanism for selecting the tab content that is to be rendered to the user.</p>
 				<p>If a  <rref>tabpanel</rref> or item in a <rref>tabpanel</rref> has focus, the associated <code>tab</code> is the currently active tab in the <rref>tablist</rref>, as defined in <a href="#managingfocus">Managing Focus</a>. <rref>tablist</rref> elements, which contain a set of associated <rref>tab</rref> elements, are typically placed near a series of <rref>tabpanel</rref> elements, usually preceding it. See the <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> for details on implementing a tab set design pattern.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <rref>tab</rref> are contained in, or <a>owned</a> by, an element with the role <rref>tablist</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <rref>tab</rref> are contained in, or <a>owned</a> by, an element with the role <rref>tablist</rref>.</p>
 				<p>Authors SHOULD ensure the <rref>tabpanel</rref> associated with the currently active tab is <a>perceivable</a> to the user.</p>
 				<!-- keep following para synced with its counterpart in #tablist -->
-				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a>elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure that the <rref>tab</rref> for each visible <rref>tabpanel</rref> has the <sref>aria-expanded</sref> <a>attribute</a> set to <code>true</code>, and that the <code>tabs</code> associated with the remaining hidden <code>tabpanel</code> elements have their <sref>aria-expanded</sref> attributes set to <code>false</code>.</p>
+				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> [=element|elements=] from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure that the <rref>tab</rref> for each visible <rref>tabpanel</rref> has the <sref>aria-expanded</sref> <a>attribute</a> set to <code>true</code>, and that the <code>tabs</code> associated with the remaining hidden <code>tabpanel</code> elements have their <sref>aria-expanded</sref> attributes set to <code>false</code>.</p>
 				<p>Authors SHOULD ensure that a selected tab has its <sref>aria-selected</sref> attribute set to <code>true</code>, that inactive tab elements have their <sref>aria-selected</sref> attribute set to <code>false</code>, and that the currently selected tab provides a visual indication that it is selected.</p>
         <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>tab</rref> in a <rref>tablist</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
         <ul>
@@ -8894,11 +8871,11 @@
 		<div class="role" id="tablist">
 			<rdef>tablist</rdef>
 			<div class="role-description">
-				<p>A list of <rref>tab</rref> <a>elements</a>, which are references to <rref>tabpanel</rref> elements.</p>
+				<p>A list of <rref>tab</rref> [=element|elements=], which are references to <rref>tabpanel</rref> elements.</p>
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 
 				<!-- keep following para synced with its counterpart in #tab -->
-				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> <a>elements</a> from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure that the <rref>tab</rref> for each visible <rref>tabpanel</rref> has the <sref>aria-expanded</sref> <a>attribute</a> set to <code>true</code>, and that the <code>tabs</code> associated with the remaining hidden <code>tabpanel</code> elements have their <sref>aria-expanded</sref> attributes set to <code>false</code>.</p>
+				<p>For a single-selectable <rref>tablist</rref>, authors SHOULD hide other <code>tabpanel</code> [=element|elements=] from the user until the user selects the tab associated with that tabpanel. For a multi-selectable <rref>tablist</rref>, authors SHOULD ensure that the <rref>tab</rref> for each visible <rref>tabpanel</rref> has the <sref>aria-expanded</sref> <a>attribute</a> set to <code>true</code>, and that the <code>tabs</code> associated with the remaining hidden <code>tabpanel</code> elements have their <sref>aria-expanded</sref> attributes set to <code>false</code>.</p>
 
 				<!-- keep following para synced with its counterpart in #tabpanel -->
 				<p><rref>tablist</rref> elements are typically placed near usually preceding, a series of <rref>tabpanel</rref> elements. See the <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> for details on implementing a tab set design pattern.</p>
@@ -9913,7 +9890,7 @@
 			<div class="role-description">
 				<p>An item in a <rref>tree</rref>.</p>
         				<p>A <rref>treeitem</rref> <a>element</a> may contain a sub-level group of elements that can be expanded or collapsed. An expandable collection of <code>treeitem</code> elements are enclosed in an element with the <rref>group</rref> <a>role</a>.</p>
-				<p>Authors MUST ensure <a>elements</a> with <a>role</a> <code>treeitem</code> are contained in, or <a>owned</a> by, an element with role <rref>tree</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>treeitem</rref>.</p>
+				<p>Authors MUST ensure [=element|elements=] with <a>role</a> <code>treeitem</code> are contained in, or <a>owned</a> by, an element with role <rref>tree</rref> or an element with role <rref>group</rref> that is contained in, or owned by, an element with role <rref>treeitem</rref>.</p>
         <p>In certain conditions, a user agent MAY provide an implicit value for <sref>aria-selected</sref> for each <rref>treeitem</rref> in a <rref>tree</rref>, and if it does, the user agent MUST ensure the following conditions are met before providing an implicit value:</p>
         <ul>
           <li>The value of <pref>aria-multiselectable</pref> on the <rref>tree</rref> is <code>false</code> or <code>undefined</code>.</li>
@@ -10105,7 +10082,7 @@
 			<rdef>window</rdef>
 			<div class="role-description">
 				<p>A browser or application window.</p>
-				<p><a>Elements</a> with this <a>role</a> have a window-like behavior in a graphical user interface (<abbr title="Graphical User Interface">GUI</abbr>) context, regardless of whether they are implemented as a native window in the operating system, or merely as a section of the document styled to look like a window.</p>
+				<p>[=element|Elements=] with this <a>role</a> have a window-like behavior in a graphical user interface (<abbr title="Graphical User Interface">GUI</abbr>) context, regardless of whether they are implemented as a native window in the operating system, or merely as a section of the document styled to look like a window.</p>
 				<p><code>window</code> is an <a href="#isAbstract">abstract role</a> used for the ontology. Authors MUST NOT use <code>window</code> role in content.</p>
 				<p class="note">In the description of this role, the term "application" does not refer to the <rref>application</rref> role, which specifies specific assistive technology behaviors.</p>
 			</div>
@@ -10175,11 +10152,11 @@
 		</div>
 	</section>
 </section>
-<section class="normative" id="states_and_properties">
+<section class="normative" id="states_and_properties" data-cite="dom">
 	<h1>Supported States and Properties</h1>
 	<section id="statevsprop">
 		<h2>Clarification of States versus Properties</h2>
-		<p>The terms "states" and "properties" refer to similar features. Both provide specific information about an <a>object</a>, and both form part of the definition of the nature of <a>roles</a>. In this document, states and properties are both treated as aria-prefixed markup <a>attributes</a>. However, they are maintained conceptually distinct to clarify subtle differences in their meaning. One major difference is that the <span>values</span> of properties (such as <pref>aria-labelledby</pref>) are often less likely to change throughout the application life-cycle than the values of states (such as <sref>aria-checked</sref>) which may change frequently due to user interaction. Note that the frequency of change difference is not a rule; a few properties, such as <pref>aria-valuetext</pref> are expected to change often. Because the distinction between states and properties is of little consequence to most web content authors, this specification refers to both "states" and "properties" simply as "attributes" whenever possible. See the definitions of <a class="termref" href="#dfn-state">state</a> and <a class="termref" href="#dfn-property">property</a> for more information.</p>
+		<p>The terms "states" and "properties" refer to similar features. Both provide specific information about an <a>object</a>, and both form part of the definition of the nature of <a>roles</a>. In this document, states and properties are both treated as aria-prefixed markup [=attribute|attributes=]. However, they are maintained conceptually distinct to clarify subtle differences in their meaning. One major difference is that the <span>values</span> of properties (such as <pref>aria-labelledby</pref>) are often less likely to change throughout the application life-cycle than the values of states (such as <sref>aria-checked</sref>) which may change frequently due to user interaction. Note that the frequency of change difference is not a rule; a few properties, such as <pref>aria-valuetext</pref> are expected to change often. Because the distinction between states and properties is of little consequence to most web content authors, this specification refers to both "states" and "properties" simply as "attributes" whenever possible. See the definitions of <a class="termref" href="#dfn-state">state</a> and <a class="termref" href="#dfn-property">property</a> for more information.</p>
 	</section>
 	<section id="state_prop_att">
 		<h2>Characteristics of States and Properties</h2>
@@ -10296,10 +10273,10 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	</section>
 	<section id="global_states">
 		<h2>Global States and Properties</h2>
-		<p>Some <a>states</a> and <a>properties</a> are applicable to all host language <a>elements</a> regardless of whether a <a>role</a> is applied. The following global states and properties are supported by all roles and by all base markup elements unless otherwise prohibited. If a role prohibits use of any global states or properties, those states or properties are listed as prohibited in the characteristics table included in the section that defines the role.</p>
+		<p>Some <a>states</a> and <a>properties</a> are applicable to all host language [=element|elements=] regardless of whether a <a>role</a> is applied. The following global states and properties are supported by all roles and by all base markup elements unless otherwise prohibited. If a role prohibits use of any global states or properties, those states or properties are listed as prohibited in the characteristics table included in the section that defines the role.</p>
 		<p class="placeholder">Placeholder for global states and properties</p>
 	</section>
-	<section id="state_prop_taxonomy">
+	<section id="state_prop_taxonomy" data-cite="dom">
 		<h2>Taxonomy of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> States and Properties</h2>
 		<p>States and properties are categorized as follows:</p>
 		<ol>
@@ -10310,7 +10287,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		</ol>
 		<section id="attrs_widgets">
 			<h3>Widget Attributes</h3>
-			<p>This section contains <a>attributes</a> specific to common user interface <a>elements</a> found on <abbr title="Graphical User Interface">GUI</abbr> systems or in rich internet applications which receive user input and process user actions. These attributes are used to support the <a href="#widget_roles">widget roles</a>.</p>
+			<p>This section contains [=attribute|attributes=] specific to common user interface [=element|elements=] found on <abbr title="Graphical User Interface">GUI</abbr> systems or in rich internet applications which receive user input and process user actions. These attributes are used to support the <a href="#widget_roles">widget roles</a>.</p>
 			<ul>
 				<li><pref>aria-autocomplete</pref></li>
 				<li><sref>aria-checked</sref></li>
@@ -10341,7 +10318,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		</section>
 		<section id="attrs_liveregions">
 			<h3>Live Region Attributes</h3>
-			<p>This section contains <a>attributes</a> specific to <a>live regions</a> in rich internet applications. These attributes may be applied to any <a>element</a>. The purpose of these attributes is to indicate that content changes may occur without the element having focus, and to provide <a>assistive technologies</a> with information on how to process those content updates. Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a ticker section that lists updating stock quotes.</p>
+			<p>This section contains [=attribute|attributes=] specific to <a>live regions</a> in rich internet applications. These attributes may be applied to any <a>element</a>. The purpose of these attributes is to indicate that content changes may occur without the element having focus, and to provide <a>assistive technologies</a> with information on how to process those content updates. Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a ticker section that lists updating stock quotes.</p>
 			<ul>
 				<li><pref>aria-atomic</pref></li>
 				<li><sref>aria-busy</sref></li>
@@ -10351,7 +10328,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		</section>
 		<section id="attrs_dragdrop">
 			<h3>Drag-and-Drop Attributes</h3>
-			<p>This section lists <a>attributes</a> which indicate information about drag-and-drop interface <a>elements</a>, such as draggable elements and their drop targets. Drop target information will be rendered visually by the author and provided to <a>assistive technologies</a> through an alternate modality.</p>
+			<p>This section lists [=attribute|attributes=] which indicate information about drag-and-drop interface [=element|elements=], such as draggable elements and their drop targets. Drop target information will be rendered visually by the author and provided to <a>assistive technologies</a> through an alternate modality.</p>
 			<ul>
 				<li><pref>aria-dropeffect</pref></li>
 				<li><sref>aria-grabbed</sref></li>
@@ -10359,7 +10336,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		</section>
 		<section id="attrs_relationships">
 			<h3>Relationship Attributes</h3>
-			<p>This section lists <a>attributes</a> that indicate <a>relationships</a> or associations between <a>elements</a> which cannot be readily determined from the document structure.</p>
+			<p>This section lists [=attribute|attributes=] that indicate <a>relationships</a> or associations between [=element|elements=] which cannot be readily determined from the document structure.</p>
 			<ul>
 				<li><pref>aria-activedescendant</pref></li>
 				<li><pref>aria-colcount</pref></li>
@@ -10738,7 +10715,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 			<sdef>aria-checked</sdef>
 			<div class="state-description">
 				<p><a>Indicates</a> the current "checked" <a>state</a> of checkboxes, radio buttons, and other <a>widgets</a>. See related <sref>aria-pressed</sref> and <sref>aria-selected</sref>.</p>
-				<p>The <sref>aria-checked</sref> <a>attribute</a> indicates whether the <a>element</a> is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of other elements that have a mixture of checked and unchecked <span>values</span> (<code>mixed</code>). Most inputs only support values of <code>true</code> and <code>false</code>, but the <code>mixed</code> value is supported by certain tri-state inputs such as a <rref>checkbox</rref> or <rref>menuitemcheckbox</rref>.</p>
+				<p>The <sref>aria-checked</sref> [=attribute=] indicates whether the <a>element</a> is checked (<code>true</code>), unchecked (<code>false</code>), or represents a group of other elements that have a mixture of checked and unchecked <span>values</span> (<code>mixed</code>). Most inputs only support values of <code>true</code> and <code>false</code>, but the <code>mixed</code> value is supported by certain tri-state inputs such as a <rref>checkbox</rref> or <rref>menuitemcheckbox</rref>.</p>
 				<p>The <code>mixed</code> value is <em>not</em> supported on <rref>radio</rref>, <rref>menuitemradio</rref>, <rref>switch</rref> or any element that inherits from these, and <a>user agents</a> MUST treat a <code>mixed</code> value as equivalent to <code>false</code> for those <a>roles</a>.</p>
 				<p>Examples using the <code>mixed</code> value of tri-state inputs are covered in the <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite>.</p>
 			</div>
@@ -10802,7 +10779,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 			<pdef>aria-colcount</pdef>
 			<div class="property-description">
 				<p><a>Defines</a> the total number of columns in a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colindex</pref>.</p>
-				<p>If all of the columns are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the total number of columns. However, if only a portion of the columns is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the number of columns in the full table.</p>
+				<p>If all of the columns are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this [=attribute=] as the <a>user agent</a> can automatically calculate the total number of columns. However, if only a portion of the columns is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the number of columns in the full table.</p>
 				<p>Authors MUST set the value of <pref>aria-colcount</pref> to an integer equal to the number of columns in the full table. If the total number of columns is unknown, authors MUST set the value of <pref>aria-colcount</pref> to <code>-1</code> to indicate that the value should not be calculated by the user agent.</p>
 				<p>The following example shows a grid with 16 columns, of which columns 2, 3, 4, and 9 are displayed to the user.</p>
 				<pre class="example highlight">
@@ -10863,7 +10840,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<div class="property" id="aria-colindex">
 			<pdef>aria-colindex</pdef>
 			<div class="property-description">
-				<p><a>Defines</a> an <a>element's</a> column index or position with respect to the total number of columns within a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colindextext</pref>, <pref>aria-colcount</pref>, and <pref>aria-colspan</pref>.</p>
+				<p><a>Defines</a> an [=element|element's=] column index or position with respect to the total number of columns within a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-colindextext</pref>, <pref>aria-colcount</pref>, and <pref>aria-colspan</pref>.</p>
 				<p>If all of the columns are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the column index of each cell or <rref>gridcell</rref>. However, if only a portion of the columns is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of the column of each cell or gridcell with respect to the full table.</p>
 				<p>Authors MUST set the <span>value</span> for <pref>aria-colindex</pref> to an integer greater than or equal to 1, greater than the <pref>aria-colindex</pref> value of any previous elements within the same row, and less than or equal to the number of columns in the full table. For a cell or gridcell which spans multiple columns, authors MUST set the value of <pref>aria-colindex</pref> to the start of the span.</p>
 				<p>If the set of columns which is present in the <abbr title="Document Object Model">DOM</abbr> is contiguous, and if there are no cells which span more than one row or column in that set, then authors MAY place <pref>aria-colindex</pref> on each row, setting the value to the index of the first column of the set. Otherwise, authors SHOULD place <pref>aria-colindex</pref> on all of the children or <a>owned</a> elements of each row.</p>
@@ -12811,7 +12788,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<div class="property" id="aria-rowindex">
 			<pdef>aria-rowindex</pdef>
 			<div class="property-description">
-				<p><a>Defines</a> an <a>element's</a> row index or position with respect to the total number of rows within a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-rowindextext</pref>, <pref>aria-rowcount</pref>, and <pref>aria-rowspan</pref>.</p>
+				<p><a>Defines</a> an [=element|element's=] row index or position with respect to the total number of rows within a <rref>table</rref>, <rref>grid</rref>, or <rref>treegrid</rref>. See related <pref>aria-rowindextext</pref>, <pref>aria-rowcount</pref>, and <pref>aria-rowspan</pref>.</p>
 				<p>If all of the rows are present in the <abbr title="Document Object Model">DOM</abbr>, it is not necessary to set this <a>attribute</a> as the <a>user agent</a> can automatically calculate the index of each row. However, if only a portion of the rows is present in the <abbr title="Document Object Model">DOM</abbr> at a given moment, this attribute is needed to provide an explicit indication of each row's position with respect to the full table.</p>
 				<p>Authors MUST set the <span>value</span> for <pref>aria-rowindex</pref> to an integer greater than or equal to 1, greater than the <pref>aria-rowindex</pref> value of any previous rows, and less than or equal to the number of rows in the full table. For a cell or gridcell which spans multiple rows, authors MUST set the value of <pref>aria-rowindex</pref> to the start of the span.</p>
 				<p>Authors SHOULD place <pref>aria-rowindex</pref> on each row. Authors MAY also place <pref>aria-rowindex</pref> on all of the children or <a>owned elements</a> of each row.</p>
@@ -13304,7 +13281,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	<p>The <a class="termref">accessibility tree</a> and the DOM tree are parallel structures. The <a class="termref">accessibility tree</a> includes the user interface objects of the <a>user agent</a> and the objects of the document. <a>Accessible objects</a> are created in the accessibility tree for every DOM element that should be exposed to an <a>assistive technology</a>, either because it may fire an accessibility <a>event</a> or because it has a <a>property</a>, <a>relationship</a> or feature which needs to be exposed.</p>
 	<section id="tree_exclusion">
 	  <h2>Excluding Elements from the Accessibility Tree</h2>
-	  <p>The following <a>elements</a> are not exposed via the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
+	  <p>The following [=element|elements=] are not exposed via the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> and user agents MUST NOT include them in the <a class="termref">accessibility tree</a>:</p>
 	  <ul>
 	    <li>Elements, including their descendent elements, that have host language semantics specifying that the element is not displayed, such as CSS <code>display:none</code>, <code>visibility:hidden</code>, or the HTML <code>hidden</code> attribute.</li>
 	    <li>Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional. In addition, the element's descendants and text content are generally included. These exceptions and conditions are documented in the <a href="#presentation">presentation (role)</a> section.</li>
@@ -13336,7 +13313,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	</section>
 	<section id="tree_inclusion">
 	  <h2>Including Elements in the Accessibility Tree</h2>
-          <p>If not excluded from or marked as hidden in the accessibility tree per the rules above in <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a>, user agents MUST provide an <a>accessible object</a> in the <a class="termref">accessibility tree</a> for <abbr title="Document Object Model">DOM</abbr> <a>elements</a> that meet any of the following criteria:</p>
+          <p>If not excluded from or marked as hidden in the accessibility tree per the rules above in <a href="#tree_exclusion">Excluding Elements in the Accessibility Tree</a>, user agents MUST provide an <a>accessible object</a> in the <a class="termref">accessibility tree</a> for <abbr title="Document Object Model">DOM</abbr> [=element|elements=] that meet any of the following criteria:</p>
           <ul>
             <li>Elements that are not <a>hidden</a> and may fire an <a>accessibility <abbr title="Application Program Interface">API</abbr></a> <a>event</a>, including:
               <ul>
@@ -13351,11 +13328,11 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
           </ul>
 	</section>
 </section>
-<section class="normative" id="host_languages">
+<section class="normative" id="host_languages" data-cite="dom">
 	<h1>Implementation in Host Languages</h1>
 	<p>The <a>roles</a>, <a>state</a>, and <a>properties</a> defined in this specification do not form a complete web language or format. They are intended to be used in the context of a host language. This section discusses how host languages are to implement <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>, to ensure that the markup specified here will integrate smoothly and effectively with the host language markup.</p>
 	<p>Although markup languages look alike superficially, they do not share language definition infrastructure. To accommodate differences in language-building approaches, the requirements are both general and modularization-specific. While allowing for differences in how the specifications are written, the intent is to maintain consistency in how the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> information looks to authors and how it is manipulated in the <abbr title="Document Object Model">DOM</abbr> by scripts.</p>
-	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles, states, and properties are implemented as <a>attributes</a> of <a>elements</a>. Roles are applied by placing their names among the tokens appearing in the value of a host-language-provided <code>role</code> attribute. States and properties each get their own attribute, with values as defined for each particular state or property in this specification. The name of the attribute is the aria-prefixed name of the state or property.</p>
+	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles, states, and properties are implemented as [=attribute|attributes=] of [=element|elements=]. Roles are applied by placing their names among the tokens appearing in the value of a host-language-provided <code>role</code> attribute. States and properties each get their own attribute, with values as defined for each particular state or property in this specification. The name of the attribute is the aria-prefixed name of the state or property.</p>
 	<section id="host_general_role">
 		<h2>Role Attribute</h2>
 		<p>An implementing host language will provide an <a>attribute</a> with the following characteristics:</p>
@@ -13368,7 +13345,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	</section>
 	<section id="host_general_attrs">
 		<h3>State and Property Attributes</h3>
-		<p>An implementing host language MUST allow <a>attributes</a> with the following characteristics:</p>
+		<p>An implementing host language MUST allow [=attribute|attributes=] with the following characteristics:</p>
 		<ul>
 			<li>The attribute name is the name of any state or property identified in the <a href="#states_and_properties">Supported States and Properties</a> section, such as <sref>aria-busy</sref>, <sref>aria-selected</sref>, <pref>aria-activedescendant</pref>, <pref>aria-valuetext</pref>;</li>
 			<li>The syntax does <strong>NOT</strong> prevent the attribute from appearing anywhere that it is applicable, as specified in this specification;</li>
@@ -13437,7 +13414,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	<section id="document-handling_css-selectors">
 		<h3>CSS Selectors</h3>
 		<p class="note">This section might be removed in a future version.</p>
-		<p>Support for <a class="termref">attribute</a> selectors MUST include <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. For example, <samp>.fooMenuItem[aria-haspopup=&quot;true&quot;]</samp> would select all <a class="termref">elements</a>  with class <code>fooMenuItem</code>, and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property <pref>aria-haspopup</pref> with value of <code>true</code>. The presentation MUST be updated for dynamic changes to <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. This allows authors to match styling with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>semantics</a>. </p>
+		<p>Support for <a class="termref">attribute</a> selectors MUST include <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. For example, <samp>.fooMenuItem[aria-haspopup=&quot;true&quot;]</samp> would select all [=element|elements=]  with class <code>fooMenuItem</code>, and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property <pref>aria-haspopup</pref> with value of <code>true</code>. The presentation MUST be updated for dynamic changes to <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. This allows authors to match styling with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>semantics</a>. </p>
 	</section>
 </section>
 <section id="document-handling_author-errors">
@@ -13448,11 +13425,11 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<p>As stated in the <a href="#role_definitions">Definition of Roles</a> section, it is considered an authoring error to use <a href="#abstract_roles">abstract roles</a> in content. User agents MUST NOT map abstract roles via the standard role mechanism of the accessibility <abbr title="application programming interface">API</abbr>.</p>
 		<p>If the <code>role</code> attribute contains no tokens matching the name of a non-abstract <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> role, the user agent MUST treat the element as if no <a>role</a> had been provided. For example, <code>&lt;table&nbsp;role=&quot;foo&quot;&gt;</code> should be exposed in the same way as <code>&lt;table&gt;</code> and <code>&lt;input&nbsp;type=&quot;text&quot;&nbsp;role=&quot;structure&quot;&gt;</code> in the same way as <code>&lt;input&nbsp;type=&quot;text&quot;&gt;</code>.</p>
 	</section>
-	<section id="document-handling_author-errors_states-properties">
+	<section id="document-handling_author-errors_states-properties" data-cite="dom">
 		<h3>States and Properties</h3>
 			<p>In general, <a>user agents</a> do not do much validation of <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref">properties</a>. User agents MAY do some minor validation on request, such as making sure <a data-lt="valid idref">valid IDs</a> are specified for <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> relations, and enforcing things like <pref>aria-posinset</pref> being within 1 and <pref>aria-setsize</pref>, inclusive. User agents are not  responsible for logical validation, such as the following:</p>
 				<ol>
-					<li>Circular references created by relations, such as specifying that two <a>elements</a> own each other. </li>
+					<li>Circular references created by relations, such as specifying that two [=element|elements=] own each other. </li>
 					<li>Correct usage with regard to <abbr title="Document Object Model">DOM</abbr> tree structure, such as an <a>element</a> being owned by more than one other element.</li>
 					<li>Elements with <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>roles</a> correctly implement the  behavior of the specified role. For example, user agents do not verify that an element with a role of <rref>checkbox</rref> actually behaves like a checkbox.</li>
 					<li>Elements that do not correctly observe required child / parent role relationships or that appear elsewhere than in their required parent.</li>
@@ -13474,7 +13451,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 				<li>When exposing as a platform accessibility API attribute, expose the unknown value &#8212; do not vet it against possible values. </li>
 				<li>When exposing as a platform <abbr title="application programming interface">API</abbr> Boolean state:
 				<ul>
-					<li>For values of &quot;&quot; (empty string),  &quot;undefined&quot; or no <a class="termref">attribute</a> present:
+					<li>For values of &quot;&quot; (empty string),  &quot;undefined&quot; or no [=attribute=] present:
 					<ul>
 						<li>Follow the guidance in the <a href="#authorErrorDefaultValuesTable">Fallback values for missing required attributes</a> table below, if applicable. </li>
 						<li>Otherwise, treat as false. </li>
@@ -13575,7 +13552,7 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 	<section id="conflict_resolution_presentation_none">
 		<h3>Presentational Roles Conflict Resolution</h3>
 		<p>There are a number of ways presentational role conflicts are resolved.</p>
-		<p>User agents MUST NOT expose <a>elements</a> having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+		<p>User agents MUST NOT expose [=element|elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
 		<ul>
 			<li>If an element is focusable, or otherwise interactive, user agents MUST ignore the <code>presentation</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
 			<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
