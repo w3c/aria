@@ -9,6 +9,8 @@ corresponding changes in validators.
 
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
+* [Form Role MUST have label](form-role-must-have-label.html)
+  * @axe-core/cli: [Results](form-role-must-have-label-axe.json), [bug - TB filed]()
 
 ## Writing Tests
 
