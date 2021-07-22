@@ -11,6 +11,8 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
 * [Dialog MUST have name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Slider MUST have aria-valuenow attribute](https://github.com/w3c/aria/blob/slider-role-aria-valuenow/validator-tests/slider-role-aria-valuenow.html)
+  * no test result
 
 ## Writing Tests
 
