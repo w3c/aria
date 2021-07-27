@@ -13,6 +13,8 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
 * [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
+* [Dialog MUST have name](dialog-must-have-name.html)
+  * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 
 ## Writing Tests
 
@@ -79,7 +81,7 @@ link to the bug you filed. See what was done above for Name Prohibited for @axe-
   --stdout | jq ".[0].violations" > name-prohibited-axe.json
   ```
 
-  * You can download and install jq here: https://stedolan.github.io/jq/download/
+  jq is a command line json processor - if not installed it can be installed from https://stedolan.github.io/jq/download/
 
 #### Local Installation
 If you cannot install @axe-core/cli globally as described in the documentation, install it locally:
