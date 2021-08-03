@@ -9,6 +9,10 @@ corresponding changes in validators.
 
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
+* [Abstract Roles](abstract-roles-prohibited.html)
+  * @axe-core/cli: [Results](absract-roles-prohibited.json)
+* [Must Have Owned Elements](must-have-owned-elements.html)
+  * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
 * [Dialog MUST have name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 
