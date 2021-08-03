@@ -11,20 +11,14 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Error message MUST be pertinent](errormessage-hidden-removed.html)
+  * @axe-core/cli: [Results]()
 * [Img Role Must Have Name](img-role-must-have-name.html)
 * [Menuitemcheckbox Owned By Menu](menuitemcheckbox-owned-by-menu.html)
 * [Menuitem Owned By Menu](menuitem-owned-by-menu.html)
 * [Menuitemradio Owned By Menu](menuitemradio-owned-by-menu.html)
 * [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
-* [Name Prohibited](name-prohibited.html)
-  * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
-* [Option Owned By Listbox](option-owned-by-listbox.html)
-* [Row Must Not in Table Grid](row-must-not-in-table-grid.html)
-* [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
-* [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
-* [Slide Role Aria Valuenow](slider-role-aria-valuenow.html)
-
 
 ## Writing Tests
 
