@@ -7,14 +7,24 @@ corresponding changes in validators.
 
 ### ARIA 1.2
 
-* [Name Prohibited](name-prohibited.html)
-  * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
-* [Abstract Roles](abstract-roles-prohibited.html)
+* [Abstract Roles Prohibited](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
+* [Dialog Must Have Name](dialog-must-have-name.html)
+  * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Img Role Must Have Name](img-role-must-have-name.html)
+* [Menuitemcheckbox Owned By Menu](menuitemcheckbox-owned-by-menu.html)
+* [Menuitem Owned By Menu](menuitem-owned-by-menu.html)
+* [Menuitemradio Owned By Menu](menuitemradio-owned-by-menu.html)
 * [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
-* [Dialog MUST have name](dialog-must-have-name.html)
-  * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Name Prohibited](name-prohibited.html)
+  * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
+* [Option Owned By Listbox](option-owned-by-listbox.html)
+* [Row Must Not in Table Grid](row-must-not-in-table-grid.html)
+* [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
+* [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
+* [Slide Role Aria Valuenow](slider-role-aria-valuenow.html)
+
 
 ## Writing Tests
 
@@ -30,6 +40,7 @@ In order to achieve a reasonable signal-to-noise ratio, please consider the foll
   statement, and a link to any additional details (such as a list of roles to which the normative
   statement applies). This information should be contained as a comment so that the validator does
   not include those elements in its validation.
+* Update the README.md to include the file, results and possible bugs with the results. Put new test files in alphabetical order.
 
 ## Obtaining Results
 
