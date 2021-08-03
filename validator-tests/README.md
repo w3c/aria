@@ -16,7 +16,7 @@ corresponding changes in validators.
 * [Dialog MUST have name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 * [Form MUST have name](form-role-must-have-name.html)
-  * @axe-core/cli: []()
+  * @axe-core/cli: [Results]()
 
 ## Writing Tests
 
