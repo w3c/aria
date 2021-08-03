@@ -15,6 +15,8 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
 * [Dialog MUST have name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Heading MUST have level](heading-role-must-have-level.html)
+  * @axe-core/cli: [Results]()
 
 ## Writing Tests
 
