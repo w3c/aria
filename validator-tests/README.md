@@ -9,6 +9,8 @@ corresponding changes in validators.
 
 * [Abstract Roles Prohibited](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
+* [Combobox Role Associated Popup](combobox-role-associated-popup.html)
+  * @axe-core/cli: [Results](combobox-role-associated-popup-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/314)
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 * [Img Role Must Have Name](img-role-must-have-name.html)
