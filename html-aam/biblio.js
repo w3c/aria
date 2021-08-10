@@ -1,8 +1,13 @@
 var localBiblio = {
 	// Correct reference for ATK
 	"ATK": {
-		"href": "https://developer.gnome.org/atk/stable/",
+		"href": "https://gitlab.gnome.org/GNOME/at-spi2-core/",
 		"title": "ATK - Accessibility Toolkit",
+		"publisher": "The GNOME Project"
+	},
+	"AT-SPI": {
+		"href": "https://gitlab.gnome.org/GNOME/at-spi2-core/",
+		"title": "Assistive Technology Service Provider Interface",
 		"publisher": "The GNOME Project"
 	},
 	// Custom reference for the Mac OSX Accessibility API
