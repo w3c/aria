@@ -12,7 +12,7 @@ corresponding changes in validators.
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 * [Error message MUST be pertinent](errormessage-hidden-removed.html)
-  * @axe-core/cli: [Results]()
+  * @axe-core/cli: [Results](errormessage-hidden-removed-axe.json)
 * [Img Role Must Have Name](img-role-must-have-name.html)
 * [Menuitemcheckbox Owned By Menu](menuitemcheckbox-owned-by-menu.html)
 * [Menuitem Owned By Menu](menuitem-owned-by-menu.html)
