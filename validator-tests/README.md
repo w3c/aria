@@ -20,6 +20,7 @@ corresponding changes in validators.
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
 * [Option Owned By Listbox](option-owned-by-listbox.html)
+* [Prohibit aria-roledescription attribute](prohibit-aria-roledescription.html)
 * [Row Must Not in Table Grid](row-must-not-in-table-grid.html)
 * [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
 * [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
