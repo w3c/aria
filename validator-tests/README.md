@@ -7,6 +7,8 @@ corresponding changes in validators.
 
 ### ARIA 1.2
 
+* [aria-roledescription attribute prohibited](aria-roledescription-prohibited.html)
+  * @axe-core/cli: [Results](aria-roledescription-prohibited-axe.json)
 * [Abstract Roles Prohibited](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
 * [Dialog Must Have Name](dialog-must-have-name.html)
@@ -20,8 +22,6 @@ corresponding changes in validators.
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
 * [Option Owned By Listbox](option-owned-by-listbox.html)
-* [Prohibit aria-roledescription attribute](prohibit-aria-roledescription.html)
-  * @axe-core/cli: [Results](prohibit-aria-roledescription-axe.json)
 * [Row Must Not in Table Grid](row-must-not-in-table-grid.html)
 * [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
 * [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
