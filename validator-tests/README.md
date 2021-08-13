@@ -7,10 +7,10 @@ corresponding changes in validators.
 
 ### ARIA 1.2
 
-* [aria-roledescription attribute prohibited](aria-roledescription-prohibited.html)
-  * @axe-core/cli: [Results](aria-roledescription-prohibited-axe.json)
 * [Abstract Roles Prohibited](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
+* [aria-roledescription attribute prohibited](roledescription-prohibited.html)
+  * @axe-core/cli: [Results](roledescription-prohibited-axe.json)
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
 * [Img Role Must Have Name](img-role-must-have-name.html)
