@@ -172,3 +172,7 @@ Vnu can output JSON but it is not easy to read. For JSON results, we recommend u
 ```
 java -jar /path/to/vnu.jar --format json /path/to/aria/validator-tests/menuitem-owned-by-menu.html |& jq > menuitem-owned-by-menu-vnu.json
 ```
+
+#### Filing bugs against Validator.nu
+
+Bugs can be filled here: [https://github.com/validator/validator](https://github.com/validator/validator).
