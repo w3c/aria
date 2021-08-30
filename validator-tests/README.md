@@ -11,6 +11,8 @@ corresponding changes in validators.
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+* [Form MUST have name](form-role-must-have-name.html)
+  * @axe-core/cli: [Results](form-role-must-have-name-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/329)
 * [Img Role Must Have Name](img-role-must-have-name.html)
 * [Listbox Group Children Must Be Option](listbox-group-children-must-be-option.html)
   * @axe-core/cli: [Results](listbox-group-children-must-be-option-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/313)
