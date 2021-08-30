@@ -17,6 +17,8 @@ corresponding changes in validators.
 * [Menuitemradio Owned By Menu](menuitemradio-owned-by-menu.html)
 * [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
+* [Heading MUST have level](heading-role-must-have-level.html)
+  * @axe-core/cli: [Results]()
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
 * [Option Owned By Listbox](option-owned-by-listbox.html)
@@ -24,7 +26,6 @@ corresponding changes in validators.
 * [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
 * [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
 * [Slide Role Aria Valuenow](slider-role-aria-valuenow.html)
-
 
 ## Writing Tests
 
