@@ -10226,12 +10226,48 @@
 	</section>
 	<section id="enumerated-attribute-values">
 		<h2>Enumerated Attribute Values</h2>
-		<p>When the ARIA attribute definition includes a table enumerating the attribute's allowed <span>values</span>, that attribute is an <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>. Each value in the table is a keyword for the attribute, mapping to a state of the same name. When the values table notates one of the values as "(default)", that default value is the <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute.</p>
-		<section class="informative" id="enumeration-example">
-			<h3>Example Enumerated Attribute Usage</h3>
-			<p>As noted in <a href="#typemapping">Mapping <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Value Types to Languages</a>, attributes are included in host languages, and the syntax for representation of enumerated value types is governed by the host language.</p>
-			<p>All enumerated attribute getters and setters use string values, including the boolean-like enumerated <a href="#valuetype_true-false">true/false</a> type.</p>
-			<aside class="example">
+		<p>When the ARIA attribute definition includes a table enumerating the attribute's allowed <span>values</span>, 
+		that attribute is a nullable <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>. 
+		Each value in the table is a keyword for the attribute, mapping to a state of the same name. </p>
+		<section id="idl-reflection-attribute-values">
+			<h3>IDL reflection of ARIA attributes</h3>
+			<p>All ARIA attributes reflect in IDL as [=nullable type|nullable=] {{DOMString}} attributes. 
+			This includes the boolean-like enumerated <a href="#valuetype_true-false">true/false</a> type, and all other ARIA enumerated attributes.</p>
+			<p></p>Default values from the ARIA values tables MUST NOT reflect to IDL as the 
+			<a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default">missing value default</a> or the 
+			<a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. 
+			On getting, a missing ARIA attribute will return <code>null</code>. ARIA attributes are not validated on get. 
+			If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.</p>
+		</section>
+		<section id="os-aapi-attribute-mapping">
+			<h3>Operating System Accessibility API mapping of ARIA enumerated attributes</h3>
+			<p>Unlike IDL reflection, operating system accessibility API mappings of ARIA enumerated attributes do have defaults. 
+			The default values from the ARIA values tables are exposed to the operating system accessibility API as described in 
+			[[[#supportedState]]], and in [[[CORE-AAM]]].</p>
+		</section>
+		<section id="enumerated-attribute-values-html">
+			<h3>ARIA Enumerated Attributes in HTML</h3>
+			<p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of enumerated value types is governed by the host language.</p>
+			<p>When the host language is HTML, ARIA enumerated attributes MUST follow the <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflecting-content-attributes-in-idl-attributes">HTML rules</a> for reflecting [=nullable type|nullable=] {{DOMString}} IDL attributes current as of September 3, 2021.</p>
+			<div class="note informative" data-cite="HTML">
+				<p>Below is a copy of the HTML specification text for [=nullable type|nullable=] {{DOMString}} IDL attributes as of September 3, 2021. 
+				The HTML spec is a living document, and this section may have changed since. Refer to the link above for the most current version.</p>
+				
+				<blockquote>
+					a reflecting IDL attribute is a nullable {{DOMString}}
+					attribute whose content attribute is an <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>, then, on getting, if
+					the corresponding content attribute is in its <i>missing value default</i> state then the IDL
+					attribute must return null, otherwise, the IDL attribute must return the keyword value associated
+					with the state the attribute is in. If there are multiple keyword values for the state, then
+					return the conforming one. If there are multiple conforming keyword values, then one will be
+					designated the <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#canonical-keyword">canonical keyword</a>; choose that one. On setting, if the new value is
+					null, the content attribute must be removed, and otherwise, the content attribute must be set to
+					the specified new value.
+				</blockquote>
+			</div>
+			<section class="informative" id="enumeration-example">
+				<h4>Example Enumerated Attribute Usage</h4>
+				<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
 <pre>// HTML hidden="" example (not aria-hidden="true")
@@ -10245,12 +10281,14 @@ el.hidden; // true
 el.removeAttribute("hidden");
 el.hidden; // false</pre>
 
-			</aside>
-			<aside class="example">
+				</aside>
+				<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
 <pre>// aria-busy example
-// true/false ~ enumerated boolean-like string; defaults to "false"
+// true/false ~ enumerated boolean-like nullable string; returns null unless set
+
+el.ariaBusy; // null
 
 // Note: String assignment and return value.
 el.ariaBusy = "true";
@@ -10258,18 +10296,21 @@ el.ariaBusy; // "true"
 
 // Removal of content attribute results in missing value default: string "false".
 el.removeAttribute("aria-busy");
-el.ariaBusy; // "false"
+el.ariaBusy; // null
 
 // Assignment of invalid "busy" value results in invalid value default: string "false".
 el.setAttribute("aria-busy", "busy");
 el.ariaBusy; // "false"</pre>
 
-			</aside>
-			<aside class="example">
+				</aside>
+				<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
 <pre>// aria-pressed example
-// Tristate ~ enumerated true/false/mixed/undefined string; defaults to "undefined".
+// Tristate ~ enumerated true/false/mixed/undefined string; null if unspecified
+
+// no value has been defined
+button.ariaPressed; // null
 
 // A value of "true", "false", or "mixed" for aria-pressed on a button denotes a toggle button.
 button.setAttribute("aria-pressed", "true"); // Content attribute assignment.
@@ -10277,11 +10318,16 @@ button.ariaPressed; // "true"
 button.ariaPressed = "false"; // DOM property assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value results in invalid value default, String "undefined".
+// Assignment of invalid "foo" value. Not validated on get and the literal string value "foo" is returned.
 button.ariaPressed = "foo";
-button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)</pre>
+button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
 
-			</aside>
+// Removal of content attribute results in a null value
+button.removeAttribute("aria-pressed");
+button.ariaPressed; // null</pre>
+
+				</aside>
+			</section>
 		</section>
 	</section>
 	<section>
@@ -13597,56 +13643,55 @@ button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)<
 		<pre class="idl">
 			interface mixin ARIAMixin {
 				attribute DOMString? role;
-
-				<!-- attribute Element ariaActiveDescendantElement; -->
-				attribute DOMString ariaAtomic;
-				attribute DOMString ariaAutoComplete;
-				attribute DOMString ariaBusy;
-				attribute DOMString ariaChecked;
-				attribute DOMString ariaColCount;
-				attribute DOMString ariaColIndex;
-				attribute DOMString ariaColIndexText;
-				attribute DOMString ariaColSpan;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaControlsElements; -->
-				attribute DOMString ariaCurrent;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaDescribedByElements; -->
-				attribute DOMString ariaDescription;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaDetailsElements; -->
-				attribute DOMString ariaDisabled;
-				<!-- attribute Element ariaErrorMessageElement; -->
-				attribute DOMString ariaExpanded;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaFlowToElements; -->
-				attribute DOMString ariaHasPopup;
-				attribute DOMString ariaHidden;
-				attribute DOMString ariaInvalid;
-				attribute DOMString ariaKeyShortcuts;
-				attribute DOMString ariaLabel;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaLabelledByElements; -->
-				attribute DOMString ariaLevel;
-				attribute DOMString ariaLive;
-				attribute DOMString ariaModal;
-				attribute DOMString ariaMultiLine;
-				attribute DOMString ariaMultiSelectable;
-				attribute DOMString ariaOrientation;
-				<!-- attribute FrozenArray&lt;Element&gt; ariaOwnsElements; -->
-				attribute DOMString ariaPlaceholder;
-				attribute DOMString ariaPosInSet;
-				attribute DOMString ariaPressed;
-				attribute DOMString ariaReadOnly;
-				<!-- attribute DOMString ariaRelevant; -->
-				attribute DOMString ariaRequired;
-				attribute DOMString ariaRoleDescription;
-				attribute DOMString ariaRowCount;
-				attribute DOMString ariaRowIndex;
-				attribute DOMString ariaRowIndexText;
-				attribute DOMString ariaRowSpan;
-				attribute DOMString ariaSelected;
-				attribute DOMString ariaSetSize;
-				attribute DOMString ariaSort;
-				attribute DOMString ariaValueMax;
-				attribute DOMString ariaValueMin;
-				attribute DOMString ariaValueNow;
-				attribute DOMString ariaValueText;
+				<!-- attribute Element? ariaActiveDescendantElement; -->
+				attribute DOMString? ariaAtomic;
+				attribute DOMString? ariaAutoComplete;
+				attribute DOMString? ariaBusy;
+				attribute DOMString? ariaChecked;
+				attribute DOMString? ariaColCount;
+				attribute DOMString? ariaColIndex;
+				attribute DOMString? ariaColIndexText;
+				attribute DOMString? ariaColSpan;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaControlsElements; -->
+				attribute DOMString? ariaCurrent;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaDescribedByElements; -->
+				attribute DOMString? ariaDescription;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaDetailsElements; -->
+				attribute DOMString? ariaDisabled;
+				<!-- attribute Element? ariaErrorMessageElement; -->
+				attribute DOMString? ariaExpanded;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaFlowToElements; -->
+				attribute DOMString? ariaHasPopup;
+				attribute DOMString? ariaHidden;
+				attribute DOMString? ariaInvalid;
+				attribute DOMString? ariaKeyShortcuts;
+				attribute DOMString? ariaLabel;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaLabelledByElements; -->
+				attribute DOMString? ariaLevel;
+				attribute DOMString? ariaLive;
+				attribute DOMString? ariaModal;
+				attribute DOMString? ariaMultiLine;
+				attribute DOMString? ariaMultiSelectable;
+				attribute DOMString? ariaOrientation;
+				<!-- attribute FrozenArray&lt;Element&gt;? ariaOwnsElements; -->
+				attribute DOMString? ariaPlaceholder;
+				attribute DOMString? ariaPosInSet;
+				attribute DOMString? ariaPressed;
+				attribute DOMString? ariaReadOnly;
+				<!-- attribute DOMString? ariaRelevant; -->
+				attribute DOMString? ariaRequired;
+				attribute DOMString? ariaRoleDescription;
+				attribute DOMString? ariaRowCount;
+				attribute DOMString? ariaRowIndex;
+				attribute DOMString? ariaRowIndexText;
+				attribute DOMString? ariaRowSpan;
+				attribute DOMString? ariaSelected;
+				attribute DOMString? ariaSetSize;
+				attribute DOMString? ariaSort;
+				attribute DOMString? ariaValueMax;
+				attribute DOMString? ariaValueMin;
+				attribute DOMString? ariaValueNow;
+				attribute DOMString? ariaValueText;
 			};
 		</pre>
 
