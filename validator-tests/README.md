@@ -9,27 +9,60 @@ corresponding changes in validators.
 
 * [Abstract Roles Prohibited](abstract-roles-prohibited.html)
   * @axe-core/cli: [Results](absract-roles-prohibited.json)
+  * validator.nu: [Results](abstract-roles-prohibited-vnu.json)
+* [aria-roledescription attribute prohibited](roledescription-prohibited.html)
+  * @axe-core/cli: [Results](roledescription-prohibited-axe.json)
+  * validator.nu: [Results](absract-roles-prohibited-vnu.json)
+* [Combobox Role Associated Popup](combobox-role-associated-popup.html)
+  * @axe-core/cli: [Results](combobox-role-associated-popup-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/314)
+  * validator.nu: [Results](combobox-role-associated-popup-vnu.json)
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
+  * validator.nu: [Results](dialog-must-have-name-vnu.json)
 * [Error message MUST be pertinent](errormessage-hidden-removed.html)
   * @axe-core/cli: [Results](errormessage-hidden-removed-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/328)
+* [Form MUST have name](form-role-must-have-name.html)
+  * @axe-core/cli: [Results](form-role-must-have-name-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/329)
+  * validator.nu: [Results](form-role-must-have-name-vnu.json)
 * [Img Role Must Have Name](img-role-must-have-name.html)
+  * @axe-core/cli: [Results](img-role-must-have-name-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/316)
+  * validator.nu: [Results](img-role-must-have-name-vnu.json)
 * [Listbox Group Children Must Be Option](listbox-group-children-must-be-option.html)
   * @axe-core/cli: [Results](listbox-group-children-must-be-option-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/313)
+  * validator.nu: [Results](listbox-group-children-must-be-option-vnu.json)
 * [Menuitemcheckbox Owned By Menu](menuitemcheckbox-owned-by-menu.html)
+  * @axe-core/cli: [Results](menuitemcheckbox-owned-by-menu-axe.json)
+  * validator.nu: [Results](menuitemcheckbox-owned-by-menu-vnu.json)
 * [Menuitem Owned By Menu](menuitem-owned-by-menu.html)
+  * @axe-core/cli: [Results](menuitem-owned-by-menu-axe.html)
+  * validator.nu: [Results](menuitem-owned-by-menu-vnu.json)
 * [Menuitemradio Owned By Menu](menuitemradio-owned-by-menu.html)
+  * @axe-core/cli: [Results](menuitemradio-owned-by-menu-axe.html)
+  * validator.nu: [Results](menuitemradio-owned-by-menu-vnu.json)
 * [Must Have Owned Elements](must-have-owned-elements.html)
   * @axe-core/cli: [Results](must-have-owned-elements.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/292)
+  * validator.nu: [Results](must-have-owned-elements-vnu.json)
 * [Heading MUST have level](heading-role-must-have-level.html)
   * @axe-core/cli: [Results]()
+  * validator.nu: [Results](heading-role-must-have-level-vnu.json)
 * [Name Prohibited](name-prohibited.html)
   * @axe-core/cli: [Results](name-prohibited-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/275)
+  * validator.nu: [Results](name-prohibited-vnu.json)
 * [Option Owned By Listbox](option-owned-by-listbox.html)
+  * @axe-core/cli: [Results](option-owned-by-listbox-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/313)
+  * validator.nu: [Results](option-owned-by-listbox-vnu.json)
 * [Row Must Not in Table Grid](row-must-not-in-table-grid.html)
+  * @axe-core/cli: [Results](row-must-not-in-table-grid-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/317)
+  * validator.nu: [Results](row-must-not-in-table-grid-vnu.json)
 * [Scrollbar Role Aria Controls](scrollbar-role-aria-controls.html)
+  * @axe-core/cli: [Results](scrollbar-role-aria-controls-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/318)
+  * validator.nu: [Results](scrollbar-role-aria-controls-vnu.json)
 * [Scrollbar Role Aria Valuenow](scrollbar-role-aria-valuenow.html)
+  * @axe-core/cli: [Results](scrollbar-role-aria-valuenow-axe.json)
+  * validator.nu: [Results](scrollbar-role-aria-valuenow-vnu.json)
 * [Slide Role Aria Valuenow](slider-role-aria-valuenow.html)
+  * @axe-core/cli: [Results](slider-role-aria-valuenow-axe.json)
+  * validator.nu: [Results](slider-role-aria-valuenow-vnu.json)
 
 ## Writing Tests
 
@@ -129,3 +162,24 @@ Having done the above, the URL is `http://localhost:8000/foo.html` and the follo
 ```
 axe http://localhost:8000/foo.html --rules aria-allowed-attr
 ```
+
+### Using Validator.nu 
+
+First, [download the validator](https://github.com/validator/validator). You can download a java .jar or an
+executable for your platform.
+
+If you download the .jar and you have java installed, you can run the validator against the raw html files:
+
+```
+java -jar /path/to/vnu.jar /path/to/aria/validator-tests/menuitem-owned-by-menu.html
+```
+
+Vnu can output JSON but it is not easy to read. For JSON results, we recommend using `jq` to make the results more readable.
+
+```
+java -jar /path/to/vnu.jar --format json /path/to/aria/validator-tests/menuitem-owned-by-menu.html |& jq > menuitem-owned-by-menu-vnu.json
+```
+
+#### Filing bugs against Validator.nu
+
+Bugs can be filled here: [https://github.com/validator/validator](https://github.com/validator/validator).
