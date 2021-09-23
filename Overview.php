@@ -84,7 +84,7 @@ if ($sth->rowCount() > 0) {
 		<section id="administrative">
 			<h2>Administrative Information</h2>
 			<p> Work of the ARIA WG is in accordance with the <a href="http://www.w3.org/2015/Process-20150901/">W3C Process</a>. ARIA WG work is funded in part by the <a href="http://www.w3.org/WAI/Core2015/">WAI Core 2015 Project</a>. The work of this group does not necessarily reflect the views or policies of the funders.</p>
-			<p>The chairs of the ARIA WG, responsible for overall leadership and management, are <a href="mailto:group-aria-chairs@w3.org">James Nurthen</a>. The staff contact, responsible for <a href="http://www.w3.org/Consortium/Process/">W3C Process</a> and general support, is <a href="http://www.w3.org/People/cooper/">Michael Cooper</a>. <!--Administrative inquiries may be sent to <a href="mailto:group-aria-chairs@w3.org">group-aria-chairs@w3.org</a>.--></p> 
+			<p>The chair of the ARIA WG, responsible for overall leadership and management, is <a href="mailto:group-aria-chairs@w3.org">James Nurthen</a>. The staff contact, responsible for <a href="http://www.w3.org/Consortium/Process/">W3C Process</a> and general support, is <a href="http://www.w3.org/People/cooper/">Michael Cooper</a>. <!--Administrative inquiries may be sent to <a href="mailto:group-aria-chairs@w3.org">group-aria-chairs@w3.org</a>.--></p> 
 			<p>The Accessible Rich Internet Architectures maintains the following operational resources:</p>
 			<ul>
 				<li><a href="decision-policy">Decision policy</a>;</li>
