@@ -2,6 +2,8 @@
 
 This is the repository for [ARIA in HTML (html-aria)](https://w3c.github.io/html-aria/). 
 
+If you would like to contribute, please first [read the contributing document](https://github.com/w3c/html-aria/blob/gh-pages/CONTRIBUTING.md), and review the [W3C Code of Ethics and Professional Conduct](https://www.w3.org/Consortium/cepc/).
+
 Please review open [issues](https://github.com/w3c/html-aria/issues) and [pull requests](https://github.com/w3c/html-aria/pulls). You can contribute by engaging in those conversations, or opening new issues for discussion.
 
 If you would like to create a pull request (PR) for a potential change to the specification, please:
