@@ -2424,24 +2424,6 @@
               <strong class="nosupport">No `role` or `aria-*` attributes</strong>
             </td>
           </tr>
-          <tr id="el-svg" tabindex="-1">
-            <th>
-              <a data-cite="html/embedded-content-other.html#svg-0">`SVG`</a>
-            </th>
-            <td>
-              `role=graphics-document` as defined by
-              <a data-cite="svg-aam-1.0/#details-id-66">SVG AAM</a>
-            </td>
-            <td>
-              <p>
-                <strong><a>Any Role</a></strong>
-              </p>
-              <p>
-                <a data-cite="wai-aria-1.1#global_states">Global `aria-*` attributes</a> and
-                any `aria-*` attributes applicable to the allowed roles.
-              </p>
-            </td>
-          </tr>
           <tr id="el-sub" tabindex="-1">
             <th>
               [^sub^]
@@ -2482,6 +2464,24 @@
             </th>
             <td>
               <a>No corresponding role</a>
+            </td>
+            <td>
+              <p>
+                <a><strong>Any</strong> `role`</a>
+              </p>
+              <p>
+                <a data-cite="wai-aria-1.1#global_states">Global `aria-*` attributes</a> and
+                any `aria-*` attributes applicable to the allowed roles.
+              </p>
+            </td>
+          </tr>
+          <tr id="el-svg" tabindex="-1">
+            <th>
+              <a data-cite="html/embedded-content-other.html#svg-0">`SVG`</a>
+            </th>
+            <td>
+              `role=graphics-document` as defined by
+              <a data-cite="svg-aam-1.0/#details-id-66">SVG AAM</a>
             </td>
             <td>
               <p>
@@ -2867,10 +2867,12 @@
           Requirements for use of ARIA attributes in place of equivalent HTML attributes
         </h3>
         <p>
-          Unless otherwise stated, authors MAY use `aria-*` attributes in place of their HTML equivalents on HTML elements where the `aria-*` semantics would be expected. For example, authors MAY use `aria-disabled=true` on a [^button^] element, rather than the `disabled` attribute. However, authors SHOULD NOT use both the native HTML attribute and the `aria-*` attribute together, and MUST NOT use the these features together when their values are in opposition to each other. As stated in
+          Unless otherwise stated, authors MAY use `aria-*` attributes in place of their HTML equivalents on HTML elements where the `aria-*` semantics would be expected. For example, authors MAY specify `aria-disabled=true` on a [^button^] element, while also implementing the necessary scripting to functionally disable the `button`, rather than the use `disabled` attribute.
+        </p>
+        <p>
+          As stated in
           <a data-cite="wai-aria-1.1#host_general_conflict">WAI-ARIA's Conflicts with Host Language Semantics</a>,
-          user agents MUST ignore WAI-ARIA attributes and use the host language
-          (HTML) attribute with the same <a>implicit ARIA semantics</a>.
+          when HTML elements use <em>both</em> `aria-*` attributes and their host language (HTML) equivalents, user agents MUST ignore the WAI-ARIA attributes – the native HTML attributes with the same <a>implicit ARIA semantics</a> take precedence. For this reason, authors SHOULD NOT specify both the native HTML attribute and the equivalent `aria-*` attribute on an element. Please review each attribute for any further author specific requirements.
         </p>
         <p>
           The following table represents HTML elements and their attributes which have `aria-*` attribute parity.
@@ -2916,7 +2918,7 @@
                   allowed the `checked` attribute in HTML.
                 </p>
                 <p>
-                  Authors SHOULD NOT use the `aria-checked` attribute on any element where the <a data-cite="html/form-control-infrastructure.html#concept-fe-checked">checkedness</a> of the element can be in opposition to the current value of the <a data-cite="wai-aria-1.1#aria-checked">`aria-checked` attribute</a>.
+                  Authors SHOULD NOT use the <a data-cite="wai-aria-1.1#aria-checked">`aria-checked`</a> attribute on any element where the <a data-cite="html/form-control-infrastructure.html#concept-fe-checked">checkedness</a> of the element can be in opposition to the current value of the `aria-checked` attribute.
                 </p>
                 <p>
                   Authors MAY use the `aria-checked` attribute on any other element with a WAI-ARIA role which allows the  attribute.
@@ -2938,7 +2940,7 @@
                   Use the `disabled` attribute on any element that is allowed the `disabled` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-disabled` attribute on any element that is allowed the `disabled` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-disabled">`aria-disabled` attribute</a>.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-disabled">`aria-disabled`</a> attribute on any element that is allowed the `disabled` attribute in HTML, or any element with a WAI-ARIA role which allows the `aria-disabled` attribute</a>.
                 </p>
                 <p>
                   Authors SHOULD NOT use `aria-disabled="true"` on any element which also has a `disabled` attribute.
@@ -2957,7 +2959,7 @@
               </td>
               <td>
                 <p>
-                  Authors MAY use the `aria-hidden` attribute on any HTML element that allows <a data-cite="wai-aria-1.1#global_states">global `aria-*` attributes</a>, with the following exception:
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-hidden">`aria-hidden`</a> attribute on any HTML element that allows <a data-cite="wai-aria-1.1#global_states">global `aria-*` attributes</a>, with the following exception:
                 </p>
                 <p>
                   Authors SHOULD NOT use the `aria-hidden="true"` attribute on any element which also has a `hidden` attribute.
@@ -2985,7 +2987,7 @@
                   `placeholder` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-placeholder` attribute on any element that is allowed the `placeholder` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-placeholder">`aria-placeholder` attribute</a>.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-placeholder">`aria-placeholder`</a> attribute on any element that is allowed the `placeholder` attribute in HTML, or any element with a WAI-ARIA role which allows the `aria-placeholder` attribute.
                 </p>
                 <p>
                   Authors MUST NOT use the `aria-placeholder` attribute on any element which also has a `placeholder` attribute.
@@ -3005,13 +3007,13 @@
                   allowed the `max` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-valuemax` attribute on any other element with a WAI-ARIA role which allows the attribute.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-valuemax">`aria-valuemax`</a> attribute on any other element with a WAI-ARIA role which allows the `aria-valuemax` attribute.
                 </p>
                 <p>
                   Authors SHOULD NOT use `aria-valuemax` on any element which allows the `max` attribute. Use the `max` attribute instead.
                 </p>
                 <p>
-                  Authors MUST NOT use `aria-valuemax` on any element which also has a `max` attribute, even if the values of each attribute match.
+                  Authors MUST NOT use `aria-valuemax` on any element which also has a `max` attribute.
                 </p>
               </td>
             </tr>
@@ -3028,13 +3030,13 @@
                   allowed the `min` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-valuemin` attribute on any other element with a WAI-ARIA role which allows the attribute.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-valuemax">`aria-valuemin`</a> attribute on any other element with a WAI-ARIA role which allows the `aria-valuemin` attribute.
                 </p>
                 <p>
                   Authors SHOULD NOT use `aria-valuemin` on any element which allows the `min` attribute. Use the `min` attribute instead.
                 </p>
                 <p>
-                  Authors MUST NOT use `aria-valuemin` on any element which also has a `min` attribute, even if the values of each attribute match.
+                  Authors MUST NOT use `aria-valuemin` on any element which also has a `min` attribute.
                 </p>
               </td>
             </tr>
@@ -3052,7 +3054,7 @@
                   allowed the `readonly` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-readonly` attribute on any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly` attribute</a>.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-readonly">`aria-readonly`</a> attribute on any element with a WAI-ARIA role which allows the attribute</a>.
                 </p>
                 <p>
                   Authors SHOULD NOT use the `aria-readonly="true"` on any element which also has a `readonly` attribute.
@@ -3097,7 +3099,7 @@
                   that is allowed the `required` attribute in HTML.
                 </p>
                 <p>
-                  Authors MAY use the `aria-required` attribute on any element that is allowed the `required` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-required">`aria-required` attribute</a>.
+                  Authors MAY use the <a data-cite="wai-aria-1.1#aria-required">`aria-required`</a> attribute on any element that is allowed the `required` attribute in HTML, or any element with a WAI-ARIA role which allows the `aria-required` attribute.
                 </p>
                 <p>
                   Authors SHOULD NOT use the `aria-required="true"` on any element which also has a `required` attribute.
@@ -3119,9 +3121,13 @@
                   Use the `colspan` attribute on any element that is
                   allowed the `colspan` attribute in HTML.
                 </p>
+                <!--
+                  Removing per issue #338
+                  Revised rules to be re-added
                 <p>
                   Authors MAY use the `aria-colspan` attribute on any element that is allowed the `colspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-colspan">`aria-colspan` attribute</a>.
                 </p>
+                -->
                 <p>
                   Authors SHOULD NOT use the `aria-colspan` attribute on any element which also has a `colspan` attribute.
                 </p>
@@ -3143,9 +3149,13 @@
                   Use the `rowspan` attribute on any element that is
                   allowed the `rowspan` attribute in HTML.
                 </p>
+                <!--
+                  Removing per issue #338
+                  Revised rules to be re-added
                 <p>
                   Authors MAY use the `aria-rowspan` attribute on any element that is allowed the `rowspan` attribute in HTML, or any element with a WAI-ARIA role which allows the <a data-cite="wai-aria-1.1#aria-rowspan">`aria-rowspan` attribute</a>.
                 </p>
+                -->
                 <p>
                   Authors SHOULD NOT use the `aria-rowspan` attribute on any element which also has a `rowspan` attribute.
                 </p>
