@@ -10246,25 +10246,18 @@
 			[[[#supportedState]]], and in [[[CORE-AAM]]].</p>
 		</section>
 		<section id="enumerated-attribute-values-html">
-			<h3>ARIA Enumerated Attributes in HTML</h3>
+			<h3>ARIA nullable DOMString Attributes in HTML</h3>
 			<p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of enumerated value types is governed by the host language.</p>
-			<p>When the host language is HTML, ARIA enumerated attributes MUST follow the <a data-cite="html/common-dom-interfaces.html#reflecting-content-attributes-in-idl-attributes">HTML rules</a> for reflecting [=nullable type|nullable=] {{DOMString}} IDL attributes current as of September 3, 2021.</p>
-			<div class="note informative" data-cite="HTML">
-				<p>Below is a copy of the HTML specification text for [=nullable type|nullable=] {{DOMString}} IDL attributes as of September 3, 2021. 
-				The HTML spec is a living document, and this section may have changed since. Refer to the link above for the most current version.</p>
-				
-				<blockquote>
-					a reflecting IDL attribute is a nullable {{DOMString}}
-					attribute whose content attribute is an <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>, then, on getting, if
-					the corresponding content attribute is in its <i>missing value default</i> state then the IDL
-					attribute must return null, otherwise, the IDL attribute must return the keyword value associated
-					with the state the attribute is in. If there are multiple keyword values for the state, then
-					return the conforming one. If there are multiple conforming keyword values, then one will be
-					designated the <a data-cite="html/common-dom-interfaces.html#canonical-keyword">canonical keyword</a>; choose that one. On setting, if the new value is
-					null, the content attribute must be removed, and otherwise, the content attribute must be set to
-					the specified new value.
-				</blockquote>
-			</div>
+			<p>The following algorithm should be used for nullable {{DOMString}} attributes in HTML:</p>
+			<p>If a reflecting IDL attribute is a nullable {{DOMString}} attribute whose content attribute is not an <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>,
+			then, on getting, if the corresponding content attribute is not present, then the IDL attribute must return null, 
+			otherwise, the IDL attribute must get the value in a transparent, case-preserving manner. 
+			On setting, if the new value is null, the content attribute must be removed, and otherwise, 
+			the content attribute must be set to the specified new value in a transparent, case-preserving manner.</p>
+			<p class="note">
+			Note: As of ARIA 1.2, all ARIA attributes exposed via IDL are defined as nullable {{DOMStrings}}. This matches the current implementation of all major rendering engines, and has for some time. This specification change should result in no implementation changes; it will merely represent the current reality of web engines.
+			However, in a future draft, the ARIA Working Group intends to change several ARIA enumerated attributes to non-nullable DOMStrings, and seek implementations. The proposed change will bring ARIA into alignment with the HTML’s usage of enumerated attributes.
+			</p>
 			<section class="informative" id="enumeration-example">
 				<h4>Example Enumerated Attribute Usage</h4>
 				<aside class="example">
@@ -10298,9 +10291,9 @@ el.ariaBusy; // "true"
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
-// Assignment of invalid "busy" value results in invalid value default: string "false".
+// Assignment of invalid "busy" value. Not validated on set or get and the literal string value "busy" is returned.
 el.setAttribute("aria-busy", "busy");
-el.ariaBusy; // "false"</pre>
+el.ariaBusy; // "busy"</pre>
 
 			</aside>
 			<aside class="example">
@@ -10318,7 +10311,7 @@ button.ariaPressed; // "true"
 button.ariaPressed = "false"; // DOM property assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value. Not validated on get and the literal string value "foo" is returned.
+// Assignment of invalid "foo" value. Not validated on set or get and the literal string value "foo" is returned.
 button.ariaPressed = "foo";
 button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
 
