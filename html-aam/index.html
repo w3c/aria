@@ -71,18 +71,19 @@
 
       ariaSpecURLs: {
         "ED": "https://w3c.github.io/aria/",
-        "WD" : "https://www.w3.org/TR/wai-aria-1.1/",
-        "FPWD" : "https://www.w3.org/TR/wai-aria-1.1/",
+        "WD" : "https://www.w3.org/TR/wai-aria-1.2/",
+        "FPWD" : "https://www.w3.org/TR/wai-aria-1.2/",
         "REC": "https://www.w3.org/TR/wai-aria/"
       },
 
       // ED pointing to latest draft due to ED links not
       // appropriately mapping on the core-aam spec.
+      // was in REC - https://www.w3.org/TR/wai-aria-implementation/
       coreMappingURLs: {
         "ED":   "https://w3c.github.io/core-aam/",
-        "WD":   "https://www.w3.org/TR/core-aam-1.1/",
-        "FPWD": "https://www.w3.org/TR/core-aam-1.1/",
-        "REC":  "https://www.w3.org/TR/wai-aria-implementation/"
+        "WD":   "https://www.w3.org/TR/core-aam-1.2/",
+        "FPWD": "https://www.w3.org/TR/core-aam-1.2/",
+        "REC":  "https://www.w3.org/TR/core-aam-1.1/"
       },
 
       accNameURLs: {
@@ -224,10 +225,9 @@
       <h3>HTML Element Role Mappings</h3>
     	<ul>
     		<li>HTML elements with implicit WAI-ARIA role semantics MUST be mapped to platform <a class="termref">accessibility APIs</a> according to those WAI-ARIA roles' mappings as defined in the [[core-aam-1.2]] specification.</li>
-        <li>A '?' in a cell indicates the data has yet to be provided.</li>
         <li>"Not mapped" (Not Applicable) means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user interface.</li>
         <li>Where applicable, how an element participates in the computation of its own or another element's <a class="termref">accessible name</a> and/or <a class="termref">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.</li>
-        <li>Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, user agents MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming `role` attribute value.</li>
+        <li>Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.</li>
         <li>
           <strong>IAccessible2:</strong>
           <ul>
@@ -254,7 +254,7 @@
           <thead>
             <tr>
               <th>Element</th>
-              <th>[[wai-aria-1.1]]</th>
+              <th>[[wai-aria-1.2]]</th>
               <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
@@ -525,7 +525,7 @@
               <th>
                 <a data-cite="HTML">autonomous custom element</a>
               </th>
-              <td class="aria">If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, no corresponding role.</td>
+              <td class="aria">If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</td>
               <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -639,79 +639,22 @@
               <th>
                 <a data-cite="HTML">`blockquote`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_GROUPING`; `IA2_ROLE_SECTION`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span>
-                  `IAccessibleText2`; `IAccessibleHypertext2`;
-                </div>
-              </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Group`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"blockquote"`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_BLOCK_QUOTE`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `AtkText`; `AtkHypertext`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-blockquote">`blockquote`</a> role</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-body">
               <th>
                 <a data-cite="HTML">`body`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_DOCUMENT`
-                </div>
-              </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Pane`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"pane"`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_DOCUMENT_WEB`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXWebArea`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"HTML content"`
-                </div>
-              </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-generic">`generic`</a> role </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-br">
@@ -790,53 +733,11 @@
               <th>
                 <a data-cite="HTML">`caption`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_TEXT`; `IA2_ROLE_CAPTION`
-                </div>
-                <div class="states">
-                  <span class="type">States:</span> `STATE_SYSTEM_READONLY`
-                </div>
-                <div class="relations">
-                  <span class="type">Relations:</span>
-                  `IA2_RELATION_LABEL_FOR` with parent <a href="#el-table">`table`</a>
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `IAccessibleText2`; `IAccessibleHypertext2`;
-                </div>
-              </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="properties">
-                  <span class="type">Other properties:</span> The `LabeledBy` property for the parent <a href="#el-table">`table`</a> element points to the UIA element for the `caption` element.
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_CAPTION`
-                </div>
-                <div class="relations">
-                  <span class="type">Relations:</span>
-                  `ATK_RELATION_LABEL_FOR` with parent <a href="#el-table">`table`</a>
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `AtkText`; `AtkHypertext`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-caption">`caption`</a> role</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-cite">
@@ -876,33 +777,11 @@
               <th>
                 <a data-cite="HTML">`code`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="general">
-                  No accessible object. Styles used are mapped into text attributes on its text container.
-                </div>
-              </td>
-              <td class="uia">
-                <div class="general">
-                  No accessible object. Styles used are exposed by UIA text attributes of the `TextRange` Control Pattern implemented on a parent accessible object.
-                </div>
-              </td>
-              <td class="atk">
-                <div class="general">
-                  No accessible object. Styles used are mapped into text attributes on its text container.
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXCodeStyleGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-code">`code`</a> role</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-col">
@@ -983,78 +862,36 @@
               <th>
                 <a data-cite="HTML">`del`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `IA2_ROLE_CONTENT_DELETION`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-deletion">`deletion`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"del"`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_CONTENT_DELETION`
-                </div>
-                <div class="objattrs">
-                  <span class="type">Object attributes:</span> `xml-roles:deletion`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXDeleteStyleGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-details">
               <th>
                 <a data-cite="HTML">`details`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `ROLE_SYSTEM_GROUPING`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-generic">`group`</a> role
               </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia">
+                <div class="general">Use WAI-ARIA mapping</div>
                 <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Group`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"details"`
+                  <span class="type">Localized Control Type: `"details"`</span>
                 </div>
               </td>
               <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_PANEL`
-                </div>
-                <div class="relations">
-                  <span class="type">Relations:</span> `ATK_RELATION_DETAILS_FOR`
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="ctrltype">
+                  <span class="type">Relations: `"ATK_RELATION_DETAILS_FOR"`</span>
                 </div>
               </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-dfn">
@@ -1090,47 +927,12 @@
                 <a data-cite="HTML">`div`</a>
               </th>
               <td class="aria">
-                No corresponding role
+                <a class="core-mapping" href="#role-map-generic">`generic`</a> role
               </td>
-              <td class="ia2">
-                <div class="general">
-                  May not have an accessible object if has no semantic meaning. Otherwise,
-                </div>
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_GROUPING`; `IA2_ROLE_SECTION`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span>
-                  `IAccessibleText2`; `IAccessibleHypertext2`;
-                </div>
-              </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Group`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="general">
-                  May not have an accessible object if has no semantic meaning. Otherwise,
-                </div>
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_SECTION`
-                </div>
-                 <div class="ifaces">
-                  <span class="type">Interfaces:</span> `AtkText`; `AtkHypertext`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-dl">
@@ -1186,33 +988,13 @@
               <th>
                 <a data-cite="HTML">`em`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="general">
-                  No accessible object. Styles used are mapped into text attributes on its text container.
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-emphasis">`emphasis`</a> role
               </td>
-              <td class="uia">
-                <div class="general">
-                  No accessible object. Styles used are exposed by UIA text attributes of the `TextRange` Control Pattern implemented on a parent accessible object.
-                </div>
-              </td>
-              <td class="atk">
-                <div class="general">
-                  No accessible object. Styles used are mapped into text attributes on its text container.
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-embed">
@@ -1367,7 +1149,6 @@
                 <div class="role">
                   <span class="type">AXRole:</span> Use WAI-ARIA mapping
                 </div>
-                <div class="subrole"></div>
               </td>
               <td class="comments"></td>
             </tr>
@@ -1445,7 +1226,7 @@
                 <a data-cite="HTML">`form`</a> with an <a class="termref">accessible name</a>
               </th>
               <td class="aria">
-                <a class="core-mapping" href="#role-map-form ">`form`</a> role
+                <a class="core-mapping" href="#role-map-form">`form`</a> role
               </td>
               <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -1457,49 +1238,23 @@
               <th>
                 <a data-cite="HTML">`form`</a> without an <a class="termref">accessible name</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `ROLE_SYSTEM_GROUPING`; `IA2_ROLE_SECTION`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `IAccessibleText2`; `IAccessibleHypertext2`;
-                </div>
-              </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-generic">`generic`</a> role</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Group`
-                </div>
+                <div class="general">Use WAI-ARIA mapping</div>
                 <div class="ctrltype">
                   <span class="type">Localized Control Type:</span> `"form"`
                 </div>
               </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role: </span> `ATK_ROLE_SECTION`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces: </span> `AtkText`; `AtkHypertext`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-form-associated-custom-element">
               <th>
                 <a data-cite="html/custom-elements.html#custom-elements-face-example">form-associated custom element</a>
               </th>
-              <td class="aria">If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, no corresponding role.</td>
+              <td class="aria">If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</td>
               <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
@@ -1591,7 +1346,7 @@
               <th>
                 <a data-cite="HTML">`hgroup`</a>
               </th>
-              <td class="aria">No corresponding role</td>
+              <td class="aria"><a class="core-mapping" href="#role-map-generic">`generic`</a> role </td>
               <td class="ia2"><div class="general">Not mapped</div></td>
               <td class="uia"><div class="general">Not mapped</div></td>
               <td class="atk"><div class="general">Not mapped</div></td>
@@ -1613,11 +1368,11 @@
               <th>
                 <a data-cite="HTML">`html`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2"><div class="general">Not mapped</div></td>
-              <td class="uia"><div class="general">Not mapped</div></td>
-              <td class="atk"><div class="general">Not mapped</div></td>
-              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="aria"><a class="core-mapping" href="#role-map-document">`document`</a> role </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-i">
@@ -2396,39 +2151,13 @@
               <th>
                 <a data-cite="HTML">`ins`</a>
               </th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `IA2_ROLE_CONTENT_INSERTION`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-insertion">`insertion`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"ins"`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_CONTENT_INSERTION`
-                </div>
-                <div class="objattrs">
-                  <span class="type">Object attributes:</span> `xml-roles:insertion`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXInsertStyleGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-kbd">
@@ -2744,47 +2473,14 @@
             </tr>
             <tr tabindex="-1" id="el-meter">
               <th><a data-cite="HTML">`meter`</a></th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `IA2_ROLE_LEVEL_BAR`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `IAccessibleValue`;
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-meter">`meter`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `ProgressBar`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `meter`
-                </div>
-                <div class="ctrlpattern">
-                  <span class="type">Control Pattern:</span> `RangeValue`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span> `ATK_ROLE_LEVEL_BAR`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `AtkValue`
-                </div>
-                <div class="properties"><span class="type">Properties:</span> `AtkRange`</div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXLevelIndicator`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"level indicator"`
-                </div>
-              </td>
-              <td class="comments">See <a href="https://github.com/w3c/html-aam/issues/2">GitHub issue #2</a>.</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-nav">
               <th><a data-cite="HTML">`nav`</a></th>
@@ -2877,41 +2573,13 @@
             </tr>
             <tr tabindex="-1" id="el-p">
               <th><a data-cite="HTML">`p`</a></th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_TEXT`; `IA2_ROLE_PARAGRAPH`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `IAccessibleText2`; `IAccessibleHypertext2`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-paragraph">`paragraph`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Text`
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span>
-                  <code>ATK_ROLE_PARAGRAPH</code>
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span>
-                  `AtkText`; `AtkHypertext`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `(nil)`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-param">
@@ -3279,7 +2947,7 @@
             <tr tabindex="-1" id="el-section">
               <th><a data-cite="HTML">`section`</a></th>
               <td class="aria">
-                <a class="core-mapping" href="#role-map-region">`region`</a> role if the <a>`section`</a> element has an <a class="termref">accessible name</a>. Otherwise, no corresponding role.
+                <a class="core-mapping" href="#role-map-region">`region`</a> role if the <a>`section`</a> element has an <a class="termref">accessible name</a>. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.
               </td>
               <td class="ia2">
                 <div class="general">
@@ -3441,36 +3109,15 @@
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-strong">
-                <th><a data-cite="HTML">`strong`</a></th>
-                <td class="aria">No corresponding role</td>
-                <td class="ia2">
-                  <div class="general">
-                    No accessible object. Styles used are mapped into text attributes on its text container.
-                  </div>
-                </td>
-                <td class="uia">
-                  <div class="general">No accessible object. Styles used are exposed by UIA text attribute identifiers of the `TextRange` Control Pattern implemented on a parent accessible object.
-                  </div>
-                </td>
-                <td class="atk">
-                  <div class="general">
-                    No accessible object. Styles used are mapped
-                    into text attributes on its text container.
-                  </div>
-                </td>
-                <td class="ax">
-                  <div class="role">
-                    <span class="type">AXRole:</span> `AXGroup`
-                  </div>
-                  <div class="subrole">
-                    <span class="type">AXSubrole:</span> `(nil)`
-                  </div>
-                  <div class="roledesc">
-                    <span class="type">AXRoleDescription:</span> `"group"`
-                  </div>
-                </td>
-                <td class="comments"></td>
-            </tr>
+              <th><a data-cite="HTML">`strong`</a></th>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-strong">`strong`</a> role
+              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
             <tr tabindex="-1" id="el-style">
               <th><a data-cite="HTML">`style`</a></th>
               <td class="aria">No corresponding role</td>
@@ -3486,39 +3133,13 @@
             </tr>
             <tr tabindex="-1" id="el-sub">
               <th><a data-cite="html">`sub`</a></th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_GROUPING`; `IA2_ROLE_TEXT_FRAME`
-                </div>
-                <div class="properties">
-                  <span class="type">Text attributes:</span> `text-position:sub`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-subscript">`subscript`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                    <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="general">Styles used are exposed by `IsSubscript` attribute of the `TextRange` Control Pattern implemented on the accessible object.
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span>
-                  `ATK_ROLE_SUBSCRIPT`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXSubscriptStyleGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-summary">
@@ -3569,39 +3190,13 @@
             </tr>
             <tr tabindex="-1" id="el-sup">
               <th><a data-cite="html">`sup`</a></th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Roles:</span> `ROLE_SYSTEM_GROUPING`; `IA2_ROLE_TEXT_FRAME`
-                </div>
-                <div class="properties">
-                  <span class="type">Text attributes:</span> `text-position:super`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-superscript">`superscript`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                    <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="general">Styles used are exposed by `IsSuperscript` attribute of the `TextRange` Control Pattern implemented on the accessible object.
-                </div>
-              </td>
-              <td class="atk">
-                <div class="role">
-                  <span class="type">Role:</span>
-                  `ATK_ROLE_SUPERSCRIPT`
-                </div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXSuperscriptStyleGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="el-svg">
@@ -3769,48 +3364,14 @@
             </tr>
             <tr tabindex="-1" id="el-time">
               <th><a data-cite="HTML">`time`</a></th>
-              <td class="aria">No corresponding role</td>
-              <td class="ia2">
-                <div class="role">
-                  <span class="type">Role:</span> `IA2_ROLE_TEXT_FRAME`
-                </div>
-                <div class="objattrs">
-                  <span class="type">Object attributes:</span> `xml-roles:time`
-                </div>
-                <div class="ifaces">
-                  <span class="type">Interfaces:</span> `IAccessibleText2`; `IAccessibleHypertext2`
-                </div>
+              <td class="aria">
+                <a class="core-mapping" href="#role-map-time">`time`</a> role
               </td>
-              <td class="uia">
-                <div class="ctrltype">
-                  <span class="type">Control Type:</span> `Text`
-                </div>
-                <div class="ctrltype">
-                  <span class="type">Localized Control Type:</span> `"time"`
-                </div>
-                 <div class="general">Note: create a separate UIA Control of type Text. This is different from most UIA text mappings, which only create ranges in the page text pattern.</div>
-              </td>
-              <td class="atk">
-                <div class="general">
-                  <p class="role"><span class="type">Role: </span> `ATK_ROLE_STATIC`</p>
-                </div>
-                <div class="objattrs">
-                  <span class="type">Object attributes:</span> `xml-roles:time`
-                </div>
-                <div class="ifaces"> <span class="type">Interfaces: </span> `AtkText`; `AtkHypertext`</div>
-              </td>
-              <td class="ax">
-                <div class="role">
-                  <span class="type">AXRole:</span> `AXGroup`
-                </div>
-                <div class="subrole">
-                  <span class="type">AXSubrole:</span> `AXTimeGroup`
-                </div>
-                <div class="roledesc">
-                  <span class="type">AXRoleDescription:</span> `"group"`
-                </div>
-              </td>
-              <td class="comments"></td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td><
             </tr>
             <tr tabindex="-1" id="el-title">
               <th><a data-cite="HTML">`title`</a></th>
@@ -3983,7 +3544,7 @@
             <tr>
               <th>Attribute</th>
               <th>Element(s)</th>
-              <th>[[[WAI-ARIA]]]</th>
+              <th>[[WAI-ARIA-1.2]]</th>
               <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
@@ -7043,6 +6604,7 @@
       <section>
         <h4>Substantive changes since moving to the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> (03-Nov-2019)</h4>
         <ul>
+          <li>02-Nov-2021: Updating `blockquote`, `caption`, `code`, `del`, `em`, `ins`, `meter`, `paragraph`, `strong`, `sub`, `sup` and `time` to ARIA 1.2 mappings in Core AAM.  Fix `body` mapping to `generic`, and `html` mapping to `document`. Fix `hgroup` mapping to `generic`.  Update `details` to map to `group` with additional information specific to ATK, UIA. See <a href="https://github.com/w3c/html-aam/pull/348">GitHub issue #348</a></li>
           <li>12-May-2021: Add FACES references to attributes table - `readonly`, `name`, `form`, `disabled`. See <a href="https://github.com/w3c/html-aam/issues/257">Issue 257</a>.</li>
           <li>12-Dec-2019: Adds `hgroup`, `slot`, autonomous custom element and form associated custom element. See <a href="https://github.com/w3c/html-aam/issues/189">GitHub issue #189</a>.</li>
           <li>26-Nov-2019: Updates mappings for `disabled`, `scope`, `spellcheck`, `tabindex` to point to WAI-ARIA.  Adds AX `pattern`, `reversed`, `rows`, `size`, `span`, `src`, `start`, `step`, `type` attribute mappings. Adds `min-length`, `ping`, `playsinline`, `referrerpolicy`, `sizes`, `srcset`, `data[value]` attribute mappings. See <a href="https://github.com/w3c/html-aam/pull/245">GitHub pull request #245</a>.</li>
