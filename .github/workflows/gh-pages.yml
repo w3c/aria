@@ -7,11 +7,21 @@ on:
   push:
     branches: [main]
 jobs:
-  main:
-    name: Build, Validate and Deploy
-    runs-on: ubuntu-20.04
+  use-deploy-script:
+    name: Using a shell script to deploy a build folder on a GitHub branch
+    runs-on: ubuntu-latest
+    env:
+      FOLDER: deploybuild
     steps:
       - uses: actions/checkout@v2
-      - uses: w3c/spec-prod@v2
-        with:
-          GH_PAGES_BRANCH: gh-pages
+      # don't forget: git update-index --chmod +x ./.github/scripts/deploy.sh
+      - name: Run the build-output.sh script
+        run: ./.github/scripts/deploy.sh
+        shell: bash
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages-2
+          # FOLDER is already set up so no need to repeat here
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
