@@ -20,6 +20,12 @@ REPO_URL="https://w3cbot:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 TRAVIS_BRANCH=${GH_BRANCH:-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')}
 TRAVIS_PULL_REQUEST=${GH_EVENT_NUMBER:-false}
 
+if [ $TRAVIS_PULL_REQUEST != "false" ]
+then
+  echo This is a pull request so exit
+  # exit 0
+fi
+
 echo Cleaning $FOLDER before building
 
 MAIN=$PWD
@@ -50,12 +56,6 @@ curl https://labs.w3.org/spec-generator/?type=respec"&"url=https://raw.githack.c
 # End of building the
 
 cd ${TARGET}
-
-if [ $TRAVIS_PULL_REQUEST != "false" ]
-then
-  # this is a pull request so exit
-  exit 0
-fi
 
 if [[ -z $(git status --porcelain) ]]; then
     echo "No changes to the output on this push; exiting."
