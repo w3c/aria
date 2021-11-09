@@ -14,7 +14,7 @@ git config --global user.email 87540780+w3cgruntbot@users.noreply.github.com
 git config --global user.name w3cgruntbot
 git config --global user.password $GITHUB_TOKEN
 
-REPO_URL="https://w3cbot:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+REPO_URL="https://w3cgruntbot:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 
 # Recreate some Travis CI env variables
 TRAVIS_BRANCH=${GH_BRANCH:-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')}
@@ -68,7 +68,7 @@ git add -A .
 
 echo Commit the changes
 
-git commit -m ":robot: Deploy to GitHub Pages: $GITHUB_SHA from branch \"$TRAVIS_BRANCH\""
+git commit -m ":robot: Deploy to GitHub Pages: ${GITHUB_SHA} from branch \"${TRAVIS_BRANCH}\""
 
 echo Attempt to push
 
