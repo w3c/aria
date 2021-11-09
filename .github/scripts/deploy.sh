@@ -16,6 +16,10 @@ git config --global user.password $GITHUB_TOKEN
 
 REPO_URL="https://w3cbot:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 
+# Recreate some Travis CI env variables
+TRAVIS_BRANCH=${GH_BRANCH:-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')}
+TRAVIS_PULL_REQUEST=${GH_EVENT_NUMBER:-false}
+
 echo Cleaning $FOLDER before building
 
 MAIN=$PWD
