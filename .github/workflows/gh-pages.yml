@@ -1,0 +1,24 @@
+name: Deploy to gh-pages on push to main, check on pull requests
+
+# See https://github.com/w3c/spec-prod/blob/main/docs/examples.md#deploy-to-github-pages
+
+on:
+  pull_request: {}
+  push:
+    branches: [main]
+jobs:
+  use-deploy-script-git-command:
+    name: Using a shell script to deploy a build folder on a GitHub branch with the git command
+    runs-on: ubuntu-latest
+    env:
+      FOLDER: deploybuild
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # The following variables will be used to recreate some Travis CI env variables
+      GH_BRANCH: ${{ github.head_ref }}
+      GH_EVENT_NUMBER: ${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v2
+      # don't forget: git update-index --chmod +x ./.github/scripts/deploy.sh
+      - name: Run deploy.sh script
+        run: ./.github/scripts/deploy.sh
+        shell: bash
