@@ -23,7 +23,7 @@ TRAVIS_PULL_REQUEST=${GH_EVENT_NUMBER:-false}
 if [ $TRAVIS_PULL_REQUEST != "false" ]
 then
   echo This is a pull request so exit
-  # exit 0
+  exit 0
 fi
 
 echo Cleaning $FOLDER before building
@@ -39,7 +39,7 @@ git clone $REPO_URL $FOLDER
 cd $FOLDER
 
 TARGET=$PWD
-TARGET_BRANCH=gh-pages-2
+TARGET_BRANCH=gh-pages
 
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 
