@@ -9356,11 +9356,11 @@
 			<p>Value type of the <a>state</a> or <a>property</a>. The value may be one of the following types:</p>
 			<dl>
 				<dt id="valuetype_true-false">true/false</dt>
-				<dd>Enumerated value representing either <code>true</code> or <code>false</code>. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
+				<dd>Value representing either <code>true</code> or <code>false</code>. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
 				<dt id="valuetype_tristate">tristate</dt>
-				<dd>Enumerated value representing <code>true</code>, <code>false</code>, <code>mixed</code>, or <code>undefined</code> values. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
+				<dd>Value representing <code>true</code>, <code>false</code>, <code>mixed</code>, or <code>undefined</code> values. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
 				<dt id="valuetype_true-false-undefined">true/false/undefined</dt>
-				<dd>Enumerated value representing <code>true</code>, <code>false</code>, or <code>undefined</code> (not applicable). The default value for this value type is <code>undefined</code> unless otherwise specified. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to <code>undefined</code> is not expandable.</dd>
+				<dd>Value representing <code>true</code>, <code>false</code>, or <code>undefined</code> (not applicable). The default value for this value type is <code>undefined</code> unless otherwise specified. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to <code>undefined</code> is not expandable.</dd>
 				<dt id="valuetype_idref">ID reference</dt>
 				<dd>Reference to the ID of another <a>element</a> in the same document</dd>
 				<dt id="valuetype_idref_list">ID reference list</dt>
@@ -9372,22 +9372,25 @@
 				<dt id="valuetype_string">string</dt>
 				<dd>Unconstrained value type.</dd>
 				<dt id="valuetype_token">token</dt>
-				<dd>One of a limited set of allowed enumerated values. The default value is defined in each attribute's Values table, as specified in the <a href="#enumerated-attribute-values">Enumerated Attribute Values</a> section.</dd>
-				<dt id="valuetype_token_list">token list</dt>
+				<dd>One of a limited set of allowed values. The default value is defined in each attribute's Values table, as specified in the <a href="#enumerated-attribute-values">Attribute Values</a> section.</dd>
+				<dt id="valuetype_token_list"><dfn>token list</dfn></dt>
 				<dd>A list of one or more tokens.</dd>
 			</dl>
 			<p>These are generic types for states and properties, but do not define specific representation. See <a href="#state_property_processing">State and Property Attribute Processing</a> for details on how these values are expressed and handled in host languages.</p>
 		</section>
 	</section>
-	<section id="enumerated-attribute-values">
-		<h2>Enumerated Attribute Values</h2>
-		<p>When the ARIA attribute definition includes a table enumerating the attribute's allowed <span>values</span>, 
-		that attribute is a nullable <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>. 
-		Each value in the table is a keyword for the attribute, mapping to a state of the same name. </p>
+	<section>
+		<h2>ARIA Attributes</h2>
+		<section id="enumerated-attribute-values">
+			<h3>Multi-value Attribute Values</h3>
+			<p>When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>, 
+			that attribute is a multi-value nullable attribute. 
+			Each value in the table is a keyword for the attribute, mapping to a state of the same name. </p>
+		</section>
 		<section id="idl-reflection-attribute-values">
 			<h3>IDL reflection of ARIA attributes</h3>
 			<p>All ARIA attributes reflect in IDL as [=nullable type|nullable=] {{DOMString}} attributes. 
-			This includes the boolean-like enumerated <a href="#valuetype_true-false">true/false</a> type, and all other ARIA enumerated attributes.</p>
+			This includes the boolean-like <a href="#valuetype_true-false">true/false</a> type, and all other ARIA attributes.</p>
 			<p>Default values from the ARIA values tables MUST NOT reflect to IDL as the 
 			<a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> or the 
 			<a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. 
@@ -9395,33 +9398,24 @@
 			If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.</p>
 		</section>
 		<section id="os-aapi-attribute-mapping">
-			<h3>Operating System Accessibility API mapping of ARIA enumerated attributes</h3>
-			<p>Unlike IDL reflection, operating system accessibility API mappings of ARIA enumerated attributes do have defaults. 
-			The default values from the ARIA values tables are exposed to the operating system accessibility API as described in 
+			<h3>Operating System Accessibility API mapping of multi-value ARIA attributes</h3>
+			<p>Unlike IDL reflection, operating system accessibility API mappings of ARIA attributes can have defaults. 
+			Any default values from the ARIA values tables are exposed to the operating system accessibility API as described in 
 			[[[#supportedState]]], and in [[[CORE-AAM]]].</p>
 		</section>
 		<section id="enumerated-attribute-values-html">
-			<h3>ARIA Enumerated Attributes in HTML</h3>
-			<p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of enumerated value types is governed by the host language.</p>
-			<p>When the host language is HTML, ARIA enumerated attributes MUST follow the <a data-cite="html/common-dom-interfaces.html#reflecting-content-attributes-in-idl-attributes">HTML rules</a> for reflecting [=nullable type|nullable=] {{DOMString}} IDL attributes current as of September 3, 2021.</p>
-			<div class="note informative" data-cite="HTML">
-				<p>Below is a copy of the HTML specification text for [=nullable type|nullable=] {{DOMString}} IDL attributes as of September 3, 2021. 
-				The HTML spec is a living document, and this section may have changed since. Refer to the link above for the most current version.</p>
-				
-				<blockquote>
-					a reflecting IDL attribute is a nullable {{DOMString}}
-					attribute whose content attribute is an <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attribute</a>, then, on getting, if
-					the corresponding content attribute is in its <i>missing value default</i> state then the IDL
-					attribute must return null, otherwise, the IDL attribute must return the keyword value associated
-					with the state the attribute is in. If there are multiple keyword values for the state, then
-					return the conforming one. If there are multiple conforming keyword values, then one will be
-					designated the <a data-cite="html/common-dom-interfaces.html#canonical-keyword">canonical keyword</a>; choose that one. On setting, if the new value is
-					null, the content attribute must be removed, and otherwise, the content attribute must be set to
-					the specified new value.
-				</blockquote>
-			</div>
+			<h3>ARIA nullable DOMString Attributes</h3>
+			<p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of WAI-ARIA types is governed by the host language.</p>
+			<p>The following algorithm should be used for ARIA nullable {{DOMString}} attributes in HTML:</p>
+			<p>On getting, if the corresponding content attribute is not present, then the IDL attribute must return null, 
+			otherwise, the IDL attribute must get the value in a transparent, case-preserving manner. 
+			On setting, if the new value is null, the content attribute must be removed, and otherwise, 
+			the content attribute must be set to the specified new value in a transparent, case-preserving manner.</p>
+			<p class="note">
+			Note: As of ARIA 1.2, all ARIA attributes exposed via IDL are defined as nullable {{DOMStrings}}. This matches the current implementation of all major rendering engines. This specification change should result in no implementation changes; it will merely represent the current reality of web engines.
+			However, in a future draft, the ARIA Working Group intends to change several ARIA attributes to non-nullable DOMStrings, and seek implementations. The proposed change will bring ARIA into alignment with the HTML’s usage of <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attributes</a>.</p>
 			<section class="informative" id="enumeration-example">
-				<h4>Example Enumerated Attribute Usage</h4>
+				<h4>Example Attribute Usage</h4>
 				<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
@@ -9441,7 +9435,7 @@ el.hidden; // false</pre>
 
 <!-- ReSpec needs these examples to be unindented. -->
 <pre>// aria-busy example
-// true/false ~ enumerated boolean-like nullable string; returns null unless set
+// true/false ~ boolean-like nullable string; returns null unless set
 
 el.ariaBusy; // null
 
@@ -9453,16 +9447,16 @@ el.ariaBusy; // "true"
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
-// Assignment of invalid "busy" value results in invalid value default: string "false".
+// Assignment of invalid "busy" value. Not validated on set or get and the literal string value "busy" is returned.
 el.setAttribute("aria-busy", "busy");
-el.ariaBusy; // "false"</pre>
+el.ariaBusy; // "busy"</pre>
 
 			</aside>
 			<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
 <pre>// aria-pressed example
-// Tristate ~ enumerated true/false/mixed/undefined string; null if unspecified
+// Tristate ~ true/false/mixed/undefined string; null if unspecified
 
 // no value has been defined
 button.ariaPressed; // null
@@ -9473,7 +9467,7 @@ button.ariaPressed; // "true"
 button.ariaPressed = "false"; // DOM property assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value. Not validated on get and the literal string value "foo" is returned.
+// Assignment of invalid "foo" value. Not validated on set or get and the literal string value "foo" is returned.
 button.ariaPressed = "foo";
 button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
 
@@ -10140,7 +10134,7 @@ button.ariaPressed; // null</pre>
 			<sdef>aria-current</sdef>
 			<div class="state-description">
 				<p>Indicates the <a>element</a> that represents the current item within a container or set of related elements.</p>
-				<p>The <sref>aria-current</sref> <a>attribute</a> is an enumerated type. Any value not included in the list of allowed values SHOULD be treated by <a>assistive technologies</a> as if the value <code>true</code> had been provided. If the attribute is not present or its value is an empty string or <code>undefined</code>, the default value of <code>false</code> applies and the <sref>aria-current</sref> <a>state</a> MUST NOT be exposed by user agents or assistive technologies.</p>
+				<p>The <sref>aria-current</sref> <a>attribute</a> is a token type. Any value not included in the list of allowed values SHOULD be treated by <a>assistive technologies</a> as if the value <code>true</code> had been provided. If the attribute is not present or its value is an empty string or <code>undefined</code>, the default value of <code>false</code> applies and the <sref>aria-current</sref> <a>state</a> MUST NOT be exposed by user agents or assistive technologies.</p>
 				<p>The <sref>aria-current</sref> attribute is used when an element within a set of related elements is visually styled to indicate it is the current item in the set. For example:</p>
 				<ul>
 					<li>A <code>page</code> token used to indicate a link within a set of pagination links, where the link is visually styled to represent the currently-displayed page.</li>
@@ -10659,7 +10653,7 @@ button.ariaPressed; // null</pre>
 				<p>Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an <a>element</a>.</p>
 				<p>A popup element usually appears as a block of content that is on top of other content. Authors MUST ensure that the role of the element that serves as the container for the popup content is <rref>menu</rref>, <rref>listbox</rref>, <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref>, and that the value of <code>aria-haspopup</code> matches the role of the popup container.</p>
 				<p>For the popup element to be keyboard accessible, authors SHOULD ensure that the element that can trigger the popup is focusable, that there is a keyboard mechanism for opening the popup, and that the popup element manages focus of all its descendants as described in <a href="#managingfocus">Managing Focus</a>.</p>
-				<p>The <code>aria-haspopup</code> property is an enumerated type. <a>User agents</a> MUST treat any value of <code>aria-haspopup</code> that is not included in the list of allowed values, including an empty string, as if the value <code>false</code> had been provided. To provide backward compatibility with ARIA 1.0 content, user agents MUST treat an <code>aria-haspopup</code> value of <code>true</code> as equivalent to a value of <code>menu</code>.</p>
+				<p>The <code>aria-haspopup</code> property is a token type. <a>User agents</a> MUST treat any value of <code>aria-haspopup</code> that is not included in the list of allowed values, including an empty string, as if the value <code>false</code> had been provided. To provide backward compatibility with ARIA 1.0 content, user agents MUST treat an <code>aria-haspopup</code> value of <code>true</code> as equivalent to a value of <code>menu</code>.</p>
 				<p><a>Assistive technologies</a> SHOULD NOT expose the <code>aria-haspopup</code> property if it has a value of <code>false</code>.</p>
 				<p class="note">A <rref>tooltip</rref> is not considered to be a popup in this context.</p>
 				<p class="note"><code>aria-haspopup</code> is most relevant to use when there is a visual indicator in the element that triggers the popup.
@@ -10804,7 +10798,7 @@ button.ariaPressed; // null</pre>
 				<p>Indicates the entered value does not conform to the format expected by the application. See related <pref>aria-errormessage</pref>.</p>
 				<p>If the value is computed to be invalid or out-of-range, the application author SHOULD set this <a>attribute</a> to <code>true</code>. <a>User agents</a> SHOULD inform the user of the error. Application authors SHOULD provide suggestions for corrections if they are known.</p>
 				<p>When the user attempts to submit data involving a field for which <pref>aria-required</pref> is <code>true</code>, authors MAY use the <sref>aria-invalid</sref> attribute to signal there is an error. However, if the user has not attempted to submit the form, authors SHOULD NOT set the <sref>aria-invalid</sref> attribute on required <a>widgets</a> simply because the user has not yet entered data.</p>
-				<p>For future expansion, the <sref>aria-invalid</sref> attribute is an enumerated type. Any value not recognized in the list of allowed <span>values</span> MUST be treated by user agents as if the value <code>true</code> had been provided. If the attribute is not present, or its value is <code>false</code>, or its value is an empty string, the default value of <code>false</code> applies.</p>
+				<p>For future expansion, the <sref>aria-invalid</sref> attribute is a token type. Any value not recognized in the list of allowed <span>values</span> MUST be treated by user agents as if the value <code>true</code> had been provided. If the attribute is not present, or its value is <code>false</code>, or its value is an empty string, the default value of <code>false</code> applies.</p>
 				<p class="note">This state is being deprecated as a global state in ARIA 1.2. In future versions it will only be allowed on roles where it is specifically supported.</p>
 			</div>
 			<table class="state-features">
