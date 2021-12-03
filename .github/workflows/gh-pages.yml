@@ -7,18 +7,11 @@ on:
   push:
     branches: [main]
 jobs:
-  use-deploy-script-git-command:
-    name: Using a shell script to deploy a build folder on a GitHub branch with the git command
-    runs-on: ubuntu-latest
-    env:
-      FOLDER: deploybuild
-      GITHUB_TOKEN: ${{ secrets.W3CGRUNTBOT_TOKEN }}
-      # The following variables will be used to recreate some Travis CI env variables
-      GH_BRANCH: ${{ github.head_ref }}
-      GH_EVENT_NUMBER: ${{ github.event.number }}
+  main:
+    name: Build, Validate and Deploy
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      # don't forget: git update-index --chmod +x ./.github/scripts/deploy.sh
-      - name: Run deploy.sh script
-        run: ./.github/scripts/deploy.sh
-        shell: bash
+      - uses: w3c/spec-prod@v2
+        with:
+          GH_PAGES_BRANCH: gh-pages
