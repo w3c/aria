@@ -90,17 +90,70 @@
     </section>
     <section class="informative">
       <h2>ARIA semantics that extend/diverge from HTML</h2>
-      <p>Through the use of ARIA, authors can express semantics that go beyond the current native
-        HTML capabilities. As a result, there are situations where certain `aria-*` attributes are
+      <p>
+        Through the use of ARIA, authors can express semantics that go beyond the current native
+        HTML capabilities. This can be very useful, as it provides authors the opportunity to 
+        create widgets, or extend HTML features beyond what they'd be able to do with HTML alone.
+      </p>
+      <p>
+        For instance, a `button` element has no native HTML feature to indicate a "pressed" state.
+        ARIA allows authors to extend the semantics of the element by use of the `aria-pressed`
+        attribute, allowing for an aural UI that will match the visual presentation of the control.
+      </p>
+      <div class="example">
+        <p>
+          In the following example, a `button` allows for a user to toggle the state of a 
+          setting within a web application. Native HTML does not presently have a way to 
+          communicate a `button` being in a "pressed" or "unpressed" state, so ARIA can
+          be used to extend the `button` element's semantics.
+        </p>
+        <pre class="HTML example" title="Communicate a button's pressed state with ARIA">
+        &lt;button aria-pressed=true>...&lt;/button>
+        </pre>
+      </div>
+      <p>
+        But then there are also situations where certain `aria-*` attributes are
         allowed for use on elements with particular `role`s, while the equivalent native attribute
-        is currently not allowed in HTML itself.</p>
-      <p>For instance, HTML has no direct concept of a disabled link. Constructs such as `&lt;a href="..." disabled&gt; ... &lt;/a&gt;` are not valid, and will not be conveyed to assistive technologies. However, using ARIA, it is valid to
-        define a disabled link using `&lt;a href="..." aria-disabled="true"&gt; ... &lt;/a&gt;`. While user agents
-        won't handle this link any differently (it will still be clickable/operable), it will be exposed to assistive
-        technologies as being disabled.</p>
-      <p>Similarly, while in native HTML `option` elements inside a `select` can only be set as being `selected`, ARIA
-        not only allows the equivalent `aria-selected`, but also the `aria-checked` attribute, to support widgets/constructs
-        that go beyond the capabilities of a native `select`.</p>
+        is currently not valid in HTML itself.
+      </p>
+      <p>
+        For instance, HTML has no direct concept of a disabled hyperlink (`a href` element). 
+        Constructs such as `&lt;a href="..." disabled&gt; ... &lt;/a&gt;` are not valid, 
+        and will not be conveyed to assistive technologies. 
+      </p>
+      <p>
+        ARIA, however, diverges from HTML in this regard and does allow for an `aria-disabled`
+        attribute to be specified on an element with an explicit `role=link`. If an author were
+        to specify an `aria-disabled=true` on an HTML hyperlink, user agents would not functionally
+        treat the hyperlink any differently (it would still be clickable/operable), however it 
+        would be exposed to assistive technologies as being in the disabled state.
+      </p>
+      <p>
+        Similarly, while native HTML `option` elements that are descendants of a `select` can 
+        only be set as being `selected`, elements with an explicit `option` role can not only 
+        allow the equivalent `aria-selected`, but also the `aria-checked` attribute, supporting
+        widgets/constructs that go beyond the capabilities of a native `select`.
+      </p>
+      <p>
+        Unfortunately, in these situations where ARIA and HTML have feature parity, but diverge 
+        in allowances, it can create for a misalignment in support, if not also user experiences. 
+        In the situations where ARIA allows a feature which HTML does not support, it will often
+        be in the author's, and ultimately the user's best interest to instead implement as a 
+        fully custom ARIA implementation.
+      </p>
+      <div class="example">
+        <p>
+          In the following example, a hyperlink needs to be communicated as being in the disabled
+          state. HTML does not allow for the use of the `disabled` attribute on a hyperlink,
+          and using `aria-disabled=true` would communicate the hyperlink as being disabled, without
+          actually disabling it. The most effective way to both communicate a hyperlink as 
+          disabled would be to remove the `href` from the `a` element, and use ARIA to communicate
+          the element's role and state.
+        </p>
+        <pre class="HTML example" title="Communicate a disabled link with ARIA">
+        &lt;a role=link aria-disabled=true>...&lt;/a>
+        </pre>
+      </div>
     </section>
     <section class="informative">
       <h2>
