@@ -1076,7 +1076,8 @@
                   <span class="type">Roles:</span> `ROLE_SYSTEM_TEXT`; `IA2_ROLE_CAPTION`
                 </div>
                 <div class="relations">
-                  <span class="type">Relations:</span> `IA2_RELATION_LABEL_FOR` with parent <a href="#el-figure">`figure`</a> element
+                  <span class="type">Relations:</span> 
+                  `IA2_RELATION_DETAILS_FOR` with parent <a href="#el-figure">`figure`</a> element
                 </div>
                 <div class="ifaces">
                   <span class="type">Interfaces:</span> `IAccessibleText2`; `IAccessibleHypertext2`;
@@ -1093,7 +1094,7 @@
                 </div>
                 <div class="relations">
                   <span class="type">Relations:</span>
-                  `ATK_RELATION_LABEL_FOR` with parent <a href="#el-figure">`figure`</a> element
+                  `RELATION_DETAILS_FOR` with parent <a href="#el-figure">`figure`</a> element
                 </div>
                 <div class="ifaces">
                   <span class="type">Interfaces:</span> `AtkText`; `AtkHypertext`
@@ -1123,34 +1124,25 @@
                 <div class="role">
                   <span class="type">Role:</span> Use WAI-ARIA mapping
                 </div>
-                <div class="relations">
-                  <span class="type">Relations:</span> `IA2_RELATION_LABELLED_BY` with child <a href="#el-figcaption">`figcaption`</a> element
-                </div>
               </td>
               <td class="uia">
                 <div class="role">
                   <span class="type">Role:</span> Use WAI-ARIA mapping
                 </div>
-                <div class="general">
-                  Accessible name derived from `figcaption` according to the <a href="#figure-element-accessible-name-computation">`figure` Element Accessible Name Computation</a>
-                </div>
               </td>
               <td class="atk">
                 <div class="role">
                   <span class="type">Role:</span> Use WAI-ARIA mapping</div>
-                <div class="name">
-                  <span class="type">Name:</span> related <a href="#el-figcaption">`figcaption`</a> content
-                </div>
-                <div class="relations">
-                  <span class="type">Relations:</span> `ATK_RELATION_LABELLED_BY` with child <a href="#el-figcaption">`figcaption`</a> element
-                </div>
               </td>
               <td class="ax">
                 <div class="role">
                   <span class="type">AXRole:</span> Use WAI-ARIA mapping
                 </div>
               </td>
-              <td class="comments"></td>
+              <td class="comments">
+                The first child instance of a <a href="#el-figcaption">`figcaption`</a> provides details 
+                for its parent <a href="#el-figure">`figure`</a>.
+              </td>
             </tr>
             <tr tabindex="-1" id="el-footer-ancestorbody">
               <th>
@@ -6326,6 +6318,13 @@
     </section>
     <section>
       <h3>`figure` and `figcaption` Elements</h3>
+      <div class="note">
+        <p>
+          A <a href="#el-figcaption">`figcaption`</a> provides additional detailed information related to its parent 
+          <a href="#el-figure">`figure`</a> element. A `figcaption` does not take part in the 
+          <a class="termref">accessible name</a> or <a class="termref">accessible description</a> computation.
+        </p>
+      </div>
       <section>
         <h4>`figure` Element Accessible Name Computation</h4>
         <ol>
@@ -6333,12 +6332,11 @@
             If the `figure` element has an <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-label">`aria-label`</a> or an <a href="https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby">`aria-labelledby`</a> attribute the <a class="termref">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a>.
           </li>
           <li>
-            If the <a class="termref">accessible name</a> is still empty, then: if the `figure` element has a <a href="https://dom.spec.whatwg.org/#concept-tree-child">child</a> that is a `figcaption` element, then use the subtree of the first such element.
+            Otherwise, use the `title` attribute.
           </li>
           <li>
-            If the <a class="termref">accessible name</a> is still empty, then: if the `figure` element has a `title` attribute, then use that attribute.
+            If none of the above yield a usable text string there is no <a class="termref">accessible name</a>.
           </li>
-          <li>Otherwise, there is no <a class="termref">accessible name</a>.</li>
         </ol>
       </section>
       <section>
