@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "_head.phi"; ?> 		
+<?php include "_head.phi"; ?>
 		<title>ARIA Decision Policy</title>
 	</head>
 	<body>
-<?php include "_header.phi"; ?>		
+<?php include "_header.phi"; ?>
 		<h1>ARIA Decision Policy</h1>
-		
+
 		<p>This document explains the decision process of the Accessible Rich Internet Applications Working Group.</p>
 		<p>There are often divergent opinions on issues. It is important that all views are expressed and considered, but it is critical to Working Group function that it can come to conclusions. The procedures set out here describe how the WG discusses a topic and forms a decision, preferably by <a href="https://www.w3.org/Consortium/Process/#Consensus">consensus</a>. These procedures are designed to ensure that input is considered, whether in teleconferences or using asynchronous communication tools.</p>
 		<p>The procedure to reach a decision is:</p>
@@ -33,7 +33,7 @@
 		<p><strong>Participant unavailability:</strong> If participants with an active interest in the outcome of the decision are on leave due to vacation, sick leave, longer holidays, etc., they may request that a CfC not be issued during their absence, or that the deadline be extended. Due to the potential impact on Working Group timelines, the chair must use reasonable judgement about whether to grant the delay or extension. The chair must not use the policy timelines to exclude an important perspective, but participants must not expect the Working Group to cease decision-making during an extended absence.</p>
 		<p><strong>Appeals:</strong> If a participant believes the chair has not exercised sound judgment in following this policy, they should express their concern first to the chair, escalate if needed to the staff contact, and if still needed escalate to the W3C Web Accessibility Initiative Domain Lead.</p>
 		<p><strong>Votes:</strong> It is the intent of this policy for the Working Group to make decisions by consensus in a timely manner. If, after executing these procedures, including re-opening the discussion at least once, the chair determines consensus is unachievable, the <a href="charter">Working Group charter</a> allows for a <a href="https://www.w3.org/Consortium/Process/#Votes">vote</a> which is carried out according to W3C Process. Resorting to voting is highly undesirable, and the intent of this decision policy is to avoid voting.</p>
-		
-<?php include "_footer.phi"; ?> 		
+
+<?php include "_footer.phi"; ?>
 	</body>
 </html>

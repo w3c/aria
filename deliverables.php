@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "_head.phi"; ?> 		
+<?php include "_head.phi"; ?>
 		<title>ARIA Project Plan</title>
 	</head>
 	<body>
-<?php include "_header.phi"; ?>		
+<?php include "_header.phi"; ?>
 		<h1>ARIA Deliverables</h1>
-		
+
 		<p>WAI-ARIA, the Accessible Rich Internet Applications Suite, defines a way to make Web content and Web applications more accessible to people with disabilities. It especially helps with dynamic content and advanced user interface controls developed with Ajax, HTML, JavaScript, and related technologies. The <a href="project">ARIA Project Plan</a> details intended timeline and milestones for this work.</p>
 		<p>The work has been divided into a series of modules and related documents. The deliverables are: </p>
 		<table>
@@ -152,7 +152,7 @@
 			</tbody>
 		</table>
 		<p>Also see the <a href="/WAI/intro/aria">WAI-ARIA Overview Page</a>. Editors' sources for the above specifications are maintained in the <a href="https://github.com/w3c/aria/">W3C ARIA GitHub repository</a>. GitHub users can watch this repository and send pull requests.</p>
-		
-<?php include "_footer.phi"; ?> 		
+
+<?php include "_footer.phi"; ?>
 	</body>
 </html>

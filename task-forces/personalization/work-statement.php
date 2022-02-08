@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "../../_head.phi"; ?> 		
+<?php include "../../_head.phi"; ?>
 		<title>Personalization Task Force</title>
 	</head>
 	<body>
-<?php include "../../_header.phi"; ?>		
+<?php include "../../_header.phi"; ?>
 		<h1>Personalization Task Force Work Statement</h1>
 		<p>The Personalization Task Force is a task force of the <a href="http://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group (ARIA Working Group)</a>. It assists this Working Group with the work identified below.</p>
 		<section id="status">
@@ -60,7 +60,7 @@
 			<h2>Patent Policy</h2>
 			<p>This Task Force is part of the <a href="http://www.w3.org/WAI/ARIA/charter">ARIA Working Group Charter</a>, which operates under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">W3C Patent Policy</a> (5 February 2004 Version). W3C maintains a public list of any patent disclosures made in connection with the deliverables of the <a href="http://www.w3.org/2004/01/pp-impl/83726/status">ARIA Working Group</a>.</p>
 		</section>
-		
-<?php include "../../_footer.phi"; ?> 		
+
+<?php include "../../_footer.phi"; ?>
 	</body>
 </html>

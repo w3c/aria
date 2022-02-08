@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "_head.phi"; ?> 		
+<?php include "_head.phi"; ?>
 		<title>Accessible Rich Internet Applications (ARIA) Working Group</title>
 	</head>
 	<body>
-<?php include "_header.phi"; ?>		
+<?php include "_header.phi"; ?>
 <h1>WAI-ARIA FAQ</h1>
 <p>Here are answers to some frequently asked questions (FAQ) about WAI-ARIA, the <strong>Accessible Rich Internet Applications Suite</strong>. When we add significant information to this page, we'll send an e-mail to the <a href="http://www.w3.org/WAI/IG/#about">WAI IG list</a> and an update to the <a href="http://www.w3.org/WAI/highlights/rssfeed.rss">WAI Highlights RSS feed</a> to let you know. ~<em><a href="http://w3.org/People/Shawn/">Shawn Henry</a>, W3C WAI, <a href="#update">updated 20 March 2014</a></em></p>
 
@@ -41,7 +41,7 @@
 <a name="status" id="status"></a>
 <h2>What is the current status of WAI-ARIA development?</h2>
 <a name="update" id="update"></a>
-      <div class="update"> 
+      <div class="update">
          <h3><strong>March 2014 Update</strong></h3>
          <p class="listintro"><a href="http://www.w3.org/TR/wai-aria/">WAI-ARIA 1.0</a> is  a  completed W3C Recommendation.</p>
          <p class="listintro"><a href="http://www.w3.org/TR/wai-aria-1.1/">WAI-ARIA 1.1</a> is expected to include only a few changes from 1.0. Most  potential changes will be considered for WAI-ARIA 2.0. WAI-ARIA 1.1 was published as a First Public Working Draft on 26 September 2013. The primary change in this Draft is the addition of <code>aria-describedat</code>. The in-progress <a href="http://www.w3.org/WAI/PF/aria-1.1/">Editors' Draft of WAI-ARIA 1.1</a> is the latest unpublished draft &mdash; it might include early ideas that are not yet well developed, vetted, or approved.</p>
@@ -86,7 +86,7 @@ researchers, government, and others interested in Web accessibility.</p>
 <h2> As a Web content developer, what should I do with WAI-ARIA now?</h2>
 <p class="listintro">There are several benefits to starting to implement WAI-ARIA now, including:</p>
 <ul class="listafterpul">
-  <li>The <a href="http://www.w3.org/WAI/intro/aria#is"> WAI-ARIA Primer and 
+  <li>The <a href="http://www.w3.org/WAI/intro/aria#is"> WAI-ARIA Primer and
     WAI-ARIA Authoring Practices</a> provide detailed advice and examples for developers.</li>
   <li>WAI-ARIA is already being supported in some browsers, assistive technologies, and other user agents; as well as JavaScript toolkits, as mentioned above. </li>
   <li>If you have questions or suggestions for changes to the WAI-ARIA documents, now is the best time to get them addressed, while the documents are still in development.</li>
@@ -130,7 +130,7 @@ researchers, government, and others interested in Web accessibility.</p>
 <p>The <a href="http://lists.w3.org/Archives/Public/wai-xtech/" class="external text" title="http://lists.w3.org/Archives/Public/wai-xtech/" rel="nofollow">WAI-XTech list</a> is available for anyone to discuss technical issues on WAI-ARIA.</p><p>To subscribe to the WAI-XTech list, please follow the instructions under <a href="http://www.w3.org/WAI/PF/participation.html#lists">Follow work on mailing lists</a> in the Participation in the Protocols and Formats Working Group page.</p>
 
 <p class="top">[<a href="#main" title="Go to top of page">top of page</a>]</p>
-</div>  
-<?php include "_footer.phi"; ?> 		
+</div>
+<?php include "_footer.phi"; ?>
 	</body>
 </html>

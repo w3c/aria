@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "../_head.phi"; ?> 		
+<?php include "../_head.phi"; ?>
 		<title>ARIA Task Forces</title>
 	</head>
 	<body>
-<?php include "../_header.phi"; ?>		
+<?php include "../_header.phi"; ?>
 		<h1>ARIA Task Forces</h1>
-		
+
 		<p>The ARIA Working Group conducts some of its work via the following task forces. See each task force page for details about specific work and how to join.</p>
-		
+
 		<section id="aria-practices">
 			<h2>ARIA Authoring Practices Task Force</h2>
 			<p>The <a href="practices/">ARIA Authoring Practices task force</a> to develop WAI-ARIA Authoring Practices, which describes considerations that might not be evident to most authors from the WAI-ARIA specification alone and recommends approaches to make widgets, navigation, and behaviors accessible using WAI-ARIA roles, states, and properties.</p>
@@ -34,7 +34,7 @@
 			<h2>Digital Publishing ARIA Task Force</h2>
 			<p>This task force has closed.</p>
 		</section>
-		
-<?php include "../_footer.phi"; ?> 		
+
+<?php include "../_footer.phi"; ?>
 	</body>
 </html>

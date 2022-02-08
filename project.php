@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "_head.phi"; ?> 		
+<?php include "_head.phi"; ?>
 		<title>ARIA Project Plan</title>
 	</head>
 	<body>
-<?php include "_header.phi"; ?>		
+<?php include "_header.phi"; ?>
 		<h1>ARIA Project Plan</h1>
-		
+
 		<p>Key deliverables of WAI-ARIA 1.1 and core supporting Accessibility API mappings are currently about 9 months behind the original schedule. This is due in part to time and focus lost during the charter process in 2015 which saw an attempt to recharter the original Working Group fail the Advisory Committee review and a new Working Group form after months of discussion. There was an administrative lag in migrating participants to the new group exacerbated by the timing close to the December holiday season. Diverted focus from participants led to slower reviews and consensus procedures, while some technical issues, such as the proposed aria-describedat, turned out to be more controversial than initially expected. The Working Group has recently engaged in reprioritization, moving some technical features to a future version of the technology and focusing more tightly on resolving open issues. It also expects a shorter testing period than had been planned based on the ARIA 1.0 experience, due to much overlap in features between ARIA 1.1 and ARIA 1.0 and greater experience with the testing process. Therefore the WG still plans to bring these specifications to Recommendation in 2016.</p>
 		<p>@@additional analysis of reasons for delay: dindn't update timeline with charter delay; unclear limits on scope (requirements done too late); unexpected lack of consensus on certain topics; </p>
 		<p>WAI-ARIA modules for Digital Publishing and Graphics with supporting accessibility API mappings are approximately 6 months behind schedule, due to the time need to ramp up joint task forces to develop those specifications, and because of effects related to the ARIA 1.1 delays. These task forces now operate relatively independently and have sped up their productivity, so these specifications are expected to be completed relatively close to the original projections.</p>
@@ -147,7 +147,7 @@
 				</tbody>
 			</table>
 		</section>
-		
+
 		<section>
 			<h2>Pseudo-Gantt Chart</h2>
 			<p>This table attempts to represent a Gantt chart view of the ARIA WG deliverable timeline, to help maintain an even distribution of resources. A more informative and accessible format for this is sought.</p>
@@ -788,9 +788,9 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
 		</section>
-				
-<?php include "_footer.phi"; ?> 		
+
+<?php include "_footer.phi"; ?>
 	</body>
 </html>
