@@ -24,7 +24,7 @@
 		</section>
 		<section id="aria-aapi">
 			<h2>WAI-ARIA User Agent Implementation Task Force</h2>
-			<p>This task force has closed.</p>
+			<p>The <a href="aria-ua/">WAI-ARIA User Agent Implementation Task Force</a> has closed.</p>
 		</section>
 		<section id="svg-a11y">
 			<h2>SVG Accessibility Task Force</h2>
