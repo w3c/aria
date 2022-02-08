@@ -7,9 +7,10 @@
 	<body>
 <?php include "_header.phi"; ?>
 		<h1>ARIA Minutes</h1>
-
-		<p>This page will contain a (hopefully automatically) generated list of minutes of meetings.</p>
-
+		<?php
+	$channel_id = array("aria", "aria-dive");
+	include "../../2022/01/minutes/default-view.phi";
+	?>
 <?php include "_footer.phi"; ?>
 	</body>
 </html>

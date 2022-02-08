@@ -60,12 +60,10 @@ if ($sth->rowCount() > 0) {
 				<h3>Teleconferences</h3>
 				<p>The task force is currently no conducting teleconferences.</p>
 			</section>
-			<!--
 			<section id="minutes">
 				<h3>Meeting Minutes</h3>
 				<p><a href="minutes">Minutes from previous meetings</a> are available.</p>
 			</section>
-			-->
 			<section id="email">
 				<h3>Mailing Lists</h3>
 				<p>The UA TF uses the public-aria@w3.org mailing list (<a href="http://lists.w3.org/Archives/Public/public-aria/">mailing list archives</a>) for email discussion.</p>

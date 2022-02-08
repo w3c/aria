@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
 	<head>
-<?php include "_head.phi"; ?> 		
+<?php include "_head.phi"; ?>
 		<title>ARIA Task Forces</title>
 	</head>
 	<body>
-<?php include "_header.phi"; ?>		
+<?php include "_header.phi"; ?>
 		<h1>ARIA Task Forces</h1>
-		
+
 		<p>The ARIA Working Group conducts some of its work via the following task forces. See each task force page for details about specific work and how to join.</p>
-		
+
 		<section id="aria-aapi">
 			<h2>WAI-ARIA User Agent Implementation Task Force</h2>
 			<p>The publicly visible <a href="http://www.w3.org/WAI/PF/aria-ua-task-force">User Agent Implementation Task Force</a> is a joint task force of the ARIA WG and the <a href="http://www.w3.org/html/wg/">HTML Working Group (HTML WG)</a>. The objective of UAI TF is to develop guidelines for interoperable user agent implementation of the WAI-ARIA specification. Discussion and meeting information is posted to the WAI-XTech mailing list with the subject prefix "aapi". The <a href="http://www.w3.org/WAI/PF/#aria">section on WAI-ARIA</a> has further information about how to follow this work.</p>
@@ -28,7 +28,7 @@
 			<h2>ARIA Authoring Practices sub-group</h2>
 			<p>The ARIA Authoring Practices sub-group is not a task force, but a sub-group of the ARIA WG. However, it conducts separate teleconferences. Teleconferences are Mondays at 1:00 pm to 2:30 pm Boston time using the <a href="https://mit.webex.com/mit/j.php?MTID=m76ff0a6141ceb5e070cfc77d7f4d321a">ARIA Authoring Practices Meeting</a>. If you need to dial into the phone service, dial +1-617-324-0000 and enter passcode 646 444 732 (autodial: +1-617-324-0000,,,646444732#). The IRC channel is <a href="irc://irc.w3.org/aria-apg">irc.w3.org channel #aria-apg</a>.</p>
 		</section>
-		
-<?php include "_footer.phi"; ?> 		
+
+<?php include "_footer.phi"; ?>
 	</body>
 </html>

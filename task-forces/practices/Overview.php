@@ -44,7 +44,7 @@ if ($sth->rowCount() > 0) {
 			<h2>Meetings and Communication</h2>
 			<p>The APG Task Force conducts its work using a variety of synchronous and asynchronous tools.<!-- The <a href="communication">communication</a> page provides details about:--></p>
 			<ul>
-				<li>Teleconferences of the Working Group and its task forces<!-- (also see <a href="minutes">meeting minutes</a>)-->;</li>
+				<li>Teleconferences of the Working Group and its task forces (also see <a href="minutes">meeting minutes</a>);</li>
 				<li>Face to face meetings<!-- (also see face to face <a href="wiki/Meetings">meeting pages</a>)-->;</li>
 				<li><a href="#email">Email lists</a>;</li>
 				<li>IRC discussion on the <a href="irc://irc.w3.org/aria-apg">#aria-apg</a> IRC channel, used largely for minute-taking;</li>
@@ -65,12 +65,10 @@ if ($sth->rowCount() > 0) {
 				?>
 			</ul>
 			</section>
-			<!--
 			<section id="minutes">
 				<h3>Meeting Minutes</h3>
 				<p><a href="minutes">Minutes from previous meetings</a> are available.</p>
 			</section>
-			-->
 			<section id="email">
 				<h3>Mailing Lists</h3>
 				<p>The APG Task Force uses the public-aria-practices@w3.org mailing list (<a href="http://lists.w3.org/Archives/Public/public-aria-practices/">mailing list archives</a>) for email discussion. Participants are automatically added to the mailing list when they become a participant of the Task Force.</p>
