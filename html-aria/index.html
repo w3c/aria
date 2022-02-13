@@ -46,14 +46,14 @@
         of [[[wai-aria-1.1]]] and [[[dpub-aria-1.0]]] attributes on [[HTML]] elements.
         This specification's primary objective is to define requirements for use
         with conformance checking tools used by authors (i.e., web developers). These requirements will aid authors
-        in their development of web content, including custom interfaces/widgets, that makes use of ARIA to
+        in their development of web content, including custom interfaces and widgets, which make use of ARIA to
         complement or extend the features of the host language [[HTML]].
       </p>
     </section>
     <section id="sotd" class="updateable-rec">
       <p>
         ARIA in HTML is an [[HTML]] specification module. Any HTML features, conformance requirements, or terms that this specification
-        module makes reference to, but does not explicitly define, are defined in the [[HTML|HTML specification]].
+        module makes reference to, but does not explicitly define, are defined by the [[HTML|HTML Standard]].
       </p>
     </section>
     <section>
@@ -63,56 +63,54 @@
       <p>
         Authors MAY use the ARIA `role` and `aria-*` attributes to change
         the exposed meaning (<a data-cite="html/dom.html#semantics-2">semantics</a>) of
-        [=HTML elements=], in accordance with the requirements described in
-        [[wai-aria-1.1|WAI-ARIA]], except where these conflict with the
+        [=HTML elements=], in accordance with the requirements defined by
+        [[wai-aria-1.1|WAI-ARIA]], except where ARIA features conflict with the
         <dfn data-cite="wai-aria-1.1#host_general_conflict">strong native semantics</dfn>
         or are equal to the
         <dfn data-cite="wai-aria-1.1#implicit_semantics">implicit ARIA semantics</dfn>
-        of a given HTML element. The <a>implicit ARIA semantics</a> for
-        HTML elements are defined in the
+        of a given HTML element. The <a>implicit ARIA semantics</a> for the features
+        of HTML are defined by the
         [[html-aam-1.0|HTML Accessibility API Mappings]] specification.
       </p>
       <p>
-        The constraints defined in this specification are intended to prevent
-        authors from making assistive technology products report nonsensical
-        user interface (UI) information that does not represent the actual UI
+        Any constraints for the use of ARIA features in HTML defined by this specification 
+        are intended to prevent authors from making assistive technology products report 
+        nonsensical user interface (UI) information that does not represent the actual UI
         of the document.
       </p>
       <p>
-        Authors MUST NOT use the ARIA `role` and `aria-*` attributes in
-        a manner that conflicts with the semantics described in the
-        [[[#docconformance]]] and [[[#docconformance-attr]]] tables.
-        It is NOT RECOMMENDED for authors to set the ARIA `role` and
-        `aria-*` attributes to values that match the
-        <a>implicit ARIA semantics</a> defined in the table. Doing so is
-        unnecessary and can potentially lead to unintended consequences.
+        Authors MUST NOT use the ARIA `role` and `aria-*` attributes in a manner that conflicts 
+        with the semantics described in the [[[#docconformance]]] and [[[#docconformance-attr]]] 
+        tables. It is NOT RECOMMENDED for authors to set the ARIA `role` and `aria-*` attributes 
+        to values that match the <a>implicit ARIA semantics</a> defined in either table. 
+        Doing so is unnecessary and can potentially lead to unintended consequences.
       </p>
     </section>
     <section class="informative">
       <h2>ARIA semantics that extend and diverge from HTML</h2>
       <p>
-        Through the use of ARIA, authors can express semantics that go beyond the current native
-        HTML capabilities. This can be very useful, as it provides authors the opportunity to 
-        create widgets, or extend HTML features beyond what they'd be able to do with HTML alone.
+        Through the use of ARIA, authors can specify semantics that go beyond the current 
+        capabilities of native HTML. This can be very useful, as it provides authors the opportunity 
+        to create widgets, or expose specific accessible states and properties to native HTML features 
+        which would not be possible by the use of HTML alone.
       </p>
       <p>
-        For instance, a `button` element has no native HTML feature to indicate a "pressed" state.
-        ARIA allows authors to extend the semantics of the element by use of the `aria-pressed`
+        For instance, a `button` element has no native HTML feature to expose a "pressed" state.
+        ARIA allows authors to extend the semantics of the element by specifying the `aria-pressed`
         attribute, allowing for an aural UI that will match the visual presentation of the control.
       </p>
       <p>
         In the following example, a `button` allows for a user to toggle the state of a 
-        setting within a web application. Native HTML does not presently have a way to 
-        communicate a `button` being in a "pressed" or "unpressed" state, so ARIA can
-        be used to extend the `button` element's semantics.
+        setting within a web application. The `aria-pressed` attribute is used to 
+        augment the `button` element. When in the "pressed" state that information can be
+        exposed to users of assistive technologies.
       </p>
       <pre class="HTML example" title="Communicate a button's pressed state with ARIA">
       &lt;button aria-pressed=true>...&lt;/button>
       </pre>
       <p>
-        But then there are also situations where certain `aria-*` attributes are
-        allowed for use on elements with particular `role`s, while the equivalent native attribute
-        is currently not valid in HTML itself.
+        There are also situations where certain `aria-*` attributes are allowed for use on elements 
+        with specific `role`s, while the equivalent native attribute is currently not valid in HTML itself.
       </p>
       <p>
         For instance, HTML has no direct concept of a disabled hyperlink (`a href` element). 
@@ -120,7 +118,7 @@
         and will not be conveyed to assistive technologies. 
       </p>
       <p>
-        ARIA, however, diverges from HTML in this regard and does allow for an `aria-disabled`
+        ARIA diverges from HTML in this regard and does allow for an `aria-disabled`
         attribute to be specified on an element with an explicit `role=link`. If an author were
         to specify an `aria-disabled=true` on an HTML hyperlink, user agents would not functionally
         treat the hyperlink any differently (it would still be clickable/operable), however it 
@@ -130,14 +128,14 @@
         Similarly, while native HTML `option` elements that are descendants of a `select` can 
         only be set as being `selected`, elements with an explicit `option` role can not only 
         allow the equivalent `aria-selected`, but also the `aria-checked` attribute, supporting
-        widgets/constructs that go beyond the capabilities of a native `select`.
+        widgets/constructs that go beyond the capabilities of a native `select` element.
       </p>
       <p>
         Unfortunately, in these situations where ARIA and HTML have feature parity, but diverge 
         in allowances, it can create for a misalignment in support, if not also user experiences. 
-        In the situations where ARIA allows a feature which HTML does not support, it will often
-        be in the author's, and ultimately the user's best interest to instead implement as a 
-        fully custom ARIA implementation.
+        In situations where ARIA allows a feature not supported by HTML, it will often
+        be in the author's and ultimately the user's best interest to instead implement as a 
+        fully custom ARIA widget.
       </p>
       <p>
         In the following example, a hyperlink needs to be communicated as being in the disabled
@@ -145,7 +143,7 @@
         and using `aria-disabled=true` would communicate the hyperlink as being disabled to 
         assistive technologies, but would not actually disable the element. The most effective way 
         to both communicate and actually disable a hyperlink would be to remove the `href` from 
-        the `a` element, thus creating a placeholder link. Then, use ARIA can be applied to this
+        the [^a^] element, creating a placeholder. Then, use ARIA can be applied to this
         placeholder link to communicate the element's intended role and state.
       </p>
       <pre class="HTML example" title="Communicate a disabled link with ARIA">
@@ -643,6 +641,7 @@
               <p>
                 Roles:
                 <a href="#index-aria-checkbox">`checkbox`</a>,
+                <span class="proposed addition"><a href="#index-aria-combobox">`combobox`</a></span>,
                 <a href="#index-aria-link">`link`</a>,
                 <a href="#index-aria-menuitem">`menuitem`</a>,
                 <a href="#index-aria-menuitemcheckbox">`menuitemcheckbox`</a>,
@@ -1366,6 +1365,8 @@
             <td>
               <p>
                 Roles:
+                <span class="proposed correction"><a href="#index-aria-checkbox">`checkbox`</a>,</span>
+                <span class="proposed addition"><a href="#index-aria-combobox">`combobox`</a>,</span>
                 <a href="#index-aria-link">`link`</a>,
                 <a href="#index-aria-menuitem">`menuitem`</a>,
                 <a href="#index-aria-menuitemcheckbox">`menuitemcheckbox`</a>,
@@ -4417,6 +4418,11 @@
       <h2>Change log</h2>
       <h3>Substantive changes since the last published Recommendation</h3>
       <ul>
+        <li>
+          12-Feb-2022:
+           Allow `combobox` role on <a href="#el-button">`button` element</a>. 
+           Allow `combobox` and `checkbox` roles on <a href="#el-input-button">`input type=button` element</a>. 
+        </li>
         <li>
           18-Jan-2022:
           Added <a href="#docconformance-deprecated">Requirements for deprecated ARIA role, state and property and attributes</a>.
