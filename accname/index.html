@@ -140,7 +140,7 @@
     preProcess: [ linkCrossReferences ],
 	  postProcess: [ addPlatformMaintainers ],
     //Pointing to the 1.2 versions but should remove the version in the publishing branch
-	  xref: ["core-aam-1.2", "wai-aria-1.2"]
+	  xref: ["dom", "core-aam-1.2", "wai-aria-1.2", "infra"]
   }
 </script>
 </head>
@@ -160,6 +160,27 @@
   <p><a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>
   <p>The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref">accessible objects</a> as exposed by <a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>.  However, they are frequently referred to hereafter as simply "name" and "description".</p>
 </section>
+<section class="informative" id="terms">
+	<h1>Important Terms</h1>
+	<div>
+		<p>While some terms are defined in place, the following definitions are used throughout this document. </p>
+		<dl class="termlist">
+      <dt><dfn data-export="">Accessible Description</dfn></dt>
+			<dd>
+			  <p>An accessible description provides additional information, related to an interface element, that complements the <a>accessible name</a>. The accessible description might or might not be visually perceivable. </p>
+			</dd>
+			<dt><dfn data-export="">Accessible Name</dfn></dt>
+			<dd>
+			  <p>The accessible name is the name of a user interface element. Each platform <a>accessibility <abbr title="application programming interface">API</abbr></a> provides the accessible name property. The value of the accessible name may be derived from a visible (e.g., the visible text on a button) or invisible (e.g., the text alternative that describes an icon) property of the user interface element.  See related <a>accessible description</a>.</p>
+			  <p>A simple use for the accessible name property may be illustrated by an &quot;OK&quot; button. The text &quot;OK&quot; is the accessible name. When the button receives focus, assistive technologies may concatenate the platform's role description with the accessible name. For example, a screen reader may speak &quot;push-button OK&quot; or &quot;OK button&quot;. The order of concatenation and specifics of the role description (e.g., &quot;button&quot;, &quot;push-button&quot;, &quot;clickable button&quot;) are determined by platform <a class="termref">accessibility API</a>s or <a>assistive technologies</a>.</p>
+			</dd>      
+      <dt><dfn>Tooltip attribute</dfn></dt>
+			<dd>
+			  <p>Any host language attribute that would result in a user agent generating a tooltip such as in response to a mouse hover in desktop user agents.</p>
+			</dd>
+    </dl>
+  </div>
+</section>
 <section id="conformance">
   <section>
     <h3>RFC-2119 Keywords</h3>
@@ -167,19 +188,19 @@
   </section>
   <section>
     <h3>Normative and Informative Sections</h3>
-    <p>The indication whether a section is <a class="termref">normative</a> or <a class="termref">non-normative</a> (informative) applies to the entire section including sub-sections.</p>
+    <p>The indication whether a section is normative or non-normative (informative) applies to the entire section including sub-sections.</p>
     <p>Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such recommendations in order to conform to this specification.</p>
   </section>
 </section>
-<section id="mapping_additional_nd" class="normative">
+<section id="mapping_additional_nd" class="normative" data-cite="dom">
   <h2>Name and Description</h2>
-  <p>The starting point of the name and description computation is a <abbr title="Document Object Model">DOM</abbr> <a class="termref">element</a>.  The output is a flat, unstructured string that can be as simple as a single word, or a string of space-separated tokens.  Examples include <code>Save</code> and <code>Reload from disk</code>.</p>
-  <p>An important factor is the <a class="termref">element</a>'s <a class="termref">role</a>, that determines which content contributes to the name string.  Roles have a <code>nameFrom</code> <abbr title="Resource Description Framework">RDF</abbr> property, with three possible values:  </p>
+  <p>The starting point of the name and description computation is a <abbr title="Document Object Model">DOM</abbr> [=element=].  The output is a flat, unstructured string that can be as simple as a single word, or a string of space-separated tokens.  Examples include <code>Save</code> and <code>Reload from disk</code>.</p>
+  <p>An important factor is the [=element|element's=] <a class="termref">role</a>, that determines which content contributes to the name string.  Roles have a <code>nameFrom</code> <abbr title="Resource Description Framework">RDF</abbr> property, with three possible values:  </p>
   <dl class="runin">
     <dt>author</dt>
-    <dd>name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> <a class="termref">attribute</a>, or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> <a class="termref">attribute</a> in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> <a class="termref">element</a> in <abbr title="Scalable Vector Graphics">SVG</abbr>. </dd>
+    <dd>name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> [=attribute=], or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> [=attribute=] in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> [=element=] in <abbr title="Scalable Vector Graphics">SVG</abbr>. </dd>
     <dt>contents</dt>
-    <dd>name is generated from the <a class="termref" data-lt="text node">Text nodes</a> associated with the <a class="termref">element</a>. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">accessible name and description computation</a> algorithm.</dd>
+    <dd>name is generated from the <a class="termref" data-lt="text node">Text nodes</a> associated with the [=element=]. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">accessible name and description computation</a> algorithm.</dd>
     <dt>prohibited</dt>
     <dd>the element has no name. Authors <em class="rfc2119" title="MUST NOT">MUST NOT</em> use the <a href="#aria-label" class="property-reference"><code>aria-label</code></a> or <a href="#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a> attributes to name the element.</dd>
   </dl>
@@ -192,17 +213,17 @@
     <h3>Description Computation</h3>
     <p>If <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> is present, <a class="termref">user agents</a> MUST compute the accessible description by concatenating the text alternatives for elements referenced by an <code>aria-describedby</code> attribute on the current element. The text alternatives for the referenced elements are computed using a number of methods, outlined below in the section titled <a href="#mapping_additional_nd_te">Accessible Name and Description Computation</a>. </p>
   </section>
-  <section id="mapping_additional_nd_te">
+  <section id="mapping_additional_nd_te" data-cite="dom">
     <h3>Accessible Name and Description Computation</h3>
-    <p>The accessible name and description computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of <a class="termref">elements</a>, <a class="termref" data-lt="node">nodes</a>, and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an <a class="termref">element</a>. This is accomplished via steps 2B and 2F, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references. </p>
+    <p>The accessible name and description computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of [=element|elements=], [=nodes=], and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an [=element=]. This is accomplished via steps 2B and 2F, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references. </p>
     <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual tokens. </p>
     <section id="terminology">
       <h4>Terminology</h4>
       <dl>
         <dt>Root node</dt>
-        <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref">node</a> or <a class="termref">element</a> for which the text alternative is sought.</dd>
+        <dd>The <abbr title="Document Object Model">DOM</abbr> [=nodes|node=] or [=element=] for which the text alternative is sought.</dd>
         <dt>Current node</dt>
-        <dd>The <abbr title="Document Object Model">DOM</abbr> <a class="termref">node</a> currently traversed to compute the <code>root node</code>'s text equivalent.  Initially, the <code>current node</code> is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
+        <dd>The <abbr title="Document Object Model">DOM</abbr> [=nodes|node=] currently traversed to compute the <code>root node</code>'s text equivalent.  Initially, the <code>current node</code> is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
         <dt>Flat string</dt>
         <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd>
         <dt>Total accumulated text</dt>
@@ -248,7 +269,7 @@
         <li id="step1">Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").</li>
         <li id="step2">Compute the text alternative for the <code>current node</code>:
           <ol>
-            <li id="step2A">If the <code>current node</code> is <a class="termref">hidden</a> <strong>and is not</strong> directly referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, nor directly referenced by a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML) or <a class="termref">attribute</a>, return the empty string.
+            <li id="step2A">If the <code>current node</code> is <a class="termref">hidden</a> <strong>and is not</strong> directly referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, nor directly referenced by a native host language text alternative [=element=] (e.g. <code>label</code> in HTML) or [=attribute=], return the empty string.
               <div><details>
                 <summary>Comment:</summary>
                 <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
@@ -256,8 +277,8 @@
             </li>
             <li id="step2B">Otherwise:
               <ul>
-                <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has an <code>aria-labelledby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
-                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> <a class="termref">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
+                <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has an <code>aria-labelledby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
+                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
                   <ol>
                     <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
                     <li id="step2B.ii">For each IDREF:
@@ -302,14 +323,14 @@
                 <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
               </details></div>
             </li>
-            <li id="step2D">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> <a class="termref">attribute</a> whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
+            <li id="step2D">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> [=attribute=] whose value is not the empty string, nor, when trimmed of white space, is not the empty string:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2E, ignore <code>aria-label</code> and skip to rule 2E.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
               </ul>
               <div><details>
                 <summary>Example:</summary>
-                  <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a <a class="termref">node</a> has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
+                  <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a [=nodes|node=] has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
                   <pre class="example highlight"><code>&lt;h1&gt;Files&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;
@@ -323,17 +344,17 @@
 &lt;/ul&gt;</code></pre>
               </details></div>
             </li>
-            <li id="step2E">Otherwise, if the <code>current node</code>'s native markup provides an <a class="termref">attribute</a> (e.g. <code>alt</code>) or <a class="termref">element</a> (e.g. HTML <code>label</code> or SVG <code>title</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
+            <li id="step2E">Otherwise, if the <code>current node</code>'s native markup provides an [=attribute=] (e.g. <code>alt</code>) or [=element=] (e.g. HTML <code>label</code> or SVG <code>title</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
               <div class="note">See <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation">HTML-AAM</a>, <a href="https://www.w3.org/TR/svg-aam-1.0/#mapping_additional_nd">SVG-AAM</a>, or other host language documentation for more information on markup that defines a text alternative.</div>
               <div><details>
                 <summary>Comment:</summary>
                 <p>For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
               </details></div>
             </li>
-            <li id="step2F">Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or is a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative <a class="termref">element</a>:
+            <li id="step2F">Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or is a native host language text alternative [=element=] (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative [=element=]:
               <ol>
                 <li id="step2F.i">Set the <code>accumulated text</code> to the empty string.</li>
-                <li id="step2F.ii">Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements [[!CSS2]] can provide textual content for <a class="termref">elements</a> that have a content model.
+                <li id="step2F.ii">Check for <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/CSS2/generate.html#before-after-content"><code>:before</code> and <code>:after</code></a> pseudo elements [[!CSS2]] can provide textual content for [=element|elements=] that have a content model.
                   <ul>
                     <li>For <code>:before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to the textual content of the <code>current node</code>. </li>
                     <li>For <code>:after</code> pseudo elements, <a class="termref">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr>  textual content, without a space, to the textual content of the <code>current node</code>. </li>
@@ -348,10 +369,10 @@
                 </li>
                 <li id="step2F.iv">Return the <code>accumulated text</code> if it is not the empty string ("").</li>
               </ol>
-              <p><strong>Important</strong>:  Each <a class="termref">node</a> in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
+              <p><strong>Important</strong>:  Each [=nodes|node=] in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
               <div><details>
                 <summary>Comment:</summary>
-                <p>This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant <a class="termref">node</a>'s text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
+                <p>This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant [=nodes|node's=] text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
               </details></div>
             </li>
             <li id="step2G">Otherwise, if the <code>current node</code> is a <a class="termref">Text node</a>, return its textual contents.</li>
@@ -366,7 +387,7 @@
           <p>Append the <code>result</code> of each step above, with a space, to the <code>total accumulated text</code>.</p>
         </li>
       </ol>
-      <p>After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the <a class="termref">element</a> that initiated the computation.</p>
+      <p>After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> of the [=element=] that initiated the computation.</p>
     </section>
   </section>
 </section>
