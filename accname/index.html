@@ -269,10 +269,41 @@
         <li id="step1">Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").</li>
         <li id="step2">Compute the text alternative for the <code>current node</code>:
           <ol>
-            <li id="step2A">If the <code>current node</code> is <a class="termref">hidden</a> <strong>and is not</strong> directly referenced by <code>aria-labelledby</code> or <code>aria-describedby</code>, nor directly referenced by a native host language text alternative [=element=] (e.g. <code>label</code> in HTML) or [=attribute=], return the empty string.
+            <li id="step2A">If the <code>current node</code> is <a class="termref">hidden</a> <strong>and is</strong>:
+            <ul>
+              <li><strong>Not</strong> part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced by that relation was hidden.</li>
+              <li><strong>Nor</strong> part of a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML) or <a class="termref">attribute</a> traversal, where the root of that traversal was hidden.</li>
+            </ul>
+            Return the empty string.
+              <div><details>
+                <summary>Comment:</summary>
+                <p>It's important to clarify the broad definition of hidden for the purposes of accessible name calculation:
+                <ul>
+                  <li>Nodes with CSS properties <code>display:none</code>, <code>visibility:hidden</code>, <code>visibility:collapse</code> or <code>content-visibility:hidden</code>: They are considered hidden, as they match the guidelines "not perceivable" and "explicitly hidden".</li>
+                  <li>Nodes with CSS properties <code>opacity:0</code> or <code>filter:opacity(0%)</code>, or similar SVG mechanisms: They are not considered hidden. Text hidden with these methods can still be selected or copied, and user agents still expose it in their accessibility trees.</li>
+                  <li>Nodes with the <code>aria-hidden="true"</code> property: it is considered hidden, matching the "explicitly hidden" guideline.</li>
+                  <li>Nodes hidden off screen or behind another object: they are not considered hidden. They are exposed in the accessibility tree and they can even name on-screen objects.</li>
+                </ul></p>
+              </details></div>
               <div><details>
                 <summary>Comment:</summary>
                 <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
+              </details></div>
+              <div><details>
+                <summary>Example:</summary>
+                <p>The following examples show the meaning of the clause "Not part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced by that relation was hidden.".</p>
+                <p>First, <code>element1</code>'s <a class="termref">accessible name</a> is "hello" because, although <code>element3</code> is hidden, it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, which is hidden too.</p>
+                <pre class="example highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
+&lt;element2 id="el2" class="hidden"&gt;
+  &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
+&lt;/element2&gt;</code>
+                </pre>
+                <p>Conversely, <code>element1</code> has no <a class="termref">accessible name</a> if <code>element3</code> is hidden and it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, but <code>element2</code> is not hidden.</p>
+                <pre class="example highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
+&lt;element2 id="el2"&gt;
+  &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
+&lt;/element2&gt;</code>
+                </pre>
               </details></div>
             </li>
             <li id="step2B">Otherwise:
@@ -292,6 +323,9 @@
                   </ol>
                 </li>
               </ul>
+              <div><details>
+                <summary>Comment:</summary>
+                <p>The result of <a href="#step2B.ii.b">step 2B.ii.b</a> in combination with <a href="#step2A">step 2A</a> means that <a class="termref">user agents</a> MUST include all nodes in the subtree as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, when the node referenced by <code>aria-labelledby</code> or <code>aria-describedby</code> is hidden.</p>
               <div><details>
                 <summary>Example:</summary>
                 <p>The following example shows the meaning of the clause "&#8230; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &#8230;" .</p>
