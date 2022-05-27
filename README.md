@@ -86,6 +86,10 @@ The following properties for cross references are currently available *(todo: we
 * `coreMappingURLs`: for the Core AAM
 * `accNameURLs`: for the AccName AAM
 * `htmlMappingURLs`: for the HTML AAM
+* `dpubModURLs`: for DPUB ARIA
+* `graphicsModURL`: for Graphics ARIA
+* `graphicsMappingModURL`: for Graphics AAM
+* `practicesURL`: for Practices
 
 The task of fixing up links is done by a script that needs to be hooked in via the following line in the respecConfig:
 

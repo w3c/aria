@@ -13,7 +13,6 @@
 var roleInfo = {};
 
 function ariaAttributeReferences() {
-  {
       var propList = {};
       var globalSP = [];
 
@@ -46,7 +45,7 @@ function ariaAttributeReferences() {
             '</span>';
           sp.setAttribute('aria-describedby', 'desc-' + title);
           var dRef = item.nextElementSibling;
-          var desc = dRef.firstElementChild.innerHTML;
+          var desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
           dRef.id = 'desc-' + title;
           dRef.setAttribute('role', 'definition');
           var heading = document.createElement('h4');
@@ -255,7 +254,7 @@ function ariaAttributeReferences() {
           // sp.id = title;
           sp.setAttribute('aria-describedby', 'desc-' + title);
           var dRef = item.nextElementSibling;
-          var desc = dRef.firstElementChild.innerHTML;
+          var desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
           dRef.id = 'desc-' + title;
           dRef.setAttribute('role', 'definition');
           container.replaceChild(sp, item);
@@ -635,6 +634,27 @@ function ariaAttributeReferences() {
               placeholder.innerHTML = output;
             }
           }
+          else if (
+          placeholder &&
+          (placeholder.textContent || placeholder.innerText) ===
+            'All elements of the base markup except for some roles or elements that prohibit its use' &&
+          item.roles.length
+          ) {
+            // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
+            var sortedList = [];
+            sortedList = item.roles.sort();
+            //remove roletype from the sorted list
+            const index = sortedList.indexOf('roletype');
+            if (index > -1) {
+              sortedList.splice(index, 1);
+            }
+            output += 'All elements of the base markup except for the following roles: ';
+            for (var j = 0; j < sortedList.length-1; j++) {
+              output += '<rref>' + sortedList[j] + '</rref>, ';
+            }
+            output += '<rref>' + sortedList[sortedList.length-1] + '</rref>';
+            placeholder.innerHTML = output;
+          }
         });
 
         // spit out the index
@@ -745,7 +765,14 @@ function ariaAttributeReferences() {
         });
 
       updateReferences(document);
-    }
+
+      function cloneWithoutIds(node) {
+        const clone = node.cloneNode(true);
+        for (const elementWithId of clone.querySelectorAll("[id]")) {
+          elementWithId.removeAttribute("id");
+        }
+        return clone;
+      }
   }
 
 require(['core/pubsubhub'], function (respecEvents) {
@@ -758,7 +785,7 @@ require(['core/pubsubhub'], function (respecEvents) {
 
   function showAriaSave() {
     const json = JSON.stringify(roleInfo, null, '  ');
-    const href = 'data:text/html;charset=utf-8,' + encodeURIComponent(json);
+    const href = "data:text/html;charset=utf-8," + "/* This file is generated - do not modify */\nvar roleInfo = " + encodeURIComponent(json);
     const ariaUI = document.createElement('div');
     ariaUI.classList.add('respec-save-buttons');
     ariaUI.innerHTML = `
