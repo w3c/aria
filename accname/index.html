@@ -147,14 +147,14 @@
 <body>
 <section id="abstract">
   <p>This document describes how <a class="termref">user agents</a> determine the <a class="termref" data-lt="accessible name">names</a> and <a class="termref" data-lt="accessible description">descriptions</a> of <a class="termref">accessible objects</a> from web content languages. This information is in turn exposed through <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> so that <a class="termref">assistive technologies</a> can identify these objects and present their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.</p>
-  <p>The accessible name and description computation specification defines support that applies across multiple content technologies. This includes accessible name and description provided by general-purpose <cite><a href="https://www.w3.org/TR/wai-aria-1.2/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[WAI-ARIA]] <a class="termref">roles</a>, <a class="termref">states</a>, and <a class="termref">properties</a> as well as features specific to individual content languages.</p>
+  <p>The accessible name and description computation specification defines support that applies across multiple content technologies. This includes accessible name and description provided by general-purpose <cite><a href="https://www.w3.org/TR/wai-aria-1.2/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite> [[WAI-ARIA]] <a class="termref">roles</a>, <a class="termref">states</a>, and [=ARIA/properties=] as well as features specific to individual content languages.</p>
   <p>This document updates and will eventually supersede the accessible name and description guidance in the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1</a> [[ACCNAME-1.1]] W3C Recommendation. It is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.</p>
 </section>
 <section id="sotd">
 </section>
 <section id="intro" class="informative">
   <h2>Introduction</h2>
-  <p><a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> [[DOM]] and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>. An accessible object provides information about its <a class="termref">role</a>, <a class="termref">states</a>, and <a class="termref">properties</a>. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu. </p>
+  <p><a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> [[DOM]] and create a parallel structure called the <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>. An accessible object provides information about its <a class="termref">role</a>, <a class="termref">states</a>, and [=ARIA/properties=]. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a <code>haspopup</code> property, indicating that it leads to a sub-menu. </p>
   <p>The two properties of accessible objects described in this document are its <a class="termref">accessible name</a> and <a class="termref">accessible description</a>.  The name is a short label that provides information about the purpose of the object.  An example of an accessible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new documents, windows, and so on.  </p>
   <p>The description is a short explanation that further clarifies the nature of the accessible object.  It is not always necessary to provide a description  if the name is sufficient, but it can help a user better understand the use of the object.</p>
   <p><a class="termref">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions.  The result of the name/description computation is thus a flat string. </p>
@@ -200,7 +200,7 @@
     <dt>author</dt>
     <dd>name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> [=attribute=], or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> [=attribute=] in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> [=element=] in <abbr title="Scalable Vector Graphics">SVG</abbr>. </dd>
     <dt>contents</dt>
-    <dd>name is generated from the <a class="termref" data-lt="text node">Text nodes</a> associated with the [=element=]. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">accessible name and description computation</a> algorithm.</dd>
+    <dd>name is generated from the Text [=nodes=] associated with the [=element=]. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">accessible name and description computation</a> algorithm.</dd>
     <dt>prohibited</dt>
     <dd>the element has no name. Authors <em class="rfc2119" title="MUST NOT">MUST NOT</em> use the <a href="#aria-label" class="property-reference"><code>aria-label</code></a> or <a href="#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a> attributes to name the element.</dd>
   </dl>
@@ -269,7 +269,7 @@
         <li id="step1">Set the <code>root node</code> to the given element, the <code>current node</code> to the <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").</li>
         <li id="step2">Compute the text alternative for the <code>current node</code>:
           <ol>
-            <li id="step2A">If the <code>current node</code> is <a class="termref">hidden</a> <strong>and is</strong>:
+            <li id="step2A">If the <code>current node</code> is <span class="informative">[=element/hidden=]</span> <strong>and is</strong>:
             <ul>
               <li><strong>Not</strong> part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced by that relation was hidden.</li>
               <li><strong>Nor</strong> part of a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML) or <a class="termref">attribute</a> traversal, where the root of that traversal was hidden.</li>
@@ -409,7 +409,7 @@
                 <p>This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant [=nodes|node's=] text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
               </details></div>
             </li>
-            <li id="step2G">Otherwise, if the <code>current node</code> is a <a class="termref">Text node</a>, return its textual contents.</li>
+            <li id="step2G">Otherwise, if the <code>current node</code> is a Text [=Node=], return its textual contents.</li>
             <li id="step2H">Otherwise, if the <code>current node</code> is a descendant of an element whose <a class="termref">Accessible Name</a> or <a class="termref">Accessible Description</a> is being computed, and contains descendants, proceed to 2F.i.</li>
             <li id="step2I">Otherwise, if the <code>current node</code> has a <a class="termref">Tooltip attribute</a>, return its value.
               <div><details>
