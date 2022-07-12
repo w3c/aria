@@ -1,22 +1,22 @@
 respecConfig.localBiblio = {
 
 	"ACCNAME-AAM": {
-		"aliasOf": "ACCNAME-AAM-1.1",
+		"aliasOf": "ACCNAME-AAM-1.1"
 	},
 	"ARIA-PRACTICES": {
-		"aliasOf": "WAI-ARIA-PRACTICES-1.2",
+		"aliasOf": "WAI-ARIA-PRACTICES-1.2"
 	},
 	"CORE-AAM": {
-		"aliasOf": "CORE-AAM-1.1",
+		"aliasOf": "CORE-AAM-1.1"
 	},
         "DPUB-ARIA": {
-		"aliasOf": "DPUB-ARIA-1.0",
+		"aliasOf": "DPUB-ARIA-1.0"
         },
         "GRAPHICS-ARIA": {
-		"aliasOf": "GRAPHICS-ARIA-1.0",
+		"aliasOf": "GRAPHICS-ARIA-1.0"
         },
         "GRAPHICS-AAM": {
-		"aliasOf": "GRAPHICS-AAM-1.0",
+		"aliasOf": "GRAPHICS-AAM-1.0"
         },
 	"EPUB-Content": {
 		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
@@ -24,7 +24,7 @@ respecConfig.localBiblio = {
 		"publisher": "IDPF"
 	},
 	"HTML-AAM": {
-		"aliasOf": "HTML-AAM-1.0",
+		"aliasOf": "HTML-AAM-1.0"
 	},
         "MathML-Core": {
 		"href": "https://mathml-refresh.github.io/mathml-core/",
@@ -35,12 +35,12 @@ respecConfig.localBiblio = {
 		]
 	},
 	"SVG-AAM": {
-		"aliasOf": "SVG-AAM-1.0",
+		"aliasOf": "SVG-AAM-1.0"
 	},
 	"SVG1": {
-		"aliasOf": "SVG",
+		"aliasOf": "SVG"
 	},
 	"WAI-ARIA": {
-		"aliasOf": "WAI-ARIA-1.1",
+		"aliasOf": "WAI-ARIA-1.1"
 	}
 };
