@@ -6325,9 +6325,24 @@
 <span class="comment">&lt;!-- 2. A span has an implicit 'generic' role and no other attributes important to accessibility, so only its content is exposed, including the hyperlink. --&gt;</span>
 &lt;span&gt; Sample Content &lt;a href="...">let's go!&lt;/a> &lt;/span&gt;
 </pre>
+				<p>In <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>&lt;img&gt;</code> <a>element</a> is treated as a single entity regardless of the type of image file. Consequently, using <code>role="presentation"</code> or <code>role="none"</code> on an <abbr title="Hypertext Markup Language">HTML</abbr> <code>img</code> is equivalent to using <code>aria-hidden="true"</code>. In order to make the image contents accessible, authors can embed the object using an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code> <a>element</a>, or use inline <abbr title="Scalable Vector Graphics">SVG</abbr> code, and follow the accessibility guidelines for the image content.</p>
+				<p>Authors SHOULD NOT provide meaningful alternative text (for example, use <code>alt=""</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) when the <code>presentation</code> role is applied to an image.</p>
+				<p>In the following code sample, the containing <rref>img</rref> and is appropriately labeled by the caption paragraph. In this example the <code>img</code> element can be marked as presentation because the role and the text alternatives are provided by the containing element.</p>
+				<pre class="example highlight">&lt;div role="img" aria-labelledby="caption"&gt;
+  &lt;img src="example.png" role="presentation" alt=""&gt;
+  &lt;p id="caption"&gt;A visible text caption labeling the image.&lt;/p&gt;
+&lt;/div&gt;</pre>
+				<p>In the following code sample, because the anchor (<abbr title="Hypertext Markup Language">HTML</abbr> <code>a</code> element) is acting as the treeitem, the list item (<abbr title="Hypertext Markup Language">HTML</abbr> <code>li</code> element) is assigned an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role of presentation to override the user agent's implicit native semantics for list items.</p>
+				<pre class="example highlight">
+&lt;ul role="tree"&gt;
+  &lt;li role="presentation"&gt;
+	&lt;a role="treeitem" aria-expanded="true"&gt;An expanded tree node&lt;/a&gt;
+  &lt;/li&gt;
+  …
+&lt;/ul&gt;</pre>
+				<h5>Presentational Role Inheritance</h5>
 				<p>The <code>presentation</code> role is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (which have an implicit <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>columnheader</rref> or <rref>rowheader</rref> and <rref>cell</rref> roles, respectively). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">required owned elements</a>.</p>
 				<p>When an explicit or inherited role of <code>presentation</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">required owned elements</a>, in addition to the element with the explicit role of <code>presentation</code>, the user agent MUST apply an inherited role of presentation to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of presentation is applied to a host language element which has required children as defined by the host language specification, in addition to the element with the explicit role of presentation, the user agent MUST apply an inherited role of presentation to any required children that do not have an explicit role defined.</p>
-				<p>In <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>&lt;img&gt;</code> <a>element</a> is treated as a single entity regardless of the type of image file. Consequently, using <code>role="presentation"</code> or <code>role="none"</code> on an <abbr title="Hypertext Markup Language">HTML</abbr> <code>img</code> is equivalent to using <code>aria-hidden="true"</code>. In order to make the image contents accessible, authors can embed the object using an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code> <a>element</a>, or use inline <abbr title="Scalable Vector Graphics">SVG</abbr> code, and follow the accessibility guidelines for the image content.</p>
 				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">required owned element</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the <abbr title="Hypertext Markup Language">HTML</abbr> specification indicates that these are required structural descendants of the <code>table</code> element.</p>
 				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">required owned elements</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>presentation</code> specified.</p>
 				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no roles) and identical content.</p>
@@ -6344,20 +6359,6 @@
 &lt;/foo&gt;</pre>
 				<p class="note">There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with required children for which this situation is applicable (e.g., radiogroups and listboxes), but tables and lists are the most common real-world cases in which the presentation inheritance is likely to apply.</p>
 				<p>For any element with an explicit or inherited role of <code>presentation</code>, user agents MUST apply an inherited role of <code>presentation</code> to all host-language-specific labeling elements for the presentational element. For example, a <code>table</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>caption</code> element removed, because the caption is merely a label for the presentational table.</p>
-				<p>Authors SHOULD NOT provide meaningful alternative text (for example, use <code>alt=""</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) when the <code>presentation</code> role is applied to an image.</p>
-				<p>In the following code sample, the containing <rref>img</rref> and is appropriately labeled by the caption paragraph. In this example the <code>img</code> element can be marked as presentation because the role and the text alternatives are provided by the containing element.</p>
-				<pre class="example highlight">&lt;div role="img" aria-labelledby="caption"&gt;
-  &lt;img src="example.png" role="presentation" alt=""&gt;
-  &lt;p id="caption"&gt;A visible text caption labeling the image.&lt;/p&gt;
-&lt;/div&gt;</pre>
-				<p>In the following code sample, because the anchor (<abbr title="Hypertext Markup Language">HTML</abbr> <code>a</code> element) is acting as the treeitem, the list item (<abbr title="Hypertext Markup Language">HTML</abbr> <code>li</code> element) is assigned an explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role of presentation to override the user agent's implicit native semantics for list items.</p>
-				<pre class="example highlight">
-&lt;ul role="tree"&gt;
-  &lt;li role="presentation"&gt;
-	&lt;a role="treeitem" aria-expanded="true"&gt;An expanded tree node&lt;/a&gt;
-  &lt;/li&gt;
-  …
-&lt;/ul&gt;</pre>
             <p class="ednote">Information about <a href="#conflict_resolution_presentation_none">resolving conflicts in the presentation role</a> has been moved to <a href="#document-handling_author-errors">Handling Author Errors</a></p>
 			</div>
 			<table class="role-features">
