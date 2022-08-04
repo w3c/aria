@@ -526,8 +526,8 @@
 		  </li>
 		  <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the child element itself.</li>
 		</ol>
-	      </li>
-	      <li>If the element being focused has an ID and is [=ARIA/owned=] by either a container element with both an <code>aria-activedescendant</code> attribute and has <abbr title="Document Object Model">DOM</abbr> focus, or by a container element that is controlled by an element with both an <pref>aria-activedescendant</pref> attribute and has <abbr title="Document Object Model">DOM</abbr> focus, the user agent MUST set the accessibility <abbr title="Application Programming Interface">API</abbr> focused state and fire an accessibility <abbr title="Application Programming Interface">API</abbr> focus <a>event</a> on the element identified  by the value of <code>aria-activedescendant</code>.</li>
+				</li>
+	      <li>If the element being focused has an ID and is <a>owned</a> by either a container element with both an <code>aria-activedescendant</code> attribute and has <abbr title="Document Object Model">DOM</abbr> focus, or by a container element that is controlled by an element with both an <pref>aria-activedescendant</pref> attribute and has <abbr title="Document Object Model">DOM</abbr> focus, the user agent MUST set the accessibility <abbr title="Application Programming Interface">API</abbr> focused state and fire an accessibility <abbr title="Application Programming Interface">API</abbr> focus <a>event</a> on the element identified  by the value of <code>aria-activedescendant</code>.</li>
 	    </ol>
 	  </section>
 	</section>
@@ -2303,7 +2303,7 @@
 				<ul>
 					<li>If the <code>combobox</code> element is a host language element that provides a value, such as an HTML <code>input</code> element, the value of the combobox is the value of that element.</li>
 					<li>Otherwise, the value of the <code>combobox</code> is represented by its descendant elements and can be determined using the same method used to compute the name of a <rref>button</rref> from its descendant content.</li>
-				</ul>
+				</ul>		
 				<pre class="example highlight">
           &lt;label id="tag_label" for="tag_combo">Tag&lt;/label>
 		      &lt;input type="text" id="tag_combo"
@@ -5228,8 +5228,9 @@
 		<div class="role" id="menu">
 			<rdef>menu</rdef>
 			<div class="role-description">
-				<p>A type of <a>widget</a> that offers a list of choices to the user.</p>
-				<p>A menu is often a list of common actions or functions that the user can invoke. The <code>menu</code> <a>role</a> is appropriate when a list of menu items is presented in a manner similar to a menu on a desktop application.</p>
+				<p>A type of <a>widget</a> that offers a list of choices to the user. A menu is <em class="rfc2119">usually</em> presented vertically and <em class="rfc2119">usually</em> does not remain visible.
+</p>
+				<p>A menu is often a list of common actions or functions that the user can invoke. The <a href="#menu" class="role-reference"><code>menu</code></a>&nbsp;<a>role</a> is appropriate when a list of menu items is presented in a manner similar to a  <a href="#menu" class="role-reference"><code>menu</code></a> on a desktop application. Examples include a context menu, a submenu within a <a href="#menubar" class="role-reference"><code>menubar</code></a> or a <a href="#menu" class="role-reference"><code>menu</code></a> triggered by a button. 
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 				<p>Elements with the role <code>menu</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
 			</div>
@@ -5326,7 +5327,7 @@
 		<div class="role" id="menubar">
 			<rdef>menubar</rdef>
 			<div class="role-description">
-				<p>A presentation of <rref>menu</rref> that usually remains visible and is usually presented horizontally.</p>
+				<p>A presentation of <rref>menu</rref> that <em>usually</em> remains visible. Operating systems and applications may allow users to temporarily hide menu bars. Additionally, a menubar is <em class="rfc2119">usually</em> presented horizontally.</p>
 				<p>The <code>menubar</code> <a>role</a> is used to create a menu bar similar to those found in Windows, Mac, and Gnome desktop applications. A menu bar is used to create a consistent set of frequently used commands. Authors SHOULD ensure that <code>menubar</code> interaction is similar to the typical menu bar interaction in a desktop graphical user interface.</p>
 				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 				<p>Elements with the role <code>menubar</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
@@ -7443,7 +7444,16 @@
 		<div class="role" id="searchbox">
 			<rdef>searchbox</rdef>
 			<div class="role-description">
-				<p>A type of textbox intended for specifying search criteria. See related <rref>textbox</rref> and <rref>search</rref>.</p>
+				<p>A type of textbox intended for specifying search criteria. See related <rref>search</rref> and <rref>combobox</rref>.</p>
+
+				<p>
+					User agents MUST expose the value of elements with role <code>searchbox</code> to <a>assistive technologies</a>.
+					The value of a <code>searchbox</code> is represented by one of the following:
+					</p>
+					<ul>
+						<li>If the <code>searchbox</code> element is a host language element that provides a value, such as an HTML <code>input</code> element, the value of the searchbox is the value of that element.</li>
+					  <li>Otherwise, the value of the <code>searchbox</code> is represented by its descendant elements and can be determined using the same method used to compute the name of a <rref>button</rref> from its descendant content.</li>
+          </ul>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -9255,6 +9265,14 @@
 			<div class="role-description">
 				<p>A type of input that allows free-form text as its value.</p>
 				<p>If the <pref>aria-multiline</pref> <a>attribute</a> is <code>true</code>, the <a>widget</a> accepts line breaks within the input, as in an <abbr title="Hypertext Markup Language">HTML</abbr> <code>textarea</code>. Otherwise, this is a simple text box. The intended use is for languages that do not have a text input <a>element</a>, or cases in which an element with different <a>semantics</a> is repurposed as a text field.</p>
+				<p>
+					User agents MUST expose the value of elements with role <code>textbox</code> to <a>assistive technologies</a>.
+					The value of a <code>textbox</code> is represented by one of the following:
+					</p>
+					<ul>
+						<li>If the <code>textbox</code> element is a host language element that provides a value, such as an HTML <code>input</code> element, the value of the textbox is the value of that element.</li>
+					  <li>Otherwise, the value of the <code>textbox</code> is represented by its descendant elements and can be determined using the same method used to compute the name of a <rref>button</rref> from its descendant content.</li>
+          </ul>
 				<!-- keep the following para synced with its equivalent in #aria-multiline -->
 				<p class="note">In most user agent implementations, the default behavior of the <kbd>ENTER</kbd> or <kbd>RETURN</kbd> key is different between the single-line and multi-line text fields in HTML. When user has focus in a single-line <code>&lt;input type="text"&gt;</code> element, the keystroke usually submits the form. When user has focus in a multi-line <code>&lt;textarea&gt;</code> element, the keystroke inserts a line break. The <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <code>textbox</code> role differentiates these types of boxes with the <pref>aria-multiline</pref> attribute, so authors are advised to be aware of this distinction when designing the field.</p>
 			</div>
@@ -13369,7 +13387,7 @@ button.ariaPressed; // null</pre>
 	<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles, states, and properties are implemented as [=attributes=] of [=elements=]. Roles are applied by placing their names among the tokens appearing in the value of a host-language-provided <code>role</code> attribute. States and properties each get their own attribute, with values as defined for each particular state or property in this specification. The name of the attribute is the aria-prefixed name of the state or property.</p>
 	<section id="host_general_role">
 		<h2>Role Attribute</h2>
-		<p>An implementing host language will provide a <code><a>role</a></code> <a>attribute</a> with the following characteristics:</p>
+		<p>An implementing host language will provide a <code><dfn id="attr-role" data-dfn-type="element-attr">role</dfn></code> <a>attribute</a> with the following characteristics:</p>
 		<ul>
 			<li>The attribute value MUST allow a [=token list=] as the value;</li>
 			<li>The appearance of the name literal of any concrete <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a>role</a> as one of these tokens MUST NOT in and of itself make the attribute value illegal in the host-language syntax; and</li>
