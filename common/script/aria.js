@@ -352,7 +352,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
 
                             if (node.textContent.indexOf("author") !== -1) {
                                 fromAuthor += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
-                            }
+                            } 
                             if (!isAbstract && node.textContent.indexOf("content") !== -1) {
                                 fromContent += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + "</li>";
                             }
