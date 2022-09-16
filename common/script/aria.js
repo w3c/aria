@@ -192,7 +192,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         container.parentNode.replaceChild(sec, container) ;
                     }
                 });
-                    
+                
                 if (!skipIndex) {
                     // we have all the properties and states - spit out the
                     // index
