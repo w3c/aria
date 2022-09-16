@@ -125,7 +125,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             })
                             ;
                     }
-
+                    
                 }
             ;
             var s = "var roleInfo = " + JSON.stringify(roleInfo, null, '\t') ;
