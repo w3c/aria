@@ -173,11 +173,11 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     var abstract = container.querySelector("." + type + "-applicability");
                     if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
                         globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false });
-                    }
+                    } 
                     else if ((abstract.textContent || abstract.innerText) === "All elements of the base markup except for some roles or elements that prohibit its use") {
                         globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true });
-                    }
-
+                    } 
+                    
                     // the rdef is gone.  if we are in a div, convert that div to a section
 
                     if (container.nodeName.toLowerCase() == "div") {
@@ -192,7 +192,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         container.parentNode.replaceChild(sec, container) ;
                     }
                 });
-
+                    
                 if (!skipIndex) {
                     // we have all the properties and states - spit out the
                     // index
@@ -318,7 +318,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             parentRoles.push(s);
                         });
                     }
-                    // are there supported states / properties in this role?
+                    // are there supported states / properties in this role?  
                     var attrs = [];
                     $.each(container.querySelectorAll(".role-properties, .role-required-properties, .role-disallowed"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
@@ -331,8 +331,8 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 var type = (item.localName === "pref" ? "property" : "state");
                                 var req = $(node).hasClass("role-required-properties");
                                 var dis = $(node).hasClass("role-disallowed");
-                                attrs.push( { is: type, name: name, required: req, disallowed: dis } );
-
+                                attrs.push( { is: type, name: name, required: req, disallowed: dis } );                                
+                                
                                 // remember that the state or property is
                                 // referenced by this role
                                 propList[name].roles.push(title);
@@ -360,7 +360,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                                 fromProhibited += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
                             }
                             if (node.textContent.indexOf("encapsulation") !== -1) {
-                                fromEncapsulation += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
+                                fromEncapsulation += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>"; 
                             }
                             if (node.textContent.indexOf("legend") !== -1) {
                                 fromLegend += "<li><a href=\"#" + pnID + "\" class=\"role-reference\"><code>" + content + "</code></a>" + req + "</li>";
@@ -400,7 +400,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                         return myList;
                     }
                 };
-
+                    
                 if (!skipIndex) {
                     // build up the complete inherited SP lists for each role
                     // however, if the role already specifies an item, do not include it
@@ -449,7 +449,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             }
                         }
                     });
-
+                    
                     // Update state and property role references
                     var getAllSubRoles = function(role) {
                         var ref = subRoles[role];
@@ -468,7 +468,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             return [];
                         }
                     };
-
+                        
                     $.each(propList, function(i, item) {
                         var output = "";
                         var section = document.querySelector("#" + item.name);
@@ -515,7 +515,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                             }
                         }
                     });
-
+                    
                     // spit out the index
                     var node = document.getElementById("index_role");
                     var parentNode = node.parentNode;
@@ -607,15 +607,15 @@ require(["core/pubsubhub"], function( respecEvents ) {
                 }
 
                 // prune out unused rows throughout the document
-
+                
                 $.each(document.querySelectorAll(".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"), function(i, item) {
                     var content = $(item).text();
                     if (content.length === 1 || content.length === 0) {
                         // there is no item - remove the row
                         item.parentNode.remove();
-                    } else if (content === "Placeholder"
-                               && !skipIndex
-                               && (item.className === "role-inherited"
+                    } else if (content === "Placeholder" 
+                               && !skipIndex 
+                               && (item.className === "role-inherited" 
                                    || item.className === "role-children"
                                    || item.className === "property-descendants"
                                    || item.className === "state-descendants" )) {
