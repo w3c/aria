@@ -9,7 +9,7 @@ Closes #0000
 [test case](#...)
 
 <!-- Important:
-  for PRs that introdcue normative changes the 'needs implementation commitment' 
+  for PRs that introduce normative changes the 'needs implementation commitment' 
   and the 'needs changelog entry' labels are needed.  If this is not a PR that
   introduces normative changes, then these labels can be removed.
 
