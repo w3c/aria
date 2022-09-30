@@ -1,8 +1,9 @@
 ---
 name: Editorial
-about: Does this issue require only an editorial change? For example, changing an example, note, spelling, grammar, or related to publishing or git repository maintance.
+about: Does this issue require only an editorial change? For example, changing an
+  example, note, spelling, grammar, or related to publishing or git repository maintance.
 title: ''
-labels: 'editorial'
+labels: editorial
 assignees: ''
 
 ---

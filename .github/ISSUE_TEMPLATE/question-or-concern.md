@@ -1,6 +1,7 @@
 ---
 name: Question or Concern
-about: If the specification is unclear or you think there might be a mistake in the specification.
+about: If the specification is unclear or you think there might be a mistake in the
+  specification.
 title: ''
 labels: ''
 assignees: ''
