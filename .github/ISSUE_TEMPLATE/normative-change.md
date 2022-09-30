@@ -19,20 +19,3 @@ If unknown, leave blank. If relevant, link bug.
 ## Will this require a change to the [ARIA authoring guide](https://w3c.github.io/aria-practices/)?
 
 If unknown, leave blank. If relevant, link bug.
-
-# PR tracking (for feature tracking, leave as is when submitting)
-
-* ARIA PR:
-   * Editor's Draft commit:
-   * Working Draft commit:
-* Core AAM PR:
-* AccName PR:
-* APG PR:
-
-# Implementation tracking (for feature tracking, leave as is when submitting)
-
-* WPT test:
-* Implementations (link to issue or when done, link to commit):
-   * WebKit: [ISSUE]()
-   * Gecko: [ISSUE]()
-   * Blink: [ISSUE]()
