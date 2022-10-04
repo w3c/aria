@@ -1,11 +1,13 @@
 Closes #????
 
-The following tasks have been completed:
+<!--- IF EDITORIAL or CHORE, delete this template -->
 
- * [ ] Modified Web platform tests (link to pull request)
+Describe Change Here!
 
-Implementation commitment:
+## Implementation
 
- * [ ] WebKit (https://bugs.webkit.org/show_bug.cgi?id=)
- * [ ] Chromium (https://bugs.chromium.org/p/chromium/issues/detail?id=)
- * [ ] Gecko (https://bugzilla.mozilla.org/show_bug.cgi?id=)
+* WPT tests: [LINK]()
+* Implementations (link to issue or when done, link to commit):
+   * WebKit: [ISSUE]()
+   * Gecko: [ISSUE]()
+   * Blink: [ISSUE]()
