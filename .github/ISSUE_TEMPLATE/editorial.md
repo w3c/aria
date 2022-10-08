@@ -10,7 +10,7 @@ assignees: ''
 
 # Describe the change
 
-# Link to the version of the specification or documentation you were looking at at.
+# Link to the version of the specification or documentation you were looking at
 
 Link to documentation:
 
