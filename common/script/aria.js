@@ -179,15 +179,6 @@ function ariaAttributeReferences() {
           }
           globalSPIndex += '</li>\n';
         }
-        parentNode = document.querySelector('#global_states');
-        if (parentNode) {
-          node = parentNode.querySelector('.placeholder');
-          if (node) {
-            l = document.createElement('ul');
-            l.innerHTML = globalSPIndex;
-            parentNode.replaceChild(l, node);
-          }
-        }
         // there is only one role that uses the global properties
         parentNode = document.querySelector(
           '#roletype td.role-properties span.placeholder'
@@ -203,6 +194,28 @@ function ariaAttributeReferences() {
             node.replaceChild(l, parentNode);
           }
         }
+        // Annotate global attribute references
+        const globalAttrNodes = document.querySelectorAll('[data-annotate-global-attrs]');
+        globalAttrNodes.forEach(function (parentNode) {
+          const attrNodes = parentNode.querySelectorAll('pref, sref');
+          attrNodes.forEach(function (attrNode) {
+            const matchedAttrs = globalSP.filter(obj => {
+              return obj.title === attrNode.innerText
+            })
+            if (matchedAttrs.length === 1) {
+              const globalAttr = matchedAttrs[0];
+              let annotation = ' (Global)';
+              if (globalAttr.prohibited) {
+                annotation = ' (Global, except where prohibited)';
+              }
+              else if (globalAttr.deprecated) {
+                annotation = ' (Global use deprecated in ARIA 1.2)';
+              }
+              const textNode = document.createTextNode(annotation);
+              attrNode.parentNode.insertBefore(textNode, attrNode.nextSibling);
+            }
+          });
+        });
       }
 
       // what about roles?
