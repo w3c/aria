@@ -200,22 +200,70 @@
     <dt>author</dt>
     <dd>name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> [=attribute=], or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> [=attribute=] in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> [=element=] in <abbr title="Scalable Vector Graphics">SVG</abbr>. </dd>
     <dt>contents</dt>
-    <dd>name is generated from the Text [=nodes=] associated with the [=element=]. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">accessible name and description computation</a> algorithm.</dd>
+    <dd>name is generated from the Text [=nodes=] associated with the [=element=]. Although this may be allowed in addition to "author" in some <a class="termref">roles</a>, "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">text equivalent computation</a> algorithm.</dd>
     <dt>prohibited</dt>
     <dd>the element has no name. Authors <em class="rfc2119" title="MUST NOT">MUST NOT</em> use the <a href="#aria-label" class="property-reference"><code>aria-label</code></a> or <a href="#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a> attributes to name the element.</dd>
   </dl>
   <p>The <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.2</a></cite> [[!WAI-ARIA]] specification provides lists of <a class="specref" href="#namefromauthor">roles that support name from author</a>, <a class="specref" href="#namefromcontent">roles that support name from content</a> and <a class="specref" href="#namefromprohibited">roles that cannot be named</a>.</p>
   <section id="mapping_additional_nd_name">
     <h3>Name Computation</h3>
-    <p><a class="termref">User agents</a> MUST compute an <a class="termref">accessible name</a> using the rules outlined below in the section titled <a href="#mapping_additional_nd_te">Accessible Name and Description Computation</a>.</p>
+    <p><a class="termref">User agents</a> MUST compute an <a class="termref">accessible name</a> using the rules outlined below in the section titled <a href="#mapping_additional_nd_te">Text Equivalent Computation</a>.</p>
   </section>
+
   <section id="mapping_additional_nd_description">
     <h3>Description Computation</h3>
-    <p>If <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> is present, <a class="termref">user agents</a> MUST compute the accessible description by concatenating the text alternatives for elements referenced by an <code>aria-describedby</code> attribute on the current element. The text alternatives for the referenced elements are computed using a number of methods, outlined below in the section titled <a href="#mapping_additional_nd_te">Accessible Name and Description Computation</a>. </p>
+    <p>The following table provides the order of precedence for markup that can be applied to compute an <a class="termref">accessible description</a>. <a class="termref">User agents</a> MUST use the first applicable entry from the table where the listed conditions are met, as described in the last column. The user agent MUST NOT use any markup other that the first relevant markup found, even if that markup results in an empty description:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Precedence</th>
+          <th>Attribute</th>
+          <th>Applicable conditions</th>
+          <th>How used to compute description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>1</th>
+          <td><a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a> attribute</td>
+          <td>Use on any element</td>
+          <td><a href="#mapping_additional_nd_te">Text content computation</a> on all nodes referenced by aria-describedby on the element, concatenated, and separated by a space character</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td><a class="property-reference" href="#aria-description"><code>aria-description</code></a> attribute</td>
+          <td>Use on any element</td>
+          <td>As a flat string</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>host language features which participate in the description calculation</td>
+          <td>
+            Unique host language features MAY participate in the description computation for an element, only if they were not already used
+            for the accessible name of the applicable element. See <a data-cite="html-aam/#accdesc-computation">HTML AAM: Accessible Description Computation</a> 
+            for the HTML elements which meet this condition.
+          </td>
+          <td>
+            Either a <a href="#mapping_additional_nd_te">text equivalent computation</a> of the element, or as a flat string of the attribute's value.
+          </td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>host language tooltip attribute or equivalent feature (e.g., HTML <code>title</code> attribute)</td>
+          <td>
+            <ul>
+              <li>Any element</li>
+              <li>Only use if not already used for the accessible name of this node</li>
+            </ul>
+          </td>
+          <td>As a flat string</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
   <section id="mapping_additional_nd_te" data-cite="dom">
-    <h3>Accessible Name and Description Computation</h3>
-    <p>The accessible name and description computation is used to generate both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of [=element|elements=], [=nodes=], and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an [=element=]. This is accomplished via steps 2B and 2F, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references. </p>
+    <h3>Text Equivalent Computation</h3>
+    <p>The text equivalent computation is used by both the <a class="termref">accessible name</a> and <a class="termref">accessible description</a>. There are different rules provided for several different types of [=element|elements=], [=nodes=], and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an [=element=]. This is accomplished via steps 2B and 2F, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references. </p>
     <p>The purpose of the computation is to create a <a class="termref">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual tokens. </p>
     <section id="terminology">
       <h4>Terminology</h4>
@@ -308,8 +356,7 @@
             </li>
             <li id="step2B">Otherwise:
               <ul>
-                <li>if computing a <a class="termref" data-lt="accessible name">name</a>, and the <code>current node</code> has an <code>aria-labelledby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal, process its IDREFs in the order they occur: </li>
-                <li>or, if computing a <a class="termref" data-lt="accessible description">description</a>, and the <code>current node</code> has an <code>aria-describedby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
+                <li>if the <code>current node</code> has an <code>aria-labelledby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an ongoing <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, process its IDREFs in the order they occur: </li>
                   <ol>
                     <li id="step2B.i">Set the <code>accumulated text</code> to the empty string.</li>
                     <li id="step2B.ii">For each IDREF:
@@ -357,7 +404,7 @@
                 <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
               </details></div>
             </li>
-            <li id="step2D">Otherwise, if computing a <a class="termref" data-lt="accessible name">name</a>, and if the <code>current node</code> has an <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
+            <li id="step2D">Otherwise, if the <code>current node</code> has an <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
               <ul>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control as defined in step 2C, ignore <code>aria-label</code> and skip to rule 2C.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
