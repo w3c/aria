@@ -225,22 +225,34 @@
     </section>
     <section class="informative">
       <h2>
-        Examples of incorrect usage
+        Author guidance to avoid incorrect and not recommended use of ARIA
       </h2>
-      <section class="informative">
+      <section>
         <h3>
-          Don't override default roles
+          Avoid overriding interactive elements with non-interactive roles
         </h3>
         <p>
-          The following uses a `role=heading` on a [^button^] element. This is
-          not allowed, because the `button` element has default characteristics
-          that conflict with the heading role.
+          ARIA is useful for revising or correcting the role of an element when a different role
+          is necessary to expose to users. However, it is rarely in the user or author's best interest
+          to try and use ARIA to override an interactive elmenet, for instance a `button`, with a role
+          generally exposed by a non-interactive element. For instance, a heading.
+        </p>
+        <p>
+          As an example, the following uses a `role=heading` on a [^button^] element. This is
+          not allowed, because the `button` element has default functionality that conflicts with user 
+          expectations for the heading role.
         </p>
         <pre class="example HTML" title="Wrong role">
           &lt;button role="heading"&gt;search&lt;/button&gt;
         </pre>
+        <p>
+          An author would need to take additional steps to ensure the default functionality and presentation of 
+          the `button` was removed, and even doing so may still not be enough to fully supress the element's 
+          implicit features depending on how the user chooses to engage with the web page. E.g., by turning on 
+          Windows high contrast themes, or viewing the web page in a browser's reader mode.
+        </p>
       </section>
-      <section class="informative">
+      <section>
         <h3>
           Avoid specifying redundant roles
         </h3>
@@ -283,7 +295,7 @@
           &lt;ul role="list"&gt;...&lt;/ul&gt;
         </pre>
       </section>
-      <section class="informative">
+      <section>
         <h3 id="side-effects">
           Be cautious of side effects
         </h3>
@@ -296,23 +308,23 @@
         </p>
         <pre class="HTML example" title="Unintended consequences">
           &lt;details&gt;
-            &lt!-- Avoid doing this! -->
+            &lt;!-- Avoid doing this! -->
             &lt;summary role="button"&gt;more information&lt;/summary&gt;
             ...
           &lt;/details&gt;
         </pre>
       </section>
-      <section class="informative">
+      <section>
         <h3>Adhere to the rules of ARIA</h3>
         <p>
           [[[wai-aria-1.2]]] defines a number of roles which are not meant to be used
           by authors. Many of these roles are categorized as <a data-cite="wai-aria-1.2#isAbstract">Abstract Roles</a>
-          and are absolutely not to be used by authors. The following example illustrates the invalid use of an
-          abstract `select` role, where an author likely should have used a `combobox` role instead.
+          which are explicitly stated as not to be used by authors. The following example illustrates the invalid use of an
+          abstract `select` role, where an author likely meant to use the `combobox` role instead.
         </p>
         <pre class="HTML example" title="Abstract roles are not for authors">
-          &lt!-- Do not do this! -->
-          &lt;div role="select" ...&gt;...n&lt;/div&gt;
+          &lt;!-- Do not do this! -->
+          &lt;div role="select" ...&gt;...&lt;/div&gt;
         </pre>
         <p>
           ARIA also defines a <a data-cite="wai-aria-1.2#generic">`generic` role</a> which is meant to provide
@@ -326,9 +338,49 @@
           `presentation` or `none` would be acceptable alternaties to remove the implicit role of the `article`.
         </p>
         <pre class="HTML example" title="Do not specify elements as generic">
-          &lt!-- Avoid doing this! -->
+          &lt;!-- Avoid doing this! -->
           &lt;article role="generic" ...>...&lt;/article>;
         </pre>
+      </section>
+      <section>
+        <h3>Adhere to the rules of HTML</h3>
+        <p>
+          While ARIA can be used to alter the way HTML features are exposed to users of assistive technologies,
+          these modifications do not change the underlying parsing and allowed content models of HTML. For instance,
+          a [^div^] allows an author to specify any role on it. However, this does not mean that the element can then be
+          used in a way that deviates from the rules HTML has defined for the element.
+        </p>
+        <p>
+          For instance, in the following example an author has specified a role of `link` on a `div` element. While
+          HTML allows for a `link` element to be a child of a `p` element, the HTML does not allow a `div` within
+          a `p` element. 
+        </p>
+        <pre class="HTML example" title="Revised ARIA semantics with invalid HTML nesting">
+          &lt;!-- Do not do this! -->
+          &lt;p>
+            ... &lt;div role=link tabindex=0>...&lt;/div> ... 
+          &lt;/p>;
+        </pre>
+        <p>
+          The HTML parser will render the above markup as the following:
+        </p>
+        <pre class="HTML example" title="Unwanted rendered markup with valid alternative solution">
+          &lt!-- The previous example's markup will render as follows -->
+          &lt;p>...&lt;/p>;
+          &lt;div role=link tabindex=0>...&lt;/div> 
+          ... 
+          &lt;p>&lt;/p>;
+          
+          &lt;!-- Instead do this, because spans are allowed in p elements! -->
+          &lt;p>
+            ... &lt;span role=link tabindex=0>...&lt;/span> ...
+          &lt;/p>
+        </pre>
+        <p>
+          While this specification indicates the allowed ARIA attributes which can be specified on each HTML element,
+          this example illustrates that even if a role is allowed, the context in which it is used can still result
+          in a rendering and potentially accessibility issues.
+        </p>
       </section>
     </section>
     <section>
