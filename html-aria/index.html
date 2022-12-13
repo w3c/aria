@@ -341,6 +341,20 @@
           &lt;!-- Avoid doing this! -->
           &lt;article role="generic" ...>...&lt;/article>;
         </pre>
+        <p>
+          Additionally, ARIA specifically mentions in <a data-cite="wai-aria-1.2/#host_general_conflict">Conflicts with Host Language Semantics</a> 
+          that if authors use both native HTML features for exposing states and properties as well as their ARIA counterparts, then
+          the host language features take priority over the explicit ARIA attributes that are also used.
+        </p>
+        <p>
+          For instance, in the following example an author is using HTML's `input type=checkbox` and has specified an `aria-checked=true`. However,
+          user agents are meant to ignore the `aria-checked` attribute. Instead user agents would expose the state based on the native features
+          of the form control.
+        </p>
+        <pre class="HTML example" title="The implicit checked state takes precedent over the explicit ARIA attribute">
+          &lt;!-- Do not do this! -->
+          &lt;input type="checkbox" checked aria-checked="false">
+        </pre>
       </section>
       <section>
         <h3>Adhere to the rules of HTML</h3>
@@ -366,12 +380,12 @@
         </p>
         <pre class="HTML example" title="Unwanted rendered markup with valid alternative solution">
           &lt!-- The previous example's markup will render as follows -->
-          &lt;p>...&lt;/p>;
+          &lt;p>...&lt;/p>
           &lt;div role=link tabindex=0>...&lt;/div> 
           ... 
           &lt;p>&lt;/p>;
           
-          &lt;!-- Instead do this, because spans are allowed in p elements! -->
+          &lt;!-- Use a span are allowed in p elements! -->
           &lt;p>
             ... &lt;span role=link tabindex=0>...&lt;/span> ...
           &lt;/p>
