@@ -215,32 +215,65 @@
       </p>
     </section>
     <section>
+      <h3 id="minimum-role">Exposing HTML Features That Require a Minimum Role</h3>
+      <p>
+        A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to when an element has no more specific implicit role. This can help ensure that users of assistive technologies get the best possible experience for commonly-used and valid HTML markup where otherwise a role would not be exposed.
+      </p>
+      <p>
+        A minimum role is provided under the following conditions:
+      </p>
+      <ul>
+        <li>
+          the element either has no implicit mapping or has an implicit `generic` role mapping, 
+        <li>
+          the author has not specified an explicit role to the element, 
+        <li>
+          the author has specified properties to the element which require a minimum role mapping.
+        </li>
+      </ul>
+      <p>
+        The properties which will require a minimum role mapping are specific global HTML attributes, identified in the <a href="#attribute-mapping-table">Mappings of HTML attributes table</a>.
+      </p>
+      <p>
+        When these conditions are met, the browser MUST expose an object using the mappings defined in CORE-AAM for the specified minimum role.
+      </p>
+    </section>
+    <section>
       <h3>HTML Element Role Mappings</h3>
       <ul>
         <li>HTML elements with implicit WAI-ARIA role semantics MUST be mapped to platform <a class="termref">accessibility APIs</a> according to the identified WAI-ARIA role mapping as defined in the [[core-aam-1.2]] specification.</li>
-        <li>"Not mapped" means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user interface. However, authors can force some of these elements to be rendered. For instance, by overriding user agent styles to render elements that would have been otherwise set to `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>.</li>
-        <li>Where applicable, how an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.</li>
-        <li>Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.</li>
+        <li>"Not mapped" means the element is not exposed via an <a class="termref">accessibility API</a>. Commonly, an element is not mapped because its not displayed as part of the user interface. However, authors can force some of these elements to be rendered. For instance, by overriding user agent styles to render elements that would have been otherwise set to `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>, unless other HTML features have been specified which would require a more specific <a>minimum role</a> to be exposed.</li>
+        <li>Where an element is indicated as having <q>No corresponding (WAI-ARIA) role</q>, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription` be used with.</li>
         <li>
-          <strong>IAccessible2:</strong>
-          <ul>
-            <li>All elements with accessible objects should implement the IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
-          </ul>
+          Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. How an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
         </li>
-        <li>
-          <strong>UIA:</strong>
-          <ul>
-            <li>When a <a data-cite="html/forms.html#category-label">labelable element</a> is referenced by a `label` element's `for` attribute, or a descendant of a `label` element, the labelable element's UIA `LabeledBy` property points to the UIA element for the `label` element.</li>
-            <li>Elements mapped to the `Text` Control Type are not generally represented as <a class="termref" data-lt="accessible object">accessible objects</a> in the <a class="termref">accessibility tree</a>, but are just part of the `Text` Control Pattern implemented for the whole HTML document. However, if they have any `aria-` attributes or an explicit `tabindex` specified, elements mapped to the `Text` Control Type will be represented as <a class="termref" data-lt="accessible object">accessible objects</a> in the <a class="termref">accessibility tree</a>.</li>
-          </ul>
-        </li>
-        <li>
-          <strong>AXAPI:</strong>
-          <ul>
-            <li>User agents should return a user-presentable, localized string value for the Mac Accessibility AXRoleDescription.</li>
-          </ul>
-        </li>
+        <li>HTML elements with no mapping, or an implicit mapping of `generic`
       </ul>
+
+      <section>
+        <h4 id=foo>Platform API mapping requirements</h4>
+        <ul>
+          <li>
+            <strong>IAccessible2:</strong>
+            <ul>
+              <li>All elements with accessible objects SHOULD implement the IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>UIA:</strong>
+            <ul>
+              <li>When a <a data-cite="html/forms.html#category-label">labelable element</a> is referenced by a `label` element's `for` attribute, or a descendant of a `label` element, the labelable element's UIA `LabeledBy` property points to the UIA element for the `label` element.</li>
+              <li>Elements mapped to the `Text` Control Type are not generally represented as <a class="termref" data-lt="accessible object">accessible objects</a> in the <a class="termref">accessibility tree</a>, but are just part of the `Text` Control Pattern implemented for the whole HTML document. However, if they have any `aria-` attributes or an explicit `tabindex` specified, elements mapped to the `Text` Control Type will be represented as <a class="termref" data-lt="accessible object">accessible objects</a> in the <a class="termref">accessibility tree</a>.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>AXAPI:</strong>
+            <ul>
+              <li>User agents should return a user-presentable, localized string value for the Mac Accessibility AXRoleDescription.</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
       <div class="table-container">
         <table class="map-table elements" id="element-mapping-table">
           <caption>Mappings of HTML elements to platform <a class="termref">accessibility APIs</a>: ARIA, MSAA + UIA Express, MSAA + IAccessible2, UIA, ATK, and AX</caption>
@@ -3318,7 +3351,9 @@
                 </div>
               </td>
               <td class="ax">`AXAccessKey: &lt;value&gt;`</td>
-              <td class="comments"></td>
+              <td class="comments">
+                Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.
+              </td>
             </tr>
             <tr tabindex="-1" id="att-action">
               <th>`action`</th>
@@ -3493,7 +3528,7 @@
               <td class="atk"><div class="general">Not mapped</div></td>
               <td class="ax"><div class="general">Not mapped</div></td>
               <td class="comments">
-                <p>Similar to <a class="core-mapping" href="#ariaFlowto">`aria-flowto`</a>.</p>
+                Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.
               </td>
             </tr>
             <tr tabindex="-1" id="att-autoplay">
@@ -3678,7 +3713,11 @@
                 <div class="general">Use WAI-ARIA mapping</div>
               </td>
               <td class="comments">
-                If the element has the `contenteditable` attribute  and `aria-readonly="true"`, User Agents MUST expose only the `contenteditable` state.
+                <p>If the element has the `contenteditable` attribute  and `aria-readonly="true"`, User Agents MUST expose only the `contenteditable` state.</p>
+                <p>
+                  If the attribute exposes or inherits the `true` state, it provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.
+                </p>
+                <!-- note: when/if contenteditable=plain-text becomes a standard, then this would have a minimum mapping of textbox -->
               </td>
             </tr>
             <tr tabindex="-1" id="att-controls">
@@ -3917,7 +3956,9 @@
                 </div>
               </td>
               <td class="ax"><div class="general">Not mapped</div></td>
-              <td class="comments"></td>
+              <td class="comments">
+                Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.
+              </td>
             </tr>
             <tr tabindex="-1" id="att-enctype">
               <th>`enctype`</th>
@@ -5336,7 +5377,9 @@
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
-              <td class="comments"></td>
+              <td class="comments">
+                Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.
+              </td>
             </tr>
             <tr tabindex="-1" id="att-target">
               <th>`target`</th>
