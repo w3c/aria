@@ -143,7 +143,7 @@
 
 	preProcess: [ linkCrossReferences ],
 	postProcess: [ ariaAttributeReferences ],
-	xref: ["dom", "accname", "core-aam-1.2", "infra", "HTML"],
+	xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML"],
 	definitionMap: []
 	};
 </script>
@@ -313,7 +313,7 @@
 			</dd>
 			<dt><dfn>Identifies</dfn></dt>
 			<dd>
-			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is an <a href="#valuetype_idref">ID reference</a> (identifying a single element) or <a href="valuetype_idref_list">ID reference list</a> (identifying one or more elements).</p>
+			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is an <a href="#valuetype_idref">ID reference</a> (identifying a single element) or <a href="#valuetype_idref_list">ID reference list</a> (identifying one or more elements).</p>
 			  <p>Related Terms: <a>Defines</a>, <a>Indicates</a></p>
 			</dd>
 			<dt><dfn>Indicates</dfn></dt>
@@ -542,7 +542,7 @@
 		<p>The Roles Model uses the following relationships to relate <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles to each other and to concepts from other specifications, such as HTML.</p>
 		<section id="superclassrole">
 			<h3>Superclass Role</h3>
-			<p>The <a>role</a> that the current subclassed role extends in the Roles Model. This extension causes all the properties and constraints of the superclass role to propagate to the subclass role. Other than well known stable specifications, inheritance may be restricted to items defined inside this specification, so that external items cannot be changed and affect inherited classes.</p>
+			<p>The <a>role</a> that the current subclassed role extends in the Roles Model. This extension causes all the states and properties of the superclass role to propagate to the subclass role. Other than well known stable specifications, inheritance may be restricted to items defined inside this specification, so that external items cannot be changed and affect inherited classes.</p>
 		</section>
 		<section id="subclassroles">
 			<h3>Subclass Roles</h3>
@@ -1725,7 +1725,7 @@
 					<li>The <code>caption</code> is the first or last non-<code>generic</code> descendant of a <rref>figure</rref>.</li>
 				</ul>
 				<p>If the <code>caption</code> represents an accessible name for its containing element, authors SHOULD specify <pref>aria-labelledby</pref> on the containing element to reference the element with role <code>caption</code>.</p>
-				
+
 				<pre class="example highlight">
 					&lt;div role="radiogroup" aria-labelledby="cap"&gt;
 				    &lt;div role="caption" id="cap"&gt;
@@ -1733,9 +1733,9 @@
 				    &lt;/div&gt;
 				    &lt;!-- ... --&gt;
 				</pre>
-				
+
 				<p>If a <code>caption</code> contains content that serves as both a name and description for its containing element, authors MAY instead specify <pref>aria-labelledby</pref> to reference an element within the <code>caption</code> that represents the "name" of the containing element, and specify <pref>aria-describedby</pref> to reference an element within the <code>caption</code> that represents the descriptive content.</p>
-				
+
 				<pre class="example highlight">
 					&lt;div role="table" aria-labelledby="name" aria-describedby="desc"&gt;
 				    &lt;div role="caption"&gt;
@@ -1747,7 +1747,7 @@
 				    &lt;/div&gt;
 				    &lt;!-- ... --&gt;
 				</pre>
-				
+
 				<p>If the <code>caption</code> represents a long-form description, or if the description contains semantic elements which are important in understanding the description, authors MAY instead specify <pref>aria-labelledby</pref> to reference an element within the <code>caption</code> that represents the "name" of the containing element, and specify <pref>aria-details</pref> to reference an element within the <code>caption</code> that represents the descriptive content.</p>
 
 				<pre class="example highlight">
@@ -1764,9 +1764,9 @@
 				    &lt;/div&gt;
 				    &lt;!-- ... --&gt;
 				</pre>
-				
+
 				<p>There may be instances where a <code>caption</code> contains only a description, without a suitable text string to serve as the accessible name for its containing element. In such instances, <pref>aria-label</pref> or <pref>aria-labelledby</pref> MAY be used to provide an accessible name, and the <code>caption</code> MAY be treated solely as descriptive content, referenced via <pref>aria-details</pref>.
-					
+
 				<pre class="example highlight">
 					&lt;div role="figure" aria-label="Sales information" aria-details="details"&gt;
 					  &lt;!-- figure content here, such as a complex data viz SVG -->
@@ -1778,7 +1778,7 @@
 				    &lt;/div&gt;
 				    &lt;!-- ... --&gt;
 				</pre>
-				
+
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -1808,7 +1808,7 @@
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
 						<td class="role-related">
-							<code>&lt;caption&gt;</code> in [[HTML]] <br> 
+							<code>&lt;caption&gt;</code> in [[HTML]] <br>
 							<code>&lt;figcaption&gt;</code> in [[HTML]] <br>
 							<code>&lt;legend&gt;</code> in [[HTML]]
 						</td>
@@ -2928,7 +2928,7 @@
 		<div class="role" id="deletion">
 			<rdef>deletion</rdef>
 			<div class="role-description">
-				<p>A deletion contains content that is marked as removed or content that is being suggested for removal. See related <rref>insertion</rref>.</p>
+				<p>A deletion represents content that is marked as removed, content that is being suggested for removal, or content that is no longer relevant in the context of its accompanying content. See related <rref>insertion</rref>.</p>
 				<p>Deletions are typically used to either mark differences between two versions of content or to designate content suggested for removal in scenarios where multiple people are revising content.</p>
 			</div>
 			<table class="role-features">
@@ -2954,7 +2954,12 @@
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
-						<td class="role-related"><code>&lt;del&gt;</code> in [[HTML]]</td>
+						<td class="role-related">
+							<ul>
+								<li><code>&lt;del&gt;</code> in [[HTML]]</li>
+								<li><code>&lt;s&gt;</code> in [[HTML]]</li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-scope-head" scope="row">Required Context Role:</th>
@@ -3345,7 +3350,7 @@
 					<p>Authors SHOULD make each <rref>article</rref> in a <code>feed</code> focusable and ensure that the application scrolls an <rref>article</rref> into view when <a>user agent</a> focus is set on the <rref>article</rref> or one of its descendant elements. For example, in HTML, each <rref>article</rref> element should have a <code>tabindex</code> value of either <code>-1</code> or <code>0</code>.</p>
 					<p> When an <a>assistive technology</a> reading cursor moves from one <rref>article</rref> to another, <a>assistive technologies</a> SHOULD set user agent focus on the <rref>article</rref> that contains the reading cursor. If the reading cursor lands on a focusable element inside the <rref>article</rref>, the assistive technology MAY set focus on that element in lieu of setting focus on the containing <rref>article</rref>.</p>
 					<p>Because the ability to scroll to another <rref>article</rref> with an <a>assistive technology</a> reading cursor depends on the presence of another <rref>article</rref> in the page, authors SHOULD attempt to load additional <rref data-lt="article">articles</rref> before <a>user agent</a> focus reaches an <rref>article</rref> at either end of the set of <rref data-lt="article">articles</rref> that has been loaded. Alternatively, authors MAY include an <rref>article</rref> at either or both ends of the loaded set of <rref data-lt="article">articles</rref> that includes an element, such as a <rref>button</rref>, that lets the user request more <rref data-lt="article">articles</rref> to be loaded.</p>
-					<p>In addition to providing a brief label, authors MAY apply <pref>aria-describedby</pref> to <rref>article</rref> elements in a <code>feed</code> to suggest to screen readers which elements to speak after the label when users navigate by <rref>article</rref>. Screen readers MAY provide users with a way to quickly scan <code>feed</code> content by speaking both the label and <a>accessible description</a> when navigating by <rref>article</rref>, enabling the user to ignore repetitive or less important elements, such as embedded interaction widgets, that the author has left out of the description.</p>
+					<p>In addition to providing a brief label, authors MAY apply <pref>aria-describedby</pref> to <rref>article</rref> elements in a <code>feed</code> to suggest to screen readers which elements to speak after the label when users navigate by <rref>article</rref>. Screen readers MAY provide users with a way to quickly scan <code>feed</code> content by speaking both the label and <a class="informative">accessible description</a> when navigating by <rref>article</rref>, enabling the user to ignore repetitive or less important elements, such as embedded interaction widgets, that the author has left out of the description.</p>
 					<p> Authors SHOULD provide keyboard commands for moving focus among <rref data-lt="article">articles</rref> in a <code>feed</code> so users who do not utilize an assistive technology that provides <rref>article</rref> navigation features can use the keyboard to navigate the <code>feed</code>.</p>
 					<p>If the number of articles available in a <code>feed</code> supply is static, authors MAY specify <pref>aria-setsize</pref> on <rref>article</rref> elements in that <code>feed</code>. However, if the total number is extremely large, indefinite, or changes often, authors MAY set <pref>aria-setsize</pref> to <code>-1</code> to communicate the unknown size of the set.</p>
 					<p>See the <cite><a href="" class="practices"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</a></cite> for additional details on implementing a feed design pattern.</p>
@@ -4067,7 +4072,7 @@
 			<div class="role-description">
 				<p>A container for a collection of [=elements=] that form an image. See synonym <rref>img</rref>.</p>
 				<div class="note" id="role-image-note-image">
-					<h5>Note regarding the ARIA 1.3 <code>image</code> role.</h5>
+					Note regarding the ARIA 1.3 <code>image</code> role.
 					<p>The <code>image</code> was added to ARIA in version 1.3 as a
 					synonym of the ARIA 1.0 <rref>img</rref> role. The <code>image</code>
 					role improves syntactic consistency with the names of other roles,
@@ -4079,7 +4084,7 @@
 			<rdef>img</rdef>
 			<div class="role-description">
 				<p>A container for a collection of [=elements=] that form an image. See synonym <rref>image</rref>.</p>
-				<p>An <code>img</code> can contain captions and descriptive text, as well as multiple image files that when viewed together give the impression of a single image. An <code>img</code> represents a single graphic within a document, whether or not it is formed by a collection of drawing <a>objects</a>. In order for an element with a <a>role</a> of <code>img</code> to be <a>perceivable</a>, authors MUST provide the element with an <a>accessible name</a>. This can be done using the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
+				<p>An <code>img</code> can contain captions and descriptive text, as well as multiple image files that when viewed together give the impression of a single image. An <code>img</code> represents a single graphic within a document, whether or not it is formed by a collection of drawing <a>objects</a>. In order for an element with a <a>role</a> of <code>img</code> to be <a>perceivable</a>, authors MUST provide the element with an <a class="informative">accessible name</a>. This can be done using the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
@@ -5907,7 +5912,7 @@
 			<div class="role-description">
 				<p>An <a>element</a> whose implicit native role semantics will not be mapped to the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>. See synonym <rref>presentation</rref>.</p>
 				<div class="note" id="role-none-note-none">
-					<h5>Note regarding the ARIA 1.1 <code>none</code> role.</h5>
+					Note regarding the ARIA 1.1 <code>none</code> role.
 					<p>In ARIA 1.1, the working group introduced <code>none</code> as a synonym to the <rref>presentation</rref> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
 				</div>
 			</div>
@@ -6298,7 +6303,7 @@
 			<div class="role-description">
 				<p>An <a>element</a> whose implicit native role semantics will not be mapped to the <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a>. See synonym <rref>none</rref>.</p>
 				<div class="note" id="role-presentation-note-none">
-					<h5>Note regarding the ARIA 1.1 <rref>none</rref> role.</h5>
+					Note regarding the ARIA 1.1 <rref>none</rref> role.
 					<p>In ARIA 1.1, the working group introduced <rref>none</rref> as a synonym to the <code>presentation</code> role, due to author confusion surrounding the intended meaning of the word "presentation" or "presentational." Many individuals erroneously consider <code>role="presentation"</code> to be synonymous with <code>aria-hidden="true"</code>, and we believe <code>role="none"</code> conveys the actual meaning more unambiguously.</p>
 				</div>
 				<p>The intended use is when an element is used to change the look of the page but does not have all the functional, interactive, or structural relevance implied by the element type, or may be used to provide for an accessible fallback in older browsers that do not support <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.</p>
@@ -10366,11 +10371,11 @@ button.ariaPressed; // null</pre>
 				<li><pref>aria-valuenow</pref></li>
 				<li><pref>aria-valuetext</pref></li>
 			</ul>
-			<p>Widget attributes might be mapped by a <a>user agent</a> to platform <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> <a>state</a>, for access by <a>assistive technologies</a>, or they might be accessed directly from the <abbr title="Document Object Model">DOM</abbr>. User agents MUST provide a way for assistive technologies to be notified when states change, either through <abbr title="Document Object Model">DOM</abbr> attribute change <a>events</a> or platform accessibility <abbr title="Application Programing Interfaces">API</abbr> events.</p>
+			<p>Widget attributes might be mapped by a <a>user agent</a> to platform <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> <a>state</a>, for access by <a>assistive technologies</a>, or they might be accessed directly from the <abbr title="Document Object Model">DOM</abbr>.</p>
 		</section>
 		<section id="attrs_liveregions">
 			<h3>Live Region Attributes</h3>
-			<p>This section contains [=attributes=] specific to <a>live regions</a> in rich internet applications. These attributes may be applied to any <a>element</a>. The purpose of these attributes is to indicate that content changes may occur without the element having focus, and to provide <a>assistive technologies</a> with information on how to process those content updates. Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a ticker section that lists updating stock quotes.</p>
+			<p>This section contains [=attributes=] specific to <a>live regions</a> in rich internet applications. These attributes may be applied to any <a>element</a>. The purpose of these attributes is to indicate that content changes may occur without the element having focus, and to provide <a>assistive technologies</a> with information on how to process those content updates. Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a ticker section that lists updating stock quotes. User agents MAY ignore changes triggered by direct user action on an <a>element</a> inside a live region (e.g., editing the value of a text field).</p>
 			<ul>
 				<li><pref>aria-atomic</pref></li>
 				<li><sref>aria-busy</sref></li>
@@ -10410,6 +10415,10 @@ button.ariaPressed; // null</pre>
 				<li><pref>aria-setsize</pref></li>
 			</ul>
 		</section>
+	</section>
+	<section id="state_changes">
+		<h3>State change notification</h3>
+		<p> User agents MUST provide a way for assistive technologies to be notified when states change, either through <abbr title="Document Object Model">DOM</abbr> attribute change <a>events</a> or platform accessibility <abbr title="Application Programing Interfaces">API</abbr> events.</p>
 	</section>
 	<section id="state_prop_def">
 		<h2>Definitions of States and Properties (all aria-* attributes)</h2>
@@ -11248,7 +11257,7 @@ button.ariaPressed; // null</pre>
 			<div class="property-description">
 				<p><a>Defines</a> a string value that describes or annotates the current element. See related <pref>aria-describedby</pref>.</p>
 				<p>The <pref>aria-description</pref> attribute is similar to <pref>aria-label</pref> in that both provide a flat string to associate with the element (an accessible description, and name, respectively). Unlike an accessible name, which is generally preferred to be concise, a description can provide more verbose information, as necessary.</p>
-				<p>The purpose of <pref>aria-description</pref> is the same as that of <pref>aria-describedby</pref>. It provides the user with additional descriptive text for the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a description is the <a>accessible description</a> property. User agents MUST give precedence to <pref>aria-describedby</pref> over <pref>aria-description</pref> when computing the accessible description property.</p>
+				<p>The purpose of <pref>aria-description</pref> is the same as that of <pref>aria-describedby</pref>. It provides the user with additional descriptive text for the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a description is the <a class="informative">accessible description</a> property. User agents MUST give precedence to <pref>aria-describedby</pref> over <pref>aria-description</pref> when computing the accessible description property.</p>
 				<p>In cases where providing a visible description is not the desired user experience, authors MAY set the accessible description of the element using <pref>aria-description</pref>. However, if the description text is available in the DOM, authors SHOULD NOT use <pref>aria-description</pref>, but should use one of the following instead:</p>
 				<ul>
 					<li>Authors SHOULD use <pref>aria-describedby</pref> when the related description or annotation elements contain a simple, small description that is best experienced as a flat string, rather than by having the user navigate to them.</li>
@@ -11485,10 +11494,10 @@ button.ariaPressed; // null</pre>
 		<div class="property" id="aria-errormessage">
 			<pdef>aria-errormessage</pdef>
 			<div class="property-description">
-				<p><a>Identifies</a> the <a>element</a> that provides an error message for an <a>object</a>. See related <sref>aria-invalid</sref> and <pref>aria-describedby</pref>.</p>
-				<p>The <code>aria-errormessage</code> attribute references another element that contains error message text. Authors MUST use <sref>aria-invalid</sref> in conjunction with <code>aria-errormessage</code>.</p>
-				<p>When the value of an object is not valid, <sref>aria-invalid</sref> is set to <code>true</code>, which indicates that the message contained by an element referenced by <code>aria-errormessage</code> is pertinent.</p>
-				<p>When an object is in a valid state, it has either <sref>aria-invalid</sref> set to <code>false</code> or it does not have the <sref>aria-invalid</sref> attribute. Authors MAY use <code>aria-errormessage</code> on an object that is currently valid, but only if the element referenced by <code>aria-errormessage</code> is [=element/hidden=], because the message it contains is not pertinent.</p>
+				<p><a>Identifies</a> the <a>element</a> (or elements) that provides an error message for an <a>object</a>. See related <sref>aria-invalid</sref> and <pref>aria-describedby</pref>.</p>
+				<p>The <code>aria-errormessage</code> attribute references other elements that contain error message text. Authors MUST use <sref>aria-invalid</sref> in conjunction with <code>aria-errormessage</code>.</p>
+				<p>When the value of an object is not valid, <sref>aria-invalid</sref> is set to <code>true</code>, which indicates that the message contained by elements referenced by <code>aria-errormessage</code> is pertinent.</p>
+				<p>When an object is in a valid state, it has either <sref>aria-invalid</sref> set to <code>false</code> or it does not have the <sref>aria-invalid</sref> attribute. Authors MAY use <code>aria-errormessage</code> on an object that is currently valid, but only if the elements referenced by <code>aria-errormessage</code> are [=element/hidden=], because the message they contain is not pertinent.</p>
 				<p>When <code>aria-errormessage</code> is pertinent, authors MUST ensure the content is not hidden so users can navigate to and examine the error message. Similarly, when <code>aria-errormessage</code> is not pertinent, authors MUST either ensure the content is [=element/hidden=] or remove the <code>aria-errormessage</code> attribute or its value.</p>
 				<p>User agents MUST NOT expose <code>aria-errormessage</code> for an object with an <sref>aria-invalid</sref> value of <code>false</code>.</p>
 				<p>Authors MAY call attention to a newly rendered error message with a live region by either applying an <pref>aria-live</pref> property or using one of the <a href="#live_region_roles">live region roles</a>, such as <rref>alert</rref>. A live region is appropriate when an error message is displayed to users after they have provided an invalid value.</p>
@@ -11526,7 +11535,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
+						<td class="property-value"><a href="#valuetype_idref_list">ID reference list</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11952,7 +11961,7 @@ button.ariaPressed; // null</pre>
 			<pdef>aria-label</pdef>
 			<div class="property-description">
 				<p><a>Defines</a> a string value that labels the current element. See related <pref>aria-labelledby</pref>.</p>
-				<p>The purpose of <pref>aria-label</pref> is the same as that of <pref>aria-labelledby</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
+				<p>The purpose of <pref>aria-label</pref> is the same as that of <pref>aria-labelledby</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a class="informative">accessible name</a> property.</p>
 				<p>Most host languages provide an attribute that could be used to name the element (e.g., the <code>title</code> attribute in [[HTML]]), yet this could present a browser tooltip. In the cases where DOM content or a tooltip is undesirable, authors MAY set the accessible name of the element using <pref>aria-label</pref>, if the element does not <a href="#prohibitedattributes">prohibit</a> use of the attribute. If the label text is available in the DOM (i.e. typically visible text content), authors SHOULD use <pref>aria-labelledby</pref> and SHOULD NOT use <pref>aria-label</pref>. There may be instances where the name of an element cannot be determined programmatically from the DOM, and there are cases where referencing DOM content is not the desired user experience. Authors MUST NOT specify <code>aria-label</code> on an element which has an explicit or implicit WAI-ARIA role where <code>aria-label</code> is <a href="#prohibitedattributes">prohibited</a>. As required by the <a href="#textalternativecomputation">accessible name and description computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <pref>aria-label</pref> when computing the accessible name property.</p>
 			</div>
 			<table class="property-features">
@@ -11987,7 +11996,7 @@ button.ariaPressed; // null</pre>
 			<pdef>aria-labelledby</pdef>
 			<div class="property-description">
 				<p><a>Identifies</a> the <a>element</a> (or elements) that labels the current element. See related <pref>aria-label</pref> and <pref>aria-describedby</pref>.</p>
-				<p>The purpose of <pref>aria-labelledby</pref> is the same as that of <pref>aria-label</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a>accessible name</a> property.</p>
+				<p>The purpose of <pref>aria-labelledby</pref> is the same as that of <pref>aria-label</pref>. It provides the user with a recognizable name of the object. The most common <a>accessibility <abbr title="Application Programing Interfaces">API</abbr></a> mapping for a label is the <a class="informative">accessible name</a> property.</p>
 				<p>If the interface is such that it is not possible to have a visible label on the screen, authors SHOULD use <pref>aria-label</pref> and SHOULD NOT use <pref>aria-labelledby</pref>. Authors MUST NOT specify <code>aria-labelledby</code> on an element which has an explicit or implicit WAI-ARIA role where <code>aria-labelledby</code> is <a href="#prohibitedattributes">prohibited</a>. As required by the <a href="#textalternativecomputation">accessible name and description computation</a>, user agents give precedence to <pref>aria-labelledby</pref> over <pref>aria-label</pref> when computing the accessible name property.</p>
 				<p>The <pref>aria-labelledby</pref> attribute is similar to <pref>aria-describedby</pref> in that both reference other elements to calculate a text alternative (an accessible name, and description, respectively). While a concise accessible name is preferable, a description can either be concise, or provide more verbose information.</p>
 				<!-- keep previous sentence synced with the associated description in #aria-describedby -->
@@ -13649,7 +13658,7 @@ button.ariaPressed; // null</pre>
 				[CEReactions] attribute DOMString? ariaDescription;
 				[CEReactions] attribute FrozenArray&lt;Element&gt;? ariaDetailsElements;
 				[CEReactions] attribute DOMString? ariaDisabled;
-				[CEReactions] attribute Element? ariaErrorMessageElement;
+				[CEReactions] attribute FrozenArray&lt;Element&gt;? ariaErrorMessageElements;
 				[CEReactions] attribute DOMString? ariaExpanded;
 				[CEReactions] attribute FrozenArray&lt;Element&gt;? ariaFlowToElements;
 				[CEReactions] attribute DOMString? ariaHasPopup;
@@ -13734,7 +13743,7 @@ button.ariaPressed; // null</pre>
 			<tr><td><dfn>ariaDescription</dfn></td><td><pref>aria-description</pref></td></tr>
 			<tr><td><dfn>ariaDetailsElements</dfn></td><td><pref>aria-details</pref></td></tr>
 			<tr><td><dfn>ariaDisabled</dfn></td><td><sref>aria-disabled</sref></td></tr>
-			<tr><td><dfn>ariaErrorMessageElement</dfn></td><td><pref>aria-errormessage</pref></td></tr>
+			<tr><td><dfn>ariaErrorMessageElements</dfn></td><td><pref>aria-errormessage</pref></td></tr>
 			<tr><td><dfn>ariaExpanded</dfn></td><td><sref>aria-expanded</sref></td></tr>
 			<tr><td><dfn>ariaFlowToElements</dfn></td><td><pref>aria-flowto</pref></td></tr>
 			<tr><td><dfn>ariaHasPopup</dfn></td><td><pref>aria-haspopup</pref></td></tr>
