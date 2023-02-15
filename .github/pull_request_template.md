@@ -1,13 +1,14 @@
 Closes #????
 
-<!--- IF EDITORIAL or CHORE, delete the rest of this template -->
-
 Describe Change Here!
 
-# Issue/PR tracking
-if not applicable state N/A
+<!--- IF EDITORIAL or CHORE, delete the rest of this template -->
 
-<!--- Check these once you have confirmed the related change is not necessary or created an issue/PR and added the link here -->
+# PR tracking
+Check these when the relevant issue or PR has been made, OR after you have confirmed the
+related change is not necessary (add N/A). Leave unchecked if you are unsure. Read the
+[Process Document](https://github.com/w3c/aria/wiki/ARIA-WG-Process-Document/_edit) or
+[Test Overview](https://github.com/w3c/aria/wiki/ARIA-Test-Overview) for more information.
 
 * [ ] Related Core AAM Issue/PR:
 * [ ] Related AccName Issue/PR:
@@ -16,10 +17,10 @@ if not applicable state N/A
 
 # Implementation tracking
 
-* [ ] validator tests
-* [ ] WPT tests: [LINK]()
+* [ ] "author MUST" tests:
+* [ ] "user agent MUST" tests:
 * [ ] Browser implementations (link to issue or when done, link to commit):
-   * WebKit: [ISSUE]()
-   * Gecko: [ISSUE]()
-   * Blink: [ISSUE]()
+   * WebKit:
+   * Gecko:
+   * Blink:
 * [ ] Does this need AT implementations?
