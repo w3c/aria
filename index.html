@@ -13680,32 +13680,18 @@ button.ariaPressed; // null</pre>
 				[CEReactions] attribute DOMString? ariaValueNow;
 				[CEReactions] attribute DOMString? ariaValueText;
 			};
+			Element includes ARIAMixin;
 		</pre>
 
-		<p>Interfaces that include <code>ARIAMixin</code> must provide the following algorithms:</p>
-
-		<ul>
-			<li><dfn><code>ARIAMixin</code> getter steps</dfn>, which take the host interface instance, IDL attribute name, and content attribute name, and must return a string value; and
-			<li><dfn><code>ARIAMixin</code> setter steps</dfn>, which take the host interface instance, IDL attribute name, content attribute name, and string value, and must return nothing.</li>
-		</ul>
-
-		<p>For every IDL attribute <var>idlAttribute</var> defined in <code>ARIAMixin</code>, on getting, it must perform the following steps:</p>
+		<p>For every IDL attribute <var>idlAttribute</var> defined in <code>ARIAMixin</code> when included on an element:</p>
 
 		<ol>
-			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
+			<li><p>Let <var>contentAttributeName</var> be the local name of the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
 
-			<li><p>Return the result of running the <a><code>ARIAMixin</code> getter steps</a>, given this, <var>idlAttribute</var>, and <var>contentAttribute</var>.</p></li>
+			<li><p><var>idlAttribute</var> must <a>reflect</a> <var>contentAttributeName</var> and <a>support <code>ElementInternals</code></a>.</p></li>
 		</ol>
 
-		<p>Similarly, on setting, it must perform the following steps:</p>
-
-		<ol>
-			<li><p>Let <var>contentAttribute</var> be the ARIA content attribute determined by looking up <var>idlAttribute</var> in the ARIA Attribute Correspondence table.</p></li>
-
-			<li><p>Run the <a><code>ARIAMixin</code> setter steps</a>, given this, <var>idlAttribute</var>, <var>contentAttribute</var>, and the given value.</p></li>
-		</ol>
-
-		<p class="note">This very general framework is motivated by the desire for different host interfaces, such as <code>Element</code> and <code>ElementInternals</code>, to give these IDL attributes different behaviors. The alternative is requiring each host interface to duplicate the IDL attributes independently, so that they can specify independent behaviors, but that comes with a high risk of them getting out of sync.</p>
+		<p class="note">In practice, this means that, e.g., the <code>role</code> IDL attribute on <code>Element</code> reflects the <code>role</code> content attribute; the <code>ariaValueMin</code> IDL attribute reflects the <code>aria-valuemin</code> content attribute; etc.</p>
 	</section>
 
 	<section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
@@ -13785,24 +13771,6 @@ button.ariaPressed; // null</pre>
 				<li><code>ariaPosInSet</code>: The <pref>aria-posinset</pref> attribute refers to an item's position in a set (two words: "in set") rather than the "inset" of an item from the beginning of the collection. Therefore the IDL attribute name is <code>ariaPosInSet</code> with the P, I, and second S capitalized, <em>not</em> <code>ariaPosInset</code>.</li>
 			</ul>
 		</section>
-	</section>
-
-	<section id="idl_element">
-		<h2><code>ARIAMixin</code> Mixed in to <code>Element</code></h2>
-
-		<p>User agents MUST include <code>ARIAMixin</code> on <code>Element</code>:</p>
-
-		<pre class="idl">
-			Element includes ARIAMixin;
-		</pre>
-
-		<p>For <code>Element</code>:</p>
-		<ul>
-			<li><p>The <a><code>ARIAMixin</code> getter steps</a> given <var>element</var>, <var>idlAttribute</var>, and <var>contentAttribute</var> are to return the result of the getter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>.</p></li>
-			<li><p>The <a><code>ARIAMixin</code> setter steps</a> given <var>element</var>, <var>idlAttribute</var>, <var>contentAttribute</var>, and <var>value</var> are to perform the setter algorithm for <var>idlAttribute</var> <a href="https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect">reflecting</a> <var>contentAttribute</var> on <var>element</var>, given <var>value</var>.</p></li>
-		</ul>
-
-		<p class="note">In practice, this means that, e.g., the <code>role</code> IDL on <code>Element</code> reflects the <code>role</code> content attribute; the <code>ariaValueMin</code> IDL attribute reflects the <code>aria-valuemin</code> content attribute; etc.</p>
 	</section>
 
 	<section class="informative" id="idl_example_usage">
