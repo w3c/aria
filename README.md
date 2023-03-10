@@ -1,6 +1,6 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
 
 ## The default branch has been renamed
 
@@ -17,6 +17,8 @@ $ git branch -u origin/main main
 This repository is for the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications. There are several other deliverables, such as ARIA modules, Accessibility API Mappings, and support documents. These are maintained in separate repositories listed on the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification to which the issue applies.
 
 ## Contributing to this Repository
+
+Please review the [ARIA Process Document](https://github.com/w3c/aria/wiki/ARIA-WG-Process-Document) for information about how the working group tracks issues and pull request.
 
 ### Role of Editors
 
@@ -40,8 +42,6 @@ Issues can be assigned to people who are members of the [ARIA Contributors](http
 When preparing GitHub pull requests:
 
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
-* Keep pull requests specific to individual comments. Some comments may require changes to multiple source files, for example if an external link is incorrect in multiple files, and this is appropriate if the changes all relate to the same comment. However, if several separate comments are submitted together within a single pull request,  it is more difficult for the working group to parse the different points made in the comment and unless the group agrees with all aspects of the comment the pull request may need to be rejected.
-* Whenever possible, please create a separate pull request for each specification you are modifying. Doing so allows each specification editor to incorporate your contributions without having to check with the editors of the other documents you are modifying or to perform multiple manual merges.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
