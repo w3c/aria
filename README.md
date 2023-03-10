@@ -18,7 +18,7 @@ This repository is for the main deliverable of the ARIA Working Group, Accessibl
 
 ## Contributing to this Repository
 
-Please review the [ARIA Process Document](https://github.com/w3c/aria/wiki/ARIA-WG-Process-Document) for information about how the working group tracks issues and pull request.
+Please review the [ARIA Process Document](documentation/process.md) for information about how the working group tracks issues and pull request.
 
 ### Role of Editors
 
