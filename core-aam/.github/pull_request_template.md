@@ -6,8 +6,8 @@ Describe Change Here!
 
 # Implementation
 
-* WPT tests: [LINK]()
+* WPT tests:
 * Implementations (link to issue or when done, link to commit):
-   * WebKit: [ISSUE]()
-   * Gecko: [ISSUE]()
-   * Blink: [ISSUE]()
+   * WebKit:
+   * Gecko:
+   * Blink:
