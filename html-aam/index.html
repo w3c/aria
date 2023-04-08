@@ -1264,13 +1264,17 @@
               <th>
                 <a data-cite="HTML">`hgroup`</a>
               </th>
-              <td class="aria"><a class="core-mapping" href="#role-map-generic">`generic`</a> role </td>
+              <td class="aria"><a class="core-mapping" href="#role-map-group">`group`</a> role </td>
               <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
               <!-- <td class="naming"></td> -->
-              <td class="comments"></td>
+              <td class="comments">
+                If an `hgroup` contains multiple heading elements, then the heading element with the highest priority level 
+                MAY be treated as the sole heading of the `hgroup`. All other heading elements MAY instead be exposed as if they
+                were <a href="#el-p">`p`</a> elements. See <a class="core-mapping" href="#role-map-paragraph">`paragraph` role on Core AAM</a>.
+              </td>
             </tr>
             <tr tabindex="-1" id="el-hr">
               <th>
@@ -2130,17 +2134,27 @@
                   <span class="type">Roles:</span> `ROLE_SYSTEM_STATICTEXT`; `IA2_ROLE_LABEL`
                 </div>
                 <div class="relations">
-                  <span class="type">Relations:</span> `IA2_RELATION_LABEL_FOR` with a form control that is child to the `label` or referred to by the `label` element's <a href="#att-for-label">`for`</a> attribute. The associated form element has `IA2_RELATION_LABELLED_BY` pointing to the `label`.
+                  <span class="type">Relations:</span> 
+                  `IA2_RELATION_LABEL_FOR` with a <a data-cite="html/forms.html#category-label">labelable element</a>
+                  that is child to the `label` or referred to by the `label` element's <a href="#att-for-label">`for`</a> attribute. 
+                  The associated labelable element has `IA2_RELATION_LABELLED_BY` pointing to the `label`.
                 </div>
               </td>
               <td class="uia">
                 <div class="ctrltype">
                   <span class="type">Control Type:</span> `Text`
                 </div>
-                <div class="properties">
-                  <span class="type">Other properties:</span>
-                  When the `label` element contains an `input` element, the `LabeledBy` property for the `input` element points to the UIA element for the `label` element.
-                  <p>When the `label` element has a <a href="#att-for-label">`for`</a> attribute referencing another element, the `LabeledBy` property for the referenced element points to the UIA element for the `label` element.</p>
+                <div>
+                  <span class="type">Relations:</span> 
+                  <div>
+                    When the `label` element contains a <a data-cite="html/forms.html#category-label">labelable element</a>, the `LabeledBy` property for 
+                    the element points to the UIA element for the `label` element.
+                  </div>
+                  <div>
+                    When the `label` element has a <a href="#att-for-label">`for`</a> attribute referencing a  
+                    <a data-cite="html/forms.html#category-label">labelable element</a>, the `LabeledBy` property for the referenced element points to 
+                    the UIA element for the `label` element.
+                  </div>
                 </div>
               </td>
               <td class="atk">
@@ -2148,8 +2162,10 @@
                   <span class="type">Role:</span> `ATK_ROLE_LABEL`
                 </div>
                 <div class="relations">
-                  <span class="type">Relations: </span>
-                  `ATK_RELATION_LABEL_FOR` for a child form element or form element referred by <a href="#att-for-label">`for`</a> attribute. Note, related form element provides `ATK_RELATION_LABELLED_BY` pointing to the label.
+                  <span class="type">Relations:</span>
+                  `ATK_RELATION_LABEL_FOR` for a child <a data-cite="html/forms.html#category-label">labelable element</a> or 
+                  labelable element referred by <a href="#att-for-label">`for`</a> attribute. 
+                  Note, related labelable element provides `ATK_RELATION_LABELLED_BY` pointing to the `label`.
                 </div>
               </td>
               <td class="ax">
@@ -2436,13 +2452,23 @@
             <tr tabindex="-1" id="el-output">
               <th><a data-cite="HTML">`output`</a></th>
               <td class="aria"><a class="core-mapping" href="#role-map-status">`status`</a> role</td>
-              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
-              <td class="uia">
+              <td class="ia2">
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"> <span class="type">Localized Control Type:</span> `"output"`</div>
+                <div class="relations">
+                  <span class="type">Relations:</span> `IA2_RELATION_LABELLED_BY` with associated `label` element
+                </div>
               </td>
-              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
-              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk">
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="relations">
+                  <span class="type">Relations:</span> `ATK_RELATION_LABELLED_BY` with associated `label` element
+                </div>
+              </td>
+              <td class="ax">
+                <div class="general">Use WAI-ARIA mapping</div>
+                <td class="ax">`AXDescription`: value from associated `label` element subtree.</td>
+              </td>
               <!-- <td class="naming"></td> -->
               <td class="comments"></td>
             </tr>
@@ -2721,6 +2747,15 @@
               <!-- <td class="naming"></td> -->
               <td class="comments"></td>
             </tr>
+            <tr tabindex="-1" id="el-search">
+              <th><a data-cite="HTML">`search`</a></th>
+              <td class="aria"><a class="core-mapping" href="#role-map-search">`search`</a> role</td>
+              <td class="ia2"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="uia"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="ax"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="comments"></td>
+            </tr>
             <tr tabindex="-1" id="el-section">
               <th><a data-cite="HTML">`section`</a></th>
               <td class="aria">
@@ -2897,7 +2932,10 @@
                 </div>
               </td>
               <!-- <td class="naming"></td> -->
-              <td class="comments"></td>
+              <td class="comments">
+                If a `summary` element is not a child of a `details` element, or it is not the first `summary` element of a parent `details`, 
+                then the `summary` element MUST be exposed with a `generic` role.
+              </td>
             </tr>
             <tr tabindex="-1" id="el-sup">
               <th><a data-cite="html">`sup`</a></th>
@@ -3569,7 +3607,7 @@
             <tr tabindex="-1" id="att-checked">
               <th>`checked` (if present)</th>
               <td class="elements">
-                <a data-cite="html/input.html#attr-input-checked">`input`</a>
+                <a data-cite="html/input.html#attr-input-checked">`input`</a> `type=checkbox` or `type=radio`
               </td>
               <td class="aria">
                 <a class="core-mapping" href="#ariaCheckedTrue">`aria-checked`</a> (state)="true"
@@ -3579,13 +3617,14 @@
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="ax">`AXValue: 1`</td>
               <td class="comments">
-                If the element includes both the `checked` attribute and the `aria-checked` attribute with a valid value, User Agents MUST expose only the `checked` attribute value.
+                If an `input` element in the `checkbox` or `radio` state includes both the `checked` attribute and the `aria-checked` attribute with a 
+                valid value, User Agents MUST expose only the `checked` attribute value.
               </td>
             </tr>
             <tr tabindex="-1" id="att-checked-absent">
               <th>`checked` (if absent)</th>
               <td class="elements">
-                <a data-cite="html/input.html#attr-input-checked">`input`</a>
+                <a data-cite="html/input.html#attr-input-checked">`input`</a> `type=checkbox` or `type=radio`
               </td>
               <td class="aria">
                 <a class="core-mapping" href="#ariaCheckedFalse">`aria-checked`</a> (state)="false"
@@ -3595,8 +3634,8 @@
               <td class="atk"><div class="general">Use WAI-ARIA mapping</div></td>
               <td class="ax">`AXValue: 0`</td>
               <td class="comments">
-                An `input` element without a `checked` attribute has an implicit "false" state. User Agents MUST ignore an `aria-checked` attribute
-                which conflicts with the native element's implicit checked state.
+                An `input` element in the `checkbox` or `radio` state without a `checked` attribute has an implicit "false" state. 
+                User Agents MUST ignore an `aria-checked` attribute which conflicts with the native element's implicit checked state.
               </td>
             </tr>
             <tr tabindex="-1" id="att-cite">
@@ -3969,7 +4008,7 @@
             <tr tabindex="-1" id="att-for-label">
               <th>`for`</th>
               <td class="elements">
-                <a href="https://www.w3.org/TR/html/sec-forms.html#element-attrdef-label-for">`label`</a>
+                <a data-cite="html/forms.html#attr-label-for">`label`</a>
               </td>
               <td class="aria"><div class="general">Not mapped</div></td>
               <td class="ia2">
@@ -3979,10 +4018,18 @@
                 <div class="relations">
                   <span class="type">Relations: </span>
                   `IA2_RELATION_LABEL_FOR` and `IA2_RELATION_LABEL_BY` relations between
-                  <a href="#el-label">`label`</a> and referred element
+                  <a href="#el-label">`label`</a> and referred <a data-cite="html/forms.html#category-label">labelable element</a>
                 </div>
               </td>
-              <td class="uia"><div class="general">Not mapped</div></td>
+              <td class="uia">
+                <div class="name">
+                  Used for <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>
+                </div>
+                <div class="relations">
+                  When the `label` element has a `for` attribute referencing another <a data-cite="html/forms.html#category-label">labelable element</a>,
+                  the `LabeledBy` property for the referenced element points to the UIA element for the `label` element.
+                </div>
+              </td>
               <td class="atk">
                 <div class="name">
                   Used for <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>
@@ -3990,10 +4037,14 @@
                 <div class="relations">
                   <span class="type">Relations: </span>
                   `ATK_RELATION_LABEL_FOR` and `ATK_RELATION_LABEL_BY` relations between
-                  <a href="#el-label">`label`</a> and referred element
+                  <a href="#el-label">`label`</a> and referred <a data-cite="html/forms.html#category-label">labelable element</a>
                 </div>
               </td>
-              <td class="ax"><div class="general">Not mapped</div></td>
+              <td class="ax">
+                <div class="name">
+                  Used for <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>
+                </div>
+              </td>
               <td class="comments"></td>
             </tr>
             <tr tabindex="-1" id="att-for-output">
@@ -4264,6 +4315,27 @@
               <td class="atk"><div class="general">Not mapped</div></td>
               <td class="ax"><div class="general">Not mapped</div></td>
               <td class="comments"></td>
+            </tr>
+            <tr tabindex="-1" id="att-inert">
+              <th>`inert`</th>
+              <td class="elements">
+                <a data-cite="html/interaction.html#the-inert-attribute">HTML elements</a>
+              </td>
+              <td class="aria">Not Mapped</td>
+              <td class="ia2">See comments</td>
+              <td class="uia">See comments</td>
+              <td class="atk">See comments</td>
+              <td class="ax">See comments</td>
+              <td class="comments">
+                <p>
+                  Nodes that are <a data-cite="html/interaction.html#inert">inert</a> are not exposed to an accessibility API.
+                </p>
+                <p class="note">
+                  Note: an inert node can have descendants that are not inert. For example, a
+                  <a data-cite="html/interaction.html#modal-dialogs-and-inert-subtrees">modal dialog</a>
+                  can escape an inert subtree.
+                </p>
+              </td>
             </tr>
             <tr tabindex="-1" id="att-indeterminate">
               <th>`indeterminate [IDL]`</th>
@@ -5867,7 +5939,7 @@
             If the control has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
           </li>
           <li>
-            Otherwise use the associated `label` element(s) <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>(s) - if more than one label is associated; concatenate by DOM order, delimited by spaces.
+            Otherwise use the associated `label` element or elements <a data-cite="accname-1.2/#dfn-accessible-name">accessible name(s)</a> - if more than one `label` is associated; concatenate by DOM order, delimited by spaces.
           </li>
           <li>If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty, then: use the control's `title` attribute.</li>
           <li>Otherwise use the control's <a href="#att-placeholder">placeholder</a> value.</li>
@@ -5956,7 +6028,7 @@
           <li>
             If the `output` element has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is to be calculated using the algorithm defined in <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
           </li>
-          <li>Otherwise use the `output` element subtree.</li>
+          <li>Otherwise use the associated `label` element or elements <a data-cite="accname-1.2/#dfn-accessible-name">accessible name(s)</a> - if more than one `label` is associated; concatenate by DOM order, delimited by spaces.</li>
           <li>Otherwise use `title` attribute.</li>
           <li>
             If none of the above yield a usable text string there is no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.
@@ -6165,6 +6237,10 @@
       <section>
         <h4>Substantive changes since moving to the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> (03-Nov-2019)</h4>
         <ul>
+          <li>28-Mar-2023: Add `inert` attribute mapping. See <a href="https://github.com/w3c/html-aam/pull/410">GitHub PR 410</a>.</li>
+          <li>24-Mar-2023: Add `search` element and its mappings. See <a href="https://github.com/w3c/html-aam/pull/355/">GitHub PR 355</a>.</li>
+          <li>08-Mar-2023: Update `hgroup` element to be mapped to `role=group`. See  <a href="https://github.com/w3c/html-aam/pull/398">GitHub PR 398</a>.</li>
+          <li>08-Mar-2023: Clarify naming algorithm for `output` element. See <a href="https://github.com/w3c/html-aam/pull/402">GitHub PR 402</a>.</li>
           <li>12-Dec-2022: Revise mapping for `s` element to be `role=deletion`. See <a href="https://github.com/w3c/html-aam/pull/442">GitHub PR 442</a>.</li>
           <li>28-Nov-2022: Simplify accessible description computation section. See <a href="https://github.com/w3c/html-aam/pull/444">GitHub PR 444</a>.</li>
           <li>19-Jul-2022: Update `address` element to be mapped to `role=group`. See <a href="https://github.com/w3c/html-aam/pull/420">GitHub PR 420</a>.</li>
