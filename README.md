@@ -117,6 +117,58 @@ The set of class values currently defined are:
 
 *Todo: we should add versions for the other docs*
 
+#### References to Other W3C Specs
+
+When referencing other W3C specifications such as <a
+href="https://html.spec.whatwg.org/">HTML</a> and <a
+href="https://dom.spec.whatwg.org/">DOM</a>, we can take advantage of ReSpec’s
+<a href="https://github.com/w3c/respec/wiki/xref">`xref`</a> feature to
+automatically generate canonical links in context.
+
+In the text below, for example, `xref` will automatically convert “`[^button^]`”
+into a link to the definition of the `<button>` element in the HTML
+spec:
+
+```html
+A [^button^] performs an operation when pressed.
+```
+
+When authoring text for the ARIA spec, you can [search `xref`’s collection of
+exported terms](https://respec.org/xref/) to find the correct syntax for the
+desired specification. By default, the ARIA spec’s `xref` configuration will
+attempt to resolve terms for the following specs:
+
+- [DOM](https://dom.spec.whatwg.org/)
+- [HTML](https://html.spec.whatwg.org/)
+- [Accessible Name and Description
+  Computation](https://www.w3.org/TR/accname-1.2/)
+- [Core Accessibility API Mappings](https://www.w3.org/TR/core-aam-1.2/)
+- [Infra](https://infra.spec.whatwg.org/)
+
+If you wish to reference a spec that is not included in ARIA’s default `xref`
+configuration, you must specify it with a `data-cite` attribute.  For example,
+the following markup references [“nullable
+type”](https://respec.org/xref/?term=nullable+type) and
+[“DOMString”](https://respec.org/xref/?term=DOMString) from the Web IDL spec:
+
+```html
+<section data-cite="webidl">
+    <p>
+        All ARIA attributes reflect in IDL as [=nullable type|nullable=]
+        {{DOMString}} attributes.
+    </p>
+</section>
+```
+
+In some cases, a term may be defined in multiple specifications with the same
+`xref` syntax.  For example, [“`[=range=]`” is defined in both the DOM and
+Internationalization Glossary specs](https://respec.org/xref/?term=range). The
+`data-cite` attribute can also be used in these cases to disambiguate and target
+the intended spec.
+
+For more information, please refer to [`xref`’s auto-linking external references
+guide](https://github.com/w3c/respec/wiki/Auto-linking-external-references).
+
 ### Shared Resources
 
 The ARIA repositories share a common set of resources to reduce redundancy. Shared resources are in the [aria-common](https://github.com/w3c/aria-common/) repository, and copied to a "common" folder in this and other ARIA repositories. *It is important to make edits in the aria-common repository*; making edits in the common folder of another repository will allow the edits to be overridden.
