@@ -217,28 +217,32 @@
     <section>
       <h3 id="minimum-role">Exposing HTML Features That Require a Minimum Role</h3>
       <p>
-        A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to if the element does not have a more specific implicit role, e.g., a non-generic role. This can help ensure that users of assistive technologies get the best possible experience for commonly-used and valid HTML markup where otherwise a role would not be exposed.
-      </p>
+        A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to if the element does not have a more specific implicit role or 
+        platform role mappings, e.g., a non-generic role. This can help ensure that users of assistive technologies get the best possible experience for 
+        commonly-used and valid HTML markup where otherwise a role would not be exposed.
+      </p>     
       <p>
         A minimum role is provided when all of the following conditions are true:
       </p>
       <ul>
         <li>
-          the element either has no implicit mapping or has an implicit `generic` role mapping, 
+          the author has <strong>not</strong> specified a valid explicit WAI-ARIA role to the element, 
+          <strong>or</strong> the specified role is either `none`, `presentation`, or `generic`,
         </li>
         <li>
-          the author has not specified an explicit role to the element, 
-          <strong>or</strong> the author has specified an explicit role of `none`, `presentation`, or `generic` to the element,
+          the element either has no implicit WAI-ARIA role or platform role mappings, or it has an implicit `generic` or `none` role mapping, 
         </li>
         <li>
-          and the author has specified properties which require a minimum role mapping for the element.
+          and the author has specified attributes which require a minimum role mapping for the element.
         </li>
       </ul>
       <p>
-        The properties which will require a minimum role mapping are specific global HTML attributes, identified in the <a href="#attribute-mapping-table">Mappings of HTML attributes table</a>.
+        The <a href="#attribute-mapping-table">Mappings of HTML attributes table</a> identifies the specific global attributes which would require
+        an element map to a minimum role.
       </p>
       <p>
         When these conditions are met, the browser MUST expose an object using the mappings defined in CORE-AAM for the specified minimum role.
+        If the element has multiple attributes specified which require a minimum role be exposed, prioritize the non-`group` role.
       </p>
     </section>
     <section>
@@ -250,7 +254,7 @@
         <li>Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. How an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.</li>
       </ul>
       <section>
-        <h4 id=foo>Platform API mapping requirements</h4>
+        <h4 id="platform-api-mapping-requirements">Platform API mapping requirements</h4>
         <ul>
           <li>
             <strong>IAccessible2:</strong>
