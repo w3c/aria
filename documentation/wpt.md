@@ -10,9 +10,9 @@
 
 ## Setting up a macOS machine for WPT testing.
 
-1. Using Terminal, add the following to ~/.zprofile or wherever you define your shell path.
+1. Add the following to `~/.zprofile` or wherever you define your shell path.
 ```shell
-export PATH="$( xcrun python3 -m site --user-base )/bin:$PATH"
+export PATH="$( python3 -m site --user-base )/bin:$PATH"
 ```
 To get the change, open a new shell tab/window, or paste the same line into your current shell.
 
@@ -26,7 +26,7 @@ To get the change, open a new shell tab/window, or paste the same line into your
 pip3 install --user virtualenv
 ```
 
-4. Add the local WPT server ports to your /etc/hosts.
+4. Add the local WPT server hostname to your `/etc/hosts` file.
 ```shell
 ./wpt make-hosts-file | sudo tee -a /etc/hosts
 ```
@@ -37,7 +37,7 @@ For more information on setting up macOS or other systems review the [System Set
 
 ## Running the WPT tests on Mac.
 
-1. Download and install Safari Technology Preview and Google Chrome Canary.
+1. Download Safari Technology Preview and Google Chrome Canary.
 
 2. In Safari Technology Preview, select Safari Menu… Settings… Advanced… "Show Develop menu in menu bar" then select Develop Menu… "Allow Remote Automation." or alternately, in Terminal, do: 
 ```shell
@@ -69,7 +69,7 @@ python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnos
 
 ## Notes
 
-When you run multiple tests (e.g. 'accname' will run everyting in the accname dir) auto-dismiss is enabled, so the browser windows will appear and disappear quickly, leaving you with shell terminal log output as the only result. 
+When you run multiple tests (e.g. 'accname' will run everything in the accname dir) auto-dismiss is enabled, so the browser windows will appear and disappear quickly, leaving you with shell terminal log output as the only result. 
 
 However, when you run a single HTML test, TestDriver will pause and let you review the source and results in the browser window for further inspection.
 
@@ -85,7 +85,7 @@ python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnos
 3. Select "Stop Session" to inspect the Window. 
 4. Don't select "Turn Off All Automation" as this will disable remote testing and you'll need to re-enable it using the Safari steps listed above, before running additional WPT tests. 
 
-Note: Chrome does not give a similar Security prompt.
+Note: Chrome does not give a similar Security prompt. I presume it stops the session and just leaves the window open.
 
 
 ### Writing New WPT Tests for ARIA and Related Specs
@@ -95,12 +95,12 @@ Note: Chrome does not give a similar Security prompt.
 - Review /wai-aria/scripts/aria-utils.js, as this contains a few convenience methods many of the other tests use.
 - WPT doesn't require an Issue for every PR, but you're welcome (encouraged) to file WPT Issues in the relevant spec repository. (E.g., /w3c/aria/issues/new for a new ARIA WPT test, rather than /web-platform-tests/wpt/issues/new).
 - Some issues are being tracked elsewhere, for example, the [Interop 2023 Accessibilty Investigation](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues)
-- Some more in the [ARIA "Tests" documentation](./tests.md)
+- Additional info in the [ARIA "Tests" documentation](./tests.md)
 
 
 ### Viewing the Continuous Integration Results for a Pull Request in WPT
 
-When you write a new test in WPT, or update an existing one. Wait for the PR Checks to complete in your Draft PR. There should be three results listings for the WebKit ("safari"), Gecko ("firefox"), and Chromium ("chrome"). These can appear in any order, but they are usually near the bottom of the Checks list.
+When you write a new test in WPT, or update an existing one, wait for the PR Checks to complete in your Draft PR. There should be three results listings for the WebKit ("safari"), Gecko ("firefox"), and Chromium ("chrome"). These can appear in any order, but they are usually near the bottom of the Checks list.
 
 - wpt.fyi - safari[experimental]
 - wpt.fyi - firefox[experimental]
