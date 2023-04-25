@@ -46,7 +46,7 @@ sudo /Applications/Safari\ Technology\ Preview.app/Contents/MacOS/safaridriver -
 
 3. Attempt to run the ARIA tests in Safari from Terminal.
 ```shell
-python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" safari wai-aria html-aam accname
+./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" safari wai-aria html-aam accname
 ```
   - Note 1: Watch out for hyphens in CLI params. Depending on the text field you copy out of, autocorrect may convert the double hyphens to en dashes (–) which look identical in a monospace shell. Speaking from experience. 😉
   - Note 2: the tokens "wai-aria html-aam accname" are relative directory paths... You can also use an absolute path from the top-level WPT repo to a dir (/wai-aria) or to a single file (/wai-aria/role/role.html).
@@ -56,15 +56,15 @@ python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnos
 web-platform-test
 ~~~~~~~~~~~~~~~~~
 Ran 300 checks (280 subtests, 20 tests)
-Expected results: 255
-Unexpected results: 45
+Expected results: 256
+Unexpected results: 44
   test: 2 (2 crash)
-  subtest: 43 (43 fail)
+  subtest: 42 (42 fail)
 ```
 
 5. You should be able to run the same tests in Chrome by changing "safari" to "chrome" in Terminal: (Note, it will likely prompt to install chromedriver on first run.)
 ```shell
-python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" chrome wai-aria html-aam accname
+./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" chrome wai-aria html-aam accname
 ```
 
 ## Notes
@@ -75,7 +75,7 @@ However, when you run a single HTML test, TestDriver will pause and let you revi
 
 Run the "region roles" test as an example.
 ```shell
-python3 ./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" safari /wai-aria/role/region-roles.html
+./wpt run --log-mach-level debug --log-mach - --webdriver-arg="--diagnose" safari /wai-aria/role/region-roles.html
 ```
 
 ### Security Dialog Note
@@ -102,13 +102,13 @@ Note: Chrome does not give a similar Security prompt. I presume it stops the ses
 
 When you write a new test in WPT, or update an existing one, wait for the PR Checks to complete in your Draft PR. There should be three results listings for the WebKit ("safari"), Gecko ("firefox"), and Chromium ("chrome"). These can appear in any order, but they are usually near the bottom of the Checks list.
 
-- wpt.fyi - safari[experimental]
-- wpt.fyi - firefox[experimental]
-- wpt.fyi - chrome[experimental]
+ - wpt.fyi - safari[experimental]
+ - wpt.fyi - firefox[experimental]
+ - wpt.fyi - chrome[experimental]
+
+Once you select a test result:
 
 1. Click on the Details link for either safari or chrome. (At the time of this writing, firefox was not running most of the accessibilty tests in WPT)
-
 2. On the results page, click "Visual comparison of the results"… Explore these results similar to the CI listings on wpt.fyi
-
 3. Once you get down to an individual test run, you may also wish to enabled the "Show Details" switch to see the log messages for each failing subtest.
 
