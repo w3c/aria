@@ -14,9 +14,9 @@ The validator tests belong in the [validator-test directory](https://github.com/
 
 ## ARIA "user agent MUST"
 
-Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have the tooling to write all these tests.
+Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have yet have all the TestDriver interfaces required to write many of these tests. WPT TestDriver (through WebDriver) gives us access to `computedrole` and `comutedlabel`, so we are now adding various role tests (ARIA, HTML-AAM, etc.) and name computation tests (AccName). The IDL interface is also testable in WPT.
 
-If our change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test one the PR is ready for merge.
+If a change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test once the PR is ready for merge. 
 
 ## ARIA IDL Interface Tests
 
