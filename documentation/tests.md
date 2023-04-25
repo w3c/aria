@@ -26,7 +26,7 @@ Automated tests for the [ARIA IDL interface](https://w3c.github.io/aria/#idl-int
 
 When the IDL Interface section is updated, these tests should be update accordingly.
 
-## WAI-ARIA Tests
+## WAI-ARIA Automated Tests
 
 - [Results of ARIA tests in WPT](https://wpt.fyi/results/wai-aria?label=master&label=experimental&aligned)
 - [Source of ARIA tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/wai-aria)
@@ -34,12 +34,12 @@ When the IDL Interface section is updated, these tests should be update accordin
 - Manual Tests:
   -  Some additional platform-specific tests mapping tests are located in [WPT's core-aam folder](https://github.com/web-platform-tests/wpt/tree/master/core-aam). They are "manual" tests in that you have to use a tool outside of the web browser and WPT test suite to inspect the accessibility API. For now, Valerie will maintain these CORE-AAM tests and no one else needs to write them.
 
-## HTML-AAM Tests
+## HTML-AAM Automated Tests
 
 - [Results of HTML-AAM tests in WPT](https://wpt.fyi/results/html-aam?label=master&label=experimental&aligned)
 - [Source of HTML-AAM tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/html-aam)
 
-## AccName Tests
+## AccName Automated Tests
 
 - [Results of AccName tests in WPT](https://wpt.fyi/results/accname?label=master&label=experimental&aligned)
 - [Source of AccName tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/accname)
@@ -47,6 +47,11 @@ When the IDL Interface section is updated, these tests should be update accordin
   - More structure coming in [WPT #39604](https://github.com/web-platform-tests/wpt/pull/39604)
   - ShadowDom Label Tests in [WPT #36541](https://github.com/web-platform-tests/wpt/pull/36541)
 
-# Interop 2023 Accessibility Investigation 
+## Interop 2023 Accessibility Investigation 
 
 Many of the automated tests in listed above started as a [Accessibility Investigation](https://github.com/web-platform-tests/interop-2023-accessibility-testing) for Web Platform Tests Interop 2023. Revew the [Issues List](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues) and [Scoring Criteria](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues/3) for more detail.
+
+## Running (and writing) WPT Tests for ARIA and Related Specs
+
+Start with [Running the WPT Tests for ARIA and Related Specs](./wpt.md)
+
