@@ -14,11 +14,11 @@ The validator tests belong in the [validator-test directory](https://github.com/
 
 ## ARIA "user agent MUST"
 
-Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have the tooling to write all these tests.
+Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have yet have all the TestDriver interfaces required to write many of these tests. WPT TestDriver (through WebDriver) gives us access to `computedrole` and `comutedlabel`, so we are now adding various role tests (ARIA, HTML-AAM, etc.) and name computation tests (AccName). The IDL interface is also testable in WPT.
 
-If our change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test one the PR is ready for merge.
+If a change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test once the PR is ready for merge. 
 
-## ARIA IDL Interface
+## ARIA IDL Interface Tests
 
 Automated tests for the [ARIA IDL interface](https://w3c.github.io/aria/#idl-interface) are in WPT. We have two test files:
 * [aria-attribute-reflection.html](https://github.com/web-platform-tests/wpt/blob/master/html/dom/aria-attribute-reflection.html), [Results on wpt.fyi](https://wpt.fyi/results/html/dom/aria-element-reflection.html?label=experimental&label=master&aligned&view=subtest)
@@ -26,16 +26,28 @@ Automated tests for the [ARIA IDL interface](https://w3c.github.io/aria/#idl-int
 
 When the IDL Interface section is updated, these tests should be update accordingly.
 
-## CORE-AAM Tests / WPT Tests
+## WAI-ARIA Automated Tests
 
-The tests are located in [WPT's core-aam folder](https://github.com/web-platform-tests/wpt/tree/master/core-aam). They are "manual" tests in that you have to use a tool outside of the web browser and WPT test suite to inspect the accessibility API. For now, Valerie will maintain these CORE-AAM tests and no one else needs to write them.
+- [Results of ARIA tests in WPT](https://wpt.fyi/results/wai-aria?label=master&label=experimental&aligned)
+- [Source of ARIA tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/wai-aria)
+- [Additional Issues for new automated tests](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues).
+- **Manual Tests:** Some additional platform-specific tests mapping tests are located in [WPT's core-aam folder](https://github.com/web-platform-tests/wpt/tree/master/core-aam). They are "manual" tests in that you have to use a tool outside of the web browser and WPT test suite to inspect the accessibility API. For now, Valerie will maintain these CORE-AAM tests and no one else needs to write them.
 
-## HTML-AAM Tests
+## HTML-AAM Automated Tests
 
-We do not yet have tests for HTML-AAM.
+- [Results of HTML-AAM tests in WPT](https://wpt.fyi/results/html-aam?label=master&label=experimental&aligned)
+- [Source of HTML-AAM tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/html-aam)
 
-## AccName Tests
+## AccName Automated Tests
 
-We do not yet have infrastructure for AccName tests. Better AccName tests are being investigated in this issue: https://github.com/w3c/accname/issues/174
+- [Results of AccName tests in WPT](https://wpt.fyi/results/accname?label=master&label=experimental&aligned)
+- [Source of AccName tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/accname)
 
-When we have a new test framework for AccName test, we will create an initial set of tests and all following PRs to AccName will have a testing requirement.
+## Interop 2023 Accessibility Investigation 
+
+Many of the automated tests in listed above started as a [Accessibility Investigation](https://github.com/web-platform-tests/interop-2023-accessibility-testing) for Web Platform Tests Interop 2023. Revew the [Issues List](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues) and [Scoring Criteria](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues/3) for more detail.
+
+## Running (and writing) WPT Tests for ARIA and Related Specs
+
+Start with [Running the WPT Tests for ARIA and Related Specs](./wpt.md)
+
