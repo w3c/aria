@@ -358,13 +358,21 @@
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
-			<dt><dfn data-export="" data-dfn-for="ARIA" data-local-lt="owned|owned element's">Owned Element</dfn></dt>
+			<dt><dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">Accessibility child</dfn></dt>
+			<dd>
+				<p>An 'accessibility child' is a <abbr title="Document Object Model">DOM</abbr> child of the <a>element</a>, a descendant of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, a child specified via an <pref>aria-owns</pref> relationship to the element, or a descendant of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
+			</dd>
+			<dt><dfn data-export="" data-dfn-for="ARIA" data-export="" data-lt="owned element|owned|owned element's|owned elements">Owned Element</dfn></dt>
 			<dd>
 			  <p>An 'owned element' is any <abbr title="Document Object Model">DOM</abbr> descendant of the <a>element</a>, any element specified as a child via <pref>aria-owns</pref>, or any <abbr title="Document Object Model">DOM</abbr> descendant of the owned child.</p>
 			</dd>
 			<dt><dfn data-local-lt="owning">Owning Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
+			</dd>
+			<dt><dfn data-export="" data-lt="accessibility parent|parent element|parent">Accessibility parent</dfn></dt>
+			<dd>
+				<p>An 'accessibility parent' is a <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>, an ancestor of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, any element with an <a>owned child</a> specified via <pref>aria-owns</pref>, or an ancestor of an <a>owned element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
 			</dd>
 			<dt><dfn data-export="">Perceivable</dfn></dt>
 			<dd>
@@ -600,18 +608,51 @@
 				<p class="note">A host language attribute with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> would also prohibit a state or property in this section. </p>
 			</section>
 		<section id="mustContain">
-			<h3>Required Owned Elements</h3>
-			<p>Any <a>element</a> that will be [=ARIA/owned=] by the element with this <a>role</a>. For example, an element with the role <rref>list</rref> will own at least one element with the role <rref>listitem</rref>.</p>
-			<p>When multiple roles are specified as <em>required owned elements</em> for a role, at least one instance of one required [=ARIA/owned=] element is expected. This specification does <em>not</em> require an instance of each of the listed owned roles. For example, a <code>menu</code> should have at least one instance of a <code>menuitem</code>, <code>menuitemcheckbox</code>, <em>or</em> <code>menuitemradio</code>. The <code>menu</code> role does not require one instance of each. </p>
-			<p>There might be times that required [=ARIA/owned=] elements are missing, for example, while editing or while loading a data set. When a widget is missing <em>required owned elements</em> due to script execution or loading, authors MUST mark a containing element with <sref>aria-busy</sref> equal to <code>true</code>. For example, until a page is fully initialized and complete, an author could mark the document element as busy.</p>
-			<p class="note">A role that has 'required owned elements' does not imply the reverse relationship. While processing of a role might be incomplete without elements of given roles present as descendants, elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">required context role</a> for requirements about the context where elements of a given role will be contained.</p>
-			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'required owned element' does not fulfill this requirement. For example, the <rref>listbox</rref> role requires ownership of an element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding an [=ARIA/owned=] element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> owns an <rref>option</rref> or a <rref>group</rref>.</p>
+			<h3>Allowed Accessibility Child Roles</h3>
+			<p>A list of roles which are allowed on an <a>accessibility child</a> (simplified as "child") of the element with this <a>role</a>. Authors MUST only add child element with allowed roles. For example, an element with the role <rref>list</rref> can own child elements with the role <rref>listitem</rref>, but cannot own elements with the role <rref>option</rref>.</p>
+			<p>To determine whether an element is the <a>child</a> of an element, <a>user agents</a> MUST ignore any intervening elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
+			<p>Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an allowed child of a <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s allowed child <code>listitem</code>.</p>
+			<p class="note">A role that has 'allowed accessibility child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given role. See <a href="#scope">required accessibility parent roles</a> for requirements about the context where elements of a given role will be contained.</p>
+			<p class="note">An element with a <a href="#subclassroles">subclass role</a> of the 'allowed accessibility child role' does not fulfill this requirement. For example, the <rref>listbox</rref> role allows a child element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a child element with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> allows children with <rref>option</rref> or <rref>group</rref> roles.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
+			<p class="note">
+				Examples of valid ways to mark up allowed accessibility child roles include:
+				<ol>
+					<li>Direct DOM child:
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;div role="listbox"&gt;
+	&lt;div role="option"&gt;option text&lt;/div&gt;
+&lt;/div&gt;</pre>
+					</li>
+					<li>DOM child with generics intervening:
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;div role="listbox"&gt;
+	&lt;div&gt;
+		&lt;div role="option"&gt;option text&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</pre>
+					</li>
+					<li>Direct <code>aria-owns</code> relationship:
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
+&lt;div role="option" id="id1"&gt;option text&lt;/div&gt;</pre>
+					</li>
+					<li><code>aria-owns</code> relationship with generics intervening:
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
+&lt;div id="id1"&gt;
+	&lt;div&gt;
+		&lt;div role="option"&gt;option text&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</pre>
+					</li>
+				</ol>
+			</p>
 		</section>
 		<section id="scope">
-			<h3>Required Context Role</h3>
-			<p>The required context role defines the owning container where this <a>role</a> is allowed. If a role has a required context, authors MUST ensure that an element with the role is contained inside (or [=ARIA/owned=] by) an element with the required context role. For example, an element with role <code>listitem</code> is only meaningful when contained inside (or [=ARIA/owned=] by) an element with role <code>list</code>.</p>
-			<p class="note">A role that has 'required context role' does not imply the reverse relationship. While an element with the given role needs to appear within an element of the listed role(s) in order to be meaningful, elements of the listed roles do not always need descendant elements of the given role in order to be meaningful. See <a href="#mustContain">required owned elements</a> for requirements about elements that require presence of a given descendant to be processed properly.</p>
+			<h3>Required Accessibility Parent Role</h3>
+			<p>The required <a>accessibility parent</a> (simplified as "parent") role defines the container where this <a>role</a> is allowed. If a role has a required accessibility parent, authors MUST ensure that an element with the role is an <a>accessibility child</a> of an element with the required accessibility parent role. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an element with role <code>list</code>.</p>
+			<p>To determine whether an element has a parent with the required role, <a>user agents</a> MUST ignore any elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
 			<p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
 		</section>
 		<section id="namecalculation">
@@ -879,11 +920,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -971,11 +1012,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1057,11 +1098,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1146,11 +1187,11 @@
 						<td class="role-related"><code>&lt;[^article^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1238,11 +1279,11 @@
             <td class="role-related"> </td>
           </tr>
           <tr>
-            <th class="role-scope-head" scope="row">Required Context Role:</th>
+            <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
             <td class="role-scope"> </td>
           </tr>
           <tr>
-            <th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+            <th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
             <td class="role-mustcontain">
               <ul>
 								<li><rref>associationlistitemkey</rref></li>
@@ -1328,7 +1369,7 @@
             <td class="role-related"> </td>
           </tr>
           <tr>
-            <th class="role-scope-head" scope="row">Required Context Role:</th>
+            <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
             <td class="role-scope"><rref>associationlist</rref></td>
           </tr>
           <tr>
@@ -1415,11 +1456,11 @@
             <td class="role-related"> </td>
           </tr>
           <tr>
-            <th class="role-scope-head" scope="row">Required Context Role:</th>
+            <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
             <td class="role-scope"><rref>associationlist</rref></td>
           </tr>
           <tr>
-            <th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+            <th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
             <td class="role-mustcontain"> </td>
           </tr>
           <tr>
@@ -1504,11 +1545,11 @@
 						<td class="role-related"><code>&lt;[^header^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1581,11 +1622,11 @@
 						<td class="role-related"><code>&lt;[^blockquote^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1662,11 +1703,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1818,7 +1859,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>figure</rref></li>
@@ -1829,7 +1870,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -1912,11 +1953,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"><rref>row</rref></td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2012,11 +2053,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2113,11 +2154,11 @@
 						<td class="role-related"><code>&lt;[^code^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2216,11 +2257,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"><rref>row</rref></td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2360,11 +2401,11 @@
 						<td class="role-related"><code>&lt;[^select^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"></td>
 					</tr>
 					<tr>
@@ -2457,11 +2498,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2547,11 +2588,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2639,11 +2680,11 @@
 						<td class="role-related"><code>&lt;[^aside^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2799,11 +2840,11 @@
 						<td class="role-related"><code>&lt;[^footer^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2874,11 +2915,11 @@
 						<td class="role-base"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -2962,11 +3003,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3052,11 +3093,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3131,11 +3172,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3210,11 +3251,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3289,11 +3330,11 @@
 						<td class="role-related"><code>&lt;[^em^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3385,11 +3426,11 @@
 						<td class="role-related"></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"><rref>article</rref></td>
 					</tr>
 					<tr>
@@ -3466,11 +3507,11 @@
 						<td class="role-related"><code>&lt;[^figure^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3549,11 +3590,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3631,11 +3672,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3746,15 +3787,16 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
+								<li><rref>caption</rref></li>
 								<li><rref>row</rref></li>
-								<li><rref>rowgroup</rref> owning <rref>row</rref></li>
+								<li><rref>rowgroup</rref> with child <rref>row</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -3842,11 +3884,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"><rref>row</rref></td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -3938,11 +3980,11 @@
 						<td class="role-related"><code>&lt;[^fieldset^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4029,11 +4071,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4126,11 +4168,11 @@
 
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4270,11 +4312,11 @@
 						<td class="role-related"><code>&lt;[^ins^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4361,11 +4403,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4445,11 +4487,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4539,11 +4581,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"><rref>listitem</rref></td>
 					</tr>
 					<tr>
@@ -4628,14 +4670,14 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
-								<li><rref>group</rref> owning <rref>option</rref></li>
+								<li><rref>group</rref> with child <rref>option</rref></li>
 								<li><rref>option</rref></li>
 							</ul>
 						</td>
@@ -4724,7 +4766,7 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>directory</rref></li>
@@ -4733,7 +4775,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4813,11 +4855,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4901,11 +4943,11 @@
 						<td class="role-related"><code>&lt;[^main^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -4980,11 +5022,11 @@
 						<td class="role-related"><code>&lt;[^mark^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5068,11 +5110,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5198,11 +5240,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5282,20 +5324,21 @@
 						<td class="role-related"><rref>list</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
 								<!-- keep in sync with #menubar -->
-								<li><rref>group</rref> owning <rref>menuitem</rref></li>
-								<li><rref>group</rref> owning <rref>menuitemradio</rref></li>
-								<li><rref>group</rref> owning <rref>menuitemcheckbox</rref></li>
+								<li><rref>group</rref> with child <rref>menuitem</rref></li>
+								<li><rref>group</rref> with child <rref>menuitemradio</rref></li>
+								<li><rref>group</rref> with child <rref>menuitemcheckbox</rref></li>
 								<li><rref>menuitem</rref></li>
 								<li><rref>menuitemcheckbox</rref></li>
 								<li><rref>menuitemradio</rref></li>
+								<li><rref>separator</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -5376,20 +5419,21 @@
 						<td class="role-related"><rref>toolbar</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
 								<!-- keep in sync with #menu -->
-								<li><rref>group</rref> owning <rref>menuitem</rref></li>
-								<li><rref>group</rref> owning <rref>menuitemradio</rref></li>
-								<li><rref>group</rref> owning <rref>menuitemcheckbox</rref></li>
+								<li><rref>group</rref> with child <rref>menuitem</rref></li>
+								<li><rref>group</rref> with child <rref>menuitemradio</rref></li>
+								<li><rref>group</rref> with child <rref>menuitemcheckbox</rref></li>
 								<li><rref>menuitem</rref></li>
 								<li><rref>menuitemcheckbox</rref></li>
 								<li><rref>menuitemradio</rref></li>
+								<li><rref>separator</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -5479,7 +5523,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>menu</rref></li>
@@ -5490,7 +5534,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5583,7 +5627,7 @@
 						<td class="role-related"><rref>menuitemradio</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>menu</rref></li>
@@ -5594,7 +5638,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5685,7 +5729,7 @@
 						<td class="role-related"><rref>menuitemcheckbox</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>menu</rref></li>
@@ -5696,7 +5740,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5786,11 +5830,11 @@
 						<td class="role-related"><code>&lt;[^meter^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5873,11 +5917,11 @@
 						<td class="role-related"><code>&lt;[^nav^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -5985,11 +6029,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6089,16 +6133,16 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>listbox</rref></li>
-								<li><rref>group</rref> owned by <rref>listbox</rref></li>
+								<li><rref>group</rref> with parent <rref>listbox</rref></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6280,11 +6324,11 @@
 						<td class="role-related"><code>&lt;[^p^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6371,10 +6415,10 @@
   …
 &lt;/ul&gt;</pre>
 				<h5>Presentational Role Inheritance</h5>
-				<p>The <code>presentation</code> role is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in HTML, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (which have an implicit <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>columnheader</rref> or <rref>rowheader</rref> and <rref>cell</rref> roles, respectively). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">required owned elements</a>.</p>
-				<p>When an explicit or inherited role of <code>presentation</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">required owned elements</a>, in addition to the element with the explicit role of <code>presentation</code>, the user agent MUST apply an inherited role of presentation to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of presentation is applied to a host language element which has required children as defined by the host language specification, in addition to the element with the explicit role of presentation, the user agent MUST apply an inherited role of presentation to any required children that do not have an explicit role defined.</p>
-				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in HTML, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has a <a href="#mustContain">required owned element</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an HTML <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the HTML specification indicates that these are required structural descendants of the <code>table</code> element.</p>
-				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">required owned elements</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>presentation</code> specified.</p>
+				<p>The <code>presentation</code> role is used on an element that has implicit native semantics, meaning that there is a default accessibility <abbr title="Application Programing Interface">API</abbr> role for the element. Some elements are only complete when additional descendant elements are provided. For example, in HTML, table elements (matching the <rref>table</rref> role) require <code>tr</code> descendants (which have an implicit <rref>row</rref> <a>role</a>), which in turn require <code>th</code> or <code>td</code> children (the <rref>columnheader</rref> or <rref>rowheader</rref> and <rref>cell</rref> roles, respectively). Similarly, lists require list item children. The descendant elements that complete the semantics of an element are described in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> as <a href="#mustContain">Allowed Accessibility Child Roles</a>.</p>
+				<p>When an explicit or inherited role of <code>presentation</code> is applied to an element with the implicit semantic of a <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role that has <a href="#mustContain">Allowed Accessibility Child Roles</a>, in addition to the element with the explicit role of <code>presentation</code>, the user agent MUST apply an inherited role of presentation to any owned elements that do not have an explicit role defined. Also, when an explicit or inherited role of presentation is applied to a host language element which has specifically allowed children as defined by the host language specification, in addition to the element with the explicit role of presentation, the user agent MUST apply an inherited role of presentation to any specifically allowed children that do not have an explicit role defined.</p>
+				<p>For any element with an explicit or inherited role of presentation and which is not focusable, user agents MUST ignore role-specific <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties for that element. For example, in HTML, a <code>ul</code> or <code>ol</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>li</code> elements removed because the <rref>list</rref> role to which the <code>ul</code> or <code>ol</code> corresponds has an <a href="#mustContain">Allowed Accessibility Child Role</a> of <rref>listitem</rref>. Likewise, the implicit native semantics of an HTML <code>table</code> element's <code>thead</code>/<code>tbody</code>/<code>tfoot</code>/<code>tr</code>/<code>th</code>/<code>td</code> descendants will also be removed, because the HTML specification indicates that these are required structural descendants of the <code>table</code> element.</p>
+				<p class="note">Only the implicit native semantics of elements that correspond to <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a href="#mustContain">Allowed Accessibility Child Roles</a> are removed. All other content remains intact, including nested tables or lists, unless those elements also have an explicit role of <code>presentation</code> specified.</p>
 				<p>For example, according to an accessibility <abbr title="Application Programing Interface">API</abbr>, the following markup elements would appear to have identical role semantics (no roles) and identical content.</p>
 				<pre class="example highlight"><span class="comment">&lt;!-- 1. [role="presentation"] negates the implicit 'list' and 'listitem' role semantics but does not affect the contents. --&gt;</span>
 &lt;ul role="presentation"&gt;
@@ -6387,7 +6431,7 @@
   &lt;foo&gt; Sample Content &lt;/foo&gt;
   &lt;foo&gt; More Sample Content &lt;/foo&gt;
 &lt;/foo&gt;</pre>
-				<p class="note">There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with required children for which this situation is applicable (e.g., radiogroups and listboxes), but tables and lists are the most common real-world cases in which the presentation inheritance is likely to apply.</p>
+				<p class="note">There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with specific allowed children for which this situation is applicable (e.g., feeds and listboxes), but tables and lists are the most common real-world cases in which the presentation inheritance is likely to apply.</p>
 				<p>For any element with an explicit or inherited role of <code>presentation</code>, user agents MUST apply an inherited role of <code>presentation</code> to all host-language-specific labeling elements for the presentational element. For example, a <code>table</code> element with a role of <code>presentation</code> will have the implicit native semantics of its <code>caption</code> element removed, because the caption is merely a label for the presentational table.</p>
             <p class="ednote">Information about <a href="#conflict_resolution_presentation_none">resolving conflicts in the presentation role</a> has been moved to <a href="#document-handling_author-errors">Handling Author Errors</a></p>
 			</div>
@@ -6421,11 +6465,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6522,11 +6566,11 @@
 						<td class="role-related"><rref>status</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6611,11 +6655,11 @@
 						<td class="role-related"><code>&lt;input type="[^input/type/radio^]"&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -6704,12 +6748,12 @@
 						<td><rref>list</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
-						<td class="role-mustcontain"><rref>radio</rref></td>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
+						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
 						<th class="role-required-properties-head">Required States and Properties:</th>
@@ -6870,11 +6914,11 @@
 						<td class="role-related"><code>&lt;[^section^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -7028,7 +7072,7 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>grid</rref></li>
@@ -7041,7 +7085,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
 								<li><rref>cell</rref></li>
@@ -7141,7 +7185,7 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>grid</rref></li>
@@ -7151,7 +7195,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"><rref>row</rref></td>
 					</tr>
 					<tr>
@@ -7235,11 +7279,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"><rref>row</rref></td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -7337,11 +7381,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -7438,11 +7482,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -7813,11 +7857,11 @@
 						<td class="role-related"><code>&lt;[^hr^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -7917,11 +7961,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8027,11 +8071,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8127,11 +8171,11 @@
 						<td class="role-related"><code>&lt;[^output^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8213,11 +8257,11 @@
 						<td class="role-related"><code>&lt;[^strong^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8371,11 +8415,11 @@
 						<td class="role-related"><code>&lt;[^sub^]&gt;</code> and <code>&lt;[^sup^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8469,11 +8513,11 @@
 									<td class="role-related"> </td>
 							</tr>
 							<tr>
-									<th class="role-scope-head" scope="row">Required Context Role:</th>
+									<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 									<td class="role-scope"> </td>
 							</tr>
 							<tr>
-									<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+									<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 									<td class="role-mustcontain">
 										<ul>
 											<li><rref>insertion</rref></li>
@@ -8561,11 +8605,11 @@
 						<td class="role-related"><code>&lt;[^sub^]&gt;</code> and <code>&lt;[^sup^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8649,11 +8693,11 @@
 						<td class="role-related"><rref>button</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8751,11 +8795,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"><rref>tablist</rref></td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -8848,15 +8892,16 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
+								<li><rref>caption</rref></li>
 								<li><rref>row</rref></li>
-								<li><rref>rowgroup</rref> owning <rref>row</rref></li>
+								<li><rref>rowgroup</rref> with child <rref>row</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -8948,11 +8993,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"><rref>tab</rref></td>
 					</tr>
 					<tr>
@@ -9037,11 +9082,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9116,11 +9161,11 @@
 						<td class="role-related"><code>&lt;[^dfn^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9242,11 +9287,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9431,11 +9476,11 @@
 						<td class="role-related"><code>&lt;[^time^]&gt;</code> in HTML</td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9519,11 +9564,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9599,11 +9644,11 @@
 						<td class="role-related"><rref>menubar</rref></td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9685,11 +9730,11 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -9769,14 +9814,14 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
-								<li><rref>group</rref> owning <rref>treeitem</rref></li>
+								<li><rref>group</rref> with child <rref>treeitem</rref></li>
 								<li><rref>treeitem</rref></li>
 							</ul>
 						</td>
@@ -9872,15 +9917,16 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope"> </td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain">
 							<ul>
+								<li><rref>caption</rref></li>
 								<li><rref>row</rref></li>
-								<li><rref>rowgroup</rref> owning <rref>row</rref></li>
+								<li><rref>rowgroup</rref> with child <rref>row</rref></li>
 							</ul>
 						</td>
 					</tr>
@@ -9980,7 +10026,7 @@
 						<td class="role-related"> </td>
 					</tr>
 					<tr>
-						<th class="role-scope-head" scope="row">Required Context Role:</th>
+						<th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
 						<td class="role-scope">
 							<ul>
 								<li><rref>tree</rref></li>
@@ -9989,7 +10035,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="role-mustcontain-head" scope="row">Required Owned Elements:</th>
+						<th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
 						<td class="role-mustcontain"> </td>
 					</tr>
 					<tr>
@@ -10739,7 +10785,7 @@ button.ariaPressed; // null</pre>
 				<p>The default value of <code>aria-busy</code> is <code>false</code> for all elements. When <code>aria-busy</code> is <code>true</code> for an element, assistive technologies can ignore changes to content owned by that element and then process all changes made during the busy period as a single, atomic update when <code>aria-busy</code> becomes <code>false</code>.</p>
 				<p>If it is necessary to make multiple additions, modifications, or removals within a container element that is already either partially or fully rendered, authors MAY set <code>aria-busy</code> to <code>true</code> on the container element before the first change, and then set it to <code>false</code> when the last change is complete. For example, if multiple changes to a <a>live region</a> should be spoken as a single unit of speech, authors MAY set <code>aria-busy</code> to <code>true</code> while the changes are being made and then set it to <code>false</code> when the changes are complete and ready to be spoken.</p>
 				<p>If an element with role <rref>feed</rref> is marked busy, assistive technologies might defer rendering changes that occur inside the <code>feed</code> with the exception of user-initiated changes that occur inside the <rref>article</rref> that the user is reading during the busy period.</p>
-				<p>If changes to a rendered <rref>widget</rref> would create a state where the <rref>widget</rref> is missing <a href="#mustContain">required owned elements</a> during script execution, authors MUST set <code>aria-busy</code> to <code>true</code> on the <rref>widget</rref> during the update process. For example, if a rendered tree grid required a set of simultaneous updates to multiple discontiguous branches, an alternative to replacing the complete tree element with a single update would be to mark the tree busy while each of the branches are modified.</p>
+				<p>If changes to a rendered <rref>widget</rref> would create a state where the <rref>widget</rref> is modifying <a href="#mustContain">Allowed Accessibility Child Roles</a> during script execution, authors MAY set <code>aria-busy</code> to <code>true</code> on the <rref>widget</rref> during the update process. For example, if a rendered tree grid required a set of simultaneous updates to multiple discontiguous branches, an alternative to replacing the complete tree element with a single update would be to mark the tree busy while each of the branches are modified.</p>
 			</div>
 			<table class="state-features">
 				<caption>Characteristics:</caption>
@@ -13443,7 +13489,7 @@ button.ariaPressed; // null</pre>
 	<section id="implicit_semantics">
 		<h2>Implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Semantics</h2>
 		<p><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is designed to provide <a>semantic</a> information about objects when host languages lack native semantics for the object. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is designed, however, to provide additional semantics for many host languages. Furthermore, host languages over time can evolve and provide new native features that correspond to WAI-ARIA features. Therefore, there are many situations in which <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics are redundant with host language semantics. </p>
-		<p>These host language features can be viewed as having &quot;implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics&quot;. User agent processing of features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics would be similar to the processing for the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature. The processing might not be identical because of lexical differences between the host language feature and the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature, but generally the user agent would expose the same information to the accessibility API. Features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics satisfy <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> structural requirements such as required owned elements, required states and properties, etc. and do not require explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics to be provided. On elements with implicit WAI-ARIA roles, authors can also use WAI-ARIA states and properties supported by those roles <em>without</em> requiring explicit indication of the WAI-ARIA role.</p>
+		<p>These host language features can be viewed as having &quot;implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics&quot;. User agent processing of features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics would be similar to the processing for the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature. The processing might not be identical because of lexical differences between the host language feature and the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> feature, but generally the user agent would expose the same information to the accessibility API. Features with implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics satisfy <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> structural requirements such as Required Accessibility Parent Roles, Allowed Accessibility Child Roles, required states and properties, etc. and do not require explicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics to be provided. On elements with implicit WAI-ARIA roles, authors can also use WAI-ARIA states and properties supported by those roles <em>without</em> requiring explicit indication of the WAI-ARIA role.</p>
 		<p>For example, if an element with the functionality already exists, such as a checkbox or radio button, use the native semantics of the host language. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup is only intended to be used to enhance the native semantics (e.g., indicating that the element is required with <pref>aria-required</pref>), or to change the semantics to a different purpose from the standard functionality of the element.</p>
 		<p>Implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics affect the conflict resolution procedures in the following section, Conflicts with Host Language Semantics. Therefore, implicit <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics need to be defined in a normative specification, such as the host language specification or the <cite><a href="" class="core-mapping">Core Accessibility API Mappings</a></cite>.</p>
 	</section>
@@ -13639,7 +13685,7 @@ button.ariaPressed; // null</pre>
 		<p>User agents MUST NOT expose [=elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
 		<ul>
 			<li>If an element is focusable, user agents MUST ignore the <code>presentation</code>/<code>none</code> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>.</li>
-			<li>If a <a href="#mustContain">required owned element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
+			<li>If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.</li>
 			<li>If an element has global WAI-ARIA states or properties, user agents MUST ignore the <code>presentation</code> role and instead expose the element's implicit role. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</li>
 		</ul>
 		<p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
