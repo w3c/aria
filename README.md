@@ -1,6 +1,6 @@
 # Accessible Rich Internet Applications (WAI-ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The staff contact is [Michael Cooper](http://www.w3.org/People/cooper/). Please do not provide commit access to this repository without coordination.
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
 
 ## The default branch has been renamed
 
@@ -17,6 +17,8 @@ $ git branch -u origin/main main
 This repository is for the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications. There are several other deliverables, such as ARIA modules, Accessibility API Mappings, and support documents. These are maintained in separate repositories listed on the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification to which the issue applies.
 
 ## Contributing to this Repository
+
+Please review the [ARIA Process Document](documentation/process.md) for information about how the working group tracks issues and pull request.
 
 ### Role of Editors
 
@@ -40,8 +42,6 @@ Issues can be assigned to people who are members of the [ARIA Contributors](http
 When preparing GitHub pull requests:
 
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
-* Keep pull requests specific to individual comments. Some comments may require changes to multiple source files, for example if an external link is incorrect in multiple files, and this is appropriate if the changes all relate to the same comment. However, if several separate comments are submitted together within a single pull request,  it is more difficult for the working group to parse the different points made in the comment and unless the group agrees with all aspects of the comment the pull request may need to be rejected.
-* Whenever possible, please create a separate pull request for each specification you are modifying. Doing so allows each specification editor to incorporate your contributions without having to check with the editors of the other documents you are modifying or to perform multiple manual merges.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
@@ -116,6 +116,58 @@ The set of class values currently defined are:
 * `accname`: the AccName AAM
 
 *Todo: we should add versions for the other docs*
+
+#### References to Other W3C Specs
+
+When referencing other W3C specifications such as <a
+href="https://html.spec.whatwg.org/">HTML</a> and <a
+href="https://dom.spec.whatwg.org/">DOM</a>, we can take advantage of ReSpec’s
+<a href="https://github.com/w3c/respec/wiki/xref">`xref`</a> feature to
+automatically generate canonical links in context.
+
+In the text below, for example, `xref` will automatically convert “`[^button^]`”
+into a link to the definition of the `<button>` element in the HTML
+spec:
+
+```html
+A [^button^] performs an operation when pressed.
+```
+
+When authoring text for the ARIA spec, you can [search `xref`’s collection of
+exported terms](https://respec.org/xref/) to find the correct syntax for the
+desired specification. By default, the ARIA spec’s `xref` configuration will
+attempt to resolve terms for the following specs:
+
+- [DOM](https://dom.spec.whatwg.org/)
+- [HTML](https://html.spec.whatwg.org/)
+- [Accessible Name and Description
+  Computation](https://www.w3.org/TR/accname-1.2/)
+- [Core Accessibility API Mappings](https://www.w3.org/TR/core-aam-1.2/)
+- [Infra](https://infra.spec.whatwg.org/)
+
+If you wish to reference a spec that is not included in ARIA’s default `xref`
+configuration, you must specify it with a `data-cite` attribute.  For example,
+the following markup references [“nullable
+type”](https://respec.org/xref/?term=nullable+type) and
+[“DOMString”](https://respec.org/xref/?term=DOMString) from the Web IDL spec:
+
+```html
+<section data-cite="webidl">
+    <p>
+        All ARIA attributes reflect in IDL as [=nullable type|nullable=]
+        {{DOMString}} attributes.
+    </p>
+</section>
+```
+
+In some cases, a term may be defined in multiple specifications with the same
+`xref` syntax.  For example, [“`[=range=]`” is defined in both the DOM and
+Internationalization Glossary specs](https://respec.org/xref/?term=range). The
+`data-cite` attribute can also be used in these cases to disambiguate and target
+the intended spec.
+
+For more information, please refer to [`xref`’s auto-linking external references
+guide](https://github.com/w3c/respec/wiki/Auto-linking-external-references).
 
 ### Shared Resources
 
