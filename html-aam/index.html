@@ -210,6 +210,70 @@
         <abbr title="application programming interface">API</abbr> properties</a> in the [[core-aam-1.2]].
       </p>
     </section>
+    <section id="mapping_contextual">
+      <h3>Exposing HTML Features With Contextual Roles</h3>
+      <p>
+        An element with a <dfn>contextual role</dfn> is one whose implicit WAI-ARIA role semantics are based on its anestral <a>accessibility tree</a> relationship to another element or elements. Or, an element whose computed role is reliant on whether the element has been provided an accessible name. 
+      </p>
+      <p>
+        For instance, an element that is an <STRONG>accessibility child</STRONG> of its required <STRONG>accessibility parent</STRONG> would expose a computed role that was 
+        appropriate for this context. Where the same element might be used in another context with a different accessibility parent, and would therefore expose a computed role 
+        appropriate for that context.
+      </p>
+      <p>
+        When the conditions for an element's contextual role are not met, it will commonly expose a computed role of `generic` or with a <a>minimum role</a>, if applicable. 
+      </p>
+      <div class="note">
+        <p>Previously, the concept of a contextual role was loosely referred to as an element's "scoped" relationship to another element.</p>
+      </div>
+      <div class="example">
+        <p>
+          A <code>li</code> element has an implicit WAI-ARIA role mapping of <code>listitem</code> only when the element is an <a>accessibility child</a> of a 
+          <code>menu</code>, <code>ol</code> or <code>ul</code> element that has not had its `list` role mapping suppressed.
+        </p>
+        <pre><code>&lt;ul>
+        &lt;li>...&lt;/li> &lt;!-- role=listitem -->
+      &lt;/ul> 
+      &lt;article>
+        ...
+        &lt;li>...&lt;/li> &lt;!-- not role=listitem -->
+        ...</code></pre>
+      </div>
+      <div class="example">
+        <p>
+          An <code>aside</code> element has an implicit WAI-ARIA role mapping of <code>complementary</code> only when the element is an <a>accessibility child</a> of 
+          the <code>body</code> or <code>main</code> elements, or if the <code>aside</code> has been provided an accessible name.
+        </p>
+        <pre><code>&lt;body>
+        ...
+        &lt;main>
+          ...
+          &lt;article>
+            &lt;aside>...&lt;/aside> &lt;!-- not role=complementary -->
+            ...
+            &lt;aside aria-label=named>...&lt;/aside> &lt;!-- role=complementary -->
+          &lt;/article>
+          ...
+          &lt;aside>...&lt;/aside> &lt;!-- role=complementary -->
+        &lt;/main>
+        &lt;aside>...&lt;/aside> &lt;!-- role=complementary -->
+        ...
+        &lt;footer>
+          ...
+          &lt;aside>...&lt;/aside> &lt;!-- not role=complementary -->
+        &lt;/footer></code></pre>
+      </div>
+
+      <div class="example">
+        <p>A <code>section</code> element has an implicit WAI-ARIA role mapping of <code>region</code> only when the element is provided an <a>accessible name</a>.</p>
+
+      <pre><code>&lt;section title="accessible name">...&lt;/section> &lt;!-- role=region -->
+      ...
+      &lt;section aria-label="accessible name">...&lt;/section> &lt;!-- role=region -->
+      ...
+      &lt;section>...&lt;/section> &lt;!-- not role=region --></code></pre>
+      </div>
+    </section>
     <section>
       <h3>HTML Element Role Mappings</h3>
       <ul>
