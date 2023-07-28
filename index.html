@@ -259,6 +259,25 @@
 			  <p>Operating systems and other platforms provide a set of interfaces that expose information about <a class="termref">objects</a> and <a class="termref">events</a> to <a>assistive technologies</a>. Assistive technologies use these interfaces to get information about and interact with those <a class="termref">widgets</a>. Examples of accessibility APIs are <a href="https://docs.microsoft.com/en-us/windows/win32/winauto/microsoft-active-accessibility">Microsoft Active Accessibility</a> [[MSAA]], <a href="https://docs.microsoft.com/en-us/windows/win32/winauto/entry-uiauto-win32">Microsoft User Interface Automation</a> [[UI-AUTOMATION]], <abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="https://docs.microsoft.com/en-us/windows/win32/winauto/iaccessibleex"><abbr title="User Interface Automation">UIA</abbr> Express</a></cite> [[UIA-EXPRESS]], the
 				  <a href="https://developer.apple.com/documentation/appkit/nsaccessibility">Mac <abbr title="OS Ten">OS X</abbr> Accessibility Protocol</a> [[AXAPI]], the <cite><a href="https://developer.gnome.org/atk/unstable/">Linux/Unix Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://developer.gnome.org/libatspi/stable/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], and <a href="https://wiki.linuxfoundation.org/accessibility/iaccessible2/start">IAccessible2</a> [[IAccessible2]].</p>
 			</dd>
+			<dt><dfn data-export="" data-lt="accessibility child|accessibility children|child element|child|children|child elements">Accessibility child</dfn></dt>
+			<dd>
+				<p>To calculate the <a>accessibility children</a> of an element `X`, first considered a modified <abbr title="Document Object Model">DOM</abbr> tree where elements (and their subtrees) specified by `aria-owns` are reparented to the element with `aria-owns` set.
+				<p>Now, an <a>accessibility child</a> of an <a>element</a> `X` is considered to be any of the following:
+				<ul>
+					<li>A DOM child of `X` in that modified DOM tree.</li>
+					<li>A DOM descendant of `X` in that modified DOM tree where the only intervening elements between the descendant and `X` have role <rref>generic</rref> or <rref>none</rref>.</li>
+				</ul>
+				</p>
+                                <p class="note">Accessibility child, accessibility descendant and accessibility parents are terms used to defined required relationships between different DOM elements with ARIA roles or properties. The terms do not refer to a platform accessibility API trees and the relationship between platform accessiblity nodes.</p>
+			</dd>
+			<dt><dfn data-export="" data-lt="accessibility descendant|accessibility descendants">Accessibility descendant</dfn></dt>
+			<dd>
+				<p>To calculate the <a>accessibility descendants</a> of an element `X`, first considered a modified <abbr title="Document Object Model">DOM</abbr> tree where elements (and their subtrees) specified by `aria-owns` are reparented to the element with `aria-owns` set. The <a>accessibility descendants</a> of `X` are all DOM descendants of `X` in that modified DOM tree.</a></p>
+			</dd>
+			<dt><dfn data-export="" data-lt="accessibility parent|parent element|parent">Accessibility parent</dfn></dt>
+			<dd>
+				<p>To calculate the <a>accessibility parent</a> of an element `X`, first considered a modified <abbr title="Document Object Model">DOM</abbr> tree where elements (and their subtrees) specified by `aria-owns` are reparented to the element with `aria-owns` set. The <a>accessibility parent</a> of `X` is the closest DOM ancestor of the `X` in that modified tree that does not have role <rref>generic</rref> or <rref>none</rref>.</p>
+			</dd>
 			<dt><dfn data-export="">Accessible object</dfn></dt>
 			<dd>
 			  <p>A [=nodes|node=] in the <a class="termref">accessibility tree</a> of a platform <a>accessibility <abbr title="application programming interface">API</abbr></a>. Accessible objects expose various <a class="termref">states</a>, [=ARIA/properties=], and <a class="termref">events</a> for use by <a>assistive technologies</a>.  In the context of markup languages (e.g., HTML and SVG) in general, and of WAI-ARIA in particular, markup [=elements=] and their [=attributes=] are represented as accessible objects.  </p>
@@ -358,10 +377,6 @@
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
-			<dt><dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">Accessibility child</dfn></dt>
-			<dd>
-				<p>An 'accessibility child' is a <abbr title="Document Object Model">DOM</abbr> child of the <a>element</a>, a descendant of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, a child specified via an <pref>aria-owns</pref> relationship to the element, or a descendant of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
-			</dd>
 			<dt><dfn data-export="" data-dfn-for="ARIA" data-export="" data-lt="owned element|owned|owned element's|owned elements">Owned Element</dfn></dt>
 			<dd>
 			  <p>An 'owned element' is any <abbr title="Document Object Model">DOM</abbr> descendant of the <a>element</a>, any element specified as a child via <pref>aria-owns</pref>, or any <abbr title="Document Object Model">DOM</abbr> descendant of the owned child.</p>
@@ -369,10 +384,6 @@
 			<dt><dfn data-local-lt="owning">Owning Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
-			</dd>
-			<dt><dfn data-export="" data-lt="accessibility parent|parent element|parent">Accessibility parent</dfn></dt>
-			<dd>
-				<p>An 'accessibility parent' is a <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>, an ancestor of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, any element with an <a>owned child</a> specified via <pref>aria-owns</pref>, or an ancestor of an <a>owned element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
 			</dd>
 			<dt><dfn data-export="">Perceivable</dfn></dt>
 			<dd>
