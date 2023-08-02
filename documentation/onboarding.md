@@ -39,9 +39,12 @@ s/old text//  (to delete "old text")
 
 These are the commands to set up a meeting
 ```
+/invite zakim
+zakim, start meeting
+agendabot, find agenda
 meeting: ARIA WG
 chair: JamesNurthen
-agenda?  (to list the agenda items - chair usually enters agenda using `agenda+ item`)
+agenda? (to list the agenda items - chair usually enters agenda using `agenda+ item`)
 ```
 
 Scribing commands used during the call:
@@ -51,13 +54,12 @@ zakim, next item
 zakim, close this item   (might need this if we try to move to the next item too soon)
 zakim, take up item 6   (might need this to go directly to a specific item)
 
-action: name - sentence about action item  (we only rarely add action items)
 topic: topic name  (ARIA WG doesn't use this, but APG does)
 github: [github issue url]  (adds current topic discussion to github issue)
 agenda+ [topic to add to agenda]
 ```
 
-When scribing conversation, tab key will (usually) complete the person's name after 2 or 3 letters, for example:
+When scribing conversation, tab key will (usually - if the user in IRC and the IRC client supports it) complete the person's name after 2 or 3 letters, for example:
 ```
 ja[tab] completes to jamesn: 
 jc[tab] completes to jcraig: 
@@ -65,11 +67,14 @@ jc[tab] completes to jcraig:
 
 Scribing commands used at the end of the call to prepare the minutes:
 ```
-zakim, who is on the call?  (list of everybody who typed present+)
-zakim, who is here?  (list of everyone on IRC, even those who forgot to type present+, and some who never log off)
+zakim, end meeting 
+```
+If the minutes need correcting 
+```
 present+ name  (if anyone who was on the call is missing from the list)
+present- name  (if someone is added twice for example)
 regrets+ name  (for anyone who sent regrets)
-rrsagent, make minutes
+rrsagent, make minutes (re-makes the minutes)
 ```
 
 Open the minutes link in a new tab, and check that they look ok (may need to refresh several times).
