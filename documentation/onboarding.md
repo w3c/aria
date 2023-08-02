@@ -23,9 +23,12 @@ Commands anyone can use:
 ```
 q+  (to add yourself to the speaker queue)
 q+ to say [what you want to say]  (to add yourself to the speaker queue with reminder message)
-ack me  (take me off the q; or can use q-)
-ack ja  (take james off the q; or can use q- ja)
+ack me  (acknowledge oneself from the speaker queue (used when you speak - often the chair will do this)
+ack ja  (acknowledge james from the q)
+q- (remove from the q - use if you decide you no longer want to speak)
 q?  (to find out if anyone is on the q)
+
+[More Advanced IRC commands (rarely used)](https://www.w3.org/2001/12/zakim-irc-bot.html#speakerqueue).
 
 s/old text/new text/  (to replace something that was typed. Make sure "old text" is unique)
 s/old text//  (to delete "old text")
