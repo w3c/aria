@@ -344,8 +344,35 @@ var mappingTableLabels = {
     </section>
 		<section id="roleMappingComputedRole">
 		  <h2>Computed Role</h2>
-                  <p>The computed role of an element is a string that represents the role of the element for the purposes of specification comformance testing. When an element has a role but is not contained in the required context (for example, a role `listitem` used on an element outside of a `list`), the computed role of the element is unspecified.</p>
-                  <p class="note">User agents can provide this role string, for example, in response to the WebDriver function <a href="https://w3c.github.io/webdriver/#get-computed-role">`getComputedRole`</a>.</p>
+      <p>The `computedrole` of an element is a string that represents the role of the element as computed by the browser engine. The `computedrole` is used primarily for the purposes of developer tools and specification comformance and interoperability testing.</p>
+      <p class="note">User agents provide this role string, for example, in developer tools, and in response to the WebDriver function <a href="https://w3c.github.io/webdriver/#get-computed-role">`getComputedRole`</a>, which is used for <a href="https://github.com/w3c/aria/blob/main/documentation/tests.md">interoperability testing of ARIA, HTML-AAM, and other specifications</a>.</p>
+      <aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;button&gt; &lt;!-- computedrole returns "button" --&gt;
+
+&lt;a href="#" role="button"&gt; &lt;!-- computedrole returns "button" --&gt;</pre>
+
+      </aside>
+      <p>When an element has a role but is not contained in the required context (for example, an orphaned `listitem` without the required accessible parent of role `list`), User Agents MUST ignore the role token, and return the `computedrole` as if the ignored role token had not been included.</p>
+      <aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;div role="listitem"&gt; &lt;!-- Author error: orphaned listitem. computedrole returns "generic" --&gt;
+
+&lt;div role="list"&gt; &lt;!-- computedrole returns "list" --&gt;
+  &lt;div role="listitem"&gt; &lt;!-- computedrole returns "listitem" in the required context. --&gt;</pre>
+
+      </aside>
+      <p>When host language elements do not have an exact or equivalent mapping to a valid, non-abstract role, the related Accessibilty API Mapping extension specification MAY specify a unique `computedrole` string as the return value for interoperability testing purposes, such as `&lt;video&gt; -&gt; "html-video"` in [[HTML-AAM]]. However, authors MUST NOT use any host-language-prefixed `computedrole` string in the `role` attribute (such as `html-video`), unless the token also matches valid, defined role (such as `dpub-chapter`). User Agents MUST ignore any abstract or invalid role token.</p>
+      <aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>&lt;video&gt; &lt;!-- computedrole returns "html-video" --&gt;
+
+&lt;main role="html-video"&gt; &lt;!-- Author error. computedrole returns "main" --&gt;</pre>
+
+      </aside>
     </section>
     <section id="mapping_role_table">
 		<h3>Role Mapping Table</h3>
