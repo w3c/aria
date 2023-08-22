@@ -151,27 +151,6 @@
   }
 </script>
 
-<script src="common/script/mapping-tables.js"></script>
-<script type="text/javascript">
-
-var mappingTableLabels = {
-  viewByTable: "View as a single table",
-  expand: "Expand all",
-  collapse: "Collapse all",
-  showHideCols: "Show/Hide Columns:",
-  showActionText: "Show",
-  hideActionText: "Hide",
-  showToolTipText: "Show column",
-  hideToolTipText: "Hide column",
-
-  // map where keys are @id of associated mapping table:
-  viewByLabels: {
-    "role-mapping-table": "View by elements",
-    "state-property-mapping-table": "View by state/property",
-    "event-mapping-table": "View by state/property"
-  }
-}
-</script>
 </head>
 <body>
 <section id="abstract">
@@ -686,7 +665,7 @@ var mappingTableLabels = {
        Elements which are never directly rendered to screen,
        nor represented by an interactive region in a graphic,
        do not need a corresponding accessible object.
-       User agents <strong class="rfc2119">MUST NOT</strong> include any elements, or their descendant content, as an <a class="termref" data-lt="accessible object">accessible object</a> in the <a class="termref" data-lt="accessibility tree">accessibility tree</a> that are indicated as <code>no accessible object created</code> in the <a href="#mapping_role_table">SVG Element Mapping Table</a>.
+       User agents <strong class="rfc2119">MUST NOT</strong> include any elements, or their descendant content, as an <a class="termref" data-lt="accessible object">accessible object</a> in the <a class="termref" data-lt="accessibility tree">accessibility tree</a> that are indicated as <code>no accessible object created</code> in the <a href="#mapping_role_table">SVG Element Mapping Tables</a>.
         User agents <strong class="rfc2119">SHOULD</strong> also exclude
         any other element defined by past or future SVG specifications or modules
         that specifically indicate the element is <a href="https://www.w3.org/TR/SVG2/render.html#TermNeverRenderedElement">never directly rendered</a>.
@@ -1099,14 +1078,14 @@ var mappingTableLabels = {
       <a class="core-mapping" href="#mapping_conflicts">Conflicts between native markup semantics and WAI-ARIA</a> in the Core Accessibility API Mappings [[!CORE-AAM]]
       where the host language is SVG
       and the native semantics are as described in
-      the <a href="#mapping_role_table">SVG Element Mapping Table</a>,
+      the <a href="#mapping_role_table">SVG Element Mapping Tables</a>,
       the <a href="#mapping_state-property">State and Property Mapping</a> section,
       and the <a href="#mapping_additional">Special Processing Requiring Additional Computation</a> section.
     </p>
     <p>
       Elements for which no accessible object is created and no role may be applied,
       as defined in
-      the <a href="#mapping_role_table">SVG Element Mapping Table</a>,
+      the <a href="#mapping_role_table">SVG Element Mapping Tables</a>,
       have no implicit role <a>semantics</a>.
       The <span class="attr-name">‘<a class="property-reference" href="#aria-roledescription"><span>aria-roledescription</span></a>’</span> attribute
       MUST NOT be exposed on these elements.
@@ -1157,7 +1136,7 @@ var mappingTableLabels = {
     </section>
 
     <section id="mapping_role_table">
-      <h3>SVG Element Mapping Table</h3>
+      <h3>SVG Element Mapping Tables</h3>
       <p>
         This section defines how elements in SVG2
         map to WAI-ARIA roles and platform accessibility APIs
@@ -1168,752 +1147,2396 @@ var mappingTableLabels = {
         in the Core Accessibility API Mappings [[!CORE-AAM]] specification and the <a class="graphics-mapping" href="#mapping_role_table"><code>Role Mappings</code></a> in the Graphics Accessibility API Mappings [[!GRAPHICS-AAM]] specification,
         which define how WAI-ARIA roles are mapped to platform accessibility APIs.
       </p>
-<div class="table-container">
-<style>.show-hide-cols { float: none; }</style>
-<table class="map-table elements long" id="role-mapping-table">
-<caption>
-  Table describing mapping of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles
-  to accessibility <abbr title="application programming interfaces">APIs</abbr>.
-  </caption>
-<thead>
-<tr>
-  <th>SVG Element</th>
-  <th>
-    Default Platform
-    <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
-  </th>
-  <th>
-    Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
-    and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
-  </th>
-</tr>
-</thead>
-<tbody>
-<tr id="role-map-a">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/linking.html#AElement"><code>a</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-link"><code>link</code></a> role
-    if the element has a valid <code>href</code> or <code>xlink:href</code> attribute.
-    For <code>a</code> elements that are not links, use the mapping for
-    <code>tspan</code> if the <code>a</code> element is a descendent of <code>text</code>,
-    or the mapping for <code>g</code> otherwise.
-  </td>
-  <td>
-    any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>
-    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-animate">
-  <th>
-    <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateElement"><code>animate</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-animatemotion">
-  <th>
-    <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateMotionElement"><code>animateMotion</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-animatetransform">
-  <th>
-    <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateTransformElement"><code>animateTransform</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-audio">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-audio-element"><code>audio</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-audio">the HTML audio element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-  <td>
-    <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
-  </td>
-</tr>
-<tr id="role-map-canvas">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/scripting-1.html#the-canvas-element"><code>canvas</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-canvas">the HTML canvas element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-   <td>
-     any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-circle">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#CircleElement"><code>circle</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-clippath">
-  <th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-css-masking-20121115/#ClipPathElement"><code>clipPath</code></a></th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-cursor">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/interact.html#CursorElement"><code>cursor</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-defs">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#DefsElement"><code>defs</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-desc">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><code>desc</code></a>
-  </th>
-  <td>
-    no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content;
-    see <a href="#mapping_additional_nd">Name and Description</a> mapping
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-discard">
-  <th>
-    <a class="element-reference" href="https://svgwg.org/specs/animations/#DiscardElement"><code>discard</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-ellipse">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#EllipseElement"><code>ellipse</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-
-  </td>
-</tr>
-<tr id="role-map-feblend">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feBlendElement"><code>feBlend</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feColorMatrix">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feColorMatrixElement"><code>feColorMatrix</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feComponentTransfer">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feComponentTransferElement"><code>feComponentTransfer</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feComposite">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feCompositeElement"><code>feComposite</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feConvolveMatrix">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feConvolveMatrixElement"><code>feConvolveMatrix</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fediffuselighting">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDiffuseLightingElement"><code>feDiffuseLighting</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fedisplacementmap">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDisplacementMapElement"><code>feDisplacementMap</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fedistantlight">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDistantLightElement"><code>feDistantLight</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fedropshadow">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDropShadowElement"><code>feDropShadow</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feflood">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFloodElement"><code>feFlood</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fefunca">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncAElement"><code>feFuncA</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fefuncb">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncBElement"><code>feFuncB</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fefuncg">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncGElement"><code>feFuncG</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fefuncr">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncRElement"><code>feFuncR</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fegaussianblur">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feGaussianBlurElement"><code>feGaussianBlur</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feimage">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feImageElement"><code>feImage</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-femerge">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feMergeElement"><code>feMerge</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-femergeNode">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#femergenode"><code>feMergeNode</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-femorphology">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#femorphology"><code>feMorphology</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feoffset">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feoffset"><code>feOffset</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fepointlight">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fePointLightElement"><code>fePointLight</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fespecularlighting">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fespecularlighting"><code>feSpecularLighting</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fespotlight">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feSpotLightElement"><code>feSpotLight</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-fetile">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fetile"><code>feTile</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-feturbulence">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feturbulence"><code>feTurbulence</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-filter">
-<th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#filter"><code>filter</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-foreignobject">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#ForeignObjectElement"><code>foreignObject</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-core-role-map-group">group</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-g">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#GElement"><code>g</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-core-role-map-group">group</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-
-  </td>
-</tr>
-<tr id="role-map-hatch">
-<th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#HatchElement"><code>hatch</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-hatchpath">
-<th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#HatchpathElement"><code>hatchPath</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-iframe">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-iframe">the HTML iframe element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-  <td>
-    <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a>, <a class="core-mapping" href="#role-map-document"><code title="attr-aria-role-document">document</code></a>, <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a>
-  </td>
-</tr>
-<tr id="role-map-image">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#ImageElement"><code>image</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-line">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#LineElement"><code>line</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-lineargradient">
-<th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#LinearGradientElement"><code>linearGradient</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-marker"><th><a class="element-reference" href="http://www.w3.org/TR/SVG2/painting.html#MarkerElement"><code>marker</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-mask"><th><a class="element-reference" href="http://www.w3.org/TR/2012/WD-css-masking-20121115/#MaskElement"><code>mask</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-mesh"><th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshElement"><code>mesh</code></a></th>
-<td>
-   <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>
-    any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-</td>
-</tr>
-<tr id="role-map-meshpatch"><th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshpatchElement"><code>meshPatch</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-meshrow"><th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshrowElement"><code>meshRow</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-metadata"><th><a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#MetadataElement"><code>metadata</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content
-  </td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-mpath"><th><a class="element-reference" href="https://svgwg.org/specs/animations/#MPathElement"><code>mpath</code></a></th>
-<td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-<td>no role may be applied</td>
-</tr>
-<tr id="role-map-path">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/paths.html#PathElement"><code>path</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-pattern">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#PatternElement"><code>pattern</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    for this element or any child content</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-polygon">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#PolygonElement"><code>polygon</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-polyline">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#PolylineElement"><code>polyline</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-radialgradient">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#RadialGradientElement"><code>radialGradient</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-rect">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#RectElement"><code>rect</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-script">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/interact.html#ScriptElement"><code>script</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-set">
-  <th>
-    <a class="element-reference" href="https://svgwg.org/specs/animations/#SetElement"><code>set</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-solidcolor">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#SolidcolorElement"><code>solidColor</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-source">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-source-element"><code>source</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-source">the HTML source element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-stop">
-  <th><a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#StopElement"><code>stop</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-style">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/styling.html#StyleElement"><code>style</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-svg">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SVGElement"><code>svg</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-document"><code title="attr-aria-role-group">graphics-document</code></a>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-switch">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SwitchElement"><code>switch</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created</td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-symbol">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SymbolElement"><code>symbol</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-    <p class="note">
-      A <code>symbol</code> element is not directly rendered,
-      and therefore not directly exposed in the accessibility tree.
-      However, the role (default or author-supplied) for the element
-      will be used for the rendered instance of the symbol
-      in the use-element shadow tree.
-      Either the <code>symbol</code> or the <code>use</code> element,
-      or both,
-      may have an associated accessible object,
-      depending on where the author has provided names, descriptions, roles, or interactivity.
-    </p>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-text">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextElement"><code>text</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role,
-    but with the following platform-specific API mappings:
-    <dl>
-<!--      <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr> Express</a></dt>
-                      <dd>
-                          <span class="type">Role: </span><code>ROLE_SYSTEM_TEXT</code>
-                        </dd>
--->
-        <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></dt>
-                    <dd>
-                      <span class="type">Role: </span>
-                      <code>IA2_ROLE_PARAGRAPH</code>
-                    </dd>
-                    <dd>
-                      <span class="type">Interfaces: </span>
-                      <code>IAccessibleText2</code>; <code>IAccessibleHypertext2</code>
-                    </dd>
-                  <dt><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr></a></dt>
-                      <dd>
-                        <span class="type">Control Type: </span><code>Text</code></dd>
-                      <dt><a href="https://developer.gnome.org/atk/stable/">ATK</a></dt>
-                    <dd>
-                      <span class="type">Role: </span>
-                      <code>ATK_ROLE_SECTION</code>
-                    </dd>
-                    <dd>
-                      <span class="type">Interfaces: </span>
-                      <code>AtkText</code>; <code>AtkHypertext</code>
-                      </dd>
-        <dt><a href="https://developer.apple.com/documentation/appkit/nsaccessibility">AX</a></dt>
-        <dd>
-                          <span class="type">AXRole: </span><code>AXGroup</code>
-                    </dd>
-                    <dd>
-                          <span class="type">AXSubrole: </span><code>(nil)</code>
-                    </dd>
-                    <dd>
-                          <span class="type">AXRoleDescription: </span><code>"group"</code>
-          </dd>
-
-    </dl>
-    <p class="note">
-      The platform mappings given above are similar to
-      those recommended for <a class="html-mapping" href="#el-p">the HTML p element</a>
-      in the HTML Accessibility API Mappings specification [[HTML-AAM]].
-      There is currently no WAI-ARIA role available
-      that defines a distinct text block.
-      However, such roles (denoting paragraphs or distinct text regions) exist in many platform accessibility APIs
-      and are therefore used instead of a generic group role.
-    </p>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-textpath">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextPathElement"><code>textPath</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    but changes in text styling SHOULD be exposed through
-    properties of the parent text element where supported
-    <p class="issue">
-      The role mappings for <code>textPath</code> and <code>tspan</code>
-      are <a href="#textpath-tspan-mappings-issue">an open issue</a>.
-    </p>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-title">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#TitleElement"><code>title</code></a>
-  </th>
-  <td>
-    no <a class="termref" data-lt="accessible object">accessible object</a> created; see <a href="#mapping_additional_nd">Name and Description</a> mapping
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-track">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-track-element"><code>track</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-track">the HTML track element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-  <td>no role may be applied</td>
-</tr>
-<tr id="role-map-tspan">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextElement"><code>tspan</code></a>
-  </th>
-  <td>
-    <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created,
-    but changes in text styling SHOULD be exposed through
-    properties of the parent text element where supported
-    <p class="issue">
-      The role mappings for <code>textPath</code> and <code>tspan</code>
-      are <a href="#textpath-tspan-mappings-issue">an open issue</a>.
-    </p>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-use">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a>
-  </th>
-  <td>
-    <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
-    if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
-    otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
-    <p class="note">
-      Note that the re-used graphics
-      in the <code>use</code> element's shadow tree
-      may still be included in the accessibility tree,
-      even if the host element is not.
-    </p>
-    <div class="ednote">
-      <p>
-        Previous drafts of this specification did not require that
-        the re-used graphical elements
-        be exposed directly;
-        The <code>use</code> element was treated as an atomic object.
-        This was not consistent with the potential for interactive content or text
-        within the re-used graphics.
-      </p>
-      <p>
-        Corresponding with the change to directly expose re-used graphics,
-        special rules for the accessible name and description of <code>use</code> elements
-        are no longer required.
-      </p>
-    </div>
-  </td>
-  <td>
-   any role;
-    see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>    and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
-  </td>
-</tr>
-<tr id="role-map-video">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element"><code>video</code></a>
-  </th>
-  <td>
-    Follow the recommendations for <a class="html-mapping" href="#el-video">the HTML video element</a>
-      in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
-  </td>
-  <td>
-    <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
-  </td>
-</tr>
-<tr id="role-map-view">
-  <th>
-    <a class="element-reference" href="http://www.w3.org/TR/SVG2/linking.html#ViewElement"><code>view</code></a>
-  </th>
-  <td>no <a class="termref" data-lt="accessible object">accessible object</a> created;
-    see the section <a href="#mapping_view">SVG views</a>
-    for special processing requirements
-  </td>
-  <td>no role may be applied</td>
-</tr>
-
-</tbody>
+<h4 id=role-map-a><code>a</code></h4>
+<table aria-labelledby=role-map-a>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/linking.html#AElement"><code>a</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-link"><code>link</code></a> role
+        if the element has a valid <code>href</code> or <code>xlink:href</code> attribute.
+        For <code>a</code> elements that are not links, use the mapping for
+        <code>tspan</code> if the <code>a</code> element is a descendent of <code>text</code>,
+        or the mapping for <code>g</code> otherwise.
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a>
+        and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
 </table>
-</div>
+<h4 id=role-map-animate><code>animate</code></h4>
+<table aria-labelledby=role-map-animate>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateElement"><code>animate</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-animatemotion><code>animateMotion</code></h4>
+<table aria-labelledby=role-map-animatemotion>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateMotionElement"><code>animateMotion</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-animatetransform><code>animateTransform</code></h4>
+<table aria-labelledby=role-map-animatetransform>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#AnimateTransformElement"><code>animateTransform</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-audio><code>audio</code></h4>
+<table aria-labelledby=role-map-audio>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-audio-element"><code>audio</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-audio">the HTML audio element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-canvas><code>canvas</code></h4>
+<table aria-labelledby=role-map-canvas>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/scripting-1.html#the-canvas-element"><code>canvas</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-canvas">the HTML canvas element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-circle><code>circle</code></h4>
+<table aria-labelledby=role-map-circle>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#CircleElement"><code>circle</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-clippath><code>clipPath</code></h4>
+<table aria-labelledby=role-clippath>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-css-masking-20121115/#ClipPathElement"><code>clipPath</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-cursor><code>cursor</code></h4>
+<table aria-labelledby=role-map-cursor>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/interact.html#CursorElement"><code>cursor</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-defs><code>defs</code></h4>
+<table aria-labelledby=role-map-defs>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#DefsElement"><code>defs</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-desc><code>desc</code></h4>
+<table aria-labelledby=role-map-desc>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#DescElement"><code>desc</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content;
+        see <a href="#mapping_additional_nd">Name and Description</a> mapping
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-discard><code>discard</code></h4>
+<table aria-labelledby=role-map-discard>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#DiscardElement"><code>discard</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-ellipse><code>ellipse</code></h4>
+<table aria-labelledby=role-map-ellipse>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#EllipseElement"><code>ellipse</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feblend><code>feBlend</code></h4>
+<table aria-labelledby=role-map-feblend>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feBlendElement"><code>feBlend</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feColorMatrix><code>feColorMatrix</code></h4>
+<table aria-labelledby=role-map-feColorMatrix>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feColorMatrixElement"><code>feColorMatrix</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feComponentTransfer><code>feComponentTransfer</code></h4>
+<table aria-labelledby=role-map-feComponentTransfer>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feComponentTransferElement"><code>feComponentTransfer</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feComposite><code>feComposite</code></h4>
+<table aria-labelledby=role-map-feComposite>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feCompositeElement"><code>feComposite</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feConvolveMatrix><code>feConvolveMatrix</code></h4>
+<table aria-labelledby=role-map-feConvolveMatrix>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feConvolveMatrixElement"><code>feConvolveMatrix</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fediffuselighting><code>feDiffuseLighting</code></h4>
+<table aria-labelledby=role-map-fediffuselighting>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDiffuseLightingElement"><code>feDiffuseLighting</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fedisplacementmap><code>feDisplacementMap</code></h4>
+<table aria-labelledby=role-map-fedisplacementmap>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDisplacementMapElement"><code>feDisplacementMap</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fedistantlight><code>feDistantLight</code></h4>
+<table aria-labelledby=role-map-fedistantlight>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDistantLightElement"><code>feDistantLight</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fedropshadow><code>feDropShadow</code></h4>
+<table aria-labelledby=role-map-fedropshadow>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feDropShadowElement"><code>feDropShadow</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feflood><code>feFlood</code></h4>
+<table aria-labelledby=role-map-feflood>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFloodElement"><code>feFlood</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fefunca><code>feFuncA</code></h4>
+<table aria-labelledby=role-map-fefunca>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncAElement"><code>feFuncA</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fefuncb><code>feFuncB</code></h4>
+<table aria-labelledby=role-map-fefuncb>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncBElement"><code>feFuncB</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fefuncg><code>feFuncG</code></h4>
+<table aria-labelledby=role-map-fefuncg>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncGElement"><code>feFuncG</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fefuncr><code>feFuncR</code></h4>
+<table aria-labelledby=role-map-fefuncr>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feFuncRElement"><code>feFuncR</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fegaussianblur><code>feGaussianBlur</code></h4>
+<table aria-labelledby=role-map-fegaussianblur>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feGaussianBlurElement"><code>feGaussianBlur</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feimage><code>feImage</code></h4>
+<table aria-labelledby=role-map-feimage>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feImageElement"><code>feImage</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-femerge><code>feMerge</code></h4>
+<table aria-labelledby=role-map-femerge>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feMergeElement"><code>feMerge</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-femergeNode><code>feMergeNode</code></h4>
+<table aria-labelledby=role-map-femergeNode>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#femergenode"><code>feMergeNode</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-femorphology><code>feMorphology</code></h4>
+<table aria-labelledby=role-map-femorphology>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#femorphology"><code>feMorphology</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feoffset><code>feOffset</code></h4>
+<table aria-labelledby=role-map-feoffset>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feoffset"><code>feOffset</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fepointlight><code>fePointLight</code></h4>
+<table aria-labelledby=role-map-fepointlight>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fePointLightElement"><code>fePointLight</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fespecularlighting><code>feSpecularLighting</code></h4>
+<table aria-labelledby=role-map-fespecularlighting>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fespecularlighting"><code>feSpecularLighting</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fespotlight><code>feSpotLight</code></h4>
+<table aria-labelledby=role-map-fespotlight>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feSpotLightElement"><code>feSpotLight</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-fetile><code>feTile</code></h4>
+<table aria-labelledby=role-map-fetile>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#fetile"><code>feTile</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-feturbulence><code>feTurbulence</code></h4>
+<table aria-labelledby=role-map-feturbulence>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#feturbulence"><code>feTurbulence</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-filter><code>filter</code></h4>
+<table aria-labelledby=role-map-filter>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-filter-effects-20121025/#filter"><code>filter</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-foreignobject><code>foreignObject</code></h4>
+<table aria-labelledby=role-map-foreignobject>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#ForeignObjectElement"><code>foreignObject</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-group"><code title="attr-core-role-map-group">group</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-g><code>g</code></h4>
+<table aria-labelledby=role-map-g>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#GElement"><code>g</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-group"><code title="attr-core-role-map-group">group</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-hatch><code>hatch</code></h4>
+<table aria-labelledby=role-map-hatch>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#HatchElement"><code>hatch</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-hatchpath><code>hatchPath</code></h4>
+<table aria-labelledby=role-map-hatchpath>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#HatchpathElement"><code>hatchPath</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-iframe><code>iframe</code></h4>
+<table aria-labelledby=role-map-iframe>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element"><code>iframe</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-iframe">the HTML iframe element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a>, <a class="core-mapping" href="#role-map-document"><code title="attr-aria-role-document">document</code></a>, <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-image><code>image</code></h4>
+<table aria-labelledby=role-map-image>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/embedded.html#ImageElement"><code>image</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-line><code>line</code></h4>
+<table aria-labelledby=role-map-line>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#LineElement"><code>line</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-lineargradient><code>linearGradient</code></h4>
+<table aria-labelledby=role-map-lineargradient>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#LinearGradientElement"><code>linearGradient</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-marker><code>marker</code></h4>
+<table aria-labelledby=role-map-marker>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/painting.html#MarkerElement"><code>marker</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-mask><code>mask</code></h4>
+<table aria-labelledby=role-map-mask>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/2012/WD-css-masking-20121115/#MaskElement"><code>mask</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-mesh><code>mesh</code></h4>
+<table aria-labelledby=role-map-mesh>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshElement"><code>mesh</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-img"><code title="attr-aria-role-img">img</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-meshpatch><code>meshPatch</code></h4>
+<table aria-labelledby=role-map-meshpatch>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshpatchElement"><code>meshPatch</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-meshrow><code>meshRow</code></h4>
+<table aria-labelledby=role-map-meshrow>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#MeshrowElement"><code>meshRow</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-metadata><code>metadata</code></h4>
+<table aria-labelledby=role-map-metadata>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#MetadataElement"><code>metadata</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-mpath><code>mpath</code></h4>
+<table aria-labelledby=role-map-mpath>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#MPathElement"><code>mpath</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-path><code>path</code></h4>
+<table aria-labelledby=role-map-path>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/paths.html#PathElement"><code>path</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-pattern><code>pattern</code></h4>
+<table aria-labelledby=role-map-pattern>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#PatternElement"><code>pattern</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        for this element or any child content
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-polygon><code>polygon</code></h4>
+<table aria-labelledby=role-map-polygon>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#PolygonElement"><code>polygon</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-polyline><code>polyline</code></h4>
+<table aria-labelledby=role-map-polyline>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#PolylineElement"><code>polyline</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-radialgradient><code>radialGradient</code></h4>
+<table aria-labelledby=role-map-radialgradient>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#RadialGradientElement"><code>radialGradient</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-rect><code>rect</code></h4>
+<table aria-labelledby=role-map-rect>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/shapes.html#RectElement"><code>rect</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-symbol"><code>graphics-symbol</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-script><code>script</code></h4>
+<table aria-labelledby=role-map-script>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/interact.html#ScriptElement"><code>script</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-set><code>set</code></h4>
+<table aria-labelledby=role-map-set>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="https://svgwg.org/specs/animations/#SetElement"><code>set</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-solidcolor><code>solidColor</code></h4>
+<table aria-labelledby=role-map-solidcolor>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#SolidcolorElement"><code>solidColor</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-source><code>source</code></h4>
+<table aria-labelledby=role-map-source>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-source-element"><code>source</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-source">the HTML source element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-stop><code>stop</code></h4>
+<table aria-labelledby=role-map-stop>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/pservers.html#StopElement"><code>stop</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-style><code>style</code></h4>
+<table aria-labelledby=role-map-style>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/styling.html#StyleElement"><code>style</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-svg><code>svg</code></h4>
+<table aria-labelledby=role-map-svg>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SVGElement"><code>svg</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-document"><code title="attr-aria-role-group">graphics-document</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-switch><code>switch</code></h4>
+<table aria-labelledby=role-map-switch>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SwitchElement"><code>switch</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-symbol><code>symbol</code></h4>
+<table aria-labelledby=role-map-symbol>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#SymbolElement"><code>symbol</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+        <p class="note">
+          A <code>symbol</code> element is not directly rendered,
+          and therefore not directly exposed in the accessibility tree.
+          However, the role (default or author-supplied) for the element
+          will be used for the rendered instance of the symbol
+          in the use-element shadow tree.
+          Either the <code>symbol</code> or the <code>use</code> element,
+          or both,
+          may have an associated accessible object,
+          depending on where the author has provided names, descriptions, roles, or interactivity.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-text><code>text</code></h4>
+<table aria-labelledby=role-map-text>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextElement"><code>text</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role,
+        but with the following platform-specific API mappings:
+        <dl>
+          <dt><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx"><abbr title="Microsoft Active Accessibility">MSAA</abbr></a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></dt>
+          <dd>
+            <span class="type">Role: </span>
+            <code>IA2_ROLE_PARAGRAPH</code>
+          </dd>
+          <dd>
+            <span class="type">Interfaces: </span>
+            <code>IAccessibleText2</code>; <code>IAccessibleHypertext2</code>
+          </dd>
+          <dt><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx"><abbr title="User Interface Automation">UIA</abbr></a></dt>
+          <dd>
+            <span class="type">Control Type: </span><code>Text</code>
+          </dd>
+          <dt><a href="https://developer.gnome.org/atk/stable/">ATK</a></dt>
+          <dd>
+            <span class="type">Role: </span>
+            <code>ATK_ROLE_SECTION</code>
+          </dd>
+          <dd>
+            <span class="type">Interfaces: </span>
+            <code>AtkText</code>; <code>AtkHypertext</code>
+          </dd>
+          <dt><a href="https://developer.apple.com/documentation/appkit/nsaccessibility">AX</a></dt>
+          <dd>
+            <span class="type">AXRole: </span><code>AXGroup</code>
+          </dd>
+          <dd>
+            <span class="type">AXSubrole: </span><code>(nil)</code>
+          </dd>
+          <dd>
+            <span class="type">AXRoleDescription: </span><code>"group"</code>
+          </dd>
+        </dl>
+        <p class="note">
+          The platform mappings given above are similar to
+          those recommended for <a class="html-mapping" href="#el-p">the HTML p element</a>
+          in the HTML Accessibility API Mappings specification [[HTML-AAM]].
+          There is currently no WAI-ARIA role available
+          that defines a distinct text block.
+          However, such roles (denoting paragraphs or distinct text regions) exist in many platform accessibility APIs
+          and are therefore used instead of a generic group role.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-textpath><code>textPath</code></h4>
+<table aria-labelledby=role-map-textpath>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextPathElement"><code>textPath</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        but changes in text styling SHOULD be exposed through
+        properties of the parent text element where supported
+        <p class="issue">
+          The role mappings for <code>textPath</code> and <code>tspan</code>
+          are <a href="#textpath-tspan-mappings-issue">an open issue</a>.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-title><code>title</code></h4>
+<table aria-labelledby=role-map-title>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#TitleElement"><code>title</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created; see <a href="#mapping_additional_nd">Name and Description</a> mapping
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-track><code>track</code></h4>
+<table aria-labelledby=role-map-track>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-track-element"><code>track</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-track">the HTML track element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-tspan><code>tspan</code></h4>
+<table aria-labelledby=role-map-tspan>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/text.html#TextElement"><code>tspan</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-group"><code title="attr-aria-role-group">group</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created,
+        but changes in text styling SHOULD be exposed through
+        properties of the parent text element where supported
+        <p class="issue">
+          The role mappings for <code>textPath</code> and <code>tspan</code>
+          are <a href="#textpath-tspan-mappings-issue">an open issue</a>.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-use><code>use</code></h4>
+<table aria-labelledby=role-map-use>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/struct.html#UseElement"><code>use</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="graphics-mapping" href="#role-map-graphics-object"><code>graphics-object</code></a> role mapping
+        if the element meets the criteria for <a href="#include_elements">Including Elements in the Accessibility Tree</a>;
+        otherwise, no <a class="termref" data-lt="accessible object">accessible object</a> created
+        <p class="note">
+          Note that the re-used graphics
+          in the <code>use</code> element's shadow tree
+          may still be included in the accessibility tree,
+          even if the host element is not.
+        </p>
+        <div class="ednote">
+          <p>
+            Previous drafts of this specification did not require that
+            the re-used graphical elements
+            be exposed directly;
+            The <code>use</code> element was treated as an atomic object.
+            This was not consistent with the potential for interactive content or text
+            within the re-used graphics.
+          </p>
+          <p>
+            Corresponding with the change to directly expose re-used graphics,
+            special rules for the accessible name and description of <code>use</code> elements
+            are no longer required.
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        any role;
+        see the <a class="core-mapping" href="#mapping_role_table"><code>Core Accessibility API Role Mappings</code></a> and the <a class="graphics-mapping" href="#mapping_role_table"><code>Graphics Accessibility API Role Mappings</code></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-video><code>video</code></h4>
+<table aria-labelledby=role-map-video>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element"><code>video</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        Follow the recommendations for <a class="html-mapping" href="#el-video">the HTML video element</a>
+        in the HTML Accessibility API Mappings specification [[!HTML-AAM]].
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        <a class="core-mapping" href="#role-map-application"><code title="attr-aria-role-application">application</code></a> role
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-view><code>view</code></h4>
+<table aria-labelledby=role-map-view>
+  <tbody>
+    <tr>
+      <th>SVG Specification</th>
+      <td>
+        <a class="element-reference" href="http://www.w3.org/TR/SVG2/linking.html#ViewElement"><code>view</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Default Platform
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no <a class="termref" data-lt="accessible object">accessible object</a> created;
+        see the section <a href="#mapping_view">SVG views</a>
+        for special processing requirements
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Allowed <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Roles
+        and Platform <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role Mappings
+      </th>
+      <td>
+        no role may be applied
+      </td>
+    </tr>
+  </tbody>
+</table>
 <div id="textpath-tspan-mappings-issue" class="issue" data-number="2"
          title="textPath and tspan need platform-specific mappings">
     <p>
