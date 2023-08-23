@@ -6,7 +6,6 @@
 		<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="defer"></script>
 		<script src="common/script/resolveReferences.js" class="remove"></script>
 		<script src="common/biblio.js" class="remove" defer="defer"></script>
-		<script src="common/script/mapping-tables.js"></script>
 		<link href="common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
 		<link href="common/css/common.css" rel="stylesheet" type="text/css" />
 		<!--<link href="css/dpub-aam.css" rel="stylesheet" type="text/css"/>-->
@@ -187,26 +186,6 @@
 		xref: ["core-aam", "accname", "wai-aria", "dom", "infra"]
   }
 </script>
-		<script type="text/javascript">
-
-var mappingTableLabels = {
-  viewByTable: "View as a single table",
-  expand: "Expand all",
-  collapse: "Collapse all",
-  showHideCols: "Show/Hide Columns:",
-  showActionText: "Show",
-  hideActionText: "Hide",
-  showToolTipText: "Show column",
-  hideToolTipText: "Hide column",
-
-  // map where keys are @id of associated mapping table:
-  viewByLabels: {
-    "role-mapping-table": "View by roles",
-    "state-property-mapping-table": "View by state/property",
-    "event-mapping-table": "View by state/property"
-  }
-}
-</script>
 	</head>
 	<body>
 		<section id="abstract">
@@ -345,59 +324,137 @@ var mappingTableLabels = {
 			<section id="mapping_role_table">
 				<h3>Role Mapping Table</h3>
 				<p> This section defines how roles in graphics map to platform accessibility APIs based on their native host language semantics and when WAI-ARIA roles are applied. This section refers directly to the Core Accessibility API Mappings specification. </p>
-				<div class="table-container">
-					<table class="map-table elements" id="role-mapping-table">
-						<caption>Table describing mapping of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles to accessibility <abbr title="application programming interfaces">APIs</abbr>.</caption>
-						<thead>
-							<tr>
-								<th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role</th>
-								<th><a href="https://w3c.github.io/core-aam/#roleMappingComputedRole">Computed Role</a></th>
-								<th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
-								<th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
-								<th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
-								<th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr id="role-map-graphics-document">
-								<th><a class="graphics-role-reference" href="#graphics-document"><code>graphics-document</code></a></th>
-								<td><code>graphics-document</code></td>
-								<td><p><code>ROLE_SYSTEM_DOCUMENT</code> + <code>STATE_SYSTEM_READONLY</code></p><p>IAccessible2: Object attribute <code>xml-roles:graphics-document</code>. </p></td>
-								<td>Control Type: <code>'Document'</code>.</td>
-								<td><p>Expose <code>ROLE_DOCUMENT_FRAME</code> and object attribute <code>xml-roles:graphics-document</code>.</p></td>
-								<td>
-									AXRole: <code>AXGroup</code><br />
-									AXSubrole: <code>AXDocument</code><br />
-									AXRoleDescription: <code>'document'</code>
-								</td>
-							</tr>
-							<tr id="role-map-graphics-object">
-								<th><a class="graphics-role-reference" href="#graphics-object"><code>graphics-object</code></a></th>
-								<td><code>graphics-object</code></td>
-								<td><code>ROLE_SYSTEM_GROUPING</code> + <p>IAccessible2: Object attribute <code>xml-roles:graphics-object</code>.</p></td>
-								<td>Control Type: <code>'Group'</code>.</td>
-								<td><p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:graphics-object</code>.</p></td>
-								<td>
-									AXRole: <code>AXGroup</code><br />
-									AXSubrole: <code>&lt;nil&gt;</code><br/>
-									AXRoleDescription: <code>'group'</code>
-								</td>
-							</tr>
-							<tr id="role-map-graphics-symbol">
-								<th><a class="graphics-role-reference" href="#graphics-symbol"><code>graphics-symbol</code></a></th>
-								<td><code>graphics-symbol</code></td>
-								<td><code>ROLE_SYSTEM_GRAPHIC</code><p>IAccessible2: Object attribute <code>xml-roles:graphics-symbol</code>. </p></td>
-								<td>Control Type: <code>'Image'</code>.</td>
-								<td><p>Expose <code>ROLE_IMAGE</code> and object attribute <code>xml-roles:graphics-symbol</code>. </p></td>
-								<td>
-									AXRole: <code>AXImage</code><br />
-									AXSubrole: <code>&lt;nil&gt;</code><br />
-									AXRoleDescription: <code>'image'</code>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+<h4 id=role-map-graphics-document><code>graphics-document</code></h4>
+<table aria-labelledby=role-map-graphics-document>
+  <tbody>
+    <tr>
+      <th>Graphics-ARIA Specification</th>
+      <td>
+        <a class="graphics-role-reference" href="#graphics-document"><code>graphics-document</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th><a href="https://w3c.github.io/core-aam/#roleMappingComputedRole">Computed Role</a></th>
+      <td>
+        <code>graphics-document</code>
+      </td>
+    </tr>
+    <tr>
+      <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+      <td>
+        <p><code>ROLE_SYSTEM_DOCUMENT</code> + <code>STATE_SYSTEM_READONLY</code></p>
+        <p>IAccessible2: Object attribute <code>xml-roles:graphics-document</code>. </p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+      <td>
+        Control Type: <code>'Document'</code>.
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+      <td>
+        <p>Expose <code>ROLE_DOCUMENT_FRAME</code> and object attribute <code>xml-roles:graphics-document</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+      <td>
+        AXRole: <code>AXGroup</code><br>
+        AXSubrole: <code>AXDocument</code><br>
+        AXRoleDescription: <code>'document'</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-graphics-object><code>graphics-object</code></h4>
+<table aria-labelledby=role-map-graphics-object>
+  <tbody>
+    <tr>
+      <th>Graphics-ARIA Specification</th>
+      <td>
+        <a class="graphics-role-reference" href="#graphics-object"><code>graphics-object</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th><a href="https://w3c.github.io/core-aam/#roleMappingComputedRole">Computed Role</a></th>
+      <td>
+        <code>graphics-object</code>
+      </td>
+    </tr>
+    <tr>
+      <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+      <td>
+        <code>ROLE_SYSTEM_GROUPING</code> + <p>IAccessible2: Object attribute <code>xml-roles:graphics-object</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+      <td>
+        Control Type: <code>'Group'</code>.
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+      <td>
+        <p>Expose <code>ROLE_PANEL</code> and object attribute <code>xml-roles:graphics-object</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+      <td>
+        AXRole: <code>AXGroup</code><br>
+        AXSubrole: <code>&lt;nil&gt;</code><br>
+        AXRoleDescription: <code>'group'</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4 id=role-map-graphics-symbol><code>graphics-symbol</code></h4>
+<table aria-labelledby=role-map-graphics-symbol>
+  <tbody>
+    <tr>
+      <th>Graphics-ARIA Specification</th>
+      <td>
+        <a class="graphics-role-reference" href="#graphics-symbol"><code>graphics-symbol</code></a>
+      </td>
+    </tr>
+    <tr>
+      <th><a href="https://w3c.github.io/core-aam/#roleMappingComputedRole">Computed Role</a></th>
+      <td>
+        <code>graphics-symbol</code>
+      </td>
+    </tr>
+    <tr>
+      <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+      <td>
+        <code>ROLE_SYSTEM_GRAPHIC</code>
+        <p>IAccessible2: Object attribute <code>xml-roles:graphics-symbol</code>. </p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+      <td>
+        Control Type: <code>'Image'</code>.
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+      <td>
+        <p>Expose <code>ROLE_IMAGE</code> and object attribute <code>xml-roles:graphics-symbol</code>. </p>
+      </td>
+    </tr>
+    <tr>
+      <th><abbr title="Mac OS X Accessibility Protocol">AXAPI</abbr></th>
+      <td>
+        AXRole: <code>AXImage</code><br>
+        AXSubrole: <code>&lt;nil&gt;</code><br>
+        AXRoleDescription: <code>'image'</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 			</section>
 		</section>
 		<section class="appendix" id="changelog">
