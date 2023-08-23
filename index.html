@@ -368,10 +368,6 @@
 			<dd>
 			  <p>Usable by users in ways they can control. References in this document relate to <cite><a href="https://www.w3.org/TR/WCAG21/#operable"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> 2.1 Principle 2: Content must be operable</a></cite> [[WCAG21]]. See <a>Keyboard Accessible</a>.</p>
 			</dd>
-			<dt><dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">Accessibility child</dfn></dt>
-			<dd>
-				<p>An 'accessibility child' is a <abbr title="Document Object Model">DOM</abbr> child of the <a>element</a>, a descendant of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, a child specified via an <pref>aria-owns</pref> relationship to the element, or a descendant of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
-			</dd>
 			<dt><dfn data-export="" data-dfn-for="ARIA" data-export="" data-lt="owned element|owned|owned element's|owned elements">Owned Element</dfn></dt>
 			<dd>
 			  <p>An 'owned element' is any <abbr title="Document Object Model">DOM</abbr> descendant of the <a>element</a>, any element specified as a child via <pref>aria-owns</pref>, or any <abbr title="Document Object Model">DOM</abbr> descendant of the owned child.</p>
@@ -379,10 +375,6 @@
 			<dt><dfn data-local-lt="owning">Owning Element</dfn></dt><!--Not used-->
 			<dd>
 			  <p>An 'owning element' is any <abbr title="Document Object Model">DOM</abbr> ancestor of the <a>element</a>, or any element with an <pref>aria-owns</pref> attribute which references the ID of the   element. </p>
-			</dd>
-			<dt><dfn data-export="" data-lt="accessibility parent|parent element|parent">Accessibility parent</dfn></dt>
-			<dd>
-				<p>An 'accessibility parent' is a <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>, an ancestor of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening, any element with an <a>owned child</a> specified via <pref>aria-owns</pref>, or an ancestor of an <a>owned element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</p>
 			</dd>
 			<dt><dfn data-export="">Perceivable</dfn></dt>
 			<dd>
@@ -13489,6 +13481,83 @@ button.ariaPressed; // null</pre>
             <p class="note">Text equivalents for [=element/hidden=] referenced objects can still be used in the <a href="#mapping_additional_nd" class="accname">name and description computation</a> even when not included in the accessibility tree.</p>
             </li>
           </ul>
+	</section>
+	<section id="tree_relationships">
+	  <h2>Relationships in the Accessibility Tree</h2>
+          <p>The following terms are used to describe relationships between <abbr title="Document Object Model">DOM</abbr> elements.</p>
+          <p>The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that element's corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):</p>
+          <ul>
+            <li>The <abbr title="Document Object Model">DOM</abbr> children of the <a>element</a>.
+            </li>
+            <li>All DOM descendants of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.
+            </li>
+            <li>All DOM elements specified via an <pref>aria-owns</pref> relationship to the element.
+            </li>
+            <li>All DOM descendants of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.
+            </li>
+          </ul>
+          <p>And excludes the following:
+          <ul>
+            <li>All DOM elements that have no corresponding <a>accessible object</a> because they have been <a href="#tree_exclusion">excluded from the accessibility tree</a>./li>
+            <li>All DOM elements whose corresponding <a>accessible object</a> have been reparented in the <a>accessibility tree</a> via <pref>aria-owns</pref>./li>
+          </ul>
+          </p>
+          <p>In the following example, the <rref>list</rref> element has four accessibility children:</p>
+	  <pre class="example highlight">
+&lt;div role="list" aria-owns="child3 child4"&gt;
+  &lt;div role="listitem"&gt;Accessibility Child 1&lt;/div&gt;
+  &lt;div&gt;
+    &lt;div role="listitem"&gt;Accessibility Child 2&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="child3" role="listitem"&gt;Accessibility Child 3&lt;/div&gt;
+&lt;div id="child4"&gt;
+  &lt;div role="listitem"&gt;Accessibility Child 4&lt;/div&gt;
+&lt;/div&gt;
+          </pre>
+          <p>In the following example, the <rref>list</rref> element has no accessibility children:</p>
+	  <pre class="example highlight">
+&lt;div role="list"&gt;
+  &lt;div role="listitem" aria-hidden="true"&gt;Excluded element&lt;/div&gt;
+  &lt;div role="listitem" id="reparented"&gt;Reparented element&lt;/div&gt;
+&lt;/div&gt;
+&lt;div aria-owns="reparented"&gt;&lt;/div&gt;
+          </pre>
+          <p>The <dfn data-export="" data-lt="accessibility descendant|accessibility descendants">accessibility descendants</dfn> of a DOM element are all DOM elements which correspond to descendants of the corresponding <a>accessible object</a> in the <a class="termref">accessibility tree</a>.</p>
+          <p>The <dfn data-export="" data-lt="accessibility parent|parent element|parent">accessibility parent</dfn> of a DOM element is the parent of the corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, the accessibility parent is one of the following:</p>
+          <ul>
+            <li>The <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>.
+            </li>
+            <li>The DOM ancestor of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.
+            </li>
+            <li>A DOM element with <pref>aria-owns</pref> set to the DOM ID of the DOM element in question.
+            </li>
+            <li>A DOM element with <pref>aria-owns</pref> set to the DOM ID of an ancestor of the DOM element in question, with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.
+            </li>
+          </ul>
+          <p>The following four examples all contain a <rref>listitem</rref> element with an accessibility parent of role <rref>list</rref>:</p>
+          <pre class="example highlight">
+&lt;div role="list"&gt;
+  &lt;div role="listitem"&gt;The "list" is my accessibility parent.&lt;/div&gt;
+&lt;/div&gt;
+          </pre>
+	  <pre class="example highlight">
+&lt;div role="list"&gt;
+  &lt;div&gt;
+    &lt;div role="listitem"&gt;The "list" is my accessibility parent.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+          </pre>
+	  <pre class="example highlight">
+&lt;div role="list" aria-owns="child"&gt;&lt;/div&gt;
+&lt;div id="child" role="listitem"&gt;The "list" is my accessibility parent.&lt;/div&gt;
+          </pre>
+	  <pre class="example highlight">
+&lt;div role="list" aria-owns="child"&gt;&lt;/div&gt;
+&lt;div id="child"&gt;
+  &lt;div&gt; role="listitem"&gt;The "list" is my accessibility parent.&lt;/div&gt;
+&lt;/div&gt;
+          </pre>
 	</section>
 </section>
 <section class="normative" id="host_languages">
