@@ -380,14 +380,15 @@
                 <summary>Comment:</summary>
                 <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
               </details></div>
-              <div><details>
+              <div>
                 <summary>Example:</summary>
                 <p>The following examples show the meaning of the clause "Not part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced by that relation was hidden.".</p>
                 <p>First, <code>element1</code>'s <a class="termref">accessible name</a> is "hello" because, although <code>element3</code> is hidden, it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, which is hidden too.</p>
-                <pre class="example highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
-&lt;element2 id="el2" class="hidden"&gt;
-  &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
-&lt;/element2&gt;</code>
+                <pre class="example highlight">
+                  <code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
+                    &lt;element2 id="el2" class="hidden"&gt;
+                      &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
+                    &lt;/element2&gt;</code>
                 </pre>
                 <p>Conversely, <code>element1</code> has no <a class="termref">accessible name</a> if <code>element3</code> is hidden and it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, but <code>element2</code> is not hidden.</p>
                 <pre class="example highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
@@ -437,18 +438,20 @@
                   </ol>
                 </li>
               </ol>
-              <div><details>
+              <div>
                 <summary>Example:</summary>
                 <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
-                <pre class="example highlight"><code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code></pre>
-              </details></div>
+                <pre class="example highlight">
+                  <code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code>
+                </pre>
+              </div>
             </li>
             <li id="comp_label" name="step2D"><em>AriaLabel:</em> Otherwise, if the <code>current node</code> has an <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
               <ol>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control, ignore <code>aria-label</code> and skip to rule <a href="#comp_embedded_control">Embedded Control</a>.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
               </ol>
-              <div><details>
+              <div>
                 <summary>Example:</summary>
                   <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a [=nodes|node=] has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
                   <pre class="example highlight"><code>&lt;h1&gt;Files&lt;/h1&gt;
@@ -462,7 +465,7 @@
     <strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;</strong>
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-              </details></div>
+              </div>
             </li>
             <li id="comp_host_language_label" name="step2E"><em>Host Language Label:</em> Otherwise, if the <code>current node</code>'s native markup provides an [=attribute=] (e.g. <code>alt</code>) or [=element=] (e.g. HTML <code>label</code> or SVG <code>title</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
               <div class="note">See <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation">HTML-AAM</a>, <a href="https://www.w3.org/TR/svg-aam-1.0/#mapping_additional_nd">SVG-AAM</a>, or other host language documentation for more information on markup that defines a text alternative.</div>
