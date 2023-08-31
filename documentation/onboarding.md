@@ -109,12 +109,14 @@ The following links have way too much information, but here they are for complet
    * Contains mappings between ARIA and platform accessibility APIs.
 * [HTML-AAM](https://github.com/w3c/html-aam)
    * Contains mappings between HTML and platform accessibility APIs.
-* [DPUB-AAM](https://github.com/w3c/html-aam)
+* [DPUB-ARIA](https://github.com/w3c/dpub-aria)
+* [DPUB-AAM](https://github.com/w3c/dpub-aam)
   * Contains mappings between DPUB and platform accessibility APIs.
 * [SVG-AAM](https://github.com/w3c/svg-aam)
   * Contains mappings between SVG and platform accessibility APIs.
 * [MathML-AAM](https://github.com/w3c/mathml-aam)
   * Contains mappings between MathML and platform accessibility APIs.
+* [Graphics-ARIA](https://github.com/w3c/graphics-aria)
 * [Graphics-AAM](https://github.com/w3c/graphics-aam)
   * Contains mappings between Graphics-ARIA and platform accessibility APIs.
 
