@@ -7,17 +7,17 @@ The images and text in this section come from James Craig's presentation on the 
 ![Diagram of the webstack from the web author, to the browser, to the at, to the user, with extra details about the browser process](images/web_accessibility_stack_axapi.png)
 
 1. Web Author creates a website with HTML, CSS, and JS that is accessed in a browser.
-3. In the case the mainstream interface that is accessed directly by those who do not use assistive technologies, the rendering engine (WebKit, Chromium, Gecko) handles all the input/output to and from the end user: input as mouse clicks, keyboard events, etc. and output as pixels rendered on screen, among other things.
-4. In the case of accessibility technology use such as a screen reader, the engine has internal accessible code (such as WebCore/accessibility in WebKit) that interprets the rendered page and associated Web API, and then vends an equivalent to the associated platform accessibility API. In the case of this diagram, that is represented by macOS's "AX API."
-5. In most case, assistive technology (AT) such as a screen reader, will access data from the platform API, rather than by inspecting the Web APIs directly, though there are exceptions to this general rule.
+2. In the case the mainstream interface that is accessed directly by those who do not use assistive technologies, the rendering engine (WebKit, Chromium, Gecko) handles all the input/output to and from the end user: input as mouse clicks, keyboard events, etc. and output as pixels rendered on screen, among other things.
+3. In the case of accessibility technology use such as a screen reader, the engine has internal accessible code (such as WebCore/accessibility in WebKit) that interprets the rendered page and associated Web API, and then vends an equivalent to the associated platform accessibility API. In the case of this diagram, that is represented by the macOS "AX API."
+4. In most cases, assistive technology (AT) such as a screen reader, will access data from the platform API, rather than by inspecting the Web APIs directly, though there are exceptions to this general rule.
 
-![Diagram of the webstack from the web author, to the browser, to the at, to the user, with extra details about the browser process](images/web_accessibility_stack_axapi_tests.png)
+![Diagram of the web stack input/output from the web author, to the browser engine, to the engine's accessibility internals, to the platform accessibility API, then to the assistive technology (such as a screen reader), and finally to the user, with additional details about the browser process](images/web_accessibility_stack_axapi_tests.png)
 
 For the stack described above, we have the following tests:
 - **Client-Side Automation:** Like Deque's Axe-Core, these tests use standard JS, and run in most browsers, but are limited to static DOM-side checks of web content.
 - **Cross-browser Automation:** Web Platform Tests are non-proprietary and runs in any browser, with the big benefit of having access to some engine internals (like `computedrole` and `computedlabel`) but also being executable in any browser. However the access to browser internals is limited to what the browser exposes through standard APIs (such as javascript and webdriver).
-- **Engine-Specific Automation:** These tests, like WebKit's LayoutTests) are obviously engine-specific but has access to engine API internals and implementation details.
-- **Platform-Specific Automation:** These tests are platform-specific but has access to platform accessibility API internals.
+- **Engine-Specific Automation:** These tests, like WebKit's LayoutTests) are obviously engine-specific but have access to engine API internals and implementation details.
+- **Platform-Specific Automation:** These tests are platform-specific but have access to platform accessibility API internals.
 
 Additionally, there is an effort to write manual tests of screen reader support for ARIA features, which is called the [ARIA-AT project](https://aria-at.w3.org/).
 
