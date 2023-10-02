@@ -3055,10 +3055,21 @@
 		<div class="role" id="dialog">
 			<rdef>dialog</rdef>
 			<div class="role-description">
-				<p>A dialog is a descendant window of the primary window of a web application. For HTML pages, the primary application window is the entire web document, i.e., the <code>body</code> element.</p>
-				<p>Dialogs are most often used to prompt the user to enter or respond to information. A dialog that is designed to interrupt workflow is usually modal. See related <rref>alertdialog</rref>.</p>
+				<p>A dialog is a descendant window of the primary window of a web application. For HTML pages, the primary application window is the entire web document, i.e., the content the user interacts with, within the <code>body</code> element.</p>
+				<p>Dialogs are often used to prompt the user to enter or respond to information, or can represent content related to understanding or modifying the content of the primary application window. A dialog that is designed to interrupt workflow and prevent users from interacting with the primary web application is usually modal. See related <rref>alertdialog</rref>. A dialog that allows for the user to switch between interacting with the content of the primary web application and the content the dialog is usually modeless (i.e., non-modal). In lieu of using robust host language features for marking content of the primary web application as <code>inert</code>, authors SHOULD use the <pref>aria-modal</pref> attribute, and constrain focus to dialogs. See the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">WAI-ARIA Authoring Practices: Dialog (modal) pattern</a> for additional details on implementing modal dialog design patterns.</p>
 				<p>Authors MUST provide an accessible name for a dialog, which can be done with the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute.</p>
 				<p>Authors SHOULD ensure that all dialogs (both modal and non-modal) have at least one focusable descendant element. Authors SHOULD focus an element in the modal dialog when it is displayed, and authors SHOULD manage focus of modal dialogs.</p>
+				<p>Authors SHOULD provide a dialog an accessible description, with the <pref>aria-description</pref> or <pref>aria-describedby</pref> attribute, for instances where authors have set initial keyboard focus on an element that follows content that outlines the purpose of the dialog. Assistive technology SHOULD give precedence to exposing author defined dialog accessible descriptions when a dialog is invoked and user focus is moved to a descendant of the dialog element.</p>
+				<aside class="example">precedence
+					<p>In the following example, the first text field will receive initial focus when the dialog is rendered. As this means focus will be set "after" the preceding content that provides instructions for the form fields, an <code>aria-describedby</code> attribute is used to expose this content as a description for the <code>dialog</code>.
+<pre>&lt;div role="dialog" aria-labelledby="h" aria-describedby="d" aria-modal="true" ...>
+  &lt;h2 id="h">Add Shipping Address&lt;/h2>
+  &lt;p id="d">By placing an order on this website, you acknowledge we will be sending you tons of junk mail for you to immediately recycle. Thanks!&lt;/p>
+  &lt;label>
+    Street: &lt;input autofocus ...>
+  &lt;/label>
+  ...
+&lt/div></pre></aside>
 				<p class="note">In the description of this role, the term "web application" does not refer to the <rref>application</rref> role, which specifies specific assistive technology behaviors.</p>
 			</div>
 			<table class="role-features">
