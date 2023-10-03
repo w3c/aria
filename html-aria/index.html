@@ -65,6 +65,10 @@
       </p>
       <ul>
         <li>
+          <a href="https://github.com/w3c/html-aria/pull/453">3 October 2023 - Correction:</a>
+          Update the <a href="#el-img">`img`</a> element allowances to be based on whether the element is named, or not.
+        </li>
+        <li>
           <a href="https://github.com/w3c/html-aria/pull/462">21 August 2023 - Addition:</a>
           Update the <a href="#el-address">`address`</a> and <a href="#el-hgroup">`hgroup`</a> element allowances per their updated mapping to the `group` role.
         </li>
@@ -1560,9 +1564,13 @@
           </tr>
           <tr>
             <th id="el-img" tabindex="-1">
-              [^img^] with [^img/alt^]`="some text"`
+              <div class="correction proposed">
+                [^img^] with an accessible name.
+              </div>
             </th>
             <td>
+              If the `img` has non-empty [^img/alt^] (`alt="some text"`) or an accessible name is provided another 
+              <a data-cite="html-aam-1.0#img-element-accessible-name-computation">`img` naming method</a>:<br>
               <code>role=<a href="#index-aria-img">img</a></code>
             </td>
             <td>
@@ -1574,6 +1582,9 @@
                 <a href="#index-aria-menuitem">`menuitem`</a>,
                 <a href="#index-aria-menuitemcheckbox">`menuitemcheckbox`</a>,
                 <a href="#index-aria-menuitemradio">`menuitemradio`</a>,
+                <span class="addition">
+                  <a href="#index-aria-meter">`meter`</a>,
+                </span>
                 <a href="#index-aria-option">`option`</a>,
                 <a href="#index-aria-progressbar">`progressbar`</a>,
                 <span class="correction">
@@ -1597,34 +1608,36 @@
             </td>
           </tr>
           <tr>
-            <th id="el-img-empty-alt" tabindex="-1">
-              [^img^] with [^img/alt^]`=""`
+            <th id="el-img-no-name" tabindex="-1">
+              [^img^] with no accessible name.
             </th>
             <td>
-              <code>role=<a href="#index-aria-presentation">presentation</a></code>
+              <div class="proposed correction">
+                <p id="el-img-empty-alt">
+                  If the `img` has an empty `alt` ([^img/alt^]`=""`) and lacks any other 
+                  <a data-cite="html-aam-1.0#img-element-accessible-name-computation">`img` naming methods</a>:<br>
+                  <code>role=<a href="#index-aria-none">none</a></code>, 
+                  <code>role=<a href="#index-aria-presentation">presentation</a></code>
+                </p>
+                <p id="el-img-no-alt" tabindex="-1">
+                  If the `img` <a data-cite="html/images.html#unknown-images">lacks an `alt` attribute</a> and lacks any other 
+                  <a data-cite="html-aam-1.0#img-element-accessible-name-computation">`img` naming methods</a>:<br>
+                  <code>role=<a href="#index-aria-img">img</a></code>
+                </p>
+              </div>
             </td>
             <td>
+              <div class="correction proposed">
               <p>
-                <a><strong class="nosupport">No `role`</strong></a> other than <code><a href="#index-aria-presentation">presentation</a></code>, which is NOT RECOMMENDED
+                If the `img` has no `alt` attribute or accessible name:
+                <a><strong class="nosupport">No `role`</strong></a> other than the  
+                <code>role=<a href="#index-aria-none">none</a></code> or <code><a href="#index-aria-presentation">presentation</a></code> roles.
+                (<code>role=<a href="#index-aria-img">img</a></code> is also allowed, but NOT RECOMMENDED.)
               </p>
               <p>
-                <strong>No `aria-*` attributes</strong>
-                except <a data-cite="wai-aria-1.2#aria-hidden">`aria-hidden="true"`</a>.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <th id="el-img-no-alt" tabindex="-1">
-              [^img^] <a data-cite="html/images.html#unknown-images">without an `alt` attribute</a>
-            </th>
-            <td>
-              <code>role=<a href="#index-aria-img">img</a></code>
-            </td>
-            <td>
-              <p>
-                If no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is provided via other 
-                <a data-cite="html-aam-1.0#img-element-accessible-name-computation">`img` naming methods</a> (e.g., `aria-labelledby`, `aria-label`): 
-                <a><strong class="nosupport">No `role`</strong></a> other than <code><a href="#index-aria-img">img</a></code>, which is NOT RECOMMENDED.
+                If the `img` has an empty `alt=""` attribute and no `aria-label` or `aria-labelledby` attributes to provide it an accessible name:
+                <a><strong class="nosupport">No `role`</strong></a> other than the <code>role=<a href="#index-aria-none">none</a></code> or
+                <code><a href="#index-aria-presentation">presentation</a></code> roles, which are NOT RECOMMENDED.
               </p>
               <p>
                 <strong>No `aria-*` attributes</strong>
@@ -1632,8 +1645,9 @@
               </p>
               <p>
                 Otherwise, if the `img` has an author defined accessible name, 
-                see <a href="#el-img">`img` with `alt="some text"`</a>.
+                see <a href="#el-img">`img` with an accessible name</a>.
               </p>
+              </div>
             </td>
           </tr>
           <tr>
