@@ -3,21 +3,21 @@
 ## Issues
 1. An issue is made on the ARIA repository
 2. New issues are "triaged" at the next ARIA WG meeting. During triage, the following happens:
-   - A release tag is added for purposes of prioritizing whether the issue is resolved in the current release of ARIA or a subsequent release.
+   - A release label is added for purposes of prioritizing whether the issue is resolved in the current release of ARIA or a subsequent release.
    - WG members are assigned to the issue if appropriate.
-   - If the issue clearly needs group discussion, the "agenda" tag is added to the issue in order for the issue to be scheduled for discussion at a later meeting.
-3. WG members can add the "agenda" tag to any issue they feel needs more discussion in order to reach consensus.
+   - If the issue clearly needs group discussion, the "agenda" label is added to the issue in order for the issue to be scheduled for discussion at a later meeting.
+3. WG members can add the "agenda" label to any issue they feel needs more discussion in order to reach consensus.
 4. After the issue is discussed in a meeting, a WG member should be assigned to summarize the conclusion of the discussion in the issue and open a PR with relevant changes.
 
 ## Pull Requests
 
 Newly opened PRs are "triaged" at the next ARIA meeting. At triage, it is decide:
 - Who should review the PR
-- If the PR needs extra discussion by the whole ARIA WG, the "agenda" tag can be added.
+- If the PR needs extra discussion by the whole ARIA WG, the "agenda" label can be added.
 
-Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` tag.
+Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
-Tags:
+PR Labels:
 - `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
 - `do not merge`: if a PR has approving reviews but there is some reason to wait for merging.
 
