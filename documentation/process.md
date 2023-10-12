@@ -15,6 +15,12 @@ Newly opened PRs are "triaged" at the next ARIA meeting. At triage, it is decide
 - Who should review the PR
 - If the PR needs extra discussion by the whole ARIA WG, the "agenda" tag can be added.
 
+Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` tag.
+
+Tags:
+- `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
+- `do not merge`: if a PR has approving reviews but there is some reason to wait for merging.
+
 ### Normative Changes
 
 A "normative" change is change to the specification that is not editorial, that is, it will change the implementation of the ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
