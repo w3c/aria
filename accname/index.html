@@ -366,8 +366,7 @@
               <li><strong>Nor</strong> part of a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML) or <a class="termref">attribute</a> traversal, where the root of that traversal was hidden.</li>
             </ol>
             Return the empty string.
-              <div><details>
-                <summary>Comment:</summary>
+              <div class="note">
                 <p>It's important to clarify the broad definition of hidden for the purposes of accessible name calculation:</p>
                 <ol>
                   <li>Nodes with CSS properties <code>display:none</code>, <code>visibility:hidden</code>, <code>visibility:collapse</code> or <code>content-visibility:hidden</code>: They are considered hidden, as they match the guidelines "not perceivable" and "explicitly hidden".</li>
@@ -375,13 +374,11 @@
                   <li>Nodes with the <code>aria-hidden="true"</code> property: it is considered hidden, matching the "explicitly hidden" guideline.</li>
                   <li>Nodes hidden off screen or behind another object: they are not considered hidden. They are exposed in the accessibility tree and they can even name on-screen objects.</li>
                 </ol>
-              </details></div>
-              <div><details>
-                <summary>Comment:</summary>
+              </div>
+              <div class="note
                 <p>By default, <a class="termref">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>. </p>
-              </details></div>
-              <div><details>
-                <summary>Example:</summary>
+              </div>
+              <aside class="example">
                 <p>The following examples show the meaning of the clause "Not part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced by that relation was hidden.".</p>
                 <p>First, <code>element1</code>'s <a class="termref">accessible name</a> is "hello" because, although <code>element3</code> is hidden, it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, which is hidden too.</p>
                 <pre class="example highlight">
@@ -390,13 +387,14 @@
                       &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
                     &lt;/element2&gt;</code>
                 </pre>
+              </aside>
+              <aside class="example">
                 <p>Conversely, <code>element1</code> has no <a class="termref">accessible name</a> if <code>element3</code> is hidden and it is part of an <code>aria-labelledby</code> traversal started in <code>element2</code>, but <code>element2</code> is not hidden.</p>
-                <pre class="example highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
+                <pre class="highlight"><code>&lt;element1 id="el1" role="button" aria-labelledby="el2" /&gt;
 &lt;element2 id="el2"&gt;
   &lt;element3 id="el3" class="hidden"&gt;hello&lt;/element3&gt;
 &lt;/element2&gt;</code>
-                </pre>
-              </details></div>
+              </aside>
             </li>
             <li id="comp_labelledby" name="step2B"><em>LabelledBy:</em> Otherwise, if the <code>current node</code> has an <code>aria-labelledby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an ongoing <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
               <ol>
@@ -410,21 +408,19 @@
                 </li>
                 <li id="comp_labelledby_return" name="step2B.iii">Return the <code>accumulated text</code> if it is not the empty string ("").</li>
               </ol>
-              <div><details>
-                <summary>Comment:</summary>
+              <div>
                 <p>The result of <a href="#comp_labelledby_recursion">LabelledBy Recursion</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that <a class="termref">user agents</a> MUST include all nodes in the subtree as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a>, when the node referenced by <code>aria-labelledby</code> or <code>aria-describedby</code> is hidden.</p>
-              <div><details>
-                <summary>Example:</summary>
+              <aside class="example">
                 <p>The following example shows the meaning of the clause "&#8230; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &#8230;" .</p>
                 <ol>
                   <li><code>element1</code>'s <a class="termref">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to <code>element3</code>.</li>
                   <li><code>element2</code> has no <a class="termref">accessible name</a>.  The computation involves a first traversal of its <code>aria-labelledby</code> leading to <code>element1</code>, but <code>element1</code>'s  <code>aria-labelledby</code> is not subsequently followed. </li>
                 </ol>
-                <pre class="example highlight"><code>&lt;element1 id="el1" aria-labelledby="el3" /&gt;
+                <pre class="highlight"><code>&lt;element1 id="el1" aria-labelledby="el3" /&gt;
 &lt;element2 id="el2" aria-labelledby="el1" /&gt;
 &lt;element3 id="el3"&gt; hello &lt;/element3&gt;</code>
                 </pre>
-              </details></div>
+              </aside>
             </li>
             <li id="comp_embedded_control" name="step2C"><em>Embedded Control:</em> Otherwise, if the <code>current node</code> is a control embedded within the label (e.g. any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then return the embedded control as part of the text alternative in the following manner:
               <ol>
@@ -438,21 +434,19 @@
                   </ol>
                 </li>
               </ol>
-              <div><details>
-                <summary>Example:</summary>
+              <aside class="example">
                 <p>Consider a <a class="role-reference" href="#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the user has entered "5" for the embedded <a class="role-reference" href="#textbox">textbox</a>, the complete label is "Flash the screen 5 times", e.g.: </p>
-                <pre class="example highlight">
+                <pre class="highlight">
                   <code>&lt;div role="checkbox" aria-checked="false"&gt;Flash the screen &lt;span role="textbox" aria-multiline="false"&gt; 5 &lt;/span&gt; times&lt;/div&gt;</code>
                 </pre>
-              </details></div>
+              </aside>
             </li>
             <li id="comp_label" name="step2D"><em>AriaLabel:</em> Otherwise, if the <code>current node</code> has an <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
               <ol>
                 <li>If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control, ignore <code>aria-label</code> and skip to rule <a href="#comp_embedded_control">Embedded Control</a>.</li>
                 <li>Otherwise, return the value of <code>aria-label</code>.</li>
               </ol>
-              <div><details>
-                <summary>Example:</summary>
+              <aside class="example">
                   <p>The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a [=nodes|node=] has an  <code>aria-labelledby</code> that refers to itself.  The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf", respectively.</p>
                   <pre class="example highlight"><code>&lt;h1&gt;Files&lt;/h1&gt;
 &lt;ul&gt;
@@ -465,14 +459,13 @@
     <strong>&lt;span role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;del_row2&quot; aria-label=&quot;Delete&quot; aria-labelledby=&quot;del_row2 file_row2&quot;&gt;&lt;/span&gt;</strong>
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-              </details></div>
+                  </aside>
             </li>
             <li id="comp_host_language_label" name="step2E"><em>Host Language Label:</em> Otherwise, if the <code>current node</code>'s native markup provides an [=attribute=] (e.g. <code>alt</code>) or [=element=] (e.g. HTML <code>label</code> or SVG <code>title</code>) that defines a text alternative, return that alternative in the form of a <code>flat string</code> as defined by the host language, unless the element is marked as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
               <div class="note">See <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation">HTML-AAM</a>, <a href="https://www.w3.org/TR/svg-aam-1.0/#mapping_additional_nd">SVG-AAM</a>, or other host language documentation for more information on markup that defines a text alternative.</div>
-              <div><details>
-                <summary>Comment:</summary>
+              <div class="note">
                 <p>For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the <code>label</code> element provides text for the referenced form element.  In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a description of their parent element. </p>
-              </details></div>
+              </div>
             </li>
             <li id="comp_name_from_content" name="step2F"><em>Name From Content:</em> Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or is a native host language text alternative [=element=] (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative [=element=]:
               <ol>
@@ -493,18 +486,16 @@
                 <li id="comp_name_from_content_return" name="step2F.iv">Return the <code>accumulated text</code> if it is not the empty string ("").</li>
               </ol>
               <p><strong>Important</strong>:  Each [=nodes|node=] in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.  </p>
-              <div><details>
-                <summary>Comment:</summary>
+              <div class="note">
                 <p>This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s subtree, no matter how deep it is. However, any given descendant [=nodes|node's=] text alternative can result from higher precedent markup described in steps B through D above, where "Namefrom: author" attributes provide the text alternative for the entire subtree. </p>
-              </details></div>
+              </div>
             </li>
             <li id="comp_text_node" name="step2G"><em>Text Node:</em> Otherwise, if the <code>current node</code> is a Text [=Node=], return its textual contents.</li>
             <li id="comp_recursive_name_from_content" name="step2H"><em>Recursive Name From Content:</em> Otherwise, if the <code>current node</code> is a descendant of an element whose <a class="termref">Accessible Name</a> or <a class="termref">Accessible Description</a> is being computed, and contains descendants, proceed to <a href="#comp_name_from_content_reset">Name From Content Reset</a>.</li>
             <li id="comp_tooltip" name="step2I"><em>Tooltip:</em> Otherwise, if the <code>current node</code> has a <a class="termref">Tooltip attribute</a>, return its value.
-              <div><details>
-                <summary>Comment:</summary>
+              <div class="note">
                 <p>Tooltip attributes are used only if nothing else, including subtree content, has provided results. </p>
-              </details></div>
+              </div>
             </li>
             <li id="comp_append">Append a space character and the <code>result</code> of each step above to the <code>total accumulated text</code>.</li>
           </ol>
