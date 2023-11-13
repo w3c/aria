@@ -94,7 +94,7 @@ Note: Chrome does not give a similar Security prompt. I presume it stops the ses
 - Check the META.yml file in those directories to find the primary reviewers. 
 - Review [/wai-aria/scripts/aria-utils.js](https://github.com/web-platform-tests/wpt/blob/master/wai-aria/scripts/aria-utils.js), as this contains a few convenience methods many of the other tests use.
 - WPT doesn't require an Issue for every PR, but you're welcome (encouraged) to file WPT Issues in the relevant spec repository. (E.g., /w3c/aria/issues/new for a new ARIA WPT test, rather than /web-platform-tests/wpt/issues/new).
-- Some issues are being tracked elsewhere, for example, the [Interop 2023 Accessibilty Investigation](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues)
+- Some issues are being tracked elsewhere, for example, the [Interop 2023 Accessibilty Investigation](https://github.com/web-platform-tests/interop-accessibility/issues)
 - Additional info in the [ARIA "Tests" documentation](./tests.md)
 
 
