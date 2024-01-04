@@ -20,7 +20,7 @@ should be written and issues should be opened on browsers. Add N/A and check whe
 applicable.
 
 * [ ] Related APG Issue/PR:
-- [ ] MDN Issue/PR:
+* [ ] MDN Issue/PR:
 * [ ] "author MUST" tests:
 * [ ] "user agent MUST" tests:
 * [ ] Browser implementations (link to issue or when done, link to commit):
