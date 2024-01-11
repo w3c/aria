@@ -12,11 +12,15 @@ related change is not necessary (add N/A). Leave unchecked if you are unsure. Re
 
 * [ ] Related Core AAM Issue/PR:
 * [ ] Related AccName Issue/PR:
-* [ ] Related APG Issue/PR:
 * [ ] Any other dependent changes?
 
-# Implementation tracking
+# Test, Documentation and Implementation tracking
+Once this PR and all related PRs have been been approved by the working group, tests
+should be written and issues should be opened on browsers. Add N/A and check when not
+applicable.
 
+* [ ] Related APG Issue/PR:
+* [ ] MDN Issue/PR:
 * [ ] "author MUST" tests:
 * [ ] "user agent MUST" tests:
 * [ ] Browser implementations (link to issue or when done, link to commit):
