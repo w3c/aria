@@ -14398,10 +14398,7 @@ button.ariaPressed; // null</pre
               container, restricting this to leaf nodes ensures that there is a single way for <a>assistive technologies</a> to use the attribute.
             </p>
             <p>
-              If the <abbr title="Document Object Model">DOM</abbr> ancestry accurately represents the level, the <a>user agent</a> can calculate the level of an item from the document structure. This
-              attribute can be used to provide an explicit indication of the level when that is not possible to calculate from the document structure or the <pref>aria-owns</pref> attribute. User
-              agent support for automatic calculation of level might vary; authors SHOULD test with [=user agents=] and assistive technologies to determine whether this attribute is needed. If the
-              author intends for the user agent to calculate the level, the author SHOULD omit this attribute.
+              If the <abbr title="Document Object Model">DOM</abbr> ancestry accurately represents the level, the <a>user agent</a> can calculate the level of an item from the document structure as defined in the <a href="#tree_groups">Calculating Group Position</a> section. This attribute can be used to provide an explicit indication of the level when that is not possible to calculate from the document structure or the <pref>aria-owns</pref> attribute. User agent support for automatic calculation of level might vary; authors SHOULD test with [=user agents=] and assistive technologies to determine whether this attribute is needed. If the author intends for the user agent to calculate the level, the author SHOULD omit this attribute.
             </p>
             <p class="note">
               In the case of a <rref>treegrid</rref>, <pref>aria-level</pref> is supported on elements with the role <rref>row</rref>, not elements with role <rref>gridcell</rref>. At first glance,
@@ -14947,6 +14944,9 @@ button.ariaPressed; // null</pre
             <p>
               When specifying <code>aria-posinset</code> on a <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, or <rref>menuitemradio</rref>, authors SHOULD set the value of
               <code>aria-posinset</code> with respect to the total number of items in the <rref>menu</rref>, excluding any separators.
+            </p>
+            <p>
+              If <code>aria-posinset</code> is not specified by the author, user agents MUST compute it as defined in the <a href="#tree_groups">Calculating Group Position</a> section.
             </p>
           </div>
           <table class="def">
@@ -15748,6 +15748,9 @@ button.ariaPressed; // null</pre
               When specifying <code>aria-setsize</code> on a <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, or <rref>menuitemradio</rref>, authors SHOULD set the value of
               <code>aria-setsize</code> based on the total number of items in the <rref>menu</rref>, excluding any separators.
             </p>
+            <p>
+              If <code>aria-posinset</code> is not specified by the author, user agents MUST compute it as defined in the <a href="#tree_groups">Calculating Group Position</a> section.
+            </p>
             <p>The following example shows items 5 through 8 in a set of 16.</p>
             <pre class="example highlight">
 &lt;h2 id="label_fruit"&gt; Available Fruit &lt;/h2&gt;
@@ -16230,6 +16233,31 @@ button.ariaPressed; // null</pre
 &lt;/div&gt;
           </pre
         >
+        <section id="tree_groups">
+          <h3>Calculating Group Position in the Accessibility Tree</h3>
+          <p>When <pref>aria-level</pref>, <pref>aria-posinset</pref>, or <pref>aria-setsize</pref> are defined on supported roles, they allow authors to override the default group position and level calculation. When those attributes are not specified by the author, user agents MUST compute them following the rules in this section.</p>
+          <p>If <pref>aria-level</pref> is not specified on <rref>comment</rref>, <rref>row</rref> within a <rref>treegrid</rref>, or <rref>treeitem</rref>, user agents MUST compute the level as follows:</p>
+          <ul>
+            <li>
+              Walk up the accessibility tree, and count the number of accessibility ancestors with the relevant grouping role. Those roles are as follows:
+              <ul>
+                <li>For <rref>comment</rref>, count the number of ancestors with role <rref>comment</rref>.</li>
+                <li>For <rref>row</rref> within a <rref>treegrid</rref>, count the number of ancestors within the same <rref>treegrid</rref> with role <rref>rowgroup</rref>.</li>
+                <li>For <rref>treeitem</rref>, count the number of ancestors within the same <rref>tree</rref> with role <rref>group</rref>.</li>
+              </ul>
+            </li>
+            <li>Return 1 + the number of ancestors with the relevant grouping role.</li>
+          </ul>
+          <p>If <pref>aria-posinset</pref> or <pref>aria-setsize</pref> is not specified on any role the supports it with the exception of <rref>article</rref>, user agents MUST compute them as follows:</p>
+          <ul>
+            <li>For <rref>treeitem</rref> and <rref>comment</rref>: walk the accessibility tree backward and forward until the explicit or computed level becomes less than the current item's level. Count items only if they are at the same level as the current item.</li>
+            <li>For all other supported roles: process the accessibility parent, counting all accessibility children that have the same role.</li>
+            <li>For <pref>aria-posinset</pref>, return 1 + the number of group items before the current item in the accessibility tree.</li>
+            <li>For <pref>aria-setsize</pref>, return the total number of group items, including the current item.</li>
+          </ul>
+          <p>If the author provides one or more of <pref>aria-setsize</pref> and <pref>aria-posinset</pref>, it is the author's responsibility to supply them for all elements in the set. User agent correction of missing values in this case is not defined.</p>
+          <p><pref>aria-level</pref>, <pref>aria-posinset</pref>, and <pref>aria-setsize</pref> are all 1-based. When the property is not present or is "0", it indicates the property is not computed or not supported. If any of these properties are specified by the author as either "0" or a negative number, user agents SHOULD use "1" instead.</p>
+        </section>
       </section>
     </section>
     <section class="normative" id="host_languages">
