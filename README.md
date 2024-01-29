@@ -27,8 +27,8 @@ Only formally designated editors have commit access to this repository. Editors 
 * Execute the consensus of the Working Group regardless of personal opinion;
 * Seek Working Group review of substantive technical issues;
 * In good faith separate editorial issues, which may be addressed without explicit review requests, from substantive issues which require review;
-* Follow the [W3C Manual of Style](http://www.w3.org/2001/06/manual/) and the [Chicago Manual of Style](http://www.chicagomanualofstyle.org/);
-* Follow [W3C Editors](http://www.w3.org/2003/Editors/) guidelines.
+* Follow the [W3C Manual of Style](https://www.w3.org/Guide/manual-of-style/) and the [Chicago Manual of Style](https://www.chicagomanualofstyle.org/);
+* Follow [W3C Editors](https://www.w3.org/Guide/editor/) guidelines.
 
 ### Non-Editor Contributions
 
