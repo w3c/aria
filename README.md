@@ -34,7 +34,7 @@ Only formally designated editors have commit access to this repository. Editors 
 
 Working Group participants and members of the public without commit privileges may contribute to this repository in the following ways:
 
-* Raise [issues](issues).
+* Raise [issues](https://github.com/w3c/aria/issues/).
 * Submit [pull requests](https://help.github.com/articles/using-pull-requests/).
 
 Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. Editors can add people to this team.
