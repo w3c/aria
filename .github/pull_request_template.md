@@ -15,7 +15,7 @@ related change is not necessary (add N/A). Leave unchecked if you are unsure. Re
 * [ ] Any other dependent changes?
 
 # Test, Documentation and Implementation tracking
-Once this PR and all related PRs have been been approved by the working group, tests
+Once this PR and all related PRs have been  approved by the working group, tests
 should be written and issues should be opened on browsers. Add N/A and check when not
 applicable.
 
