@@ -334,6 +334,8 @@
         <dd>The <abbr title="Document Object Model">DOM</abbr> [=nodes|node=] or [=element=] for which the text alternative is sought.</dd>
         <dt>Current node</dt>
         <dd>The <abbr title="Document Object Model">DOM</abbr> [=nodes|node=] currently traversed to compute the <code>root node</code>'s text equivalent.  Initially, the <code>current node</code> is the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.</dd>
+        <dt>Rendered child nodes</dt>
+        <dd>The [=nodes=] that are rendered as child nodes of a given node when taking [=shadow root|shadow roots=] and [=slot|slots=] into consideration.</dd>
         <dt>Flat string</dt>
         <dd>A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space.  The string contains only character data; it does not contain any markup.  </dd>
         <dt>Total accumulated text</dt>
@@ -496,9 +498,17 @@
                     <li id="comp_name_from_content_pseudo_element_after">For <code>::after</code> pseudo elements, <a class="termref">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to the textual content of the <code>current node</code>. </li>
                   </ol>
                 </li>
-                <li id="comp_name_from_content_for_each_child"><span id="step2F.iii"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Each Child:</em> For each child node of the <code>current node</code>:
+                <!-- The following section uses its own convention for the name attribute to avoid breaking existing permalinks for other sections-->
+                <li id="comp_name_from_content_find_child"><em>Determine Child Nodes:</em> Determine the <code>rendered child nodes</code> of the <code>current node</code>:
                   <ol>
-                    <li id="comp_name_from_content_for_each_child_set_current"><span id="step2F.iii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the child node.</li>
+                    <li id="comp_name_from_content_find_child_has_shadow_root">If the <code>current node</code> has an attached [=shadow root=], set the <code>rendered child nodes</code> to be the child nodes of the [=shadow root=].</li>
+                    <li id="comp_name_from_content_find_child_is_slot">Otherwise, if the <code>current node</code> is a [=slot=] with [=slot/assigned nodes=], set the <code>rendered child nodes</code> to be the [=slot/assigned nodes=] of the <code>current node</code>.</li>
+                    <li id="comp_name_from_content_find_child_otherwise">Otherwise, set the <code>rendered child nodes</code> to be the child nodes of the <code>current node</code>.</li>
+                  </ol>
+                </li>
+                <li id="comp_name_from_content_for_each_child"><span id="step2F.iii"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Each Child:</em> For each <code>rendered child node</code> of the <code>current node</code>:
+                  <ol>
+                    <li id="comp_name_from_content_for_each_child_set_current"><span id="step2F.iii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the <code>rendered child node</code>.</li>
                     <li id="comp_name_from_content_for_each_child_recursion"><span id="step2F.iii.b"><!-- Don't link to this legacy numbered ID. --></span>Compute the text alternative of the  <code>current node</code> beginning with the overall <a href="#comp_computation">Computation</a> step. Set the <code>result</code> to that text alternative.</li>
                     <li id="comp_for_each_child_append"><span id="step2F.iii.c"><!-- Don't link to this legacy numbered ID. --></span>Append the <code>result</code> to the <code>accumulated text</code>. </li>
                   </ol>
