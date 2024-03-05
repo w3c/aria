@@ -88,7 +88,7 @@
 <body>
   <section id="abstract">
     <p>
-      HTML Accessibility API Mappings (HTML-AAM) defines how <a class="termref">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr> [[HTML]] elements and attributes to platform <a class="termref" data-lt="accessibility API">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It leverages and extends the [[[core-aam-1.2]]] and the [[[accname-aam-1.1]]] for use with the HTML host language. Documenting these mappings promotes interoperable exposure of roles, states, properties, and events implemented by accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.
+      HTML Accessibility API Mappings (HTML-AAM) defines how <a class="termref">user agents</a> map <abbr title="HyperText Markup Language">HTML</abbr> [[HTML]] elements and attributes to platform <a class="termref" data-lt="accessibility API">accessibility application programming interfaces (<abbr title="Application Programming Interfaces">APIs</abbr>)</a>. It leverages and extends the [[[core-aam-1.2]]] and the [[[accname-1.2]]] for use with the HTML host language. Documenting these mappings promotes interoperable exposure of roles, states, properties, and events implemented by accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.
     </p>
     <p>
       The HTML-AAM is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.
@@ -105,7 +105,7 @@
   <section id="intro" class="informative">
     <h2>Introduction</h2>
     <p>
-      This specification defines how HTML user agents respond to and expose [=role=], [=state=] and [=ARIA/property=] information provided for Web content. Unless indicated otherwise, an HTML element or attribute with default [[[WAI-ARIA]]] semantics must be exposed to the platform <a class="termref">accessibility APIs</a> according to the relevant WAI-ARIA mappings defined in the [[[core-aam-1.2]]] ([[core-aam-1.2]]) specification.
+      This specification defines how HTML user agents respond to and expose [=role=], [=state=] and [=ARIA/property=] information provided for Web content. Unless indicated otherwise, an HTML element or attribute with default [[[wai-aria-1.2]]] semantics must be exposed to the platform <a class="termref">accessibility APIs</a> according to the relevant WAI-ARIA mappings defined in the [[[core-aam-1.2]]] specification.
     </p>
     <p>
       In some cases, often due to features of the HTML host language or the accessibility API in question, an element or attribute's mapping differs from the corresponding ARIA mappings specified in the [[core-aam-1.2]]. Where an HTML element or attribute does not have any default WAI-ARIA semantics, the applicable mapping for each platform <a class="termref">accessibility API</a> is defined by this specification.
@@ -120,9 +120,9 @@
       <li>[[[accname-1.2]]]</li>
       <li>[[[core-aam-1.2]]]</li>
       <li>HTML Accessibility API Mappings 1.0 (this specification)</li>
-      <li>[[[svg-aam-1.0]]]</li>
       <!-- mathml aam link needs a shortcode, this doesn't appear to exit right now -->
-      <li><cite><a href="https://w3c.github.io/mathml-aam/">MathML AAM 1.0</a></cite></li>
+      <li><cite><a href="https://w3c.github.io/mathml-aam/">MathML Accessibility API Mappings 1.0</a></cite></li>
+      <li>[[[svg-aam-1.0]]]</li>
     </ul>
     <section id="intro_aapi">
       <h3>Accessibility APIs</h3>
@@ -130,13 +130,13 @@
         <a class="termref">Accessibility APIs</a> covered by this document are:
       </p>
       <ul>
-        <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite><a href="https://wiki.linuxfoundation.org/accessibility/iaccessible2/start">IAccessible2 1.3</a></cite> [[IAccessible2]]</li>
-        <li><cite><a href="https://msdn.microsoft.com/en-us/library/ee684013%28VS.85%29.aspx">User Interface Automation</a></cite> [[UI-AUTOMATION]]</li>
-        <li><cite>Linux/GNOME <a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK - Accessibility Toolkit</a></cite> [[ATK]] and <cite><a href="https://gitlab.gnome.org/GNOME/at-spi2-core/">Assistive Technology Service Provider Interface</a></cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI"</li>
-        <li><cite><a href="https://developer.apple.com/reference/appkit/nsaccessibility">Mac OS X Accessibility Protocol Mac OS 10.10</a></cite> [[AXAPI]]</li>
+        <li><abbr title="Microsoft Active Accessibility">MSAA</abbr> with <cite>IAccessible2 1.3</cite> [[IAccessible2]]</li>
+        <li><cite>User Interface Automation</cite> [[UI-AUTOMATION]]</li>
+	      <li><cite>ATK - Accessibility Toolkit</cite> [[ATK]] and <cite>Assistive Technology Service Provider Interface</cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI"</li>
+	      <li><cite>macOS Accessibility Protocol</cite> [[AXAPI]]</li>
       </ul>
       <p>
-        If user agent developers need to expose information using other <a class="termref">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the API runs, and assistive technology developers on that platform.
+        If user agent developers need to expose information using other <a class="termref">accessibility APIs</a>, it is recommended that they work closely with the developer of the platform where the <abbr title="application programming interface">API</abbr> runs, and assistive technology developers on that platform.
       </p>
       <p>
         For more information regarding <a class="termref">accessibility APIs</a>, refer to <a data-cite="core-aam-1.2/#intro_aapi">section 1.1 Accessibility APIs</a> of the [[[core-aam-1.2]]].
@@ -233,6 +233,15 @@
       <h4 id="platform-api-mapping-requirements">Platform API mapping requirements</h4>
       <ul>
         <li>
+          When HTML elements do not have an exact or equivalent mapping to a valid, non-abstract <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, a unique `computedrole` string has been specified to serve as the return value for interoperability testing purposes. For instance, the `video` element MAY be exposed with a `computedrole` of "`html-video`". Authors MUST NOT use any `html-`prefixed computed role string in the role attribute (such as `html-video`). User Agents MUST ignore any abstract or invalid role token.
+          <div class="example">
+            <code>
+              &lt;video> &lt;!-- computedrole returns 'html-video' -->
+              &lt;main role="html-video"> &lt;!-- Author error. computed role returns 'main' -->
+            </code>
+          </div>
+        </li>
+        <li>
           <strong>IAccessible2:</strong>
           <ul>
             <li>All elements with accessible objects should implement the IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
@@ -267,6 +276,10 @@
       <td>
         <a class="core-mapping" href="#role-map-link">`link`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -316,6 +329,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -360,6 +377,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-abbr</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -430,6 +451,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -475,6 +500,10 @@
       <td>
         <a class="core-mapping" href="#role-map-link">`link`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -524,6 +553,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -570,6 +603,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -614,6 +651,10 @@
       <td>
         <a class="core-mapping" href="#role-map-complementary">`complementary`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -664,6 +705,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -708,6 +753,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-audio</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -783,6 +832,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -828,6 +881,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -878,6 +935,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -923,6 +984,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -973,6 +1038,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1019,6 +1088,10 @@
       <td>
         <a class="core-mapping" href="#role-map-blockquote">`blockquote`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1068,6 +1141,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1113,6 +1190,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1163,6 +1244,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1211,6 +1296,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-canvas</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1277,6 +1366,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1341,6 +1434,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-cite</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">
@@ -1402,6 +1499,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1449,6 +1550,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -1494,6 +1599,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1552,6 +1661,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1598,6 +1711,10 @@
       <td>
         <a class="core-mapping" href="#role-map-listbox">`listbox`</a> role, with the <a class="core-mapping" href="#ariaMultiselectableFalse">`aria-multiselectable`</a> property set to "true" if the `datalist`'s selection model allows multiple `option` elements to be selected at a time, and "false" otherwise
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1648,6 +1765,15 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed">
+        <div class="general">Use WAI-ARIA mapping</div>
+        <div class="note">
+          Editorial Note: This value may change upon resolution of <a href="https://github.com/w3c/aria/issues/1662">ARIA #1662</a>.
+        </div>
+      </td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1695,6 +1821,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1740,6 +1870,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`group`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1795,6 +1929,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1840,6 +1978,10 @@
       <td>
         <a class="core-mapping" href="#role-map-dialog">`dialog`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -1890,6 +2032,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -1933,7 +2079,15 @@
     <tr>
       <th>[[wai-aria-1.2]]</th>
       <td>
-        No corresponding role
+        <a class="core-mapping" href="#role-map-list">`list`</a> role
+      </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">list</div>
+        <div class="note">
+          Editorial Note: This value may change upon resolution of <a href="https://github.com/w3c/aria/issues/1662">ARIA #1662</a>.
+        </div>
       </td>
     </tr>
     <tr>
@@ -2001,6 +2155,15 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed">
+        <div class="general">Use WAI-ARIA mapping</div>
+        <div class="note">
+          Editorial Note: This value may change upon resolution of <a href="https://github.com/w3c/aria/issues/1662">ARIA #1662</a>.
+        </div>
+      </td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2048,6 +2211,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2093,6 +2260,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-embed</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -2149,6 +2320,10 @@
       <td>
         <a class="core-mapping" href="#role-map-group">`group`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -2216,8 +2391,12 @@
     <tr>
       <th>[[wai-aria-1.2]]</th>
       <td>
-        No corresponding role
+        <a class="core-mapping" href="#role-map-group">`caption`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -2288,6 +2467,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="role">
@@ -2355,6 +2538,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2400,6 +2587,15 @@
       <th>[[wai-aria-1.2]]</th>
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
+      </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed">
+        <div class="general">Use WAI-ARIA mapping</div>
+        <div class="note">
+          Editorial Note: This value may change upon resolution of <a href="https://github.com/w3c/aria/issues/1915">ARIA #1915</a>.
+        </div>
       </td>
     </tr>
     <tr>
@@ -2459,6 +2655,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2512,6 +2712,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2557,6 +2761,10 @@
       <td>
         <a class="core-mapping" href="#role-map-heading">`heading`</a> role, with the <a class="core-mapping" href="#ariaLevel">`aria-level`</a> property set to the number in the element's tag name.
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -2606,6 +2814,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not Mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -2653,6 +2865,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2697,6 +2913,15 @@
       <th>[[wai-aria-1.2]]</th>
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
+      </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed">
+        <div class="general">Use WAI-ARIA mapping</div>
+        <div class="note">
+          Editorial Note: This value may change upon resolution of <a href="https://github.com/w3c/aria/issues/1915">ARIA #1915</a>.
+        </div>
       </td>
     </tr>
     <tr>
@@ -2756,6 +2981,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2806,6 +3035,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2852,6 +3085,10 @@
       <td>
         <a class="core-mapping" href="#role-map-document">`document`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -2901,6 +3138,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -2947,6 +3188,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-iframe</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3011,6 +3256,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3067,6 +3316,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3113,6 +3366,10 @@
       <td>
         <a class="core-mapping" href="#role-map-button">`button`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3167,6 +3424,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3198,7 +3459,7 @@
     </tr>
   </tbody>
 </table>
-<h4 id=el-input-color>`input` <span class="el-context">(`type` attribute in theColor state)</span></h4>
+<h4 id=el-input-color>`input` <span class="el-context">(`type` attribute in the Color state)</span></h4>
 <table aria-labelledby=el-input-color>
   <tbody>
     <tr>
@@ -3213,6 +3474,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-color</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3269,7 +3534,7 @@
     </tr>
   </tbody>
 </table>
-<h4 id=el-input-date>`input` <span class="el-context">(`type` attribute in theDate state)</span></h4>
+<h4 id=el-input-date>`input` <span class="el-context">(`type` attribute in the Date state)</span></h4>
 <table aria-labelledby=el-input-date>
   <tbody>
     <tr>
@@ -3284,6 +3549,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-date</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3339,7 +3608,7 @@
     </tr>
   </tbody>
 </table>
-<h4 id=el-input-datetime-local>`input` <span class="el-context">(`type` attribute in theLocal Date and Time state)</span></h4>
+<h4 id=el-input-datetime-local>`input` <span class="el-context">(`type` attribute in the Local Date and Time state)</span></h4>
 <table aria-labelledby=el-input-datetime-local>
   <tbody>
     <tr>
@@ -3355,6 +3624,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-datetime-local</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3419,6 +3692,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3469,6 +3746,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-file</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3555,6 +3836,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -3604,6 +3889,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3651,6 +3940,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-month</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3714,6 +4007,10 @@
       <td>
         <a class="core-mapping" href="#role-map-spinbutton">`spinbutton`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3788,6 +4085,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-password</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3866,6 +4167,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -3913,6 +4218,10 @@
       <td>
         <a class="core-mapping" href="#role-map-slider">`slider`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -3964,6 +4273,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4011,6 +4324,10 @@
       <td>
         <a class="core-mapping" href="#role-map-searchbox">`searchbox`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4064,6 +4381,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4114,6 +4435,10 @@
       <td>
         <a class="core-mapping" href="#role-map-textbox">`textbox`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4174,6 +4499,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4232,6 +4561,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4285,6 +4618,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-time</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4358,6 +4695,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4411,6 +4752,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-input-week</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4477,6 +4822,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4522,6 +4871,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-kbd</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4586,6 +4939,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-label</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="role">
@@ -4603,7 +4960,7 @@
       <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
       <td>
         <div class="ctrltype">
-          <span class="type">Control Type:</span> `Text`
+          <span class="type">Control Type:</span> `Group`
         </div>
         <div>
           <span class="type">Relations:</span>
@@ -4669,6 +5026,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-legend</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4748,6 +5109,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4797,6 +5162,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -4844,6 +5213,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4889,6 +5262,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-map</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -4952,6 +5329,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -4997,6 +5378,10 @@
       <td>
         See comments
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">See comments</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5045,6 +5430,10 @@
       <td>
         <a class="core-mapping" href="#role-map-list">`list`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5103,6 +5492,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -5148,6 +5541,10 @@
       <td>
         <a class="core-mapping" href="#role-map-meter">`meter`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5197,6 +5594,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -5244,6 +5645,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -5289,6 +5694,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-object</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5351,6 +5760,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -5396,6 +5809,10 @@
       <td>
         <a class="core-mapping" href="#role-map-group">`group`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5445,6 +5862,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -5490,6 +5911,10 @@
       <td>
         <a class="core-mapping" href="#role-map-status">`status`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5551,6 +5976,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -5596,6 +6025,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5646,6 +6079,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -5691,6 +6128,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5740,6 +6181,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -5785,6 +6230,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5833,6 +6282,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-rp</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5888,6 +6341,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-rt</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -5950,6 +6407,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-ruby</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6016,6 +6477,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6061,6 +6526,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6110,6 +6579,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -6155,6 +6628,10 @@
       <td>
         <a class="core-mapping" href="#role-map-search">`search`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6203,6 +6680,10 @@
         <a class="core-mapping" href="#role-map-region">`region`</a> role if the <a>`section`</a> element has an
         <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6256,6 +6737,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6307,6 +6792,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6354,6 +6843,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -6399,6 +6892,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6449,6 +6946,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -6494,6 +6995,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6543,6 +7048,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6588,6 +7097,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6642,6 +7155,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6686,6 +7203,16 @@
       <th>[[wai-aria-1.2]]</th>
       <td>
         No corresponding role
+      </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed">
+        <div class="general">
+          <p>If the element is the first child of its type within a parent `details` element: `html-summary`</p>
+          <p>Otherwise, if it is not the first child of its type of a parent `details` element, 
+             or it is not a child of a `details` element: <a class="core-mapping" href="#role-map-generic">`generic`</a> role</p>
+        </div>
       </td>
     </tr>
     <tr>
@@ -6765,6 +7292,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -6810,6 +7341,10 @@
       <td>
         See comments
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">See comments</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6861,6 +7396,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         Use WAI-ARIA mapping
@@ -6906,6 +7445,10 @@
       <td>
         <a class="core-mapping" href="#role-map-rowgroup">`rowgroup`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -6955,6 +7498,10 @@
       <td>
         <a class="core-mapping" href="#role-map-cell">`cell`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7007,6 +7554,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7052,6 +7603,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7102,6 +7657,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7147,6 +7706,10 @@
       <td>
         <a class="core-mapping" href="#role-map-rowgroup">`rowgroup`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7202,6 +7765,10 @@
       <td>
         <a class="core-mapping" href="#role-map-cell">`cell`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7260,6 +7827,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7306,6 +7877,10 @@
       <td>
         <a class="core-mapping" href="#role-map-columnheader">`columnheader`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7356,6 +7931,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7401,6 +7980,10 @@
       <td>
         <a class="core-mapping" href="#role-map-rowgroup">`rowgroup`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7450,6 +8033,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7495,6 +8082,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7545,6 +8136,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7592,6 +8187,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Not mapped</div>
@@ -7637,6 +8236,10 @@
       <td>
         <a class="core-mapping" href="#role-map-generic">`generic`</a> role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7687,6 +8290,10 @@
       </td>
     </tr>
     <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+    </tr>
+    <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
       <td>
         <div class="general">Use WAI-ARIA mapping</div>
@@ -7732,6 +8339,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-var</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7788,6 +8399,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">html-video</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -7857,6 +8472,10 @@
       <td>
         No corresponding role
       </td>
+    </tr>
+    <tr>
+      <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+      <td class="role-computed"><div class="general">Not mapped</div></td>
     </tr>
     <tr>
       <th><a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a></th>
@@ -16882,16 +17501,16 @@
     <section class="appendix informative" id="acknowledgements">
       <h3>Acknowledgments</h3>
       <p>The following people contributed to the development of this document.</p>
-      <section class="section" id="ack_group">
-        <h4>Participants active in the HTML Accessibility Task Force active at the time of publication</h4>
+      <div class="section" id="ack_group"> <!-- left in place to ensure deep links to ID remain functional -->
         <ul id="gh-contributors"></ul>
-
+    			<!-- list of contributors will appear here,
+					 along with link to their GitHub profiles -->
         <!--
           TODO:
           Add listing of individuals who have providing meaningful
           contributions through commenting that have impacted the specification.
         -->
-      </section>
+      </div>
       <div data-include="https://rawgit.com/w3c/aria/master/common/acknowledgements/funders.html" data-include-replace="true"></div>
     </section>
   </section>
