@@ -3,7 +3,7 @@
 ## Issues
 1. An issue is made on the ARIA repository
 2. New issues are "triaged" at the next ARIA WG meeting. During triage, the following happens:
-   - A release label is added for purposes of prioritizing whether the issue is resolved in the current release of ARIA or a subsequent release.
+   - A release label is added for purposes of prioritizing which year we expect to be able to resolve the problem or feature request.
    - WG members are assigned to the issue if appropriate.
    - If the issue clearly needs group discussion, the "agenda" label is added to the issue in order for the issue to be scheduled for discussion at a later meeting.
 3. WG members can add the "agenda" label to any issue they feel needs more discussion in order to reach consensus.
@@ -26,10 +26,10 @@ PR Labels:
 A "normative" change is change to the specification that is not editorial, that is, it will change the implementation of the ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
 
 #### Requirements for merging a normative PR:
-1. **Consensus:** The change in the PR has been discussed in a ARIA WG meeting and the general direction of the change has been consensed on. The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
+1. **Consensus:** The change in the PR has been discussed in a ARIA WG meeting and the general direction of the change has been consensed on.
+    - The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
     - If a PR has been opened for an issue that has not been discussed, or if the PR has been open to explore an option that the ARIA WG has not yet come to consensus on, the PR should be left in the draft state.
-    - During the course of review of the PR, the consensus of the ARIA WG might change. This can happen in any ARIA WG meeting. Changes should be recorded in the comments of the PR.
-2. **Review:** Every PR needs at least two approving reviews from ARIA WG members, but depending on the complexity of the change, the ARIA WG may assign additional reviewers.
+2. **Review:** Every normative PR needs 3 approving reviews from ARIA WG members, but depending on the complexity of the change, the ARIA WG may assign additional reviewers.
     - The reviewers should be made based on the text and meaning of the change, not on whether the checklist has been fulfilled.
     - Any working group member can add themselves as a reviewer.
     - Any one from the general public is allowed to review PRs in order to inform the ARIA WG of approval or concerns.
@@ -40,6 +40,22 @@ A "normative" change is change to the specification that is not editorial, that 
 6. **Related Spec Changes:** If the change requires changes to CORE-AAM, HTML-AAM or AccName, the PRs with dependent changes should be merged at the same time. All repositories have the same review and implementation requirements before merging.
 
 Note: The fact that a PR requires implementation to merge is new as of 2022. We understand this will cause the life of a PR to be long -- and that the original champion of the PR might need to hand off work to another ARIA WG member while the PR waits for implementations.
+
+#### Stages of a normative change
+
+##### Stage one: `Waiting for Review`
+
+In this stage, the normative change AND all normative changes on related specifications (ARIA, Accname, CORE-AAM and HTML-AAM) should be written and reviewed. When all changes have three approving reviews, we then go to the next stage.
+
+##### Stage two: `Waiting for Tests`
+
+Test should be written after the spec language is approved by three approving reviews. At this time, changes to test in WPT can land because the spec changes are considered finalized. Note: not all normative changes in ARIA are currently testable, so if they are not testable, tests are not required.
+
+##### Stage three: `Waiting for Implementations`
+
+After all related changes have been made and approved, and tests have been written, open Issues on the browsers with clear links to all relevent PRs and tests.
+
+##### Stage four: merged!
 
 ### Editorial Changes
 
