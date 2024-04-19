@@ -506,7 +506,8 @@
 	      <li><rref>treegrid</rref></li>
 	      <li><rref>tablist</rref></li>
 	    </ul>
-	    <p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all [=elements=]. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
+		<p>Authors MUST also ensure any elements referenced by <pref>aria-actions</pref> are either in the tab order, accessible through managed focus as part of a composite widget container, or have a documented alternative method to achieve their function while focus is on the referencing element.</p>	    
+		<p>User agents that support <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> expand the usage of host language mechanisms such as <code>tabindex</code>, <code>focus</code>, and <code>blur</code> to allow them on all [=elements=]. Where the host language supports it, authors MAY add any element such as a <code>div</code>, <code>span</code>, or <code>img</code> to the default tab order by setting <code>tabindex=&quot;0&quot;</code>. In addition, any item with <code>tabindex</code> equal to a negative integer is focusable via script or a mouse click, but is not part of the default tab order. This is supported in both [[HTML]] and [[SVG2]].</p>
 	    <p>Authors MAY use <pref>aria-activedescendant</pref> to inform <a>assistive technologies</a> which descendant of a <rref>widget</rref> element is treated as having keyboard focus in the user interface if the role of the widget element supports <code>aria-activedescendant</code>.
         This is often a more convenient way of providing keyboard navigation within widgets, such as a <rref>listbox</rref>, where the widget occupies only one stop in the page <kbd>Tab</kbd> sequence and other keys, typically arrow keys, are used to focus elements inside the widget.</p>
 	    <p>Typically, the author will use host language <a>semantics</a> to put the widget in the <kbd>Tab</kbd> sequence (e.g., <code>tabindex="0"</code> in HTML) and <code>aria-activedescendant</code> to point to the ID of the currently active descendant. The author, not the user agent, is responsible for styling the currently active descendant to show it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.</p>
@@ -10260,11 +10261,12 @@ button.ariaPressed; // null</pre>
 		<div class="property" id="aria-actions">
 			<pdef>aria-actions</pdef>
 			<div class="property-description">
-				<p><a>Identifies</a> a related element or elements whose primary activation (<code>click</code> event) will trigger a behavior or operation relevant to the referencing user interface object, such as the close button for a dialog, or a reply button relevant to the specific email message in focus.</p>
+				<p><a>Identifies</a> a related element or elements whose primary activation (<code>click</code> event) will trigger a behavior or operation relevant to the referencing user interface object, such as the close button for a dialog, or a reply button relevant to the email message that references it.</p>
 				<p>The <code>aria-actions</code> attribute allows an element to reference other interactive elements which trigger actions on the current element. For example, in a web mail application, the currently selected email message may reference action elements such as the <em>message-specific</em> Reply, Forward, and Delete buttons. Actions are triggered by mainstream pointer events (click, tap) or by simulated pointer events from assistive technology.</p>
 				<ul>
 					<li>Authors MUST ensure that elements referenced by <code>aria-actions</code> have an accessible name.</li>
 					<li>Authors MUST ensure that related action elements respond to a <code>click</code> event and are not limited to modality-specific activation such as the <code>keyup</code> or <code>touchend</code> events.</li>
+					<li>Authors MUST ensure the secondary action is either directly navigable with the keyboard, or that there is a keyboard shortcut to directly activate it when focus is on the referencing element.</li>
 					<li>Authors SHOULD ensure that related actions elements are visible and activatable when the current element is focused by the user agent or assistive technology.</li>
 					<li>User Agents SHOULD use the accessible names of elements referenced by <code>aria-actions</code> to determine the names of actions that are exposed in a platform accessibility API.</li>
 				</ul>
@@ -10288,7 +10290,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_idref">ID reference</a></td>
+						<td class="property-value"><a href="#valuetype_idref_list">ID reference list</a></td>
 					</tr>
 				</tbody>
 			</table>
