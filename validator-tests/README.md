@@ -19,6 +19,8 @@ corresponding changes in validators.
 * [Dialog Must Have Name](dialog-must-have-name.html)
   * @axe-core/cli: [Results](dialog-must-have-name-axe.json)
   * validator.nu: [Results](dialog-must-have-name-vnu.json)
+* [Error message MUST be pertinent](errormessage-hidden-removed.html)
+  * @axe-core/cli: [Results](errormessage-hidden-removed-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/328)
 * [Form MUST have name](form-role-must-have-name.html)
   * @axe-core/cli: [Results](form-role-must-have-name-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/329)
   * validator.nu: [Results](form-role-must-have-name-vnu.json)

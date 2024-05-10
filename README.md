@@ -27,14 +27,14 @@ Only formally designated editors have commit access to this repository. Editors 
 * Execute the consensus of the Working Group regardless of personal opinion;
 * Seek Working Group review of substantive technical issues;
 * In good faith separate editorial issues, which may be addressed without explicit review requests, from substantive issues which require review;
-* Follow the [W3C Manual of Style](http://www.w3.org/2001/06/manual/) and the [Chicago Manual of Style](http://www.chicagomanualofstyle.org/);
-* Follow [W3C Editors](http://www.w3.org/2003/Editors/) guidelines.
+* Follow the [W3C Manual of Style](https://www.w3.org/Guide/manual-of-style/) and the [Chicago Manual of Style](https://www.chicagomanualofstyle.org/);
+* Follow [W3C Editors](https://www.w3.org/Guide/editor/) guidelines.
 
 ### Non-Editor Contributions
 
 Working Group participants and members of the public without commit privileges may contribute to this repository in the following ways:
 
-* Raise [issues](issues).
+* Raise [issues](https://github.com/w3c/aria/issues/).
 * Submit [pull requests](https://help.github.com/articles/using-pull-requests/).
 
 Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. Editors can add people to this team.
@@ -116,6 +116,58 @@ The set of class values currently defined are:
 * `accname`: the AccName AAM
 
 *Todo: we should add versions for the other docs*
+
+#### References to Other W3C Specs
+
+When referencing other W3C specifications such as <a
+href="https://html.spec.whatwg.org/">HTML</a> and <a
+href="https://dom.spec.whatwg.org/">DOM</a>, we can take advantage of ReSpec’s
+<a href="https://github.com/w3c/respec/wiki/xref">`xref`</a> feature to
+automatically generate canonical links in context.
+
+In the text below, for example, `xref` will automatically convert “`[^button^]`”
+into a link to the definition of the `<button>` element in the HTML
+spec:
+
+```html
+A [^button^] performs an operation when pressed.
+```
+
+When authoring text for the ARIA spec, you can [search `xref`’s collection of
+exported terms](https://respec.org/xref/) to find the correct syntax for the
+desired specification. By default, the ARIA spec’s `xref` configuration will
+attempt to resolve terms for the following specs:
+
+- [DOM](https://dom.spec.whatwg.org/)
+- [HTML](https://html.spec.whatwg.org/)
+- [Accessible Name and Description
+  Computation](https://www.w3.org/TR/accname-1.2/)
+- [Core Accessibility API Mappings](https://www.w3.org/TR/core-aam-1.2/)
+- [Infra](https://infra.spec.whatwg.org/)
+
+If you wish to reference a spec that is not included in ARIA’s default `xref`
+configuration, you must specify it with a `data-cite` attribute.  For example,
+the following markup references [“nullable
+type”](https://respec.org/xref/?term=nullable+type) and
+[“DOMString”](https://respec.org/xref/?term=DOMString) from the Web IDL spec:
+
+```html
+<section data-cite="webidl">
+    <p>
+        All ARIA attributes reflect in IDL as [=nullable type|nullable=]
+        {{DOMString}} attributes.
+    </p>
+</section>
+```
+
+In some cases, a term may be defined in multiple specifications with the same
+`xref` syntax.  For example, [“`[=range=]`” is defined in both the DOM and
+Internationalization Glossary specs](https://respec.org/xref/?term=range). The
+`data-cite` attribute can also be used in these cases to disambiguate and target
+the intended spec.
+
+For more information, please refer to [`xref`’s auto-linking external references
+guide](https://github.com/w3c/respec/wiki/Auto-linking-external-references).
 
 ### Shared Resources
 
