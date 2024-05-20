@@ -1,0 +1,27 @@
+# .github/workflows/core-aam.yml
+name: CI (Core Accessibility API Mappings)
+on:
+  pull_request:
+    paths: 
+      - "core-aam/**"
+      - "common/**"
+  push:
+    branches: [main]
+    paths: 
+      - "core-aam/**"
+      - "common/**"
+jobs:
+  main:
+    name: Publish Core Accessibility API Mappings (core-AAM)
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: core-aam/
+          TOOLCHAIN: respec
+          W3C_ECHIDNA_TOKEN: ${{ secrets.W3C_TR_TOKEN_A11Y_EAA_MAPPING }}
+          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
+          W3C_BUILD_OVERRIDE: |
+             shortName: core-aam-1.2
+             specStatus: WD

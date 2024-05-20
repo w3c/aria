@@ -1,0 +1,27 @@
+# .github/workflows/aria.yml
+name: CI (Accessible Rich Internet Applications)
+on:
+  pull_request:
+    paths: 
+      - "aria/**"
+      - "common/**"
+  push:
+    branches: [main]
+    paths: 
+      - "aria/**"
+      - "common/**"
+jobs:
+  main:
+    name: Publish Accessible Rich Internet Applications (WAI-ARIA)
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: aria/
+          TOOLCHAIN: respec
+          W3C_ECHIDNA_TOKEN: ${{ secrets.W3C_TR_TOKEN_A11Y_EAA_MAPPING }}
+          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
+          W3C_BUILD_OVERRIDE: |
+             shortName: wai-aria-1.3
+             specStatus: WD
