@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>ARIA in HTML - Test Cases</title>
+  <link rel="stylesheet" href="../results/styles.css">
+  <style>
+    body{
+      font-size: 1em;
+    }
+    .roleTest {
+      border: 2px solid black;
+      width: 1em;
+      height: 1em;
+      margin: 5px;
+    }
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    .widgetDemo {
+      border: 1px solid #EEE;
+      margin: .5em;
+      padding: 5px;
+      flex: 1 0 0;
+      min-width: calc(300px - 1em);
+    }
+    .widgetDemo p {
+      color: #696969;
+      font-size: 1.125em;
+      padding: 0;
+      margin: .75em 0;
+    }
+    .testcase {
+      margin: 2em 0;
+    }
+    h3{
+      margin: .5em 0;
+      border: 0;
+      padding: 0;
+    }
+    h2 {font-size:2em}
+
+    .testcase [role] {
+      border: 1px solid;
+      padding: .25em;
+    }
+
+    .pass,
+    .fail {
+      display: inline-block;
+      padding: .125em .25em;
+
+    }
+
+    .pass {
+      background: darkgreen;
+      color:  #fff;
+    }
+
+    .fail {
+      border: 2px solid darkred;
+      color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+  <h1>ARIA in HTML - test cases for allowed roles on <code>li</code> elements</h1>
+  <p>last updated 27 March 2022</p>
+  </header>
+  <main>
+    <h2>Tests:</h2>
+
+    <div class="flex">
+      <div class="widgetDemo">
+        <h3>Test 1</h3>
+        <p>Authors MAY use <strong>any <code>role</code></strong>, on an <code>li</code> element, so long as list element's implicit <code>list</code> role has been overwritten.</p>
+        <p><strong>NOTE:</strong> that while <strong>any <code>role</code></strong> is allowed, the role MUST still adhere to ARIA's <a href="https://www.w3.org/TR/wai-aria-1.2/#scope">required context</a> rule.</p>
+        <p><strong>NOTE:</strong> some of the following tests MAY fail other conformance checker rules beyond checking for the allowed role.</p>
+        <div class="testcase">
+          <ul role=none>
+            <li role=alert>alert: <strong class=pass>pass</strong></li>
+            <li role=alertdialog aria-modal=false>alertdialog: <strong class=pass>pass</strong></li>
+            <li role=application>application: <strong class=pass>pass</strong></li>
+            <li role=article>article: <strong class=pass>pass</strong></li>
+            <li role=banner>banner: <strong class=pass>pass</strong></li>
+            <li role=blockquote>blockquote: <strong class=pass>pass</strong></li>
+            <li role=button tabindex="0">button: <strong class=pass>pass</strong></li>
+            <li role=caption>caption: <strong class=fail>fail</strong> (not owned by an element with an explicit figure, grid, table or treegrid role)</li>
+            <li role=cell>cell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table)</li>
+            <li role=checkbox tabindex="0" aria-checked=false>checkbox: <strong class=pass>pass</strong></li>
+            <li role=code>code: <strong class=pass>pass</strong></li>
+            <li role=columnheader>columnheader: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table or grid)</li>
+            <li role=combobox tabindex="0" aria-expanded=false aria-controls=d3 aria-activedescendant="">combobox: <strong class=pass>pass</strong></li>
+            <li role=complementary>complementary: <strong class=pass>pass</strong></li>
+            <li role=contentinfo>contentinfo: <strong class=pass>pass</strong></li>
+            <li role=definition>definition: <strong class=pass>pass</strong></li>
+            <li role=deletion>deletion: <strong class=pass>pass</strong></li>
+            <li role=dialog aria-modal=false>dialog: <strong class=pass>pass</strong></li>
+            <li role=document>document: <strong class=pass>pass</strong></li>
+            <li role=emphasis>emphasis: <strong class=pass>pass</strong></li>
+            <li role=feed>feed: <strong class=pass>pass</strong></li>
+            <li role=figure>figure: <strong class=pass>pass</strong></li>
+            <li role=form>form: <strong class=pass>pass</strong></li>
+            <li role=generic>generic: <strong class=fail>fail</strong> (authors SHOULD NOT use the generic role)</li>
+            <li role=grid>grid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=grid><div role=row><div role=gridcell>grid > row > gridcell: <strong class=pass>pass</strong></div></div></li>
+            <li role=gridcell>gridcell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=grid)</li>
+            <li role=group>group: <strong class=pass>pass</strong></li>
+            <li role=heading aria-level=3>heading: <strong class=pass>pass</strong></li>
+            <li role=img aria-label=pass>img: <strong class=pass>pass</strong></li>
+            <li role=insertion>insertion: <strong class=pass>pass</strong></li>
+            <li role=link tabindex="0">link: <strong class=pass>pass</strong></li>
+            <li role=list>list: <strong class="pass">pass</strong> (but fails owning necessary listitem descendant elements)</li>
+            <li role=list><div role=listitem>list > listitem: <strong class="pass">pass</strong></div></li>
+            <li role=listbox>listbox: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=listbox id=d aria-label=pass><div role=option>listbox > option: <strong class=pass>pass</strong></div></li>
+            <li role=listitem>listitem: <strong class=fail>fail</strong> (not owned by an element with role=list)</li>
+
+            <li role=log>log: <strong class=pass>pass</strong></li>
+            <li role=main>main: <strong class=pass>pass</strong></li>
+            <li role=marquee>marquee: <strong class=pass>pass</strong></li>
+            <li role=math>math: <strong class=pass>pass</strong></li>
+            <li role=menu>menu: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menu><div role=menuitem>menu > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemcheckbox aria-checked=false>menu > menuitemcheckbox: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemradio aria-checked=false>menu > menuitemradio: <strong class=pass>pass</strong></div></li>
+            <li role=menubar>menubar: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menubar><div role=menuitem>menubar > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menuitem>menuitem: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemcheckbox>menuitemcheckbox: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemradio>menuitemradio: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=meter>meter: <strong class=pass>pass</strong></li>
+            <li role=navigation>navigation: <strong class=pass>pass</strong></li>
+            <li role=none>none: <strong class=pass>pass</strong></li>
+            <li role=note>note: <strong class=pass>pass</strong></li>
+            <li role=option>option: <strong class=fail>fail</strong> (not owned by a listbox, or role=group owned by a listbox)</li>
+            <li role=paragraph>paragraph: <strong class=pass>pass</strong></li>
+            <li role=presentation>presentation: <strong class=pass>pass</strong></li>
+            <li role=progressbar>progressbar: <strong class=pass>pass</strong></li>
+            <li role=radio aria-checked=false tabindex="0">radio: <strong class=pass>pass</strong></li>
+            <li role=radiogroup>radiogroup: <strong class=pass>pass</strong> (but fails owning necessary descendant radio elements)</li>
+            <li role=radiogroup>
+              <div role=radio tabindex=0 aria-checked="false">radiogroup > radio: <strong class=pass>pass</strong></div>
+            </li>
+            <li role=region>region: <strong class=pass>pass</strong></li>
+            <li role=row>row: <strong class=fail>fail</strong> (not owned by a table, rowgroup, treegrid or grid. doesn't contain required owned elements - e.g., cells)</li>
+            <li role=rowheader>rowheader: <strong class=fail>fail</strong> (not owned by a row owned by table or grid)</li>
+            <li role=scrollbar tabindex="0">scrollbar: <strong class=pass>pass</strong></li>
+            <li role=search>search: <strong class=pass>pass</strong></li>
+            <li role=searchbox aria-readonly="true" tabindex="0" aria-label=foo>search: <strong class=pass>pass</strong></li>
+            <li role=separator>separator: <strong class=pass>pass</strong></li>
+            <li role=slider tabindex="0">slider: <strong class=pass>pass</strong></li>
+            <li role=spinbutton tabindex="0">spinbutton: <strong class=pass>pass</strong></li>
+            <li role=status>status: <strong class=pass>pass</strong></li>
+            <li role=strong>strong: <strong class=pass>pass</strong></li>
+            <li role=subscript>subscript: <strong class=pass>pass</strong></li>
+            <li role=superscript>superscript: <strong class=pass>pass</strong></li>
+            <li role=switch tabindex=0 aria-checked=false>switch: <strong class=pass>pass</strong></li>
+            <li role=tab tabindex="0" aria-selected="false">tab: <strong class=fail>fail</strong> (not owned by a tablist)</li>
+            <li role=table>table: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=table><div role=row><div role=cell>table > row > cell: <strong class=pass>pass</strong></div></div></li>
+            <li role=tablist>tablist: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tablist><div role=tab tabindex="0" aria-selected=false>tablist > tab: <strong class=pass>pass</strong></div></li>
+            <li role=tabpanel>tabpanel: <strong class=pass>pass</strong></li>
+            <li role=term>term: <strong class=pass>pass</strong></li>
+            <li role=textbox tabindex=0 aria-label=foo aria-readonly="true">textbox: <strong class=pass>pass</strong></li>
+            <li role=time>time: <strong class=pass>pass</strong></li>
+            <li role=timer>timer: <strong class=pass>pass</strong></li>
+            <li role=toolbar>toolbar: <strong class=pass>pass</strong></li>
+            <li role=tooltip>tooltip: <strong class=pass>pass</strong></li>
+            <li role=tree>tree: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tree><div role=treeitem tabindex=0>tree > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treegrid>treegrid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=treegrid><div role=treeitem tabindex="0">treegrid > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treeitem>treeitem: <strong class=fail>fail</strong> (not owned by a tree or treegrid)</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>ol role=none (repeat of ul test)</summary>
+          <div class="testcase">
+          <ul role=none>
+            <li role=alert>alert: <strong class=pass>pass</strong></li>
+            <li role=alertdialog aria-modal=false>alertdialog: <strong class=pass>pass</strong></li>
+            <li role=application>application: <strong class=pass>pass</strong></li>
+            <li role=article>article: <strong class=pass>pass</strong></li>
+            <li role=banner>banner: <strong class=pass>pass</strong></li>
+            <li role=blockquote>blockquote: <strong class=pass>pass</strong></li>
+            <li role=button tabindex="0">button: <strong class=pass>pass</strong></li>
+            <li role=caption>caption: <strong class=fail>fail</strong> (not owned by an element with an explicit figure, grid, table or treegrid role)</li>
+            <li role=cell>cell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table)</li>
+            <li role=checkbox tabindex="0" aria-checked=false>checkbox: <strong class=pass>pass</strong></li>
+            <li role=code>code: <strong class=pass>pass</strong></li>
+            <li role=columnheader>columnheader: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table or grid)</li>
+            <li role=combobox tabindex="0" aria-expanded=false aria-controls=d aria-activedescendant="">combobox: <strong class=pass>pass</strong></li>
+            <li role=complementary>complementary: <strong class=pass>pass</strong></li>
+            <li role=contentinfo>contentinfo: <strong class=pass>pass</strong></li>
+            <li role=definition>definition: <strong class=pass>pass</strong></li>
+            <li role=deletion>deletion: <strong class=pass>pass</strong></li>
+            <li role=dialog aria-modal=false>dialog: <strong class=pass>pass</strong></li>
+            <li role=document>document: <strong class=pass>pass</strong></li>
+            <li role=emphasis>emphasis: <strong class=pass>pass</strong></li>
+            <li role=feed>feed: <strong class=pass>pass</strong></li>
+            <li role=figure>figure: <strong class=pass>pass</strong></li>
+            <li role=form>form: <strong class=pass>pass</strong></li>
+            <li role=generic>generic: <strong class=fail>fail</strong> (authors SHOULD NOT use the generic role)</li>
+            <li role=grid>grid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=grid><div role=row><div role=gridcell>grid > row > gridcell: <strong class=pass>pass</strong></div></div></li>
+            <li role=gridcell>gridcell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=grid)</li>
+            <li role=group>group: <strong class=pass>pass</strong></li>
+            <li role=heading aria-level=3>heading: <strong class=pass>pass</strong></li>
+            <li role=img aria-label=pass>img: <strong class=pass>pass</strong></li>
+            <li role=insertion>insertion: <strong class=pass>pass</strong></li>
+            <li role=link tabindex="0">link: <strong class=pass>pass</strong></li>
+            <li role=list>list: <strong class="pass">pass</strong> (but fails owning necessary listitem descendant elements)</li>
+            <li role=list><div role=listitem>list > listitem: <strong class="pass">pass</strong></div></li>
+            <li role=listbox>listbox: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=listbox id=d2 aria-label=pass><div role=option>listbox > option: <strong class=pass>pass</strong></div></li>
+            <li role=listitem>listitem: <strong class=fail>fail</strong> (not owned by an element with role=list)</li>
+
+            <li role=log>log: <strong class=pass>pass</strong></li>
+            <li role=main>main: <strong class=pass>pass</strong></li>
+            <li role=marquee>marquee: <strong class=pass>pass</strong></li>
+            <li role=math>math: <strong class=pass>pass</strong></li>
+            <li role=menu>menu: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menu><div role=menuitem>menu > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemcheckbox aria-checked=false>menu > menuitemcheckbox: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemradio aria-checked=false>menu > menuitemradio: <strong class=pass>pass</strong></div></li>
+            <li role=menubar>menubar: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menubar><div role=menuitem>menubar > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menuitem>menuitem: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemcheckbox>menuitemcheckbox: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemradio>menuitemradio: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=meter>meter: <strong class=pass>pass</strong></li>
+            <li role=navigation>navigation: <strong class=pass>pass</strong></li>
+            <li role=none>none: <strong class=pass>pass</strong></li>
+            <li role=note>note: <strong class=pass>pass</strong></li>
+            <li role=option>option: <strong class=fail>fail</strong> (not owned by a listbox, or role=group owned by a listbox)</li>
+            <li role=paragraph>paragraph: <strong class=pass>pass</strong></li>
+            <li role=presentation>presentation: <strong class=pass>pass</strong></li>
+            <li role=progressbar>progressbar: <strong class=pass>pass</strong></li>
+            <li role=radio aria-checked=false tabindex="0">radio: <strong class=pass>pass</strong></li>
+            <li role=radiogroup>radiogroup: <strong class=pass>pass</strong> (but fails owning necessary descendant radio elements)</li>
+            <li role=radiogroup>
+              <div role=radio tabindex=0 aria-checked="false">radiogroup > radio: <strong class=pass>pass</strong></div>
+            </li>
+            <li role=region>region: <strong class=pass>pass</strong></li>
+            <li role=row>row: <strong class=fail>fail</strong> (not owned by a table, rowgroup, treegrid or grid. doesn't contain required owned elements - e.g., cells)</li>
+            <li role=rowheader>rowheader: <strong class=fail>fail</strong> (not owned by a row owned by table or grid)</li>
+            <li role=scrollbar tabindex="0">scrollbar: <strong class=pass>pass</strong></li>
+            <li role=search>search: <strong class=pass>pass</strong></li>
+            <li role=searchbox aria-readonly="true" tabindex="0" aria-label=foo>search: <strong class=pass>pass</strong></li>
+            <li role=separator>separator: <strong class=pass>pass</strong></li>
+            <li role=slider tabindex="0">slider: <strong class=pass>pass</strong></li>
+            <li role=spinbutton tabindex="0">spinbutton: <strong class=pass>pass</strong></li>
+            <li role=status>status: <strong class=pass>pass</strong></li>
+            <li role=strong>strong: <strong class=pass>pass</strong></li>
+            <li role=subscript>subscript: <strong class=pass>pass</strong></li>
+            <li role=superscript>superscript: <strong class=pass>pass</strong></li>
+            <li role=switch tabindex=0 aria-checked=false>switch: <strong class=pass>pass</strong></li>
+            <li role=tab tabindex="0" aria-selected="false">tab: <strong class=fail>fail</strong> (not owned by a tablist)</li>
+            <li role=table>table: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=table><div role=row><div role=cell>table > row > cell: <strong class=pass>pass</strong></div></div></li>
+            <li role=tablist>tablist: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tablist><div role=tab tabindex="0" aria-selected=false>tablist > tab: <strong class=pass>pass</strong></div></li>
+            <li role=tabpanel>tabpanel: <strong class=pass>pass</strong></li>
+            <li role=term>term: <strong class=pass>pass</strong></li>
+            <li role=textbox tabindex=0 aria-label=foo aria-readonly="true">textbox: <strong class=pass>pass</strong></li>
+            <li role=time>time: <strong class=pass>pass</strong></li>
+            <li role=timer>timer: <strong class=pass>pass</strong></li>
+            <li role=toolbar>toolbar: <strong class=pass>pass</strong></li>
+            <li role=tooltip>tooltip: <strong class=pass>pass</strong></li>
+            <li role=tree>tree: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tree><div role=treeitem tabindex=0>tree > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treegrid>treegrid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=treegrid><div role=treeitem tabindex="0">treegrid > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treeitem>treeitem: <strong class=fail>fail</strong> (not owned by a tree or treegrid)</li>
+          </ul>
+        </div>
+        </details>
+
+        <details>
+          <summary>menu role=none (repeat of ul test)</summary>
+          <div class="testcase">
+          <ul role=none>
+            <li role=alert>alert: <strong class=pass>pass</strong></li>
+            <li role=alertdialog aria-modal=false>alertdialog: <strong class=pass>pass</strong></li>
+            <li role=application>application: <strong class=pass>pass</strong></li>
+            <li role=article>article: <strong class=pass>pass</strong></li>
+            <li role=banner>banner: <strong class=pass>pass</strong></li>
+            <li role=blockquote>blockquote: <strong class=pass>pass</strong></li>
+            <li role=button tabindex="0">button: <strong class=pass>pass</strong></li>
+            <li role=caption>caption: <strong class=fail>fail</strong> (not owned by an element with an explicit figure, grid, table or treegrid role)</li>
+            <li role=cell>cell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table)</li>
+            <li role=checkbox tabindex="0" aria-checked=false>checkbox: <strong class=pass>pass</strong></li>
+            <li role=code>code: <strong class=pass>pass</strong></li>
+            <li role=columnheader>columnheader: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table or grid)</li>
+            <li role=combobox tabindex="0" aria-expanded=false aria-controls=d2 aria-activedescendant="">combobox: <strong class=pass>pass</strong></li>
+            <li role=complementary>complementary: <strong class=pass>pass</strong></li>
+            <li role=contentinfo>contentinfo: <strong class=pass>pass</strong></li>
+            <li role=definition>definition: <strong class=pass>pass</strong></li>
+            <li role=deletion>deletion: <strong class=pass>pass</strong></li>
+            <li role=dialog aria-modal=false>dialog: <strong class=pass>pass</strong></li>
+            <li role=document>document: <strong class=pass>pass</strong></li>
+            <li role=emphasis>emphasis: <strong class=pass>pass</strong></li>
+            <li role=feed>feed: <strong class=pass>pass</strong></li>
+            <li role=figure>figure: <strong class=pass>pass</strong></li>
+            <li role=form>form: <strong class=pass>pass</strong></li>
+            <li role=generic>generic: <strong class=fail>fail</strong> (authors SHOULD NOT use the generic role)</li>
+            <li role=grid>grid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=grid><div role=row><div role=gridcell>grid > row > gridcell: <strong class=pass>pass</strong></div></div></li>
+            <li role=gridcell>gridcell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=grid)</li>
+            <li role=group>group: <strong class=pass>pass</strong></li>
+            <li role=heading aria-level=3>heading: <strong class=pass>pass</strong></li>
+            <li role=img aria-label=pass>img: <strong class=pass>pass</strong></li>
+            <li role=insertion>insertion: <strong class=pass>pass</strong></li>
+            <li role=link tabindex="0">link: <strong class=pass>pass</strong></li>
+            <li role=list>list: <strong class="pass">pass</strong> (but fails owning necessary listitem descendant elements)</li>
+            <li role=list><div role=listitem>list > listitem: <strong class="pass">pass</strong></div></li>
+            <li role=listbox>listbox: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=listbox id=d3 aria-label=pass><div role=option>listbox > option: <strong class=pass>pass</strong></div></li>
+            <li role=listitem>listitem: <strong class=fail>fail</strong> (not owned by an element with role=list)</li>
+
+            <li role=log>log: <strong class=pass>pass</strong></li>
+            <li role=main>main: <strong class=pass>pass</strong></li>
+            <li role=marquee>marquee: <strong class=pass>pass</strong></li>
+            <li role=math>math: <strong class=pass>pass</strong></li>
+            <li role=menu>menu: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menu><div role=menuitem>menu > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemcheckbox aria-checked=false>menu > menuitemcheckbox: <strong class=pass>pass</strong></div></li>
+            <li role=menu><div role=menuitemradio aria-checked=false>menu > menuitemradio: <strong class=pass>pass</strong></div></li>
+            <li role=menubar>menubar: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=menubar><div role=menuitem>menubar > menuitem: <strong class=pass>pass</strong></div></li>
+            <li role=menuitem>menuitem: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemcheckbox>menuitemcheckbox: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=menuitemradio>menuitemradio: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+            <li role=meter>meter: <strong class=pass>pass</strong></li>
+            <li role=navigation>navigation: <strong class=pass>pass</strong></li>
+            <li role=none>none: <strong class=pass>pass</strong></li>
+            <li role=note>note: <strong class=pass>pass</strong></li>
+            <li role=option>option: <strong class=fail>fail</strong> (not owned by a listbox, or role=group owned by a listbox)</li>
+            <li role=paragraph>paragraph: <strong class=pass>pass</strong></li>
+            <li role=presentation>presentation: <strong class=pass>pass</strong></li>
+            <li role=progressbar>progressbar: <strong class=pass>pass</strong></li>
+            <li role=radio aria-checked=false tabindex="0">radio: <strong class=pass>pass</strong></li>
+            <li role=radiogroup>radiogroup: <strong class=pass>pass</strong> (but fails owning necessary descendant radio elements)</li>
+            <li role=radiogroup>
+              <div role=radio tabindex=0 aria-checked="false">radiogroup > radio: <strong class=pass>pass</strong></div>
+            </li>
+            <li role=region>region: <strong class=pass>pass</strong></li>
+            <li role=row>row: <strong class=fail>fail</strong> (not owned by a table, rowgroup, treegrid or grid. doesn't contain required owned elements - e.g., cells)</li>
+            <li role=rowheader>rowheader: <strong class=fail>fail</strong> (not owned by a row owned by table or grid)</li>
+            <li role=scrollbar tabindex="0">scrollbar: <strong class=pass>pass</strong></li>
+            <li role=search>search: <strong class=pass>pass</strong></li>
+            <li role=searchbox aria-readonly="true" tabindex="0" aria-label=foo>search: <strong class=pass>pass</strong></li>
+            <li role=separator>separator: <strong class=pass>pass</strong></li>
+            <li role=slider tabindex="0">slider: <strong class=pass>pass</strong></li>
+            <li role=spinbutton tabindex="0">spinbutton: <strong class=pass>pass</strong></li>
+            <li role=status>status: <strong class=pass>pass</strong></li>
+            <li role=strong>strong: <strong class=pass>pass</strong></li>
+            <li role=subscript>subscript: <strong class=pass>pass</strong></li>
+            <li role=superscript>superscript: <strong class=pass>pass</strong></li>
+            <li role=switch tabindex=0 aria-checked=false>switch: <strong class=pass>pass</strong></li>
+            <li role=tab tabindex="0" aria-selected="false">tab: <strong class=fail>fail</strong> (not owned by a tablist)</li>
+            <li role=table>table: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=table><div role=row><div role=cell>table > row > cell: <strong class=pass>pass</strong></div></div></li>
+            <li role=tablist>tablist: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tablist><div role=tab tabindex="0" aria-selected=false>tablist > tab: <strong class=pass>pass</strong></div></li>
+            <li role=tabpanel>tabpanel: <strong class=pass>pass</strong></li>
+            <li role=term>term: <strong class=pass>pass</strong></li>
+            <li role=textbox tabindex=0 aria-label=foo aria-readonly="true">textbox: <strong class=pass>pass</strong></li>
+            <li role=time>time: <strong class=pass>pass</strong></li>
+            <li role=timer>timer: <strong class=pass>pass</strong></li>
+            <li role=toolbar>toolbar: <strong class=pass>pass</strong></li>
+            <li role=tooltip>tooltip: <strong class=pass>pass</strong></li>
+            <li role=tree>tree: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=tree><div role=treeitem tabindex=0>tree > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treegrid>treegrid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+            <li role=treegrid><div role=treeitem tabindex="0">treegrid > treeitem: <strong class=pass>pass</strong></div></li>
+            <li role=treeitem>treeitem: <strong class=fail>fail</strong> (not owned by a tree or treegrid)</li>
+          </ul>
+        </div>
+        </details>
+
+        <p>
+          <strong>Expected result:</strong>
+          The <code>ul</code>, <code>menu</code> and <code>ol</code> elements have a role=none so 'any role' should be allowed on a <code>li</code> element (but still may fail other rules).  Use of <code>role=generic</code> would result in a failure as this role is prohibited for use by authors.
+        </p>
+      </div>
+
+      <div class="widgetDemo">
+        <h3>Test 2</h3>
+        <p>Authors MAY use <strong>any <code>role</code></strong>, on an <code>li</code> element, so long as the <code>li</code> element is not a child of a list element.</p>
+        <p><strong>NOTE:</strong> that while <strong>any <code>role</code></strong> is allowed, the role MUST still adhere to ARIA's <a href="https://www.w3.org/TR/wai-aria-1.2/#scope">required context</a> rule.</p>
+        <p><strong>NOTE:</strong> some of the following tests MAY fail other conformance checker rules beyond checking for the allowed role. All of the following will fail HTML validation, as these <code>li</code> elements are not children of an HTML list element.</p>
+        <div class="testcase">
+          <li role=alert>alert: <strong class=pass>pass</strong></li>
+          <li role=alertdialog aria-modal=false>alertdialog: <strong class=pass>pass</strong></li>
+          <li role=application>application: <strong class=pass>pass</strong></li>
+          <li role=article>article: <strong class=pass>pass</strong></li>
+          <li role=banner>banner: <strong class=pass>pass</strong></li>
+          <li role=blockquote>blockquote: <strong class=pass>pass</strong></li>
+          <li role=button tabindex="0">button: <strong class=pass>pass</strong></li>
+          <li role=caption>caption: <strong class=fail>fail</strong> (not owned by an element with an explicit figure, grid, table or treegrid role)</li>
+          <li role=cell>cell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table)</li>
+          <li role=checkbox tabindex="0" aria-checked=false>checkbox: <strong class=pass>pass</strong></li>
+          <li role=code>code: <strong class=pass>pass</strong></li>
+          <li role=columnheader>columnheader: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=table or grid)</li>
+          <li role=combobox tabindex="0" aria-expanded=false aria-controls=d3 aria-activedescendant="">combobox: <strong class=pass>pass</strong></li>
+          <li role=complementary>complementary: <strong class=pass>pass</strong></li>
+          <li role=contentinfo>contentinfo: <strong class=pass>pass</strong></li>
+          <li role=definition>definition: <strong class=pass>pass</strong></li>
+          <li role=deletion>deletion: <strong class=pass>pass</strong></li>
+          <li role=dialog aria-modal=false>dialog: <strong class=pass>pass</strong></li>
+          <li role=document>document: <strong class=pass>pass</strong></li>
+          <li role=emphasis>emphasis: <strong class=pass>pass</strong></li>
+          <li role=feed>feed: <strong class=pass>pass</strong></li>
+          <li role=figure>figure: <strong class=pass>pass</strong></li>
+          <li role=form>form: <strong class=pass>pass</strong></li>
+          <li role=generic>generic: <strong class=fail>fail</strong> (authors SHOULD NOT use the generic role)</li>
+          <li role=grid>grid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=grid><div role=row><div role=gridcell>grid > row > gridcell: <strong class=pass>pass</strong></div></div></li>
+          <li role=gridcell>gridcell: <strong class=fail>fail</strong> (not owned by an element with role=row within a role=grid)</li>
+          <li role=group>group: <strong class=pass>pass</strong></li>
+          <li role=heading aria-level=3>heading: <strong class=pass>pass</strong></li>
+          <li role=img aria-label=pass>img: <strong class=pass>pass</strong></li>
+          <li role=insertion>insertion: <strong class=pass>pass</strong></li>
+          <li role=link tabindex="0">link: <strong class=pass>pass</strong></li>
+          <li role=list>list: <strong class="pass">pass</strong> (but fails owning necessary listitem descendant elements)</li>
+          <li role=list><div role=listitem>list > listitem: <strong class="pass">pass</strong></div></li>
+          <li role=listbox>listbox: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=listbox id=d aria-label=pass><div role=option>listbox > option: <strong class=pass>pass</strong></div></li>
+          <li role=listitem>listitem: <strong class=fail>fail</strong> (not owned by an element with role=list)</li>
+
+          <li role=log>log: <strong class=pass>pass</strong></li>
+          <li role=main>main: <strong class=pass>pass</strong></li>
+          <li role=marquee>marquee: <strong class=pass>pass</strong></li>
+          <li role=math>math: <strong class=pass>pass</strong></li>
+          <li role=menu>menu: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=menu><div role=menuitem>menu > menuitem: <strong class=pass>pass</strong></div></li>
+          <li role=menu><div role=menuitemcheckbox aria-checked=false>menu > menuitemcheckbox: <strong class=pass>pass</strong></div></li>
+          <li role=menu><div role=menuitemradio aria-checked=false>menu > menuitemradio: <strong class=pass>pass</strong></div></li>
+          <li role=menubar>menubar: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=menubar><div role=menuitem>menubar > menuitem: <strong class=pass>pass</strong></div></li>
+          <li role=menuitem>menuitem: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+          <li role=menuitemcheckbox>menuitemcheckbox: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+          <li role=menuitemradio>menuitemradio: <strong class=fail>fail</strong> (not owned by a menu, menubar or a group that is owned by a menu or menubar)</li>
+          <li role=meter>meter: <strong class=pass>pass</strong></li>
+          <li role=navigation>navigation: <strong class=pass>pass</strong></li>
+          <li role=none>none: <strong class=pass>pass</strong></li>
+          <li role=note>note: <strong class=pass>pass</strong></li>
+          <li role=option>option: <strong class=fail>fail</strong> (not owned by a listbox, or role=group owned by a listbox)</li>
+          <li role=paragraph>paragraph: <strong class=pass>pass</strong></li>
+          <li role=presentation>presentation: <strong class=pass>pass</strong></li>
+          <li role=progressbar>progressbar: <strong class=pass>pass</strong></li>
+          <li role=radio aria-checked=false tabindex="0">radio: <strong class=pass>pass</strong></li>
+          <li role=radiogroup>radiogroup: <strong class=pass>pass</strong> (but fails owning necessary descendant radio elements)</li>
+          <li role=radiogroup>
+            <div role=radio tabindex=0 aria-checked="false">radiogroup > radio: <strong class=pass>pass</strong></div>
+          </li>
+          <li role=region>region: <strong class=pass>pass</strong></li>
+          <li role=row>row: <strong class=fail>fail</strong> (not owned by a table, rowgroup, treegrid or grid. doesn't contain required owned elements - e.g., cells)</li>
+          <li role=rowheader>rowheader: <strong class=fail>fail</strong> (not owned by a row owned by table or grid)</li>
+          <li role=scrollbar tabindex="0">scrollbar: <strong class=pass>pass</strong></li>
+          <li role=search>search: <strong class=pass>pass</strong></li>
+          <li role=searchbox aria-readonly="true" tabindex="0" aria-label=foo>search: <strong class=pass>pass</strong></li>
+          <li role=separator>separator: <strong class=pass>pass</strong></li>
+          <li role=slider tabindex="0">slider: <strong class=pass>pass</strong></li>
+          <li role=spinbutton tabindex="0">spinbutton: <strong class=pass>pass</strong></li>
+          <li role=status>status: <strong class=pass>pass</strong></li>
+          <li role=strong>strong: <strong class=pass>pass</strong></li>
+          <li role=subscript>subscript: <strong class=pass>pass</strong></li>
+          <li role=superscript>superscript: <strong class=pass>pass</strong></li>
+          <li role=switch tabindex=0 aria-checked=false>switch: <strong class=pass>pass</strong></li>
+          <li role=tab tabindex="0" aria-selected="false">tab: <strong class=fail>fail</strong> (not owned by a tablist)</li>
+          <li role=table>table: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=table><div role=row><div role=cell>table > row > cell: <strong class=pass>pass</strong></div></div></li>
+          <li role=tablist>tablist: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=tablist><div role=tab tabindex="0" aria-selected=false>tablist > tab: <strong class=pass>pass</strong></div></li>
+          <li role=tabpanel>tabpanel: <strong class=pass>pass</strong></li>
+          <li role=term>term: <strong class=pass>pass</strong></li>
+          <li role=textbox tabindex=0 aria-label=foo aria-readonly="true">textbox: <strong class=pass>pass</strong></li>
+          <li role=time>time: <strong class=pass>pass</strong></li>
+          <li role=timer>timer: <strong class=pass>pass</strong></li>
+          <li role=toolbar>toolbar: <strong class=pass>pass</strong></li>
+          <li role=tooltip>tooltip: <strong class=pass>pass</strong></li>
+          <li role=tree>tree: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=tree><div role=treeitem tabindex=0>tree > treeitem: <strong class=pass>pass</strong></div></li>
+          <li role=treegrid>treegrid: <strong class=pass>pass</strong> (but fails owning necessary descendant elements)</li>
+          <li role=treegrid><div role=treeitem tabindex="0">treegrid > treeitem: <strong class=pass>pass</strong></div></li>
+          <li role=treeitem>treeitem: <strong class=fail>fail</strong> (not owned by a tree or treegrid)</li>
+
+        </div>
+        <p>
+          <strong>Expected result:</strong>
+          As the <code>li</code> element is not a child of a list element (<code>ul</code>, <code>ol</code> or <code>menu</code>), the element is allowed 'any role' (though the use of any role may still fail other rules).  Use of <code>role=generic</code> would result in a failure as this role is prohibited for use by authors.
+        </p>
+      </div>
+
+      <div class="widgetDemo">
+        <h3>Test 3</h3>
+        <p>Authors MUST NOT specify <strong>any <code>role</code></strong>, on an <code>li</code> element, when it is a child of a list element which 
+          has <strong>not</strong> had its implicit <code>list</code> role overwritten.</p>
+
+        <div class="testcase">
+          <ul>
+            <li role=alert>alert: <strong class=fail>fail</strong></li>
+            <li role=alertdialog aria-modal=false>alertdialog: <strong class=fail>fail</strong></li>
+            <li role=application>application: <strong class=fail>fail</strong></li>
+            <li role=article>article: <strong class=fail>fail</strong></li>
+            <li role=banner>banner: <strong class=fail>fail</strong></li>
+            <li role=blockquote>blockquote: <strong class=fail>fail</strong></li>
+            <li role=button tabindex="0">button: <strong class=fail>fail</strong></li>
+            <li role=caption>caption: <strong class=fail>fail</strong></li>
+            <li role=cell>cell: <strong class=fail>fail</strong></li>
+            <li role=checkbox tabindex="0" aria-checked=false>checkbox: <strong class=fail>fail</strong></li>
+            <li role=code>code: <strong class=fail>fail</strong></li>
+            <li role=columnheader>columnheader: <strong class=fail>fail</strong></li>
+            <li role=combobox tabindex="0" aria-expanded=false aria-controls=d3 aria-activedescendant="">combobox: <strong class=fail>fail</strong></li>
+            <li role=complementary>complementary: <strong class=fail>fail</strong></li>
+            <li role=contentinfo>contentinfo: <strong class=fail>fail</strong></li>
+            <li role=definition>definition: <strong class=fail>fail</strong></li>
+            <li role=deletion>deletion: <strong class=fail>fail</strong></li>
+            <li role=dialog aria-modal=false>dialog: <strong class=fail>fail</strong></li>
+            <li role=document>document: <strong class=fail>fail</strong></li>
+            <li role=emphasis>emphasis: <strong class=fail>fail</strong></li>
+            <li role=feed>feed: <strong class=fail>fail</strong></li>
+            <li role=figure>figure: <strong class=fail>fail</strong></li>
+            <li role=form>form: <strong class=fail>fail</strong></li>
+            <li role=generic>generic: <strong class=fail>fail</strong></li>
+            <li role=grid>grid: <strong class=fail>fail</strong> </li>
+            <li role=gridcell>gridcell: <strong class=fail>fail</strong></li>
+            <li role=group>group: <strong class=fail>fail</strong></li>
+            <li role=heading aria-level=3>heading: <strong class=fail>fail</strong></li>
+            <li role=img aria-label=fail>img: <strong class=fail>fail</strong></li>
+            <li role=insertion>insertion: <strong class=fail>fail</strong></li>
+            <li role=link tabindex="0">link: <strong class=fail>fail</strong></li>
+            <li role=list>list: <strong class="fail">fail</strong></li>
+            <li role=listbox tabindex=0 aria-label=fail>listbox: <strong class=fail>fail</strong></li>
+            <li role=listitem>listitem: <strong class=fail>fail</strong> (warning for redundant role)</li>
+            <li role=log>log: <strong class=fail>fail</strong></li>
+            <li role=main>main: <strong class=fail>fail</strong></li>
+            <li role=marquee>marquee: <strong class=fail>fail</strong></li>
+            <li role=math>math: <strong class=fail>fail</strong></li>
+            <li role=menu>menu: <strong class=fail>fail</strong></li>
+            <li role=menubar>menubar: <strong class=fail>fail</strong></li>
+            <li role=menuitem>menuitem: <strong class=fail>fail</strong></li>
+            <li role=menuitemcheckbox>menuitemcheckbox: <strong class=fail>fail</strong></li>
+            <li role=menuitemradio>menuitemradio: <strong class=fail>fail</strong></li>
+            <li role=meter>meter: <strong class=fail>fail</strong></li>
+            <li role=navigation>navigation: <strong class=fail>fail</strong></li>
+            <li role=none>none: <strong class=fail>fail</strong></li>
+            <li role=note>note: <strong class=fail>fail</strong></li>
+            <li role=option>option: <strong class=fail>fail</strong></li>
+            <li role=paragraph>paragraph: <strong class=fail>fail</strong></li>
+            <li role=presentation>presentation: <strong class=fail>fail</strong></li>
+            <li role=progressbar>progressbar: <strong class=fail>fail</strong></li>
+            <li role=radio aria-checked=false tabindex="0">radio: <strong class=fail>fail</strong></li>
+            <li role=radiogroup>radiogroup: <strong class=fail>fail</strong></li>
+            <li role=region>region: <strong class=fail>fail</strong></li>
+            <li role=row>row: <strong class=fail>fail</strong></li>
+            <li role=rowheader>rowheader: <strong class=fail>fail</strong></li>
+            <li role=scrollbar tabindex="0">scrollbar: <strong class=fail>fail</strong></li>
+            <li role=search>search: <strong class=fail>fail</strong></li>
+            <li role=searchbox aria-readonly="true" tabindex="0" aria-label=foo>search: <strong class=fail>fail</strong></li>
+            <li role=separator>separator: <strong class=fail>fail</strong></li>
+            <li role=slider tabindex="0">slider: <strong class=fail>fail</strong></li>
+            <li role=spinbutton tabindex="0">spinbutton: <strong class=fail>fail</strong></li>
+            <li role=status>status: <strong class=fail>fail</strong></li>
+            <li role=strong>strong: <strong class=fail>fail</strong></li>
+            <li role=subscript>subscript: <strong class=fail>fail</strong></li>
+            <li role=superscript>superscript: <strong class=fail>fail</strong></li>
+            <li role=switch tabindex=0 aria-checked=false>switch: <strong class=fail>fail</strong></li>
+            <li role=tab tabindex="0" aria-selected="false">tab: <strong class=fail>fail</strong></li>
+            <li role=table>table: <strong class=fail>fail</strong> </li>
+            <li role=tablist>tablist: <strong class=fail>fail</strong></li>
+            <li role=tabpanel>tabpanel: <strong class=fail>fail</strong></li>
+            <li role=term>term: <strong class=fail>fail</strong></li>
+            <li role=textbox tabindex=0 aria-label=foo aria-readonly="true">textbox: <strong class=fail>fail</strong></li>
+            <li role=time>time: <strong class=fail>fail</strong></li>
+            <li role=timer>timer: <strong class=fail>fail</strong></li>
+            <li role=toolbar>toolbar: <strong class=fail>fail</strong></li>
+            <li role=tooltip>tooltip: <strong class=fail>fail</strong></li>
+            <li role=tree>tree: <strong class=fail>fail</strong>
+            <li role=treegrid>treegrid: <strong class=fail>fail</strong></li>
+            <li role=treeitem>treeitem: <strong class=fail>fail</strong></li>
+          </ul>
+        </div>
+
+
+        <p>
+          <strong>Expected result:</strong>
+          A failure should be flagged for each <code>li</code> element which has a role other than <code>listitem</code>. A warning should be flagged for an <code>li</code> element which has a <code>role=listitem</code> as specifying the redundant role is unnecessary.</p>
+        </p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

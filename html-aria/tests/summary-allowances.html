@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="UTF-8">
+	<title>ARIA in HTML - Test Cases</title>
+    <link rel="stylesheet" href="../results/styles.css">
+	<style>
+		body {
+			font-size: 1em;
+		}
+		.roleTest {
+			border: 2px solid black;
+			width: 1em;
+			height: 1em;
+			margin: 5px;
+		}
+		.flex {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+		}
+		.widgetDemo {
+			border: 1px solid #EEE;
+			margin: .5em;
+			padding: 5px;
+			flex: 1 0 0;
+			min-width: calc(300px - 1em);
+		}
+		.widgetDemo p {
+			color: #696969;
+			font-size: 1.125em;
+			padding: 0;
+			margin: .75em 0;
+		}
+		.testcase {
+			margin: 2em 0;
+		}
+		h3{
+			margin: .5em 0;
+			border: 0;
+			padding: 0;
+		}
+		h2 {font-size:2em}
+	</style>
+</head>
+<body>
+
+	<header>
+	<h1>ARIA in HTML - test cases for <code>summary</code></h1>
+	<p>last updated 13 February 2023</p>
+	</header>
+	<main>
+		<h2>Tests:</h2>
+
+		<div class="flex">
+			<div class="widgetDemo">
+				<h3>Test 1</h3>
+				<p>Authors can't use <code>aria-expanded</code> or <code>aria-pressed</code> 
+          attributes on a <code>summary</code> element if it serves as the summary for its parent details element.</p>
+
+				<div class="testcase">
+					<p>An aria-expanded attribute is ignored by user agents</p>
+          <details open>
+            <summary aria-expanded=false>test 1</summary>
+            has aria-expanded=false attribute
+          </details>
+				</div>
+        
+        <div class="testcase">
+					<p>An aria-pressed attribute is ignored by user agents</p>
+          <details open>
+            <summary aria-pressed=true>test 2</summary>
+            has aria-pressed=true attribute
+          </details>
+				</div>
+
+				<p><strong>Expected result:</strong>
+				<br>As these attributes presently have no negative impact on the user experience, it seems that at the very least, 
+          conformance checkers should produce a warning about their use, since these 'were' previously 'allowed' but likely 
+          served no practical value then either.  However, a conformance checker may expose these attributes as an error as well, as other
+        allowed attribute checks that already exist may expose similar errors. E.g., <code>div aria-expanded=true</code> is another example of
+        an invalid attribute being used on a generic element.  </p>
+			</div>
+      
+      <div class="widgetDemo">
+         <h3>Test 2</h3>
+				<p>Authors MAY specify any role on a summary element, so long as that summary element is not the 'summay for its parent details'.</p>
+
+				<div class="testcase">
+					<p>The summary elements beyond the first instance do not pass the algorithm to be a summary for its parent details, 
+						so they are exposed as generic elements.</p>
+          <details open>
+            <summary>no allowed role on this summary</summary>
+            <summary role=paragraph>this summary has a paragraph role, which is fine.</summary>
+		  <summary role=button tabindex=0>this summary has a button role, which is also fine.</summary>
+          </details>
+				</div>
+        
+        <div class="testcase">
+					<p>The following summary element is not a child of a details element, and thus is implicitly exposed as a generic.</p>
+          <summary role=paragraph>this summary has a paragraph role, which is fine.</summary>
+        </div>
+	      <p><strong>Expected result:</strong>
+				<br>Conformance checkers need not throw an error for summary elements that are not the first  
+		      instance of the element type within a details element, 
+		      or are not a descendant element of a details element.  
+		      
+	      </p>
+        
+      </div>
+			
+			<div class="widgetDemo">
+				<h3>Test 3</h3>
+				<p>Authors can use <code>aria-disabled</code> or <code>aria-haspopup</code> 
+          attributes on a <code>summary</code> element when it serves as the summary for its parent details element.</p>
+
+				<div class="testcase">
+					<p>Using an aria-disabled attribute is allowed</p>
+          <details open>
+            <summary aria-disabled=true>test 1</summary>
+            has aria-disabled=true attribute
+          </details>
+				</div>
+        
+        <div class="testcase">
+					<p>Using an aria-haspopup attribute is allowed</p>
+          <details open>
+            <summary aria-haspopup=true>test 2</summary>
+            has aria-haspopup=true attribute
+          </details>
+				</div>
+
+				<p><strong>Expected result:</strong>
+				<br>The aria-disabled and aria-haspopup attributes both have good support and are valid to use on the summary element when it acts as the interactive trigger for the details/summary disclosure widget. Other checks may be necessary to ensure that developers are using these attributes correctly, but that is beyond the scope of what ARIA in HTML covers.</p>
+			</div>
+			
+		</div>
+	</main>
+</body>
+</html>

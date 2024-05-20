@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" role="document">
+<head role="presentation">
+	<meta charset="UTF-8">
+	<title>ARIA in HTML - Test Cases</title>
+    <link rel="stylesheet" href="../results/styles.css">
+	<style>
+		body{
+			font-size: 1em;
+		}
+		.roleTest {
+			border: 2px solid black;
+			width: 1em;
+			height: 1em;
+			margin: 5px;
+		}
+		.flex {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+		}
+		.widgetDemo {
+			border: 1px solid #EEE;
+			margin: .5em;
+			padding: 5px;
+			flex: 1 0 0;
+			min-width: calc(300px - 1em);
+		}
+		.widgetDemo p {
+			color: #696969;
+			font-size: 1.125em;
+			padding: 0;
+			margin: .75em 0;
+		}
+		.testcase {
+			margin: 2em 0;
+		}
+		h3{
+			margin: .5em 0;
+			border: 0;
+			padding: 0;
+		}
+		h2 {font-size:2em}
+
+    menu {
+      display: inline-block;
+      height: 2em;
+      width: 2em;
+      border: 2px solid;
+    }
+	</style>
+</head>
+<body role="presentation">
+	<header>
+	<h1>ARIA in HTML - test cases for <code>body</code>, <code>html</code> and <code>head</code> elements</h1>
+	<p>last updated 31 August 2021</p>
+	</header>
+	<main>
+		<h2>Tests:</h2>
+
+		<div class="flex">
+			<div class="widgetDemo">
+				<h3>Test 1</h3>
+				<p>
+          No <code>role</code> is allowed on the <code>body</code>, <code>html</code> or <code>head</code> elements.
+          To manually verify, check this page with a conformance checker.  The <code>html</code> element has a <code>role=document</code>, and the <code>head</code> and <code>body</code> elements have <code>role=presentation</code>.
+        </p>
+        <p>To verify additional roles, use the text field below to enter valid roles and dynamically apply them to the <code>body</code>, <code>html</code> and <code>head</code> elements, and then re-run the conformance checkers.</p>
+
+        <p>
+        <strong>Warning:</strong> adding certain ARIA roles to the <code>body</code> and <code>html</code> elements may make this page inaccessible.</p>
+				<div class="testcase">
+          <label>
+            Role
+            <input type="text" id=test>
+          </label>
+          <button id=go>Apply role</button>
+          <output></output>
+          <script>
+            var input = document.getElementById('test');
+            var btn = document.getElementById('go');
+            var body = document.querySelector('body');
+            var html = document.querySelector('html');
+            var head = document.querySelector('head');
+            var output = document.querySelector('output')
+            btn.addEventListener('click', function () {
+              body.setAttribute('role', input.value);
+              html.setAttribute('role', input.value);
+              head.setAttribute('role', input.value);
+              output.innerHTML = 'role ' + input.value + ' added to body, html and head elements';
+            });
+          </script>
+				</div>
+        <p>Expectation: conformance checkers will indicate that <code>role=document</code> is redundant on <code>html</code> element, and that a <code>role</code> with any other value is invalid on the <code>html</code> element.</p>
+        <p>Conformance checkers will indicate that any role is invalid on the <code>body</code> and <code>head</code> elements.</p>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

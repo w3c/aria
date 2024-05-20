@@ -1,0 +1,3779 @@
+<!doctype html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  <title>Implementation Report</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    thead th + th + th {
+      width: 15%;
+    }
+
+    th a[href] {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .missing {
+      background: #FFBDBD;
+    }
+
+    .filebug {
+      background: #DBDBFF;
+    }
+
+    .yes {
+      font-size: 110%;
+      color: #1D622F;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Implementation Report</h1>
+  <p>Last updated 19 August 2021</p>
+  <p>
+    Status of checks against the <a href="https://www.w3.org/TR/html-aria/">ARIA in HTML</a> rules in the following implementations:
+  </p>
+  <ul>
+    <li>
+      <a href="https://validator.w3.org/nu/">W3C HTML checker</a></li>
+    <li>
+      <a href="https://www.tpgi.com/arc-platform/arc-toolkit/">ARC Toolkit</a></li>
+    <li>
+      <a href="https://www.ibm.com/able/toolkit/tools/#verification-tools">IBM Accessibility Checker</a></li>
+  </ul>
+
+  <h2>Conformance Checker Rule Implementations</h2>
+  <p>
+    The following tables provide a breakdown of the implementation of the rules for ARIA attribute usage by HTML element by conformance checkers which actively refer to the ARIA in HTML specification. These conformance checkers have either implemented the rules of ARIA in HTML, or are in process of accepting implementation gaps, and rolling out updates.
+  </p>
+
+  <!-- <p>
+    The following is a list of rules which are presently in process of being implemented, but at this time are marked as 'at risk' due to a lack of two implementations.
+  </p> -->
+
+  <p>As of 06-26-2021 all features have been verified to have at least two implementations. There are no features at risk.</p>
+
+  <p><b>Note:</b> IBM presently does not return errors/warnings when explicit roles are specified on elements which natively expose that role implicitly.</p>
+
+  <table class="simple">
+    <caption>
+      Rules of ARIA attribute usage by HTML element
+    </caption>
+    <thead>
+      <tr>
+        <th>
+          HTML element
+        </th>
+        <th>
+          <p id="implicit">
+            Implicit <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics
+            <small>(explicitly assigning these in markup is <em class="rfc2119">NOT RECOMMENDED</em>)</small>
+          </p>
+        </th>
+        <th>
+          <abbr title="Accessible Rich Internet Applications">ARIA</abbr> roles, states and properties which <em class="rfc2119">MAY</em> be used
+        </th>
+        <th>Test Case</th>
+        <th>Implemented in <a href="https://validator.w3.org/nu/">W3C Validator</a></th>
+        <th>Implemented in <a href="https://www.tpgi.com/arc-platform/arc-toolkit/">ARC Toolkit</a></th>
+        <th>Implemented in <a href="https://www.ibm.com/able/toolkit/tools/#verification-tools">IBM Accessibility Checker</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="el-a" tabindex="-1">
+        <th>
+          <code>a</code> with <code>href</code>
+        </th>
+        <td>
+          <code>role=link</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>button</code>,
+            <code>checkbox</code>,
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>option</code>,
+            <code>radio</code>,
+            <code>switch</code>,
+            <code>tab</code>
+            or <code>treeitem</code>
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-backlink</code>,
+            <code>doc-biblioref</code>,
+            <code>doc-glossref</code>,
+            or <code>doc-noteref</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+          <p>
+            It is NOT RECOMMENDED to use <code>aria-disabled="true"</code> on an
+            <code>a</code> element with an <code>href</code> attribute. If a link needs to be
+            "disabled", remove the <code>href</code> attribute.</p>
+        </td>
+        <td>
+          <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ahref-test.html">test 1 - a-href</a><br>
+          <a href="https://w3c.github.io/html-aria/tests/ahref-aria-disabled.html">test 2 - aria-disabled</a></td>
+        <td>
+          test 1 - <strong class=yes>yes</strong>
+          <br>test 2 - <strong class=yes>yes</strong> - <a href="https://github.com/validator/validator/issues/1112">issue 1112</a></td>
+        <td>
+          test 1 - <strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/16">issue 16</a>
+          <br>test 2 - <strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/27">issue 27</a></td>
+        <td>
+          test 1 - <strong class=yes>yes</strong>
+          <br>test 2 - not yet implemented
+          <br>- <a href="https://github.com/IBMa/equal-access/issues/358">issue 358</a>
+        </td>
+      </tr>
+      <tr id="el-a-no-href" tabindex="-1">
+        <th>
+          <code>a</code> without <code>href</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/anohref-test.html">a-no-href</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/17">issue 17</a></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-abbr" tabindex="-1">
+        <th>
+          <code>abbr</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+           <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/abbr-test.html">abbr</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-address" tabindex="-1">
+        <th>
+          <code>address</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/address-test.html">address</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/637">issue #637</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-area" tabindex="-1">
+        <th>
+          <code>area</code>
+        </th>
+        <td>
+          <code>role=link</code> (with <code>href</code>) or no corresponding role (without <code>href</code>)
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>link</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/area-test.html">area</a></td>
+        <td><strong class=yes>yes</strong><br> - note: same expectations for <code>area</code> with or without <code>href</code></td>
+        <td><strong class=yes>yes</strong><br> - note: same expectations for <code>area</code> with or without <code>href</code></td>
+        <td><strong class=yes>yes</strong><br> - note: same expectations for <code>area</code> with or without <code>href</code></td>
+      </tr>
+      <tr id="el-article" tabindex="-1">
+        <th>
+          <code>article</code>
+        </th>
+        <td>
+          <code>role=article</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>application</code>,
+            <code>document</code>,
+            <code>feed</code>,
+            <code>main</code>,
+            <code>none</code>,
+            <code>presentation</code>
+            or <code>region</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/article-test.html">article</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-aside" tabindex="-1">
+        <th>
+          <code>aside</code>
+        </th>
+        <td>
+          <code>role=complementary</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>feed</code>,
+            <code>none</code>,
+            <code>note</code>,
+            <code>presentation</code>,
+            <code>region</code>
+            or <code>search</code>.
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-dedication</code>,
+            <code>doc-example</code>,
+            <code>doc-footnote</code>,
+            <code>doc-pullquote</code>,
+            <code>doc-tip</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/aside-test.html">aside</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-audio" tabindex="-1">
+        <th>
+          <code>audio</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Role:
+            <code>application</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>application</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/audio-test.html">audio</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-autonomous-custom-element" tabindex="-1">
+        <th>
+          autonomous custom element
+        </th>
+        <td>
+          Role exposed from author defined <code>ElementInternals</code>.
+          Otherwise no corresponding role.
+        </td>
+        <td>
+          <p>If role defined by <code>ElementInternals</code>,
+            <strong class="nosupport">no <code>role</code></strong>.</p>
+          <p>
+            Otherwise, <strong>any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/autonomouscustomelement-test.html">no declared elementInternals role</a><br>
+        no test case for custom element with role declared via elementInternals</td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-b" tabindex="-1">
+        <th>
+          <code>b</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/b-test.html">b</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-base" tabindex="-1">
+        <th>
+          <code>base</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/base-test.html">base</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-bdi" tabindex="-1">
+        <th>
+          <code>bdi</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/bdi-test.html">bdi</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-bdo" tabindex="-1">
+        <th>
+          <code>bdo</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/bdo-test.html">bdo</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-blockquote" tabindex="-1">
+        <th>
+          <code>blockquote</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/blockquote-test.html">blockquote</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-body" tabindex="-1">
+        <th>
+          <code>body</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes
+            and any <code>aria-*</code> attributes applicable to the
+            <code>document</code> role.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/body-head-test.html">body</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/30">issue 30</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong> </td><!-- ibm -->
+      </tr>
+      <tr id="el-br" tabindex="-1">
+        <th>
+          <code>br</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>presentation</code>
+            or <code>none</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/br-test.html">br</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1097">issue 1097</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/pull/10">pull request</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/334">issue 334</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-button" tabindex="-1">
+        <th>
+          <code>button</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>checkbox</code>,
+            <code>link</code>,
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>option</code>,
+            <code>radio</code>,
+            <code>switch</code>
+            or <code>tab</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/button-test.html">button</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/639">issue #639</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-canvas" tabindex="-1">
+        <th>
+          <code>canvas</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/canvas-test.html">canvas</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-caption" tabindex="-1">
+        <th>
+          <code>caption</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/caption-test.html">caption</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/640">issue #640</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-cite" tabindex="-1">
+        <th>
+          <code>cite</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/cite-test.html">cite</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-code" tabindex="-1">
+        <th>
+          <code>code</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/code-test.html">code</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-col" tabindex="-1">
+        <th>
+          <code>col</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/col-test.html">col</a> </td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/646">issue #646</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-colgroup" tabindex="-1">
+        <th>
+          <code>colgroup</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/colgroup-test.html">colgroup</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/645">issue #645</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-data" tabindex="-1">
+        <th>
+          <code>data</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/data-test.html">data</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-datalist" tabindex="-1">
+        <th>
+          <code>datalist</code>
+        </th>
+        <td>
+          <code>role=listbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes
+            and any <code>aria-*</code> attributes applicable to the
+            <code>listbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/datalist-test.html">datalist</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/653">issue #653</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-dd" tabindex="-1">
+        <th>
+          <code>dd</code>
+        </th>
+        <td>
+          <code>role=definition</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>definition</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/dd-test.html">dd</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/659">issue #659</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-del" tabindex="-1">
+        <th>
+          <code>del</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/del-test.html">del</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-dfn" tabindex="-1">
+        <th>
+          <code>dfn</code>
+        </th>
+        <td>
+          <code>role=term</code>
+        </td>
+        <td>
+          <strong>Any</strong> <code>role</code>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/dfn-test.html">dfn</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1093">issue 1093</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-details" tabindex="-1">
+        <th>
+          <code>details</code>
+        </th>
+        <td>
+          <code>role=group</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>group</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/details-test.html">details</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-dialog" tabindex="-1">
+        <th>
+          <code>dialog</code>
+        </th>
+        <td>
+          <code>role=dialog</code>
+        </td>
+        <td>
+          <p>
+            Role:
+            <code>alertdialog</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>dialog</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/dialog-test.html">dialog </a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-div" tabindex="-1">
+        <th>
+          <code>div</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/div-test.html">div</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-dl" tabindex="-1">
+        <th>
+          <code>dl</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>group</code>,
+            <code>list</code>,
+            <code>presentation</code>
+            or <code>none</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/dl-test.html">dl</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/671">issue 671</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-dt" tabindex="-1">
+        <th>
+          <code>dt</code>
+        </th>
+        <td>
+          <code>role=term</code>
+        </td>
+        <td>
+          <p>
+            Role:
+            <code>listitem</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ruby-test.html">dt</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/672">issue 672</a></td>
+        <td><strong class=yes>yes</strong>
+          <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/18">issue 18</a></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-em" tabindex="-1">
+        <th>
+          <code>em</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/em-test.html">em</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-embed" tabindex="-1">
+        <th>
+          <code>embed</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>application</code>,
+            <code>document</code>,
+            <code>img</code>,
+            <code>presentation</code>
+            or <code>none</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/embed-test.html">embed</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-fieldset" tabindex="-1">
+        <th>
+          <code>fieldset</code>
+        </th>
+        <td>
+          <code>role=group</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>none</code>,
+            <code>presentation</code>
+            or <code>radiogroup</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/fieldset-test.html">fieldset</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/674">issue 674</a></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong> <br> - <a href="https://github.com/IBMa/equal-access/issues/333">issue 333</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-figcaption" tabindex="-1">
+        <th>
+          <code>figcaption</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>group</code>,
+            <code>presentation</code>
+            or <code>none</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/figcaption-test.html">figcaption</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/673">issue 673</a></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-figure" tabindex="-1">
+        <th>
+          <code>figure</code>
+        </th>
+        <td>
+          <code>role=figure</code>
+        </td>
+        <td>
+          <p>
+            If the <code>figure</code> has no <code>figcaption</code> descendant:
+            <br>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            If the <code>figure</code> has a <code>figcaption</code> descendant:
+            <br>
+            <strong class="nosupport">No <code>role</code></strong>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td>
+          test 1 - <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/figurenofigcaption-test.html">figure no figcaption</a>
+          <br>
+          test 2 - <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/figurewithfigcaption-test.html">figure with figcaption</a>
+        </td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1108">issue 1108</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/21">issue 21</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/335">issue 335</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-footer" tabindex="-1">
+        <th>
+          <code>footer</code>
+        </th>
+        <td>
+          If not a descendant of an <code>article</code>, <code>aside</code>, <code>main</code>, <code>nav</code>
+          or <code>section</code> element, or an element with <code>role=article</code>, <code>complementary</code>,
+          <code>main</code>, <code>navigation</code> or <code>region</code>
+          then <code>role=contentinfo</code>.
+          Otherwise no corresponding role.
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>group</code>,
+            <code>none</code>
+            or <code>presentation</code>.
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-footnote</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/footer-test.html">footer</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-form" tabindex="-1">
+        <th>
+          <code>form</code>
+        </th>
+        <td>
+          If the <code>form</code> element has an
+          accessible name:
+          <code>role=form</code>.
+          Otherwise, no corresponding role.
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>search</code>,
+            <code>none</code>
+            or <code>presentation</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/form-test.html">form</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-form-associated-custom-element" tabindex="-1">
+        <th>
+          form-associated custom element
+        </th>
+        <td>
+          Role exposed from author defined <code>ElementInternals</code>.
+          Otherwise no corresponding role.
+        </td>
+        <td>
+          <p>If role defined by <code>ElementInternals</code>,
+            <strong class="nosupport">no <code>role</code></strong>.</p>
+          <p>Otherwise, form-related roles:
+            <code>button</code>,
+            <code>checkbox</code>,
+            <code>combobox</code>,
+            <code>group</code>,
+            <code>listbox</code>,
+            <code>progressbar</code>,
+            <code>radio</code>,
+            <code>radiogroup</code>,
+            <code>searchbox</code>,
+            <code>slider</code>,
+            <code>spinbutton</code>,
+            <code>switch</code>
+            or <code>textbox</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td>cannot be tested at this time</td><!-- test case -->
+        <td>cannot be tested at this time</td><!-- validator -->
+        <td>cannot be tested at this time</td><!-- arc -->
+        <td>cannot be tested at this time</td><!-- ibm -->
+      </tr>
+      <tr id="el-h1-h6" tabindex="-1">
+        <th>
+          <code>h1 to h6</code>
+        </th>
+        <td>
+          <code>role=heading</code>,
+          with the <code>aria-level</code> = positive integer.
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>none</code>,
+            <code>presentation</code>
+            or <code>tab</code>.
+          </p>
+          <p>
+            DPub Role:
+            <code>doc-subtitle</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><ul>
+          <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h1-test.html"><code>&lt;h1&gt;</code></a></li>
+          <li><code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h2-test.html">&lt;h2&gt;</a></code></li>
+          <li><code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h3-test.html">&lt;h3&gt;</a></code></li>
+          <li><code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h4-test.html">&lt;h4&gt;</a></code></li>
+          <li><code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h5-test.html">&lt;h5&gt;</a></code></li>
+          <li><code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h6-test.html">&lt;h6&gt;</a></code><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/h6-test.html"></a></li>
+        </ul>
+        </td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-head" tabindex="-1">
+        <th>
+          <code>head</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/body-head-test.html">head</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-header" tabindex="-1">
+        <th>
+          <code>header</code>
+        </th>
+        <td>
+          If not a descendant of an <code>article</code>, <code>aside</code>, <code>main</code>,
+          <code>nav</code> or <code>section</code> element, or an element with <code>role=article</code>,
+          <code>complementary</code>, <code>main</code>, <code>navigation</code>
+          or <code>region</code> then <code>role=banner</code>.
+          Otherwise no corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>group</code>,
+            <code>none</code>
+            or <code>presentation</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/header-test.html">header</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-hgroup" tabindex="-1">
+        <th>
+          <code>hgroup</code>
+        </th>
+        <td>No corresponding role</td>
+        <td>
+          <p><strong>Any</strong> <code>role</code>.</p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/hgroup-test.html">hgroup</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/336">issue 336</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-hr" tabindex="-1">
+        <th>
+          <code>hr</code>
+        </th>
+        <td>
+          <code>role=separator</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>none</code>
+            or <code>presentation</code>.
+          </p>
+          <p>
+            DPub Role:
+            <code>doc-pagebreak</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>separator</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/hr-test.html">hr</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-html" tabindex="-1">
+        <th>
+          <code>html</code>
+        </th>
+        <td>
+          <code>role=document</code>
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/body-head-test.html">html</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/30">issue 30</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-i" tabindex="-1">
+        <th>
+          <code>i</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/i-test.html">i</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-iframe" tabindex="-1">
+        <th>
+          <code>iframe</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>application</code>,
+            <code>document</code>,
+            <code>img</code>,
+            <code>none</code>
+            or <code>presentation</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/iframe-test.html">iframe</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-img" tabindex="-1">
+        <th>
+          <code>img</code> with <code>alt="some text"</code>
+        </th>
+        <td>
+          <code>role=img</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>button</code>,
+            <code>checkbox</code>,
+            <code>link</code>,
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>option</code>,
+            <code>progressbar</code>,
+            <code>scrollbar</code>,
+            <code>separator</code>,
+            <code>slider</code>,
+            <code>switch</code>,
+            <code>tab</code> or
+            <code>treeitem</code>
+          </p>
+          <p>
+            DPub Role:
+            <code>doc-cover</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/img-test.html">img with alt="some text"</a></td><!-- test case -->
+        <td>
+          <strong class="yes">yes</strong>
+        </td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td class="">
+          not yet implemented - <br>
+          allows any role except <code>presentation</code> or <code>none</code>
+          <br>
+          - <a href="https://github.com/IBMa/equal-access/issues/392">issue 392</a>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-img-empty-alt" tabindex="-1">
+        <th>
+          <code>img</code> with
+          <code>alt=""</code>
+        </th>
+        <td>
+          <code>role=presentation</code>
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+          except <code>aria-hidden="true"</code>.
+        </td>
+        <td>
+          <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/img-emptyalt-noARIA-test.html"><code>img</code> with
+          <code>alt=""</code></a>
+        </td><!-- test case -->
+        <td class="">
+          <strong class="yes">yes</strong><br>
+          - <a href="https://github.com/validator/validator/issues/1137">issue 1137</a>
+        </td><!-- validator -->
+        <td>
+          <strong class=yes>yes</strong><br> -
+          <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/36">issue 36</a>
+        </td><!-- arc -->
+        <td class="">
+          partial implementation<br>
+          - does not flag <code>role=none</code>, <code>presentation</code> as invalid<br>
+          - <a href="https://github.com/IBMa/equal-access/issues/391">issue 391</a>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-img-no-alt" tabindex="-1">
+        <th>
+          <code>img</code> without <code>alt</code> attribute
+        </th>
+        <td>
+          <code>role=img</code>
+        </td>
+        <td>
+          <p>
+            If no author-defined accessible name is provided by other methods:
+            <strong class="nosupport">No <code>role</code></strong>, and <strong>no <code>aria-*</code> attributes</strong> except
+            <code>aria-hidden</code>.
+          </p>
+          <p>
+            Otherwise, if the <code>img</code> has an author defined accessible name, see <code>img alt="some text"</code>.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/img-noalt-test.html">img no alt</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td>
+          <strong class=yes>yes</strong><br> -
+          <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/36">issue 36</a>
+        </td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-button" tabindex="-1">
+        <th>
+          <code>input type=button</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>link</code>,
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>option</code>,
+            <code>radio</code>,
+            <code>switch</code>
+            or <code>tab</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-button-test.html">type=button</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-checkbox" tabindex="-1">
+        <th>
+          <code>input type=checkbox</code>
+        </th>
+        <td>
+          <p>
+            <code>role=checkbox</code>
+          </p>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>menuitemcheckbox</code>,
+            <code>option</code>
+            or <code>switch</code>;
+            <code>button</code> if used with <code>aria-pressed</code>.
+          </p>
+          <p>
+            Authors <em>SHOULD NOT</em> use the <code>aria-checked</code> attribute on <code>input type=checkbox</code> elements.
+          </p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+          <p>
+            <strong>Note:</strong> the HTML
+            <code>checked</code>
+            attribute may be used instead of the <code>aria-checked</code>
+            attribute for <code>menuitemcheckbox</code>, <code>option</code> or <code>switch</code> when used on
+            <code>type=checkbox</code>.
+          </p>
+        </td>
+        <td>
+          test 1: <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-checkbox-test.html">type=checkbox</a>
+
+          <br>test 2: see <a href="#att-checked"><code>aria-checked</code> test</a>
+        </td><!-- test case -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/validator/validator/issues/1109">issue 1109</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong>  <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/24">issue 24</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/IBMa/equal-access/issues/337">issue 337</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-color" tabindex="-1">
+        <th>
+          <code>input type=color</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-color-test.html">type=color</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-date" tabindex="-1">
+        <th>
+          <code>input type=date</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-date-test.html">type=date</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-datetime-local" tabindex="-1">
+        <th>
+          <code>input type=datetime-local</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-datetime-test.html">type=datetime-local</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong> - <a href="https://github.com/IBMa/equal-access/issues/341">issue 341</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-email" tabindex="-1">
+        <th>
+          <code>input type=email</code>
+          with no
+          <code>list</code> attribute
+        </th>
+        <td>
+          <code>role=textbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Email-test.html">type=email</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-file" tabindex="-1">
+        <th>
+          <code>input type=file</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-File-test.html">type=file</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-hidden" tabindex="-1">
+        <th>
+          <code>input type=hidden</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Hidden-test.html">type=hidden</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/validator/validator/issues/679">issue 679</a></td>
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td>not implemented<br>- <a href="https://github.com/IBMa/equal-access/issues/338">issue 338</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-image" tabindex="-1">
+        <th>
+          <code>input type=image</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>link</code>,
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>radio</code>
+            or <code>switch</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Image-test.html">type=image</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-month" tabindex="-1">
+        <th>
+          <code>input type=month</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Month-test.html">type=month</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-number" tabindex="-1">
+        <th>
+          <code>input type=number</code>
+        </th>
+        <td>
+          <code>role=spinbutton</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>spinbutton</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Number-test.html">type=number</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-password" tabindex="-1">
+        <th>
+          <code>input type=password</code>
+        </th>
+        <td>
+         No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Password-test.html">type=password</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/22">issue 22</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-radio" tabindex="-1">
+        <th>
+          <code>input type=radio</code>
+        </th>
+        <td>
+          <code>role=radio</code>
+        </td>
+        <td>
+          <p>
+            Role:
+            <code>menuitemradio</code>
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-checked</code> attribute on <code>input type=radio</code> elements.
+          </p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+          <p>
+            <strong>Note:</strong> the HTML <code>checked</code>
+            attribute may be used instead of the <code>aria-checked</code> attribute
+            for <code>menuitemradio</code> when used on <code>type=radio</code>.
+          </p>
+        </td>
+        <td>test 1: <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Radio-test.html">type=radio</a>
+        <br>test 2: see <a href="#att-checked"><code>aria-checked</code> test</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/validator/validator/issues/1109">issue 1109</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong> <br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/24">issue 24</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-range" tabindex="-1">
+        <th>
+          <code>input type=range</code>
+        </th>
+        <td>
+          <code>role=slider</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-valuemax</code> or <code>aria-valuemin</code> attributes on<code>input type=range</code> elements.
+          </p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any other <code>aria-*</code> attributes applicable to the <code>slider</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Range-test.html">type=range</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-reset" tabindex="-1">
+        <th>
+          <code>input type=reset</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>button</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Reset-test.html">type=reset</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-search" tabindex="-1">
+        <th>
+          <code>input type=search</code>,
+          with no<code>list</code> attribute
+        </th>
+        <td>
+          <code>role=searchbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>searchbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Search-test.html">type=search</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-submit" tabindex="-1">
+        <th>
+          <code>input type=submit</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>button</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Submit-test.html">type=submit</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-tel" tabindex="-1">
+        <th>
+          <code>input type=tel</code>,
+          with no <code>list</code> attribute
+        </th>
+        <td>
+          <code>role=textbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Tel-test.html">type=tel</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-text" tabindex="-1">
+        <th>
+          <code>input type=text</code>
+          or with a missing or invalid <code>type</code>, with no <code>list</code> attribute
+        </th>
+        <td>
+          <code>role=textbox</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>combobox</code>,
+            <code>searchbox</code>
+            or <code>spinbutton</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Text-test.html">type=text</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-text-list" tabindex="-1">
+        <th>
+          <code>input type=text</code>,
+          <code>search</code>,
+          <code>tel</code>,
+          <code>url</code>,
+          <code>email</code>,
+          or with a missing or invalid <code>type</code>, <strong>with a <code>list</code> attribute</strong>
+        </th>
+        <td>
+          <code>role=combobox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-haspopup</code> attribute on the indicated <code>input</code>s with a <code>list</code> attribute.
+          </p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any other <code>aria-*</code> attributes applicable to the <code>combobox</code> role.
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-search-test-list.html">search+list</a>
+            </li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Text-test-list.html">text+list</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-url-test-list.html">url+list</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-email-test-list.html">email+list</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-NoType--test-list.html">NoType+list</a></li>
+          </ul>
+        </td>
+        <td><strong class="yes">yes</strong> - <a href="https://github.com/validator/validator/issues/1117">issue #1117</a></td><!-- validator -->
+        <td><strong class="yes">yes</strong> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/39">issue #39</a></td><!-- arc -->
+        <td>partial implementation (does not warn about aria-haspopup use) <a href="https://github.com/IBMa/equal-access/issues/357">issue #357</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-time" tabindex="-1">
+        <th>
+          <code>input type=time</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Time-test.html">type=time</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-url" tabindex="-1">
+        <th>
+          <code>input type=url</code>
+          with no
+          <code>list</code> attribute
+        </th>
+        <td>
+          <code>role=textbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Url-test.html">type=url</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-input-week" tabindex="-1">
+        <th>
+          <code>input type=week</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/input-Week-test.html">type=week</td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-ins" tabindex="-1">
+        <th>
+          <code>ins</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ins-del-test.html">ins</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-kbd" tabindex="-1">
+        <th>
+          <code>kbd</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/kbd-test.html">kbd</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-label" tabindex="-1">
+        <th>
+          <code>label</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            global <code>aria-*</code> attributes
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/label-test.html">label</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-legend" tabindex="-1">
+        <th>
+          <code>legend</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            global <code>aria-*</code> attributes
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/legend-test.html">legend</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-li" tabindex="-1">
+        <th>
+          <code>li</code>
+        </th>
+        <td>
+          <code>role=listitem</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>menuitem</code>,
+            <code>menuitemcheckbox</code>,
+            <code>menuitemradio</code>,
+            <code>option</code>,
+            <code>none</code>,
+            <code>presentation</code>,
+            <code>radio</code>,
+            <code>separator</code>,
+            <code>tab</code>
+            or <code>treeitem</code>
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-biblioentry</code>,
+            <code>doc-endnote</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/li-test.html">li</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-link" tabindex="-1">
+        <th>
+          <code>link</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/link-test.html">link</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-main" tabindex="-1">
+        <th>
+          <code>main</code>
+        </th>
+        <td>
+          <code>role=main</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>main</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/main-test.html">main</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-map" tabindex="-1">
+        <th>
+          <code>map</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/map-test.html">map</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-math" tabindex="-1">
+        <th>
+          <code>math</code>
+        </th>
+        <td>
+          <code>role=math</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>math</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/math-test.html">math</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-mark" tabindex="-1">
+        <th>
+          <code>mark</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/mark-test.html">mark</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-menu" tabindex="-1">
+        <th>
+          <code>menu</code>
+        </th>
+        <td>
+          <code>role=list</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>directory</code>,
+            <code>group</code>,
+            <code>listbox</code>,
+            <code>menu</code>,
+            <code>menubar</code>,
+            <code>none</code>,
+            <code>presentation</code>,
+            <code>radiogroup</code>,
+            <code>tablist</code>,
+            <code>toolbar</code>
+            or <code>tree</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/menu-test.html">menu</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/339">issue 339</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-meta" tabindex="-1">
+        <th>
+          <code>meta</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/meta-test.html">meta</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-meter" tabindex="-1">
+        <th>
+          <code>meter</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Authors SHOULD NOT use the <a href="#att-max">`aria-valuemax`</a> or <a href="#att-min">`aria-valuemin`</a> attributes on `meter` elements.
+          </p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/meter-test.html">meter</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-nav" tabindex="-1">
+        <th>
+          <code>nav</code>
+        </th>
+        <td>
+          <code>role=navigation</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>menu</code>,
+            <code>menubar</code>
+            or <code>tablist</code>.
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-index</code>,
+            <code>doc-pagelist</code>,
+            <code>doc-toc</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/nav-test.html">nav</a></td>
+        <td>
+          <strong class=yes>yes</strong> <br>- <a href="https://github.com/validator/validator/issues/1110">issue 1110</a>
+        </td><!-- validator -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/25">issue 25</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/342">issue 342</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-noscript" tabindex="-1">
+        <th>
+          <code>noscript</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/noscript-test.html">noscript</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong> - <a href="https://github.com/IBMa/equal-access/issues/340">issue 340 (results are browser dependent)</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-object" tabindex="-1">
+        <th>
+          <code>object</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>application</code>,
+            <code>document</code>
+            or <code>img</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/object-test.html">object</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-ol" tabindex="-1">
+        <th>
+          <code>ol</code>
+        </th>
+        <td>
+          <code>role=list</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>directory</code>,
+            <code>group</code>,
+            <code>listbox</code>,
+            <code>menu</code>,
+            <code>menubar</code>,
+            <code>none</code>,
+            <code>presentation</code>,
+            <code>radiogroup</code>,
+            <code>tablist</code>,
+            <code>toolbar</code>
+            or <code>tree</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ol-test.html">ol</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-optgroup" tabindex="-1">
+        <th>
+          <code>optgroup</code>
+        </th>
+        <td>
+          <code>role=group</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>group</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/optgroup-test.html">optgroup</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-option" tabindex="-1">
+        <th>
+          <code>option</code> element that is in a list of options or that
+          represents a suggestion in a <code>datalist</code>
+        </th>
+        <td>
+          <code>role=option</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-selected</code> attribute on the <code>option</code> element.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>option</code> role.
+          </p>
+        </td>
+        <td>test 1: <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/option-test.html">option</a><br>
+          test 2: <a href="https://w3c.github.io/html-aria/tests/option-aria-select.html">option aria-selected</a></td>
+        <td >
+          test 1: <strong class=yes>yes</strong><br>
+          test 2: <strong class=yes>yes</strong> - <a href="https://github.com/validator/validator/issues/1111">issue 1111</a></td><!-- validator -->
+        <td>
+          test 1: <strong class=yes>yes</strong><br>
+          test 2: <strong class=yes>yes</strong> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/26">issue 26</a></td><!-- arc -->
+        <td>
+          test 1: <strong class=yes>yes</strong> <br>
+          - <a href="https://github.com/IBMa/equal-access/issues/343">issue 343</a><br>
+        test 2: not yet implemented<br>- <a href="https://github.com/IBMa/equal-access/issues/344">issue 344</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-output" tabindex="-1">
+        <th>
+          <code>output</code>
+        </th>
+        <td>
+          <code>role=status</code>
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/output-test.html">output</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-p" tabindex="-1">
+        <th>
+          <code>p</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/p-test.html">p</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-param" tabindex="-1">
+        <th>
+          <code>param</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/param-test.html">param</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-picture" tabindex="-1">
+        <th>
+          <code>picture</code>
+        </th>
+        <td>
+         No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/picture-test.html">picture</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-pre" tabindex="-1">
+        <th>
+          <code>pre</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/pre-test.html">pre</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-progress" tabindex="-1">
+        <th>
+          <code>progress</code>
+        </th>
+        <td>
+          <code>role=progressbar</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Authors SHOULD NOT use the <a href="#att-max">`aria-valuemax`</a> attribute on `progress` elements.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any other <code>aria-*</code> attributes applicable to the <code>progressbar</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/progress-test.html">progress</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-q" tabindex="-1">
+        <th>
+          <code>q</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/q-test.html">q</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-rp" tabindex="-1">
+        <th>
+          <code>rp</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/rp-test.html">rp</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-rt" tabindex="-1">
+        <th>
+          <code>rt</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/rt-test.html">rt</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-ruby" tabindex="-1">
+        <th>
+          <code>ruby</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ruby-test.html">ruby</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-s" tabindex="-1">
+        <th>
+          <code>s</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/s-test.html">s</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-samp" tabindex="-1">
+        <th>
+          <code>samp</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/samp-test.html">samp</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-script" tabindex="-1">
+        <th>
+          <code>script</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/script-test.html">script</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-section" tabindex="-1">
+        <th>
+          <code>section</code>
+        </th>
+        <td>
+          <code>role=region</code> if the
+          <code>section</code> element has an accessible name. Otherwise, no corresponding role.
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>alert</code>,
+            <code>alertdialog</code>,
+            <code>application</code>,
+            <code>banner</code>,
+            <code>complementary</code>,
+            <code>contentinfo</code>,
+            <code>dialog</code>,
+            <code>document</code>,
+            <code>feed</code>,
+            <code>log</code>,
+            <code>main</code>,
+            <code>marquee</code>,
+            <code>navigation</code>,
+            <code>none</code>,
+            <code>note</code>,
+            <code>presentation</code>,
+            <code>search</code>,
+            <code>status</code>
+            or <code>tabpanel</code>
+          </p>
+          <p>
+            DPub Roles:
+            <code>doc-abstract</code>,
+            <code>doc-acknowledgments</code>,
+            <code>doc-afterword</code>,
+            <code>doc-appendix</code>,
+            <code>doc-bibliography</code>,
+            <code>doc-chapter</code>,
+            <code>doc-colophon</code>,
+            <code>doc-conclusion</code>,
+            <code>doc-credit</code>,
+            <code>doc-credits</code>,
+            <code>doc-dedication</code>,
+            <code>doc-endnotes</code>,
+            <code>doc-epigraph</code>,
+            <code>doc-epilogue</code>,
+            <code>doc-errata</code>,
+            <code>doc-example</code>,
+            <code>doc-foreword</code>,
+            <code>doc-glossary</code>,
+            <code>doc-index</code>,
+            <code>doc-introduction</code>,
+            <code>doc-notice</code>,
+            <code>doc-pagelist</code>,
+            <code>doc-part</code>,
+            <code>doc-preface</code>,
+            <code>doc-prologue</code>,
+            <code>doc-pullquote</code>,
+            <code>doc-qna</code>,
+            <code>doc-toc</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/section-test.html">section</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-select" tabindex="-1">
+        <th>
+          <code>select</code> (with NO <code>multiple</code> attribute and NO <code>size</code>
+          attribute having value greater than <code>1</code>)
+        </th>
+        <td>
+          <code>role=combobox</code>
+        </td>
+        <td>
+          <p>
+            Role: <code>menu</code>
+          </p>
+          <p>Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-multiselectable</code> attribute on a <code>select</code> element.</p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any other <code>aria-*</code> attributes applicable to the <code>combobox</code> or <code>menu</code> role.
+          </p>
+        </td>
+        <td>
+          test 1 - <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/select-test.html">select w/out multiple</a><br>
+          test 2 - <a href="https://w3c.github.io/html-aria/tests/select-multiselectable.html">aria-multiselectable</a></td>
+        <td >
+          test 1 - <strong class=yes>yes</strong> <br>
+          test 2 - not yet implemented<br>- <a href="https://github.com/validator/validator/issues/1094">issue 1094</a>
+        </td><!-- validator -->
+        <td >
+          test 1 - <strong class=yes>yes</strong> <br>
+          test 2 - <strong class=yes>yes</strong>
+        </td><!-- arc -->
+        <td>
+          test 1 - <strong class=yes>yes</strong><br>
+          test 2 - <strong class=yes>yes</strong>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-select-multiple-or-size-greater-1" tabindex="-1">
+        <th>
+          <code>select</code> (with a <code>multiple</code> attribute or a <code>size</code> attribute
+          having value greater than <code>1</code>)
+        </th>
+        <td>
+          <code>role=listbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-multiselectable</code> attribute on a <code>select</code> element.</p>
+          <p>
+            Otherwise, any global <code>aria-*</code> attributes and
+            any other <code>aria-*</code> attributes applicable to the <code>listbox</code> role.
+          </p>
+        </td>
+        <td>
+          test 1 - <a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/select-2-test.html">select w/multiple</a>
+        <br>
+          test 2 - <a href="https://w3c.github.io/html-aria/tests/select-multiselectable.html">aria-multiselectable</a></td>
+        <td>
+          test 1 - <strong class=yes>yes</strong>
+          <br>
+          test 2 - <strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1094">issue 1094</a></td><!-- validator -->
+        <td>test 1 - <strong class=yes>yes</strong> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/31">issue 31</a>
+          <br>
+          test 2 - <strong class=yes>yes</strong></td><!-- arc -->
+        <td>
+          test 1 - <strong class=yes>yes</strong>
+          <br>
+          test 2 - not yet implemented - <a href="https://github.com/IBMa/equal-access/issues/345">issue 345</a></td><!-- ibm -->
+      </tr>
+      <tr id="el-slot" tabindex="-1">
+        <th>
+          <code>slot</code>
+        </th>
+        <td>No corresponding role</td>
+        <td><strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong></td>
+        <td>A <code>slot</code> element is not exposed in browsers.</td>
+        <td>-</td><!-- validator -->
+        <td>-</td><!-- arc -->
+        <td>-</td><!-- ibm -->
+      </tr>
+      <tr id="el-small" tabindex="-1">
+        <th>
+          <code>small</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/small-test.html">small</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-source" tabindex="-1">
+        <th>
+          <code>source</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/source-test.html">source</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-span" tabindex="-1">
+        <th>
+          <code>span</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/span-test.html">span</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-strong" tabindex="-1">
+        <th>
+          <code>strong</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/strong-test.html">strong</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-style" tabindex="-1">
+        <th>
+          <code>style</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/style-test.html">style</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-svg" tabindex="-1">
+        <th>
+          <code>SVG</code>
+        </th>
+        <td>
+          <code>role=graphics-document</code> as defined by
+          SVG AAM
+        </td>
+        <td>
+          <p>
+            <strong>Any Role</strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/svg-test.html">svg</a></td>
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/validator/validator/issues/1096">issue 1096</a> </td><!-- validator -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/pull/11">pull request</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/IBMa/equal-access/issues/346">issue 346</a> </td><!-- ibm -->
+      </tr>
+      <tr id="el-sub" tabindex="-1">
+        <th>
+          <code>sub</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/sub-test.html">sub</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-summary" tabindex="-1">
+        <th>
+          <code>summary</code>
+        </th>
+        <td>
+          <code>role=button</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>button</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/summary-test.html">summary</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/32">issue 32</a></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-sup" tabindex="-1">
+        <th>
+          <code>sup</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/sup-test.html">sup</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-table" tabindex="-1">
+        <th>
+          <code>table</code>
+        </th>
+        <td>
+          <code>role=table</code>
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/table-test.html">table</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-tbody" tabindex="-1">
+        <th>
+          <code>tbody</code>
+        </th>
+        <td>
+          <code>role=rowgroup</code>
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tbody-test.html">tbody</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-template" tabindex="-1">
+        <th>
+          <code>template</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/template-test.html">template</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-textarea" tabindex="-1">
+        <th>
+          <code>textarea</code>
+        </th>
+        <td>
+          <code>role=textbox</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>textbox</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/textarea-test.html">textarea</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-tfoot" tabindex="-1">
+        <th>
+          <code>tfoot</code>
+        </th>
+        <td>
+          <code>role=rowgroup</code>
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tfoot-test.html">tfoot</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-thead" tabindex="-1">
+        <th>
+          <code>thead</code>
+        </th>
+        <td>
+          <code>role=rowgroup</code>
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/thead-test.html">thead</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-time" tabindex="-1">
+        <th>
+          <code>time</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/time-test.html">time</a></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-title" tabindex="-1">
+        <th>
+          <code>title</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/title-test.html">title</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td>
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-td" tabindex="-1">
+        <th>
+          <code>td</code>
+        </th>
+        <td>
+          <p>
+            <code>role=cell</code> if the ancestor
+            <code>table</code> element is exposed as a <code>role=table</code>.
+          </p>
+          <p>
+            <code>role=gridcell</code> if the ancestor
+            <code>table</code> element is exposed as a <code>role=grid</code> or <code>treegrid</code>.
+          </p>
+          <p>
+            <a>No corresponding role</a> if the ancestor <code>table</code> element is not exposed
+            as a <code>role=table</code>, <code>grid</code> or <code>treegrid</code>.
+          </p>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong> if the ancestor <code>table</code>
+            element has <code>role=table</code>, <code>grid</code>, or <code>treegrid</code>; otherwise
+            <strong>any</strong> <code>role</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/td-test.html">test 1: td - no role</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/td-table-test.html">test 2 - no role in role=table</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/td-grid-test.html">test 3 - no role in role=grid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/td-treegrid-test.html">test 4 - no role in role=treegrid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/td-any-test.html">test 5: td - any role</a>
+            </li>
+        </ul></td>
+        <td>
+          <strong>yes</strong>
+          - <a href="https://github.com/validator/validator/issues/1125">issue 1125</a>
+        </td>
+        <!-- validator -->
+        <td>
+          <ul>
+            <li>test 1 - <strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/38">issue 38</a></li>
+            <li>test 2 - <strong class=yes>yes</strong></li>
+            <li>test 3 - <strong class=yes>yes</strong></li>
+            <li>test 4 - <strong class=yes>yes</strong></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- arc -->
+        <td>
+          <ul>
+            <li>test 1 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 2 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 3 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 4 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-th" tabindex="-1">
+        <th>
+          <code>th</code>
+        </th>
+        <td>
+          <p>
+            <code>role=columnheader</code>,
+            <code>rowheader</code> or <code>cell</code> if the ancestor
+            <code>table</code> element is exposed as a <code>role=table</code>.
+          </p>
+          <p>
+                <code>role=columnheader</code>,
+                <code>rowheader</code> or <code>gridcell</code> if the ancestor
+                <code>table</code> element is exposed as a <code>role=grid</code> or <code>treegrid</code>.
+          </p>
+          <p>
+            <a>No corresponding role</a> if the ancestor <code>table</code> element is not exposed
+            as a <code>role=table</code>, <code>grid</code> or <code>treegrid</code>.
+          </p>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong> if the ancestor <code>table</code>
+            element has <code>role=table</code>, <code>grid</code>, or <code>treegrid</code>; otherwise
+            <strong>any</strong> <code>role</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/th-test.html">test 1: th - no role</a>          </li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/th-table-test.html">test 2 - no role in role=table</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/th-grid-test.html">test 3 - no role in role=grid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/th-treegrid-test.html">test 4 - no role in role=treegrid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/th-any-test.html">test 5: th - any role</a></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>test 1 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 2 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 3 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 4 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td>
+        <!-- validator -->
+        <td>
+          <ul>
+            <li>test 1 - <strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/38">issue 38</a></li>
+            <li>test 2 - <strong class=yes>yes</strong> </li>
+            <li>test 3 - <strong class=yes>yes</strong> </li>
+            <li>test 4 - <strong class=yes>yes</strong> </li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- arc -->
+        <td>
+          <ul>
+            <li>test 1 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 2 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 3 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 4 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-tr" tabindex="-1">
+        <th>
+          <code>tr</code>
+        </th>
+        <td>
+          <code>role=row</code>
+        </td>
+        <td>
+          <p>
+            <strong class="nosupport">No <code>role</code></strong> if the ancestor <code>table</code>
+            element has <code>role=table</code>, <code>grid</code>, or <code>treegrid</code>; otherwise
+            <strong>any</strong> <code>role</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tr-test.html">test 1: tr - no role</a>          </li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tr-table-test.html">test 2 - no role in role=table</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tr-grid-test.html">test 3 - no role in role=grid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tr-treegrid-test.html">test 4 - no role in role=treegrid</a></li>
+            <li><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/tr-any-test.html">test 5: tr - any role</a></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>test 1 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 2 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 3 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 4 - not yet implemented <br>- <a href="https://github.com/validator/validator/issues/1125">issue 1125</a></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td>
+        <!-- validator -->
+        <td>
+          <ul>
+            <li>test 1 - <strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/38">issue 38</a></li>
+            <li>test 2 - <strong class=yes>yes</strong> </li>
+            <li>test 3 - <strong class=yes>yes</strong> </li>
+            <li>test 4 - <strong class=yes>yes</strong> </li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- arc -->
+        <td>
+          <ul>
+            <li>test 1 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 2 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 3 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 4 - not yet implemented <br>- <a href="https://github.com/IBMa/equal-access/issues/372">issue 372</a></li>
+            <li>test 5 - <strong class=yes>yes</strong></li>
+          </ul>
+        </td><!-- ibm -->
+      </tr>
+      <tr id="el-track" tabindex="-1">
+        <th>
+          <code>track</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <strong class="nosupport">No <code>role</code> or <code>aria-*</code> attributes</strong>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/track-test.html">track</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="el-u" tabindex="-1">
+        <th>
+          <code>u</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/u-test.html">u</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-ul" tabindex="-1">
+        <th>
+          <code>ul</code>
+        </th>
+        <td>
+          <code>role=list</code>
+        </td>
+        <td>
+          <p>
+            Roles:
+            <code>directory</code>,
+            <code>group</code>,
+            <code>listbox</code>,
+            <code>menu</code>,
+            <code>menubar</code>,
+            <code>none</code>,
+            <code>presentation</code>,
+            <code>radiogroup</code>,
+            <code>tablist</code>,
+            <code>toolbar</code>
+            or <code>tree</code>.
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/ul-test.html">ul</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-var" tabindex="-1">
+        <th>
+          <code>var</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/var-test.html">var</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-video" tabindex="-1">
+        <th>
+          <code>video</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            Role: <code>application</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the <code>application</code> role.
+          </p>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/video-test.html">video</a></td>
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+      <tr id="el-wbr" tabindex="-1">
+        <th>
+          <code>wbr</code>
+        </th>
+        <td>
+          No corresponding role
+        </td>
+        <td>
+          <p>
+            <strong>Any</strong> <code>role</code>
+          </p>
+          <p>
+            Global <code>aria-*</code> attributes and
+            any <code>aria-*</code> attributes applicable to the allowed roles.
+          </p>
+          <div class="note">
+              NOTE: these rules will be updated in the next version of ARIA in HTML
+            </div>
+        </td>
+        <td><a href="https://thepaciellogroup.github.io/aria-test-builder/dist/testcases/wbr-test.html">wbr</a></td><!-- test case -->
+        <td><strong class=yes>yes</strong></td><!-- validator -->
+        <td><strong class=yes>yes</strong></td><!-- arc -->
+        <td><strong class=yes>yes</strong></td><!-- ibm -->
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="simple">
+    <caption>
+      Rules of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> attribute usage by HTML feature
+    </caption>
+    <thead>
+      <tr>
+        <th>
+          HTML feature
+        </th>
+        <th>
+          <p id="implicit-attr">
+            Implicit <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics
+          </p>
+        </th>
+        <th>
+          HTML feature and <code>aria-*</code> attribute author guidance
+        </th>
+        <th>Test Case</th>
+        <th>Implemented in <a href="https://validator.w3.org/nu/">W3C Validator</a></th>
+        <th>Implemented in <a href="https://www.tpgi.com/arc-platform/arc-toolkit/">ARC Toolkit</a></th>
+        <th>Implemented in <a href="https://www.ibm.com/able/toolkit/tools/#verification-tools">IBM Accessibility Checker</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="att-checked" tabindex="-1">
+        <th>
+          Any element where the <code>checked</code>
+          attribute is allowed
+        </th>
+        <td>
+          <code>aria-checked="true"</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>checked</code> attribute on any element that is
+            allowed the <code>checked</code> attribute in HTML.
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-checked</code> attribute on any element where the checkedness of the element can be in opposition to the current value of the <code>aria-checked</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-checked</code> attribute on any other element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the  attribute.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/checked-test.html">checked (2 tests)</a></td>
+        <td><strong class="yes">yes</strong><br>- <a href="https://github.com/validator/validator/issues/1122">issue 1122</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/28">issue 28</a></td>
+        <td>not yet implemented<br>- <a href="https://github.com/IBMa/equal-access/issues/347">issue 347</a></td>
+      </tr>
+      <tr id="att-disabled" tabindex="-1">
+        <th>
+          Any element where the <code>disabled</code> attribute is allowed, including <code>option disabled</code> and <code>optgroup disabled</code>
+        </th>
+        <td>
+          <code>aria-disabled="true"</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>disabled</code> attribute on any element that is allowed the <code>disabled</code> attribute in HTML.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-disabled</code> attribute on any element that is allowed the <code>disabled</code> attribute in HTML, or any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-disabled</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use <code>aria-disabled="true"</code> on any element which also has a <code>disabled</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use <code>aria-disabled="false"</code> on any element which also has a <code>disabled</code> attribute.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/disabled-test.html">disabled (3 tests)</a></td>
+        <td><strong class=yes>yes</strong>  <!-- note: test 1 (does not indicate aria-disabled on input type=hidden as invalid), but this is of little consequence since the element is not exposed to users. --> <br>- <a href="https://github.com/validator/validator/issues/1106">issue 1106</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/20">issue 20</a></td>
+        <td>partial implementation: <br>passes tests 1 &amp; 3 (of 3)<br>- <a href="https://github.com/IBMa/equal-access/issues/348">issue 348</a></td>
+      </tr>
+      <tr id="att-hidden" tabindex="-1">
+        <th>
+          Any element with a <code>hidden</code> attribute
+        </th>
+        <td>
+          <code>aria-hidden="true"</code>
+        </td>
+        <td>
+          <p>
+            Authors MAY use the <code>aria-hidden</code> attribute on any HTML element that allows global <code>aria-*</code> attributes, with the following exceptions:
+          </p>
+          <p>
+            Authors SHOULD NOT use the <code>aria-hidden="true"</code> attribute on any element which also has a <code>hidden</code> attribute.
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li>
+              <a href="https://w3c.github.io/html-aria/tests/aria-hidden-invalid-element-test.html">test 1</a>
+            </li>
+            <li><a href="https://w3c.github.io/html-aria/tests/aria-hidden-all-elements.html">test 2</a></li>
+            <li><a href="https://w3c.github.io/html-aria/tests/aria-hidden-and-hidden.html">test 3</a></li>
+          </ul>
+        </td>
+        <td>
+          <ul><li>test 1 - <strong class=yes>yes</strong> - <a href="https://github.com/validator/validator/issues/1115">issue 1115</a></li>
+            <li>test 2 - <strong class=yes>yes</strong></li>
+            <li>test 3 - <strong class=yes>yes</strong> with exception: <code>math</code> reported as not allowing <code>aria-hidden</code> - <a href="https://github.com/validator/validator/issues/1114">issue 1114</a></li>
+          </ul>
+        </td><!-- validator -->
+        <td>
+          <strong class=yes>yes</strong><br>
+          - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/29">issue 29</a>
+        </td><!-- arc -->
+        <td>
+          <ul>
+            <li>test 1 - partial implementation. does not flag errors for <code>input type=hidden</code>, <code>noscript</code>, <code>script</code>, <code>slot</code>, <code>template</code> </li>
+            <li>test 2 - <strong class=yes>yes</strong></li>
+            <li>test 3 - not implemented</li>
+          </ul>
+          <a href="https://github.com/IBMa/equal-access/issues/350">issue 350</a> and <a href="https://github.com/IBMa/equal-access/issues/349">issue 349</a>
+        </td>
+      </tr>
+      <tr id="att-placeholder" tabindex="-1">
+        <th>
+          Any element where the <code>placeholder</code> attribute is allowed
+        </th>
+        <td>
+          <code>aria-placeholder="..."</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>placeholder</code> attribute on any element that is allowed the
+            <code>placeholder</code> attribute in HTML.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-placeholder</code> attribute on any element that is allowed the <code>placeholder</code> attribute in HTML, or any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-placeholder</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use the <code>aria-placeholder</code> attribute on any element which also has a <code>placeholder</code> attribute.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/placeholder-test.html">placeholder (2 tests)</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1098">issue 1098</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/12">issue 12</a></td><!-- arc -->
+        <td>partial implementation <br>
+          test 1 - throws errors for 4 of 8 inputs with <code>aria-placeholder</code> - <a href="https://github.com/IBMa/equal-access/issues/351">issue 351</a>.<br> test 2 - properly throws errors for all 8 inputs.</td>
+      </tr>
+      <tr id="att-max" tabindex="-1">
+        <th>
+          Any element where the <code>max</code> attribute is allowed: meter, progress, and input.
+        </th>
+        <td>
+          <code>aria-valuemax="..."</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>max</code> attribute on any element that is
+            allowed the <code>max</code> attribute in HTML.
+          </p>
+          <p>
+            Authors MAY use the <code>aria-valuemax</code> attribute on any other element with a WAI-ARIA role which allows the attribute.
+          </p>
+          <p>
+            Authors SHOULD NOT use <code>aria-valuemax</code> on any element which allows the <code>max</code> attribute. Use the <code>max</code> attribute instead.
+          </p>
+          <p>
+            Authors MUST NOT use <code>aria-valuemax</code> on any element which also has a <code>max</code> attribute, even if the values of each attribute match.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/max-test.html">aria-valuemax (2 tests)</a></td>
+        <td><strong class=yes>yes</strong> - <a href="https://github.com/validator/validator/issues/1119">issue 1119</a></td><!-- validator -->
+        <td><strong class="yes">yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/34">issue 34</a>
+        </td><!-- arc -->
+        <td><strong class=yes>yes</strong> with 3 exceptions<br>-
+          flags error for all but <code>type=number</code>, <code>type=range</code> and <code>progress</code>
+          <br>- <a href="https://github.com/IBMa/equal-access/issues/359">issue 359</a>
+        </td>
+      </tr>
+      <tr id="att-min" tabindex="-1">
+        <th>
+          Any element where the <code>min</code> attribute is allowed: meter, and input.
+        </th>
+        <td>
+          <code>aria-valuemin="..."</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>min</code> attribute on any element that is
+            allowed the <code>min</code> attribute in HTML.
+          </p>
+          <p>
+            Authors MAY use the <code>aria-valuemin</code> attribute on any other element with a WAI-ARIA role which allows the attribute.
+          </p>
+          <p>
+            Authors SHOULD NOT use <code>aria-valuemin</code> on any element which allows the <code>min</code> attribute. Use the <code>min</code> attribute instead.
+          </p>
+          <p>
+            Authors MUST NOT use <code>aria-valuemin</code> on any element which also has a <code>min</code> attribute, even if the values of each attribute match.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/min-test.html">aria-valuemin (2 tests)</a></td>
+        <td><strong class="yes">yes</strong> <br>- <a href="https://github.com/validator/validator/issues/1120">issue 1120</a></td><!-- validator -->
+        <td>
+          <strong class="yes">yes</strong> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/35">issue 35</a>
+        </td><!-- arc -->
+        <td>
+          <strong class="yes">yes</strong> with 2 exceptions <br>-
+          flags error for all but type=number, and type=range
+          <br> - <a href="https://github.com/IBMa/equal-access/issues/360">issue 360</a>
+        </td>
+      </tr>
+      <tr id="att-readonly" tabindex="-1">
+        <th>
+          Any <code>input</code> element which allows the <code>readonly</code> attribute, or form-associated custom element which allows the <code>readonly</code> attribute.
+        </th>
+        <td>
+          <code>aria-readonly="true"</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>readonly</code> attribute on any element that is
+            allowed the <code>readonly</code> attribute in HTML.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-readonly</code> attribute on any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-readonly</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-readonly="true"</code> on any element which also has a <code>readonly</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use <code>aria-readonly="false"</code> on any element which also has a <code>readonly</code> attribute.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/readonly-test.html">input[readonly] (2 tests)</a><br>
+          <strong>Note:</strong> no test for faces readonly.</td>
+        <td><strong class=yes>yes</strong><br>sufficiently implemented <br>- marks all use of <code>aria-readonly</code> on tested inputs as not allowed.</td><!-- validator -->
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/13">issue 13</a></td><!-- arc -->
+        <td>partially implemented<br>
+          test 1 - flags <code>input type=password, date, month, week, time</code> as invalid use of <code>aria-readonly</code> - <a href="https://github.com/IBMa/equal-access/issues/352">issue 352</a><br>
+          test 2 - <strong class=yes>yes</strong></td>
+      </tr>
+      <tr id="att-contenteditable" tabindex="-1">
+        <th>
+          <p>
+            Element with <code>contenteditable="true"</code>;
+            or<br>
+            Element without <code>contenteditable</code> attribute whose closest
+            ancestor with a <code>contenteditable</code> attribute has
+            <code>contenteditable="true"</code>.
+          </p>
+          <p>
+            <strong>Note:</strong> this is equivalent to the <code>isContentEditable</code>
+            IDL attribute.
+          </p>
+        </th>
+        <td>
+          <code>aria-readonly="false"</code>
+        </td>
+        <td>
+          Authors <em class="rfc2119">MUST NOT</em> set <code>aria-readonly="true"</code> on an element that has <code>isContentEditable="true"</code>.
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/contenteditable-readonly-test.html">aria-readonly test</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1105">issue 1105</a></td><!-- validator -->
+        <td><strong class=yes>yes</strong> <br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/19">issue 19</a></td><!-- arc -->
+        <td>not yet implemented<br>- <a href="https://github.com/IBMa/equal-access/issues/353">issue 353</a></td>
+      </tr>
+      <tr id="att-required" tabindex="-1">
+        <th>
+          Any element where the <code>required</code> attribute is allowed: <code>input</code>, <code>textarea</code>, and <code>select</code>
+        </th>
+        <td>
+          <code>aria-required="true"</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>required</code> attribute on any element
+            that is allowed the
+            <code>required</code> attribute in HTML.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-required</code> attribute on any element that is allowed the <code>required</code> attribute in HTML, or any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-required</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-required="true"</code> on any element which also has a <code>required</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use <code>aria-required="false"</code> on any element which also has a <code>required</code> attribute.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/required-test.html">required (3 tests)</a></td>
+        <td>
+        <strong class="yes">yes</strong><br>
+        - <a href="https://github.com/validator/validator/issues/1118">issue 1118</a></td><!-- validator -->
+        <td><strong class="yes">yes</strong><br>- <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/33">issue 33</a></td><!-- arc -->
+        <td>
+          test 1 - partial implementation - states 7 inputs that allow for <code>required</code> do not allow for <code>aria-required</code><br>
+          test 2 - no warning surfaced<br>
+          test 3 - <strong class=yes>yes</strong><br>
+          - <a href="https://github.com/IBMa/equal-access/issues/361">issue 361</a>
+        </td>
+      </tr>
+      <tr id="att-colspan" tabindex="-1">
+        <th>
+          Any element where the <code>colspan</code>
+          attribute is allowed: <code>td</code> and <code>th</code>
+        </th>
+        <td>
+          <code>aria-colspan="..."</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>colspan</code> attribute on any element that is
+            allowed the <code>colspan</code> attribute in HTML.
+          </p>
+          <!-- <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-colspan</code> attribute on any element that is allowed the <code>colspan</code> attribute in HTML, or any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-colspan</code> attribute.
+          </p> -->
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-colspan</code> attribute on any element which also has a <code>colspan</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use <code>aria-colspan</code> on any element which also has a <code>colspan</code> attribute, and the values of each attribute do not match.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/colspan-test.html">colspan (2 tests)</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1107">issue 1107</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/14">issue 14</a></td>
+        <td>Not yet implemented: <br>- <a href="https://github.com/IBMa/equal-access/issues/354">issue 354</a></td>
+      </tr>
+      <tr id="att-rowspan" tabindex="-1">
+        <th>
+          Any element where the <code>rowspan</code>
+          attribute is allowed: <code>td</code> and <code>th</code>
+        </th>
+        <td>
+          <code>aria-rowspan="..."</code>
+        </td>
+        <td>
+          <p>
+            Use the <code>rowspan</code> attribute on any element that is
+            allowed the <code>rowspan</code> attribute in HTML.
+          </p>
+          <!-- <p>
+            Authors <em class="rfc2119">MAY</em> use the <code>aria-rowspan</code> attribute on any element that is allowed the <code>rowspan</code> attribute in HTML, or any element with a WAI-<abbr title="Accessible Rich Internet Applications">ARIA</abbr> role which allows the <code>aria-rowspan</code> attribute.
+          </p> -->
+          <p>
+            Authors <em class="rfc2119">SHOULD NOT</em> use the <code>aria-rowspan</code> attribute on any element which also has a <code>rowspan</code> attribute.
+          </p>
+          <p>
+            Authors <em class="rfc2119">MUST NOT</em> use <code>aria-rowspan</code> on any element which also has a <code>rowspan</code> attribute, and the values of each attribute do not match.
+          </p>
+        </td>
+        <td><a href="https://w3c.github.io/html-aria/tests/rowspan-test.html">rowspan (2 tests)</a></td>
+        <td><strong class=yes>yes</strong><br>- <a href="https://github.com/validator/validator/issues/1107">issue 1107</a></td>
+        <td><strong class=yes>yes</strong><br> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/15">issue 15</a></td>
+        <td>Not yet implemented: <br>- <a href="https://github.com/IBMa/equal-access/issues/354">issue 354</a></td>
+      </tr>
+     </tbody>
+  </table>
+
+  <table class="simple">
+    <caption>
+      Case requirements for ARIA role, state and property attributes
+    </caption>
+    <thead>
+      <th>Scenario</th>
+      <th>Test Case</th>
+      <th>Expectation</th>
+      <th>Implemented in <a href="https://validator.w3.org/nu/">W3C Validator</a></th>
+      <th>Implemented in <a href="https://www.tpgi.com/arc-platform/arc-toolkit/">ARC Toolkit</a></th>
+      <th>Implemented in <a href="https://www.ibm.com/able/toolkit/tools/#verification-tools">IBM Accessibility Checker</a></th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Non-lowercase role</th>
+        <td><a href="https://w3c.github.io/html-aria/tests/casing-role.html">role casing test</a></td>
+        <td>Error or warn that role value is not lowercased</td>
+        <td><strong class="yes">yes</strong></td>
+        <td><strong class="yes">yes</strong></td>
+        <td>not implemented</td>
+      </tr>
+      <tr>
+        <th>Non-lowercase attribute token value</th>
+        <td><a href="https://w3c.github.io/html-aria/tests/casing-attribute.html">attribute casing test</a></td>
+        <td>Error or warn that attribute token value is not lowercased</td>
+        <td><strong class="yes">yes</strong></td>
+        <td><strong class="yes">yes</strong> - <a href="https://github.com/ThePacielloGroup/WAI-ARIA-Usage/issues/40">issue 40</a></td>
+        <td><strong class="yes">yes</strong></td>
+      </tr>
+    </tbody>
+</body>
+</html>

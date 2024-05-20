@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="UTF-8">
+	<title>ARIA in HTML - Test Cases</title>
+    <link rel="stylesheet" href="../results/styles.css">
+	<style>
+		body{
+			font-size: 1em;
+		}
+		.roleTest {
+			border: 2px solid black;
+			width: 1em;
+			height: 1em;
+			margin: 5px;
+		}
+		.flex {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+		}
+		.widgetDemo {
+			border: 1px solid #EEE;
+			margin: .5em;
+			padding: 5px;
+			flex: 1 0 0;
+			min-width: calc(300px - 1em);
+		}
+		.widgetDemo p {
+			color: #696969;
+			font-size: 1.125em;
+			padding: 0;
+			margin: .75em 0;
+		}
+		.testcase {
+			margin: 2em 0;
+		}
+		h3{
+			margin: .5em 0;
+			border: 0;
+			padding: 0;
+		}
+		h2 {font-size:2em}
+	</style>
+</head>
+<body>
+
+	<header>
+	<h1>ARIA in HTML - test cases for <code>aria-valuemin</code></h1>
+	<p>last updated 14 March 2021</p>
+	<p>
+		<code>min</code> is allowed on <a href="https://html.spec.whatwg.org/multipage/form-elements.html#attr-meter-min">meter</a>, and <a href="https://html.spec.whatwg.org/multipage/input.html#attr-input-min">input</a> type <code>date</code>, <code>month</code>, <code>week</code>, <code>time</code>, <code>datetime-local</code>, <code>number</code>, <code>range</code>.
+	</p>
+	</header>
+	<main>
+		<h2>Tests:</h2>
+
+		<div class="flex">
+			<div class="widgetDemo">
+				<h3>Test 1</h3>
+				<p>
+          Authors SHOULD NOT use the <code>aria-valuemin</code> attribute on any element which allows the <code>min</code> attribute. Use the <code>min</code> attribute instead.
+        </p>
+
+				<div class="testcase">
+					<p>inputs</p>
+					<input type="date" aria-valuemin="1979-12-31">
+					<input type="month" aria-valuemin="2021-12">
+					<input type="week" aria-valuemin="2018-W26">
+					<input type="time" aria-valuemin="12:00">
+					<input type="datetime-local" aria-valuemin="2022-12-31T00:00">
+					<input type="number" aria-valuemin="6">
+					<input type="range" aria-valuemin="10">
+					<p>meter</p>
+					<meter value=6 aria-valuemin=2 max=8>6 blocks used (out of 8 total)</meter>
+				</div>
+
+				<p><strong>Expected result:</strong>
+				<br>Flag error or warning to authors to use <code>min</code> attribute instead. Authors may not be able to replicate all the necessary functionality of the native <code>min</code> attribute.</p>
+			</div>
+
+			<div class="widgetDemo">
+				<h3>Test 2</h3>
+				<p>
+          Authors MUST NOT use the <code>aria-valuemin</code> on any element which also has a <code>min</code> attribute, even if the values of each attribute match.
+        </p>
+
+				<div class="testcase">
+					<p>inputs</p>
+					<input type="date" aria-valuemin="1979-12-31" min="1979-12-31">
+					<input type="month" aria-valuemin="2021-12" min="2021-12">
+					<input type="week" aria-valuemin="2018-W26" min="2018-W26">
+					<input type="time" aria-valuemin="12:00" min="12:00">
+					<input type="datetime-local" aria-valuemin="2022-12-31T00:00" min="2022-12-31T00:00">
+					<input type="number" aria-valuemin="5" min="6">
+					<input type="range" aria-valuemin="9" min="3">
+					<p>meter</p>
+					<meter value=6 min=2 aria-valuemin="3" max=8>6 blocks used (out of 8 total)</meter>
+				</div>
+
+				<p><strong>Expected result:</strong>
+				<br>Error and tell authors to use <code>min</code> attribute by itself. Authors may not be able to replicate all the necessary functionality of the native <code>min</code> attribute.</p>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
