@@ -1,0 +1,34 @@
+name: Generate Respec Files
+on:
+  pull_request: {}
+  push:
+    branches: [monorepo]
+jobs:
+  main:
+    name: Build, Validate and Deploy
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+          - source: index.html
+            destination: builds/aria/index.html
+          - source: core-aam/index.html
+            destination: builds/core-aam/index.html
+          - source: accname/index.html
+            destination: builds/accname/index.html
+    steps:
+      - uses: actions/checkout@v4
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: ${{ matrix.source }}
+          DESTINATION: ${{ matrix.destination }}
+          TOOLCHAIN: respec
+          GH_PAGES_BUILD_OVERRIDE: |
+            lint: false
+          BUILD_FAIL_ON: nothing
+          GH_PAGES_BRANCH: gh-pages
+          VALIDATE_WEBIDL: false
+          VALIDATE_MARKUP: false
