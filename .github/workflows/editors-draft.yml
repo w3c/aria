@@ -58,9 +58,9 @@ jobs:
               sourcepath: /html-aam/
         
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ${{ matrix.repo }}
         path: ${{ matrix.repo }}
@@ -74,10 +74,12 @@ jobs:
 
     - name: Build respec
       run: |
-        npx respec --src ./${{ matrix.repo.sourcepath }}/index.html --out ${{ matrix.repo }}/index.html
+        npm install respec@latest  
+        npx respec --src ${{ matrix.repo.sourcepath }}/index.html --out ${{ matrix.repo }}/index.html
     - name: Copy files
       run: |
         mkdir ${{ matrix.repo }}/common
+        cd /common/
         cp -R README.md ${{ matrix.repo }}/common
         cp -R acknowledgements.html ${{ matrix.repo }}/common
         cp -R biblio.js ${{ matrix.repo }}/common
