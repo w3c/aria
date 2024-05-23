@@ -16703,8 +16703,8 @@ button.ariaPressed; // null</pre
       </section>
     </section>
     <section id="idl-interface" class="normative">
-      <h2>IDL Interface</h2>
-      <p>Conforming user agents MUST implement the following IDL interface.</p>
+      <h2>IDL Interfaces</h2>
+      <p>Conforming user agents MUST implement the following IDL interfaces.</p>
       <section id="ARIAMixin" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
         <h2>Interface Mixin <dfn>ARIAMixin</dfn></h2>
         <pre class="idl" data-cite="webidl">
@@ -16783,6 +16783,33 @@ button.ariaPressed; // null</pre
           reflects the <pref>aria-valuemin</pref> content attribute; etc. Ambiguity clarifications (such as <code>ariaPosInSet</code>) are listed in
           <a href="#idl_attr_exceptions">IDL Attribute Name Notes or Exceptions</a>.
         </p>
+      </section>
+      <section id="ARIANotifyMixin" class="normative" data-dfn-for="ARIANotifyMixin" data-link-for="ARIANotifyMixin">
+        <h2>Interface Mixin <dfn>ARIANotifyMixin</dfn></h2>
+        <pre class="idl" data-cite="webidl">
+          enum AriaNotifyInterrupt { "none", "all", "pending" };
+          enum AriaNotifyPriority { "none", "important" };
+    
+          dictionary AriaNotificationOptions {
+            AriaNotifyInterrupt interrupt = "none";
+            AriaNotifyPriority priority = "none";
+            DOMString notificationId = "";
+          };
+          interface mixin ARIANotifyMixin {
+            void ariaNotify(DOMString announcement, optional AriaNotificationOptions options = {});
+          };
+          Element includes ARIANotifyMixin;
+          Document includes ARIANotifyMixin;
+        </pre>
+    
+        <p>User Agent processing for the <dfn method for=ARIANotifyMixin><code>ariaNotify(<var>announcement</var>, <var>options</var>)</code></dfn> method steps are:</p>
+        <ol>
+          <li><p>Let <var>priority</var> be <var>options</var>["<code>priority</code>"].</p></li>
+          <li><p>Let <var>interrupt</var> be <var>options</var>["<code>interrupt</code>"].</p></li>
+          <li><p>Let <var>id</var> be <var>options</var>["<code>notifyId</code>"].</p></li>
+          <li><p>Run the aria notify steps given <var>node</var>, <var>announcement</var>, <var>priority</var>, <var>interrupt</var>, and <var>id</var>.</p></li>
+        </ol>
+    
       </section>
 
       <section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
