@@ -3016,8 +3016,14 @@
             <tr>
               <th>[[wai-aria-1.2]]</th>
               <td>
-                <a class="core-mapping" href="#role-map-image">`image`</a>
-                or <a class="core-mapping" href="#role-map-img">`img`</a> role
+                <div>
+                  If element has a non-empty `src` or `srcset` attribute, an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>, or both, then map to the
+                  <a class="core-mapping" href="#role-map-image">`image`</a> or <a class="core-mapping" href="#role-map-img">`img`</a> role.
+                </div>
+                <div>
+                  Otherwise, if the element has no `src` or `srcset` attribute, or if the attribute(s) are set to the empty string, and the `img` has no `alt` attribute or accessible name, then map to
+                  the <a class="core-mapping" href="#role-map-none">`none`</a> or <a class="core-mapping" href="#role-map-presentation">`presentation`</a> role.
+                </div>
               </td>
             </tr>
             <tr>
@@ -3026,7 +3032,8 @@
             </tr>
             <tr>
               <th>
-                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> +
+                <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
@@ -3054,6 +3061,10 @@
             <tr>
               <th>Comments</th>
               <td>
+                <p>
+                  An `img` with a non-empty `src`, `srcset`, or both and no `alt` attribute or <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> will still map to the `image` role,
+                  unless another role has been explicitly provided by an author.
+                </p>
                 <p class="note">ARIA 1.3 adds the `image` role as the preferred synonym to the ARIA 1.0 `img` role. The expected computed role for named `img` elements is now "image".</p>
               </td>
             </tr>
@@ -3113,7 +3124,13 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td class="comments">
+                <p>Authors can specify the `alt` attribute to be the empty string by either marking it up as `alt=""` or `alt` with no value.</p>
+                <p>
+                  If an `img` has been provided an `alt=""`, but also has an `aria-label` or `aria-labelledby` attribute specified which returns an accessible name, then the element maps to the `img`
+                  role.
+                </p>
+              </td>
             </tr>
           </tbody>
         </table>
