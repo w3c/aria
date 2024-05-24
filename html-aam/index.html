@@ -161,69 +161,6 @@
         <p>There are currently no deprecated requirements.</p>
       </section>
     </section>
-    <section id="mapping_contextual">
-      <h3>Exposing HTML Features With Contextual Roles</h3>
-      <p>
-        An element with a <strong>contextual role</strong> is one whose computed role semantics are based on its ancestral <a>accessibility tree</a> relationship to another element or elements. Or, an
-        element whose computed role is dependent upon whether it has other associated accessibility information, such as an author-provided accessible name.
-      </p>
-      <p>
-        For instance, an element that is an <strong>accessibility child</strong> of its required <strong>accessibility parent</strong> would expose a computed role for its given context, such as a
-        list item (`li` element) within an unordered list (`ul` element). However, the same element might be used within a different markup pattern and could therefore expose different
-        contextually-dependent computed roles, such as a `section` element with an author-provided accessible name (role `region`) versus an unnamed `section` element (role `generic`).
-      </p>
-      <p>When the conditions for an element's contextual role are not met, it will commonly expose a computed role of `generic` or with a <strong>minimum role</strong>, if applicable.</p>
-      <div class="note">
-        <p>Previously, the concept of a contextual role was loosely referred to as an element's "scoped" relationship to another element.</p>
-      </div>
-      <div class="example">
-        <p>
-          A <code>li</code> element has an implicit WAI-ARIA role mapping of <code>listitem</code> only when the element is an <strong>accessibility child</strong> of a <code>menu</code>,
-          <code>ol</code> or <code>ul</code> element that has not had its `list` role mapping suppressed.
-        </p>
-        <pre><code>&lt;ul>
-    &lt;li>...&lt;/li> &lt;!-- computed role `listitem` -->
-  &lt;/ul> 
-  &lt;article>
-    ...
-    &lt;li>...&lt;/li> &lt;!-- computed role `generic`, not `listitem` -->
-    ...</code></pre>
-      </div>
-      <div class="example">
-        <p>
-          An <code>aside</code> element has an implicit WAI-ARIA role mapping of <code>complementary</code> only when the element is an <strong>accessibility child</strong> of the <code>body</code> or
-          <code>main</code> elements, or if the <code>aside</code> has been provided an accessible name.
-        </p>
-        <pre><code>&lt;body>
-  ...
-  &lt;main>
-    ...
-    &lt;article>
-      &lt;aside>...&lt;/aside> &lt;!-- computed role `generic`, not `complementary` -->
-      ...
-      &lt;aside aria-label=named>...&lt;/aside> &lt;!-- computed role `complementary` -->
-    &lt;/article>
-    ...
-    &lt;aside>...&lt;/aside> &lt;!-- computed role `complementary` -->
-  &lt;/main>
-  &lt;aside>...&lt;/aside> &lt;!-- computed role `complementary` -->
-  ...
-  &lt;footer>
-    ...
-    &lt;aside>...&lt;/aside> &lt;!-- computed role `generic`, not `complementary` -->
-  &lt;/footer>
-...</code></pre>
-      </div>
-
-      <div class="example">
-        <p>A <code>section</code> element has an implicit WAI-ARIA role mapping of <code>region</code> only when the element is provided an <strong>accessible name</strong>.</p>
-        <pre><code>&lt;section title="accessible name">...&lt;/section> &lt;!-- computed role `region` -->
-...
-&lt;section aria-label="accessible name">...&lt;/section> &lt;!-- computed role `region` -->
-...
-&lt;section>...&lt;/section> &lt;!-- computed role `generic`, not `region` --></code></pre>
-      </div>
-    </section>
     <section>
       <h2>Mapping HTML to Accessibility APIs</h2>
       <section id="mapping_general">
@@ -253,6 +190,69 @@
           <a class="core-mapping" href="#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a> in
           the [[core-aam-1.2]].
         </p>
+      </section>
+      <section id="mapping_contextual">
+        <h3>Exposing HTML Features With Contextual Roles</h3>
+        <p>
+          An element with a <strong>contextual role</strong> is one whose computed role semantics are based on its ancestral <a>accessibility tree</a> relationship to another element or elements. Or,
+          an element whose computed role is dependent upon whether it has other associated accessibility information, such as an author-provided accessible name.
+        </p>
+        <p>
+          For instance, an element that is an <strong>accessibility child</strong> of its required <strong>accessibility parent</strong> would expose a computed role for its given context, such as a
+          list item (`li` element) within an unordered list (`ul` element). However, the same element might be used within a different markup pattern and could therefore expose different
+          contextually-dependent computed roles, such as a `section` element with an author-provided accessible name (role `region`) versus an unnamed `section` element (role `generic`).
+        </p>
+        <p>When the conditions for an element's contextual role are not met, it will commonly expose a computed role of `generic` or with a <strong>minimum role</strong>, if applicable.</p>
+        <div class="note">
+          <p>Previously, the concept of a contextual role was loosely referred to as an element's "scoped" relationship to another element.</p>
+        </div>
+        <div class="example">
+          <p>
+            A <code>li</code> element has an implicit WAI-ARIA role mapping of <code>listitem</code> only when the element is an <strong>accessibility child</strong> of a <code>menu</code>,
+            <code>ol</code> or <code>ul</code> element that has not had its `list` role mapping suppressed.
+          </p>
+          <pre><code>&lt;ul>
+      &lt;li>...&lt;/li> &lt;!-- computed role `listitem` -->
+    &lt;/ul> 
+    &lt;article>
+      ...
+      &lt;li>...&lt;/li> &lt;!-- computed role `generic`, not `listitem` -->
+      ...</code></pre>
+        </div>
+        <div class="example">
+          <p>
+            An <code>aside</code> element has an implicit WAI-ARIA role mapping of <code>complementary</code> only when the element is an <strong>accessibility child</strong> of the
+            <code>body</code> or <code>main</code> elements, or if the <code>aside</code> has been provided an accessible name.
+          </p>
+          <pre><code>&lt;body>
+    ...
+    &lt;main>
+      ...
+      &lt;article>
+        &lt;aside>...&lt;/aside> &lt;!-- computed role `generic`, not `complementary` -->
+        ...
+        &lt;aside aria-label=named>...&lt;/aside> &lt;!-- computed role `complementary` -->
+      &lt;/article>
+      ...
+      &lt;aside>...&lt;/aside> &lt;!-- computed role `complementary` -->
+    &lt;/main>
+    &lt;aside>...&lt;/aside> &lt;!-- computed role `complementary` -->
+    ...
+    &lt;footer>
+      ...
+      &lt;aside>...&lt;/aside> &lt;!-- computed role `generic`, not `complementary` -->
+    &lt;/footer>
+  ...</code></pre>
+        </div>
+
+        <div class="example">
+          <p>A <code>section</code> element has an implicit WAI-ARIA role mapping of <code>region</code> only when the element is provided an <strong>accessible name</strong>.</p>
+          <pre><code>&lt;section title="accessible name">...&lt;/section> &lt;!-- computed role `region` -->
+  ...
+  &lt;section aria-label="accessible name">...&lt;/section> &lt;!-- computed role `region` -->
+  ...
+  &lt;section>...&lt;/section> &lt;!-- computed role `generic`, not `region` --></code></pre>
+        </div>
       </section>
       <section>
         <h3>HTML Element Role Mappings</h3>
