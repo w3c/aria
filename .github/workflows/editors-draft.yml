@@ -25,6 +25,8 @@ jobs:
         spec: 
           - name: 'accname'
             branch: 'gh-pages'
+          - name: core-aam
+            branch: 'gh-pages'
           # Others to come
 
     steps:
@@ -42,7 +44,7 @@ jobs:
       - name: Build Respec
         run: |
           cd ${{ matrix.spec.name }}
-          npx respec --src index.html --out .Overview.html
+          npx respec --src index.html --out Overview.html
           cd ..
 
       - name : Checkout deployment repositories
@@ -55,7 +57,8 @@ jobs:
 
       - name    : Copy files
         run: |
-          cp ./${{ matrix.spec.name }}Overview.html Overview.html
+          cp ../${{ matrix.spec.name }}/Overview.html Overview.html
+          cp -r ../common/* common/*
 
       - name: Push changes
         run: |
@@ -63,5 +66,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Update generated files"
+          git commit -m "Update ${{ matrix.spec.name }}"
           git push
