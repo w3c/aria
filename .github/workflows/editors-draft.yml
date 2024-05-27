@@ -9,17 +9,14 @@ jobs:
     if: github.repository == 'w3c/aria'
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix:
         spec: 
           - name: 'accname'
             branch: 'gh-pages'
-            repository: w3c/accname
-            path: 'w3c/accname'
+            repo: w3c/accname
           - name: core-aam
             branch: 'gh-pages'
-            repository: w3c/core-aam
-            path: 'w3c/core-aam'
+            repo: w3c/core-aam
           # Others to come
 
     steps:
@@ -29,9 +26,9 @@ jobs:
       - name : Checkout deployment repositories
         uses: actions/checkout@v4
         with:
-          repository: w3c/${{ matrix.spec.repository }}
+          repository: w3c/${{ matrix.spec.repo }}
           ref: ${{ matrix.spec.branch }}
-          path: w3c/${{ matrix.spec.path }}
+          path: w3c/${{ matrix.spec.repo }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
