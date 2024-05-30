@@ -1,7 +1,7 @@
-name: core-aam
+name: Build and Copy core-aam
 on:
   push:
-    branches: [monorepo]
+    branches: [main]
     paths: ['core-aam/**']
   workflow_dispatch:
 
@@ -36,7 +36,7 @@ jobs:
       - name: Checkout core-aam repo
         uses: actions/checkout@v4
         with:
-          repository: w3c//core-aam
+          repository: daniel-montalvo/core-aam
           ref: gh-pages
           path: core-aam
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,10 +45,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: core-aam
+          path: core-aam
 
       - name: Commit changes
+        working-directory: core-aam
+        env:
+          token: ${{ secrets.W3CGRUNTBOT_TOKEN }}
         run: |
+          ls -R
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
+          git status
           git add .
           git commit -m "Update core-aam"
+          git push origin gh-pages
