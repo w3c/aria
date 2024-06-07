@@ -16680,25 +16680,18 @@ button.ariaPressed; // null</pre
             explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
           </li>
           <li>
-            If an element has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role.
-            However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit
-            non-presentational role is applied.
+            <p>If an element with an explicit presentational role has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role. Conversely, if the presentational role is inherited and the element has <a>global</a> WAI-ARIA states or properties, user agents MUST NOT expose the element, maintaining its presentational role regardless of any <a>global</a> ARIA state or property. However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit non-presentational role is applied.</p>
+            <p class="note">Some <a>global</a> WAI-ARIA states and properties are <a>prohibited</a> on certain roles. These states and properties are still considered global for the purposes of Presentational Role Conflict resolution.</p>
+            <p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element was not in a presentational state.</p>
+            <pre class="example highlight">
+              <span class="comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
+              &lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+              <span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
+              &lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
+            </pre>
+          </li>
           </li>
         </ul>
-        <p class="note">
-          Some <a>global</a> WAI-ARIA states and properties are <a>prohibited</a> on certain roles. These states and properties are still considered global for the purposes of Presentational Role
-          Conflict resolution.
-        </p>
-        <p>
-          For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element
-          was not in a presentational state.
-        </p>
-        <pre class="example highlight">
-<span class="comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
-&lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
-&lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
-		</pre>
         <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
       </section>
     </section>
