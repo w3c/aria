@@ -1,8 +1,8 @@
-name: Build and Copy core-aam
+name: Build, Copy, and Publish graphics-aria
 on:
   push:
     branches: [main]
-    paths: ['core-aam/**']
+    paths: ['graphics-aria/**']
   workflow_dispatch:
 
 jobs:
@@ -13,42 +13,45 @@ jobs:
       - uses: actions/checkout@v4
       - uses: w3c/spec-prod@v2
         with:
-          SOURCE: core-aam/index.html
+          SOURCE: graphics-aria/index.html
           TOOLCHAIN: respec
-          # W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
-          # W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
+          W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN_GRAPHICS-ARIA }}
+          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
           GH_PAGES_BRANCH: gh-pages
           VALIDATE_WEBIDL: false
           VALIDATE_MARKUP: false
           BUILD_FAIL_ON: nothing
-          ARTIFACT_NAME: 'core-aam'
+          W3C_BUILD_OVERRIDE: |
+            specStatus: CRD
+            shortName: graphics-aria-1.1
+          ARTIFACT_NAME: 'graphics-aria'
 
       - uses: actions/upload-artifact@v4
         with:
-          name: core-aam
-          path: core-aam.zip
+          name: graphics-aria
+          path: graphics-aria.zip
 
-  copy-to-core-aam-gh-pages:
-    name: Copy to core-aam gh-pages
+  copy-to-graphics-aria-gh-pages:
+    name: Copy to graphics-aria repo
     runs-on: ubuntu-20.04
     needs: main
     steps:
-      - name: Checkout core-aam repo
+      - name: Checkout graphics-aria repo
         uses: actions/checkout@v4
         with:
-          repository: w3c/core-aam
+          repository: w3c/graphics-aria
           ref: gh-pages
-          path: core-aam
+          path: graphics-aria
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: core-aam
-          path: core-aam
+          name: graphics-aria
+          path: graphics-aria
 
       - name: Commit changes
-        working-directory: core-aam
+        working-directory: graphics-aria
         env:
           token: ${{ secrets.ARIA_SPECS_EDITORS_DRAFTS }}
         run: |
@@ -57,5 +60,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git status
           git add .
-          git commit -m "Update core-aam"
+          git commit -m "Update graphics-aria"
           git push origin gh-pages
