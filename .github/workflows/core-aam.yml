@@ -21,6 +21,7 @@ jobs:
           https://api.github.com/repos/w3c/core-aam/actions/workflows/build-from-monorepo.yaml/dispatches \
           -d '{"ref":"gh-pages"}'
   update-core-aam:
+    name: Update Editors Draft
     runs-on: ubuntu-latest
     steps:
       - name: Checkout monorepo
@@ -60,3 +61,19 @@ jobs:
           git commit -m "Sync from monorepo"
           git push origin gh-pages
         working-directory: core-aam
+
+  publish-tr:
+    name: Publish to TR
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: aria/core-aam/index.html
+          DESTINATION: aria/core-aam/index.html
+          W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN_CORE_AAM }}
+          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
+          # Publish to w3.org/TR as a Working Draft (WD) under a different shortName.
+          W3C_BUILD_OVERRIDE: |
+            specStatus: CRD
