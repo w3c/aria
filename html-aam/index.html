@@ -192,6 +192,27 @@
         </p>
       </section>
       <section>
+        <h3 id="minimum-role">Exposing HTML Features That Require a Minimum Role</h3>
+        <p>
+          A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to if the element does not have a more specific implicit role or platform role mappings, e.g., a non-generic
+          role. This can help ensure that users of assistive technologies get the best possible experience for commonly-used and valid HTML markup where otherwise a role would not be exposed.
+        </p>
+        <p>A minimum role is provided when all of the following conditions are true:</p>
+        <ul>
+          <li>the author has <strong>not</strong> specified a valid explicit WAI-ARIA role to the element, <strong>or</strong> the specified role is either `none`, `presentation`, or `generic`;</li>
+          <li>the element either has no implicit WAI-ARIA role or platform role mappings, or it has an implicit `generic` or `none` computed role;</li>
+          <li>and the author has specified attributes which require a minimum role mapping for the element.</li>
+        </ul>
+        <p>
+          The <a href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> section identifies the specific global attributes which would require an element map
+          to a minimum role.
+        </p>
+        <p>
+          When these conditions are met, the browser MUST expose an object using the mappings defined in CORE-AAM for the specified minimum role. If the element has multiple attributes specified which
+          require a minimum role be returned as the computed role for the element, prioritize the more specific role in the ARIA taxonomy.
+        </p>
+      </section>
+      <section>
         <h3>HTML Element Role Mappings</h3>
         <ul>
           <li>
@@ -201,18 +222,24 @@
           <li>
             "Not mapped" means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user
             interface. However, authors can force some of these elements to be rendered. For instance, by overriding user agent styles to render elements that would have been otherwise set to
-            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>.
-          </li>
-          <li>
-            Where applicable, how an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
-            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
-            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>, unless other HTML features have been
+            specified which would require a more specific <a>minimum role</a> to be exposed.
           </li>
           <li>
             Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents
             MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an
             explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.
           </li>
+          <li>
+            Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. How an element
+            participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
+            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
+            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+          </li>
+        </ul>
+
+        <h4 id="platform-api-mapping-requirements">Platform API mapping requirements</h4>
+        <ul>
           <li>
             When HTML elements do not have an exact or equivalent mapping to a valid, non-abstract <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, a unique `computedrole`
             string has been specified to serve as the return value for interoperability testing purposes. For instance, the `video` element MAY be exposed with a `computedrole` of "`html-video`".
@@ -8659,7 +8686,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -10150,7 +10177,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -14886,7 +14913,10 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                <!-- For future consideration:
+        Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>. -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -16483,6 +16513,7 @@
         <section>
           <h4>Substantive changes since moving to the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> (03-Nov-2019)</h4>
           <ul>
+            <li>06-June-2024: Add concept of Minimum Role. See <a href="https://github.com/w3c/html-aam/pull/454">GitHub PR 454</a>.</li>
             <li>06-June-2024: Add `popover`, `popovertarget` and `popovertargetaction` mappings. See <a href="https://github.com/w3c/html-aam/pull/481">GitHub PR 481</a>.</li>
             <li>09-Oct-2023: Acknowledge use of `hr` element within `select` element. See <a href="https://github.com/w3c/html-aam/pull/504">GitHub PR 504</a>.</li>
             <li>03-Oct-2023: Update image mappings to reference the primary synonym roles (`image` and `none`). See <a href="https://github.com/w3c/html-aam/pull/498">GitHub PR 498</a>.</li>
