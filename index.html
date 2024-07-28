@@ -7665,28 +7665,24 @@
 					<p>For example, pain can be measured along a range of values in which each value is most helpfully expressed by descriptive text rather than superficially expressed by an unintuitive number.</p>
 				</div>
 				<pre class="example highlight">
-&lt;label&gt;
-  Pain rating:
-  &lt;input id="pain" type="range" min="0" max="10" value="0" aria-valuetext="No pain" /&gt;
-&lt;/label&gt;
-&lt;ol id="ratings" aria-hidden="true"&gt;
-  &lt;li&gt;No pain&lt;/li&gt;
-  &lt;li&gt;Hardly noticeable pain&lt;/li&gt;
-  &lt;li&gt;Noticeable pain, but does not interfere with activities&lt;/li&gt;
-  &lt;li&gt;Somewhat distracting pain&lt;/li&gt;
-  &lt;li&gt;Distracting pain, but does not affect normal activities&lt;/li&gt;
-  &lt;li&gt;Pain interrupts some activities&lt;/li&gt;
-  &lt;li&gt;Hard to ignore pain, avoidance of daily activities&lt;/li&gt;
-  &lt;li&gt;Pain is the main focus of attention, prevents daily activities&lt;/li&gt;
-  &lt;li&gt;Awful pain, difficult to do anything&lt;/li&gt;
-  &lt;li&gt;Unbearable pain, cannot do anything&lt;/li&gt;
-  &lt;li&gt;As bad as pain can be, nothing else matters&lt;/li&gt;
-&lt;/ol&gt;
+&lt;!-- Warning: this code example is incomplete. --&gt;
+&lt;div id="label"&gt;Pain rating&lt;/div&gt;
+&lt;div id="pain" role="slider" tabindex="0" aria-labelledby="label" aria-valuetext="No pain"&gt;
+  &lt;ol id="ratings" aria-hidden="true"&gt;
+    &lt;li&gt;No pain&lt;/li&gt;
+    &lt;li&gt;Hardly noticeable pain&lt;/li&gt;
+    &lt;li&gt;Somewhat distracting pain&lt;/li&gt;
+    &lt;li&gt;Pain interrupts some activities&lt;/li&gt;
+    &lt;li&gt;Pain prevents daily activities&lt;/li&gt;
+    &lt;li&gt;Unbearable pain, cannot do anything&lt;/li&gt;
+    &lt;li&gt;As bad as pain can be, nothing else matters&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
 &lt;script&gt;
-  document.getElementById('pain').addEventListener('input', function() {
-    const value = parseInt(this.value, 10);
-    const rating = document.querySelector('#ratings:nth-child(' + (value + 1) + ')');
-    this.setAttribute('aria-valuetext', rating.textContent);
+  document.querySelectorAll('#ratings li').forEach(function(rating, index) {
+    rating.addEventListener('click', function() {
+      document.getElementById('pain').setAttribute('aria-valuetext', this.textContent);
+    });
   });
 &lt;/script&gt;
 				</pre>
