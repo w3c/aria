@@ -2,6 +2,7 @@ name: Prettier
 # minimally modified from https://github.com/creyD/prettier_action#example-2-using-the-only_changed-or-same_commit-option-on-pr
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: 
       - main
@@ -15,13 +16,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-          # This is important to fetch the changes to the previous commit
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
           fetch-depth: 0
 
+      - name: Check if PR is from a fork
+        id: check_fork
+        run: echo "::set-output name=is_fork::${{ github.event.pull_request.head.repo.fork }}"
+
       - name: Prettify code
+        id: prettify
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --write **/index.html --print-width 200
           commit_message: "chore: prettier"
+        continue-on-error: true
+
+      - name: Handle commit failure
+        if: ${{ steps.prettify.outcome == 'failure' && steps.check_fork.outputs.is_fork == 'true' }}
+        run: echo "Commit failed due to lack of permissions. Please update permissions."
