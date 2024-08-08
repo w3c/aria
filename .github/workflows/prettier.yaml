@@ -1,4 +1,58 @@
-name: Prettier
+{
+  "action": "opened",
+  "number": 42,
+  "pull_request": {
+    "url": "https://api.github.com/repos/octocat/Hello-World/pulls/42",
+    "id": 279147437,
+    "head": {
+      "repo": {
+        "fork": true,
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    },
+    "base": {
+      "repo": {
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    }
+  },
+  "repository": {
+    "id": 1296269,
+    "name": "Hello-World",
+    "full_name": "octocat/Hello-World"
+  },
+  "sender": {
+    "login": "octocat",
+    "id": 1
+  }
+}{
+  "action": "opened",
+  "number": 42,
+  "pull_request": {
+    "url": "https://api.github.com/repos/octocat/Hello-World/pulls/42",
+    "id": 279147437,
+    "head": {
+      "repo": {
+        "fork": true,
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    },
+    "base": {
+      "repo": {
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    }
+  },
+  "repository": {
+    "id": 1296269,
+    "name": "Hello-World",
+    "full_name": "octocat/Hello-World"
+  },
+  "sender": {
+    "login": "octocat",
+    "id": 1
+  }
+}name: Prettier
 # minimally modified from https://github.com/creyD/prettier_action#example-2-using-the-only_changed-or-same_commit-option-on-pr
 
 on:
@@ -13,15 +67,55 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
+          # Make sure the actual branch is checked out when running on pull requests even from forks
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
           # This is important to fetch the changes to the previous commit
           fetch-depth: 0
 
+      - name: Check if PR is from a fork
+        id: check_fork
+        run: echo "::set-output name=is_fork::${{ github.event.pull_request.head.repo.fork }}"
+
       - name: Prettify code
+        id: prettify
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --write **/index.html --print-width 200
           commit_message: "chore: prettier"
+        continue-on-error: true
+{
+  "action": "opened",
+  "number": 42,
+  "pull_request": {
+    "url": "https://api.github.com/repos/octocat/Hello-World/pulls/42",
+    "id": 279147437,
+    "head": {
+      "repo": {
+        "fork": true,
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    },
+    "base": {
+      "repo": {
+        "url": "https://api.github.com/repos/octocat/Hello-World"
+      }
+    }
+  },
+  "repository": {
+    "id": 1296269,
+    "name": "Hello-World",
+    "full_name": "octocat/Hello-World"
+  },
+  "sender": {
+    "login": "octocat",
+    "id": 1
+  }
+}
+      - name: Handle commit failure
+        if: ${{ steps.prettify.outcome == 'failure' && steps.check_fork.outputs.is_fork == 'true' }}
+        run: echo >
+          please [allow maintainers to edit your PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) 
+
