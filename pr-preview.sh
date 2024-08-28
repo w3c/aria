@@ -8,8 +8,8 @@ find . -wholename "./index.html" -exec sed -i 's/ariaSpecURLs: {/ariaSpecURLs: {
 find . -wholename "./index.html" -exec sed -i 's/accNameURLs: {/accNameURLs: {\n          "unofficial": ".\/accname\/",/g' {} +
 find . -wholename "./index.html" -exec sed -i 's/coreMappingURLs: {/coreMappingURLs: {\n          "unofficial": ".\/core-aam\/",/g' {} +
 
-# update specURLs mapping for child specs
-echo "updating child spec mappings"
+# update child specs URLs mapping
+echo "updating child spec URL mappings"
 # aria
 find . -mindepth 1 -name "index.html" -exec sed -i 's/ariaSpecURLs: {/ariaSpecURLs: {\n          "unofficial": "..\/",/g' {} +
 # accname
