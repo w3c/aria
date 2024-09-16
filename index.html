@@ -4648,10 +4648,20 @@
 				</p>
 				<p>
 					A <code>listview</code> contains <rref>listviewitem</rref> elements.
-					Each <code>listviewitem</code> element may present a single element, such as an image, link,  or checkbox, or a complex card or tile  containing rich content accompanied by widgets.
+					Authors can use the <rref>listviewitem</rref> elements in a  <code>listview</code> to present a wide variety of collections.
+					For example, each item in a collection might contain:
+				</p>
+				<ul>
+					<li>A single element, such as an image, link,  or checkbox.</li>
+					<li>a complex card or tile  containing rich content that could include widgets.</li>
+				</ul>
+				<p>
+					A <code>listview</code> can be used to present a hierarchical collection.
+					a <rref>listviewitem</rref> can contain a <rref>group</rref> that contains other <rref>listviewitem</rref> elements.
+					As described in the definition of <rref>listviewitem</rref>, authors MAY use <sref>aria-expanded</sref> on a <rref>listviewitem</rref> to indicate that a nested collection can be expanded or collapsed.
 				</p>
 				<p>
-					Authors may use a <code>listview</code> to make a collection navigable and interactive.
+					The primary purpose of a <code>listview</code> is to make a collection navigable and interactive.
 					Elements in A listview may also be selectable, but they are not selectable by default.
 					Authors may specify either <sref>aria-selected</sref> or <sref>aria-checked</sref> for items in a listview to indicate selection (see <rref>listviewitem</rref>).
 					If a <code>listview</code> allows multiple <rref>listviewitem</rref> elements to be selected, authors SHOULD set <pref>aria-multiselectable</pref> to <code>true</code> on the element with role <code>listview</code>.
@@ -4661,7 +4671,7 @@
 					When a user is navigating the <code>listview</code> content with a keyboard, authors SHOULD set focus as follows:
 				</p>
 				<ul>
-					<li>If a <rref>listviewitem</rref> contains a single interactive <rref>widget</rref> that will not consume arrow key presses when it receives focus, such as a <rref>checkbox</rref>, <rref>button</rref>, or <rref>link</rref>, authors MAY set focus on the interactive element contained in that item. This allows the contained widget to be directly operable.</li>
+					<li>If a <rref>listviewitem</rref> contains a single interactive <rref>widget</rref> that will not consume arrow key presses when it receives focus, such as a <rref>checkbox</rref>, <rref>button</rref>, or <rref>link</rref>, authors MAY set focus on the interactive element contained in that item. This allows the contained widget to be directly operable and enables assistive technologies to expose the role, name, value, and  state of the contained element.</li>
 					<li>Otherwise, authors SHOULD ensure the element that receives focus is a <rref>listviewitem</rref> element.</li>
 				</ul>
 				<p>Authors SHOULD provide a mechanism for moving focus into  and out of a <rref>listviewitem</rref> that allows users to navigate and interact with content contained by the <rref>listviewitem</rref> if the <rref>listviewitem</rref> contains any of the following:</p>
@@ -4675,6 +4685,14 @@
 					Then, pressing <kbd>Enter</kbd> again, <kbd>Tab</kbd>, <kbd>Escape</kbd>, or another key would place focus back on the parent <rref>listviewitem</rref> element so users can continue navigating the <code>listview</code>.
 					For example, if an item in a list of video preview cards contains a video player, the <kbd>Enter</kbd> key might be used to move focus from the <rref>listviewitem</rref> to the play button of the contained player.
 					The card might then  trap focus so users can easily use the <kbd>Tab</kbd> key to navigate among the player's controls and then use the <kbd>Esc</kbd> key or a dynamically rendered close button to return focus to the card.
+				</p>
+				<p>
+					The <code>listview</code> role does not assume any particular form of visual presentation.
+					A <code>listview</code> may scroll in any direction as  users move focus.</code>
+					Items may be arranged in a single column, a single row, or in multiple columns or rows.
+					Authors SHOULD indicate whether the order of the collection is presented horizontally or vertically with <pref>aria-orientation</pref>.
+					For example, if a set of twenty cards is presented in a vertical list that is wrapped into five columns that contain four cards, authors SHOULD set <pref>aria-orientation</pref> to <code>vertical</code>.
+					This would inform assistive technology users that moving focus with the down arrow key would move focus from the first card to the second card whereas pressing the right arrow key (if supported) would move focus from the first card to the fifth card.
 				</p>
 				<p>
 					Since <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> can augment an element of the host language, a <code>listview</code> can reuse the elements and attributes of a native list, such as an HTML <code>ul</code> element.
@@ -4729,7 +4747,12 @@
 					</tr>
 					<tr>
 						<th class="role-properties-head" scope="row">Supported States and Properties:</th>
-						<td class="role-properties"><pref>aria-multiselectable</pref></td>
+						<td class="role-properties">
+							<ul>
+								<li><pref>aria-multiselectable</pref></li>
+								<li>aria-orientation</li>
+							</ul>
+						</td>
 					</tr>
 					<tr>
 						<th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
