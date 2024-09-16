@@ -4642,10 +4642,44 @@
 		<div class="role" id="listview">
 			<rdef>listview</rdef>
 			<div class="role-description">
-				<p>A composite <rref>widget</rref> containing a collection of interactive elements that may also contain interactive elements. See related <rref>grid</rref> and <rref>treegrid</rref></p>
-				<p>A <code>listview</code> contains <rref>listviewitem</rref> elements.</p>
-				<p>Authors may use a <code>listview</code> to make a collection navigable and interactive. Elements in A listview may also be selectable, but they are not selectable by default. Authors may specify either <sref>aria-selected</sref> or <sref>aria-checked</sref> for items in a listview to indicate selection (see <rref>listviewitem</rref>).</p>
-				<p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of <rref>listviewitem</rref> descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+				<p>
+					A composite <rref>widget</rref> containing a collection of interactive elements that may also contain interactive elements where some or all items in the collection are focusable by using methods of directional navigation, such as directional arrow keys.
+					See related <rref>grid</rref> and <rref>treegrid</rref>.
+				</p>
+				<p>
+					A <code>listview</code> contains <rref>listviewitem</rref> elements.
+					Each <code>listviewitem</code> element may present a single element, such as an image, link,  or checkbox, or a complex card or tile  containing rich content accompanied by widgets.
+				</p>
+				<p>
+					Authors may use a <code>listview</code> to make a collection navigable and interactive.
+					Elements in A listview may also be selectable, but they are not selectable by default.
+					Authors may specify either <sref>aria-selected</sref> or <sref>aria-checked</sref> for items in a listview to indicate selection (see <rref>listviewitem</rref>).
+					If a <code>listview</code> allows multiple <rref>listviewitem</rref> elements to be selected, authors SHOULD set <pref>aria-multiselectable</pref> to <code>true</code> on the element with role <code>listview</code>.
+				</p>
+				<p>
+					To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants of a <code>listview</code> as described in <a href="#managingfocus">Managing Focus</a>.
+					When a user is navigating the <code>listview</code> content with a keyboard, authors SHOULD set focus as follows:
+				</p>
+				<ul>
+					<li>If a <rref>listviewitem</rref> contains a single interactive <rref>widget</rref> that will not consume arrow key presses when it receives focus, such as a <rref>checkbox</rref>, <rref>button</rref>, or <rref>link</rref>, authors MAY set focus on the interactive element contained in that item. This allows the contained widget to be directly operable.</li>
+					<li>Otherwise, authors SHOULD ensure the element that receives focus is a <rref>listviewitem</rref> element.</li>
+				</ul>
+				<p>Authors SHOULD provide a mechanism for moving focus into  and out of a <rref>listviewitem</rref> that allows users to navigate and interact with content contained by the <rref>listviewitem</rref> if the <rref>listviewitem</rref> contains any of the following:</p>
+				<ul>
+					<li>a widget that requires arrow keys to operate, e.g., a <rref>combobox</rref> or <rref>radiogroup</rref></li>
+					<li>multiple interactive elements</li>
+					<li>editable content</li>
+				</ul>
+				<p>
+					Depending on the implementation, pressing <kbd>Enter</kbd>, <kbd>Space</kbd>, or another key would move focus from the <rref>listviewitem</rref> to a focusable element inside the <rref>listviewitem</rref>.
+					Then, pressing <kbd>Enter</kbd> again, <kbd>Tab</kbd>, <kbd>Escape</kbd>, or another key would place focus back on the parent <rref>listviewitem</rref> element so users can continue navigating the <code>listview</code>.
+					For example, if an item in a list of video preview cards contains a video player, the <kbd>Enter</kbd> key might be used to move focus from the <rref>listviewitem</rref> to the play button of the contained player.
+					The card might then  trap focus so users can easily use the <kbd>Tab</kbd> key to navigate among the player's controls and then use the <kbd>Esc</kbd> key or a dynamically rendered close button to return focus to the card.
+				</p>
+				<p>
+					Since <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> can augment an element of the host language, a <code>listview</code> can reuse the elements and attributes of a native list, such as an HTML <code>ul</code> element.
+					For example, if an author applies the <code>listview</code> role to an HTML <code>ul</code> element, the author does not need to apply the <rref>listviewitem</rref> role to the descendant HTML <code>li</code> elements because the <a>user agent</a> will automatically make the appropriate translations.
+				</p>
 			</div>
 			<table class="role-features">
 				<caption>Characteristics:</caption>
