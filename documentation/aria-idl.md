@@ -232,11 +232,3 @@ Content attribute is not present AND corresponding IDL attribute is set to `“�
 Takeaways:
 -   Safari/Firefox/Chrome all behave similarly. If the content attribute is not set, the IDL attribute is not set, or the IDL attribute is set to `null` or the `undefined` value: `.getAttribute()` returns the value `null` and `el.ariaAttribute` returns the JS `null` object
 -   Otherwise, browsers will return the string value of either the content attribute or IDL attribute; e.g., `“”` returns the empty string (JS type string for IDL attribute) or the string value provided (which is always type "string" for IDL attribute even with the string value “undefined” or "null")
-
-
-
-
-
-
-
-
