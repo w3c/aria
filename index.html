@@ -11601,7 +11601,7 @@ button.ariaPressed; // null</pre>
 			<sdef>aria-hidden</sdef>
 			<div class="state-description">
 				<p><a>Indicates</a>, when set to <code>true</code>, that an <a>element</a> and its entire subtree are hidden from assistive technology, regardless of whether it is visibly rendered.</p>
-				<p>User agents determine an element's [=element/hidden=] status based on whether it is rendered, and the rendering is usually controlled by CSS. For example, an element whose <code>display</code> property is set to <code>none</code> is not rendered. An element is considered [=element/hidden=] if it, or any of its ancestors are not rendered or have their <code>aria-hidden</code> attribute value set to <code>true</code>.</p>
+				<p>User agents determine an element's [=element/hidden=] status based on whether it is rendered, and the rendering is usually controlled by CSS. For example, an element whose <code>display</code> property is set to <code>none</code> is not rendered. An element will be <a href="#tree_exclusion">excluded from the accessibility tree</a> if it or any of its <a href="#tree_relationships">accessibility ancestors</a> are [=element/hidden=] or have their <code>aria-hidden</code> attribute value set to <code>true</code>.</p>
 				<p>Authors MAY, with caution, use aria-hidden to hide visibly rendered content from assistive technologies <em>only</em> if the act of hiding this content is intended to improve the experience for users of assistive technologies by removing redundant or extraneous content. Authors using aria-hidden to hide visible content MUST ensure that identical or equivalent meaning and functionality is exposed to assistive technologies.</p>
 				<p class="note">Authors are advised to use extreme caution and consider a wide range of disabilities when hiding visibly rendered content from assistive technologies. For example, a sighted, dexterity-impaired individual might use voice-controlled assistive technologies to access a visual interface. If an author hides visible link text "Go to checkout" and exposes similar, yet non-identical link text "Check out now" to the accessibility API, the user might be unable to access the interface they perceive using voice control. Similar problems can also arise for screen reader users. For example, a sighted telephone support technician might attempt to have the blind screen reader user click the "Go to checkout" link, which they might be unable to find using a type-ahead item search ("Go to…").</p>
 				<p class="note">As of ARIA 1.3, <code><sref>aria-hidden</sref>="false"</code> is now synonymous with <code>aria-hidden="undefined"</code>.</p>
@@ -12176,9 +12176,32 @@ button.ariaPressed; // null</pre>
 			<div class="property-description">
 				<p><a>Identifies</a> an <a>element</a> (or elements) in order to define a visual, functional, or contextual parent/child <a>relationship</a> between <abbr title="Document Object Model">DOM</abbr> elements where the DOM hierarchy cannot be used to represent the relationship. See related <pref>aria-controls</pref>.</p>
 				<p>The value of the <pref>aria-owns</pref> <a>attribute</a> is a space-separated ID reference list that references one or more elements in the document by ID. The reason for adding <pref>aria-owns</pref> is to expose a parent/child contextual relationship to <a>assistive technologies</a> that is otherwise impossible to infer from the <abbr title="Document Object Model">DOM</abbr>.</p>
-				<p>If an element has both <pref>aria-owns</pref> and  <abbr title="Document Object Model">DOM</abbr> children then the order of the child elements with respect to the parent/child relationship is the <abbr title="Document Object Model">DOM</abbr> children first, then the elements referenced in <pref>aria-owns</pref>. If the author intends that the <abbr title="Document Object Model">DOM</abbr> children are not first, then list the DOM children in <pref>aria-owns</pref> in the desired order. Authors SHOULD NOT use <pref>aria-owns</pref> as a replacement for the <abbr title="Document Object Model">DOM</abbr> hierarchy. If the relationship is represented in the DOM, do not use <pref>aria-owns</pref>.</p>
+				<p>If an element has both <pref>aria-owns</pref> and <abbr title="Document Object Model">DOM</abbr> children then the order of the child elements with respect to the parent/child relationship is the <abbr title="Document Object Model">DOM</abbr> children first, then the elements referenced in <pref>aria-owns</pref>. If the author intends that the <abbr title="Document Object Model">DOM</abbr> children are not first, then list the DOM children in <pref>aria-owns</pref> in the desired order. Authors SHOULD NOT use <pref>aria-owns</pref> as a replacement for the <abbr title="Document Object Model">DOM</abbr> hierarchy. If the relationship is represented in the DOM, do not use <pref>aria-owns</pref>.</p>
 				<p>Authors MUST ensure that an element's ID is not specified in more than one other element's <pref>aria-owns</pref> attribute at any time. In other words, an element can have only one explicit owner. Authors MUST NOT create circular references with <pref>aria-owns</pref>. In the case of authoring error with <pref>aria-owns</pref>, the user agent MAY ignore some <pref>aria-owns</pref> element references in order to build a consistent model of the content.</p>
 				<p>Authors MUST NOT specify <pref>aria-owns</pref> on an element which has <a href="#childrenArePresentational">Presentational Children</a>.</p>
+				<p><pref>aria-owns</pref> is resolved in the order it is encountered in the <abbr title="Document Object Model">DOM</abbr>. Every element referenced by <pref>aria-owns</pref> will determine its <a href="#tree_exclusion">exposure to the accessibility tree</a> after its change in ownership is resolved. However:</p>
+				<ul>
+					<li>User agents MUST NOT resolve <pref>aria-owns</pref> when it is set on an element that has been <a href="#tree_exclusion">excluded from the accessibility tree</a>.</li>
+					<li>User agents MUST NOT resolve <pref>aria-owns</pref> when it references an element that is, or has a DOM ancestor that is, [=element/hidden from all users=].</li>
+				</ul>
+				<p>In the following example, “(opens in a new window)” is <a href="#tree_inclusion">included in the accessibility tree</a> by virtue of its changed ownership.</p>
+				<pre class="example highlight">
+&lt;a href="https://www.w3.org/" target="_blank" aria-owns="new-window-warning"&gt;
+    World Wide Web Consortium
+&lt;/a&gt;
+&lt;div aria-hidden="true"&gt;
+    &lt;span id="new-window-warning"&gt; (opens in a new window)&lt;/span&gt;
+&lt;/div&gt;
+				</pre>
+				<p>In the following example, “(opens in a new window)” remains <a href="#tree_exclusion">excluded from the accessibility tree</a> since its <abbr title="Document Object Model">DOM</abbr> ancestor is [=element/hidden from all users=] in host language terms.</p>
+				<pre class="example highlight">
+&lt;a href="https://www.w3.org/" aria-owns="new-window-warning"&gt;
+    World Wide Web Consortium
+&lt;/a&gt;
+&lt;div hidden&gt;
+    &lt;span id="new-window-warning"&gt; (opens in a new window)&lt;/span&gt;
+&lt;/div&gt;
+				</pre>
 			</div>
 			<table class="property-features">
 				<caption>Characteristics:</caption>
