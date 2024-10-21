@@ -23,7 +23,7 @@ See:
 -   ***Standardization***: Web APIs (e.g., `getAttribute()`) are implemented the same which ensures consistent behavior and usage across browsers
 -   ***Language-independent***:
     -   Define interfaces in a way that isn’t tied to a programming language, e.g., could have JavaScript/C++/Python or any other language implementation
-    -   Easier to generate bindings (single web IDL spec can be used to generate bindings for multiple languages)
+    -   Can be used to generate code (IDL files can be used to generate code across multiple languages)
     -   Facilitates cross-language integration (e.g., Python backend can communicate with JavaScript frontend)
 -   ***Feature detection***: If (el.someIDLAttribute) is true, then the feature is supported which facilitates user agent detection for that particular attribute
 -   ***Type safety***:
