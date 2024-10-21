@@ -38,6 +38,7 @@ See:
     -   Specifies how web APIs should behave for both browser implementers and developers
     -   Interfaces are largely self documenting
 -   ***Backwards compatibility***: Can add new properties/methods without breaking backwards-compatibility
+-  ***Consistency***: New APIs, such as methods and properties, follow similar forms to existing APIs - conventions and types are heavily reused, creating familiarity of interfaces between APIs.
 
 ### How IDL works
 -   Browser IDL implementation
