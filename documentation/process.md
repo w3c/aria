@@ -29,6 +29,7 @@ A "normative" change is change to the specification that is not editorial, that 
 #### Requirements for merging a normative PR:
 1. **Consensus:** The change in the PR has been discussed in a ARIA WG meeting and the general direction of the change has been consensed on.
     - The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
+    - If a working group member is not sure about whether a PR's change has consensus, they should add the tag "needs consensus" and "agenda", and it will be discussed in a meeting.
 2. **Review:** Every normative PR needs 3 approving reviews from ARIA WG members, but depending on the complexity of the change, the ARIA WG may assign additional reviewers.
     - The reviewers should be made based on the text and meaning of the change, not on whether the checklist has been fulfilled.
     - Any working group member can add themselves as a reviewer.
@@ -37,6 +38,8 @@ A "normative" change is change to the specification that is not editorial, that 
 4. **APG:** If the change requires a change to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
 5. **Implementation:** If the change requires implementation changes, issues should be opened on the browser after the PR has been approved.
    - At least one implementation is required for merge. Implementation or implementation commitment from two browsers is required for merge.
+6. **AT Commitment:** If the feature requires a change in AT, add the tag "waiting for AT commitment". AT Commitment should be record in the comments of the PR.
+
 
 Note: The fact that a PR requires implementation to merge is new as of 2022. We understand this will cause the life of a PR to be long -- and that the original champion of the PR might need to hand off work to another ARIA WG member while the PR waits for implementations.
 
