@@ -13,6 +13,7 @@ Once this PR has been reviewed and has consensus from the working group, tests s
    * WebKit:
    * Gecko:
    * Blink:
+* [ ] Does this change need AT guidance?
 * [ ] Does this need AT implementations?
 * [ ] Related APG Issue/PR:
 * [ ] MDN Issue/PR:
