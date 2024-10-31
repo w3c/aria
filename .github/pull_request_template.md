@@ -14,6 +14,6 @@ Once this PR has been reviewed and has consensus from the working group, tests s
    * Gecko:
    * Blink:
 * [ ] Does this change need AT guidance?
-* [ ] Does this need AT implementations?
+* [ ] Does this change have AT commitment?
 * [ ] Related APG Issue/PR:
 * [ ] MDN Issue/PR:
