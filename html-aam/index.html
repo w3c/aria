@@ -11705,6 +11705,10 @@
               <td>
                 The target element of the `label` attribute has a `LabeledBy` property pointing to the element with the `label` attribute. Participates in
                 <a href="#accname-computation">name computation.</a>
+                <!--
+                  This UIA definition doesn't seem right.  May replace with:
+                  <div class="name">Associates the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a></div>
+                -->  
               </td>
             </tr>
             <tr>
@@ -11719,7 +11723,12 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>See Also: <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a></td>
+              <td>
+               <!-- 
+                FOR FUTURE PR https://github.com/w3c/html-aam/issues/568 :
+                The `label` attribute can also participate in the <a data-cite="accname-1.2/#dfn-accessible-description">accessible descriptions</a> of
+                an `option`, if the `option` is a child of a `datalist`. See <a href="#accdesc-computation">accessible description computation</a> for more information. -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -16155,6 +16164,26 @@
           </ol>
         </section>
         <section>
+          <h4>`option` Element Accessible Name Computation</h4>
+          <ol>
+            <li>
+              If the `option` element has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the
+              <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is to be calculated using the algorithm defined in
+              <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
+            </li>
+            <li>
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty, then: use the value of the `option` element's `label` attribute.
+            </li>
+            <li>Otherwise if no `label` attribute is specified use the `option` element subtree.</li>
+            <li>Otherwise use `title` attribute.</li>
+            <li>If none of the above yield a usable text string there is no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.</li>
+          </ol>
+          <p class="note">
+            An `option` element's `label` attribute will override the rendering of an `option` element's author defined descendents. Instead, the 
+            value of the element's `label` attribute is used as the visible text label for the `option`.
+          </p>
+        </section>
+        <section>
           <h4>`output` Element Accessible Name Computation</h4>
           <ol>
             <li>
@@ -16364,6 +16393,10 @@
                 an `input` element whose `type` attribute is the `button`, `submit` or `reset` state, and it has a `value` attribute, then use the flat string of the attribute if it was not used as
                 the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.
               </li>
+              <!--
+                FOR FUTURE PR https://github.com/w3c/html-aam/issues/568 : 
+                add what to do for an option with a label attribute and inner text content, when used within the context of a datalist
+              -->
             </ul>
           </li>
           <li>Otherwise, use the flat string of the `title` attribute if it was not used as the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> for the element.</li>
