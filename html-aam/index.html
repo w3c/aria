@@ -907,16 +907,26 @@
                 </p>
                 <ul>
                   <li>if the custom element is focusable: expose as <a class="core-mapping" href="#role-map-group">`group`</a> role</li>
-                  <li>if the custom element has an `aria-live` or `aria-owns` attribute: expose as <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>if the custom element has an `aria-live` attribute: expose as <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
                   <li>if element internals are used to set a global ARIA property: expose as <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
-                  <li>if an author specifies an ARIA relation via an element attribute: expose <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>if an author specifies an ARIA attribute that creates a relation with another element (via IDRef): expose <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
                 </ul>
                 <div class="example">
-                  <p>The following is an exmaple of an author specifiying an ARIA relation on a custom element, with another element in the DOM.</p>
+                  <p>The following are exmaples of an author specifiying a relationships between custom elements and other elements in the DOM.</p>
                   <pre><code>
-                      &lt;my-element aria-details=ex>...&lt;my-element>
+                      &lt;my-element aria-details=ex>...&lt;/my-element>
                       ...
                       &lt;div id=ex> &lt;!-- details for my-element --> &lt;/div>
+                      ...
+                      &lt;ex-ample aria-owns=u>...&lt;/ex-ample>
+                      ...
+                      &lt;div id=u> &lt;!-- becomes the last a11y child of ex-ample --> &lt;/div>
+
+                      &lt;id-lement> ... &lt;/id-lement>
+                      &lt;script>
+                        ...
+                        document.querySelector('id-lement').ariaDescribedby = anotherEl;
+                      &lt;/script>
                   </code></pre>
                 </div>
               </td>
