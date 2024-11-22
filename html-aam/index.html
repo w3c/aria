@@ -259,7 +259,8 @@
             specified which would require a more specific <a>minimum role</a> to be exposed.
           </li>
           <li>
-            Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents
+            Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a>
+            or <a class="core-mapping" href="#role-map-none">`none`</a> roles, user agents
             MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an
             explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.
           </li>
@@ -851,7 +852,19 @@
             </tr>
             <tr>
               <th>[[wai-aria-1.2]]</th>
-              <td>If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</td>
+              <td>
+                <p>
+                  If the author assigned a conforming ARIA role using the `role` attribute, 
+                  or by the custom element's internals, map to the specified role.
+                </p>
+                <p>
+                  If the author assigned attributes that result in a <a>minimum role</a>, then map
+                  to the minimum role (see <a href="#custom-element-comments">comments</a>.
+                </p>
+                <p>
+                  Otherwise, the element maps to the <a class="core-mapping" href="#role-map-none">`none`</a> role.
+                </p>
+              </td>
             </tr>
             <tr>
               <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
@@ -886,7 +899,29 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                <p>
+                  Along with the attributes defined in this specification that contribute to modifying an element's <a>minimum role</a>,
+                  the following conditions will also alter a custom element's computed role, if an author has not otherwise specified an
+                  explicit role for the element:
+                </p>
+                <ul>
+                  <li>if the custom element is focusable: expose as <a class="core-mapping" href="#role-map-group">`group`</a> role</li>
+                  <li>if the custom element has an `aria-live` or `aria-owns` attribute: expose as <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>if element internals are used to set a global ARIA property: expose as <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>if an author specifies an ARIA relation via an element attribute: expose <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                </ul>
+                <div class="example">
+                  <p>The following is an exmaple of an author specifiying an ARIA relation on a custom element, with another element in the DOM.</p>
+                  <pre>
+                    <code>
+                      &lt;my-element aria-details=ex>...&lt;my-element>
+                      ...
+                      &lt;div id=ex> &lt;!-- details for my-element --> &lt;/div>
+                    </code>
+                  </pre>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -8786,7 +8821,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
+              <td>Provides a <a>minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -10475,7 +10510,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
+              <td>Provides a <a>minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
