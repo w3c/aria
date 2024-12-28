@@ -479,12 +479,10 @@ function ariaAttributeReferences() {
                     var property = sortedList[k];
                     var req = "";
                     var dep = "";
+                    if (property.deprecated)
+                        continue;
                     if (property.required) {
                         req = " <strong>(required)</strong>";
-                    }
-                    if (property.deprecated) {
-                        dep =
-                            " <strong>(deprecated on this role in ARIA 1.2)</strong>";
                     }
                     if (prev != property.name) {
                         output += "<li>";
