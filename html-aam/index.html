@@ -7,7 +7,7 @@
     <script src="../common/script/resolveReferences.js" class="remove"></script>
     <script src="../common/script/utility.js" class="remove"></script>
     <script src="../common/biblio.js" class="remove" defer="defer"></script>
-
+    <script src="../common/script/participants.js" class="remove"></script>
     <link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
     <link href="../common/css/common.css" rel="stylesheet" type="text/css" />
     <link href="css/html-aam.css" rel="stylesheet" />
@@ -72,7 +72,7 @@
         },
 
         xref: ["HTML", "core-aam", "accname", "wai-aria", "dom", "infra"],
-        preProcess: [linkCrossReferences],
+        preProcess: [linkCrossReferences, getParticipants],
         postProcess: [fixContributors],
         a11y: false,
       };
@@ -192,6 +192,27 @@
         </p>
       </section>
       <section>
+        <h3 id="minimum-role">Exposing HTML Features That Require a Minimum Role</h3>
+        <p>
+          A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to if the element does not have a more specific implicit role or platform role mappings, e.g., a non-generic
+          role. This can help ensure that users of assistive technologies get the best possible experience for commonly-used and valid HTML markup where otherwise a role would not be exposed.
+        </p>
+        <p>A minimum role is provided when all of the following conditions are true:</p>
+        <ul>
+          <li>the author has <strong>not</strong> specified a valid explicit WAI-ARIA role to the element, <strong>or</strong> the specified role is either `none`, `presentation`, or `generic`;</li>
+          <li>the element either has no implicit WAI-ARIA role or platform role mappings, or it has an implicit `generic` or `none` computed role;</li>
+          <li>and the author has specified attributes which require a minimum role mapping for the element.</li>
+        </ul>
+        <p>
+          The <a href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> section identifies the specific global attributes which would require an element map
+          to a minimum role.
+        </p>
+        <p>
+          When these conditions are met, the browser MUST expose an object using the mappings defined in CORE-AAM for the specified minimum role. If the element has multiple attributes specified which
+          require a minimum role be returned as the computed role for the element, prioritize the more specific role in the ARIA taxonomy.
+        </p>
+      </section>
+      <section>
         <h3>HTML Element Role Mappings</h3>
         <ul>
           <li>
@@ -201,18 +222,24 @@
           <li>
             "Not mapped" means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user
             interface. However, authors can force some of these elements to be rendered. For instance, by overriding user agent styles to render elements that would have been otherwise set to
-            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>.
-          </li>
-          <li>
-            Where applicable, how an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
-            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
-            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>, unless other HTML features have been
+            specified which would require a more specific <a>minimum role</a> to be exposed.
           </li>
           <li>
             Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents
             MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an
             explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.
           </li>
+          <li>
+            Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. How an element
+            participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
+            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
+            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+          </li>
+        </ul>
+
+        <h4 id="platform-api-mapping-requirements">Platform API mapping requirements</h4>
+        <ul>
           <li>
             When HTML elements do not have an exact or equivalent mapping to a valid, non-abstract <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, a unique `computedrole`
             string has been specified to serve as the return value for interoperability testing purposes. For instance, the `video` element MAY be exposed with a `computedrole` of "`html-video`".
@@ -553,7 +580,10 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                User agents MAY still expose an `a` element lacking the `href` attribute with a `link` role in the event an author specifies interactive behavior for the element. For example, if using
+                an <a data-cite="html/webappapis.html#event-handler-content-attributes">event handler attribute</a>.
+              </td>
             </tr>
           </tbody>
         </table>
@@ -1120,7 +1150,7 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>User agents MUST ignore the `aria-hidden` attribute if specified on the `body` element.</td>
             </tr>
           </tbody>
         </table>
@@ -1913,6 +1943,56 @@
             <tr>
               <th>Comments</th>
               <td>See also the `dialog` element's <a href="#att-open-dialog">`open`</a> attribute.</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-dir">`dir` (obsolete)</h4>
+        <table aria-labelledby="el-dir">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>
+                <a data-cite="HTML">`dir`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.2]]</th>
+              <td><a class="core-mapping" href="#role-map-list">`list`</a> role</td>
+            </tr>
+            <tr>
+              <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+              <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
+            <tr>
+              <th>Comments</th>
+              <td>The `dir` element is marked as obsolete in HTML, and is not to be used by authors.</td>
             </tr>
           </tbody>
         </table>
@@ -2905,7 +2985,7 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>User agents MUST ignore the `aria-hidden` attribute if specified on the `html` element.</td>
             </tr>
           </tbody>
         </table>
@@ -2999,9 +3079,7 @@
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="role"><span class="type">AXRole:</span> `AXWebArea`</div>
-                <div class="subrole"><span class="type">AXSubrole:</span> `(nil)`</div>
-                <div class="roledesc"><span class="type">AXRoleDescription:</span> `"html content"`</div>
+                <div class="general">Not mapped</div>
               </td>
             </tr>
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
@@ -3298,7 +3376,7 @@
               <td>
                 <div class="general">
                   If implemented as a color picker, any UI controls presented for selecting a color are exposed in the <a class="termref">accessibility tree</a>, associated with the `input` element,
-                  and mapped as appropriate for the type of control (e.g. button or slider).
+                  and mapped as appropriate for the type of control (e.g., button or slider).
                 </div>
               </td>
             </tr>
@@ -3451,7 +3529,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"email"`</div>
               </td>
             </tr>
             <tr>
@@ -3733,10 +3810,7 @@
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">If implemented as a spin button, use WAI-ARIA mapping for <a class="core-mapping" href="#role-map-spinbutton">`spinbutton`</a>.</div>
-                <div class="general">If implemented as a text input:</div>
-                <div class="ctrltype"><span class="type">Control Type:</span> `Edit`</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"number"`</div>
+                <div class="general">Use WAI-ARIA mapping</div>
               </td>
             </tr>
             <tr>
@@ -3793,8 +3867,7 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="ctrltype"><span class="type">Control Type:</span> `Edit`</div>
-                <div class="properties"><span class="type">Localized Control Type:</span> `"password"`</div>
-                <div class="properties"><span class="type">Other properties: </span>Set `isPassword` to `true`</div>
+                <div class="properties"><span class="type">Other properties:</span> `isPassword=true`</div>
               </td>
             </tr>
             <tr>
@@ -4124,7 +4197,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"telephone"`</div>
               </td>
             </tr>
             <tr>
@@ -4358,7 +4430,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"url"`</div>
               </td>
             </tr>
             <tr>
@@ -6633,7 +6704,7 @@
               <td>
                 <div class="general">
                   <b>Note:</b> There are instances where CSS properties can affect what is exposed by accessibility APIs. For instance, `display: none` or `visibility: hidden` will remove an element
-                  from the accessibility tree and hide its presence from assistive technologies.
+                  from the <a class="termref">accessibility tree</a> and hide its presence from assistive technologies.
                 </div>
               </td>
             </tr>
@@ -8682,7 +8753,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -9006,25 +9077,25 @@
                 <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `class: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `UIA_ClassNamePropertyId`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `class: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `AXDOMClassList`</div>
               </td>
             </tr>
             <tr>
@@ -10173,7 +10244,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -11203,25 +11274,25 @@
                 <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `id: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `UIA_AutomationIdPropertyId`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `id: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `AXDOMIdentifier`</div>
               </td>
             </tr>
             <tr>
@@ -11714,7 +11785,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>See Also: <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a></td>
+              <td>See Also: <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a></td>
             </tr>
           </tbody>
         </table>
@@ -13306,6 +13377,206 @@
             </tr>
           </tbody>
         </table>
+        <h4 id="att-popover">`popover`</h4>
+        <table aria-labelledby="att-popover">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popover`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popover">HTML elements</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <span class="type">Relations:</span> `IA2_RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                A details relation is made with the invoking element, if an invoking element exists which meets the conditions for necessitating a details relationship.
+                <a href="#att-popover-comments">See Comments</a>.
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <p><span class="type">Relations:</span> `RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.</p>
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                Not mapped
+                <!-- https://bugs.webkit.org/show_bug.cgi?id=271485 -->
+              </td>
+            </tr>
+            <tr>
+              <th id="att-popover-comments">Comments</th>
+              <td>
+                <p>User agents MUST NOT expose a details relation between a `popover` and its invoking element under the following conditions:</p>
+                <ul>
+                  <li>when the `popover` is the next immediate accessibility sibling to the invoking element,</li>
+                  <li>when the element has a `popovertarget=hide` attribute value,</li>
+                  <li>or when the element is a descendant of the `popover` and its `popovertarget` is the "`auto`" state.</li>
+                </ul>
+                <p>If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a>.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-popovertarget">`popovertarget`</h4>
+        <table aria-labelledby="att-popovertarget">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popovertarget`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popovertarget">`button`</a>;
+                <a data-cite="html/popover.html#attr-popovertarget">`input type=button, image, reset, submit`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">
+                  <p>
+                    If the associated element is displayed as a popover:
+                    <a class="core-mapping" href="#ariaExpandedTrue">`aria-expanded=true`</a>
+                  </p>
+                  <p>
+                    If the associated element is hidden, or not present in the DOM:
+                    <a class="core-mapping" href="#ariaExpandedFalse">`aria-expanded=false`</a>
+                  </p>
+                  <p>
+                    If the associated element is an accessibility ancestor of the element with the `popovertarget` attribute:
+                    <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>
+                <p>
+                  User Agents MUST expose an <a class="core-mapping" href="#ariaDetails">`aria-details`</a> relation with the associated popover element <strong>except</strong> under the following
+                  conditions:
+                </p>
+                <ul>
+                  <li>The element's `popovertargetaction` attribute value is "`hide`"</li>
+                  <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
+                  <li>The element's implicit or explicit `popovertargetaction` is the "`auto`" state and the element is a descendant of the `popover` it is associated with.</li>
+                  <!-- accessibility sibling will be defined in the ARIA specification -->
+                </ul>
+                <p class="note">A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> with a [=button/form owner=] cannot invoke a popover.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-popovertargetaction">`popovertargetaction`</h4>
+        <table aria-labelledby="att-popovertargetaction">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popovertargetaction`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popovertargetaction">`button`</a>;
+                <a data-cite="html/popover.html#attr-popovertargetaction">`input type=button, image, reset, submit`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>The value of this attribute can impact the mappings of its related <a href="#att-popovertarget">`popovertarget`</a> attribute.</td>
+            </tr>
+          </tbody>
+        </table>
         <h4 id="att-poster">`poster`</h4>
         <table aria-labelledby="att-poster">
           <tbody>
@@ -14710,7 +14981,10 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                <!-- For future consideration:
+        Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>. -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -15295,10 +15569,9 @@
               </th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15306,10 +15579,9 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15317,10 +15589,9 @@
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15328,10 +15599,9 @@
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -16307,6 +16577,9 @@
         <section>
           <h4>Substantive changes since moving to the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> (03-Nov-2019)</h4>
           <ul>
+            <li>11-July-2024: User Agents ignore `aria-hidden=true` on `body` and `html` elements. See <a href="https://github.com/w3c/html-aam/pull/516">GitHub PR 516</a>.</li>
+            <li>06-June-2024: Add concept of Minimum Role. See <a href="https://github.com/w3c/html-aam/pull/454">GitHub PR 454</a>.</li>
+            <li>06-June-2024: Add `popover`, `popovertarget` and `popovertargetaction` mappings. See <a href="https://github.com/w3c/html-aam/pull/481">GitHub PR 481</a>.</li>
             <li>09-Oct-2023: Acknowledge use of `hr` element within `select` element. See <a href="https://github.com/w3c/html-aam/pull/504">GitHub PR 504</a>.</li>
             <li>03-Oct-2023: Update image mappings to reference the primary synonym roles (`image` and `none`). See <a href="https://github.com/w3c/html-aam/pull/498">GitHub PR 498</a>.</li>
             <li>03-Oct-2023: Clarify when to expose required field as invalid. See <a href="https://github.com/w3c/html-aam/pull/429">GitHub PR 429</a>.</li>
@@ -16456,17 +16729,15 @@
       <section class="appendix informative" id="acknowledgements">
         <h3>Acknowledgments</h3>
         <p>The following people contributed to the development of this document.</p>
-        <div class="section" id="ack_group">
-          <!-- left in place to ensure deep links to ID remain functional -->
-          <ul id="gh-contributors"></ul>
-          <!-- list of contributors will appear here,
-					 along with link to their GitHub profiles -->
-          <!--
-          TODO:
-          Add listing of individuals who have providing meaningful
-          contributions through commenting that have impacted the specification.
-        --></div>
-        <div data-include="https://rawgit.com/w3c/aria/master/../common/acknowledgements/funders.html" data-include-replace="true"></div>
+        <ul id="gh-contributors"></ul>
+        <section class="section" id="ack_group">
+          <h4>ARIA WG participants at the time of publication</h4>
+          <ul>
+            <!-- List of participants is injected here -->
+          </ul>
+        </section>
+        <!-- TODO:e Include people whose comments have added value to the specification -->
+        <div data-include="../common//acknowledgements/funders.html" data-include-replace="true"></div>
       </section>
     </section>
   </body>
