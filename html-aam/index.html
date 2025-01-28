@@ -7,7 +7,7 @@
     <script src="../common/script/resolveReferences.js" class="remove"></script>
     <script src="../common/script/utility.js" class="remove"></script>
     <script src="../common/biblio.js" class="remove" defer="defer"></script>
-
+    <script src="../common/script/participants.js" class="remove"></script>
     <link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
     <link href="../common/css/common.css" rel="stylesheet" type="text/css" />
     <link href="css/html-aam.css" rel="stylesheet" />
@@ -72,7 +72,7 @@
         },
 
         xref: ["HTML", "core-aam", "accname", "wai-aria", "dom", "infra"],
-        preProcess: [linkCrossReferences],
+        preProcess: [linkCrossReferences, getParticipants],
         postProcess: [fixContributors],
         a11y: false,
       };
@@ -1940,6 +1940,56 @@
             <tr>
               <th>Comments</th>
               <td>See also the `dialog` element's <a href="#att-open-dialog">`open`</a> attribute.</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-dir">`dir` (obsolete)</h4>
+        <table aria-labelledby="el-dir">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>
+                <a data-cite="HTML">`dir`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.2]]</th>
+              <td><a class="core-mapping" href="#role-map-list">`list`</a> role</td>
+            </tr>
+            <tr>
+              <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+              <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
+            <tr>
+              <th>Comments</th>
+              <td>The `dir` element is marked as obsolete in HTML, and is not to be used by authors.</td>
             </tr>
           </tbody>
         </table>
@@ -13365,10 +13415,11 @@
                 <p>User agents MUST NOT expose a details relation between a `popover` and its invoking element under the following conditions:</p>
                 <ul>
                   <li>when the `popover` is the next immediate accessibility sibling to the invoking element,</li>
-                  <li>when the element has a `popovertarget=hide` attribute value,</li>
+                  <li>when the element has a `popovertargetaction=hide` attribute value,</li>
                   <li>or when the element is a descendant of the `popover` and its `popovertarget` is the "`auto`" state.</li>
                 </ul>
-                <p>If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a>.</p>
+                <p>If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a> for all <a data-cite="html/popover.html#the-popover-attribute">`popover` states</a>.</p>
+                <p class="note">There are no unique mappings for the different `popover` states. Any accessibility mapping changes for the popover element would be the responsibility of the author. e.g., using different base HTML elements, attributes, or ARIA attributes to make such changes.</p>
               </td>
             </tr>
           </tbody>
@@ -16706,17 +16757,15 @@
       <section class="appendix informative" id="acknowledgements">
         <h3>Acknowledgments</h3>
         <p>The following people contributed to the development of this document.</p>
-        <div class="section" id="ack_group">
-          <!-- left in place to ensure deep links to ID remain functional -->
-          <ul id="gh-contributors"></ul>
-          <!-- list of contributors will appear here,
-					 along with link to their GitHub profiles -->
-          <!--
-          TODO:
-          Add listing of individuals who have providing meaningful
-          contributions through commenting that have impacted the specification.
-        --></div>
-        <div data-include="https://rawgit.com/w3c/aria/master/../common/acknowledgements/funders.html" data-include-replace="true"></div>
+        <ul id="gh-contributors"></ul>
+        <section class="section" id="ack_group">
+          <h4>ARIA WG participants at the time of publication</h4>
+          <ul>
+            <!-- List of participants is injected here -->
+          </ul>
+        </section>
+        <!-- TODO:e Include people whose comments have added value to the specification -->
+        <div data-include="../common//acknowledgements/funders.html" data-include-replace="true"></div>
       </section>
     </section>
   </body>
