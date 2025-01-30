@@ -203,7 +203,7 @@ type”](https://respec.org/xref/?term=nullable+type) and
 </section>
 ```
 
-In this example, "nullable" will show up in the spec text as a [ReSpec alias](https://respec.org/docs/#aliases-and-synonyms) for "nullable type" in the WebIDL spec. Aliases can only be provided by [concepts in spec](https://respec.org/docs/#concept-shorthands) (such as terms) and are helpful when you'd like the visible text for a ReSpec link to be different than the term being linked. Please note that it is not currently possible to provide an alias for an interface (e.g., #element in the DOM spec).
+In this example, "nullable" will show up in the spec text as a [ReSpec alias](https://respec.org/docs/#aliases-and-synonyms) for "nullable type" in the WebIDL spec. Aliases can only be provided for [concepts in spec](https://respec.org/docs/#concept-shorthands) (such as terms) and are helpful when you'd like the visible text for a ReSpec link to be different than the term being linked. Please note that it is not currently possible to provide an alias for an interface (e.g., #element in the DOM spec).
 
 In some cases, a term may be defined in multiple specifications with the same
 `xref` syntax.  For example, [“`[=range=]`” is defined in both the DOM and
