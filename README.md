@@ -2,7 +2,7 @@
 
 This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
 
-## The default branch has been renamed ###
+## The default branch has been renamed
 
 If you have a local clone, run the following commands to update the name of the default branch.
 
