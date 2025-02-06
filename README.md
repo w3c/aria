@@ -1,4 +1,4 @@
-## Accessible Rich Internet Applications (WAI-ARIA)
+# Accessible Rich Internet Applications (WAI-ARIA)
 
 This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
 
