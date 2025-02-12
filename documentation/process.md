@@ -19,6 +19,7 @@ Newly opened PRs are "triaged" at the next ARIA meeting. At triage, it is decide
 Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
 PR Labels:
+- `spec:aria`, `spec:accname`, `spec:core-aam`, `spec:html-aam`, `spec:<spec-short-hand>` should be used for all specs which have changes in this PR. 
 - `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
 - `do not merge`: if a PR has approving reviews but there is some reason to wait for merging.
 
