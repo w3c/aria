@@ -6510,13 +6510,29 @@
                 <p>
                   The calculated role of the customizable `select` element's popup picker is a `listbox`, by default.</p>
                 <p>
-                  If authors render invalid elements, in regard to the select element's content model, as descendants of the select element, and those invalid elements result in accessible objects being present as siblings in the accessibility tree to the valid descendent elements of the select, then user agents SHOULD expose the popup picker with the role of a modeless dialog.</p>
+                  If authors include invalid elements (according to the the `select` element's content model) as descendants of the `select` element, and those invalid elements result in accessible objects being present as siblings in the accessibility tree to the valid descendent elements of the select, then user agents SHOULD expose the popup picker with the role dialog in the modeless state.</p>
 
                 <p>
                   In the event invalid elements are present, but are not rendered, then no user agent role repair is necessary.</p>
                 <p>
-                  In the event that invalid elements are present, but are empty, or are only used as wrapping elements for the valid descendent element's of a select, then user agents SHOULD ignore these elements in the accessibility tree.
+                  In the event that invalid elements are present, but are empty, include only whitespace, or are only used as wrapping elements for the valid descendent element's of a select, then user agents SHOULD ignore these elements in the accessibility tree.
                 </p>
+
+                <div class=example>
+                  <p>In the following example the declared `article` elements are invalid per the `select` element's content model. But as each `article` element is empty, contains only whitespace, or contains only valid `option` elements, the `article` element's role can be ignored in the user agent's accessibility tree:</p>
+
+                  <pre><code>
+&lt;select>
+  <button><selectedcontent></selectedcontent></button>
+  <article></article>
+  <article>
+    <option>item 1
+    <option>item 2
+  </article>
+  <article> </article>
+&lt;/select>
+                  </code></pre> 
+                </div>
 
                 <p class=note>Treating the picker as a `dialog` can help inform users that content beyond the expected elements of a `listbox` popup are present, as they can then inspect the content of the dialog with their assistive technology to discover such content.</p>
 
