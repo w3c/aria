@@ -17,7 +17,7 @@ $ git branch -u origin/main main
 This repository contains the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications (ARIA), and should be used for issues related to the ARIA spec and and issues that involve both the ARIA spec in conjunction with other specifications maintained by the ARIA working group. All other specifications maintained by ARIA can be found in this repository as well, however, we have separate issue tracking repos for these separate specifications.
 
 * Accessible Rich Internet Applications (aria)
-  * [Spec](aria/index.html)
+  * [Spec](./index.html)
   * [Editor's Draft](https://w3c.github.io/aria/)
   * [Issue Repository](https://github.com/w3c/aria)
 * Accessible Name and Description Computation (accname)
