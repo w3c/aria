@@ -369,7 +369,7 @@
 			</dd>
 			<dt><dfn>Indicates</dfn></dt>
 			<dd>
-			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is a named token or otherwise token-like, including the Boolean-like <a href="#valuetype_true-false">true/false</a>, <a href="#valuetype_true-false-undefined">true/false/undefined</a>, <a href="#valuetype_tristate">tristate (true/false/mixed)</a>, a single named <a href="#valuetype_token">token</a>, or a <a href="#valuetype_token_list">token list</a>.</p>
+			  <p>Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is a named token or otherwise token-like, including a single named <a href="#valuetype_token">token</a> or a <a href="#valuetype_token_list">token list</a>.</p>
 			  <p>Related Terms: <a>Defines</a>, <a>Identifies</a></p>
 			</dd>
 			<dt><dfn>Keyboard Accessible</dfn></dt>
@@ -10205,12 +10205,8 @@
 			<h3>Value</h3>
 			<p>Value type of the <a>state</a> or [=ARIA/property=]. The value is one of the following types:</p>
 			<dl>
-				<dt id="valuetype_true-false">true/false</dt>
-				<dd>Value representing either <code>true</code> or <code>false</code>. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
-				<dt id="valuetype_tristate">tristate</dt>
-				<dd>Value representing <code>true</code>, <code>false</code>, <code>mixed</code>, or <code>undefined</code> values. The default value for this value type is <code>undefined</code> unless otherwise specified.</dd>
-				<dt id="valuetype_true-false-undefined">true/false/undefined</dt>
-				<dd>Value representing <code>true</code>, <code>false</code>, or <code>undefined</code> (not applicable). The default value for this value type is <code>undefined</code> unless otherwise specified. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to <code>undefined</code> is not expandable.</dd>
+				<dt id="valuetype_enumerated">enumerated</dt>
+				<dd>Values are limited to a predefined, finite set of states including two special states: <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a>.
 				<dt id="valuetype_idref">ID reference</dt>
 				<dd>Reference to the ID of another <a>element</a> in the same document</dd>
 				<dt id="valuetype_idref_list">ID reference list</dt>
@@ -10231,20 +10227,22 @@
 	</section>
 	<section data-cite="webidl">
 		<h2>ARIA Attributes</h2>
+		<section id="content-vs-idl-attributes">
+			<h3>Distinguishing Between Content and IDL Attributes</h3>
+			<p>HTML content attributes, including ARIA states and properties, are set in HTML markup, while IDL attributes (or DOM properties) are the corresponding JavaScript properties exposed on DOM elements.
+			See [=reflect|reflection=] in HTML for more details.</p>
 		<section id="enumerated-attribute-values">
-			<h3>Multi-value Attribute Values</h3>
+			<h3>Enumerated Attribute Values</h3>
 			<p>When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>,
-			that attribute is a multi-value nullable attribute.
-			Each value in the table is a keyword for the attribute, mapping to a state of the same name. </p>
+			it is an [=enumerated attribute=]. Each value in the table is a keyword for the attribute, mapping to a state of the same name and one or more keywords may map to the same state.</p>
 		</section>
 		<section id="idl-reflection-attribute-values">
 			<h3>IDL reflection of ARIA attributes</h3>
-			<p>All ARIA attributes reflect in IDL as [=nullable type|nullable=] {{DOMString}} attributes.
-			This includes the boolean-like <a href="#valuetype_true-false">true/false</a> type, and all other ARIA attributes.</p>
-			<p>Default values from the ARIA values tables MUST NOT reflect to IDL as the
+			<p>ARIA attributes may reflect as several IDL attribute types such as [=nullable type|nullable=] {{DOMString}} attributes, [=nullable type|nullable=] {{FrozenArray}} attributes or [=nullable type|nullable=] {{Element}} attributes.
+			<p>For non-enumerated attributes, default values from the ARIA values tables MUST NOT reflect to IDL as the
 			<a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> or the
 			<a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute.
-			On getting, a missing ARIA attribute will return <code>null</code>. ARIA attributes are not validated on get.
+			On getting (a non-enumerated attribute), a missing ARIA attribute will return <code>null</code> as such ARIA attributes are not validated on get.
 			If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.</p>
 		</section>
 		<section id="os-aapi-attribute-mapping">
@@ -10254,18 +10252,26 @@
 			[[[#supportedState]]], and in [[[CORE-AAM]]].</p>
 		</section>
 		<section id="enumerated-attribute-values-html">
-			<h3>ARIA nullable DOMString Attributes</h3>
+			<h3>ARIA IDL Attribute Types</h3>
 			<p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of WAI-ARIA types is governed by the host language.</p>
-			<p>The following algorithm should be used for ARIA nullable {{DOMString}} attributes in HTML:</p>
-			<p>On getting, if the corresponding content attribute is not present, then the IDL attribute must return null,
-			otherwise, the IDL attribute must get the value in a transparent, case-preserving manner.
-			On setting, if the new value is null, the content attribute must be removed, and otherwise,
-			the content attribute must be set to the specified new value in a transparent, case-preserving manner.</p>
-			<p class="note">
-			Note: As of ARIA 1.2, all ARIA attributes exposed via IDL are defined as nullable {{DOMString}}s. This matches the current implementation of all major rendering engines. This specification change should result in no implementation changes; it will merely represent the current reality of web engines.
-			However, in a future draft, the ARIA Working Group intends to change several ARIA attributes to non-nullable DOMStrings, and seek implementations. The proposed change will bring ARIA into alignment with the HTML’s usage of <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attributes</a>.</p>
+			<p>ARIA attributes [=reflect=] in IDL as defined in HTML.</p>
 			<section class="informative" id="enumeration-example">
 				<h4>Example Attribute Usage</h4>
+				<aside class="example">
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-label example
+
+	el.ariaLabel; // null
+
+	// Assignment of content attribute to empty string.
+	el.setAttribute("aria-label", "");
+	el.ariaLabel; // ""
+
+	// Removal of content attribute results in null value.
+	el.removeAttribute("aria-label");
+	el.ariaLabel; // null</pre>
+
+				</aside>
 				<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
@@ -10284,8 +10290,7 @@ el.hidden; // false</pre>
 			<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
-<pre>// aria-busy example
-// true/false ~ boolean-like nullable string; returns null unless set
+<pre>// aria-busy example (enumerated attribute)
 
 el.ariaBusy; // null
 
@@ -10293,11 +10298,11 @@ el.ariaBusy; // null
 el.ariaBusy = "true";
 el.ariaBusy; // "true"
 
-// Removal of content attribute results in missing value default: string "false".
+// Removal of content attribute results in missing value default of "false".
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
-// Assignment of invalid "busy" value. Not validated on set or get and the literal string value "busy" is returned.
+// Assignment of invalid "busy" value results in invalid value default of "false".
 el.setAttribute("aria-busy", "busy");
 el.ariaBusy; // "busy"</pre>
 
@@ -10305,8 +10310,7 @@ el.ariaBusy; // "busy"</pre>
 			<aside class="example">
 
 <!-- ReSpec needs these examples to be unindented. -->
-<pre>// aria-pressed example
-// Tristate ~ true/false/mixed/undefined string; null if unspecified
+<pre>// aria-pressed example (enumerated attribute)
 
 // no value has been defined
 button.ariaPressed; // null
@@ -10314,14 +10318,14 @@ button.ariaPressed; // null
 // A value of "true", "false", or "mixed" for aria-pressed on a button denotes a toggle button.
 button.setAttribute("aria-pressed", "true"); // Content attribute assignment.
 button.ariaPressed; // "true"
-button.ariaPressed = "false"; // DOM property assignment.
+button.ariaPressed = "false"; // IDL attribute assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value. Not validated on set or get and the literal string value "foo" is returned.
-button.ariaPressed = "foo";
+// Assignment of invalid "foo" value results in invalid value default of "undefined".
+button.ariaPressed = "undefined";
 button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
 
-// Removal of content attribute results in a null value
+// Removal of content attribute results in a null value.
 button.removeAttribute("aria-pressed");
 button.ariaPressed; // null</pre>
 
@@ -10520,7 +10524,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10528,21 +10532,25 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+						<th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">false</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">Assistive technologies will present only the changed node or nodes.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">Assistive technologies will present the entire changed region as a whole, including the author-defined label if one exists.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Missing state.</p>
 		</div>
 		<div class="property" id="aria-autocomplete">
 			<pdef>aria-autocomplete</pdef>
@@ -10587,7 +10595,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10595,29 +10603,35 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+						<th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">inline</th>
+						<th class="state-description" scope="row">Inline</th>
 						<td class="value-description">When a user is providing input, text suggesting one way to complete the provided input might be dynamically inserted after the caret.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">list</th>
+						<th class="state-description" scope="row">List</th>
 						<td class="value-description">When a user is providing input, an element containing a collection of values that could complete the provided input might be displayed.</td>
 					</tr>
                     <tr>
                         <th class="value-name" scope="row">both</th>
+						<th class="state-description" scope="row">Both</th>
                         <td class="value-description">When a user is providing input, an element containing a collection of values that could complete the provided input might be displayed. If displayed, one value in the collection is automatically selected, and the text needed to complete the automatically selected value appears after the caret in the input.</td>
                     </tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">none (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">none</strong></th>
+						<th class="state-description" scope="row">None</th>
 						<td class="value-description">When a user is providing input, an automatic suggestion that attempts to predict how the user intends to complete the input is not displayed.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the None state.</p>
 		</div>
 		<div class="property" id="aria-braillelabel">
 			<pdef>aria-braillelabel</pdef>
@@ -10767,7 +10781,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10775,21 +10789,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+						<th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong>:</th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong>:</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">There are no expected updates for the element.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The element is being updated.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="state" id="aria-checked">
 			<sdef>aria-checked</sdef>
@@ -10822,7 +10841,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_tristate">tristate</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -10830,22 +10849,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">false</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The element supports being checked but is not currently checked.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">mixed</th>
+						<th class="state-description" scope="row">Mixed</th>
 						<!-- make sure this value remains synced with its counterpart in #aria-pressed -->
 						<td class="value-description">Indicates a mixed mode value for a tri-state checkbox or menuitemcheckbox.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The element is checked.</td>
 					</tr>
 					<tr>
@@ -10854,6 +10877,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
 		</div>
 		<div class="property" id="aria-colcount">
 			<pdef>aria-colcount</pdef>
@@ -11184,7 +11208,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11192,41 +11216,51 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">page</th>
+						<th class="state-description" scope="row">Page</th>
 						<td class="value-description">Represents the current page within a set of pages.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">step</th>
+						<th class="state-description" scope="row">Step</th>
 						<td class="value-description">Represents the current step within a process.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">location</th>
+						<th class="state-description" scope="row">Location</th>
 						<td class="value-description">Represents the current location within an environment or context.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">date</th>
+						<th class="state-description" scope="row">Date</th>
 						<td class="value-description">Represents the current date within a collection of dates.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">time</th>
+						<th class="state-description" scope="row">Time</th>
 						<td class="value-description">Represents the current time within a set of times.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">Represents the current item within a set.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, undefined, empty string (<code>&quot;&quot;</code>)</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">Does not represent the current item within a set.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> is the False state, and its <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the True state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-describedby">
 			<pdef>aria-describedby</pdef>
@@ -11414,7 +11448,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11422,21 +11456,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The element is enabled.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The element and all focusable descendants are disabled and its value cannot be changed by the user.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property deprecated" id="aria-dropeffect">
 			<pdef>aria-dropeffect</pdef>
@@ -11588,7 +11627,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false-undefined">true/false/undefined</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11596,17 +11635,20 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">false</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The grouping element this element controls or is the accessibility parent of is collapsed.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The grouping element this element controls or is the accessibility parent of is expanded.</td>
 					</tr>
 					<tr>
@@ -11615,6 +11657,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
 		</div>
 		<div class="property" id="aria-flowto">
 			<pdef>aria-flowto</pdef>
@@ -11753,7 +11796,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11761,7 +11804,8 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
@@ -11772,30 +11816,37 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">menu</th>
+						<th class="state-description" scope="row">Menu</th>
 						<td class="value-description">Indicates the popup is a <rref>menu</rref>.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">listbox</th>
+						<th class="state-description" scope="row">Listbox</th>
 						<td class="value-description">Indicates the popup is a <rref>listbox</rref>.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">tree</th>
+						<th class="state-description" scope="row">Tree</th>
 						<td class="value-description">Indicates the popup is a <rref>tree</rref>.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">grid</th>
+						<th class="state-description" scope="row">Grid</th>
 						<td class="value-description">Indicates the popup is a <rref>grid</rref>.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">dialog</th>
+						<th class="state-description" scope="row">Dialog</th>
 						<td class="value-description">Indicates the popup is a <rref>dialog</rref>.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> is the Undefined state, and its <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> is the Menu state.</p>
 		</div>
 		<div class="state" id="aria-hidden">
 			<sdef>aria-hidden</sdef>
@@ -11831,7 +11882,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false-undefined">true/false/undefined</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11839,25 +11890,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row">false</th>
-						<td class="value-description">The element's [=element/hidden=] state is determined by the user agent based on whether it is rendered. Synonym of <code>undefined</code>.</td>
+						<th class="value-name" scope="row">false, undefined, empty string (<code>&quot;&quot;</code>)</th>
+						<th class="state-description" scope="row">Undefined</th>
+						<td class="value-description">The element's [=element/hidden=] state is determined by the user agent based on whether it is rendered.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The element is [=element/hidden=] from the accessibility API.</td>
-					</tr>
-					<tr>
-						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
-						<td class="value-description">The element's [=element/hidden=] state is determined by the user agent based on whether it is rendered.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the Undefined state is the "undefined" keyword.</p>
 		</div>
 		<div class="state" id="aria-invalid">
 			<sdef>aria-invalid</sdef>
@@ -11891,7 +11943,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -11899,29 +11951,36 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">grammar</th>
+						<th class="state-description" scope="row">Grammar</th>
 						<td class="value-description">A grammatical error was detected.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">There are no detected errors in the value.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">spelling</th>
+						<th class="state-description" scope="row">Spelling</th>
 						<td class="value-description">A spelling error was detected.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The value entered by the user has failed validation.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> is the False state, and its <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> is the True state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-keyshortcuts">
 			<pdef>aria-keyshortcuts</pdef>
@@ -12124,7 +12183,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12132,25 +12191,30 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">assertive</th>
+						<th class="state-description" scope="row">Assertive</th>
 						<td class="value-description">Indicates that updates to the region have the highest priority and should be presented the user immediately.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">off (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">off</strong></th>
+						<th class="state-description" scope="row">Off</th>
 						<td class="value-description">Indicates that updates to the region should not be presented to the user unless the user is currently focused on that region.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">polite</th>
+						<th class="state-description" scope="row">Polite</th>
 						<td class="value-description">Indicates that updates to the region should be presented at the next graceful opportunity, such as at the end of speaking the current sentence or when the user pauses typing.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Off state.</p>
 		</div>
 		<div class="property" id="aria-modal">
 			<pdef>aria-modal</pdef>
@@ -12183,7 +12247,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12191,21 +12255,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">Element is not modal.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">Element is modal.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-multiline">
 			<pdef>aria-multiline</pdef>
@@ -12237,7 +12306,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12245,21 +12314,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">This is a single-line text box.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">This is a multi-line text box.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-multiselectable">
 			<pdef>aria-multiselectable</pdef>
@@ -12291,7 +12365,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12299,21 +12373,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">Only one item can be selected.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">More than one item in the widget can be selected at a time.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-orientation">
 			<pdef>aria-orientation</pdef>
@@ -12344,7 +12423,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12352,25 +12431,31 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">horizontal</th>
+						<th class="state-description" scope="row">Horizontal</th>
 						<td class="value-description">The element is oriented horizontally.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">undefined, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">Undefined</th>
 						<td class="value-description">The element's orientation is unknown/ambiguous.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">vertical</th>
+						<th class="state-description" scope="row">Vertical</th>
 						<td class="value-description">The element is oriented vertically.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the Undefined state is the "undefined" keyword.</p>
 		</div>
 		<div class="property" id="aria-owns">
 			<pdef>aria-owns</pdef>
@@ -12530,7 +12615,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_tristate">tristate</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12538,30 +12623,37 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">false</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The element supports being pressed but is not currently pressed.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">mixed</th>
+						<th class="state-description" scope="row">Mixed</th>
 						<!-- make sure this value remains synced with its counterpart in #aria-checked -->
 						<td class="value-description">Indicates a mixed mode value for a tri-state toggle button.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The element is pressed.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">undefined, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">Undefined</th>
 						<td class="value-description">The element does not support being pressed.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the Undefined state is the "undefined" keyword.</p>
 		</div>
 		<div class="property" id="aria-readonly">
 			<pdef>aria-readonly</pdef>
@@ -12598,7 +12690,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12606,21 +12698,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The user can set the value of the element.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The user cannot change the value of the element.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-relevant">
 			<pdef>aria-relevant</pdef>
@@ -12724,7 +12821,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_true-false">true/false</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -12732,21 +12829,26 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">false (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">false, empty string (<code>&quot;&quot;</code>)</strong></th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">User input is not necessary to submit the form.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">Users need to provide input on an element before a form is submitted.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the False state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the False state is the "false" keyword.</p>
 		</div>
 		<div class="property" id="aria-roledescription">
 			<pdef>aria-roledescription</pdef>
@@ -13074,7 +13176,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="state-value-head" scope="row">Value:</th>
-						<td class="state-value"><a href="#valuetype_true-false-undefined">true/false/undefined</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -13082,25 +13184,31 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class="value-name" scope="row">false</th>
+						<th class="value-name" scope="row">false, empty string (<code>&quot;&quot;</code>)</th>
+						<th class="state-description" scope="row">False</th>
 						<td class="value-description">The selectable element is not selected.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">true</th>
+						<th class="state-description" scope="row">True</th>
 						<td class="value-description">The selectable element is selected.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">undefined (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">undefined</strong></th>
+						<th class="state-description" scope="row">Undefined</th>
 						<td class="value-description">The element is not selectable.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the Undefined state.</p>
+			<p>For the purposes of <a data-cite="html/common-dom-interfaces.html#reflect">reflection</a>, the canonical keyword for the Undefined state is the "undefined" keyword.</p>
 		</div>
 		<div class="property" id="aria-setsize">
 			<pdef>aria-setsize</pdef>
@@ -13184,7 +13292,7 @@ button.ariaPressed; // null</pre>
 					</tr>
 					<tr>
 						<th class="property-value-head" scope="row">Value:</th>
-						<td class="property-value"><a href="#valuetype_token">token</a></td>
+						<td class="property-value"><a href="#valuetype_enumerated">Enumerated</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -13192,29 +13300,35 @@ button.ariaPressed; // null</pre>
 				<caption>Values:</caption>
 				<thead>
 					<tr>
-						<th scope="col">Value</th>
+						<th scope="col">Value (keyword)</th>
+                        <th scope="col">State</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th class="value-name" scope="row">ascending</th>
+						<th class="state-description" scope="row">Ascending</th>
 						<td class="value-description">Items are sorted in ascending order.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">descending</th>
+						<th class="state-description" scope="row">Descending</th>
 						<td class="value-description">Items are sorted in descending order.</td>
 					</tr>
 					<tr>
-						<th class="value-name" scope="row"><strong class="default">none (default)</strong></th>
+						<th class="value-name" scope="row"><strong class="default">none</strong></th>
+						<th class="state-description" scope="row">None</th>
 						<td class="value-description">There is no defined sort applied.</td>
 					</tr>
 					<tr>
 						<th class="value-name" scope="row">other</th>
+						<th class="state-description" scope="row">Other</th>
 						<td class="value-description">A sort algorithm other than ascending or descending has been applied.</td>
 					</tr>
 				</tbody>
 			</table>
+			<p>The attribute's <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> are both the None state.</p>
 		</div>
 		<div class="property" id="aria-valuemax">
 			<pdef>aria-valuemax</pdef>
@@ -13940,7 +14054,6 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 <section class="informative appendix" id="typemapping">
 	<h2>Mapping WAI-ARIA Value types to languages</h2>
 	<p class="note">The HTML column of the table below is advisory. Guidance on use of WAI-ARIA state and properties in HTML is provided in <a data-cite="html-aria/#docconformance">Document conformance requirements for use of ARIA attributes in HTML</a> ([[HTML-ARIA]]).</p>
-	<p class="note">The suggested mappings for true/false values in HTML use <a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a> with allowed values of <code>true</code> and <code>false</code>, instead of using the HTML boolean value type. <!--@@ can't rely on attribute absence because of default value in true/false/undefined case.--></p>
 	<p>The table below provides recommended mappings between WAI-ARIA state and property types and attribute types from [[[HTML]]] and [[[XMLSCHEMA11-2]]].</p>
 	<p>Languages not listed below might have appropriate value types defined in the language. If they do not, we recommend XML Schema Datatypes for general purpose XML languages. Documents using DTDs instead of schemas will not be able to validate automatically and require additional processing on WAI-ARIA attributes.</p>
 	<table>
@@ -13948,21 +14061,6 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 			<th scope="col">WAI-ARIA type</th>
 			<th scope="col">HTML</th>
 			<th scope="col">XML Schema</th>
-		</tr>
-		<tr>
-			<td>true/false</td>
-			<td><a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a> with allowed values of &quot;true&quot; and &quot;false&quot;</td>
-			<td><a data-cite="xmlschema11-2/#boolean">boolean</a></td>
-		</tr>
-		<tr>
-			<td>true/false/undefined</td>
-			<td><a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a> with allowed values of <code>true</code>, <code>false</code>, and <code>undefined</code></td>
-			<td><a data-cite="xmlschema11-2/#NMTOKEN">NMTOKEN</a> with an <a href="https://www.w3.org/TR/xmlschema11-2/#NMTOKEN">enumeration constraint</a> allowing values of <code>true</code>, <code>false</code>, and <code>undefined</code></td>
-		</tr>
-		<tr>
-			<td>tristate</td>
-			<td><a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a> with allowed values of &quot;true&quot;, &quot;false&quot;, and &quot;mixed&quot;</td>
-			<td><a data-cite="xmlschema11-2/#NMTOKEN">NMTOKEN</a> with an <a href="https://www.w3.org/TR/xmlschema11-2/#NMTOKEN">enumeration constraint</a> allowing values of &quot;true&quot;, &quot;false&quot;, and &quot;mixed&quot;</td>
 		</tr>
 		<tr>
 			<td>number</td>
@@ -13975,7 +14073,7 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre>
 			<td><a data-cite="xmlschema11-2/#integer">integer</a></td>
 		</tr>
 		<tr>
-			<td>token</td>
+			<td>enumerated</td>
 			<td><a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a></td>
 			<td><a data-cite="xmlschema11-2/#NMTOKEN">NMTOKEN</a> with an <a data-cite="xmlschema11-2/#dt-enumeration">enumeration constraint</a> allowing values listed in the state or property definition</td>
 		</tr>
