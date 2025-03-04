@@ -40,9 +40,9 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       </th>
       <td>First Public Working Draft</td>
       <td>23 January 2024</td>
-      <td>Q2 2025</td>
-      <td>Q3 2025</td>
       <td>Q1 2026</td>
+      <td>Q2 2026</td>
+      <td>Q3 2026</td>
     </tr>
     <tr>
       <th>
@@ -53,7 +53,7 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       <td>19 July 2018</td>
       <td>21 November 2024</td>
       <td></td>
-      <td>Q3 2025</td>
+      <td>Q13 2026</td>
     </tr>
     <tr>
       <th>
@@ -62,9 +62,9 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       </th>
       <td>Living Recommendation</td>
       <td>11 July 2019</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>Q1 2026</td>
+      <td>Q2 2026</td>
+      <td>Q3 2026</td>
     </tr>
     <tr>
       <th>
@@ -75,7 +75,7 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       <td>7 April 2015</td>
       <td></td>
       <td></td>
-      <td></td>
+      <td>Q3 2025</td>
     </tr>
     <tr>
       <th>
@@ -86,7 +86,7 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       <td>14 April 2015</td>
       <td></td>
       <td></td>
-      <td></td>
+      <td>Q3 2025</td>
     </tr>
     <tr>
       <th>
@@ -112,6 +112,16 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
     </tr>
     <tr>
       <th>
+        <a href="https://www.w3.org/TR/graphics-aria-1.0/">WAI-ARIA Graphics Module</a> [<a href="https://w3c.github.io/graphics-aria/">WAI-ARIA Graphics Module Editors' Draft</a>]
+      </th>
+      <td>W3C Recommendation</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>
         <a href="https://www.w3.org/TR/svg-aam-1.0/">SVG Accessibility API Mappings</a> 
         [<a href="http://w3c.github.io/aria/svg-aam/svg-aam.html">SVG-AAM Editors' Draft</a>]
       </th>
@@ -119,7 +129,7 @@ The [Working Group charter](https://www.w3.org/WAI/ARIA/charter#milestones) prop
       <td>26 February 2015</td>
       <td></td>
       <td></td>
-      <td></td>
+      <td>Q1 2026</td>
     </tr>
   </tbody>
 </table>
