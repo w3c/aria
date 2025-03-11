@@ -7,7 +7,7 @@ find . -maxdepth 1 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.
 find . -mindepth 2 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/aria/|ED: "/|g' {} +
 
 # build relative links for child specs
-find . -mindepth 2 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/(?!aria)|ED: "/|g' {} +
+find . -mindepth 2 -type f -name "index.html" -exec perl -pi -e 's|ED: "https://w3c\.github\.io/(?!aria)|ED: "/|g' {} +
 # build all specs
 npx respec -s index.html -o index.html --localhost
 npx respec -s accname/index.html -o accname/index.html --localhost
