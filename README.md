@@ -12,9 +12,52 @@ $ git fetch origin
 $ git branch -u origin/main main
 ```
 
-## Other Repositories
+## Specifications in this repository
 
-This repository is for the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications. There are several other deliverables, such as ARIA modules, Accessibility API Mappings, and support documents. These are maintained in separate repositories listed on the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification to which the issue applies.
+This repository contains the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications (ARIA), and should be used for issues related to the ARIA spec and and issues that involve both the ARIA spec in conjunction with other specifications maintained by the ARIA working group. All other specifications maintained by ARIA can be found in this repository as well, however, we have separate issue tracking repos for these separate specifications.
+
+* Accessible Rich Internet Applications (aria)
+  * [Spec](./index.html)
+  * [Editor's Draft](https://w3c.github.io/aria/)
+  * [Issue Repository](https://github.com/w3c/aria)
+* Accessible Name and Description Computation (accname)
+  * [Spec](accname/index.html)
+  * [Editor's Draft](https://w3c.github.io/accname/)
+  * [Issue Repository](https://github.com/w3c/accname)
+* Core Accessibility API Mappings (core-aam)
+  * [Spec](core-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/core-aam/)
+  * [Issue Repository](https://github.com/w3c/core-aam)
+* HTML Accessibility API Mappings (html-aam)
+  * [Spec](html-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/html-aam/)
+  * [Issue Repository](https://github.com/w3c/html-aam)
+* Digital Publishing WAI-ARIA Module (dpub-aria)
+  * [Spec](dpub-aria/index.html)
+  * [Editor's Draft](https://w3c.github.io/dpub-aria/)
+  * [Issue Repository](https://github.com/w3c/dpub-aria)
+* Digital Publishing Accessibility API Mappings (dpub-aam)
+  * [Spec](dpub-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/dpub-aam/)
+  * [Issue Repository](https://github.com/w3c/dpub-aam)
+* Graphics WAI-ARIA Module (graphics-aria)
+  * [Spec](graphics-aria/index.html)
+  * [Editor's Draft](https://w3c.github.io/graphics-aria/)
+  * [Issue Repository](https://github.com/w3c/graphics-aria)
+* Graphics Accessibility API Mappings (graphics-aam)
+  * [Spec](graphics-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/graphics-aam)
+  * [Issue Repository](https://github.com/w3c/graphics-aam)
+* SVG Accessibility API Mappings (svg-aam)
+  * [Spec](svg-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/svg-aam/)
+  * [Issue Repository](https://github.com/w3c/svg-aam)
+* MathML Accessibility API Mappings (mathml-aam)
+  * [Spec](mathml-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/mathml-aam/)
+  * [Issue Repository](https://github.com/w3c/mathml-aam)
+
+In addition to these specifications, there are other deliverables of the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification or deliverable to which the issue applies.
 
 ## Contributing to this Repository
 
@@ -159,6 +202,8 @@ type”](https://respec.org/xref/?term=nullable+type) and
     </p>
 </section>
 ```
+
+In this example, "nullable" will show up in the spec text as a [ReSpec alias](https://respec.org/docs/#aliases-and-synonyms) for "nullable type" in the WebIDL spec. Aliases can only be provided for [concepts in spec](https://respec.org/docs/#concept-shorthands) (such as terms) and are helpful when you'd like the visible text for a ReSpec link to be different than the term being linked. Please note that it is not currently possible to provide an alias for an interface (e.g., #element in the DOM spec).
 
 In some cases, a term may be defined in multiple specifications with the same
 `xref` syntax.  For example, [“`[=range=]`” is defined in both the DOM and

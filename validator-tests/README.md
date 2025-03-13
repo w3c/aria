@@ -101,7 +101,7 @@ link to the bug you filed. See what was done above for Name Prohibited for @axe-
 ### Using @axe-core/cli
 
 * Documentation: [@axe-core/cli](https://www.npmjs.com/package/@axe-core/cli)
-* Issue tracker: https://github.com/dequelabs/axe-core-npm
+* Issue tracker: https://github.com/dequelabs/axe-core
 
 #### General Tips
 * Run a single test with no arguments to see all the errors:
@@ -157,13 +157,13 @@ inside the `my-test-files` directory.
 
 ```
 cd my-test-files
-python -m SimpleHTTPServer
+python -m http.server
 ```
 
 Having done the above, the URL is `http://localhost:8000/foo.html` and the following should work:
 
 ```
-axe http://localhost:8000/foo.html --rules aria-allowed-attr
+axe http://localhost:8000/foo.html --tags cat.aria
 ```
 
 ### Using Validator.nu 
