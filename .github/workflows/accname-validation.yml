@@ -1,0 +1,34 @@
+name: accname Validation
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'accname/**'
+  workflow_dispatch:
+
+jobs:
+  validate-accname:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout monorepo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: aria
+          sparse-checkout: |
+            accname
+            common
+      - name: Copy common
+        run: |
+          mkdir aria/accname/common
+          cp -r aria/common/** aria/accname/common/    
+          sed -i 's|\.\./common|common|g' aria/accname/index.html
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: aria/accname/index.html
+          DESTINATION: aria/accname/index.html
+          BUILD_FAIL_ON: fatal
+          VALIDATE_WEBIDL: true
+          VALIDATE_LINKS: true
+          VALIDATE_MARKUP: true

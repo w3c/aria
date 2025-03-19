@@ -1,0 +1,34 @@
+name: dpub-aria Validation
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'dpub-aria/**'
+  workflow_dispatch:
+
+jobs:
+  validate-dpub-aria:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout monorepo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: aria
+          sparse-checkout: |
+            dpub-aria
+            common
+      - name: Copy common
+        run: |
+          mkdir aria/dpub-aria/common
+          cp -r aria/common/** aria/dpub-aria/common/    
+          sed -i 's|\.\./common|common|g' aria/dpub-aria/index.html
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: aria/dpub-aria/index.html
+          DESTINATION: aria/dpub-aria/index.html
+          BUILD_FAIL_ON: fatal
+          VALIDATE_WEBIDL: true
+          VALIDATE_LINKS: true
+          VALIDATE_MARKUP: true

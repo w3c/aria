@@ -1,0 +1,21 @@
+name: aria Validation
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'index.html'
+  workflow_dispatch:
+
+jobs:
+  validate-aria:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: index.html
+          DESTINATION: index.html
+          BUILD_FAIL_ON: fatal
+          VALIDATE_WEBIDL: true
+          VALIDATE_LINKS: true
+          VALIDATE_MARKUP: true

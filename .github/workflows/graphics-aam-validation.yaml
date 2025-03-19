@@ -1,0 +1,34 @@
+name: graphics-aam Validation
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'graphics-aam/**'
+  workflow_dispatch:
+
+jobs:
+  validate-graphics-aam:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout monorepo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: aria
+          sparse-checkout: |
+            graphics-aam
+            common
+      - name: Copy common
+        run: |
+          mkdir aria/graphics-aam/common
+          cp -r aria/common/** aria/graphics-aam/common/    
+          sed -i 's|\.\./common|common|g' aria/graphics-aam/index.html
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: aria/graphics-aam/index.html
+          DESTINATION: aria/graphics-aam/index.html
+          BUILD_FAIL_ON: fatal
+          VALIDATE_WEBIDL: true
+          VALIDATE_LINKS: true
+          VALIDATE_MARKUP: true
