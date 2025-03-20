@@ -11207,7 +11207,7 @@
       <p>Some <abbr title="Application Programming Interfaces">APIs</abbr>, provide <a class="termref">methods</a> which require...</p>
       <h3>ARIANotifyMixin Algorithm Mapping Tables</h3>
       <h4 id="arianotifymixin-map-arianotify">ariaNotify</h4>
-      <p>To <code>aria notify</code> given <var>node</var>, <var>announcement</var>, <var>priority</var>, <var>interrupt</var>, and <var>id</var>:</p>
+      <p>To <code>aria notify</code> given <var>node</var>, <var>announcement</var>, and <var>priority</var>:</p>
       <table aria-labelledby="arianotifymixin-map-arianotify">
         <tbody>
           <tr>
@@ -11218,65 +11218,57 @@
           </tr>
           <tr>
             <th>MSAA + IAccessible2</th>
-            <td></td>
-          </tr>
-          <tr>
-            <th><abbr title="User Interface Automation">UIA</abbr></th>
             <td>
               <ol>
                 <li>
-                  <p>Let <var>notificationProcessing</var> be <code>null</code>.</p>
-                </li>
-                <li>
-                  <p>If <var>interrupt</var> is "<code>none</code>" and <var>priority</var> is "<code>none</code>" set <var>notificationProcessing</var> to <code>NotificationProcessing_All</code>.</p>
-                </li>
-                <li>
-                  <p>
-                    If <var>interrupt</var> is "<code>none</code>" and <var>priority</var> is "<code>important</code>" set <var>notificationProcessing</var> to
-                    <code>NotificationProcessing_ImportantAll</code>.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    If <var>interrupt</var> is "<code>all</code>" and <var>priority</var> is "<code>none</code>" set <var>notificationProcessing</var> to
-                    <code>NotificationProcessing_MostRecent</code>.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    If <var>interrupt</var> is "<code>all</code>" and <var>priority</var> is "<code>important</code>" set <var>notificationProcessing</var> to
-                    <code>NotificationProcessing_ImportantMostRecent</code>.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    If <var>interrupt</var> is "<code>pending</code>" and <var>priority</var> is "<code>none</code>" set <var>notificationProcessing</var> to
-                    <code>NotificationProcessing_CurrentThenMostRecent</code>.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    If <var>interrupt</var> is "<code>pending</code>" and <var>priority</var> is "<code>important</code>" set <var>notificationProcessing</var> to
-                    <code>NotificationProcessing_ImportantMostRecent</code>.
-                  </p>
-                </li>
-                <li>
-                  <p>Assert: <var>notificationProcessing</var> is not <code>null</code>.</p>
-                </li>
-                <li>
-                  <p>
-                    Call <code>UiaRaiseNotificationEvent</code> with given <var>node</var>, <code>NotificationKind_ActionCompleted</code>, <var>notificationProcessing</var>, <var>announcement</var>,
-                    and <var>id</var>.
+                  <p>Return.</p>
+                  <p class="note">
+                    Implementations integrating with MSAA + IAccessible2 should only emit announcements using <abbr title="User Interface Automation">UIA</abbr>, if available.
+                    In cases where IUA is unavailable, no announcement should be made.
                   </p>
                 </li>
               </ol>
             </td>
           </tr>
           <tr>
-            <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
+            <th><abbr title="User Interface Automation">UIA</abbr></th>
             <td>
               <ol>
-                <!-- TODO! -->
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>NotificationProcessing_ImportantAll</code> if <var>priority</var> is "high", otherwise <code>NotificationProcessing_All</code>.</p>
+                </li>
+                <li>
+                  <p>
+                    Call <code>UiaRaiseNotificationEvent</code> with <var>node</var>, <code>NotificationKind_ActionCompleted</code>, <var>mapped_priority</var>, <var>announcement</var>,
+                    and the empty string.
+                  </p>
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="Accessibility Toolkit">ATK</abbr>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>Atk.Live.ATK_LIVE_ASSERTIVE</code> if <var>priority</var> is "high", otherwise <code>Atk.Live.ATK_LIVE_POLITE</code>.</p>
+                </li>
+                <li>
+                  <p>Call <code>g_signal_emit_by_name</code> with <var>node</var>, <code>"notification"</code>, <var>announcement</var>, and <var>mapped_priority</var>.</p>
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>ATSPI_LIVE_ASSERTIVE</code> if <var>priority</var> is "high", otherwise <code>ATSPI_LIVE_POLITE</code>.</p>
+                </li>
+                <li>
+                  <p>Send a DBUS signal <code>ATSPI_DBUS_INTERFACE_EVENT_OBJECT</code> with <var>node</var>, <code>"announcement"</code>, <var>announcement</var>, and <var>mapped_priority</var>.</p>
+                </li>
               </ol>
             </td>
           </tr>
@@ -11291,10 +11283,7 @@
                   <p>Let <var>window</var> be <var>document</var>'s associated window.</p>
                 </li>
                 <li>
-                  <p>Let <var>notification</var> be <code>NSAccessibilityAnnouncementRequestedNotification</code>.</p>
-                </li>
-                <li>
-                  <p>Let <var>mapped_priority</var> be <code>NSAccessibilityPriorityHigh</code> if <var>priority</var> is "important", otherwise <code>NSAccessibilityPriorityMedium</code>.</p>
+                  <p>Let <var>mapped_priority</var> be <code>NSAccessibilityPriorityHigh</code> if <var>priority</var> is "high", otherwise <code>NSAccessibilityPriorityMedium</code>.</p>
                 </li>
                 <li>
                   <p>Let <var>userInfo</var> be a <code>NSDictionary</code> with the following keys:</p>
@@ -11304,7 +11293,7 @@
                   </ol>
                 </li>
                 <li>
-                  <p>Call <code>NSAccessibilityPostNotificationWithUserInfo</code> with given <var>window</var>, <var>notification</var>, and <var>userInfo</var>.</p>
+                  <p>Call <code>NSAccessibilityPostNotificationWithUserInfo</code> with <var>window</var>, <var>NSAccessibilityAnnouncementRequestedNotification</var>, and <var>userInfo</var>.</p>
                 </li>
               </ol>
             </td>
