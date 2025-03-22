@@ -623,9 +623,8 @@
           <dt><dfn>Indicates</dfn></dt>
           <dd>
             <p>
-              Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is a named token or otherwise token-like, including the Boolean-like
-              <a href="#valuetype_true-false">true/false</a>, <a href="#valuetype_true-false-undefined">true/false/undefined</a>, <a href="#valuetype_tristate">tristate (true/false/mixed)</a>, a
-              single named <a href="#valuetype_token">token</a>, or a <a href="#valuetype_token_list">token list</a>.
+              Used in an attribute description to denote that the value <a href="#propcharacteristic_value">type</a> is a named token or otherwise token-like, including a
+              single named <a href="#valuetype_token">token</a>, a <a href="#valuetype_token_list">token list</a>, or <a href="#valuetype_enumerated">enumerated</a>.
             </p>
             <p>Related Terms: <a>Defines</a>, <a>Identifies</a></p>
           </dd>
@@ -11921,23 +11920,19 @@
       </section>
       <section data-cite="webidl">
         <h2>ARIA Attributes</h2>
+        <section id="content-vs-idl-attributes">
+          <h3>Distinguishing Between Content and IDL Attributes</h3>
+          <p>HTML content attributes, including ARIA states and properties, are set in HTML markup, while IDL attributes (or DOM properties) are the corresponding JavaScript properties exposed on DOM elements.
+          See [=reflect|reflection=] in HTML for more details.</p>
         <section id="enumerated-attribute-values">
-          <h3>Multi-value Attribute Values</h3>
-          <p>
-            When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>, that attribute is a multi-value nullable attribute. Each value in the table is a
-            keyword for the attribute, mapping to a state of the same name.
-          </p>
+          <h3>Enumerated Attribute Values</h3>
+          <p>When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>,
+          it is an [=enumerated attribute=]. Each value in the table is a keyword for the attribute, mapping to a state of the same name and one or more keywords may map to the same state.</p>
         </section>
         <section id="idl-reflection-attribute-values">
           <h3>IDL reflection of ARIA attributes</h3>
-          <p>
-            All ARIA attributes reflect in IDL as [=nullable type|nullable=] {{DOMString}} attributes. This includes the boolean-like <a href="#valuetype_true-false">true/false</a> type, and all other
-            ARIA attributes.
-          </p>
-          <p>
-            Default values from the ARIA values tables MUST NOT reflect to IDL as the <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> or the
-            <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. On getting, a missing ARIA attribute will return <code>null</code>. ARIA
-            attributes are not validated on get. If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.
+          <p>ARIA attributes may reflect as several IDL attribute types such as [=nullable type|nullable=] {{DOMString}} attributes, [=nullable type|nullable=] {{FrozenArray}} attributes or [=nullable type|nullable=] {{Element}} attributes.
+          <p>For non-enumerated attributes, default values from the ARIA values tables MUST NOT reflect to IDL as the <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> or the <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. On getting (a non-enumerated attribute), a missing ARIA attribute will return <code>null</code> as such ARIA attributes are not validated on get. If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.
           </p>
         </section>
         <section id="os-aapi-attribute-mapping">
@@ -11948,26 +11943,31 @@
           </p>
         </section>
         <section id="enumerated-attribute-values-html">
-          <h3>ARIA nullable DOMString Attributes</h3>
+          <h3>ARIA IDL Attribute Types</h3>
           <p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of WAI-ARIA types is governed by the host language.</p>
-          <p>The following algorithm should be used for ARIA nullable {{DOMString}} attributes in HTML:</p>
-          <p>
-            On getting, if the corresponding content attribute is not present, then the IDL attribute must return null, otherwise, the IDL attribute must get the value in a transparent,
-            case-preserving manner. On setting, if the new value is null, the content attribute must be removed, and otherwise, the content attribute must be set to the specified new value in a
-            transparent, case-preserving manner.
-          </p>
-          <p class="note">
-            Note: As of ARIA 1.2, all ARIA attributes exposed via IDL are defined as nullable {{DOMString}}s. This matches the current implementation of all major rendering engines. This specification
-            change should result in no implementation changes; it will merely represent the current reality of web engines. However, in a future draft, the ARIA Working Group intends to change several
-            ARIA attributes to non-nullable DOMStrings, and seek implementations. The proposed change will bring ARIA into alignment with the HTML’s usage of
-            <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attributes</a>.
-          </p>
+          <p>ARIA attributes [=reflect=] in IDL as defined in HTML.</p>
           <section class="informative" id="enumeration-example">
             <h4>Example Attribute Usage</h4>
-            <aside class="example">
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight javascript">
-// HTML hidden="" example (not aria-hidden="true")
+            <h4>Example Attribute Usage</h4>
+				<aside class="example">
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-label example
+
+	el.ariaLabel; // null
+
+	// Assignment of content attribute to empty string.
+	el.setAttribute("aria-label", "");
+	el.ariaLabel; // ""
+
+	// Removal of content attribute results in null value.
+	el.removeAttribute("aria-label");
+	el.ariaLabel; // null</pre>
+
+				</aside>
+				<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// HTML hidden="" example (not aria-hidden="true")
 // Actual boolean type; defaults to false.
 
 // Note: Actual boolean assignment and return value.
@@ -11976,14 +11976,13 @@ el.hidden; // true
 
 // Removal of content attribute results in missing value default: boolean false.
 el.removeAttribute("hidden");
-el.hidden; // false</pre
-              >
-            </aside>
-            <aside class="example">
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight javascript">
-// aria-busy example
-// true/false ~ boolean-like nullable string; returns null unless set
+el.hidden; // false</pre>
+
+			</aside>
+			<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-busy example (enumerated attribute)
 
 el.ariaBusy; // null
 
@@ -11991,20 +11990,19 @@ el.ariaBusy; // null
 el.ariaBusy = "true";
 el.ariaBusy; // "true"
 
-// Removal of content attribute results in missing value default: string "false".
+// Removal of content attribute results in missing value default of "false".
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
-// Assignment of invalid "busy" value. Not validated on set or get and the literal string value "busy" is returned.
+// Assignment of invalid "busy" value results in invalid value default of "false".
 el.setAttribute("aria-busy", "busy");
-el.ariaBusy; // "busy"</pre
-              >
-            </aside>
-            <aside class="example">
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight javascript">
-// aria-pressed example
-// Tristate ~ true/false/mixed/undefined string; null if unspecified
+el.ariaBusy; // "busy"</pre>
+
+			</aside>
+			<aside class="example">
+
+<!-- ReSpec needs these examples to be unindented. -->
+<pre>// aria-pressed example (enumerated attribute)
 
 // no value has been defined
 button.ariaPressed; // null
@@ -12012,17 +12010,16 @@ button.ariaPressed; // null
 // A value of "true", "false", or "mixed" for aria-pressed on a button denotes a toggle button.
 button.setAttribute("aria-pressed", "true"); // Content attribute assignment.
 button.ariaPressed; // "true"
-button.ariaPressed = "false"; // DOM property assignment.
+button.ariaPressed = "false"; // IDL attribute assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value. Not validated on set or get and the literal string value "foo" is returned.
+// Assignment of invalid "foo" value results in invalid value default of "undefined".
 button.ariaPressed = "foo";
-button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
+button.ariaPressed; // "undefined" (Note: button is no longer a toggle button.)
 
-// Removal of content attribute results in a null value
+// Removal of content attribute results in a null value.
 button.removeAttribute("aria-pressed");
-button.ariaPressed; // null</pre
-              >
+button.ariaPressed; // null</pre>
             </aside>
           </section>
         </section>
