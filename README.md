@@ -315,13 +315,3 @@ There was some automated checking available, previously run by XSLT. This featur
 * Roles list only supported states that are defined
 * States indicate applicability only to roles that are defined
 * Roles and states cross reference each other: roles indicate supported states, and those states indicate applicability to those roles; discrepancies called out for manual attention
-## The default branch has been renamed
-
-If you have a local clone, run the following commands to update the name of the default branch.
-
-s```
-$ git branch -m master main
-$ git fetch origin
-$ git branch -u origin/main main
-```
-
