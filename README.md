@@ -257,7 +257,7 @@ the save button and tell your browser to save the roleInfo.js file into the [com
 #### Document style
 
 * There should always be introductory content before starting subsections.
-* Sequences of steps use ordered lists, the first paragraph of which labels the step and is in a `<stron>`; subsequent block elements are the content for the step.
+* Sequences of steps use ordered lists, the first paragraph of which labels the step and is in a `<strong>`; subsequent block elements are the content for the step.
 * Preformatted examples should "pretty-print" the example to be less than 80 characters wide, and indent the code using 2 space characters per indent step. Wrap within an element tag with an extra indent. Use line break characters, not `<br/>` elements, for new lines. Add extra line spacing as useful. They use the class "example". Use the Code Sample Expander tool to assist with this.
 * Keyboard characters should be in `<kbd>` elements.
     * Spell out keys such as "control", "shift", "command", "option", "alt", "insert", "pageup", "enter", etc.
