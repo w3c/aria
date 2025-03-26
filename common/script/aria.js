@@ -27,7 +27,7 @@ const roleInfo = {};
  * @param {Object} propList -
  * @param {HTMLElement} item - from nodeList.forEach
  */
-const populatePropList = function (propList, item) {
+const buildPropList = function (propList, item) {
     const type = item.localName === "pdef" ? "property" : "state";
     const content = item.innerHTML;
     const title = item.getAttribute("title") || content;
@@ -48,7 +48,7 @@ const populatePropList = function (propList, item) {
  * @param {Object} globalSP -
  * @param {HTMLElement} item - from nodeList.forEach
  */
-const populateGlobalSP = function (propList, globalSP, item) {
+const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
     const title = item.getAttribute("title") || item.innerHTML;
     const container = item.parentElement;
     const itemEntry = propList[title];
@@ -100,7 +100,7 @@ const rewriteDefContainer = (container) => {
  * @param {HTMLElement} item - rdef element
  */
 const rewriteRdef = function (item) {
-    // TODO: merge with generateHTMLStatesAndProperties() but that creates different HTML
+    // TODO: merge with renderStatesAndPropertiesHeadings() but that creates different HTML
     const content = item.innerHTML;
     let title = item.getAttribute("title") || content;
     let type = "role";
@@ -119,7 +119,7 @@ const rewriteRdef = function (item) {
  * @param {Object} propList -
  * @param {HTMLElement} item - sdef or pdef, from nodeList.forEach
  */
-const generateHTMLStatesAndProperties = function (propList, item) {
+const renderStatesAndPropertiesHeadings = function (propList, item) {
     const title = item.getAttribute("title") || item.innerHTML;
     const itemEntry = propList[title];
     const dRef = item.nextElementSibling;
@@ -133,7 +133,7 @@ const generateHTMLStatesAndProperties = function (propList, item) {
  * Generate index of states and properties
  * @param {Object} propList
  */
-const generateIndexStatesAndProperties = (propList) => {
+const renderIndexStatesAndProperties = (propList) => {
     const indexStatePropPlaceholder =
         document.getElementById("index_state_prop");
     const indexStatePropContent = Object.values(propList)
@@ -149,7 +149,7 @@ const generateIndexStatesAndProperties = (propList) => {
  * Generate index of global states and properties
  * @param {Object} globalSP
  */
-const generateIndexGlobalStatesAndProperties = (globalSP) => {
+const renderIndexGlobalStatesAndProperties = (globalSP) => {
     const globalStatesPropertiesContent = globalSP
         .map((item) => {
             // TODO: This is the only use of globalSP - why does it not just consist of the markup we create here in this loop?
@@ -161,7 +161,7 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
                 isState ? `title="${item.name}"` : ""
             }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
                 // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
-                // TODO: cf. extractStatesProperties() and populateRoleInfoPropList() which have extra logic for title set here)
+                // TODO: cf. buildStatesProperties() and buildRoleInfoPropList() which have extra logic for title set here)
 
                 item.prohibited ? " (Except where prohibited)" : ""
             }${
@@ -185,7 +185,7 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
  * For an rdef element, generates DT+DD content to be added to the Index of Roles
  * @param {HTMLElement} item - rdef element
  */
-const generateHTMLRoleIndexEntry = function (item) {
+const renderRoleIndexEntry = function (item) {
     const container = item.parentNode;
     const content = item.innerText;
     container.id = content;
@@ -208,7 +208,7 @@ const generateHTMLRoleIndexEntry = function (item) {
  * Generates subrole information
  * @param {NodeList} rdefs - rdefs
  */
-const generateSubRoles = (rdefs) => {
+const buildSubRoles = (rdefs) => {
     const subRoles = {};
     rdefs.forEach((rdef) => {
         const title = rdef.innerHTML;
@@ -229,8 +229,8 @@ const generateSubRoles = (rdefs) => {
  * @param {HTMLElement} item - sdef or pdef inside rdef Characteristics table
  * @returns
  */
-const extractStatesProperties = function (item) {
-    const name = item.getAttribute("title") || item.innerText; // TODO: raw HTML doesn't have sref/pref with title attributes but generateIndexGlobalStatesAndProperties() creates them
+const buildStatesProperties = function (item) {
+    const name = item.getAttribute("title") || item.innerText; // TODO: raw HTML doesn't have sref/pref with title attributes but renderIndexGlobalStatesAndProperties() creates them
     const type = item.localName === "pref" ? "property" : "state";
     const req = !!item.closest(".role-required-properties");
     const dis = !!item.closest(".role-disallowed");
@@ -249,7 +249,7 @@ const extractStatesProperties = function (item) {
  * @param {String} indexTest - string to decide if this index needs it
  * @param {HTMLElement} rdef - rdef node
  */
-const generateHTMLNameFromIndices = (indexTest, rdef) => {
+const renderIndexEntry = (indexTest, rdef) => {
     const container = rdef.parentNode;
     // is there a namefrom indication?  If so, add this one to
     // the list
@@ -279,7 +279,7 @@ const generateHTMLNameFromIndices = (indexTest, rdef) => {
  * @param {Object} propList - the "list" of properties
  * @param {HTMLElement} item - an rdef node
  */
-const populateRoleInfoPropList = function (roleInfo, propList, item) {
+const buildRoleInfoPropList = function (roleInfo, propList, item) {
     const container = item.parentNode;
     const content = item.innerText;
     container.id = content;
@@ -292,12 +292,12 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
     const PSDefs = container.querySelectorAll(
         `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
     );
-    const attrs = [...PSDefs].map(extractStatesProperties);
+    const attrs = [...PSDefs].map(buildStatesProperties);
     // remember that the state or property is
     // referenced by this role
     PSDefs.forEach((node) =>
         propList[node.getAttribute("title") || node.innerText].roles.push(
-            // TODO: cf.  generateIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText
+            // TODO: cf.  renderIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText
             content
         )
     );
@@ -312,11 +312,11 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
 
 /**
  * TODO: depends on global roleInfo object
- * Generats `allprops` array for a role entry in roleInfo
+ * Generates `allprops` array for a role entry in roleInfo
  * @param {string} role - name of a role
  * @returns
  */
-const getStates = function (role) {
+const buildAllprops = function (role) {
     // TODO: pkra would like to use sets here but allprops part of roleInfo serializaton
     const ref = roleInfo[role];
     if (!ref) {
@@ -326,7 +326,7 @@ const getStates = function (role) {
     } else {
         let myList = ref.localprops;
         ref.parentRoles.forEach(function (item) {
-            const pList = getStates(item);
+            const pList = buildAllprops(item);
             myList = myList.concat(pList);
         });
         ref.allprops = myList;
@@ -341,13 +341,13 @@ const getStates = function (role) {
  */
 const buildInheritedStatesProperties = function (item) {
     // BEGIN TODO: why can't we do, e.g.,
-    // 1. in the main function: Object.keys(roleInfo).forEach(role=> getStates(role)); (see also TODO: near where buildInheritedStatesProperties() is called)
-    //   - Then: let myList = item.allprops; (instead of myList = myList.concat(getStates(role)))
+    // 1. in the main function: Object.keys(roleInfo).forEach(role=> buildAllprops(role)); (see also TODO: near where buildInheritedStatesProperties() is called)
+    //   - Then: let myList = item.allprops; (instead of myList = myList.concat(buildAllprops(role)))
     //   - NOTE: the HTML stays the same but the exported roleInfo isn't.
     //   - TODO: BUG? in the existing roleInfo allprops only occurs 30 times
     let myList = [];
     item.parentRoles.forEach(function (role) {
-        myList = myList.concat(getStates(role));
+        myList = myList.concat(buildAllprops(role));
     });
     // END TODO
     // strip out any items that we have locally
@@ -431,21 +431,21 @@ const pruneUnusedRows = () => {
  * Generates the HTML for various indices in the spec
  * @param {NodeList} rdefs - all the rdefs
  */
-const generateHTMLIndices = (rdefs) => {
+const renderIndices = (rdefs) => {
     let fromAuthor = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "author"))
+        .map(renderIndexEntry.bind(null, "author"))
         .join("");
     let fromHeading = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "heading"))
+        .map(renderIndexEntry.bind(null, "heading"))
         .join("");
     let fromContent = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "content"))
+        .map(renderIndexEntry.bind(null, "content"))
         .join("");
     let fromProhibited = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "prohibited"))
+        .map(renderIndexEntry.bind(null, "prohibited"))
         .join("");
 
-    const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
+    const roleIndex = [...rdefs].map(renderRoleIndexEntry).join("");
 
     // spit out the indices
     document.getElementById(
@@ -472,7 +472,7 @@ const generateHTMLIndices = (rdefs) => {
  * @param {Object} subRoles - the subroles collection
  * @returns
  */
-const createDescendantRoles = (subRoles) => {
+const buildDescendantRoles = (subRoles) => {
     const descendantRoles = {};
     const getAllSubRoles = function (key) {
         const subroleSet = new Set();
@@ -497,7 +497,7 @@ const createDescendantRoles = (subRoles) => {
  * @param {Object} item - value from object.values(propList)
  * @returns
  */
-const propListLoop = function (propList, descendantRoles, item) {
+const renderStateOrProperty = function (propList, descendantRoles, item) {
     const section = document.querySelector("#" + item.name);
     let placeholder = section.querySelector(
         ".state-applicability, .property-applicability"
@@ -571,13 +571,17 @@ const propListLoop = function (propList, descendantRoles, item) {
  * @param {String} role - subRoles key
  * @param {Object} subRolesSet - subRoles value
  */
-const generateHTMLRoleChildren = ([role, subroleSet]) => {
+const renderRoleChildren = ([role, subroleSet]) => {
     const item = [...subroleSet];
     document.querySelector(`#${role} .role-children`).innerHTML = `<ul>\n${item
         .map((subrole) => `<li><rref>${subrole}</rref></li>\n`)
         .join("")}</ul>\n`;
 };
 
+/**
+ * The main function 
+ * TODO: rename to main()?
+ */
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -595,17 +599,17 @@ function ariaAttributeReferences() {
         (node) => node.parentNode
     );
 
-    pdefsAndsdefs.forEach(populatePropList.bind(null, propList));
-    pdefsAndsdefs.forEach(populateGlobalSP.bind(null, propList, globalSP));
-    pdefsAndsdefs.forEach(generateHTMLStatesAndProperties.bind(null, propList));
+    pdefsAndsdefs.forEach(buildPropList.bind(null, propList));
+    pdefsAndsdefs.forEach(buildGlobalStatesAndPropertiesList.bind(null, propList, globalSP));
+    pdefsAndsdefs.forEach(renderStatesAndPropertiesHeadings.bind(null, propList));
     pdefsAndsdefsContainer.forEach(rewriteDefContainer);
 
     if (!skipIndex) {
         // Generate index of states and properties
-        generateIndexStatesAndProperties(propList);
+        renderIndexStatesAndProperties(propList);
 
         // Generate index of global states and properties
-        generateIndexGlobalStatesAndProperties(globalSP);
+        renderIndexGlobalStatesAndProperties(globalSP);
     }
 
     // what about roles?
@@ -620,11 +624,11 @@ function ariaAttributeReferences() {
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
-    const subRoles = generateSubRoles(rdefs);
+    const subRoles = buildSubRoles(rdefs);
 
-    generateHTMLIndices(rdefs);
+    renderIndices(rdefs);
 
-    rdefs.forEach(populateRoleInfoPropList.bind(null, roleInfo, propList));
+    rdefs.forEach(buildRoleInfoPropList.bind(null, roleInfo, propList));
 
     rdefs.forEach(rewriteRdef);
 
@@ -632,22 +636,22 @@ function ariaAttributeReferences() {
 
     // TODO: test this on a page where `skipIndex` is truthy
     if (!skipIndex) {
-        // TODO: why not run  `Object.keys(roleInfo).forEach(role=> getStates(role))` here? (cf. TODO: in buildInheritedStatesProperties )
+        // TODO: why not run  `Object.keys(roleInfo).forEach(role=> buildAllprops(role))` here? (cf. TODO: in buildInheritedStatesProperties )
         Object.values(roleInfo).forEach(buildInheritedStatesProperties);
 
-        const descendantRoles = createDescendantRoles(subRoles);
+        const descendantRoles = buildDescendantRoles(subRoles);
 
         Object.values(propList).forEach(
-            propListLoop.bind(null, propList, descendantRoles)
+            renderStateOrProperty.bind(null, propList, descendantRoles)
         );
 
         // assuming we found some parent roles, update those parents with their children
-        Object.entries(subRoles).forEach(generateHTMLRoleChildren);
+        Object.entries(subRoles).forEach(renderRoleChildren);
     }
 
     pruneUnusedRows();
 
-    updateReferences(document);
+    updateReferences(document);  // NOTE: global from resolveReferences.js
 }
 
 require(["core/pubsubhub"], function (respecEvents) {
