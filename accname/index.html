@@ -65,15 +65,15 @@
         //],
 
         /*
-    alternateFormats: [
-          { uri: 'aria-implementation-diff.html',
-            label: "Diff from Previous Recommendation" } ,
-          { uri: 'aria-implementation.ps',
-            label: "PostScript version" },
-          { uri: 'aria-implementation.pdf',
-            label: "PDF version" }
-    ],
-    */
+  alternateFormats: [
+        { uri: 'aria-implementation-diff.html',
+          label: "Diff from Previous Recommendation" } ,
+        { uri: 'aria-implementation.ps',
+          label: "PostScript version" },
+        { uri: 'aria-implementation.pdf',
+          label: "PDF version" }
+  ],
+  */
 
         // Working group info
         group: "aria",
@@ -143,25 +143,34 @@
       };
     </script>
     <style>
-      ol {
+      ol.acc-ol {
+        counter-reset: acclist;
+        list-style: none;
+        padding-left: 32px;
+      }
+
+      ol.acc-ol > li {
+        counter-increment: acclist;
+      }
+
+      ol.acc-ol > li:before {
+        content: counters(acclist, ".") " ";
+        font-weight: bold;
+      }
+
+      ol.note-list,
+      ol.note-list li {
         list-style: decimal;
-      }
-      ol ol {
-        list-style: upper-alpha;
-      }
-      ol ol ol {
-        list-style: lower-roman;
-      }
-      ol ol ol ol {
-        list-style: lower-alpha;
       }
     </style>
   </head>
+
   <body>
     <section id="abstract">
       <p>
         This document describes how <a class="termref">user agents</a> determine the <a class="termref" data-lt="accessible name">names</a> and
-        <a class="termref" data-lt="accessible description">descriptions</a> of <a class="termref">accessible objects</a> from web content languages. This information is in turn exposed through
+        <a class="termref" data-lt="accessible description">descriptions</a> of <a class="termref">accessible objects</a>
+        from web content languages. This information is in turn exposed through
         <a class="termref">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> so that <a class="termref">assistive technologies</a> can identify these objects and present
         their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different
         accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.
@@ -185,7 +194,8 @@
     <section id="intro" class="informative">
       <h2>Introduction</h2>
       <p>
-        <a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr> [[DOM]] and create a parallel structure called the
+        <a class="termref">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr>
+        [[DOM]] and create a parallel structure called the
         <a class="termref">accessibility tree</a>, made up of <a class="termref">accessible objects</a>. An accessible object provides information about its <a class="termref">role</a>,
         <a class="termref">states</a>, and [=ARIA/properties=]. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a
         <code>haspopup</code> property, indicating that it leads to a sub-menu.
@@ -291,9 +301,9 @@
       <dl class="runin">
         <dt>author</dt>
         <dd>
-          name is generated from values provided by the author in explicit markup features such as the <code>aria-label</code> and <code>aria-labelledby</code> [=attribute=], or a host language
-          labeling mechanism, such as the <code>alt</code> or <code>title</code> [=attribute=] in <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> [=element=] in
-          <abbr title="Scalable Vector Graphics">SVG</abbr>.
+          name is generated from values provided by the author in explicit markup features such as the
+          <code>aria-label</code> and <code>aria-labelledby</code> [=attribute=], or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> [=attribute=] in
+          <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> [=element=] in <abbr title="Scalable Vector Graphics">SVG</abbr>.
         </dd>
         <dt>contents</dt>
         <dd>
@@ -307,7 +317,8 @@
         </dd>
       </dl>
       <p>
-        The <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.2</a></cite> [[!WAI-ARIA]] specification provides lists of
+        The <cite><a class="specref" href="#">Accessible Rich Internet Applications (WAI-ARIA) 1.2</a></cite>
+        [[!WAI-ARIA]] specification provides lists of
         <a class="specref" href="#namefromauthor">roles that support name from author</a>, <a class="specref" href="#namefromcontent">roles that support name from content</a> and
         <a class="specref" href="#namefromprohibited">roles that cannot be named</a>.
       </p>
@@ -443,18 +454,18 @@
         <section>
           <h4>Computation steps</h4>
           <p>The text alternative for a given element is computed as follows:</p>
-          <ol>
+          <ol class="acc-ol">
             <li id="comp_init">
               <span id="step1"><!-- Don't link to this legacy numbered ID. --></span><em>Initialization:</em> Set the <code>root node</code> to the given element, the <code>current node</code> to the
               <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").
             </li>
             <li id="comp_computation">
               <span id="step2"><!-- Don't link to this legacy numbered ID. --></span><em>Computation:</em> Compute the text alternative for the <code>current node</code>:
-              <ol>
+              <ol class="acc-ol">
                 <li id="comp_hidden_not_referenced">
                   <span id="step2A"><!-- Don't link to this legacy numbered ID. --></span><em>Hidden Not Referenced:</em> If the <code>current node</code> is
                   <span class="informative">[=element/hidden=]</span> <strong>and is</strong>:
-                  <ol>
+                  <ol class="acc-ol">
                     <li><strong>Not</strong> part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directly referenced by that relation was hidden.</li>
                     <li>
                       <strong>Nor</strong> part of a native host language text alternative <a class="termref">element</a> (e.g. <code>label</code> in HTML) or
@@ -464,7 +475,7 @@
                   Return the empty string.
                   <div class="note">
                     <p>It's important to clarify the broad definition of hidden for the purposes of accessible name calculation:</p>
-                    <ol>
+                    <ol class="note-list">
                       <li>
                         Nodes with CSS properties <code>display:none</code>, <code>visibility:hidden</code>, <code>visibility:collapse</code> or <code>content-visibility:hidden</code>: They are
                         considered hidden, as they match the guidelines "not perceivable" and "explicitly hidden".
@@ -515,13 +526,13 @@
                   <span id="step2B"><!-- Don't link to this legacy numbered ID. --></span><em>LabelledBy:</em> Otherwise, if the <code>current node</code> has an
                   <code>aria-labelledby</code> [=attribute=] that contains at least one valid IDREF, and the <code>current node</code> is not already part of an ongoing <code>aria-labelledby</code> or
                   <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
-                  <ol>
+                  <ol class="acc-ol">
                     <li id="comp_labelledby_reset">
                       <span id="step2B.i"><!-- Don't link to this legacy numbered ID. --></span> Set the <code>accumulated text</code> to the empty string.
                     </li>
                     <li id="comp_labelledby_foreach">
                       <span id="step2B.ii"><!-- Don't link to this legacy numbered ID. --></span>For each IDREF:
-                      <ol>
+                      <ol class="acc-ol">
                         <li id="comp_labelledby_set_current">
                           <span id="step2B.ii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the node referenced by the IDREF.
                         </li>
@@ -548,7 +559,7 @@
                       <p>
                         The following example shows the meaning of the clause "&#8230; and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal &#8230;" .
                       </p>
-                      <ol>
+                      <ol class="note-list">
                         <li>
                           <code>element1</code>'s <a class="termref">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to
                           <code>element3</code>.
@@ -569,7 +580,7 @@
                   <span id="step2C"><!-- Don't link to this legacy numbered ID. --></span><em>Embedded Control:</em> Otherwise, if the <code>current node</code> is a control embedded within the label
                   (e.g. any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref">widget</a>, where the user can adjust the embedded control's value, then return
                   the embedded control as part of the text alternative in the following manner:
-                  <ol>
+                  <ol class="acc-ol">
                     <li id="comp_embedded_control_textbox"><em>Textbox:</em> If the embedded control has role <a class="role-reference" href="#textbox">textbox</a>, return its value.</li>
                     <li id="comp_embedded_control_combobox_or_listbox">
                       <em>Combobox/Listbox:</em> If the embedded control has role <a class="role-reference" href="#combobox">combobox</a> or <a class="role-reference" href="#listbox">listbox</a>,
@@ -578,7 +589,7 @@
                     <li id="comp_embedded_control_range">
                       <em>Range:</em> If the embedded control has role <a class="role-reference" href="#range">range</a> (e.g., a <a class="role-reference" href="#spinbutton">spinbutton</a> or
                       <a class="role-reference" href="#slider">slider</a>):
-                      <ol>
+                      <ol class="acc-ol">
                         <li id="comp_embedded_control_range_valuetext">If the <code>aria-valuetext</code> property is present, return its value,</li>
                         <li id="comp_embedded_control_range_valuenow">Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
                         <li id="comp_embedded_control_range_host_language_value">Otherwise, use the value as specified by a host language attribute.</li>
@@ -599,7 +610,7 @@
                 <li id="comp_label">
                   <span id="step2D"><!-- Don't link to this legacy numbered ID. --></span><em>AriaLabel:</em> Otherwise, if the <code>current node</code> is not a [=slot=] element and has an
                   <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
-                  <ol>
+                  <ol class="acc-ol">
                     <li>
                       If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control, ignore <code>aria-label</code> and
                       skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
@@ -646,7 +657,7 @@
                   <span id="step2F"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Content:</em> Otherwise, if the <code>current node's</code> <a class="termref">role</a> allows
                   <a class="specref" href="#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or
                   is a native host language text alternative [=element=] (e.g. <code>label</code> in HTML), or is a descendant of a native host language text alternative [=element=]:
-                  <ol>
+                  <ol class="acc-ol">
                     <li id="comp_name_from_content_reset">
                       <span id="step2F.i"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Content Reset:</em> Set the <code>accumulated text</code> to the empty string.
                     </li>
@@ -655,7 +666,7 @@
                       <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The
                       <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/selectors-3/#gen-content"><code>::before</code> and <code>::after</code></a> pseudo elements
                       [[!CSS2]] can provide textual content for [=element|elements=] that have a content model.
-                      <ol>
+                      <ol class="acc-ol">
                         <li id="comp_name_from_content_pseudo_element_before">
                           For <code>::before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space,
                           to the textual content of the <code>current node</code>.
@@ -669,7 +680,7 @@
                     <!-- The following section uses its own convention for the name attribute to avoid breaking existing permalinks for other sections-->
                     <li id="comp_name_from_content_find_child">
                       <em>Determine Child Nodes:</em> Determine the <code>rendered child nodes</code> of the <code>current node</code>:
-                      <ol>
+                      <ol class="acc-ol">
                         <li id="comp_name_from_content_find_child_has_shadow_root">
                           If the <code>current node</code> has an attached [=shadow root=], set the <code>rendered child nodes</code> to be the child nodes of the [=shadow root=].
                         </li>
@@ -683,7 +694,7 @@
                     <li id="comp_name_from_content_for_each_child">
                       <span id="step2F.iii"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Each Child:</em> For each <code>rendered child node</code> of the
                       <code>current node</code>:
-                      <ol>
+                      <ol class="acc-ol">
                         <li id="comp_name_from_content_for_each_child_set_current">
                           <span id="step2F.iii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the <code>rendered child node</code>.
                         </li>
