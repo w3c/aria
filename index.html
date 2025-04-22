@@ -13978,7 +13978,7 @@ button.ariaPressed; // null</pre
             <p><a>Indicates</a>, when set to <code>true</code>, that an <a>element</a> and its entire subtree are hidden from assistive technology, regardless of whether it is visibly rendered.</p>
             <p>
               User agents determine an element's [=element/hidden=] status based on whether it is rendered, and the rendering is usually controlled by CSS. For example, an element whose
-              <code>display</code> property is set to <code>none</code> is not rendered. An element is considered [=element/hidden=] if it, or any of its ancestors are not rendered or have their
+              <code>display</code> property is set to <code>none</code> is not rendered. An element will be <a href="#tree_exclusion">excluded from the accessibility tree</a> if it or any of its <a href="#tree_relationships">accessibility ancestors</a> are [=element/hidden=] or have their
               <code>aria-hidden</code> attribute value set to <code>true</code>.
             </p>
             <p>
@@ -14794,6 +14794,29 @@ button.ariaPressed; // null</pre
               <pref>aria-owns</pref> element references in order to build a consistent model of the content.
             </p>
             <p>Authors MUST NOT specify <pref>aria-owns</pref> on an element which has <a href="#childrenArePresentational">Presentational Children</a>.</p>
+            <p><pref>aria-owns</pref> is resolved in the order it is encountered in the <abbr title="Document Object Model">DOM</abbr>. Every element referenced by <pref>aria-owns</pref> will determine its <a href="#tree_exclusion">exposure to the accessibility tree</a> after its change in ownership is resolved. However:</p>
+            <ul>
+              <li>User agents MUST NOT resolve <pref>aria-owns</pref> when it is set on an element that has been <a href="#tree_exclusion">excluded from the accessibility tree</a>.</li>
+              <li>User agents MUST NOT resolve <pref>aria-owns</pref> when it references an element that is, or has a DOM ancestor that is, [=element/hidden from all users=].</li>
+            </ul>
+            <p>In the following example, “(opens in a new window)” is <a href="#tree_inclusion">included in the accessibility tree</a> by virtue of its changed ownership.</p>
+            <pre class="example highlight">
+&lt;a href="https://www.w3.org/" target="_blank" aria-owns="new-window-warning"&gt;
+  World Wide Web Consortium
+&lt;/a&gt;
+&lt;div aria-hidden="true"&gt;
+  &lt;span id="new-window-warning"&gt; (opens in a new window)&lt;/span&gt;
+&lt;/div&gt;
+            </pre>
+            <p>In the following example, “(opens in a new window)” remains <a href="#tree_exclusion">excluded from the accessibility tree</a> since its <abbr title="Document Object Model">DOM</abbr> ancestor is [=element/hidden from all users=] in host language terms.</p>
+            <pre class="example highlight">
+&lt;a href="https://www.w3.org/" aria-owns="new-window-warning"&gt;
+  World Wide Web Consortium
+&lt;/a&gt;
+&lt;div hidden&gt;
+  &lt;span id="new-window-warning"&gt; (opens in a new window)&lt;/span&gt;
+&lt;/div&gt;
+            </pre>
           </div>
           <table class="def">
             <caption>
