@@ -35,11 +35,18 @@ A "normative" change is change to the specification that is not editorial, that 
     - Any working group member can add themselves as a reviewer.
     - Any one from the general public is allowed to review PRs in order to inform the ARIA WG of approval or concerns.
 3. **Tests:** If the change is testable, tests should be add to the validators directory or WPT repo before merging, or, if the PR owner does not have the expertise to write tests, issues should be file in the ARIA repository as a follow up. See [Aria Test Overview](tests.md).
-4. **APG:** If the change requires a change to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
-5. **Implementation:** If the change requires implementation changes, issues should be opened on the browser after the PR has been approved.
-   - At least one implementation is required for merge. Implementation or implementation commitment from two browsers is required for merge.
+4. **APG:** If the PR will required changes to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
+5. **ACT Review:** If the PR will require [ACT rule](https://www.w3.org/WAI/standards-guidelines/act/rules/) changes, then the tag "needs ACT review" must be added. This will trigger the process of triage and potentially review by the [ACT Task Force](https://www.w3.org/WAI/about/groups/task-forces/conformance-testing/). When the PR has been reviewed and concerns resolved, the ACT task force will mark the PR as approved by checking the box in the PR tracking list in the description of the PR. The tag may be added at different times:
+    - If the change introduces an "authors must", or if the editors think the change will have a significant effect on authors, the tag should be added the same time reviewers are requested.
+    - If the change minimally effects authors, the tag can be added when issues are opened on browsers.
+6. **Implementation:** If the change requires implementation changes, issues should be opened on the browser after the PR has been approved and tests have been authored.
+    - At least one implementation is required for merge. Implementation or implementation commitment from two browsers is required for merge.
 
 Note: The fact that a PR requires implementation to merge is new as of 2022. We understand this will cause the life of a PR to be long -- and that the original champion of the PR might need to hand off work to another ARIA WG member while the PR waits for implementations.
+
+#### After merge
+
+1. If the change introduces, removes or affects existing "Author MUST" statements, open issues on validators.
 
 #### Stages of a normative change
 
