@@ -7,10 +7,7 @@
     <script src="../common/script/resolveReferences.js" class="remove"></script>
     <script src="../common/script/utility.js" class="remove"></script>
     <script src="../common/biblio.js" class="remove" defer="defer"></script>
-
-    <link href="../common/css/mapping-tables.css" rel="stylesheet" type="text/css" />
-    <link href="../common/css/common.css" rel="stylesheet" type="text/css" />
-    <link href="css/html-aam.css" rel="stylesheet" />
+    <script src="../common/script/participants.js" class="remove"></script>
 
     <script class="remove">
       var respecConfig = {
@@ -46,15 +43,16 @@
         // only "name" is required. Same format as editors.
         //authors:  [
         //    { name: "Your Name", url: "http://example.org/",
-        //      company: "Your Company", companyURI: "http://example.com/" },
+        //      company: "Your Company", companyURL: "http://example.com/" },
         //],
 
         // Spec URLs
         ariaSpecURLs: {
-          CR: "https://w3c.github.io/aria/",
-          CRD: "https://w3c.github.io/aria/",
-          PR: "https://www.w3.org/TR/wai-aria/",
-          REC: "https://www.w3.org/TR/wai-aria/",
+          ED: "https://w3c.github.io/aria/",
+          FPWD: "https://www.w3.org/TR/wai-aria-1.3/",
+          WD: "https://www.w3.org/TR/wai-aria-1.3/",
+          CR: "https://www.w3.org/TR/wai-aria-1.3/",
+          REC: "https://www.w3.org/TR/wai-aria-1.3/",
         },
         accNameURLs: {
           ED: "https://w3c.github.io/accname/",
@@ -70,9 +68,42 @@
           CR: "https://www.w3.org/TR/core-aam-1.2/",
           REC: "https://www.w3.org/TR/core-aam-1.2/",
         },
+        dpubModURLs: {
+          ED: "https://w3c.github.io/dpub-aria/",
+          FPWD: "https://www.w3.org/TR/dpub-aria-1.1/",
+          WD: "https://www.w3.org/TR/dpub-aria-1.1/",
+          REC: "https://www.w3.org/TR/dpub-aria-1.1/",
+        },
+        graphicsMappingModURLs: {
+          ED: "https://w3c.github.io/graphics-aam/",
+          FPWD: "https://www.w3.org/TR/graphics-aam-1.0/",
+          WD: "https://www.w3.org/TR/graphics-aam-1.0/",
+          CR: "https://www.w3.org/TR/graphics-aam-1.0/",
+          PR: "https://www.w3.org/TR/graphics-aam-1.0/",
+          REC: "https://www.w3.org/TR/graphics-aam-1.0/",
+        },
+        graphicsModURLs: {
+          ED: "https://w3c.github.io/graphics-aria/",
+          FPWD: "https://www.w3.org/TR/graphics-aria/",
+          WD: "https://www.w3.org/TR/graphics-aria/",
+          REC: "https://www.w3.org/TR/graphics-aria/",
+        },
+        htmlMappingURLs: {
+          ED: "https://w3c.github.io/html-aam/",
+          FPWD: "https://www.w3.org/TR/html-aam-1.0/",
+          WD: "https://www.w3.org/TR/html-aam/",
+          REC: "https://www.w3.org/TR/html-aam/",
+        },
+        practicesURLs: {
+          ED: "https://www.w3.org/WAI/ARIA/apg/",
+          WD: "https://www.w3.org/WAI/ARIA/apg/",
+          FPWD: "https://www.w3.org/WAI/ARIA/apg/",
+          CR: "https://www.w3.org/WAI/ARIA/apg/",
+          REC: "https://www.w3.org/WAI/ARIA/apg/",
+        },
 
         xref: ["HTML", "core-aam", "accname", "wai-aria", "dom", "infra"],
-        preProcess: [linkCrossReferences],
+        preProcess: [linkCrossReferences, getParticipants],
         postProcess: [fixContributors],
         a11y: false,
       };
@@ -192,6 +223,27 @@
         </p>
       </section>
       <section>
+        <h3 id="minimum-role">Exposing HTML Features That Require a Minimum Role</h3>
+        <p>
+          A <dfn>minimum role</dfn> is the equivalent WAI-ARIA role an element will map to if the element does not have a more specific implicit role or platform role mappings, e.g., a non-generic
+          role. This can help ensure that users of assistive technologies get the best possible experience for commonly-used and valid HTML markup where otherwise a role would not be exposed.
+        </p>
+        <p>A minimum role is provided when all of the following conditions are true:</p>
+        <ul>
+          <li>the author has <strong>not</strong> specified a valid explicit WAI-ARIA role to the element, <strong>or</strong> the specified role is either `none`, `presentation`, or `generic`;</li>
+          <li>the element either has no implicit WAI-ARIA role or platform role mappings, or it has an implicit `generic` or `none` computed role;</li>
+          <li>and the author has specified attributes which require a minimum role mapping for the element.</li>
+        </ul>
+        <p>
+          The <a href="#html-attribute-state-and-property-mappings">HTML Attribute State and Property Mappings</a> section identifies the specific global attributes which would require an element map
+          to a minimum role.
+        </p>
+        <p>
+          When these conditions are met, the browser MUST expose an object using the mappings defined in CORE-AAM for the specified minimum role. If the element has multiple attributes specified which
+          require a minimum role be returned as the computed role for the element, prioritize the more specific role in the ARIA taxonomy.
+        </p>
+      </section>
+      <section>
         <h3>HTML Element Role Mappings</h3>
         <ul>
           <li>
@@ -201,18 +253,24 @@
           <li>
             "Not mapped" means the element does not need to be exposed via an <a class="termref">accessibility API</a>. This is usually because the element is not displayed as part of the user
             interface. However, authors can force some of these elements to be rendered. For instance, by overriding user agent styles to render elements that would have been otherwise set to
-            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>.
-          </li>
-          <li>
-            Where applicable, how an element participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
-            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
-            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+            `display: none`. In these cases, the user agent SHOULD map such elements to the role of <a class="core-mapping" href="#role-map-generic">`generic`</a>, unless other HTML features have been
+            specified which would require a more specific <a>minimum role</a> to be exposed.
           </li>
           <li>
             Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents
             MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an
             explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.
           </li>
+          <li>
+            Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>. How an element
+            participates in the computation of its own or another element's <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> and/or
+            <a data-cite="accname-1.2/#dfn-accessible-description">accessible description</a> is described in the
+            <a href="#accessible-name-and-description-computation">Accessible Name and Description Computation</a> section of this document.
+          </li>
+        </ul>
+
+        <h4 id="platform-api-mapping-requirements">Platform API mapping requirements</h4>
+        <ul>
           <li>
             When HTML elements do not have an exact or equivalent mapping to a valid, non-abstract <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role, a unique `computedrole`
             string has been specified to serve as the return value for interoperability testing purposes. For instance, the `video` element MAY be exposed with a `computedrole` of "`html-video`".
@@ -250,7 +308,7 @@
           </li>
         </ul>
         <h4 id="el-a">`a` <span class="el-context">(represents a hyperlink)</span></h4>
-        <table aria-labelledby="el-a">
+        <table class="data" aria-labelledby="el-a">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -300,7 +358,7 @@
           </tbody>
         </table>
         <h4 id="el-a-no-href">`a` <span class="el-context">(no `href` attribute)</span></h4>
-        <table aria-labelledby="el-a-no-href">
+        <table class="data" aria-labelledby="el-a-no-href">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -350,7 +408,7 @@
           </tbody>
         </table>
         <h4 id="el-abbr">`abbr`</h4>
-        <table aria-labelledby="el-abbr">
+        <table class="data" aria-labelledby="el-abbr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -409,7 +467,7 @@
           </tbody>
         </table>
         <h4 id="el-address">`address`</h4>
-        <table aria-labelledby="el-address">
+        <table class="data" aria-labelledby="el-address">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -458,7 +516,7 @@
           </tbody>
         </table>
         <h4 id="el-area">`area` <span class="el-context">(represents a hyperlink)</span></h4>
-        <table aria-labelledby="el-area">
+        <table class="data" aria-labelledby="el-area">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -508,7 +566,7 @@
           </tbody>
         </table>
         <h4 id="el-area-no-href">`area` <span class="el-context">(no `href` attribute)</span></h4>
-        <table aria-labelledby="el-area-no-href">
+        <table class="data" aria-labelledby="el-area-no-href">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -553,12 +611,15 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                User agents MAY still expose an `a` element lacking the `href` attribute with a `link` role in the event an author specifies interactive behavior for the element. For example, if using
+                an <a data-cite="html/webappapis.html#event-handler-content-attributes">event handler attribute</a>.
+              </td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-article">`article`</h4>
-        <table aria-labelledby="el-article">
+        <table class="data" aria-labelledby="el-article">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -607,7 +668,7 @@
           </tbody>
         </table>
         <h4 id="el-aside-ancestorbodymain">`aside` (scoped to the `body` or `main` element)</h4>
-        <table aria-labelledby="el-aside-ancestorbodymain">
+        <table class="data" aria-labelledby="el-aside-ancestorbodymain">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -654,7 +715,7 @@
           </tbody>
         </table>
         <h4 id="el-aside">`aside` (scoped to a sectioning content element)</h4>
-        <table aria-labelledby="el-aside">
+        <table class="data" aria-labelledby="el-aside">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -708,7 +769,7 @@
           </tbody>
         </table>
         <h4 id="el-audio">`audio`</h4>
-        <table aria-labelledby="el-audio">
+        <table class="data" aria-labelledby="el-audio">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -775,7 +836,7 @@
           </tbody>
         </table>
         <h4 id="el-autonomous-custom-element">autonomous custom element</h4>
-        <table aria-labelledby="el-autonomous-custom-element">
+        <table class="data" aria-labelledby="el-autonomous-custom-element">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -825,7 +886,7 @@
           </tbody>
         </table>
         <h4 id="el-b">`b`</h4>
-        <table aria-labelledby="el-b">
+        <table class="data" aria-labelledby="el-b">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -875,7 +936,7 @@
           </tbody>
         </table>
         <h4 id="el-base">`base`</h4>
-        <table aria-labelledby="el-base">
+        <table class="data" aria-labelledby="el-base">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -925,7 +986,7 @@
           </tbody>
         </table>
         <h4 id="el-bdi">`bdi`</h4>
-        <table aria-labelledby="el-bdi">
+        <table class="data" aria-labelledby="el-bdi">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -975,7 +1036,7 @@
           </tbody>
         </table>
         <h4 id="el-bdo">`bdo`</h4>
-        <table aria-labelledby="el-bdo">
+        <table class="data" aria-labelledby="el-bdo">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1025,7 +1086,7 @@
           </tbody>
         </table>
         <h4 id="el-blockquote">`blockquote`</h4>
-        <table aria-labelledby="el-blockquote">
+        <table class="data" aria-labelledby="el-blockquote">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1075,7 +1136,7 @@
           </tbody>
         </table>
         <h4 id="el-body">`body`</h4>
-        <table aria-labelledby="el-body">
+        <table class="data" aria-labelledby="el-body">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1120,12 +1181,12 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>User agents MUST ignore the `aria-hidden` attribute if specified on the `body` element.</td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-br">`br`</h4>
-        <table aria-labelledby="el-br">
+        <table class="data" aria-labelledby="el-br">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1175,7 +1236,7 @@
           </tbody>
         </table>
         <h4 id="el-button">`button`</h4>
-        <table aria-labelledby="el-button">
+        <table class="data" aria-labelledby="el-button">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1228,7 +1289,7 @@
           </tbody>
         </table>
         <h4 id="el-canvas">`canvas`</h4>
-        <table aria-labelledby="el-canvas">
+        <table class="data" aria-labelledby="el-canvas">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1281,7 +1342,7 @@
           </tbody>
         </table>
         <h4 id="el-caption">`caption`</h4>
-        <table aria-labelledby="el-caption">
+        <table class="data" aria-labelledby="el-caption">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1346,7 +1407,7 @@
           </tbody>
         </table>
         <h4 id="el-cite">`cite`</h4>
-        <table aria-labelledby="el-cite">
+        <table class="data" aria-labelledby="el-cite">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1398,7 +1459,7 @@
           </tbody>
         </table>
         <h4 id="el-code">`code`</h4>
-        <table aria-labelledby="el-code">
+        <table class="data" aria-labelledby="el-code">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1448,7 +1509,7 @@
           </tbody>
         </table>
         <h4 id="el-col">`col`</h4>
-        <table aria-labelledby="el-col">
+        <table class="data" aria-labelledby="el-col">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1498,7 +1559,7 @@
           </tbody>
         </table>
         <h4 id="el-colgroup">`colgroup`</h4>
-        <table aria-labelledby="el-colgroup">
+        <table class="data" aria-labelledby="el-colgroup">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1551,7 +1612,7 @@
           </tbody>
         </table>
         <h4 id="el-data">`data`</h4>
-        <table aria-labelledby="el-data">
+        <table class="data" aria-labelledby="el-data">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1601,7 +1662,7 @@
           </tbody>
         </table>
         <h4 id="el-datalist">`datalist` (represents pre-defined options for `input` element)</h4>
-        <table aria-labelledby="el-datalist">
+        <table class="data" aria-labelledby="el-datalist">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1655,7 +1716,7 @@
           </tbody>
         </table>
         <h4 id="el-dd">`dd`</h4>
-        <table aria-labelledby="el-dd">
+        <table class="data" aria-labelledby="el-dd">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1708,7 +1769,7 @@
           </tbody>
         </table>
         <h4 id="el-del">`del`</h4>
-        <table aria-labelledby="el-del">
+        <table class="data" aria-labelledby="el-del">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1758,7 +1819,7 @@
           </tbody>
         </table>
         <h4 id="el-details">`details`</h4>
-        <table aria-labelledby="el-details">
+        <table class="data" aria-labelledby="el-details">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1814,7 +1875,7 @@
           </tbody>
         </table>
         <h4 id="el-dfn">`dfn`</h4>
-        <table aria-labelledby="el-dfn">
+        <table class="data" aria-labelledby="el-dfn">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1864,7 +1925,7 @@
           </tbody>
         </table>
         <h4 id="el-dialog">`dialog`</h4>
-        <table aria-labelledby="el-dialog">
+        <table class="data" aria-labelledby="el-dialog">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1913,8 +1974,58 @@
             </tr>
           </tbody>
         </table>
+        <h4 id="el-dir">`dir` (obsolete)</h4>
+        <table class="data" aria-labelledby="el-dir">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>
+                <a data-cite="HTML">`dir`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.2]]</th>
+              <td><a class="core-mapping" href="#role-map-list">`list`</a> role</td>
+            </tr>
+            <tr>
+              <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+              <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
+            <tr>
+              <th>Comments</th>
+              <td>The `dir` element is marked as obsolete in HTML, and is not to be used by authors.</td>
+            </tr>
+          </tbody>
+        </table>
         <h4 id="el-div">`div`</h4>
-        <table aria-labelledby="el-div">
+        <table class="data" aria-labelledby="el-div">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -1964,7 +2075,7 @@
           </tbody>
         </table>
         <h4 id="el-dl">`dl`</h4>
-        <table aria-labelledby="el-dl">
+        <table class="data" aria-labelledby="el-dl">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2020,7 +2131,7 @@
           </tbody>
         </table>
         <h4 id="el-dt">`dt`</h4>
-        <table aria-labelledby="el-dt">
+        <table class="data" aria-labelledby="el-dt">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2073,7 +2184,7 @@
           </tbody>
         </table>
         <h4 id="el-em">`em`</h4>
-        <table aria-labelledby="el-em">
+        <table class="data" aria-labelledby="el-em">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2123,7 +2234,7 @@
           </tbody>
         </table>
         <h4 id="el-embed">`embed`</h4>
-        <table aria-labelledby="el-embed">
+        <table class="data" aria-labelledby="el-embed">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2172,7 +2283,7 @@
           </tbody>
         </table>
         <h4 id="el-fieldset">`fieldset`</h4>
-        <table aria-labelledby="el-fieldset">
+        <table class="data" aria-labelledby="el-fieldset">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2230,7 +2341,7 @@
           </tbody>
         </table>
         <h4 id="el-figcaption">`figcaption`</h4>
-        <table aria-labelledby="el-figcaption">
+        <table class="data" aria-labelledby="el-figcaption">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2287,7 +2398,7 @@
           </tbody>
         </table>
         <h4 id="el-figure">`figure`</h4>
-        <table aria-labelledby="el-figure">
+        <table class="data" aria-labelledby="el-figure">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2343,7 +2454,7 @@
           </tbody>
         </table>
         <h4 id="el-footer-ancestorbody">`footer` (scoped to the `body` element)</h4>
-        <table aria-labelledby="el-footer-ancestorbody">
+        <table class="data" aria-labelledby="el-footer-ancestorbody">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2391,7 +2502,7 @@
           </tbody>
         </table>
         <h4 id="el-footer">`footer` (scoped to the `main` element,a sectioning content element)</h4>
-        <table aria-labelledby="el-footer">
+        <table class="data" aria-labelledby="el-footer">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2443,7 +2554,7 @@
           </tbody>
         </table>
         <h4 id="el-form">`form`</h4>
-        <table aria-labelledby="el-form">
+        <table class="data" aria-labelledby="el-form">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2495,7 +2606,7 @@
           </tbody>
         </table>
         <h4 id="el-form-associated-custom-element">form-associated custom element</h4>
-        <table aria-labelledby="el-form-associated-custom-element">
+        <table class="data" aria-labelledby="el-form-associated-custom-element">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2545,7 +2656,7 @@
           </tbody>
         </table>
         <h4 id="el-h1-h6">`h1`, `h2`, `h3`, `h4`, `h5`, and `h6`</h4>
-        <table aria-labelledby="el-h1-h6">
+        <table class="data" aria-labelledby="el-h1-h6">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2598,7 +2709,7 @@
           </tbody>
         </table>
         <h4 id="el-head">`head`</h4>
-        <table aria-labelledby="el-head">
+        <table class="data" aria-labelledby="el-head">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2648,7 +2759,7 @@
           </tbody>
         </table>
         <h4 id="el-header-ancestorbody">`header` (scoped to the `body` element)</h4>
-        <table aria-labelledby="el-header-ancestorbody">
+        <table class="data" aria-labelledby="el-header-ancestorbody">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2696,7 +2807,7 @@
           </tbody>
         </table>
         <h4 id="el-header">`header` (scoped to the `main` element, or a sectioning content element)</h4>
-        <table aria-labelledby="el-header">
+        <table class="data" aria-labelledby="el-header">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2748,7 +2859,7 @@
           </tbody>
         </table>
         <h4 id="el-hgroup">`hgroup`</h4>
-        <table aria-labelledby="el-hgroup">
+        <table class="data" aria-labelledby="el-hgroup">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2801,7 +2912,7 @@
           </tbody>
         </table>
         <h4 id="el-hr">`hr`</h4>
-        <table aria-labelledby="el-hr">
+        <table class="data" aria-labelledby="el-hr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2853,7 +2964,7 @@
           </tbody>
         </table>
         <h4 id="el-html">`html`</h4>
-        <table aria-labelledby="el-html">
+        <table class="data" aria-labelledby="el-html">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2898,12 +3009,12 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>User agents MUST ignore the `aria-hidden` attribute if specified on the `html` element.</td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-i">`i`</h4>
-        <table aria-labelledby="el-i">
+        <table class="data" aria-labelledby="el-i">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2953,7 +3064,7 @@
           </tbody>
         </table>
         <h4 id="el-iframe">`iframe`</h4>
-        <table aria-labelledby="el-iframe">
+        <table class="data" aria-labelledby="el-iframe">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -2992,9 +3103,7 @@
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="role"><span class="type">AXRole:</span> `AXWebArea`</div>
-                <div class="subrole"><span class="type">AXSubrole:</span> `(nil)`</div>
-                <div class="roledesc"><span class="type">AXRoleDescription:</span> `"html content"`</div>
+                <div class="general">Not mapped</div>
               </td>
             </tr>
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
@@ -3005,7 +3114,7 @@
           </tbody>
         </table>
         <h4 id="el-img">`img`</h4>
-        <table aria-labelledby="el-img">
+        <table class="data" aria-labelledby="el-img">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3070,8 +3179,8 @@
             </tr>
           </tbody>
         </table>
-        <h4 id="el-img-empty-alt">`img` <span class="el-context">(`alt` attribute value is the empty string, i.e. `alt=""` or `alt` with no value in the markup)</span></h4>
-        <table aria-labelledby="el-img-empty-alt">
+        <h4 id="el-img-empty-alt">`img` <span class="el-context">(`alt` attribute value is the empty string, i.e., `alt=""` or `alt` with no value in the markup)</span></h4>
+        <table class="data" aria-labelledby="el-img-empty-alt">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3122,18 +3231,17 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td class="comments">
-                <p>Authors can specify the `alt` attribute to be the empty string by either marking it up as `alt=""` or `alt` with no value.</p>
-                <p>
-                  If an `img` has been provided an `alt=""`, but also has an `aria-label` or `aria-labelledby` attribute specified which returns an accessible name, then the element maps to the
-                  `image` role.
+              <td>
+                <p class="note">
+                  If an `img` has an empty `alt`, but has been provided an <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> via another valid naming mechanism per the
+                  <a href="#el-img-name">naming steps of this specification</a>, user agents will expose the element with its implicit `image` role.
                 </p>
               </td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-input-button">`input` <span class="el-context">(`type` attribute in the Button state)</span></h4>
-        <table aria-labelledby="el-input-button">
+        <table class="data" aria-labelledby="el-input-button">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3184,7 +3292,7 @@
           </tbody>
         </table>
         <h4 id="el-input-checkbox">`input` <span class="el-context">(`type` attribute in the Checkbox state)</span></h4>
-        <table aria-labelledby="el-input-checkbox">
+        <table class="data" aria-labelledby="el-input-checkbox">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3241,7 +3349,7 @@
           </tbody>
         </table>
         <h4 id="el-input-color">`input` <span class="el-context">(`type` attribute in the Color state)</span></h4>
-        <table aria-labelledby="el-input-color">
+        <table class="data" aria-labelledby="el-input-color">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3306,14 +3414,14 @@
               <td>
                 <div class="general">
                   If implemented as a color picker, any UI controls presented for selecting a color are exposed in the <a class="termref">accessibility tree</a>, associated with the `input` element,
-                  and mapped as appropriate for the type of control (e.g. button or slider).
+                  and mapped as appropriate for the type of control (e.g., button or slider).
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-input-date">`input` <span class="el-context">(`type` attribute in the Date state)</span></h4>
-        <table aria-labelledby="el-input-date">
+        <table class="data" aria-labelledby="el-input-date">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3370,7 +3478,7 @@
           </tbody>
         </table>
         <h4 id="el-input-datetime-local">`input` <span class="el-context">(`type` attribute in the Local Date and Time state)</span></h4>
-        <table aria-labelledby="el-input-datetime-local">
+        <table class="data" aria-labelledby="el-input-datetime-local">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3426,7 +3534,7 @@
           </tbody>
         </table>
         <h4 id="el-input-email">`input` <span class="el-context">(`type` attribute in the E-mail state with no suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-email">
+        <table class="data" aria-labelledby="el-input-email">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3459,7 +3567,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"email"`</div>
               </td>
             </tr>
             <tr>
@@ -3482,7 +3589,7 @@
           </tbody>
         </table>
         <h4 id="el-input-file">`input` <span class="el-context">(`type` attribute in the File Upload state)</span></h4>
-        <table aria-labelledby="el-input-file">
+        <table class="data" aria-labelledby="el-input-file">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3548,7 +3655,7 @@
           </tbody>
         </table>
         <h4 id="el-input-hidden">`input` <span class="el-context">(`type` attribute in the Hidden state)</span></h4>
-        <table aria-labelledby="el-input-hidden">
+        <table class="data" aria-labelledby="el-input-hidden">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3599,7 +3706,7 @@
           </tbody>
         </table>
         <h4 id="el-input-image">`input` <span class="el-context">(`type` attribute in the Image Button state)</span></h4>
-        <table aria-labelledby="el-input-image">
+        <table class="data" aria-labelledby="el-input-image">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3652,7 +3759,7 @@
           </tbody>
         </table>
         <h4 id="el-input-month">`input` <span class="el-context">(`type` attribute in the Month state)</span></h4>
-        <table aria-labelledby="el-input-month">
+        <table class="data" aria-labelledby="el-input-month">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3705,7 +3812,7 @@
           </tbody>
         </table>
         <h4 id="el-input-number">`input` <span class="el-context">(`type` attribute in the Number state)</span></h4>
-        <table aria-labelledby="el-input-number">
+        <table class="data" aria-labelledby="el-input-number">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3741,10 +3848,7 @@
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">If implemented as a spin button, use WAI-ARIA mapping for <a class="core-mapping" href="#role-map-spinbutton">`spinbutton`</a>.</div>
-                <div class="general">If implemented as a text input:</div>
-                <div class="ctrltype"><span class="type">Control Type:</span> `Edit`</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"number"`</div>
+                <div class="general">Use WAI-ARIA mapping</div>
               </td>
             </tr>
             <tr>
@@ -3769,7 +3873,7 @@
           </tbody>
         </table>
         <h4 id="el-input-password">`input` <span class="el-context">(`type` attribute in the Password state)</span></h4>
-        <table aria-labelledby="el-input-password">
+        <table class="data" aria-labelledby="el-input-password">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3801,8 +3905,7 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="ctrltype"><span class="type">Control Type:</span> `Edit`</div>
-                <div class="properties"><span class="type">Localized Control Type:</span> `"password"`</div>
-                <div class="properties"><span class="type">Other properties: </span>Set `isPassword` to `true`</div>
+                <div class="properties"><span class="type">Other properties:</span> `isPassword=true`</div>
               </td>
             </tr>
             <tr>
@@ -3828,7 +3931,7 @@
           </tbody>
         </table>
         <h4 id="el-input-radio">`input` <span class="el-context">(`type` attribute in the Radio Button state)</span></h4>
-        <table aria-labelledby="el-input-radio">
+        <table class="data" aria-labelledby="el-input-radio">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3888,7 +3991,7 @@
           </tbody>
         </table>
         <h4 id="el-input-range">`input` <span class="el-context">(`type` attribute in the Range state)</span></h4>
-        <table aria-labelledby="el-input-range">
+        <table class="data" aria-labelledby="el-input-range">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3939,7 +4042,7 @@
           </tbody>
         </table>
         <h4 id="el-input-reset">`input` <span class="el-context">(`type` attribute in the Reset Button state)</span></h4>
-        <table aria-labelledby="el-input-reset">
+        <table class="data" aria-labelledby="el-input-reset">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -3992,7 +4095,7 @@
           </tbody>
         </table>
         <h4 id="el-input-search">`input` <span class="el-context">(`type` attribute in the Search state with no suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-search">
+        <table class="data" aria-labelledby="el-input-search">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4046,7 +4149,7 @@
           </tbody>
         </table>
         <h4 id="el-input-submit">`input`<span class="el-context"> (`type` attribute in the Submit Button state)</span></h4>
-        <table aria-labelledby="el-input-submit">
+        <table class="data" aria-labelledby="el-input-submit">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4099,7 +4202,7 @@
           </tbody>
         </table>
         <h4 id="el-input-tel">`input`<span class="el-context"> (`type` attribute in the Telephone state with no suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-tel">
+        <table class="data" aria-labelledby="el-input-tel">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4132,7 +4235,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"telephone"`</div>
               </td>
             </tr>
             <tr>
@@ -4155,7 +4257,7 @@
           </tbody>
         </table>
         <h4 id="el-input-text">`input`<span class="el-context"> (`type` attribute in the Text state with no suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-text">
+        <table class="data" aria-labelledby="el-input-text">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4209,7 +4311,7 @@
           </tbody>
         </table>
         <h4 id="el-input-textetc-autocomplete">`input`<span class="el-context"> (`type` attribute in the Text, Search, Telephone, URL, or E-mail states with a suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-textetc-autocomplete">
+        <table class="data" aria-labelledby="el-input-textetc-autocomplete">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4270,7 +4372,7 @@
           </tbody>
         </table>
         <h4 id="el-input-time">`input` <span class="el-context">(`type` attribute in the Time state)</span></h4>
-        <table aria-labelledby="el-input-time">
+        <table class="data" aria-labelledby="el-input-time">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4333,7 +4435,7 @@
           </tbody>
         </table>
         <h4 id="el-input-url">`input` <span class="el-context">(`type` attribute in the URL state with no suggestions source element)</span></h4>
-        <table aria-labelledby="el-input-url">
+        <table class="data" aria-labelledby="el-input-url">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4366,7 +4468,6 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
-                <div class="ctrltype"><span class="type">Localized Control Type:</span> `"url"`</div>
               </td>
             </tr>
             <tr>
@@ -4389,7 +4490,7 @@
           </tbody>
         </table>
         <h4 id="el-input-week">`input`<span class="el-context"> (`type` attribute in the Week state)</span></h4>
-        <table aria-labelledby="el-input-week">
+        <table class="data" aria-labelledby="el-input-week">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4443,7 +4544,7 @@
           </tbody>
         </table>
         <h4 id="el-ins">`ins`</h4>
-        <table aria-labelledby="el-ins">
+        <table class="data" aria-labelledby="el-ins">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4493,7 +4594,7 @@
           </tbody>
         </table>
         <h4 id="el-kbd">`kbd`</h4>
-        <table aria-labelledby="el-kbd">
+        <table class="data" aria-labelledby="el-kbd">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4546,7 +4647,7 @@
           </tbody>
         </table>
         <h4 id="el-label">`label`</h4>
-        <table aria-labelledby="el-label">
+        <table class="data" aria-labelledby="el-label">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4619,7 +4720,7 @@
           </tbody>
         </table>
         <h4 id="el-legend">`legend`</h4>
-        <table aria-labelledby="el-legend">
+        <table class="data" aria-labelledby="el-legend">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4681,7 +4782,7 @@
           </tbody>
         </table>
         <h4 id="el-li">`li`</h4>
-        <table aria-labelledby="el-li">
+        <table class="data" aria-labelledby="el-li">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4738,7 +4839,7 @@
           </tbody>
         </table>
         <h4 id="el-link">`link`</h4>
-        <table aria-labelledby="el-link">
+        <table class="data" aria-labelledby="el-link">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4788,7 +4889,7 @@
           </tbody>
         </table>
         <h4 id="el-main">`main`</h4>
-        <table aria-labelledby="el-main">
+        <table class="data" aria-labelledby="el-main">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4838,7 +4939,7 @@
           </tbody>
         </table>
         <h4 id="el-map">`map`</h4>
-        <table aria-labelledby="el-map">
+        <table class="data" aria-labelledby="el-map">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4894,7 +4995,7 @@
           </tbody>
         </table>
         <h4 id="el-mark">`mark`</h4>
-        <table aria-labelledby="el-mark">
+        <table class="data" aria-labelledby="el-mark">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4944,7 +5045,7 @@
           </tbody>
         </table>
         <h4 id="el-math">`math`</h4>
-        <table aria-labelledby="el-math">
+        <table class="data" aria-labelledby="el-math">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -4986,7 +5087,7 @@
           </tbody>
         </table>
         <h4 id="el-menu">`menu`</h4>
-        <table aria-labelledby="el-menu">
+        <table class="data" aria-labelledby="el-menu">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5044,7 +5145,7 @@
           </tbody>
         </table>
         <h4 id="el-meta">`meta`</h4>
-        <table aria-labelledby="el-meta">
+        <table class="data" aria-labelledby="el-meta">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5094,7 +5195,7 @@
           </tbody>
         </table>
         <h4 id="el-meter">`meter`</h4>
-        <table aria-labelledby="el-meter">
+        <table class="data" aria-labelledby="el-meter">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5144,7 +5245,7 @@
           </tbody>
         </table>
         <h4 id="el-nav">`nav`</h4>
-        <table aria-labelledby="el-nav">
+        <table class="data" aria-labelledby="el-nav">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5194,7 +5295,7 @@
           </tbody>
         </table>
         <h4 id="el-noscript">`noscript`</h4>
-        <table aria-labelledby="el-noscript">
+        <table class="data" aria-labelledby="el-noscript">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5244,7 +5345,7 @@
           </tbody>
         </table>
         <h4 id="el-object">`object`</h4>
-        <table aria-labelledby="el-object">
+        <table class="data" aria-labelledby="el-object">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5301,7 +5402,7 @@
           </tbody>
         </table>
         <h4 id="el-ol">`ol`</h4>
-        <table aria-labelledby="el-ol">
+        <table class="data" aria-labelledby="el-ol">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5351,7 +5452,7 @@
           </tbody>
         </table>
         <h4 id="el-optgroup">`optgroup`</h4>
-        <table aria-labelledby="el-optgroup">
+        <table class="data" aria-labelledby="el-optgroup">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5401,7 +5502,7 @@
           </tbody>
         </table>
         <h4 id="el-option">`option` <span class="el-context">(in a list of options or represents a suggestion in a `datalist`)</span></h4>
-        <table aria-labelledby="el-option">
+        <table class="data" aria-labelledby="el-option">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5457,7 +5558,7 @@
           </tbody>
         </table>
         <h4 id="el-output">`output`</h4>
-        <table aria-labelledby="el-output">
+        <table class="data" aria-labelledby="el-output">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5513,7 +5614,7 @@
           </tbody>
         </table>
         <h4 id="el-p">`p`</h4>
-        <table aria-labelledby="el-p">
+        <table class="data" aria-labelledby="el-p">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5563,7 +5664,7 @@
           </tbody>
         </table>
         <h4 id="el-param">`param`</h4>
-        <table aria-labelledby="el-param">
+        <table class="data" aria-labelledby="el-param">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5613,7 +5714,7 @@
           </tbody>
         </table>
         <h4 id="el-picture">`picture`</h4>
-        <table aria-labelledby="el-picture">
+        <table class="data" aria-labelledby="el-picture">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5663,7 +5764,7 @@
           </tbody>
         </table>
         <h4 id="el-pre">`pre`</h4>
-        <table aria-labelledby="el-pre">
+        <table class="data" aria-labelledby="el-pre">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5713,7 +5814,7 @@
           </tbody>
         </table>
         <h4 id="el-progress">`progress`</h4>
-        <table aria-labelledby="el-progress">
+        <table class="data" aria-labelledby="el-progress">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5768,7 +5869,7 @@
           </tbody>
         </table>
         <h4 id="el-q">`q`</h4>
-        <table aria-labelledby="el-q">
+        <table class="data" aria-labelledby="el-q">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5818,7 +5919,7 @@
           </tbody>
         </table>
         <h4 id="el-rp">`rp`</h4>
-        <table aria-labelledby="el-rp">
+        <table class="data" aria-labelledby="el-rp">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5869,7 +5970,7 @@
           </tbody>
         </table>
         <h4 id="el-rt">`rt`</h4>
-        <table aria-labelledby="el-rt">
+        <table class="data" aria-labelledby="el-rt">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5924,7 +6025,7 @@
           </tbody>
         </table>
         <h4 id="el-ruby">`ruby`</h4>
-        <table aria-labelledby="el-ruby">
+        <table class="data" aria-labelledby="el-ruby">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -5977,7 +6078,7 @@
           </tbody>
         </table>
         <h4 id="el-s">`s`</h4>
-        <table aria-labelledby="el-s">
+        <table class="data" aria-labelledby="el-s">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6027,7 +6128,7 @@
           </tbody>
         </table>
         <h4 id="el-samp">`samp`</h4>
-        <table aria-labelledby="el-samp">
+        <table class="data" aria-labelledby="el-samp">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6077,7 +6178,7 @@
           </tbody>
         </table>
         <h4 id="el-script">`script`</h4>
-        <table aria-labelledby="el-script">
+        <table class="data" aria-labelledby="el-script">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6127,7 +6228,7 @@
           </tbody>
         </table>
         <h4 id="el-search">`search`</h4>
-        <table aria-labelledby="el-search">
+        <table class="data" aria-labelledby="el-search">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6177,7 +6278,7 @@
           </tbody>
         </table>
         <h4 id="el-section">`section`</h4>
-        <table aria-labelledby="el-section">
+        <table class="data" aria-labelledby="el-section">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6230,7 +6331,7 @@
           </tbody>
         </table>
         <h4 id="el-select-listbox">`select`<span class="el-context"> (with a `multiple` attribute or `size` attribute having value greater than `1`)</span></h4>
-        <table aria-labelledby="el-select-listbox">
+        <table class="data" aria-labelledby="el-select-listbox">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6284,7 +6385,7 @@
           </tbody>
         </table>
         <h4 id="el-select-combobox">`select`<span class="el-context"> (with NO `multiple` attribute and NO `size` attribute having value greater than `1`)</span></h4>
-        <table aria-labelledby="el-select-combobox">
+        <table class="data" aria-labelledby="el-select-combobox">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6338,7 +6439,7 @@
           </tbody>
         </table>
         <h4 id="el-slot">`slot`</h4>
-        <table aria-labelledby="el-slot">
+        <table class="data" aria-labelledby="el-slot">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6388,7 +6489,7 @@
           </tbody>
         </table>
         <h4 id="el-small">`small`</h4>
-        <table aria-labelledby="el-small">
+        <table class="data" aria-labelledby="el-small">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6438,7 +6539,7 @@
           </tbody>
         </table>
         <h4 id="el-source">`source`</h4>
-        <table aria-labelledby="el-source">
+        <table class="data" aria-labelledby="el-source">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6488,7 +6589,7 @@
           </tbody>
         </table>
         <h4 id="el-span">`span`</h4>
-        <table aria-labelledby="el-span">
+        <table class="data" aria-labelledby="el-span">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6538,7 +6639,7 @@
           </tbody>
         </table>
         <h4 id="el-strong">`strong`</h4>
-        <table aria-labelledby="el-strong">
+        <table class="data" aria-labelledby="el-strong">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6588,7 +6689,7 @@
           </tbody>
         </table>
         <h4 id="el-style">`style`</h4>
-        <table aria-labelledby="el-style">
+        <table class="data" aria-labelledby="el-style">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6636,14 +6737,14 @@
               <td>
                 <div class="general">
                   <b>Note:</b> There are instances where CSS properties can affect what is exposed by accessibility APIs. For instance, `display: none` or `visibility: hidden` will remove an element
-                  from the accessibility tree and hide its presence from assistive technologies.
+                  from the <a class="termref">accessibility tree</a> and hide its presence from assistive technologies.
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
         <h4 id="el-sub">`sub`</h4>
-        <table aria-labelledby="el-sub">
+        <table class="data" aria-labelledby="el-sub">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6693,7 +6794,7 @@
           </tbody>
         </table>
         <h4 id="el-summary">`summary`</h4>
-        <table aria-labelledby="el-summary">
+        <table class="data" aria-labelledby="el-summary">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6763,7 +6864,7 @@
           </tbody>
         </table>
         <h4 id="el-sup">`sup`</h4>
-        <table aria-labelledby="el-sup">
+        <table class="data" aria-labelledby="el-sup">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6813,7 +6914,7 @@
           </tbody>
         </table>
         <h4 id="el-svg">`svg`</h4>
-        <table aria-labelledby="el-svg">
+        <table class="data" aria-labelledby="el-svg">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6855,7 +6956,7 @@
           </tbody>
         </table>
         <h4 id="el-table">`table`</h4>
-        <table aria-labelledby="el-table">
+        <table class="data" aria-labelledby="el-table">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6897,7 +6998,7 @@
           </tbody>
         </table>
         <h4 id="el-tbody">`tbody`</h4>
-        <table aria-labelledby="el-tbody">
+        <table class="data" aria-labelledby="el-tbody">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6939,7 +7040,7 @@
           </tbody>
         </table>
         <h4 id="el-td">`td` (ancestor `table` element has `table` role)</h4>
-        <table aria-labelledby="el-td">
+        <table class="data" aria-labelledby="el-td">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -6990,7 +7091,7 @@
           </tbody>
         </table>
         <h4 id="el-td-gridcell">`td` (ancestor `table` element has `grid` or `treegrid` role)</h4>
-        <table aria-labelledby="el-td-gridcell">
+        <table class="data" aria-labelledby="el-td-gridcell">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7041,7 +7142,7 @@
           </tbody>
         </table>
         <h4 id="el-template">`template`</h4>
-        <table aria-labelledby="el-template">
+        <table class="data" aria-labelledby="el-template">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7091,7 +7192,7 @@
           </tbody>
         </table>
         <h4 id="el-textarea">`textarea`</h4>
-        <table aria-labelledby="el-textarea">
+        <table class="data" aria-labelledby="el-textarea">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7141,7 +7242,7 @@
           </tbody>
         </table>
         <h4 id="el-tfoot">`tfoot`</h4>
-        <table aria-labelledby="el-tfoot">
+        <table class="data" aria-labelledby="el-tfoot">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7191,7 +7292,7 @@
           </tbody>
         </table>
         <h4 id="el-th">`th` <span class="el-context">(is not a column header, row header, column group header or row group header, and ancestor `table` element has `table` role)</span></h4>
-        <table aria-labelledby="el-th">
+        <table class="data" aria-labelledby="el-th">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7248,7 +7349,7 @@
         <h4 id="el-th-gridcell">
           `th` <span class="el-context">(is not a column header, row header, column group header or row group header, and ancestor `table` element has `grid` or `treegrid` role)</span>
         </h4>
-        <table aria-labelledby="el-th-gridcell">
+        <table class="data" aria-labelledby="el-th-gridcell">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7305,7 +7406,7 @@
           </tbody>
         </table>
         <h4 id="el-th-columnheader">`th` <span class="el-context">(is a column header or column group header)</span></h4>
-        <table aria-labelledby="el-th-columnheader">
+        <table class="data" aria-labelledby="el-th-columnheader">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7356,7 +7457,7 @@
           </tbody>
         </table>
         <h4 id="el-th-rowheader">`th` <span class="el-context">(is a row header or row group header)</span></h4>
-        <table aria-labelledby="el-th-rowheader">
+        <table class="data" aria-labelledby="el-th-rowheader">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7407,7 +7508,7 @@
           </tbody>
         </table>
         <h4 id="el-thead">`thead`</h4>
-        <table aria-labelledby="el-thead">
+        <table class="data" aria-labelledby="el-thead">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7457,7 +7558,7 @@
           </tbody>
         </table>
         <h4 id="el-time">`time`</h4>
-        <table aria-labelledby="el-time">
+        <table class="data" aria-labelledby="el-time">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7507,7 +7608,7 @@
           </tbody>
         </table>
         <h4 id="el-title">`title`</h4>
-        <table aria-labelledby="el-title">
+        <table class="data" aria-labelledby="el-title">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7557,7 +7658,7 @@
           </tbody>
         </table>
         <h4 id="el-tr">`tr`</h4>
-        <table aria-labelledby="el-tr">
+        <table class="data" aria-labelledby="el-tr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7607,7 +7708,7 @@
           </tbody>
         </table>
         <h4 id="el-track">`track`</h4>
-        <table aria-labelledby="el-track">
+        <table class="data" aria-labelledby="el-track">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7657,7 +7758,7 @@
           </tbody>
         </table>
         <h4 id="el-u">`u`</h4>
-        <table aria-labelledby="el-u">
+        <table class="data" aria-labelledby="el-u">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7707,7 +7808,7 @@
           </tbody>
         </table>
         <h4 id="el-ul">`ul`</h4>
-        <table aria-labelledby="el-ul">
+        <table class="data" aria-labelledby="el-ul">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7757,7 +7858,7 @@
           </tbody>
         </table>
         <h4 id="el-var">`var`</h4>
-        <table aria-labelledby="el-var">
+        <table class="data" aria-labelledby="el-var">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7809,7 +7910,7 @@
           </tbody>
         </table>
         <h4 id="el-video">`video`</h4>
-        <table aria-labelledby="el-video">
+        <table class="data" aria-labelledby="el-video">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7876,7 +7977,7 @@
           </tbody>
         </table>
         <h4 id="el-wbr">`wbr`</h4>
-        <table aria-labelledby="el-wbr">
+        <table class="data" aria-labelledby="el-wbr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -7947,7 +8048,7 @@
           <li>All elements having an accessible object in IAccessible2 mapping are supposed to implement IAccessible, IAccessible2 and IAccessible2_2 interfaces.</li>
         </ul>
         <h4 id="att-abbr">`abbr`</h4>
-        <table aria-labelledby="att-abbr">
+        <table class="data" aria-labelledby="att-abbr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8002,7 +8103,7 @@
           </tbody>
         </table>
         <h4 id="att-accept">`accept`</h4>
-        <table aria-labelledby="att-accept">
+        <table class="data" aria-labelledby="att-accept">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8053,7 +8154,7 @@
           </tbody>
         </table>
         <h4 id="att-accept-charset">`accept-charset`</h4>
-        <table aria-labelledby="att-accept-charset">
+        <table class="data" aria-labelledby="att-accept-charset">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8104,7 +8205,7 @@
           </tbody>
         </table>
         <h4 id="att-accesskey">`accesskey`</h4>
-        <table aria-labelledby="att-accesskey">
+        <table class="data" aria-labelledby="att-accesskey">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8157,7 +8258,7 @@
           </tbody>
         </table>
         <h4 id="att-action">`action`</h4>
-        <table aria-labelledby="att-action">
+        <table class="data" aria-labelledby="att-action">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8208,7 +8309,7 @@
           </tbody>
         </table>
         <h4 id="att-allow">`allow`</h4>
-        <table aria-labelledby="att-allow">
+        <table class="data" aria-labelledby="att-allow">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8259,7 +8360,7 @@
           </tbody>
         </table>
         <h4 id="att-allowfullscreen">`allowfullscreen`</h4>
-        <table aria-labelledby="att-allowfullscreen">
+        <table class="data" aria-labelledby="att-allowfullscreen">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8310,7 +8411,7 @@
           </tbody>
         </table>
         <h4 id="att-alt">`alt`</h4>
-        <table aria-labelledby="att-alt">
+        <table class="data" aria-labelledby="att-alt">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8364,7 +8465,7 @@
           </tbody>
         </table>
         <h4 id="att-as">`as`</h4>
-        <table aria-labelledby="att-as">
+        <table class="data" aria-labelledby="att-as">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8415,7 +8516,7 @@
           </tbody>
         </table>
         <h4 id="att-async">`async`</h4>
-        <table aria-labelledby="att-async">
+        <table class="data" aria-labelledby="att-async">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8466,7 +8567,7 @@
           </tbody>
         </table>
         <h4 id="att-autocapitalize">`autocapitalize`</h4>
-        <table aria-labelledby="att-autocapitalize">
+        <table class="data" aria-labelledby="att-autocapitalize">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8517,7 +8618,7 @@
           </tbody>
         </table>
         <h4 id="att-autocomplete-form">`autocomplete`</h4>
-        <table aria-labelledby="att-autocomplete-form">
+        <table class="data" aria-labelledby="att-autocomplete-form">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8578,7 +8679,7 @@
           </tbody>
         </table>
         <h4 id="att-autocomplete">`autocomplete`</h4>
-        <table aria-labelledby="att-autocomplete">
+        <table class="data" aria-labelledby="att-autocomplete">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8630,7 +8731,7 @@
           </tbody>
         </table>
         <h4 id="att-autofocus">`autofocus`</h4>
-        <table aria-labelledby="att-autofocus">
+        <table class="data" aria-labelledby="att-autofocus">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8674,12 +8775,12 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
         <h4 id="att-autoplay">`autoplay`</h4>
-        <table aria-labelledby="att-autoplay">
+        <table class="data" aria-labelledby="att-autoplay">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8730,7 +8831,7 @@
           </tbody>
         </table>
         <h4 id="att-blocking">`blocking`</h4>
-        <table aria-labelledby="att-blocking">
+        <table class="data" aria-labelledby="att-blocking">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8782,7 +8883,7 @@
           </tbody>
         </table>
         <h4 id="att-charset-meta">`charset`</h4>
-        <table aria-labelledby="att-charset-meta">
+        <table class="data" aria-labelledby="att-charset-meta">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8833,7 +8934,7 @@
           </tbody>
         </table>
         <h4 id="att-checked">`checked` (if present)</h4>
-        <table aria-labelledby="att-checked">
+        <table class="data" aria-labelledby="att-checked">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8879,7 +8980,7 @@
           </tbody>
         </table>
         <h4 id="att-checked-absent">`checked` (if absent)</h4>
-        <table aria-labelledby="att-checked-absent">
+        <table class="data" aria-labelledby="att-checked-absent">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8925,7 +9026,7 @@
           </tbody>
         </table>
         <h4 id="att-cite">`cite`</h4>
-        <table aria-labelledby="att-cite">
+        <table class="data" aria-labelledby="att-cite">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8975,7 +9076,7 @@
           </tbody>
         </table>
         <h4 id="att-class">`class`</h4>
-        <table aria-labelledby="att-class">
+        <table class="data" aria-labelledby="att-class">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -8998,25 +9099,25 @@
                 <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `class: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `UIA_ClassNamePropertyId`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `class: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `AXDOMClassList`</div>
               </td>
             </tr>
             <tr>
@@ -9026,7 +9127,7 @@
           </tbody>
         </table>
         <h4 id="att-color">`color`</h4>
-        <table aria-labelledby="att-color">
+        <table class="data" aria-labelledby="att-color">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9077,7 +9178,7 @@
           </tbody>
         </table>
         <h4 id="att-cols">`cols`</h4>
-        <table aria-labelledby="att-cols">
+        <table class="data" aria-labelledby="att-cols">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9128,7 +9229,7 @@
           </tbody>
         </table>
         <h4 id="att-colspan">`colspan`</h4>
-        <table aria-labelledby="att-colspan">
+        <table class="data" aria-labelledby="att-colspan">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9178,8 +9279,206 @@
             </tr>
           </tbody>
         </table>
+        <h4 id="att-command-popovers">`command` <span class="att-context">(in the Toggle, Show, and Hide popover states)</span></h4>
+        <table class="data" aria-labelledby="att-command-popovers">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>
+                <span class="el-context"> `command` </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/button.html#attr-input-command">`button`</a>
+                (`command` in the
+                <a data-cite="html/input.html#attr-button-command-toggle-popover-state" id="att-command-toggle-popover">Toggle popover state</a>
+                <a data-cite="html/input.html#attr-button-command-show-popover-state" id="att-command-showpopover">Show popover state</a> and
+                <a data-cite="html/input.html#attr-button-command-hide-popover-state" id="att-command-hidepopover">Hide popover state</a>)
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <p>
+                  If the associated element is displayed as a popover:
+                  <a class="core-mapping" href="#ariaExpandedTrue">`aria-expanded=true`</a>
+                </p>
+                <p>
+                  If the associated element is hidden:
+                  <a class="core-mapping" href="#ariaExpandedFalse">`aria-expanded=false`</a>
+                </p>
+                <p>
+                  If the associated element is an accessibility ancestor of the element with the `command` attribute or is not present in the DOM:
+                  <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
+                </p>
+                <p>If the associated element is not a valid `popover` element: no `aria-expanded` mapping.</p>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>
+                <p>
+                  User Agents MUST expose an <a class="core-mapping" href="#ariaDetails">`aria-details`</a> relationship with the associated element (identified via the specified `commandfor`
+                  attribute) <strong>except</strong> under the following conditions:
+                </p>
+                <ul>
+                  <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
+                  <li>The element is a descendant of the `popover` it is associated with.</li>
+                </ul>
+                <p class="note">
+                  A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> or is in the
+                  <a data-cite="html/input.html#reset-button-state-(type=reset)">reset state</a> with a [=button/form owner=] cannot invoke a command.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-command-dialogs">`command` <span class="att-context">(in the Close and Show Modal states)</span></h4>
+        <table class="data" aria-labelledby="att-command-dialogs">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`command`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/button.html#attr-input-command">`button`</a>
+                <span class="el-context"
+                  >(`command` in the <a data-cite="html/input.html#attr-button-command-close-state">Close state</a>) and
+                  <a data-cite="html/input.html#attr-button-command-show-modal-state">Show Modal state</a>)</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">A `command` attribute in the `close` and `show-modal` states provide no additional accessibility mappings to the `button` element.</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>
+                <p class="note">
+                  A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> or is in the
+                  <a data-cite="html/input.html#reset-button-state-(type=reset)">reset state</a> with a [=button/form owner=] cannot invoke a command.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-commandfor">`commandfor`</h4>
+        <table aria-labelledby="att-commandfor">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`commandfor`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/button.html#attr-input-commandfor">`button`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">See comments</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">See comments</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">See comments</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">See comments</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">See comments</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>
+                <p>The `commandfor` attribute identifies the associated element for the `button` element.</p>
+                <p>The specified `command` state will determine if a relationship mapping needs to be exposed between the `button` and its programmatically associated element.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <h4 id="att-content">`content`</h4>
-        <table aria-labelledby="att-content">
+        <table class="data" aria-labelledby="att-content">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9230,7 +9529,7 @@
           </tbody>
         </table>
         <h4 id="att-contenteditable">`contenteditable`</h4>
-        <table aria-labelledby="att-contenteditable">
+        <table class="data" aria-labelledby="att-contenteditable">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9311,7 +9610,7 @@
           </tbody>
         </table>
         <h4 id="att-controls">`controls`</h4>
-        <table aria-labelledby="att-controls">
+        <table class="data" aria-labelledby="att-controls">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9360,7 +9659,7 @@
           </tbody>
         </table>
         <h4 id="att-coords">`coords`</h4>
-        <table aria-labelledby="att-coords">
+        <table class="data" aria-labelledby="att-coords">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9411,7 +9710,7 @@
           </tbody>
         </table>
         <h4 id="att-crossorigin">`crossorigin`</h4>
-        <table aria-labelledby="att-crossorigin">
+        <table class="data" aria-labelledby="att-crossorigin">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9464,7 +9763,7 @@
           </tbody>
         </table>
         <h4 id="att-data">`data`</h4>
-        <table aria-labelledby="att-data">
+        <table class="data" aria-labelledby="att-data">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9515,7 +9814,7 @@
           </tbody>
         </table>
         <h4 id="att-datetime-delins">`datetime`</h4>
-        <table aria-labelledby="att-datetime-delins">
+        <table class="data" aria-labelledby="att-datetime-delins">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9564,7 +9863,7 @@
           </tbody>
         </table>
         <h4 id="att-datetime-time">`datetime`</h4>
-        <table aria-labelledby="att-datetime-time">
+        <table class="data" aria-labelledby="att-datetime-time">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9613,7 +9912,7 @@
           </tbody>
         </table>
         <h4 id="att-decoding">`decoding`</h4>
-        <table aria-labelledby="att-decoding">
+        <table class="data" aria-labelledby="att-decoding">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9664,7 +9963,7 @@
           </tbody>
         </table>
         <h4 id="att-default">`default`</h4>
-        <table aria-labelledby="att-default">
+        <table class="data" aria-labelledby="att-default">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9715,7 +10014,7 @@
           </tbody>
         </table>
         <h4 id="att-defer">`defer`</h4>
-        <table aria-labelledby="att-defer">
+        <table class="data" aria-labelledby="att-defer">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9766,7 +10065,7 @@
           </tbody>
         </table>
         <h4 id="att-dir">`dir`</h4>
-        <table aria-labelledby="att-dir">
+        <table class="data" aria-labelledby="att-dir">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9817,7 +10116,7 @@
           </tbody>
         </table>
         <h4 id="att-dir-bdo">`dir`</h4>
-        <table aria-labelledby="att-dir-bdo">
+        <table class="data" aria-labelledby="att-dir-bdo">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9868,7 +10167,7 @@
           </tbody>
         </table>
         <h4 id="att-dirname">`dirname`</h4>
-        <table aria-labelledby="att-dirname">
+        <table class="data" aria-labelledby="att-dirname">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9919,7 +10218,7 @@
           </tbody>
         </table>
         <h4 id="att-disabled">`disabled`</h4>
-        <table aria-labelledby="att-disabled">
+        <table class="data" aria-labelledby="att-disabled">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -9973,7 +10272,7 @@
           </tbody>
         </table>
         <h4 id="att-disabled-fieldset">`disabled`</h4>
-        <table aria-labelledby="att-disabled-fieldset">
+        <table class="data" aria-labelledby="att-disabled-fieldset">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10027,7 +10326,7 @@
           </tbody>
         </table>
         <h4 id="att-disabled-link">`disabled`</h4>
-        <table aria-labelledby="att-disabled-link">
+        <table class="data" aria-labelledby="att-disabled-link">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10068,7 +10367,7 @@
           </tbody>
         </table>
         <h4 id="att-download">`download`</h4>
-        <table aria-labelledby="att-download">
+        <table class="data" aria-labelledby="att-download">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10119,7 +10418,7 @@
           </tbody>
         </table>
         <h4 id="att-draggable">`draggable`</h4>
-        <table aria-labelledby="att-draggable">
+        <table class="data" aria-labelledby="att-draggable">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10165,12 +10464,12 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
         <h4 id="att-enctype">`enctype`</h4>
-        <table aria-labelledby="att-enctype">
+        <table class="data" aria-labelledby="att-enctype">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10221,7 +10520,7 @@
           </tbody>
         </table>
         <h4 id="att-enterkeyhint">`enterkeyhint`</h4>
-        <table aria-labelledby="att-enterkeyhint">
+        <table class="data" aria-labelledby="att-enterkeyhint">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10275,7 +10574,7 @@
           </tbody>
         </table>
         <h4 id="att-fetchpriority">`fetchpriority`</h4>
-        <table aria-labelledby="att-fetchpriority">
+        <table class="data" aria-labelledby="att-fetchpriority">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10327,7 +10626,7 @@
           </tbody>
         </table>
         <h4 id="att-for-label">`for`</h4>
-        <table aria-labelledby="att-for-label">
+        <table class="data" aria-labelledby="att-for-label">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10392,7 +10691,7 @@
           </tbody>
         </table>
         <h4 id="att-for-output">`for`</h4>
-        <table aria-labelledby="att-for-output">
+        <table class="data" aria-labelledby="att-for-output">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10449,7 +10748,7 @@
           </tbody>
         </table>
         <h4 id="att-form">`form`</h4>
-        <table aria-labelledby="att-form">
+        <table class="data" aria-labelledby="att-form">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10504,7 +10803,7 @@
           </tbody>
         </table>
         <h4 id="att-formaction">`formaction`</h4>
-        <table aria-labelledby="att-formaction">
+        <table class="data" aria-labelledby="att-formaction">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10556,7 +10855,7 @@
           </tbody>
         </table>
         <h4 id="att-formenctype">`formenctype`</h4>
-        <table aria-labelledby="att-formenctype">
+        <table class="data" aria-labelledby="att-formenctype">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10608,7 +10907,7 @@
           </tbody>
         </table>
         <h4 id="att-formmethod">`formmethod`</h4>
-        <table aria-labelledby="att-formmethod">
+        <table class="data" aria-labelledby="att-formmethod">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10660,7 +10959,7 @@
           </tbody>
         </table>
         <h4 id="att-formnovalidate">`formnovalidate`</h4>
-        <table aria-labelledby="att-formnovalidate">
+        <table class="data" aria-labelledby="att-formnovalidate">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10712,7 +11011,7 @@
           </tbody>
         </table>
         <h4 id="att-formtarget">`formtarget`</h4>
-        <table aria-labelledby="att-formtarget">
+        <table class="data" aria-labelledby="att-formtarget">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10761,7 +11060,7 @@
           </tbody>
         </table>
         <h4 id="att-headers">`headers`</h4>
-        <table aria-labelledby="att-headers">
+        <table class="data" aria-labelledby="att-headers">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10814,7 +11113,7 @@
           </tbody>
         </table>
         <h4 id="att-height">`height`</h4>
-        <table aria-labelledby="att-height">
+        <table class="data" aria-labelledby="att-height">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10869,7 +11168,7 @@
           </tbody>
         </table>
         <h4 id="att-hidden">`hidden`</h4>
-        <table aria-labelledby="att-hidden">
+        <table class="data" aria-labelledby="att-hidden">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10915,7 +11214,7 @@
           </tbody>
         </table>
         <h4 id="att-high">`high`</h4>
-        <table aria-labelledby="att-high">
+        <table class="data" aria-labelledby="att-high">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -10962,7 +11261,7 @@
           </tbody>
         </table>
         <h4 id="att-href">`href`</h4>
-        <table aria-labelledby="att-href">
+        <table class="data" aria-labelledby="att-href">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11018,7 +11317,7 @@
           </tbody>
         </table>
         <h4 id="att-href-link">`href`</h4>
-        <table aria-labelledby="att-href-link">
+        <table class="data" aria-labelledby="att-href-link">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11069,7 +11368,7 @@
           </tbody>
         </table>
         <h4 id="att-hreflang">`hreflang`</h4>
-        <table aria-labelledby="att-hreflang">
+        <table class="data" aria-labelledby="att-hreflang">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11121,7 +11420,7 @@
           </tbody>
         </table>
         <h4 id="att-http-equiv">`http-equiv`</h4>
-        <table aria-labelledby="att-http-equiv">
+        <table class="data" aria-labelledby="att-http-equiv">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11172,7 +11471,7 @@
           </tbody>
         </table>
         <h4 id="att-id">`id`</h4>
-        <table aria-labelledby="att-id">
+        <table class="data" aria-labelledby="att-id">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11195,25 +11494,25 @@
                 <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `id: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `UIA_AutomationIdPropertyId`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="objattrs"><span class="type">Object attributes:</span> `id: &lt;value&gt;`</div>
               </td>
             </tr>
             <tr>
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
-                <div class="general">Not mapped</div>
+                <div class="property"><span class="type">Property:</span> `AXDOMIdentifier`</div>
               </td>
             </tr>
             <tr>
@@ -11223,7 +11522,7 @@
           </tbody>
         </table>
         <h4 id="att-inert">`inert`</h4>
-        <table aria-labelledby="att-inert">
+        <table class="data" aria-labelledby="att-inert">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11271,7 +11570,7 @@
           </tbody>
         </table>
         <h4 id="att-indeterminate">`indeterminate [IDL]`</h4>
-        <table aria-labelledby="att-indeterminate">
+        <table class="data" aria-labelledby="att-indeterminate">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11313,7 +11612,7 @@
           </tbody>
         </table>
         <h4 id="att-ismap">`ismap`</h4>
-        <table aria-labelledby="att-ismap">
+        <table class="data" aria-labelledby="att-ismap">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11364,7 +11663,7 @@
           </tbody>
         </table>
         <h4 id="att-itemid">`itemid`</h4>
-        <table aria-labelledby="att-itemid">
+        <table class="data" aria-labelledby="att-itemid">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11415,7 +11714,7 @@
           </tbody>
         </table>
         <h4 id="att-itemprop">`itemprop`</h4>
-        <table aria-labelledby="att-itemprop">
+        <table class="data" aria-labelledby="att-itemprop">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11466,7 +11765,7 @@
           </tbody>
         </table>
         <h4 id="att-itemref">`itemref`</h4>
-        <table aria-labelledby="att-itemref">
+        <table class="data" aria-labelledby="att-itemref">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11517,7 +11816,7 @@
           </tbody>
         </table>
         <h4 id="att-itemscope">`itemscope`</h4>
-        <table aria-labelledby="att-itemscope">
+        <table class="data" aria-labelledby="att-itemscope">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11568,7 +11867,7 @@
           </tbody>
         </table>
         <h4 id="att-itemtype">`itemtype`</h4>
-        <table aria-labelledby="att-itemtype">
+        <table class="data" aria-labelledby="att-itemtype">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11619,7 +11918,7 @@
           </tbody>
         </table>
         <h4 id="att-kind">`kind`</h4>
-        <table aria-labelledby="att-kind">
+        <table class="data" aria-labelledby="att-kind">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11660,7 +11959,7 @@
           </tbody>
         </table>
         <h4 id="att-label">`label`</h4>
-        <table aria-labelledby="att-label">
+        <table class="data" aria-labelledby="att-label">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11706,12 +12005,12 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>See Also: <a href="" class="accname">Accessible Name and Description: Computation and API Mappings 1.1</a></td>
+              <td>See Also: <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a></td>
             </tr>
           </tbody>
         </table>
         <h4 id="att-lang">`lang`</h4>
-        <table aria-labelledby="att-lang">
+        <table class="data" aria-labelledby="att-lang">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11763,7 +12062,7 @@
           </tbody>
         </table>
         <h4 id="att-list">`list`</h4>
-        <table aria-labelledby="att-list">
+        <table class="data" aria-labelledby="att-list">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11814,7 +12113,7 @@
           </tbody>
         </table>
         <h4 id="att-loop">`loop`</h4>
-        <table aria-labelledby="att-loop">
+        <table class="data" aria-labelledby="att-loop">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11866,7 +12165,7 @@
           </tbody>
         </table>
         <h4 id="att-low">`low`</h4>
-        <table aria-labelledby="att-low">
+        <table class="data" aria-labelledby="att-low">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11915,7 +12214,7 @@
           </tbody>
         </table>
         <h4 id="att-max-input">`max`</h4>
-        <table aria-labelledby="att-max-input">
+        <table class="data" aria-labelledby="att-max-input">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -11962,7 +12261,7 @@
           </tbody>
         </table>
         <h4 id="att-max">`max`</h4>
-        <table aria-labelledby="att-max">
+        <table class="data" aria-labelledby="att-max">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12010,7 +12309,7 @@
           </tbody>
         </table>
         <h4 id="att-maxlength">`maxlength`</h4>
-        <table aria-labelledby="att-maxlength">
+        <table class="data" aria-labelledby="att-maxlength">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12060,7 +12359,7 @@
           </tbody>
         </table>
         <h4 id="att-media">`media`</h4>
-        <table aria-labelledby="att-media">
+        <table class="data" aria-labelledby="att-media">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12113,7 +12412,7 @@
           </tbody>
         </table>
         <h4 id="att-method">`method`</h4>
-        <table aria-labelledby="att-method">
+        <table class="data" aria-labelledby="att-method">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12164,7 +12463,7 @@
           </tbody>
         </table>
         <h4 id="att-min-input">`min`</h4>
-        <table aria-labelledby="att-min-input">
+        <table class="data" aria-labelledby="att-min-input">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12211,7 +12510,7 @@
           </tbody>
         </table>
         <h4 id="att-min">`min`</h4>
-        <table aria-labelledby="att-min">
+        <table class="data" aria-labelledby="att-min">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12258,7 +12557,7 @@
           </tbody>
         </table>
         <h4 id="att-minlength">`minlength`</h4>
-        <table aria-labelledby="att-minlength">
+        <table class="data" aria-labelledby="att-minlength">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12322,7 +12621,7 @@
           </tbody>
         </table>
         <h4 id="att-multiple-input">`multiple`</h4>
-        <table aria-labelledby="att-multiple-input">
+        <table class="data" aria-labelledby="att-multiple-input">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12373,7 +12672,7 @@
           </tbody>
         </table>
         <h4 id="att-multiple-select">`multiple`</h4>
-        <table aria-labelledby="att-multiple-select">
+        <table class="data" aria-labelledby="att-multiple-select">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12424,7 +12723,7 @@
           </tbody>
         </table>
         <h4 id="att-muted">`muted`</h4>
-        <table aria-labelledby="att-muted">
+        <table class="data" aria-labelledby="att-muted">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12476,7 +12775,7 @@
           </tbody>
         </table>
         <h4 id="att-name">`name`</h4>
-        <table aria-labelledby="att-name">
+        <table class="data" aria-labelledby="att-name">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12530,7 +12829,7 @@
           </tbody>
         </table>
         <h4 id="att-name-form">`name`</h4>
-        <table aria-labelledby="att-name-form">
+        <table class="data" aria-labelledby="att-name-form">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12581,7 +12880,7 @@
           </tbody>
         </table>
         <h4 id="att-name-iframe">`name`</h4>
-        <table aria-labelledby="att-name-iframe">
+        <table class="data" aria-labelledby="att-name-iframe">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12633,7 +12932,7 @@
           </tbody>
         </table>
         <h4 id="att-name-map">`name`</h4>
-        <table aria-labelledby="att-name-map">
+        <table class="data" aria-labelledby="att-name-map">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12684,7 +12983,7 @@
           </tbody>
         </table>
         <h4 id="att-name-meta">`name`</h4>
-        <table aria-labelledby="att-name-meta">
+        <table class="data" aria-labelledby="att-name-meta">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12735,7 +13034,7 @@
           </tbody>
         </table>
         <h4 id="att-name-slot">`name`</h4>
-        <table aria-labelledby="att-name-slot">
+        <table class="data" aria-labelledby="att-name-slot">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12786,7 +13085,7 @@
           </tbody>
         </table>
         <h4 id="att-nomodule">`nomodule`</h4>
-        <table aria-labelledby="att-nomodule">
+        <table class="data" aria-labelledby="att-nomodule">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12837,7 +13136,7 @@
           </tbody>
         </table>
         <h4 id="att-nonce">`nonce`</h4>
-        <table aria-labelledby="att-nonce">
+        <table class="data" aria-labelledby="att-nonce">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12888,7 +13187,7 @@
           </tbody>
         </table>
         <h4 id="att-novalidate">`novalidate`</h4>
-        <table aria-labelledby="att-novalidate">
+        <table class="data" aria-labelledby="att-novalidate">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12939,7 +13238,7 @@
           </tbody>
         </table>
         <h4 id="att-open-details">`open`</h4>
-        <table aria-labelledby="att-open-details">
+        <table class="data" aria-labelledby="att-open-details">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -12987,7 +13286,7 @@
           </tbody>
         </table>
         <h4 id="att-open-dialog">`open`</h4>
-        <table aria-labelledby="att-open-dialog">
+        <table class="data" aria-labelledby="att-open-dialog">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13043,7 +13342,7 @@
           </tbody>
         </table>
         <h4 id="att-optimum">`optimum`</h4>
-        <table aria-labelledby="att-optimum">
+        <table class="data" aria-labelledby="att-optimum">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13094,7 +13393,7 @@
           </tbody>
         </table>
         <h4 id="att-pattern">`pattern`</h4>
-        <table aria-labelledby="att-pattern">
+        <table class="data" aria-labelledby="att-pattern">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13140,7 +13439,7 @@
           </tbody>
         </table>
         <h4 id="att-ping">`ping`</h4>
-        <table aria-labelledby="att-ping">
+        <table class="data" aria-labelledby="att-ping">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13191,7 +13490,7 @@
           </tbody>
         </table>
         <h4 id="att-placeholder">`placeholder`</h4>
-        <table aria-labelledby="att-placeholder">
+        <table class="data" aria-labelledby="att-placeholder">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13248,7 +13547,7 @@
           </tbody>
         </table>
         <h4 id="att-playsinline">`playsinline`</h4>
-        <table aria-labelledby="att-playsinline">
+        <table class="data" aria-labelledby="att-playsinline">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13298,8 +13597,216 @@
             </tr>
           </tbody>
         </table>
+        <h4 id="att-popover">`popover`</h4>
+        <table class="data" aria-labelledby="att-popover">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popover`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popover">HTML elements</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <span class="type">Relations:</span> `IA2_RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                A details relation is made with the invoking element, if an invoking element exists which meets the conditions for necessitating a details relationship.
+                <a href="#att-popover-comments">See Comments</a>.
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <p><span class="type">Relations:</span> `RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.</p>
+                <div class="objattrs">
+                  <span class="type">Object attributes:</span>
+                  <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                TBD
+                <!-- https://bugs.webkit.org/show_bug.cgi?id=271485 -->
+              </td>
+            </tr>
+            <tr>
+              <th id="att-popover-comments">Comments</th>
+              <td>
+                <p>User agents MUST NOT expose a details relation between a `popover` and its invoking element under the following conditions:</p>
+                <ul>
+                  <li>when the `popover` is the next immediate accessibility sibling to the invoking element,</li>
+                  <li>when the element has a `popovertargetaction=hide` attribute value,</li>
+                  <li>or when the element is a descendant of the `popover` and its `popovertarget` is the "`auto`" state.</li>
+                </ul>
+                <p>
+                  If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a> for all
+                  <a data-cite="html/popover.html#the-popover-attribute">`popover` states</a>.
+                </p>
+                <p class="note">
+                  There are no unique mappings for the different `popover` states. Any accessibility mapping changes for the popover element would be the responsibility of the author. e.g., using
+                  different base HTML elements, attributes, or ARIA attributes to make such changes.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-popovertarget">`popovertarget`</h4>
+        <table class="data" aria-labelledby="att-popovertarget">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popovertarget`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popovertarget">`button`</a>;
+                <a data-cite="html/popover.html#attr-popovertarget">`input type=button, image, reset, submit`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">
+                  <p>
+                    If the associated element is displayed as a popover:
+                    <a class="core-mapping" href="#ariaExpandedTrue">`aria-expanded=true`</a>
+                  </p>
+                  <p>
+                    If the associated element is hidden:
+                    <a class="core-mapping" href="#ariaExpandedFalse">`aria-expanded=false`</a>
+                  </p>
+                  <p>
+                    If the associated element is an accessibility ancestor of the element with the `command` attribute or is not present in the DOM:
+                    <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
+                  </p>
+                  <p>If the associated element is not a valid `popover` element: no `aria-expanded` mapping.</p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+                <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>
+                <p>
+                  User Agents MUST expose an <a class="core-mapping" href="#ariaDetails">`aria-details`</a> relation with the associated popover element <strong>except</strong> under the following
+                  conditions:
+                </p>
+                <ul>
+                  <li>The element's `popovertargetaction` attribute value is "`hide`"</li>
+                  <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
+                  <li>The element's implicit or explicit `popovertargetaction` is the "`auto`" state and the element is a descendant of the `popover` it is associated with.</li>
+                  <!-- accessibility sibling will be defined in the ARIA specification -->
+                </ul>
+                <p class="note">A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> with a [=button/form owner=] cannot invoke a popover.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="att-popovertargetaction">`popovertargetaction`</h4>
+        <table class="data" aria-labelledby="att-popovertargetaction">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>`popovertargetaction`</td>
+            </tr>
+            <tr>
+              <th>Element(s)</th>
+              <td>
+                <a data-cite="html/popover.html#attr-popovertargetaction">`button`</a>;
+                <a data-cite="html/popover.html#attr-popovertargetaction">`input type=button, image, reset, submit`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[WAI-ARIA-1.2]]</th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general">Not mapped</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>The value of this attribute can impact the mappings of its related <a href="#att-popovertarget">`popovertarget`</a> attribute.</td>
+            </tr>
+          </tbody>
+        </table>
         <h4 id="att-poster">`poster`</h4>
-        <table aria-labelledby="att-poster">
+        <table class="data" aria-labelledby="att-poster">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13350,7 +13857,7 @@
           </tbody>
         </table>
         <h4 id="att-preload">`preload`</h4>
-        <table aria-labelledby="att-preload">
+        <table class="data" aria-labelledby="att-preload">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13401,7 +13908,7 @@
           </tbody>
         </table>
         <h4 id="att-readonly">`readonly`</h4>
-        <table aria-labelledby="att-readonly">
+        <table class="data" aria-labelledby="att-readonly">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13453,7 +13960,7 @@
           </tbody>
         </table>
         <h4 id="att-referrerpolicy">`referrerpolicy`</h4>
-        <table aria-labelledby="att-referrerpolicy">
+        <table class="data" aria-labelledby="att-referrerpolicy">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13507,7 +14014,7 @@
           </tbody>
         </table>
         <h4 id="att-rel">`rel`</h4>
-        <table aria-labelledby="att-rel">
+        <table class="data" aria-labelledby="att-rel">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13559,7 +14066,7 @@
           </tbody>
         </table>
         <h4 id="att-required">`required`</h4>
-        <table aria-labelledby="att-required">
+        <table class="data" aria-labelledby="att-required">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13622,7 +14129,7 @@
           </tbody>
         </table>
         <h4 id="att-reversed">`reversed`</h4>
-        <table aria-labelledby="att-reversed">
+        <table class="data" aria-labelledby="att-reversed">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13673,7 +14180,7 @@
           </tbody>
         </table>
         <h4 id="att-rows">`rows`</h4>
-        <table aria-labelledby="att-rows">
+        <table class="data" aria-labelledby="att-rows">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13722,7 +14229,7 @@
           </tbody>
         </table>
         <h4 id="att-rowspan">`rowspan`</h4>
-        <table aria-labelledby="att-rowspan">
+        <table class="data" aria-labelledby="att-rowspan">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13774,7 +14281,7 @@
           </tbody>
         </table>
         <h4 id="att-sandbox">`sandbox`</h4>
-        <table aria-labelledby="att-sandbox">
+        <table class="data" aria-labelledby="att-sandbox">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13825,7 +14332,7 @@
           </tbody>
         </table>
         <h4 id="att-scope">`scope`</h4>
-        <table aria-labelledby="att-scope">
+        <table class="data" aria-labelledby="att-scope">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13877,7 +14384,7 @@
           </tbody>
         </table>
         <h4 id="att-selected">`selected`</h4>
-        <table aria-labelledby="att-selected">
+        <table class="data" aria-labelledby="att-selected">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13928,7 +14435,7 @@
           </tbody>
         </table>
         <h4 id="att-shape">`shape`</h4>
-        <table aria-labelledby="att-shape">
+        <table class="data" aria-labelledby="att-shape">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -13979,7 +14486,7 @@
           </tbody>
         </table>
         <h4 id="att-size">`size`</h4>
-        <table aria-labelledby="att-size">
+        <table class="data" aria-labelledby="att-size">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14039,7 +14546,7 @@
           </tbody>
         </table>
         <h4 id="att-sizes">`sizes`</h4>
-        <table aria-labelledby="att-sizes">
+        <table class="data" aria-labelledby="att-sizes">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14090,7 +14597,7 @@
           </tbody>
         </table>
         <h4 id="att-sizes-img-source">`sizes`</h4>
-        <table aria-labelledby="att-sizes-img-source">
+        <table class="data" aria-labelledby="att-sizes-img-source">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14142,7 +14649,7 @@
           </tbody>
         </table>
         <h4 id="att-slot">`slot`</h4>
-        <table aria-labelledby="att-slot">
+        <table class="data" aria-labelledby="att-slot">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14193,7 +14700,7 @@
           </tbody>
         </table>
         <h4 id="att-span">`span`</h4>
-        <table aria-labelledby="att-span">
+        <table class="data" aria-labelledby="att-span">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14243,7 +14750,7 @@
           </tbody>
         </table>
         <h4 id="att-spellcheck">`spellcheck`</h4>
-        <table aria-labelledby="att-spellcheck">
+        <table class="data" aria-labelledby="att-spellcheck">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14294,7 +14801,7 @@
           </tbody>
         </table>
         <h4 id="att-src-media">`src`</h4>
-        <table aria-labelledby="att-src-media">
+        <table class="data" aria-labelledby="att-src-media">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14353,7 +14860,7 @@
           </tbody>
         </table>
         <h4 id="att-srcdoc">`srcdoc`</h4>
-        <table aria-labelledby="att-srcdoc">
+        <table class="data" aria-labelledby="att-srcdoc">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14404,7 +14911,7 @@
           </tbody>
         </table>
         <h4 id="att-srclang">`srclang`</h4>
-        <table aria-labelledby="att-srclang">
+        <table class="data" aria-labelledby="att-srclang">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14455,7 +14962,7 @@
           </tbody>
         </table>
         <h4 id="att-srcset">`srcset`</h4>
-        <table aria-labelledby="att-srcset">
+        <table class="data" aria-labelledby="att-srcset">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14507,7 +15014,7 @@
           </tbody>
         </table>
         <h4 id="att-start">`start`</h4>
-        <table aria-labelledby="att-start">
+        <table class="data" aria-labelledby="att-start">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14558,7 +15065,7 @@
           </tbody>
         </table>
         <h4 id="att-step">`step`</h4>
-        <table aria-labelledby="att-step">
+        <table class="data" aria-labelledby="att-step">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14605,7 +15112,7 @@
           </tbody>
         </table>
         <h4 id="att-style">`style`</h4>
-        <table aria-labelledby="att-style">
+        <table class="data" aria-labelledby="att-style">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14656,7 +15163,7 @@
           </tbody>
         </table>
         <h4 id="att-tabindex">`tabindex`</h4>
-        <table aria-labelledby="att-tabindex">
+        <table class="data" aria-labelledby="att-tabindex">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14702,12 +15209,15 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                <!-- For future consideration:
+        Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>. -->
+              </td>
             </tr>
           </tbody>
         </table>
         <h4 id="att-target">`target`</h4>
-        <table aria-labelledby="att-target">
+        <table class="data" aria-labelledby="att-target">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14759,7 +15269,7 @@
           </tbody>
         </table>
         <h4 id="att-target-base">`target`</h4>
-        <table aria-labelledby="att-target-base">
+        <table class="data" aria-labelledby="att-target-base">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14810,7 +15320,7 @@
           </tbody>
         </table>
         <h4 id="att-target-form">`target`</h4>
-        <table aria-labelledby="att-target-form">
+        <table class="data" aria-labelledby="att-target-form">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14861,7 +15371,7 @@
           </tbody>
         </table>
         <h4 id="att-title">`title`</h4>
-        <table aria-labelledby="att-title">
+        <table class="data" aria-labelledby="att-title">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14920,7 +15430,7 @@
           </tbody>
         </table>
         <h4 id="att-title-abbr">`title`</h4>
-        <table aria-labelledby="att-title-abbr">
+        <table class="data" aria-labelledby="att-title-abbr">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -14970,7 +15480,7 @@
           </tbody>
         </table>
         <h4 id="att-title-link">`title`</h4>
-        <table aria-labelledby="att-title-link">
+        <table class="data" aria-labelledby="att-title-link">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15011,7 +15521,7 @@
           </tbody>
         </table>
         <h4 id="att-title-style">`title`</h4>
-        <table aria-labelledby="att-title-style">
+        <table class="data" aria-labelledby="att-title-style">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15060,7 +15570,7 @@
           </tbody>
         </table>
         <h4 id="att-translate">`translate`</h4>
-        <table aria-labelledby="att-translate">
+        <table class="data" aria-labelledby="att-translate">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15111,7 +15621,7 @@
           </tbody>
         </table>
         <h4 id="att-type-hyperlink">`type`</h4>
-        <table aria-labelledby="att-type-hyperlink">
+        <table class="data" aria-labelledby="att-type-hyperlink">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15163,7 +15673,7 @@
           </tbody>
         </table>
         <h4 id="att-type-button">`type`</h4>
-        <table aria-labelledby="att-type-button">
+        <table class="data" aria-labelledby="att-type-button">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15212,7 +15722,7 @@
           </tbody>
         </table>
         <h4 id="att-type-embed">`type`</h4>
-        <table aria-labelledby="att-type-embed">
+        <table class="data" aria-labelledby="att-type-embed">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15265,7 +15775,7 @@
           </tbody>
         </table>
         <h4 id="att-type-input">`type`</h4>
-        <table aria-labelledby="att-type-input">
+        <table class="data" aria-labelledby="att-type-input">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15287,10 +15797,9 @@
               </th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15298,10 +15807,9 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15309,10 +15817,9 @@
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15320,10 +15827,9 @@
               <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
               <td>
                 <div class="general">
-                  Defines the accessible role, states and other properties, refer to type="<a href="#el-input-text">`text`</a>", type="<a href="#el-input-password">`password`</a>", type="<a
-                    href="#el-input-button"
-                    >`button`</a
-                  >", etc
+                  Defines the accessible role, states and other properties, refer to
+                  <code>type="<a href="#el-input-text">text</a>"</code>, <code>type="<a href="#el-input-password">password</a>"</code>, <code>type="<a href="#el-input-button">`button`</a>"</code>,
+                  etc.
                 </div>
               </td>
             </tr>
@@ -15334,7 +15840,7 @@
           </tbody>
         </table>
         <h4 id="att-type-ol">`type`</h4>
-        <table aria-labelledby="att-type-ol">
+        <table class="data" aria-labelledby="att-type-ol">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15402,7 +15908,7 @@
           </tbody>
         </table>
         <h4 id="att-usemap">`usemap`</h4>
-        <table aria-labelledby="att-usemap">
+        <table class="data" aria-labelledby="att-usemap">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15453,7 +15959,7 @@
           </tbody>
         </table>
         <h4 id="att-value-button">`value`</h4>
-        <table aria-labelledby="att-value-button">
+        <table class="data" aria-labelledby="att-value-button">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15505,7 +16011,7 @@
           </tbody>
         </table>
         <h4 id="att-value-data">`value`</h4>
-        <table aria-labelledby="att-value-data">
+        <table class="data" aria-labelledby="att-value-data">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15556,7 +16062,7 @@
           </tbody>
         </table>
         <h4 id="att-value-input">`value`</h4>
-        <table aria-labelledby="att-value-input">
+        <table class="data" aria-labelledby="att-value-input">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15609,7 +16115,7 @@
           </tbody>
         </table>
         <h4 id="att-value-li">`value`</h4>
-        <table aria-labelledby="att-value-li">
+        <table class="data" aria-labelledby="att-value-li">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15666,7 +16172,7 @@
           </tbody>
         </table>
         <h4 id="att-value-meter">`value`</h4>
-        <table aria-labelledby="att-value-meter">
+        <table class="data" aria-labelledby="att-value-meter">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15718,7 +16224,7 @@
           </tbody>
         </table>
         <h4 id="att-width">`width`</h4>
-        <table aria-labelledby="att-width">
+        <table class="data" aria-labelledby="att-width">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -15773,7 +16279,7 @@
           </tbody>
         </table>
         <h4 id="att-wrap">`wrap`</h4>
-        <table aria-labelledby="att-wrap">
+        <table class="data" aria-labelledby="att-wrap">
           <tbody>
             <tr>
               <th>HTML Specification</th>
@@ -16005,7 +16511,7 @@
           </ol>
         </section>
         <section>
-          <h4>`img` Element Accessible Name Computation</h4>
+          <h4 id="el-img-name">`img` Element Accessible Name Computation</h4>
           <ol>
             <li>
               If the `img` element has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the
@@ -16299,6 +16805,10 @@
         <section>
           <h4>Substantive changes since moving to the <a href="https://www.w3.org/WAI/ARIA/">Accessible Rich Internet Applications Working Group</a> (03-Nov-2019)</h4>
           <ul>
+            <li>2-April-2025: Add `command` and `commandfor` attribute mappings. See <a href="https://github.com/w3c/aria/pull/2354/">GitHub ARIA PR 2354</a>.</li>
+            <li>11-July-2024: User Agents ignore `aria-hidden=true` on `body` and `html` elements. See <a href="https://github.com/w3c/html-aam/pull/516">GitHub PR 516</a>.</li>
+            <li>06-June-2024: Add concept of Minimum Role. See <a href="https://github.com/w3c/html-aam/pull/454">GitHub PR 454</a>.</li>
+            <li>06-June-2024: Add `popover`, `popovertarget` and `popovertargetaction` mappings. See <a href="https://github.com/w3c/html-aam/pull/481">GitHub PR 481</a>.</li>
             <li>09-Oct-2023: Acknowledge use of `hr` element within `select` element. See <a href="https://github.com/w3c/html-aam/pull/504">GitHub PR 504</a>.</li>
             <li>03-Oct-2023: Update image mappings to reference the primary synonym roles (`image` and `none`). See <a href="https://github.com/w3c/html-aam/pull/498">GitHub PR 498</a>.</li>
             <li>03-Oct-2023: Clarify when to expose required field as invalid. See <a href="https://github.com/w3c/html-aam/pull/429">GitHub PR 429</a>.</li>
@@ -16448,17 +16958,15 @@
       <section class="appendix informative" id="acknowledgements">
         <h3>Acknowledgments</h3>
         <p>The following people contributed to the development of this document.</p>
-        <div class="section" id="ack_group">
-          <!-- left in place to ensure deep links to ID remain functional -->
-          <ul id="gh-contributors"></ul>
-          <!-- list of contributors will appear here,
-					 along with link to their GitHub profiles -->
-          <!--
-          TODO:
-          Add listing of individuals who have providing meaningful
-          contributions through commenting that have impacted the specification.
-        --></div>
-        <div data-include="https://rawgit.com/w3c/aria/master/../common/acknowledgements/funders.html" data-include-replace="true"></div>
+        <ul id="gh-contributors"></ul>
+        <section class="section" id="ack_group">
+          <h4>ARIA WG participants at the time of publication</h4>
+          <ul>
+            <!-- List of participants is injected here -->
+          </ul>
+        </section>
+        <!-- TODO:e Include people whose comments have added value to the specification -->
+        <div data-include="../common//acknowledgements/funders.html" data-include-replace="true"></div>
       </section>
     </section>
   </body>
