@@ -16346,7 +16346,7 @@
         <h3>Accessible Name Computations By HTML Element</h3>
         <section>
           <h4>
-            `input type="text"`, `input type="password"`, `input type="number"`, `input type="search"`,` input type="tel"`, `input type="email"`, `input type="url"` and `textarea` Element Accessible
+            `input type="text"`, `input type="password"`, `input type="number"`, `input type="search"`,` input type="tel"`, `input type="email"`, `input type="url"` and `textarea` Elements Accessible
             Name Computation
           </h4>
           <ol>
@@ -16370,7 +16370,7 @@
           </ol>
         </section>
         <section>
-          <h4>`input type="button"`, `input type="submit"` and `input type="reset"` Accessible Name Computation</h4>
+          <h4>`input type="button"`, `input type="submit"` and `input type="reset"` Elements Accessible Name Computation</h4>
           <ol>
             <li>
               If the control has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the
@@ -16378,20 +16378,26 @@
               <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
             </li>
             <li>
-              Otherwise use the associated `label` element(s) <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>(s) - if more than one `label` is associated; concatenate by DOM order,
-              delimited by spaces.
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of
+              the associated `label` element's subtree - if more than one `label` is associated; concatenate their subtrees by DOM order, delimited by spaces.
+              <p>
+                If the control is encapsulated by its `label` element, and the control has an author specified `value` or the lack of a `value` has produced an
+                <a href="https://infra.spec.whatwg.org/#implementation-defined">implementation defined</a> string to render, then exclude either from the control's computed
+                <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.
+              </p>
             </li>
-            <li>Otherwise use the `value` attribute.</li>
+            <li>If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the value of the control's `value` attribute.</li>
             <li>
-              For `input type=submit` and `type=reset`: if the prior steps do not yield a usable text string, and the `value` attribute is unspecified use the
-              <a href="https://infra.spec.whatwg.org/#implementation-defined">implementation defined</a> string respective to the input type.
+              For `input type=submit` and `type=reset`: if the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty, and the `value` attribute is unspecified, use the
+              <a href="https://infra.spec.whatwg.org/#implementation-defined">implementation defined</a> string respective to the input type. For instance, a localized string of the word "submit" or
+              "reset" respective to the type of `input`.
             </li>
-            <li>Otherwise, if the control still has no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> use `title` attribute.</li>
+            <li>Otherwise: use the value of the control's `title` attribute.</li>
             <li>If none of the above yield a usable text string there is no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.</li>
           </ol>
         </section>
         <section>
-          <h4>`input type="image"` Accessible Name Computation</h4>
+          <h4>`input type="image"` Element Accessible Name Computation</h4>
           <ol>
             <li>
               If the control has an <a data-cite="wai-aria-1.2/#aria-label">`aria-label`</a> or an <a data-cite="wai-aria-1.2/#aria-labelledby">`aria-labelledby`</a> attribute the
@@ -16399,17 +16405,27 @@
               <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
             </li>
             <li>
-              Otherwise use the associated `label` element(s) <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>(s) - if more than one `label` is associated; concatenate by DOM order,
-              delimited by spaces.
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of
+              the associated `label` element's subtree - if more than one `label` is associated; concatenate their subtrees by DOM order, delimited by spaces.
+              <p>
+                If the control is encapsulated by its `label` element, and the control has an `alt` attribute, then exclude the attribute's value from the control's computed
+                <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.
+              </p>
             </li>
-            <li>Otherwise use `alt` attribute if present and its value is not the empty string.</li>
-            <!-- NOTE: use of value attribute is invalid on input type=image, but it DOES contribute to the name if used -->
-            <!-- <li>Otherwise use `value` attribute.</li> -->
-            <li>Otherwise use `title` attribute if present and its value is not the empty string.</li>
             <li>
-              Otherwise if the previous steps do not yield a usable text string, use the
-              <a href="https://infra.spec.whatwg.org/#implementation-defined">implementation defined</a> string respective to the input type (an `input` in the `image` state represents a
-              <a data-cite="html/forms.html#concept-submit-button">submit button</a>). For instance, a localized string of the word "submit" or the words &quot;Submit Query&quot;.
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the value of the control's `alt` attribute if present and its value is not the empty
+              string.
+            </li>
+            <!-- NOTE: use of value attribute is invalid on input type=image, but it DOES contribute to the name if used.
+                       if this were to be specified, it'd belong here in the steps -->
+            <li>
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the value of the control's `title` attribute if present and its value is not the empty
+              string.
+            </li>
+            <li>
+              Otherwise, if the previous steps do not yield a usable text string: use the <a href="https://infra.spec.whatwg.org/#implementation-defined">implementation defined</a> string respective
+              to the input type (an `input` in the `image` state represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a>). For instance, a localized string of the word
+              "submit" or the words &quot;Submit Query&quot;.
             </li>
             <li>If none of the above yield a usable text string there is no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.</li>
           </ol>
@@ -16423,11 +16439,18 @@
               <a href="" class="accname">Accessible Name and Description: Computation and API Mappings</a>.
             </li>
             <li>
-              Otherwise use the associated `label` element(s) <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>(s) - if more than one `label` is associated; concatenate by DOM order,
-              delimited by spaces.
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of
+              the associated `label` element's subtree - if more than one `label` is associated; concatenate their subtrees by DOM order, delimited by spaces.
+              <p>
+                If the `button` element is encapsulated by its `label` element, ignore the `button` element's subtree from its computed
+                <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.
+              </p>
             </li>
-            <li>Otherwise use the `button` element subtree.</li>
-            <li>Otherwise use `title` attribute.</li>
+            <li>
+              If the <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a> is still empty: use the <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of
+              the element's subtree.
+            </li>
+            <li>Otherwise: use the value of the element's `title` attribute.</li>
             <li>If none of the above yield a usable text string there is no <a data-cite="accname-1.2/#dfn-accessible-name">accessible name</a>.</li>
           </ol>
         </section>
