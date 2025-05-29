@@ -6964,7 +6964,520 @@
             </tr>
             <tr>
               <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
-              <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
+              <td class="role-computed"><div class="general">
+                <p>To compute the role given table element `element`:</p>
+                <ol>
+                  <li>
+                    <p>If element is in not <a data-cite="HTML/#being-rendered">being rendered</a>, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="note" role="note">
+                      <p>Tables which are not rendered are unlikely to be used for layout, but could be present to supplement otherwise inaccessible graphics.</p>
+                    </div>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L568-L571">Firefox</a></li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1833-1840">Chrome</a></li>
+                        <li>WebKit does not include this heuristic.</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element is <a data-cite="editing#editable">editable</a>, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="note" role="note">
+                      <p>Tables which are in an editable state need to act as data tables to allow for rich text editors to create and edit tables which otherwise might have insufficient rows or columns to be considered a table.</p>
+                    </div>
+                    <div class="cross-browser note" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L451-L453">Firefox</a></li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1847-1852">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L146-L150">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element has a `datatable` attribute whose value is `"0"`, return <a class="core-mapping" href="#role-map-table">`table`</a></p>
+                    <div class="note" role="note">
+                      <p>This is a nonstandard attribute used to force tables to be as such. It should be avoided, as `role=table` should be sufficient.</p>
+                    </div>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/6f8fc8dc937ce9148e930f95d46e79287c450a7a/accessible/html/HTMLTableAccessible.cpp#L469-L473">Firefox only</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element has a `summary` attribute whose value is not the empty string, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="note" role="note">
+                      <p>The `summary` attribute is deprecated, this is here for completeness & web compatibility.</p>
+                    </div>
+                    <div class="cross-browser note" role="note">
+                      <ul>
+                      <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L475-L478">Firefox</a></li>
+                      <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1854-1856">Chrome</a></li>
+                      <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L157-L158">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element has a `rules` attribute whose value is not the empty string, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="note" role="note">
+                      <p>The `rules` attribute is deprecated, this is here for completeness & web compatibility.</p>
+                    </div>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1861-1864">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L164-L166">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element has a `aria-rowcount` attribute whose value a positive integer greater than 0, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L180-L187">WebKit only</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If element has a `aria-colcount` attribute whose value a positive integer greater than 0, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L180-L187">WebKit only</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>Let row_count be 0.</li>
+                  <li>Let column_count be 0.</li>
+                  <li>Let cell_count be 0.</li>
+                  <li>Let cells_with_borders be 0.</li>
+                  <li>Let cells_with_top_border be 0.</li>
+                  <li>Let cells_with_right_border be 0.</li>
+                  <li>Let cells_with_bottom_border be 0.</li>
+                  <li>Let cells_with_left_border be 0.</li>
+                  <li>Let cells_with_alternate_background be 0.</li>
+                  <li>Let alternating_row_colors be a new list.</li>
+                  <li>Let alternating_row_color_count be 0.</li>
+                  <li>Let alternating_cell_color_count be 0.</li>
+                  <li>Let prev_row_background be null.</li>
+                  <li>Let table_background be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">background-color</a> property on element.</li>
+                  <li>
+                    <p>For each child node table_child of element:</p>
+                    <ol>
+                      <li>
+                        <p>If table_child is a <a data-cite="HTML">`thead`</a> element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                        <div class="cross-browser note" role="note">
+                          <ul>
+                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L487-L496">Firefox</a></li>
+                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1854-1859">Chrome</a></li>
+                            <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L244-L246">WebKit</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <p>If table_child is a <a data-cite="HTML">`tfoot`</a> element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                        <div class="cross-browser note" role="note">
+                          <ul>
+                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L487-L496">Firefox</a></li>
+                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1854-1859">Chrome</a></li>
+                            <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L157-L162">WebKit</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <p>If table_child is a <a data-cite="HTML">`caption`</a> element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                        <div class="cross-browser note" role="note">
+                          <ul>
+                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L480-L485">Firefox</a></li>
+                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1854-1859">Chrome</a></li>
+                            <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L157-L162">WebKit</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <p>If table_child is a <a data-cite="HTML">`col`</a> element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                        <div class="cross-browser note" role="note">
+                          <ul>
+                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L491-L496">Firefox</a></li>
+                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1866-1869">Chrome</a></li>
+                            <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L168-L173">WebKit</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <p>If table_child is a <a data-cite="HTML">`colgroup`</a> element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                        <div class="cross-browser note" role="note">
+                          <ul>
+                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L491-L496">Firefox</a></li>
+                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1866-1869">Chrome</a></li>
+                            <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L168-L173">WebKit</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <p>If table_child is a <a dat-cite="HTML">`tbody`</a> element:</p>
+                        <ol>
+                          <li>
+                            <p>For each child node body_child of table_child:</p>
+                            <ol>
+                              <li>
+                                <p>If body_child is a `tr` element:</p>
+                                <ol>
+                                  <li>
+                                    <p>If row_count is equal to alternating_row_color_count:.</p>
+                                    <ol>
+                                      <li><p>Let row_background be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">background-color</a> property on element.</p></li>
+                                      <li>
+                                        <p>If row_background is not null:</p>
+                                        <ol>
+                                          <li>
+                                            <p>If prev_row_background is not null, and prev_row_background is not equal to row_background, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L610-L613">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li><p>Append row_background to the list alternating_row_colors.</p></li>
+                                          <li><p>Increment alternating_row_color_count.</p></li>
+                                          <li><p>Set prev_row_color to row_color</p></li>
+                                        </ol>
+                                      </li>
+                                    </ol>
+                                  </li>
+                                  <li><p>Increment row_count.</p></li>
+                                  <li>
+                                    <p>If body_child has a role attribute whose value does not include "row", return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a></p>
+                                    <div class="cross-browser warning" role="note">
+                                      <ul>
+                                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L502-L508">Firefox only</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <p>If row_count is greater than or equal to 20, and column_count is greater than or equal to 2, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                    <div class="note" role="note">
+                                      <p>This and the following condition are exclusive, while the condition after the following condition is mutually exclusive with these two. The standard should pick one or the other.</p>
+                                    </div>
+                                    <div class="cross-browser warning" role="note">
+                                      <ul>
+                                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L224-L227">WebKit only</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <p>If column_count is greater than or equal to 20, and row_count is greater than or equal to 2, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                    <div class="note" role="note">
+                                      <p>This and the prior condition are exclusive, while the following condition is mutually exclusive with these two. The standard should pick one or the other.</p>
+                                    </div>
+                                    <div class="cross-browser warning" role="note">
+                                      <ul>
+                                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L224-L227">WebKit only</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <p>If row_count is greater than or equal to 20, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                    <div class="note" role="note">
+                                      <p>This and the prior two condition are mutually exclusive. The standard should pick one or the other.</p>
+                                    </div>
+                                    <div class="cross-browser warning" role="note">
+                                      <ul>
+                                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L617-L621">Firefox</a></li>
+                                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1873-1876;drc=17b4c42cfb3512836655464b0d41d319e819c0b6">Chrome</a></li>
+                                        <li>WebKit does not include this heuristic.</li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <p>For each child node row_child of body_child:</p>
+                                    <ol>
+                                      <li>
+                                        <p>If row_child is a `th` element, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                        <div class="cross-browser warning" role="note">
+                                          <ul>
+                                            <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L513-L516">Firefox</a></li>
+                                            <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1923-1926">Chrome</a></li>
+                                            <li>WebKit does not include this heuristic.</li>
+                                          </ul>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <p>If row_child is a `td` element:</p>
+                                        <ol>
+                                          <li>
+                                            <p>If cell_count is 0 and row_child is in not <a data-cite="HTML/#being-rendered">being rendered</a>, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="note" role="note">
+                                              <p>Tables whose first cell is not being rendered are likely to be data tables, as layout tables will typically use available cells.</p>
+                                            </div>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L573-L576">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `headers` attribute whose value is not empty, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser note" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L518-L524">Firefox</a></li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1923-1926">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L290-L292">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `scope` attribute whose value is not empty, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser note" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L518-L524">Firefox</a></li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1923-1926">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L290-L292">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `abbr` attribute whose value is not empty, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser note" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L518-L524">Firefox</a></li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1923-1926">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L290-L292">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `axis` attribute whose value is not empty, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L290-L292">WebKit</a></li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1923-1926">Chrome</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `role` attribute whose value is "gridcell", "cell", "columnheader" or "rowheader", return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L290-L292">WebKit only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If row_child has a `role` attribute whose value is NOT one of "gridcell", "cell", "columnheader" or "rowheader", return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L526-L535">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">empty-cells</a> property is equal to `hide`, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1957-1960">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L306-L308">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li><p>If row_count is 1, increment column_count.</p></li>
+                                          <li>
+                                            <p>If column_count is greater than 4, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1957-1960">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L306-L308">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li><p>Increment cell_count.</p></li>
+                                          <li><p>Let border_top be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">border-top</a> property on row_child.</p></li>
+                                          <li><p>Let border_right be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">border-right</a> property on row_child.</p></li>
+                                          <li><p>Let border_bottom be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">border-bottom</a> property on row_child.</p></li>
+                                          <li><p>Let border_left be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">border-left</a> property on row_child.</p></li>
+
+                                          <li>
+                                            <p>If border_top is not null return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L578-L581">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If border_right is not null return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L578-L581">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If border_bottom is not null return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L578-L581">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <p>If border_left is not null return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li><a href="https://github.com/mozilla-firefox/firefox/blob/283c6c1ff53a55cba4427491e78829a04a4e2ff1/accessible/html/HTMLTableAccessible.cpp#L578-L581">Firefox only</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+
+                                          <li><p>Let has_block_borders be true if border_top and border_bottom are both not null, otherwise false.</p></li>
+                                          <li><p>Let has_inline_borders be true if border_left and border_right are both not null, otherwise false.</p></li>
+                                          <li>
+                                            <p>If either has_inline_borders or has_block_borders are true, increment cells_with_borders.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2011-2017">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L315-L317">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <p>If cells_with_borders is greater than 10, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2044-2047">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L337-L339">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+
+                                          <li><p>If border_top is not null increment cells_with_top_border.</p></li>
+                                          <li><p>If border_right is not null increment cells_with_right_border.</p></li>
+                                          <li><p>If border_bottom is not null increment cells_with_bottom_border.</p></li>
+                                          <li><p>If border_left is not null increment cells_with_left_border.</p></li>
+
+                                          <li><p>Let cell_background be the result of getting the <a data-cite="CSS/css-cascade#computed-value">computed value</a> of the <a data-cite="CSS">background-color</a> property on row_child.</p></li>
+                                          <li><p>If cell_background is not null, and is not equal to table_background, increment alternating_cell_color_count.</li>
+                                          <li>
+                                            <p>If alternating_cell_color_count is greater than 10, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                                            <div class="cross-browser warning" role="note">
+                                              <ul>
+                                                <li>Firefox does not include this heuristic.</li>
+                                                <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2044-2047">Chrome</a></li>
+                                                <li><a href="https://github.com/WebKit/WebKit/blob/25e716cb78d6726b9c8939574312c843b4b3e322/Source/WebCore/accessibility/AccessibilityTable.cpp#L331-L335">WebKit</a></li>
+                                              </ul>
+                                            </div>
+                                          </li>
+                                        </ol>
+                                      </li>
+                                    </ol>
+                                  </li>
+                                </ol>
+                              </li>
+                            </ol>
+                          </li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>
+                    <p>If row_count is less than 2, return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p>
+                    <div class="cross-browser note" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L554-L557">Firefox</a></li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1877-1885">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L224-L227">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If column_count is less than 2, return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p>
+                    <div class="cross-browser note" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L549-L553">Firefox</a></li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=1877-1885">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L224-L227">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If cell_count is less than 2, return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2020-2023">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L352-L354">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>Let minimum_styled_borders by the result of dividing cell_count by 2.</p>
+                  </li>
+                  <li>
+                    <p>If the cells_with_borders is greater than or equal to minimum_styled_borders, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2074-2082">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L362-L369">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If the cells_with_top_border is greater than or equal to minimum_styled_borders, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2074-2082">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L362-L369">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If the cells_with_right_border is greater than or equal to minimum_styled_borders, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2074-2082">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L362-L369">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If the cells_with_bottom_border is greater than or equal to minimum_styled_borders, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2074-2082">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L362-L369">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If the cells_with_left_border is greater than or equal to minimum_styled_borders, return <a class="core-mapping" href="#role-map-table">`table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li>Firefox does not include this heuristic.</li>
+                        <li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/accessibility/ax_node_object.cc;l=2074-2082">Chrome</a></li>
+                        <li><a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/accessibility/AccessibilityTable.cpp#L362-L369">WebKit</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <p>If the result of getting the first element that is a descendants of element, whose local name is one of `embed`, `object`, `iframe`, is not null, return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p>
+                    <div class="cross-browser warning" role="note">
+                      <ul>
+                        <li><a href="https://github.com/mozilla-firefox/firefox/blob/main/accessible/html/HTMLTableAccessible.cpp#L642-L651">Firefox only</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li><p>Return <a class="core-mapping" href="#role-map-html-layout-table">`html-layout-table`</a>.</p></li>
+                </ol>
+              </div></td>
             </tr>
             <tr>
               <th>
@@ -16688,7 +17201,7 @@
       </section>
     </section>
 
-    <!-- obsolete features 
+    <!-- obsolete features
     <tr tabindex="-1" id="el-rb">
         <th>
           <a href="https://html.spec.whatwg.org/#rb">`rb`</a>
@@ -16772,8 +17285,8 @@
               <td class="atk"><div class="general">Not mapped</div></td>
               <td class="ax"><div class="general">Not mapped</div></td>
               <td class="comments"></td>
-            </tr> 
-         
+            </tr>
+
 
          other obsolete HTML elements
          applet
