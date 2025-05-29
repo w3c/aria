@@ -5,9 +5,9 @@ Please read the [ARIA WG Process Document](process.md)
 # ARIA Meeting Information
 ## Inter Relay Chat(IRC)
 ### Access via IRC Cloud
-* [IRC Cloud ARIA Channel URL](https://www.irccloud.com/irc/w3.org/channel/aria) 
-* Hostname:irc.irccloud.com
-* Port:6697(check secure port)
+* [IRC Cloud ARIA Channel URL](https://www.irccloud.com/irc/irc.w3.org/channel/aria) 
+* Hostname:irc.w3.org
+* Port:6679(check secure port)
 * Add your nickname and more
 * Go to channel #aria
 
@@ -103,10 +103,19 @@ The following links have way too much information, but here they are for complet
 * ARIA WG Public mailing list:public-aria@w3.org
 * Slack channels: w3ccommunity.slack.com/ #aria, web-a11y.slack.com
 ## Other Specifications Managed by the ARIA Working Group
+* [Accessible Name and Description Computation (aka "accname")](https://github.com/w3c/accame)
+   * How browser should calculate the accessible name and description for elements.
 * [CORE-AAM](https://github.com/w3c/core-aam)
    * Contains mappings between ARIA and platform accessibility APIs.
 * [HTML-AAM](https://github.com/w3c/html-aam)
    * Contains mappings between HTML and platform accessibility APIs.
-* [Accessible Name and Description Computation (aka "accname")](https://github.com/w3c/accame)
-   * How browser should calculate the accessible name and description for elements.
+* [DPUB-ARIA](https://github.com/w3c/dpub-aria)
+* [DPUB-AAM](https://github.com/w3c/dpub-aam)
+  * Contains mappings between DPUB and platform accessibility APIs.
+* [MathML-AAM](https://github.com/w3c/mathml-aam)
+  * Contains mappings between MathML and platform accessibility APIs.
+* [Graphics-ARIA](https://github.com/w3c/graphics-aria)
+* [Graphics-AAM](https://github.com/w3c/graphics-aam)
+  * Contains mappings between Graphics-ARIA and platform accessibility APIs.
+
 
