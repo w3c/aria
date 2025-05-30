@@ -59,6 +59,10 @@ Once tests have been written, open issues on the browsers with clear links to al
 
 When there is at least one implementation and implementation commitment from other browsers, merge!
 
+If the change introduce an author MUST requirement, then open issues on validators to inform them of the change. Validators include:
+* https://github.com/dequelabs/axe-core/issues
+* https://github.com/validator/validator/issues
+
 ### Editorial Changes
 
 An "editorial" change is a change that is not normative. Editorial changes are things like grammar fixes, improvements to a section for improve readability or clarity, re-organization, the introduction of terms, etc.
