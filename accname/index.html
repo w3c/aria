@@ -536,8 +536,8 @@
                         <li id="comp_labelledby_set_current">
                           <span id="step2B.ii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the node referenced by the IDREF.
                         </li>
-                        <li id="comp_labelledby_recursion">
-                          <span id="step2B.ii.b"><!-- Don't link to this legacy numbered ID. --></span><em>LabelledBy Recursion:</em> Compute the text alternative of the
+                        <li id="comp_labelledby_traversal">
+                          <span id="step2B.ii.b"><!-- Don't link to this legacy numbered ID. --></span><em>LabelledBy Traversal:</em> Compute the text alternative of the
                           <code>current node</code> beginning with the overall <a href="#comp_computation">Computation</a> step. Set the <code>result</code> to that text alternative.
                         </li>
                         <li id="comp_labelledby_append">
@@ -551,7 +551,7 @@
                   </ol>
                   <div>
                     <p>
-                      The result of <a href="#comp_labelledby_recursion">LabelledBy Recursion</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that
+                      The result of <a href="#comp_labelledby_traversal">LabelledBy Traversal</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that
                       <a class="termref">user agents</a> MUST include all nodes in the subtree as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a>,
                       when the node referenced by <code>aria-labelledby</code> or <code>aria-describedby</code> is hidden.
                     </p>
@@ -612,8 +612,8 @@
                   <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
                   <ol class="acc-ol">
                     <li>
-                      If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control, ignore <code>aria-label</code> and
-                      skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
+                      If traversal of the <code>current node</code> is due to <a href="#comp_name_from_content_for_each_child">Name From Content descendant node recursion</a> <strong>and</strong> the
+                      <code>current node</code> is an embedded control, ignore <code>aria-label</code> and skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
                     </li>
                     <li>Otherwise, return the value of <code>aria-label</code>.</li>
                   </ol>
@@ -665,8 +665,13 @@
                       <span id="step2F.ii"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Generated Content:</em> Check for
                       <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The
                       <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/selectors-3/#gen-content"><code>::before</code> and <code>::after</code></a> pseudo elements
-                      [[!CSS2]] can provide textual content for [=element|elements=] that have a content model.
+                      [[!CSS2]] can provide textual content for [=element|elements=] that have a content model, in addition to the
+                      <a href="https://www.w3.org/TR/css-pseudo-4/#selectordef-marker"><code>::marker</code></a> pseudo element.
                       <ol class="acc-ol">
+                        <li id="comp_name_from_content_pseudo_element_marker">
+                          For <code>::marker</code> pseudo elements, <a class="termref">User agents</a> MUST append <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to
+                          the textual content of the <code>current node</code> if the <code>current node</code> supports <code>::marker</code>.
+                        </li>
                         <li id="comp_name_from_content_pseudo_element_before">
                           For <code>::before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space,
                           to the textual content of the <code>current node</code>.
