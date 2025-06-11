@@ -1,0 +1,43 @@
+name: Update Preview Links
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  update-preview-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install axios yargs
+
+      # Step 4: Run the script
+      - name: Generate preview links
+        run: |
+          node .github/scripts/updatePreviewLinks.js \
+            --repo ${{ github.repository }} \
+            --pull_request_number ${{ github.event.pull_request.number }} \
+            --token ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 5: Update the pull request body
+      - name: Update pull request body
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🚀 **Netlify Preview**:
+            🔄 **Changed Pages**:
+            $(cat .github/scripts/changed_files.md)
+          edit-mode: replace
