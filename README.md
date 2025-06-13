@@ -1,20 +1,10 @@
-# Accessible Rich Internet Applications (WAI-ARIA)
+# Accessible Rich Internet Applications (ARIA)
 
-This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/ARIA/). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
-
-## The default branch has been renamed
-
-If you have a local clone, run the following commands to update the name of the default branch.
-
-```
-$ git branch -m master main
-$ git fetch origin
-$ git branch -u origin/main main
-```
+This repository maintains specifications and related publications for the Accessible Rich Internet Applications suite of technologies. This is developed by the [ARIA Working Group](http://www.w3.org/WAI/about/groups/ariawg). The W3C staff contact is Daniel Montalvo. Please do not provide commit access to this repository without coordination.
 
 ## Specifications in this repository
 
-This repository contains the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications (ARIA), and should be used for issues related to the ARIA spec and and issues that involve both the ARIA spec in conjunction with other specifications maintained by the ARIA working group. All other specifications maintained by ARIA can be found in this repository as well, however, we have separate issue tracking repos for these separate specifications.
+This repository contains the main deliverable of the ARIA Working Group, Accessible Rich Internet Applications (ARIA), and should be used for issues related to the ARIA spec as well as issues that involve both the ARIA spec in conjunction with other specifications maintained by the ARIA working group. All other specifications maintained by ARIA can be found in this repository as well, however, we have separate issue tracking repos for these separate specifications.
 
 * Accessible Rich Internet Applications (aria)
   * [Spec](./index.html)
@@ -56,8 +46,11 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
   * [Spec](mathml-aam/index.html)
   * [Editor's Draft](https://w3c.github.io/mathml-aam/)
   * [Issue Repository](https://github.com/w3c/mathml-aam)
+* Portable Document Format Accessibility API Mappings (pdf-aam)
+  * [Editor's Draft](https://w3c.github.io/pdf-aam/)
+  * [Issue Repository](https://github.com/w3c/pdf-aam)
 
-In addition to these specifications, there are other deliverables of the [ARIA Contribution](https://www.w3.org/WAI/ARIA/contribute) page. Please file issues in the repository specific to the specification or deliverable to which the issue applies.
+In addition to these specifications, there are other deliverables as specified in the [ARIA Charter](https://www.w3.org/2025/01/aria-charter.html). Please file issues in the repository specific to the specification or deliverable to which the issue applies.
 
 ## Contributing to this Repository
 
@@ -80,12 +73,13 @@ Working Group participants and members of the public without commit privileges m
 * Raise [issues](https://github.com/w3c/aria/issues/).
 * Submit [pull requests](https://help.github.com/articles/using-pull-requests/).
 
-Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. Editors can add people to this team.
+Issues can be assigned to people who are members of the [ARIA Contributors](https://github.com/orgs/w3c/teams/aria-contributors) team. If you are an ARIA Working Group participant and need access, ask [Daniel Montalvo](mailto:dmontalvo@w3.org).
 
 When preparing GitHub pull requests:
 
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
+* Keep it up-to-date with the base branch, for example by selecting "rebase" under the "Update branch options" menu on the GitHub web interface.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
 
@@ -114,16 +108,19 @@ First, for each document that might be referenced, a set of URLs is provided. Th
 ```js
 // Spec URLs
 ariaSpecURLs: {
-  "FPWD": "http://www.w3.org/TR/wai-aria-1.1/",
+  "FPWD": "http://www.w3.org/TR/wai-aria-1.3/",
   "ED": "http://w3c.github.io/aria/aria/aria.html",
-  "WD" : "http://www.w3.org/TR/wai-aria-1.1/",
+  "WD": "http://www.w3.org/TR/wai-aria-1.3/",
+  "CR": "http://www.w3.org/TR/wai-aria/"
+  "CRD": "http://www.w3.org/TR/wai-aria/"
+  "PR": "http://www.w3.org/TR/wai-aria/",
   "REC": "http://www.w3.org/TR/wai-aria/"
 },
 ```
 
 Note that even though some of these URIs are redundant, they must all be defined to work in all circumstances. If a document is a First Public Working Draft but the FPWD variant isn't defined, there won't be a match with the `specStatus` and the links won't work.
 
-The following properties for cross references are currently available *(todo: we should add versions for the other docs)*:
+The following properties for cross references are currently available:
 
 * `ariaSpecURLs`: for the main ARIA spec
 * `coreMappingURLs`: for the Core AAM
@@ -150,22 +147,33 @@ If you want to target the main spec, leave the href blank (but present). If you 
 
 The set of class values currently defined are:
 
-* `role-reference`: role definitions
-* `state-reference`: state definitions
-* `property-reference`: property definitions
-* `specref`: other targets in the main ARIA spec
+* `role-reference`: ARIA role definitions
+* `state-reference`: ARIA state definitions
+* `property-reference`: ARIA property definitions
+* `specref`: other ARIA references
 * `core-mapping`: the Core AAM
-* `html-mapping`: the HTML AAM
 * `accname`: the AccName AAM
-
-*Todo: we should add versions for the other docs*
+* `html-mapping`: the HTML AAM
+* `dpub-role-reference`: DPUB-ARIA role definitions
+* `dpub-property-reference`: DPUB-ARIA property definitions
+* `dpub-state-reference`: DPUB-ARIA state definitions
+* `dpub`: other DPUB-ARIA references
+* `graphics-role-reference`: Graphics-ARIA role definitions
+* `graphics-property-reference`: Graphics-ARIA property definitions
+* `graphics-state-reference: Graphics-ARIA state definitions
+* `graphics-role-mapping`: Graphics role mapping
+* `graphics-property-mapping`: GRAPHICS property mapping
+* `graphics-state-mapping`: GRAPHICS staet mapping
+* `graphics-mapping`: other GRAPHIC mapping references
+* `graphics`: other Graphics-ARIA references
+* `practices`: ARIA Practices
 
 #### References to Other W3C Specs
 
 When referencing other W3C specifications such as <a
 href="https://html.spec.whatwg.org/">HTML</a> and <a
 href="https://dom.spec.whatwg.org/">DOM</a>, we can take advantage of ReSpec’s
-<a href="https://github.com/w3c/respec/wiki/xref">`xref`</a> feature to
+<a href="https://github.com/speced/respec/wiki/xref">`xref`</a> feature to
 automatically generate canonical links in context.
 
 In the text below, for example, `xref` will automatically convert “`[^button^]`”
@@ -212,11 +220,11 @@ Internationalization Glossary specs](https://respec.org/xref/?term=range). The
 the intended spec.
 
 For more information, please refer to [`xref`’s auto-linking external references
-guide](https://github.com/w3c/respec/wiki/Auto-linking-external-references).
+guide](https://github.com/speced/respec/wiki/Auto-linking-external-references).
 
 ### Shared Resources
 
-The ARIA repositories share a common set of resources to reduce redundancy. Shared resources are in the [aria-common](https://github.com/w3c/aria-common/) repository, and copied to a "common" folder in this and other ARIA repositories. *It is important to make edits in the aria-common repository*; making edits in the common folder of another repository will allow the edits to be overridden.
+The ARIA repositories share a common set of resources to reduce redundancy. Shared resources are in the [common](./common/) directory, and copied to every child spec at built time.
 
 ### Special Structures
 
@@ -224,12 +232,12 @@ Todo: special characteristics table classes etc. used by the script
 
 ### Editors' Drafts
 
-Official editors' drafts are published to  [https://w3c.github.io/aria/]. This URI is suitable for public references. Documents published to that location are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts. Editors' drafts are automatically updated (if there are no errors) by a [Travis-CI](https://travis-ci.org/) service run when commits are pushed to the master branch.
+Official editors' drafts are published to  [https://w3c.github.io/<shortName>/], where `shortName` is the value of `respecConfig.shortName` for each of the specs. This URIs are suitable for public references. Documents published to those locations are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts. Editors' drafts are automatically updated (if there are no errors) by GitHub actions run when commits are pushed to the main branch.
 
 ### How ARIA Extension Specs are Built
 
 An extension spec is one that defines additional roles, states, and / or properties that augment
-the collection defined in the core ARIA specification (aria/aria.html).  Extension specs must be
+the collection defined in the core ARIA specification (index.html). Extension specs must be
 built in conjunction with the W3C ARIA WG if any new roles are to be in the default vocabulary space
 (http://www.w3.org/1999/xhtml/vocab).
 
@@ -242,31 +250,29 @@ are well integrated into the overall ARIA taxonomy.
 The ariaChild.js script relies upon an input script (aria/script/roleInfo.js).  As of today, that file is not automatically generated.
 If you want to ensure the file is up to date, access the core ARIA spec with the special query string "#saveRoles"
 from a browser on a client that has write access to the copy of the extension spec you are editing. When the dialog appears, click
-the save button and tell your browser to save the roleInfo.js file into the aria/script directory.
-
-The scripts to support extension modules are stored in the aria-common repository. Therefore, updates to roleInfo.js must be saved and committed to that repository, even though they are generated from content in this repository.
+the save button and tell your browser to save the roleInfo.js file into the [common/script](./common/script directory.
 
 ### Style guidelines
 
 #### Document style
 
 * There should always be introductory content before starting subsections.
-* Sequences of steps use ordered lists, the first paragraph of which labels the step and is in a &lt;strong&gt;; subsequent block elements are the content for the step.
-* Preformatted examples should "pretty-print" the example to be less than 80 characters wide, and indent the code using 2 space characters per indent step. Wrap within an element tag with an extra indent. Use line break characters, not &lt;br/&gt; elements, for new lines. Add extra line spacing as useful. They use the class "example". Use the Code Sample Expander tool to assist with this.
-* Keyboard characters should be in kbd elements.
+* Sequences of steps use ordered lists, the first paragraph of which labels the step and is in a `<strong>`; subsequent block elements are the content for the step.
+* Preformatted examples should "pretty-print" the example to be less than 80 characters wide, and indent the code using 2 space characters per indent step. Wrap within an element tag with an extra indent. Use line break characters, not `<br/>` elements, for new lines. Add extra line spacing as useful. They use the class "example". Use the Code Sample Expander tool to assist with this.
+* Keyboard characters should be in `<kbd>` elements.
     * Spell out keys such as "control", "shift", "command", "option", "alt", "insert", "pageup", "enter", etc.
     * Use plus as delimiter for keys that are pressed together, e.g., control+v
     * Use comma as delimiter for keys that are pressed in sequence, e.g., insert, m
-* Language elements should be in code elements.
+* Language elements should be in `<code>` elements.
 * The first reference in a section to a role or state should be linked to the role or state with the appropriate class. Subsequent references needn't be referenced, but may be in certain circumstances.
-* repeated links to aria features should just be in &lt;code&gt;, not in cross-reference links (just link first time)
+* Repeated links to aria features should just be in `<code>`, not in cross-reference links (just link first time)
 * Headings use title case.
 * "step" headings, the bold sentence at the start of a numbered list item in a list of steps, are sentence case and not marked as an actual hx element. They should summarize what the following paragraphs get into.
-* Subheadings: only use sub-headers (&lt;h{x+1}&gt; following &lt;hx&gt;) if there are at least two of them. If there isn't more than two sub-sections, it isn't a sub-section and should be integrated into the parent section.
+* Subheadings: only use sub-headers (`<h{x+1}> following `<hx>) if there are at least two of them. If there isn't more than two sub-sections, it isn't a sub-section and should be integrated into the parent section.
 * Lists: only use lists of two or more items. If it's only one item, it isn't a list and should have a different semantic.
 * Terms like "Web" are capitalized when it's "the Web", but not when referring to "web applications". Same for "internet, rich internet applications".
 * Synopsize the meaning of abbreviations and glossary terms the first time they are used in a section.
-* Acronyms we don't expand (but wrap in &lt;abbr&gt; elements):
+* Acronyms we don't expand (but wrap in `<abbr>` elements):
     * API
 * Acronyms we do expand (don't use the acronym)
     * RIA (use rich internet application)
@@ -278,7 +284,7 @@ The scripts to support extension modules are stored in the aria-common repositor
 
 * When referring to an instance of a role, use "element with a role of X", not "X role" or "X element". "X role" refers to role in the taxonomy itself; "X element" is not technically meaningful.
 * "Assistive technologies" is plural, not singular.
-* Use "WAI-ARIA" instead of "ARIA", to avoid trademark confusion.
+* If in doubt as to when to use "ARIA" or "WAI-ARIA", see [use of ARIA as   word instead of abbreviation](https://github.com/w3c/aria/discussions/2441)
 * Use "text alternative" instead of "text equivalent" or the like, for consistency with WCAG 2.0 usage.
 * Reference "DOMClick" instead of "DOMActivate" which is going to be deprecated or made optional.
 
