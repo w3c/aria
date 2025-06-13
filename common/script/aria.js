@@ -142,7 +142,7 @@ const renderIndexStatesAndProperties = (propList) => {
                 `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`
         )
         .join("");
-    indexStatePropPlaceholder.outerHTML = `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`;
+    indexStatePropPlaceholder.outerHTML = `<dl id="index_state_prop">${indexStatePropContent}</dl>`;
 };
 
 /**
@@ -450,21 +450,21 @@ const renderIndices = (rdefs) => {
     // spit out the indices
     document.getElementById(
         "index_role"
-    ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
+    ).outerHTML = `<dl id="index_role">${roleIndex}</dl>`;
     document.getElementById(
         "index_fromauthor"
-    ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
+    ).outerHTML = `<ul id="index_fromauthor">${fromAuthor}</ul>`;
     document.getElementById(
         "index_fromcontent"
-    ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
+    ).outerHTML = `<ul id="index_fromcontent">${fromContent}</ul>`;
     document.getElementById(
         "index_fromprohibited"
-    ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
+    ).outerHTML = `<ul id="index_fromprohibited">${fromProhibited}</ul>`;
     // TODO: remove if-check after w3c/aria#1860
     if (document.getElementById("index_fromheading"))
         document.getElementById(
             "index_fromheading"
-        ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
+        ).outerHTML = `<ul id="index_fromheading">${fromHeading}</ul>`;
 };
 
 /**
