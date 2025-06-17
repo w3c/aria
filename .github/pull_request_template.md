@@ -15,6 +15,7 @@ Once this PR has been reviewed and has consensus from the working group, tests s
    * WebKit:
    * Gecko:
    * Blink:
-* [ ] Does this need AT implementations?
+* [ ] Does this change need AT guidance?
+* [ ] Does this change have AT commitment?
 * [ ] Related APG Issue/PR:
 * [ ] MDN Issue/PR:
