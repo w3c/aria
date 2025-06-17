@@ -104,8 +104,8 @@ const rewriteRdef = function (item) {
     const content = item.innerHTML;
     let title = item.getAttribute("title") || content;
     let type = "role";
-    const abstract = item.parentNode.querySelectorAll(".role-abstract"); //TODO: maybe #105
-    if (abstract.innerText === "True") {
+    const abstract = item.parentNode.querySelector(".role-abstract");
+    if (abstract?.innerText === "True") {//NOTE: optional chaining b/c synonym roles do not have characteristics tables
         type = "abstract role";
     }
     const dRef = item.nextElementSibling;
@@ -192,8 +192,8 @@ const renderRoleIndexEntry = function (item) {
     // is this a role or an abstract role
     let type = "role";
     let isAbstract = false;
-    const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
-    if (abstract.innerText === "True") {
+    const abstract = container.querySelector(".role-abstract");
+    if (abstract?.innerText === "True") {//NOTE: optional chaining b/c synonym roles do not have characteristics tables
         type = "abstract role";
         isAbstract = true;
     }
@@ -256,8 +256,8 @@ const renderIndexEntry = (indexTest, rdef) => {
     const roleFromNode = container.querySelector(".role-namefrom");
     // is this a role or an abstract role
     let isAbstract = false;
-    const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
-    if (abstract.innerText === "True") {
+    const abstract = container.querySelector(".role-abstract");
+    if (abstract?.innerText === "True") {//NOTE: optional chaining b/c synonym roles do not have characteristics tables
         isAbstract = true;
     }
     if (!isAbstract && roleFromNode) {
