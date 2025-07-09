@@ -1,10 +1,6 @@
 name: Prettier
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened]
   push:
     branches:
       - main
@@ -36,6 +32,7 @@ jobs:
 
           if [[ -n "$changed_files" ]]; then
             echo "$changed_files" | xargs prettier --write --print-width 200
+      
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -52,3 +49,7 @@ jobs:
 
           # Push to the same branch this workflow was triggered from
           git push origin HEAD:${{ github.head_ref || github.ref_name }}
+
+      - name: No changes to commit
+        if: steps.run_prettier.outputs.changed == 'false'
+        run: echo "No changes to commit."
