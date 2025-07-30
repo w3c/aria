@@ -23,36 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm install axios yargs
 
-      # Step 4: Run the script
-      - name: Generate preview links
+      # Step 4: Run the script and update PR
+      - name: Generate preview links and update PR
         run: |
           node common/script/updatePreviewLinks.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
-            --token ${{ secrets.GITHUB_TOKEN }}
-
-      # Step 5: Update the pull request body
-      - name: Update pull request body
-        run: |
-          # Read the generated markdown content
-          CHANGED_FILES=$(cat common/script/changed_files.md)
-          
-          # Get the current PR description
-          CURRENT_BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body --jq '.body')
-          
-          # Remove any existing preview section (in case of updates)
-          CLEANED_BODY=$(echo "$CURRENT_BODY" | sed '/🚀 \*\*Netlify Preview\*\*/,/^$/d')
-          
-          # Create the new body with preview links prepended
-          cat > new_body.md << EOF
-          🚀 **Netlify Preview**:
-          🔄 **Changed Pages**:
-          $CHANGED_FILES
-
-          $CLEANED_BODY
-          EOF
-          
-          # Update the pull request description
-          gh pr edit ${{ github.event.pull_request.number }} --body-file new_body.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --update_pr

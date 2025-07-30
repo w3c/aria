@@ -26,11 +26,57 @@ const args = yargs(hideBin(process.argv))
     alias: "t",
     type: "string",
     description: "GitHub personal access token",
-//  demandOption: true,
+    demandOption: true,
+  })
+  .option("update_pr", {
+    alias: "u",
+    type: "boolean",
+    description: "Update the PR description with preview links",
+    default: false,
   })
   .help().argv;
 
-const { repo, pull_request_number, token } = args;
+const { repo, pull_request_number, token, update_pr } = args;
+
+async function updatePRDescription(markdownContent) {
+  if (!update_pr) return;
+  
+  try {
+    // Get current PR description
+    const prResponse = await axios.get(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}`, {
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
+    });
+    
+    const currentBody = prResponse.data.body || '';
+    
+    // Remove any existing preview section
+    const cleanedBody = currentBody.replace(/🚀 \*\*Netlify Preview\*\*:[\s\S]*?(?=\n\n|\n$|$)/g, '').trim();
+    
+    // Create new body with preview links prepended
+    const newBody = `🚀 **Netlify Preview**:
+🔄 **Changed Pages**:
+${markdownContent}
+
+${cleanedBody}`.trim();
+    
+    // Update PR description
+    await axios.patch(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}`, {
+      body: newBody
+    }, {
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
+    });
+    
+    console.log('PR description updated successfully');
+  } catch (error) {
+    console.error('Error updating PR description:', error.message);
+  }
+}
 
 // Define the base URLs
 const previewBaseURL = `https://deploy-preview--${pull_request_number}--wai-aria-.netlify.app`;
@@ -92,6 +138,9 @@ async function getChangedFiles() {
     const outputPath = path.join(__dirname, "changed_files.md");
     fs.writeFileSync(outputPath, markdownList, "utf8");
     console.log(`Markdown list written to ${outputPath}`);
+    
+    // Update PR description if requested
+    await updatePRDescription(markdownList);
   } catch (error) {
     console.error("Error fetching changed files:", error.message);
     process.exit(1);
