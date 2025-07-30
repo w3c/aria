@@ -17,27 +17,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 'latest'
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install axios yargs
 
-      # Step 4: Run the script
-      - name: Generate preview links
+      # Step 4: Run the script and update PR
+      - name: Generate preview links and update PR
         run: |
-          node common/script/updatePreviewLinks.js \
+          node common/script/updatePreviewLinks.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
-            --token ${{ secrets.GITHUB_TOKEN }}
-
-      # Step 5: Update the pull request body
-      - name: Update pull request body
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            🚀 **Netlify Preview**:
-            🔄 **Changed Pages**:
-            $(cat .github/scripts/changed_files.md)
-          edit-mode: replace
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --update_pr
