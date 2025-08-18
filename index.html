@@ -539,7 +539,7 @@
               markup languages (e.g., HTML and SVG) in general, and of WAI-ARIA in particular, markup [=elements=] and their [=attributes=] are represented as accessible objects.
             </p>
           </dd>
-          <dt><dfn data-export="">Assistive Technologies</dfn></dt>
+          <dt><dfn data-export="" id="assistive-technology">Assistive Technologies</dfn></dt>
           <dd>
             <p>Hardware and/or software that:</p>
             <ul>
@@ -1250,6 +1250,7 @@
             only meaningful when it is a child of an element with role <code>list</code>.
           </p>
           <p>To determine whether an element has a parent with the required role, <a>user agents</a> MUST ignore any elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
+          <p>Also, <a>user agents</a> SHOULD ignore the role if it occurs outside the context of a required accessibility parent role.</p>
           <p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
         </section>
         <section id="namecalculation">
@@ -1455,6 +1456,13 @@
         <section id="live_region_roles">
           <h3>Live Region Roles</h3>
           <p>The following <a>roles</a> are <a>live regions</a> and can be modified by <a href="#attrs_liveregions">live region attributes</a>.</p>
+          <p>
+            Typically, assistive technology will only convey <em>changes</em> to a live region, not the initial contents of a live region. To ensure content in a live region is announced, authors
+            SHOULD create a rendered but empty live region as early as possible (such as on page load), and then modify the content of the live region when the author expects changes to be spoken or
+            brailled. The exception to this live region convention is <code>alert</code>, due to system accessibility notifications events required for the role. While an <rref>alert</rref> is a live
+            region, its content is announced by assistive technology when the alert is rendered on the page and when the content changes.
+            <!-- Duplicate paragraph in #aria-live. Synchronize any changes to these paragraphs. -->
+          </p>
           <ul>
             <li><rref>alert</rref></li>
             <li><rref>log</rref></li>
@@ -1482,13 +1490,13 @@
           <div class="role-description">
             <p>A type of <a>live region</a> with important, and usually time-sensitive, information. See related <rref>alertdialog</rref> and <rref>status</rref>.</p>
             <p>
-              Alerts are used to convey messages that might be immediately important to users. In the case of audio warnings, alerts provide an accessible alternative for hearing-impaired users. The
-              <code>alert</code> <a>role</a> is applied to the element containing the alert message. An <code>alert</code> is a specialized form of the <rref>status</rref> role, which is processed as
-              an atomic <a>live region</a>.
+              Alerts are used to convey messages that will be immediately important to users. In the case of audio warnings, visibly displayed alerts provide an accessible alternative to audible
+              alerts for Deaf or hard-of-hearing users. Likewise, alerts can provide an accessible alternative to the visible alerts for blind, deaf-blind, or low-vision users, and others with certain
+              developmental disabilities. The <code>alert</code> <a>role</a> is applied to the element containing the alert message.
             </p>
             <p>
-              Alerts are assertive live regions, which means they cause immediate notification for assistive technology users. If the operating system allows, the <a>user agent</a> SHOULD fire a
-              system alert <a>event</a> through the accessibility API when the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> alert is created.
+              Alert is a special type of assertive live region that is intended to cause immediate notification for assistive technology users. If the operating system allows, the
+              <a>user agent</a> SHOULD fire a system alert <a>event</a> through the accessibility API when the alert is rendered.
             </p>
             <p>
               Neither authors nor user agents are required to set or manage focus to an alert in order for it to be processed. Since alerts are not required to receive focus, authors SHOULD NOT
@@ -1587,6 +1595,10 @@
               Alert dialogs are used to convey messages to alert the user. The <code>alertdialog</code> <a>role</a> goes on the [=nodes|node=] containing both the alert message and the rest of the
               dialog. Authors SHOULD make alert dialogs modal by ensuring that, while the <code>alertdialog</code> is shown, keyboard and mouse interactions only operate within the dialog. See
               <pref>aria-modal</pref>.
+            </p>
+            <p>
+              Alertdialog is a special type of dialog that is intended to cause an immediate, alert-level notification for assistive technology users. If the operating system allows, the
+              <a>user agent</a> SHOULD fire a system alert <a>event</a> through the accessibility API when the alert dialog is rendered.
             </p>
             <p>
               Unlike <rref>alert</rref>, <code>alertdialog</code> can receive a response from the user. For example, to confirm that the user understands the alert being generated. When the alert
@@ -13646,9 +13658,9 @@ button.ariaPressed; // null</pre
             </p>
             <p>User agents MUST NOT expose <code>aria-errormessage</code> for an object with an <sref>aria-invalid</sref> value of <code>false</code>.</p>
             <p>
-              Authors MAY call attention to a newly rendered error message with a live region by either applying an <pref>aria-live</pref> property or using one of the
-              <a href="#live_region_roles">live region roles</a>, such as <rref>alert</rref>. A live region is appropriate when an error message is displayed to users after they have provided an
-              invalid value.
+              Authors MAY call attention to a new error message with a live region by modifying inserting the error message into the contents of a existing, rendered element with a
+              <a href="#live_region_roles">live region role</a>, such as <rref>alert</rref>. A live region notification is appropriate when an error message is displayed to users after they have
+              provided an invalid value.
             </p>
             <p>
               A typical message describes what is wrong and informs users what is required. For example, an error message might be,
@@ -13659,19 +13671,20 @@ button.ariaPressed; // null</pre
 				&lt;!-- Initial valid state --&gt;
 				&lt;label for="startTime"&gt; Please enter a start time for the meeting: &lt;/label&gt;
 				&lt;input id="startTime" type="text" aria-errormessage="msgID" value="" aria-invalid="false"&gt;
-				&lt;span id="msgID" aria-live="assertive"&gt;&lt;span style="visibility:hidden"&gt;Invalid time: the time must be between 9:00 AM and 5:00 PM&lt;/span&gt;&lt;/span&gt;
+				&lt;span id="msgID" role="alert"&gt;&lt;/span&gt;
 
 				&lt;!-- User has input an invalid value --&gt;
 				&lt;label for="startTime"&gt; Please enter a start time for the meeting: &lt;/label&gt;
 				&lt;input id="startTime" type="text" aria-errormessage="msgID" aria-invalid="true" value="11:30 PM" &gt;
-				&lt;span id="msgID" aria-live="assertive"&gt;&lt;span style="visibility:visible"&gt;Invalid time: the time must be between 9:00 AM and 5:00 PM&lt;/span&gt;&lt;/span&gt;
+        &lt;span id="msgID" role="alert"&gt;Invalid time: the time must be between 9:00 AM and 5:00 PM&lt;/span&gt;
 				</pre
             >
             <p class="note">
-              This example uses <code>aria-live="assertive"</code> to indicate that assistive technologies should immediately announce the error message rather than completing other queued
-              announcements first. This increases the likelihood that users are aware of the error message before they move focus out of the input.
+              This example uses <code>role="alert"</code> (which includes an implicit value of <code>aria-live="assertive"</code>) to indicate that assistive technologies will immediately announce
+              the error message rather than completing other queued announcements first. This increases the likelihood that users are aware of the error message before they move focus out of the
+              input.
             </p>
-            <p class="note">This state is being deprecated as a global state in ARIA 1.2. In future versions it will only be allowed on roles where it is specifically supported.</p>
+            <p class="note">This state has been deprecated as a global state in ARIA 1.2. It is only supported on <a href="#live_region_roles">live region roles</a>.</p>
           </div>
           <table class="def">
             <caption>
@@ -14021,9 +14034,9 @@ button.ariaPressed; // null</pre
               <code>aria-hidden</code> attribute value set to <code>true</code>.
             </p>
             <p>
-              Authors MUST NOT use <code>aria-hidden</code> to hide the root element or the host language element that <a data-cite="html/dom.html#represents">represents</a> the contents of the
-              primary document in view. For instance, the <code>html</code> or <code>body</code> elements in an HTML document. Authors MAY, with caution, use <code>aria-hidden</code> to hide visibly
-              rendered content from assistive technologies <em>only</em> if the act of hiding this content is intended to improve the experience for users of assistive technologies by removing
+              Authors MUST NOT use <code>aria-hidden</code> to hide the root element or the host language element that <a data-cite="html/dom.html#represents">represents</a> or contains the contents
+              of the primary document in view. For instance, the <code>html</code> or <code>body</code> elements in an HTML document. Authors MAY, with caution, use <code>aria-hidden</code> to hide
+              visibly rendered content from assistive technologies <em>only</em> if the act of hiding this content is intended to improve the experience for users of assistive technologies by removing
               redundant or extraneous content. Authors using <code>aria-hidden</code> to hide visible content from screen readers MUST ensure that identical or equivalent meaning and functionality is
               exposed to assistive technologies.
             </p>
@@ -14043,10 +14056,10 @@ button.ariaPressed; // null</pre
             </p>
             <p>
               To prevent authors erroneously hiding entire window-rendered documents only to those using assistive technology, user agents MUST NOT expose the hidden state to assistive technologies if
-              it is specified on the root element or the host language element that <a data-cite="html/dom.html#represents">represents</a> the contents of the primary document in view. For instance,
-              the <code>html</code> or <code>body</code> elements in an HTML document, or the root <code>svg</code> element if it is rendered as its own primary document in the browser window. If
-              authors were to specify <code>aria-hidden="true"</code> on the opening tag for an embedded document, for instance on a <code>math</code> or <code>svg</code> embedded within an HTML
-              document, user agents would still be expected to hide these elements from assistive technologies.
+              it is specified on the root element or the host language element that <a data-cite="html/dom.html#represents">represents</a> or contains the contents of the primary document in view. For
+              instance, the <code>html</code> or <code>body</code> elements in an HTML document, or the root <code>svg</code> element if it is rendered as its own primary document in the browser
+              window. If authors were to specify <code>aria-hidden="true"</code> on the opening tag for an embedded document, for instance on a <code>math</code> or <code>svg</code> embedded within an
+              HTML document, user agents would still be expected to hide these elements from assistive technologies.
             </p>
           </div>
           <table class="def">
@@ -14460,37 +14473,45 @@ button.ariaPressed; // null</pre
           <pdef>aria-live</pdef>
           <div class="property-description">
             <p>
-              <a>Indicates</a> that an <a>element</a> will be updated, and describes the types of updates the [=user agents=], <a>assistive technologies</a>, and user can expect from the
+              <a>Indicates</a> that an <a>element</a> will be updated or modified, and defines the priority of updates the [=user agents=], <a>assistive technologies</a>, and user can expect from the
               <a>live region</a>.
             </p>
             <p>
               The <span>values</span> of this <a>attribute</a> are expressed in degrees of importance. When regions are specified as <code>polite</code>, assistive technologies will notify users of
               updates but generally do not interrupt the current task, and updates take low priority. When regions are specified as <code>assertive</code>, assistive technologies will immediately
-              notify the user, and could potentially clear the speech queue of previous updates.
+              notify the user of relevant modifications to the live region, and could potentially clear the speech queue of previous updates.
             </p>
             <p>
-              Politeness levels are essentially an ordering mechanism for updates and serve as a strong suggestion to user agents or assistive technologies. The value can be overridden by user agents,
-              assistive technologies, or the user. For example, if assistive technologies can determine that a change occurred in response to a key press or a mouse click, the assistive technologies
-              might present that change immediately even if the value of the <pref>aria-live</pref> attribute states otherwise.
+              Priority levels (<code>none</code>, <code>polite</code>, <code>assertive</code>) act as an ordering mechanism for updates and serve as a recommendation to user agents or assistive
+              technologies. The value can be overridden by user agents, assistive technologies, or the user. For example, if assistive technologies can determine that a change occurred in response to
+              a key press or a mouse click, the assistive technologies might present that change immediately even if the value of the <pref>aria-live</pref> attribute states otherwise.
             </p>
             <p>
-              Since different users have different needs, it is up to the user to tweak his or her assistive technologies' response to a live region with a certain politeness level from the commonly
-              defined baseline. Assistive technologies might choose to implement increasing and decreasing levels of granularity so that the user can exercise control over queues and interruptions.
+              Since different users have different needs, it is up to the user to tweak their assistive technologies' response to a live region. Assistive technologies might choose to implement
+              increasing and decreasing levels of granularity so that the user can exercise control over queues and interruptions.
             </p>
             <p>
-              When the [=ARIA/property=] is not set on an <a>object</a> that needs to send updates, the politeness level is the value of the nearest ancestor that sets the
+              When the [=ARIA/property=] is not set on an <a>object</a> that needs to send updates, the priority level is the value of the nearest ancestor that sets the
               <pref>aria-live</pref> attribute.
             </p>
             <p>
               The <pref>aria-live</pref> attribute is the primary determination for the order of presentation of changes to live regions. Implementations will also consider the default level of
-              politeness in a <a>role</a> when the <pref>aria-live</pref> attribute is not set in the ancestor chain (e.g., <rref>log</rref> changes are <code>polite</code> by default). Items which
-              are <code>assertive</code> will be presented immediately, followed by <code>polite</code> items. User agents or assistive technologies can choose to clear queued changes when an
-              assertive change occurs. (e.g., changes in an assertive region can remove all currently queued changes)
+              priority in a <a>role</a> when the <pref>aria-live</pref> attribute is not set in the ancestor chain (e.g., <rref>log</rref> changes are <code>polite</code> by default). Modifications to
+              live regions which are <code>assertive</code> will be presented immediately, followed by <code>polite</code> items. User agents or assistive technologies can choose to clear queued
+              changes when an assertive change occurs. (e.g., changes in an assertive region can remove all currently queued changes)
             </p>
             <p>
               When live regions are marked as <code>polite</code>, assistive technologies SHOULD announce updates at the next graceful opportunity, such as at the end of speaking the current sentence
-              or when the user pauses typing. When live regions are marked as <code>assertive</code>, assistive technologies SHOULD notify the user immediately. Because an interruption might disorient
-              users or cause them to not complete their current task, authors SHOULD NOT use the assertive value unless the interruption is imperative.
+              or when the user pauses typing. When live regions are marked as <code>assertive</code>, assistive technologies SHOULD immediately notify the user of modifications to the live region.
+              Because an interruption might disorient users or cause them to not complete their current task, authors SHOULD NOT use the <code>assertive</code> value unless the interruption is
+              imperative.
+            </p>
+            <p>
+              Typically, assistive technology will only convey <em>changes</em> to a live region, not the initial contents of a live region. To ensure content in a live region is announced, authors
+              SHOULD create a rendered but empty live region as early as possible (such as on page load), and then modify the content of the live region when the author expects changes to be spoken or
+              brailled. The exception to this live region convention is <code>alert</code>, due to system accessibility notifications events required for the role. While an <rref>alert</rref> is a
+              live region, its content is announced by assistive technology when the alert is rendered on the page and when the content changes.
+              <!-- Duplicate paragraph in #live_region_roles. Synchronize any changes to these paragraphs. -->
             </p>
           </div>
           <table class="def">
