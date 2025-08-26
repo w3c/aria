@@ -1,11 +1,9 @@
 name: Prettier
-# minimally modified from https://github.com/creyD/prettier_action#example-2-using-the-only_changed-or-same_commit-option-on-pr
 
 on:
-  pull_request:
-    branches: 
+  push:
+    branches:
       - main
-      - monorepo*
 
 jobs:
   prettier:
@@ -13,15 +11,45 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-          # This is important to fetch the changes to the previous commit
-          fetch-depth: 0
+          fetch-depth: 0  # Needed to compare with origin/main
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          prettier_options: --write **/index.html --print-width 200
-          commit_message: "chore: prettier"
+          node-version: 'lts/*'
+
+      - name: Install Prettier
+        run: npm install --global prettier@3.6.0
+
+      - name: Get changed files and run Prettier
+        id: run_prettier
+        run: |
+          git fetch origin main
+
+          changed_files=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|json|css|html)$' || true)
+
+          if [[ -n "$changed_files" ]]; then
+            echo "$changed_files" | xargs prettier --write --print-width 200
+      
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push changes
+        if: steps.run_prettier.outputs.changed == 'true'
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "Chore: Format files with Prettier"
+
+          # Push to the same branch this workflow was triggered from
+          git push origin HEAD:${{ github.head_ref || github.ref_name }}
+
+      - name: No changes to commit
+        if: steps.run_prettier.outputs.changed == 'false'
+        run: echo "No changes to commit."
