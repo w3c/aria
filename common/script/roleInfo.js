@@ -1,4 +1,4 @@
-/* This file is generated - do not modify */ var roleInfo = {
+/* This file is generated - do not modify */var roleInfo = {
   "alert": {
     "name": "alert",
     "fragID": "alert",
@@ -444,67 +444,6 @@
       }
     ]
   },
-  "associationlist": {
-    "name": "associationlist",
-    "fragID": "associationlist",
-    "parentRoles": [
-      "section"
-    ],
-    "localprops": []
-  },
-  "associationlistitemkey": {
-    "name": "associationlistitemkey",
-    "fragID": "associationlistitemkey",
-    "parentRoles": [
-      "section"
-    ],
-    "localprops": [
-      {
-        "is": "property",
-        "name": "aria-level",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      },
-      {
-        "is": "property",
-        "name": "aria-posinset",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      },
-      {
-        "is": "property",
-        "name": "aria-setsize",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      }
-    ]
-  },
-  "associationlistitemvalue": {
-    "name": "associationlistitemvalue",
-    "fragID": "associationlistitemvalue",
-    "parentRoles": [
-      "section"
-    ],
-    "localprops": [
-      {
-        "is": "property",
-        "name": "aria-posinset",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      },
-      {
-        "is": "property",
-        "name": "aria-setsize",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      }
-    ]
-  },
   "banner": {
     "name": "banner",
     "fragID": "banner",
@@ -565,6 +504,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -1123,6 +1069,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -1667,6 +1620,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -1688,6 +1648,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -2084,6 +2051,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -2129,6 +2103,13 @@
       "structure"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-brailleroledescription",
@@ -3291,15 +3272,15 @@
   "image": {
     "name": "image",
     "fragID": "image",
-    "parentRoles": [],
+    "parentRoles": [
+      "section"
+    ],
     "localprops": []
   },
   "img": {
     "name": "img",
     "fragID": "img",
-    "parentRoles": [
-      "section"
-    ],
+    "parentRoles": [],
     "localprops": []
   },
   "input": {
@@ -3502,6 +3483,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -3920,13 +3908,6 @@
       },
       {
         "is": "state",
-        "name": "aria-expanded",
-        "required": false,
-        "disallowed": false,
-        "deprecated": false
-      },
-      {
-        "is": "state",
         "name": "aria-invalid",
         "required": false,
         "disallowed": false,
@@ -4185,6 +4166,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -4914,8 +4902,32 @@
   "none": {
     "name": "none",
     "fragID": "none",
-    "localprops": [],
-    "parentRoles": []
+    "parentRoles": [
+      "structure"
+    ],
+    "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
+        "name": "aria-label",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
+        "name": "aria-labelledby",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      }
+    ]
   },
   "note": {
     "name": "note",
@@ -5176,6 +5188,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -5193,25 +5212,8 @@
   "presentation": {
     "name": "presentation",
     "fragID": "presentation",
-    "parentRoles": [
-      "structure"
-    ],
-    "localprops": [
-      {
-        "is": "property",
-        "name": "aria-label",
-        "required": false,
-        "disallowed": true,
-        "deprecated": false
-      },
-      {
-        "is": "property",
-        "name": "aria-labelledby",
-        "required": false,
-        "disallowed": true,
-        "deprecated": false
-      }
-    ]
+    "parentRoles": [],
+    "localprops": []
   },
   "progressbar": {
     "name": "progressbar",
@@ -5986,13 +5988,6 @@
     "localprops": [
       {
         "is": "property",
-        "name": "aria-controls",
-        "required": true,
-        "disallowed": false,
-        "deprecated": false
-      },
-      {
-        "is": "property",
         "name": "aria-valuenow",
         "required": true,
         "disallowed": false,
@@ -6222,6 +6217,14 @@
       }
     ]
   },
+  "sectionfooter": {
+    "name": "sectionfooter",
+    "fragID": "sectionfooter",
+    "parentRoles": [
+      "section"
+    ],
+    "localprops": []
+  },
   "sectionhead": {
     "name": "sectionhead",
     "fragID": "sectionhead",
@@ -6399,6 +6402,14 @@
         "deprecated": false
       }
     ]
+  },
+  "sectionheader": {
+    "name": "sectionheader",
+    "fragID": "sectionheader",
+    "parentRoles": [
+      "section"
+    ],
+    "localprops": []
   },
   "select": {
     "name": "select",
@@ -7162,6 +7173,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -7363,6 +7381,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -7386,6 +7411,13 @@
     "localprops": [
       {
         "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
+      {
+        "is": "property",
         "name": "aria-label",
         "required": false,
         "disallowed": true,
@@ -7407,6 +7439,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -7736,6 +7775,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
@@ -8071,6 +8117,13 @@
       "section"
     ],
     "localprops": [
+      {
+        "is": "property",
+        "name": "aria-braillelabel",
+        "required": false,
+        "disallowed": true,
+        "deprecated": false
+      },
       {
         "is": "property",
         "name": "aria-label",
