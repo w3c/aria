@@ -53,13 +53,14 @@
             w3cid: 107953,
           },
           {
-            name: "Alexander Surkov",
-            company: "Igalia, S.L.",
-            companyURL: "https://www.igalia.com",
-            w3cid: 51089,
+            name: "Cynthia Shelly",
+            company: "W3C Invited Expert",
+            mailto: "buphie@gmail.com",
+            w3cid: 11897
           },
         ],
         formerEditors: [
+          { name: "Alexander Surkov", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 51089, note: "Editor until August 2025" },
           { name: "Joanmarie Diggs", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 68182, note: "Editor until October 2022" },
           { name: "Richard Schwerdtfeger", company: "Knowbility", companyURL: "https://www.knowbility.org/", w3cid: 2460, note: "Editor until October 2017" },
           { name: "Joseph Scheuhammer", company: "Inclusive Design Research Centre, OCAD University", companyURL: "http://idrc.ocad.ca", w3cid: 42279, note: "Editor until May 2017" },
@@ -390,33 +391,6 @@
         </p>
       </section>
     </section>
-    <section class="informative" id="glossary">
-      <h2>Important Terms</h2>
-      <div>
-        <p>While some terms are defined in place, the following definitions are used throughout this document.</p>
-        <dl class="termlist">
-          <dt><dfn data-export="">Accessibility Subtree</dfn></dt>
-          <dd>
-            <p>
-              An [=accessible object=] in the <a>accessibility tree</a> and its descendants in that tree. It does not include objects which have relationships other than parent-child in that tree. For
-              example, it does not include objects linked via <a class="specref" href="#aria-flowto">aria-flowto</a> unless those objects are also descendants in the <a>accessibility tree</a>.
-            </p>
-          </dd>
-          <dt><dfn data-export="">Activation behavior</dfn></dt>
-          <dd>
-            <p>
-              The action taken when an <a>event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role. The role may be defined for that element by the
-              host language, or by author-defined variables, or both. The role for any given element may be a generic action, or may be unique to that element. For example, the activation behavior of
-              an <abbr title="Hypertext Markup Language">HTML</abbr> or <abbr title="Scalable Vector Graphics">SVG</abbr> <code>&lt;a&gt;</code> element shall be to cause the user agent to traverse
-              the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a
-              named window, or a new window); the activation behavior of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>&lt;input&gt;</code> element with the <code>type</code> attribute
-              value <code>submit</code> shall be to send the values of the form elements to an author-defined <abbr title="Internationalized Resource Identifiers">IRI</abbr> by the author-defined
-              <abbr title="Hypertext Transfer Protocol">HTTP</abbr> method.
-            </p>
-          </dd>
-        </dl>
-      </div>
-    </section>
     <section id="mapping">
       <h2>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
       <section id="mapping_general">
@@ -583,18 +557,18 @@
 &lt;a href="#" role="button"&gt; &lt;!-- computedrole returns "button" --&gt;</pre
             >
           </aside>
-          <p>
-            When an element has a role but is not contained in the required context (for example, an orphaned `listitem` without the required accessible parent of role `list`), User Agents MUST ignore
-            the role token, and return the `computedrole` as if the ignored role token had not been included.
+          <p class="note">
+            When an element has a role but is not contained in the required context (for example, an orphaned `listitem` without the required accessible parent of role `list`), this is an authoring
+            error, but the user agent behavior is not specified as a single rule. For most roles, user agents can either recover the error by ignoring the role, or respect the author's intended role
+            in scenarios deemed by the implementation to be harmless. Please note that this permissiveness in how engines treat author role errors might be overridden in a language-specific mapping document such as [[HTML-AAM]].
           </p>
           <aside class="example">
             <!-- ReSpec needs these examples to be unindented. -->
             <pre>
-&lt;div role="listitem"&gt; &lt;!-- Author error: orphaned listitem. computedrole returns "generic" --&gt;
+&lt;div role="listitem"&gt; &lt;!-- Author error: orphaned listitem. computedrole is unspecified. --&gt;
 
 &lt;div role="list"&gt; &lt;!-- computedrole returns "list" --&gt;
-  &lt;div role="listitem"&gt; &lt;!-- computedrole returns "listitem" in the required context. --&gt;</pre
-            >
+  &lt;div role="listitem"&gt; &lt;!-- computedrole returns "listitem" in the appropriate context. --&gt;</pre>
           </aside>
           <p>
             When host language elements do not have an exact or equivalent mapping to a valid, non-abstract role, the related Accessibilty API Mapping extension specification MAY specify a unique
@@ -10797,7 +10771,7 @@
               </tr>
             </tbody>
           </table>
-          <p>Fire these events for node changes where the node in question is an element and has an <a class="termref">accessible object</a>:</p>
+          <p>Fire the following events for node changes where the node in question is an element and has an <a class="termref">accessible object</a>. The <dfn data-export="" data-lt="accessibility subtree">accessibility subtree</dfn> of a node is its <a class="termref">accessible object</a> in the <a>accessibility tree</a> and all of it's <a>accessibility descendants</a>. It does not include objects which have relationships other than parent-child in that tree. For example, it does not include objects linked via <a class="specref" href="#aria-flowto">aria-flowto</a> unless those objects are also descendants in the <a>accessibility tree</a>.
           <table class="data">
             <caption>
               Table of document change scenarios and events to be fired in each
