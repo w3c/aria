@@ -72,5 +72,7 @@ Many of the automated tests in listed above started as a [Accessibility Investig
 
 ### Running (and writing) WPT Tests for ARIA and Related Specs
 
-Start with [Running the WPT Tests for ARIA and Related Specs](./wpt.md)
+Start with [Running the WPT Tests for ARIA and Related Specs](./wpt.md).
+
+For detailed guidance on writing tests for the purposes of accessibility interoperability, please visit: [Accessibility Interop Project Overview and Contribution Guidelines](https://github.com/web-platform-tests/interop-accessibility/wiki/Accessibility-Interop-Project-Overview-and-Contribution-Guidelines).
 
