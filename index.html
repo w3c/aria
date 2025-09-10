@@ -353,8 +353,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "aliasOf": "WAI-ARIA-1.1"
     }
   },
-  "publishISODate": "2025-08-27T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 27 August 2025"
+  "publishISODate": "2025-09-10T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 10 September 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED">
 <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://www.w3.org/StyleSheets/TR/2021/dark.css"></head>
@@ -362,7 +362,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">Accessible Rich Internet Applications (WAI-ARIA) 1.3</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-08-27">27 August 2025</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-09-10">10 September 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -14486,7 +14486,7 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
             <p><a href="#dfn-indicates" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-indicates-11">Indicates</a>, when set to <code>true</code>, that an <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> and its entire subtree are hidden from assistive technology, regardless of whether it is visibly rendered.</p>
             <p>
               User agents determine an element's <a data-link-type="dfn|abstract-op" href="#dfn-hidden" class="internalDFN" id="ref-for-dfn-hidden-3">hidden</a> status based on whether it is rendered, and the rendering is usually controlled by <abbr title="Cascading Style Sheets">CSS</abbr>. For example, an element whose
-              <code>display</code> property is set to <code>none</code> is not rendered. An element is considered <a data-link-type="dfn|abstract-op" href="#dfn-hidden" class="internalDFN" id="ref-for-dfn-hidden-4">hidden</a> if it, or any of its ancestors are not rendered or have their
+              <code>display</code> property is set to <code>none</code> is not rendered. An element will be <a href="#tree_exclusion">excluded from the accessibility tree</a> if it or any of its <a href="#tree_relationships">accessibility ancestors</a> are <a data-link-type="dfn|abstract-op" href="#dfn-hidden" class="internalDFN" id="ref-for-dfn-hidden-4">hidden</a> or have their
               <code>aria-hidden</code> attribute value set to <code>true</code>.
             </p>
             <p>
@@ -15326,6 +15326,45 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
               <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> element references in order to build a consistent model of the content.
             </p>
             <p>Authors <em class="rfc2119">MUST NOT</em> specify <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> on an element which has <a href="#childrenArePresentational">Presentational Children</a>.</p>
+            <p><a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> is resolved in the order it is encountered in the <abbr title="Document Object Model">DOM</abbr>. Every element referenced by <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> will determine its <a href="#tree_exclusion">exposure to the accessibility tree</a> after its change in ownership is resolved. However:</p>
+            <ul>
+              <li>User agents <em class="rfc2119">MUST NOT</em> resolve <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> when it is set on an element that has been <a href="#tree_exclusion">excluded from the accessibility tree</a>.</li>
+              <li>User agents <em class="rfc2119">MUST NOT</em> resolve <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a> when it references an element that is, or has a <abbr title="Document Object Model">DOM</abbr> ancestor that is, <a data-link-type="dfn|abstract-op" href="#dfn-hide-from-all-users" class="internalDFN" id="ref-for-dfn-hide-from-all-users-10">hidden from all users</a>.</li>
+            </ul>
+            <p>In the following example, “(opens in a new window)” is <a href="#tree_inclusion">included in the accessibility tree</a> by virtue of its changed ownership.</p>
+            <div class="example" id="example-40">
+        <div class="marker">
+    <a class="self-link" href="#example-40">Example<bdi> 40</bdi></a>
+  </div> <pre class="highlight" aria-busy="false"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.w3.org/"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"new-window-warning"</span>&gt;</span>
+  World Wide Web Consortium
+<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"new-window-warning"</span>&gt;</span> (opens in a new window)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+      </div>
+            <p>In the following example, “(opens in a new window)” remains <a href="#tree_exclusion">excluded from the accessibility tree</a> since its <abbr title="Document Object Model">DOM</abbr> ancestor is <a data-link-type="dfn|abstract-op" href="#dfn-hide-from-all-users" class="internalDFN" id="ref-for-dfn-hide-from-all-users-11">hidden from all users</a> in host language terms.</p>
+            <div class="example" id="example-41">
+        <div class="marker">
+    <a class="self-link" href="#example-41">Example<bdi> 41</bdi></a>
+  </div> <pre class="highlight" aria-busy="false"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.w3.org/"</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"new-window-warning"</span>&gt;</span>
+  World Wide Web Consortium
+<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">hidden</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"new-window-warning"</span>&gt;</span> (opens in a new window)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+      </div>
+             <p>In the following example, <code>&lt;div id="instructions"&gt;</code> and its text content remain exposed and unmoved <a href="#tree_inclusion">in the accessibility tree</a> since the would-be accessibility parent element with <code>aria-owns</code> is <a data-link-type="dfn|abstract-op" href="#dfn-hide-from-all-users" class="internalDFN" id="ref-for-dfn-hide-from-all-users-12">hidden from all users</a>.</p>
+            <div class="example" id="example-42">
+        <div class="marker">
+    <a class="self-link" href="#example-42">Example<bdi> 42</bdi></a>
+  </div> <pre class="highlight" aria-busy="false"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">hidden</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"instructions"</span>&gt;</span>
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"instructions"</span>&gt;</span>
+  Instructions go here...
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+      </div>
           </div>
           <table class="def">
             <caption>
@@ -15375,16 +15414,16 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
             </p></div>
             <div class="note" role="note" id="issue-container-generatedID-64"><div role="heading" class="note-title marker" id="h-note-64" aria-level="4"><span>Note</span></div><p class="">The following examples do not use the <abbr title="Hypertext Markup Language">HTML</abbr> <code>label</code> element as it cannot be used to label <abbr title="Hypertext Markup Language">HTML</abbr> elements with <code>contenteditable</code>.</p></div>
             <p>The following example shows a <a href="https://w3c.github.io/aria/#searchbox" class="role-reference"><code>searchbox</code></a> in which the user has entered a value:</p>
-            <div class="example" id="example-40">
+            <div class="example" id="example-43">
         <div class="marker">
-    <a class="self-link" href="#example-40">Example<bdi> 40</bdi></a>
+    <a class="self-link" href="#example-43">Example<bdi> 43</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"label"</span>&gt;</span>Birthday:<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">contenteditable</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"searchbox"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"label"</span> <span class="hljs-attr">aria-placeholder</span>=<span class="hljs-string">"MM-DD-YYYY"</span>&gt;</span>03-14-1879<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
             <p>The following example shows the same <a href="https://w3c.github.io/aria/#searchbox" class="role-reference"><code>searchbox</code></a> in which the user has not yet entered a value or has removed a previously-entered value:</p>
-            <div class="example" id="example-41">
+            <div class="example" id="example-44">
         <div class="marker">
-    <a class="self-link" href="#example-41">Example<bdi> 41</bdi></a>
+    <a class="self-link" href="#example-44">Example<bdi> 44</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"label"</span>&gt;</span>Birthday:<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">contenteditable</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"searchbox"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"label"</span> <span class="hljs-attr">aria-placeholder</span>=<span class="hljs-string">"MM-DD-YYYY"</span>&gt;</span>MM-DD-YYYY<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
@@ -15438,9 +15477,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
               of an element's position.
             </p>
             <p>The following example shows items 5 through 8 in a set of 16.</p>
-            <div class="example" id="example-42">
+            <div class="example" id="example-45">
         <div class="marker">
-    <a class="self-link" href="#example-42">Example<bdi> 42</bdi></a>
+    <a class="self-link" href="#example-45">Example<bdi> 45</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span> Available Fruit <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listbox"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"option"</span> <span class="hljs-attr">aria-setsize</span>=<span class="hljs-string">"16"</span> <span class="hljs-attr">aria-posinset</span>=<span class="hljs-string">"5"</span>&gt;</span> apples <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
@@ -15877,17 +15916,17 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
               <a href="https://w3c.github.io/aria/#button" class="role-reference"><code>button</code></a> <em class="rfc2119">SHOULD</em> allow those functions to navigate to regions and buttons that have an <code>aria-roledescription</code>.
             </p>
             <p>The following two examples show the use of <code>aria-roledescription</code> to indicate that a non-interactive container is a "slide" in a web-based presentation application.</p>
-            <div class="example" id="example-43">
+            <div class="example" id="example-46">
         <div class="marker">
-    <a class="self-link" href="#example-43">Example<bdi> 43</bdi></a>
+    <a class="self-link" href="#example-46">Example<bdi> 46</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"article"</span> <span class="hljs-attr">aria-roledescription</span>=<span class="hljs-string">"slide"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"slide"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"slideheading"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"slideheading"</span>&gt;</span>Quarterly Report<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- remaining slide contents --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
-            <div class="example" id="example-44">
+            <div class="example" id="example-47">
         <div class="marker">
-    <a class="self-link" href="#example-44">Example<bdi> 44</bdi></a>
+    <a class="self-link" href="#example-47">Example<bdi> 47</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">aria-roledescription</span>=<span class="hljs-string">"slide"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"slide"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"slideheading"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"slideheading"</span>&gt;</span>Quarterly Report<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- remaining slide contents --&gt;</span>
@@ -15933,9 +15972,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
               of <a href="https://w3c.github.io/aria/#aria-rowcount" class="property-reference"><code>aria-rowcount</code></a> to <code>-1</code> to indicate that the value should not be calculated by the user agent.
             </p>
             <p>The following example shows a grid with 2000 rows, of which the first row and rows 100 through 102 are displayed to the user.</p>
-            <div class="example" id="example-45">
+            <div class="example" id="example-48">
         <div class="marker">
-    <a class="self-link" href="#example-45">Example<bdi> 45</bdi></a>
+    <a class="self-link" href="#example-48">Example<bdi> 48</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"grid"</span> <span class="hljs-attr">aria-rowcount</span>=<span class="hljs-string">"2000"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"rowgroup"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"row"</span> <span class="hljs-attr">aria-rowindex</span>=<span class="hljs-string">"1"</span>&gt;</span>
@@ -16021,9 +16060,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
             </p>
             <p>Authors <em class="rfc2119">SHOULD</em> place <a href="https://w3c.github.io/aria/#aria-rowindex" class="property-reference"><code>aria-rowindex</code></a> on each row. Authors <em class="rfc2119">MAY</em> also place <a href="https://w3c.github.io/aria/#aria-rowindex" class="property-reference"><code>aria-rowindex</code></a> on all of the <a href="#dfn-accessibility-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessibility-child-40">accessibility children</a> of each row.</p>
             <p>The following example shows a grid with 2000 rows, of which the first row and rows 100 through 102 are displayed to the user.</p>
-            <div class="example" id="example-46">
+            <div class="example" id="example-49">
         <div class="marker">
-    <a class="self-link" href="#example-46">Example<bdi> 46</bdi></a>
+    <a class="self-link" href="#example-49">Example<bdi> 49</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"grid"</span> <span class="hljs-attr">aria-rowcount</span>=<span class="hljs-string">"2000"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"rowgroup"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"row"</span> <span class="hljs-attr">aria-rowindex</span>=<span class="hljs-string">"1"</span>&gt;</span>
@@ -16056,9 +16095,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
             <p>The following example shows the grid from the previous example with <a href="https://w3c.github.io/aria/#aria-rowindex" class="property-reference"><code>aria-rowindex</code></a> also placed on all of the <a href="#dfn-accessibility-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessibility-child-41">accessibility children</a> of each row.</p>
-            <div class="example" id="example-47">
+            <div class="example" id="example-50">
         <div class="marker">
-    <a class="self-link" href="#example-47">Example<bdi> 47</bdi></a>
+    <a class="self-link" href="#example-50">Example<bdi> 50</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"grid"</span> <span class="hljs-attr">aria-rowcount</span>=<span class="hljs-string">"2000"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"rowgroup"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"row"</span> <span class="hljs-attr">aria-rowindex</span>=<span class="hljs-string">"1"</span>&gt;</span>
@@ -16326,9 +16365,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
               <code>aria-setsize</code> based on the total number of items in the <a href="https://w3c.github.io/aria/#menu" class="role-reference"><code>menu</code></a>, excluding any separators.
             </p>
             <p>The following example shows items 5 through 8 in a set of 16.</p>
-            <div class="example" id="example-48">
+            <div class="example" id="example-51">
         <div class="marker">
-    <a class="self-link" href="#example-48">Example<bdi> 48</bdi></a>
+    <a class="self-link" href="#example-51">Example<bdi> 51</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span> Available Fruit <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listbox"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"option"</span> <span class="hljs-attr">aria-setsize</span>=<span class="hljs-string">"16"</span> <span class="hljs-attr">aria-posinset</span>=<span class="hljs-string">"5"</span>&gt;</span> apples <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
@@ -16338,9 +16377,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
 <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
       </div>
             <p>The following example shows items 5 through 8 in a set whose total size is unknown.</p>
-            <div class="example" id="example-49">
+            <div class="example" id="example-52">
         <div class="marker">
-    <a class="self-link" href="#example-49">Example<bdi> 49</bdi></a>
+    <a class="self-link" href="#example-52">Example<bdi> 52</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span> Available Fruit <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listbox"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"label_fruit"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"option"</span> <span class="hljs-attr">aria-setsize</span>=<span class="hljs-string">"-1"</span> <span class="hljs-attr">aria-posinset</span>=<span class="hljs-string">"5"</span>&gt;</span> apples <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
@@ -16806,9 +16845,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
           <li>All <abbr title="Document Object Model">DOM</abbr> elements whose corresponding <a href="#dfn-accessible-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessible-object-5">accessible object</a> have been reparented in the <a href="#dfn-accessibility-tree" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessibility-tree-13">accessibility tree</a> via <a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a>.</li>
         </ul>
         <p>In the following example, the <a href="https://w3c.github.io/aria/#list" class="role-reference"><code>list</code></a> element has four accessibility children:</p>
-        <div class="example" id="example-50">
+        <div class="example" id="example-53">
         <div class="marker">
-    <a class="self-link" href="#example-50">Example<bdi> 50</bdi></a>
+    <a class="self-link" href="#example-53">Example<bdi> 53</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"child3 child4"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span>&gt;</span>Accessibility Child 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
@@ -16824,9 +16863,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
           In the following example, the first <a href="https://w3c.github.io/aria/#list" class="role-reference"><code>list</code></a> element has no accessibility children, where as the second <a href="https://w3c.github.io/aria/#list" class="role-reference"><code>list</code></a> element has one accessibility child, specifically the
           <a href="https://w3c.github.io/aria/#listitem" class="role-reference"><code>listitem</code></a> with ID value "reparented".
         </p>
-        <div class="example" id="example-51">
+        <div class="example" id="example-54">
         <div class="marker">
-    <a class="self-link" href="#example-51">Example<bdi> 51</bdi></a>
+    <a class="self-link" href="#example-54">Example<bdi> 54</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span>Excluded element<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"reparented"</span>&gt;</span>Reparented element<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -16850,31 +16889,31 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
           </li>
         </ul>
         <p>The following four examples all contain a <a href="https://w3c.github.io/aria/#listitem" class="role-reference"><code>listitem</code></a> element with an accessibility parent of role <a href="https://w3c.github.io/aria/#list" class="role-reference"><code>list</code></a>:</p>
-        <div class="example" id="example-52">
+        <div class="example" id="example-55">
         <div class="marker">
-    <a class="self-link" href="#example-52">Example<bdi> 52</bdi></a>
+    <a class="self-link" href="#example-55">Example<bdi> 55</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span>&gt;</span>The "list" is my accessibility parent.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
-        <div class="example" id="example-53">
+        <div class="example" id="example-56">
         <div class="marker">
-    <a class="self-link" href="#example-53">Example<bdi> 53</bdi></a>
+    <a class="self-link" href="#example-56">Example<bdi> 56</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span>&gt;</span>The "list" is my accessibility parent.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
-        <div class="example" id="example-54">
+        <div class="example" id="example-57">
         <div class="marker">
-    <a class="self-link" href="#example-54">Example<bdi> 54</bdi></a>
+    <a class="self-link" href="#example-57">Example<bdi> 57</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"child"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"child"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span>&gt;</span>The "list" is my accessibility parent.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
-        <div class="example" id="example-55">
+        <div class="example" id="example-58">
         <div class="marker">
-    <a class="self-link" href="#example-55">Example<bdi> 55</bdi></a>
+    <a class="self-link" href="#example-58">Example<bdi> 58</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"list"</span> <span class="hljs-attr">aria-owns</span>=<span class="hljs-string">"child"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"child"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"listitem"</span>&gt;</span>The "list" is my accessibility parent.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -17330,9 +17369,9 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
           For example, <a href="https://w3c.github.io/aria/#aria-describedby" class="property-reference"><code>aria-describedby</code></a> is a global attribute and would always be applied; <a href="https://w3c.github.io/aria/#aria-level" class="property-reference"><code>aria-level</code></a> is not a global attribute and would therefore only apply if the element
           was not in a presentational state.
         </p>
-        <div class="example" id="example-56">
+        <div class="example" id="example-59">
         <div class="marker">
-    <a class="self-link" href="#example-56">Example<bdi> 56</bdi></a>
+    <a class="self-link" href="#example-59">Example<bdi> 59</bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"none"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string">"comment-1"</span>&gt;</span> Sample Content <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
@@ -17722,20 +17761,20 @@ button.<span class="hljs-property">ariaPressed</span>; <span class="hljs-comment
       <section class="informative" id="idl_example_usage"><div class="header-wrapper"><h3 id="x10-3-example-idl-attribute-usage"><bdi class="secno">10.3 </bdi>Example IDL Attribute Usage</h3><a class="self-link" href="#idl_example_usage" aria-label="Permalink for Section 10.3"></a></div><p><em>This section is non-normative.</em></p>
         
         <p>The primary purpose of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> IDL attribute reflection is to ease JavaScript-based manipulation of values. The following examples demonstrate its usage.</p>
-        <aside class="example" id="example-57"><div class="marker">
-    <a class="self-link" href="#example-57">Example<bdi> 57</bdi></a>
+        <aside class="example" id="example-60"><div class="marker">
+    <a class="self-link" href="#example-60">Example<bdi> 60</bdi></a>
   </div>
           
-          <div class="example" id="example-57-0">
+          <div class="example" id="example-60-0">
         <div class="marker">
-    <a class="self-link" href="#example-57-0">Example<bdi></bdi></a>
+    <a class="self-link" href="#example-60-0">Example<bdi></bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"inaccessibleButton"</span>&gt;</span>
     <span class="hljs-comment">&lt;!-- Use semantic markup instead. This is just a retrofit example. --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
       </div>
-          <div class="example" id="example-57-1">
+          <div class="example" id="example-60-1">
         <div class="marker">
-    <a class="self-link" href="#example-57-1">Example<bdi></bdi></a>
+    <a class="self-link" href="#example-60-1">Example<bdi></bdi></a>
   </div> <pre class="highlight" aria-busy="false"><code class="hljs javascript"><span class="hljs-comment">// Get a reference to the element.</span>
 <span class="hljs-keyword">let</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'inaccessibleButton'</span>);
 el.<span class="hljs-property">tabIndex</span> = <span class="hljs-number">0</span>; <span class="hljs-comment">// Make it focusable.</span>
@@ -17990,12 +18029,12 @@ el.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-stri
     <section class="appendix informative section" id="acknowledgements"><div class="header-wrapper"><h2 id="c-acknowledgments"><bdi class="secno">C. </bdi>Acknowledgments</h2><a class="self-link" href="#acknowledgements" aria-label="Permalink for Appendix C."></a></div><p><em>This section is non-normative.</em></p>
       
       <p>The following people contributed to the development of this document.</p>
-      <ul id="gh-contributors"><li><a href="https://github.com/aleventhal">Aaron Leventhal</a></li><li><a href="https://github.com/adampage">Adam Page</a></li><li><a href="https://github.com/aardrian">Adrian Roselli</a></li><li><a href="https://github.com/AlexLloyd0">Alex Lloyd</a></li><li><a href="https://github.com/asurkov">Alexander Surkov</a></li><li><a href="https://github.com/AmeliaBR">Amelia Bellamy-Royds</a></li><li><a href="https://github.com/andreancardona">Andrea N. Cardona</a></li><li><a href="https://github.com/annevk">Anne van Kesteren</a></li><li><a href="https://github.com/agcolom">Anne-Gaelle Colom</a></li><li><a href="https://github.com/ariellalgilmore">Ariella Gilmore</a></li><li><a href="https://github.com/benbeaudry">Benjamin Beaudry</a></li><li><a href="https://github.com/boazsender">Boaz</a></li><li><a href="https://github.com/boggydigital">Bogdan Brinza</a></li><li><a href="https://github.com/bpmcneilly">bpmcneilly</a></li><li><a href="https://github.com/brennanyoung">Brennan Young</a></li><li><a href="https://github.com/accdc">Bryan Garaventa</a></li><li><a href="https://github.com/carmacleod">Carolyn MacLeod</a></li><li><a href="https://github.com/chlane">chlane</a></li><li><a href="https://github.com/svgeesus">Chris Lilley</a></li><li><a href="https://github.com/smockle">Clay Miller</a></li><li><a href="https://github.com/jlp-craigmorten">Craig Morten</a></li><li><a href="https://github.com/cyns">Cynthia Shelly</a></li><li><a href="https://github.com/dakahn">D.A. Kahn</a></li><li><a href="https://github.com/dbjorge">Dan Bjorge</a></li><li><a href="https://github.com/dandclark">Dan Clark</a></li><li><a href="https://github.com/deniak">Denis Ah-Kang</a></li><li><a href="https://github.com/domenic">Domenic Denicola</a></li><li><a href="https://github.com/dontcallmedom">Dominique Hazael-Massieux</a></li><li><a href="https://github.com/einSelbst">einSelbst</a></li><li><a href="https://github.com/Epigenetic">Epigenetic</a></li><li><a href="https://github.com/estelle">Estelle Weyl</a></li><li><a href="https://github.com/fstrr">Francis Storr</a></li><li><a href="https://github.com/fred-wang">Frédéric Wang</a></li><li><a href="https://github.com/design1online">Games for Girls</a></li><li><a href="https://github.com/giacomo-petri">Giacomo Petri</a></li><li><a href="https://github.com/schne324">Harris Schneiderman</a></li><li><a href="https://github.com/innovimax">Innovimax</a></li><li><a href="https://github.com/isaacdurazo">Isaac Durazo </a></li><li><a href="https://github.com/iherman">Ivan Herman</a></li><li><a href="https://github.com/jaragunde">Jacobo Aragunde Pérez</a></li><li><a href="https://github.com/a11ydoer">JaEun Jemma Ku</a></li><li><a href="https://github.com/cookiecrook">James Craig</a></li><li><a href="https://github.com/jasonkiss">Jason Kiss</a></li><li><a href="https://github.com/JAWS-test">JAWS-test</a></li><li><a href="https://github.com/JAWS-test2">JAWS-test2</a></li><li><a href="https://github.com/joanmarie">joanmarie</a></li><li><a href="https://github.com/Johanna-hub">Johanna</a></li><li><a href="https://github.com/jongund">Jon Gunderson</a></li><li><a href="https://github.com/jorycunningham">Jory Cunningham</a></li><li><a href="https://github.com/klown">Joseph Scheuhammer</a></li><li><a href="https://github.com/SalazarJosh">Josh Salazar</a></li><li><a href="https://github.com/saschanaz">Kagami Sascha Rosylight</a></li><li><a href="https://github.com/kasperisager">Kasper Isager Dalsgarð</a></li><li><a href="https://github.com/keithamus">Keith Cirkel</a></li><li><a href="https://github.com/LaurenceRLewis">Laurence Lewis</a></li><li><a href="https://github.com/LJWatson">Léonie Watson</a></li><li><a href="https://github.com/mrego">Manuel Rego</a></li><li><a href="https://github.com/marcoscaceres">Marcos Cáceres</a></li><li><a href="https://github.com/mlewand">Marek Lewandowski</a></li><li><a href="https://github.com/MarioBatusic">MarioB</a></li><li><a href="https://github.com/mattgarrish">Matt Garrish</a></li><li><a href="https://github.com/mcking65">Matt King</a></li><li><a href="https://github.com/melanierichards">Melanie Richards</a></li><li><a href="https://github.com/MelSumner">Melanie Sumner</a></li><li><a href="https://github.com/nschonni">Nick Schonning</a></li><li><a href="https://github.com/nicolas17">Nicolás Alvarez</a></li><li><a href="https://github.com/nolanlawson">Nolan Lawson</a></li><li><a href="https://github.com/OisinNolan">Oisín Nolan</a></li><li><a href="https://github.com/patrickhlauke">Patrick H. Lauke</a></li><li><a href="https://github.com/plehegar">Philippe Le Hegaret</a></li><li><a href="https://github.com/prayagverma">Prayag Verma </a></li><li><a href="https://github.com/ricksbrown">R Brown</a></li><li><a href="https://github.com/rahimabdi">Rahim Abdi</a></li><li><a href="https://github.com/richschwer">Richard Schwerdtfeger</a></li><li><a href="https://github.com/Rondinelly">Rondinelly</a></li><li><a href="https://github.com/smhigley">Sarah Higley</a></li><li><a href="https://github.com/sivakusayan">Sayan Sivakumaran</a></li><li><a href="https://github.com/scottaohara">Scott O'Hara</a></li><li><a href="https://github.com/eps1lon">Sebastian "Sebbie" Silbermann</a></li><li><a href="https://github.com/billybonks">Sebastien Stettler</a></li><li><a href="https://github.com/halindrome">Shane McCarron</a></li><li><a href="https://github.com/pocka">Shota FUJI</a></li><li><a href="https://github.com/sidvishnoi">Sid Vishnoi</a></li><li><a href="https://github.com/sideshowbarker">sideshowbarker</a></li><li><a href="https://github.com/zcorpan">Simon Pieters</a></li><li><a href="https://github.com/sirajrkhan">Siraj Khan</a></li><li><a href="https://github.com/notabene">Stephane Deschamps</a></li><li><a href="https://github.com/stevefaulkner">Steve Faulkner</a></li><li><a href="https://github.com/thibaudcolas">Thibaud Colas</a></li><li><a href="https://github.com/tim-we">Tim Weißenfels</a></li><li><a href="https://github.com/twilco">Tyler Wilcock</a></li><li><a href="https://github.com/TzviyaSiegman">Tzviya</a></li><li><a href="https://github.com/spectranaut">Valerie Young</a></li><li><a href="https://github.com/vikas-parashar">Vikas Parashar</a></li><li><a href="https://github.com/aristov">Vyacheslav Aristov</a></li><li><a href="https://github.com/WilcoFiers">Wilco Fiers</a></li><li><a href="https://github.com/WilliamTennisNFCU">WilliamTennisNFCU</a></li><li><a href="https://github.com/siusin">Xiaoqian Wu</a></li><li><a href="https://github.com/YummyBacon5">Yummy_Bacon5</a></li><li><a href="https://github.com/ylafon">Yves Lafon</a></li></ul>
+      <ul id="gh-contributors"><li><a href="https://github.com/aleventhal">Aaron Leventhal</a></li><li><a href="https://github.com/adampage">Adam Page</a></li><li><a href="https://github.com/aardrian">Adrian Roselli</a></li><li><a href="https://github.com/AlexLloyd0">Alex Lloyd</a></li><li><a href="https://github.com/asurkov">Alexander Surkov</a></li><li><a href="https://github.com/AmeliaBR">Amelia Bellamy-Royds</a></li><li><a href="https://github.com/andreancardona">Andrea N. Cardona</a></li><li><a href="https://github.com/annevk">Anne van Kesteren</a></li><li><a href="https://github.com/agcolom">Anne-Gaelle Colom</a></li><li><a href="https://github.com/ariellalgilmore">Ariella Gilmore</a></li><li><a href="https://github.com/benbeaudry">Benjamin Beaudry</a></li><li><a href="https://github.com/boazsender">Boaz</a></li><li><a href="https://github.com/boggydigital">Bogdan Brinza</a></li><li><a href="https://github.com/bpmcneilly">bpmcneilly</a></li><li><a href="https://github.com/brennanyoung">Brennan Young</a></li><li><a href="https://github.com/accdc">Bryan Garaventa</a></li><li><a href="https://github.com/carmacleod">Carolyn MacLeod</a></li><li><a href="https://github.com/chlane">chlane</a></li><li><a href="https://github.com/svgeesus">Chris Lilley</a></li><li><a href="https://github.com/smockle">Clay Miller</a></li><li><a href="https://github.com/jlp-craigmorten">Craig Morten</a></li><li><a href="https://github.com/cyns">Cynthia Shelly</a></li><li><a href="https://github.com/dakahn">D.A. Kahn</a></li><li><a href="https://github.com/dbjorge">Dan Bjorge</a></li><li><a href="https://github.com/dandclark">Dan Clark</a></li><li><a href="https://github.com/deniak">Denis Ah-Kang</a></li><li><a href="https://github.com/domenic">Domenic Denicola</a></li><li><a href="https://github.com/dontcallmedom">Dominique Hazael-Massieux</a></li><li><a href="https://github.com/einSelbst">einSelbst</a></li><li><a href="https://github.com/Epigenetic">Epigenetic</a></li><li><a href="https://github.com/estelle">Estelle Weyl</a></li><li><a href="https://github.com/fstrr">Francis Storr</a></li><li><a href="https://github.com/fred-wang">Frédéric Wang</a></li><li><a href="https://github.com/design1online">Games for Girls</a></li><li><a href="https://github.com/giacomo-petri">Giacomo Petri</a></li><li><a href="https://github.com/schne324">Harris Schneiderman</a></li><li><a href="https://github.com/innovimax">Innovimax</a></li><li><a href="https://github.com/isaacdurazo">Isaac Durazo </a></li><li><a href="https://github.com/iherman">Ivan Herman</a></li><li><a href="https://github.com/jaragunde">Jacobo Aragunde Pérez</a></li><li><a href="https://github.com/janewman">Jacques Newman</a></li><li><a href="https://github.com/a11ydoer">JaEun Jemma Ku</a></li><li><a href="https://github.com/cookiecrook">James Craig</a></li><li><a href="https://github.com/jasonkiss">Jason Kiss</a></li><li><a href="https://github.com/JAWS-test">JAWS-test</a></li><li><a href="https://github.com/JAWS-test2">JAWS-test2</a></li><li><a href="https://github.com/joanmarie">joanmarie</a></li><li><a href="https://github.com/Johanna-hub">Johanna</a></li><li><a href="https://github.com/jongund">Jon Gunderson</a></li><li><a href="https://github.com/jorycunningham">Jory Cunningham</a></li><li><a href="https://github.com/klown">Joseph Scheuhammer</a></li><li><a href="https://github.com/SalazarJosh">Josh Salazar</a></li><li><a href="https://github.com/saschanaz">Kagami Sascha Rosylight</a></li><li><a href="https://github.com/kasperisager">Kasper Isager Dalsgarð</a></li><li><a href="https://github.com/KateZhaoTR">katez</a></li><li><a href="https://github.com/keithamus">Keith Cirkel</a></li><li><a href="https://github.com/LaurenceRLewis">Laurence Lewis</a></li><li><a href="https://github.com/LJWatson">Léonie Watson</a></li><li><a href="https://github.com/lukewarlow">Luke Warlow</a></li><li><a href="https://github.com/mrego">Manuel Rego</a></li><li><a href="https://github.com/marcoscaceres">Marcos Cáceres</a></li><li><a href="https://github.com/mlewand">Marek Lewandowski</a></li><li><a href="https://github.com/MarioBatusic">MarioB</a></li><li><a href="https://github.com/mattgarrish">Matt Garrish</a></li><li><a href="https://github.com/mcking65">Matt King</a></li><li><a href="https://github.com/melanierichards">Melanie Richards</a></li><li><a href="https://github.com/MelSumner">Melanie Sumner</a></li><li><a href="https://github.com/nschonni">Nick Schonning</a></li><li><a href="https://github.com/nicolas17">Nicolás Alvarez</a></li><li><a href="https://github.com/nolanlawson">Nolan Lawson</a></li><li><a href="https://github.com/OisinNolan">Oisín Nolan</a></li><li><a href="https://github.com/patrickhlauke">Patrick H. Lauke</a></li><li><a href="https://github.com/plehegar">Philippe Le Hegaret</a></li><li><a href="https://github.com/prayagverma">Prayag Verma </a></li><li><a href="https://github.com/ricksbrown">R Brown</a></li><li><a href="https://github.com/rahimabdi">Rahim Abdi</a></li><li><a href="https://github.com/richschwer">Richard Schwerdtfeger</a></li><li><a href="https://github.com/Rondinelly">Rondinelly</a></li><li><a href="https://github.com/smhigley">Sarah Higley</a></li><li><a href="https://github.com/sivakusayan">Sayan Sivakumaran</a></li><li><a href="https://github.com/scottaohara">Scott O'Hara</a></li><li><a href="https://github.com/eps1lon">Sebastian "Sebbie" Silbermann</a></li><li><a href="https://github.com/billybonks">Sebastien Stettler</a></li><li><a href="https://github.com/halindrome">Shane McCarron</a></li><li><a href="https://github.com/pocka">Shota FUJI</a></li><li><a href="https://github.com/sidvishnoi">Sid Vishnoi</a></li><li><a href="https://github.com/sideshowbarker">sideshowbarker</a></li><li><a href="https://github.com/zcorpan">Simon Pieters</a></li><li><a href="https://github.com/sirajrkhan">Siraj Khan</a></li><li><a href="https://github.com/notabene">Stephane Deschamps</a></li><li><a href="https://github.com/stevefaulkner">Steve Faulkner</a></li><li><a href="https://github.com/thibaudcolas">Thibaud Colas</a></li><li><a href="https://github.com/tim-we">Tim Weißenfels</a></li><li><a href="https://github.com/twilco">Tyler Wilcock</a></li><li><a href="https://github.com/TzviyaSiegman">Tzviya</a></li><li><a href="https://github.com/spectranaut">Valerie Young</a></li><li><a href="https://github.com/vikas-parashar">Vikas Parashar</a></li><li><a href="https://github.com/aristov">Vyacheslav Aristov</a></li><li><a href="https://github.com/WilcoFiers">Wilco Fiers</a></li><li><a href="https://github.com/WilliamTennisNFCU">WilliamTennisNFCU</a></li><li><a href="https://github.com/siusin">Xiaoqian Wu</a></li><li><a href="https://github.com/YummyBacon5">Yummy_Bacon5</a></li><li><a href="https://github.com/ylafon">Yves Lafon</a></li></ul>
       <section class="section" id="ack_group"><div class="header-wrapper"><h3 id="c-1-aria-wg-participants-at-the-time-of-publication"><bdi class="secno">C.1 </bdi><abbr title="Accessible Rich Internet Applications">ARIA</abbr> WG participants at the time of publication</h3><a class="self-link" href="#ack_group" aria-label="Permalink for Appendix C.1"></a></div>
         
         <ul>
           
-        <li>Rahim Abdi (Apple Inc.)</li><li>NAVYA AGARWAL (Adobe)</li><li>Mario Batušić (Fabasoft)</li><li>Benjamin Beaudry (Microsoft Corporation)</li><li>Curt Bellew (Oracle Corporation)</li><li>Zoë Bijl (W3C Invited Experts)</li><li>Aleksandar Cindrikj (Netcetera)</li><li>Keith Cirkel (Mozilla Foundation)</li><li>Daniel Clark (Microsoft Corporation)</li><li>James Craig (Apple Inc.)</li><li>Chris Cuellar (Bocoup)</li><li>Hidde de Vries (Logius)</li><li>Joanmarie Diggs (Igalia)</li><li>Howard Edwards (Bocoup)</li><li>James Edwards (TPGi)</li><li>Tamsin Ewing (W3C)</li><li>Mayuri Faldu (Navy Federal Credit Union)</li><li>Betsy Fanning (PDF Association)</li><li>Steve Faulkner (TetraLogical Services Ltd)</li><li>Jaunita Flessas (Navy Federal Credit Union)</li><li>Jane Fulton (Cisco)</li><li>Bryan Garaventa (W3C Invited Experts)</li><li>Rashmi Garimella (Google LLC)</li><li>Matt Garrish (DAISY Consortium)</li><li>Doug Geoffray (Microsoft Corporation)</li><li>Ariella Gilmore (IBM Corporation)</li><li>Taylore Givens (Microsoft Corporation)</li><li>Shirisha Gubba (Google LLC)</li><li>Eloisa Guerrero (Rakuten Group, Inc.)</li><li>Jon Gunderson (University of Illinois)</li><li>Oliver Habersetzer (SAP SE)</li><li>Theo Hale (Microsoft Corporation)</li><li>Sunny Hardasani (Adobe)</li><li>Matthew Hardy (Adobe)</li><li>Chris Harrelson (Google LLC)</li><li>Peter Heumader (Fabasoft)</li><li>Sarah Higley (Microsoft Corporation)</li><li>Hans Hillen (TPGi)</li><li>Isabel Holdsworth (TPGi)</li><li>Stanley Hon (Microsoft Corporation)</li><li>Michael Jackson (Microsoft Corporation)</li><li>Jilin Jiang (Ant Group Co., Ltd.)</li><li>Duff Johnson (PDF Association)</li><li>Summer Jones (Thomson Reuters Corp.)</li><li>William Kilian (TargetStream Technologies)</li><li>Matthew King (Meta)</li><li>Zachary Kinsey (TargetStream Technologies)</li><li>Greta Krafsig (The Washington Post)</li><li>Peter Krautzberger (krautzource UG)</li><li>Nina Krauß (SAP SE)</li><li>JaEun Jemma Ku (University of Illinois)</li><li>Joe Lamyman (TetraLogical Services Ltd)</li><li>Charles LaPierre (Benetech)</li><li>Philip Lazarevic (Level Access)</li><li>Leo Lee (Microsoft Corporation)</li><li>Aaron Leventhal (Google LLC)</li><li>Brett Lewis (TPGi)</li><li>Andy Luhrs (Microsoft Corporation)</li><li>Sazzad Mahamud (Google LLC)</li><li>Alison Maher (Microsoft Corporation)</li><li>Gurpreet Kaur Mangera (Rakuten Group, Inc.)</li><li>Mark McCarthy (University of Illinois)</li><li>Eduardo Meza Etienne (Navy Federal Credit Union)</li><li>Clay Miller (Microsoft Corporation)</li><li>Daniel Montalvo (W3C)</li><li>Baldino Morelli (UsableNet)</li><li>Jacques Newman (Microsoft Corporation)</li><li>James Nurthen (Adobe)</li><li>Scott O'Hara (Microsoft Corporation)</li><li>Lola Odelola (W3C Invited Experts)</li><li>Neil Osman (Evinced Inc.)</li><li>Yusuke Oyama (Cybozu)</li><li>Adam Page (Hilton)</li><li>Michael Pennisi (Bocoup)</li><li>Roberto Perez (Microsoft Corporation)</li><li>Giacomo Petri (UsableNet)</li><li>Noah Praskins (TPGi)</li><li>Daniel Pöll (Fabasoft)</li><li>Paul Rayius (Allyant)</li><li>Adrian Roselli (W3C Invited Experts)</li><li>Marco Sabidussi (UsableNet)</li><li>Trisha Salas (Level Access)</li><li>Stefan Schnabel (SAP SE)</li><li>Harris Schneiderman (Deque Systems, Inc.)</li><li>Raymond Schwartz (Navy Federal Credit Union)</li><li>Cynthia Shelly (W3C Invited Experts)</li><li>Tzviya Siegman (W3C)</li><li>Arturo Silva (The Washington Post)</li><li>Avneesh Singh (DAISY Consortium)</li><li>Michael[tm] Smith (sideshowbarker) (W3C)</li><li>Francis Storr (Intel Corporation)</li><li>Jennifer Strickland (MITRE Corporation)</li><li>Melanie Sumner (IBM Corporation)</li><li>Alexander Surkov (Igalia)</li><li>James Teh (Mozilla Foundation)</li><li>Jocelyn Tran (Google LLC)</li><li>Cybozu W3C (Cybozu)</li><li>Léonie Watson (TetraLogical Services Ltd)</li><li>Jan Williams (TPGi)</li><li>Valerie Young (Igalia)</li></ul>
+        </ul>
       </section>
       <section class="section" id="ack_funders"><div class="header-wrapper"><h3 id="c-2-enabling-funders"><bdi class="secno">C.2 </bdi>Enabling funders</h3><a class="self-link" href="#ack_funders" aria-label="Permalink for Appendix C.2"></a></div>
 	
@@ -18008,11 +18047,11 @@ el.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-stri
 <section id="references" class="appendix"><div class="header-wrapper"><h2 id="d-references"><bdi class="secno">D. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix D."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="d-1-normative-references"><bdi class="secno">D.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix D.1"></a></div>
     
     <dl class="bibliography"><dt id="bib-accname-1.2">[ACCNAME-1.2]</dt><dd>
-      <a href="https://www.w3.org/TR/accname-1.2/"><cite>Accessible Name and Description Computation 1.2</cite></a>. Bryan Garaventa; Melanie Sumner.  W3C. 17 June 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/accname-1.2/">https://www.w3.org/TR/accname-1.2/</a>
+      <a href="https://www.w3.org/TR/accname-1.2/"><cite>Accessible Name and Description Computation 1.2</cite></a>. Bryan Garaventa; Melanie Sumner.  W3C. 5 September 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/accname-1.2/">https://www.w3.org/TR/accname-1.2/</a>
     </dd><dt id="bib-core-aam">[CORE-AAM]</dt><dd>
       <a href="https://www.w3.org/TR/core-aam-1.1/"><cite>Core Accessibility API Mappings 1.1</cite></a>. Joanmarie Diggs; Joseph Scheuhammer; Richard Schwerdtfeger; Michael Cooper; Andi Snow-Weaver; Aaron Leventhal.  W3C. 14 December 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/core-aam-1.1/">https://www.w3.org/TR/core-aam-1.1/</a>
     </dd><dt id="bib-core-aam-1.2">[CORE-AAM-1.2]</dt><dd>
-      <a href="https://www.w3.org/TR/core-aam-1.2/"><cite>Core Accessibility API Mappings 1.2</cite></a>. Valerie Young; Alexander Surkov.  W3C. 31 July 2025. CRD. URL: <a href="https://www.w3.org/TR/core-aam-1.2/">https://www.w3.org/TR/core-aam-1.2/</a>
+      <a href="https://www.w3.org/TR/core-aam-1.2/"><cite>Core Accessibility API Mappings 1.2</cite></a>. Valerie Young; Cynthia Shelly.  W3C. 3 September 2025. CRD. URL: <a href="https://www.w3.org/TR/core-aam-1.2/">https://www.w3.org/TR/core-aam-1.2/</a>
     </dd><dt id="bib-css3-selectors">[CSS3-SELECTORS]</dt><dd>
       <a href="https://www.w3.org/TR/selectors-3/"><cite>Selectors Level 3</cite></a>. Tantek Çelik; Elika Etemad; Daniel Glazman; Ian Hickson; Peter Linss; John Williams.  W3C. 6 November 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/selectors-3/">https://www.w3.org/TR/selectors-3/</a>
     </dd><dt id="bib-dom">[DOM]</dt><dd>
@@ -18308,7 +18347,7 @@ el.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-stri
     </li><li>
       <a href="#ref-for-dfn-hide-from-all-users-3" title="§ 5.4 Definition of Roles">§ 5.4 Definition of Roles</a> <a href="#ref-for-dfn-hide-from-all-users-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-hide-from-all-users-5" title="Reference 3">(3)</a> <a href="#ref-for-dfn-hide-from-all-users-6" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-hide-from-all-users-7" title="§ 6.8 Definitions of States and Properties (all aria-* attributes)">§ 6.8 Definitions of States and Properties (all aria-* attributes)</a> <a href="#ref-for-dfn-hide-from-all-users-8" title="Reference 2">(2)</a> <a href="#ref-for-dfn-hide-from-all-users-9" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-hide-from-all-users-7" title="§ 6.8 Definitions of States and Properties (all aria-* attributes)">§ 6.8 Definitions of States and Properties (all aria-* attributes)</a> <a href="#ref-for-dfn-hide-from-all-users-8" title="Reference 2">(2)</a> <a href="#ref-for-dfn-hide-from-all-users-9" title="Reference 3">(3)</a> <a href="#ref-for-dfn-hide-from-all-users-10" title="Reference 4">(4)</a> <a href="#ref-for-dfn-hide-from-all-users-11" title="Reference 5">(5)</a> <a href="#ref-for-dfn-hide-from-all-users-12" title="Reference 6">(6)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-identifies" aria-label="Links in this document to definition: Identifies">
