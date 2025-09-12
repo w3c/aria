@@ -86,7 +86,7 @@ ${cleanedBody}`.trim();
 }
 
 // Define the base URLs
-const previewBaseURL = `https://deploy-preview--${pull_request_number}--staging-aria-.netlify.app`;
+const previewBaseURL = `https://deploy-preview-${pull_request_number}--staging-aria.netlify.app`;
 const EDBaseURL = `https://w3c.github.io`;
 
 async function getChangedFiles() {
