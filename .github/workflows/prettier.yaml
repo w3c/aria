@@ -11,9 +11,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Needed to compare with origin/main
+          token: ${{ secrets.W3CGRUNTBOT_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -26,9 +27,8 @@ jobs:
       - name: Get changed files and run Prettier
         id: run_prettier
         run: |
-          git fetch origin main
-
-          changed_files=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|json|css|html)$' || true)
+          # Compare with the previous commit to find changed files
+          changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(js|json|css|html)$' || true)
 
           if [[ -n "$changed_files" ]]; then
             echo "$changed_files" | xargs prettier --write --print-width 200
@@ -47,8 +47,8 @@ jobs:
           git add .
           git commit -m "Chore: Format files with Prettier"
 
-          # Push to the same branch this workflow was triggered from
-          git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          # Push to the main branch using PAT
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: No changes to commit
         if: steps.run_prettier.outputs.changed == 'false'
