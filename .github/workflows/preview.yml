@@ -1,32 +1,28 @@
-name: Update Preview Links
+name: Update PR Links
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  update-preview-links:
+  update-pr-links:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install axios yargs
 
-      # Step 4: Run the script and update PR
       - name: Generate preview links and update PR
         run: |
-          node common/script/updatePreviewLinks.mjs \
+          node common/script/preview.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
             --token ${{ secrets.GITHUB_TOKEN }} \
