@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 // Check and wait for Netlify
 const netlifySite = "staging-aria"; // Netlify site name
 async function isNetlifyDeploySuccessful(prNumber) {
-  const apiUrl = `https://api.netlify.com/api/v1/sites/${site}/deploys`;
+  const apiUrl = `https://api.netlify.com/api/v1/sites/${netlifySite}/deploys`;
 
   try {
     const response = await axios.get(apiUrl);
