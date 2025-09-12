@@ -45,6 +45,13 @@ function rewriteSubdirEDLinks() {
 
 // Step 3: Build all specs with respec
 function buildAllSpecs() {
+  // Ensure the "public" directory exists
+  const publicDir = path.join(process.cwd(), "public");
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+    console.log("Created public directory");
+  }
+
   const buildSpecs = [
     "index.html",
     ...getSubdirectories().map(dir => path.join(dir, "index.html"))
