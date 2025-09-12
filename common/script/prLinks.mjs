@@ -4,12 +4,26 @@ import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { fileURLToPath } from "url";
+
+// --- PLACEHOLDER: Netlify Auth Setup ---
+// If running in CI, use process.env.NETLIFY_AUTH_TOKEN or GitHub secrets
+// Example: const netlifyAuthToken = process.env.NETLIFY_AUTH_TOKEN;
+// You can set this secret in your GitHub Actions workflow and pass it to the script
+// For local testing, you may use a .env file or export the variable manually
+// const netlifyAuthToken = process.env.NETLIFY_AUTH_TOKEN || "";
+
 // Check and wait for Netlify
 const netlifySite = "staging-aria"; // Netlify site name
 async function isNetlifyDeploySuccessful(prNumber) {
   const apiUrl = `https://api.netlify.com/api/v1/sites/${netlifySite}/deploys`;
 
+  // --- PLACEHOLDER: Add Netlify Auth Header if needed ---
+  // Example:
+  // const headers = netlifyAuthToken ? { Authorization: `Bearer ${netlifyAuthToken}` } : {};
+  // const response = await axios.get(apiUrl, { headers });
+
   try {
+    // For now, no auth header is used. Add it above if your Netlify API requires authentication.
     const response = await axios.get(apiUrl);
     // Find the deploy for this PR
     const prDeploy = response.data.find(deploy => {

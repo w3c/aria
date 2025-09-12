@@ -1,0 +1,56 @@
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Build site
+        run: npm run build
+      - name: Deploy site to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: ./public
+          # production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+  update-pr-links:
+    needs: build-and-deploy
+    if: build-and-deploy.result == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: Install dependencies
+        run: npm install axios yargs
+
+      - name: Generate preview links and update PR
+        run: |
+          node common/script/prLinks.mjs \
+            --repo ${{ github.repository }} \
+            --pull_request_number ${{ github.event.pull_request.number }} \
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --update_pr

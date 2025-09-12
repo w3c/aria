@@ -53,7 +53,7 @@ function buildAllSpecs() {
   for (const spec of buildSpecs) {
     try {
       console.log(`Building ${spec}...`);
-      execSync(`npx respec -s ${spec} -o ${spec} --localhost`, { stdio: "inherit" });
+      execSync(`npx respec -s ${spec} -o public/${spec} --localhost`, { stdio: "inherit" });
     } catch (e) {
       console.error(`Failed to build ${spec}:`, e.message);
     }
