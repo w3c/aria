@@ -1,10 +1,31 @@
-
 import axios from "axios";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { fileURLToPath } from "url";
+// Check and wait for Netlify
+const netlifySite = "staging-aria"; // Netlify site name
+async function isNetlifyDeploySuccessful(prNumber) {
+  const apiUrl = `https://api.netlify.com/api/v1/sites/${site}/deploys`;
+
+  try {
+    const response = await axios.get(apiUrl);
+    // Find the deploy for this PR
+    const prDeploy = response.data.find(deploy => {
+      // Netlify context for PR deploys is 'deploy-preview' and branch is 'deploy-preview-<prNumber>'
+      return (
+        deploy.context === "deploy-preview" &&
+        deploy.branch === `deploy-preview-${prNumber}`
+      );
+    });
+    if (!prDeploy) return false;
+    return prDeploy.state === "ready";
+  } catch (e) {
+    console.error("Error checking Netlify deploy status:", e.message);
+    return false;
+  }
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +68,14 @@ const { repo, pull_request_number, token, update_pr, build_specs } = args;
 
 async function updatePRDescription(markdownContent) {
   if (!update_pr) return;
-  
+
+  // Check Netlify deploy status first
+  const deployOk = await isNetlifyDeploySuccessful(pull_request_number);
+  if (!deployOk) {
+    console.log("Netlify deploy not successful. PR description will not be updated.");
+    return;
+  }
+
   try {
     // Get current PR description
     const prResponse = await axios.get(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}`, {
@@ -56,19 +84,19 @@ async function updatePRDescription(markdownContent) {
         Accept: 'application/vnd.github.v3+json'
       }
     });
-    
+
     const currentBody = prResponse.data.body || '';
-    
+
     // Remove any existing preview section
     const cleanedBody = currentBody.replace(/🚀 \*\*Netlify Preview\*\*:[\s\S]*?(?=\n\n|\n$|$)/g, '').trim();
-    
+
     // Create new body with preview links prepended
     const newBody = `🚀 **Netlify Preview**:
 🔄 **Changed Pages**:
 ${markdownContent}
 
 ${cleanedBody}`.trim();
-    
+
     // Update PR description
     await axios.patch(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}`, {
       body: newBody
@@ -78,7 +106,7 @@ ${cleanedBody}`.trim();
         Accept: 'application/vnd.github.v3+json'
       }
     });
-    
+
     console.log('PR description updated successfully');
   } catch (error) {
     console.error('Error updating PR description:', error.message);
@@ -86,7 +114,9 @@ ${cleanedBody}`.trim();
 }
 
 // Define the base URLs
-const previewBaseURL = `https://deploy-preview-${pull_request_number}--staging-aria.netlify.app`;
+// Use Netlify site and context to build preview URL
+const netlifyContext = "deploy-preview";
+const previewBaseURL = `https://${netlifyContext}-${pull_request_number}--${netlifySite}.netlify.app`;
 const EDBaseURL = `https://w3c.github.io`;
 
 async function getChangedFiles() {
