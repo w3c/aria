@@ -161,18 +161,129 @@
         >). In-progress updates to the document may be viewed in the <a href="http://w3c.github.io/pdf-aam/">publicly visible editors' draft</a>.
       </p>
     </section>
+	<section id="Introduction">
+	  <p>
+		This section is non-normative.
+	  </p>
+
+	  <p>
+		PDF pages do not necessarily include semantic markup, which occurs in PDF files via the elements of Tagged PDF,
+		including PDF structure elements, structure attributes, and property lists associated with marked content sequences.
+		These features are defined in PDF’s specification, currently ISO 32000-2, in clauses 14.6 – 14.9.
+		Tagged PDF was introduced to PDF with PDF 1.4 in 2001.
+	  </p>
+
+	  <p>
+		This specification defines how PDF user agents (commonly referred to as “PDF processors” in ISO standards for PDF technology)
+		respond to and expose PDF-thingys (structure elements, structure attributes, or property lists associated with marked content,
+		etc., as defined in ISO 32000-2 clauses 14.7–14.9).
+	  </p>
+
+	  <p>
+		Users often access PDF content using assistive technologies that rely on platform accessibility API to obtain and interact
+		with information on a PDF page. This specification is part of the following suite of accessibility API mapping
+		specifications for content rendered by user agents:
+	  </p>
+
+	  <ul>
+		<li>Accessible Name and Description Computation 1.2</li>
+		<li>Core Accessibility API Mappings 1.2</li>
+		<li>HTML Accessibility API Mappings 1.0 (this specification)</li>
+		<li>MathML Accessibility API Mappings 1.0</li>
+		<li>SVG Accessibility API Mappings</li>
+	  </ul>
+	</section>
+
     <section class="informative" id="glossary">
-      <h2>Important Terms</h2>
+      <h2>PDF-specific Terms & Definitions</h2>
       <div>
-        <p>TBD. Can we add only PDF-specific terms here and cross-reference the others from common dir?</p>
         <dl class="termlist">
-          <dt><dfn data-export="">term 1</dfn></dt>
+          <dt><dfn data-export="">PDF-thingy</dfn></dt>
           <dd>
-            <p>definition 1</p>
+            <p>can represent any or all of the following: Structure Element, Structure Attribute, Property list associated with marked content, or Associated File(s)</p>
           </dd>
         </dl>
       </div>
     </section>
+
+    <section id="mapping-pdf-thingys">
+	  <h2>Mapping PDF-thingys to Accessibility APIs</h2>
+
+	  <h3>General Rules for Exposing PDF Semantics via HTML or WAI-ARIA Semantics</h3>
+	  <p>
+		Unless indicated otherwise, a PDF-thingy with default Accessible Rich Internet Applications (WAI-ARIA) 1.2 semantics
+		MUST be exposed to the platform accessibility APIs according to the relevant WAI-ARIA mappings defined in the
+		<a href="https://www.w3.org/TR/core-aam-1.2/">Core Accessibility API Mappings 1.2</a> specification.
+		Where a PDF-thingy has equivalent semantics to a WAI-ARIA role, user agents MUST expose such semantic information
+		to the platform for the WAI-ARIA accessibility APIs in a way that conforms to the WAI-ARIA semantics in the
+		Core Accessibility API Mappings 1.2.
+	  </p>
+	  <p>
+		In some cases, features present in a PDF may not map to a WAI-ARIA role specified in the
+		<a href="https://www.w3.org/TR/core-aam-1.2/">Core AAM 1.2</a>.
+		In such cases a relevant HTML Accessibility API Mapping may exist.
+		In those cases, a PDF-thingy is mapped to that HTML Accessibility API.
+		Where a PDF-thingy has equivalent semantics to an HTML element, but not a WAI-ARIA role, user agents MUST expose
+		such semantic information to the platform for HTML accessibility APIs in a way that conforms to the
+		<a href="https://www.w3.org/TR/html-aam-1.0/">HTML Accessibility API Mappings 1.0</a>.
+	  </p>
+
+	  <h3>Exposing PDF-thingys That Do Not Directly Map to Accessibility APIs</h3>
+	  <p>
+		Where a PDF-thingy does not have any default HTML or WAI-ARIA semantics, the applicable mapping for each platform
+		accessibility API is defined by this specification.
+	  </p>
+
+	  <h3>Exposing PDF-thingys That Require a Minimum Role</h3>
+
+	  <p>
+		A minimum role is the equivalent WAI-ARIA role a PDF-thingy will map to if the element does not have a more specific
+		implicit role or platform role mappings, e.g., a non-generic role. Minimum roles help ensure that users of assistive
+		technologies get the best possible experience for valid PDF-thingys where otherwise a role would not be exposed.
+	  </p>
+
+	  <p>A minimum role is provided when all of the following conditions are true:</p>
+	  <ul>
+		<li>
+		  the author has not specified a valid explicit WAI-ARIA role to the element, or the specified role is either
+		  <code>none</code>, <code>presentation</code>, or generic;
+		</li>
+		<li>
+		  the element either has no implicit WAI-ARIA role or platform role mappings, or it has an implicit generic or
+		  <code>none</code> computed role;
+		</li>
+		<li>
+		  and the author has specified attributes which require a minimum role mapping for the element.
+		</li>
+	  </ul>
+
+	  <p>
+		The HTML Attribute State and Property Mappings section identifies the specific global attributes which would require
+		an element map to a minimum role. When these conditions are met, the browser MUST expose an object using the mappings
+		defined in CORE-AAM for the specified minimum role. If the element has multiple attributes specified which require a
+		minimum role be returned as the computed role for the element, prioritize the more specific role in the ARIA taxonomy.
+	  </p>
+
+	  <h3>PDF Element Role Mappings</h3>
+	  <p>
+		PDF-thingys with implicit WAI-ARIA role semantics MUST be mapped to platform accessibility APIs according to the
+		identified WAI-ARIA role mapping as defined in the
+		<a href="https://www.w3.org/TR/core-aam-1.2/">Core AAM 1.2</a> specification.
+	  </p>
+	  <p>
+		Where a PDF-thingy is indicated as having “No corresponding (WAI-ARIA) role”, or is mapped to the generic role,
+		user agents MUST NOT expose the <code>aria-roledescription</code> property value in the accessibility tree unless the
+		element has an explicit, conforming role attribute value which
+		<a href="https://www.w3.org/TR/wai-aria-1.2/">WAI-ARIA 1.2</a> does not prohibit the use of <code>aria-roledescription</code>.
+	  </p>
+	  <p>
+		Some HTML elements expose implicit WAI-ARIA roles depending on whether they have been provided an accessible name.
+		How an element participates in the computation of its own or another element’s accessible name and/or accessible
+		description is described in the Accessible Name and Description Computation section of this document.
+	  </p>
+	</section>
+
+
     <section id="mapping">
       <h2>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
       <p>TBD. Should we duplicate or cross-reference this content from the corresponding Core-AAM section?</p>
