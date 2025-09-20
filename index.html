@@ -11928,15 +11928,14 @@
             attribute, usually mapping to a state of the same name and one or more keywords may map to the same state.
           </p>
           <p>
-            Some ARIA attributes support an Undefined state, which is equivalent to having no state (i.e., null). User agent implementations may omit the Undefined state since the lack of an explicit
-            state results in the same behavior. For more information about determining the state of enumerated attributes, see
+            Some ARIA attributes support an Undefined state, which is equivalent to having no state (i.e., null). For more information about determining the state of enumerated attributes, see
             <a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a>.
           </p>
         </section>
         <section id="idl-reflection-attribute-values">
           <h3>IDL Reflection of ARIA attributes</h3>
           <p>
-            An ARIA attribute may reflect as one of several IDL attribute types such as [=nullable type|nullable=] {{DOMString}}, [=nullable type|nullable=] {{FrozenArray}} or [=nullable
+            An ARIA attribute may reflect as one of several IDL attribute types, such as [=nullable type|nullable=] {{DOMString}}, [=nullable type|nullable=] {{FrozenArray}} or [=nullable
             type|nullable=] {{Element}}.
           </p>
           <p>
@@ -11963,6 +11962,28 @@
             <aside class="example">
               <!-- ReSpec needs these examples to be unindented. -->
               <pre class="example highlight javascript">
+// aria-label example (non-enumerated attribute)
+
+el.ariaLabel; // null
+
+// Assignment of content attribute to empty string.
+el.setAttribute("aria-label", "");
+el.ariaLabel; // "" (empty string value).
+
+// IDL attribute assignment with content attribute reflection.
+el.ariaLabel = "my accessible button";
+el.ariaLabel; // "my accessible button".
+el.getAttribute("aria-label"); // "my accessible button"
+
+// Removal of content attribute results in null value.
+el.removeAttribute("aria-label");
+el.ariaLabel; // null</pre
+              >
+            </aside>
+            <aside class="example">
+              <!-- ReSpec needs these examples to be unindented. -->
+              <pre>
+              <pre class="example highlight javascript">
 // HTML hidden="" example (not aria-hidden="true")
 // Actual boolean type; defaults to false.
 
@@ -11970,7 +11991,7 @@
 el.hidden = true;
 el.hidden; // true
 
-// Removal of content attribute results in missing value default: boolean false.
+// Removal of content attribute results in missing value default of "false".
 el.removeAttribute("hidden");
 el.hidden; // false</pre
               >
@@ -11978,10 +11999,9 @@ el.hidden; // false</pre
             <aside class="example">
               <!-- ReSpec needs these examples to be unindented. -->
               <pre class="example highlight javascript">
-// aria-busy example
-// true/false ~ boolean-like nullable string; returns null unless set
+// aria-busy example (enumerated attribute).
 
-el.ariaBusy; // null
+el.ariaBusy; // "false"
 
 // Note: String assignment and return value.
 el.ariaBusy = "true";
@@ -11991,31 +12011,31 @@ el.ariaBusy; // "true"
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
-// Assignment of invalid "busy" value. Not validated on set or get and the literal string value "busy" is returned.
+// Assignment of invalid "busy" value results in invalid value default of "false". Content attribute is updated but not validated.
 el.setAttribute("aria-busy", "busy");
-el.ariaBusy; // "busy"</pre
+el.ariaBusy; // "false"
+el.getAttribute("ariaBusy"); // "busy"</pre
               >
             </aside>
             <aside class="example">
               <!-- ReSpec needs these examples to be unindented. -->
               <pre class="example highlight javascript">
-// aria-pressed example
-// Tristate ~ true/false/mixed/undefined string; null if unspecified
+// aria-pressed example (enumerated attribute).
 
-// no value has been defined
+// no value has been defined.
 button.ariaPressed; // null
 
 // A value of "true", "false", or "mixed" for aria-pressed on a button denotes a toggle button.
 button.setAttribute("aria-pressed", "true"); // Content attribute assignment.
 button.ariaPressed; // "true"
-button.ariaPressed = "false"; // DOM property assignment.
+button.ariaPressed = "false"; // IDL attribute assignment.
 button.ariaPressed; // "false"
 
-// Assignment of invalid "foo" value. Not validated on set or get and the literal string value "foo" is returned.
+// IDL assignment of invalid "foo" value results in invalid value default of null.
 button.ariaPressed = "foo";
-button.ariaPressed; // "foo" (Note: button is no longer a toggle button.)
+button.ariaPressed; // null (Note: button is no longer a toggle button.)
 
-// Removal of content attribute results in a null value
+// Removal of content attribute results in a null value.
 button.removeAttribute("aria-pressed");
 button.ariaPressed; // null</pre
               >
