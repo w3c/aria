@@ -11946,6 +11946,34 @@
             invalid value default.
           </p>
         </section>
+        <section id="undefined-state-vs-value">
+          <h3>Relationship Between the Undefined State and "undefined" String Value</h3>
+          <p>The Undefined state for enumerated attributes and "undefined" string value are similar but not equivalent.</p>
+          <p>The Undefined state represents the absence of a value for an enumerated ARIA content attribute, i.e., null. The following attributes have an Undefined state: </p>
+          <ul>
+            <li><pref>aria-checked</pref></li>
+            <li><pref>aria-expanded</pref></li>
+            <li><pref>aria-hidden</pref></li>
+            <li><pref>aria-orientation</pref></li>
+            <li><pref>aria-pressed</pref></li>
+            <li><pref>aria-selected</pref></li>
+          </ul>
+          <p>
+            For these attributes, the string value "undefined" (e.g., `aria-hidden="undefined"`) is not a valid keyword, however, such a content attribute assignment
+            would result in the desired IDL behavior. This is because an "undefined" literal string assignment results in the invalid value default for these attributes, which maps to the Undefined state.
+            For example, `el.ariaHidden` would return "false" (invalid value default which is the Undefined state) when `aria-hidden="undefined"` is set in the HTML markup.
+          </p>
+          <p>
+             User agent implementations MUST not treat the literal string "undefined" as a distinct keyword for these enumerated attributes: <pref>aria-checked</pref>,
+             <pref>aria-expanded</pref>, <pref>aria-hidden</pref>, <pref>aria-orientation</pref>, <pref>aria-pressed</pref>, <pref>aria-selected</pref>. However, where authors and user agent implementations
+             have interpreted `undefined` to represent a unique string value for these attributes, and not merely the absence of a value, an "undefined" string assignment will still result in the corresponding
+             IDL attribute taking on the Undefined state via the invalid value default.
+          <p class="note">
+            All ARIA IDL attributes reflect as a nullable type. Thus, setting an ARIA IDL attribute to the value `undefined` (not the string) usually results in deletion of the content attribute
+            and null assignment of the IDL attribute. In such a case, on getting, an enumerated ARIA attribute would return its
+            <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> for the IDL attribute and null for the content attribute.
+          </p>
+        </section>
         <section id="os-aapi-attribute-mapping">
           <h3>Operating System Accessibility API mapping of multi-value ARIA attributes</h3>
           <p>
