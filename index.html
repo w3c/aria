@@ -11883,21 +11883,13 @@
           <h3>Value</h3>
           <p>Value type of the <a>state</a> or [=ARIA/property=]. The value is one of the following types:</p>
           <dl>
-            <dt id="valuetype_true-false">true/false</dt>
-            <dd>Value representing either <code>true</code> or <code>false</code>. The default value for this value type is <code>false</code> unless otherwise specified.</dd>
-            <dt id="valuetype_tristate">tristate</dt>
+            <dt id="valuetype_enumerated">enumerated</dt>
             <dd>
-              Value representing <code>true</code>, <code>false</code>, <code>mixed</code>, or <code>undefined</code> values. The default value for this value type is <code>undefined</code> unless
-              otherwise specified.
-            </dd>
-            <dt id="valuetype_true-false-undefined">true/false/undefined</dt>
-            <dd>
-              Value representing <code>true</code>, <code>false</code>, or <code>undefined</code> (not applicable). The default value for this value type is <code>undefined</code> unless otherwise
-              specified. For example, an element with <sref>aria-expanded</sref> set to <code>false</code> is not currently expanded; an element with <sref>aria-expanded</sref> set to
-              <code>undefined</code> is not expandable.
+              Values are limited to a predefined set of states including two special states: <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> and
+              <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a>.
             </dd>
             <dt id="valuetype_idref">ID reference</dt>
-            <dd>Reference to the ID of another <a>element</a> in the same document</dd>
+            <dd>Reference to the ID of another <a>element</a> in the same document.</dd>
             <dt id="valuetype_idref_list">ID reference list</dt>
             <dd>A list of one or more ID references.</dd>
             <dt id="valuetype_integer">integer</dt>
@@ -11922,47 +11914,50 @@
       </section>
       <section data-cite="webidl">
         <h2>ARIA Attributes</h2>
-        <section id="enumerated-attribute-values">
-          <h3>Multi-value Attribute Values</h3>
+        <section id="content-vs-idl-attributes">
+          <h3>Distinguishing between Content and IDL Attributes</h3>
           <p>
-            When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>, that attribute is a multi-value nullable attribute. Each value in the table is a
-            keyword for the attribute, mapping to a state of the same name.
+            HTML content attributes including ARIA content attributes are set in HTML markup, whereas IDL attributes (or formerly DOM properties) are the corresponding JavaScript properties exposed on
+            DOM elements. See HTML [=reflect|reflection=] for more details.
+          </p>
+        </section>
+        <section id="enumerated-attribute-values">
+          <h3>Enumerated Attribute Values</h3>
+          <p>
+            When the ARIA attribute definition includes a table listing the attribute's allowed <span>values</span>, it is an [=enumerated attribute=]. Each value in the table is a keyword for the
+            attribute, usually mapping to a state of the same name and one or more keywords may map to the same state.
+          </p>
+          <p>
+            Some ARIA attributes support an Undefined state, which is equivalent to having no state (i.e., null). User agent implementations may omit the Undefined state since the lack of an explicit
+            state results in the same behavior. For more information about determining the state of enumerated attributes, see
+            <a data-cite="html/common-microsyntaxes.html#keywords-and-enumerated-attributes">Keyword and enumerated attributes</a>.
           </p>
         </section>
         <section id="idl-reflection-attribute-values">
-          <h3>IDL reflection of ARIA attributes</h3>
+          <h3>IDL Reflection of ARIA attributes</h3>
           <p>
-            All ARIA attributes reflect in IDL as [=nullable type|nullable=] {{DOMString}} attributes. This includes the boolean-like <a href="#valuetype_true-false">true/false</a> type, and all other
-            ARIA attributes.
+            An ARIA attribute may reflect as one of several IDL attribute types such as [=nullable type|nullable=] {{DOMString}}, [=nullable type|nullable=] {{FrozenArray}} or [=nullable
+            type|nullable=] {{Element}}.
           </p>
           <p>
-            Default values from the ARIA values tables MUST NOT reflect to IDL as the <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> or the
-            <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. On getting, a missing ARIA attribute will return <code>null</code>. ARIA
-            attributes are not validated on get. If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an invalid value default.
+            For non-enumerated attributes, default values from the ARIA values tables MUST NOT reflect to IDL as the
+            <a data-cite="html/common-microsyntaxes.html#missing-value-default">missing value default</a> nor the
+            <a data-cite="html/common-microsyntaxes.html#invalid-value-default">invalid value default</a> for the attribute. On getting (a non-enumerated attribute), a missing ARIA attribute will
+            return <code>null</code> as such ARIA attributes are not validated on get. If an ARIA value is invalid, on getting, it will return its set value as a literal string, and will not return an
+            invalid value default.
           </p>
         </section>
         <section id="os-aapi-attribute-mapping">
           <h3>Operating System Accessibility API mapping of multi-value ARIA attributes</h3>
           <p>
-            Unlike IDL reflection, operating system accessibility API mappings of ARIA attributes can have defaults. Any default values from the ARIA values tables are exposed to the operating system
+            Operating system accessibility API mappings of ARIA attributes can have defaults. Any default values from the ARIA values tables are exposed to the operating system
             accessibility API as described in [[[#supportedState]]], and in [[[CORE-AAM]]].
           </p>
         </section>
         <section id="enumerated-attribute-values-html">
-          <h3>ARIA nullable DOMString Attributes</h3>
+          <h3>ARIA IDL Attribute Types</h3>
           <p>As noted in [[[#typemapping]]], attributes are included in host languages, and the syntax for representation of WAI-ARIA types is governed by the host language.</p>
-          <p>The following algorithm should be used for ARIA nullable {{DOMString}} attributes in HTML:</p>
-          <p>
-            On getting, if the corresponding content attribute is not present, then the IDL attribute must return null, otherwise, the IDL attribute must get the value in a transparent,
-            case-preserving manner. On setting, if the new value is null, the content attribute must be removed, and otherwise, the content attribute must be set to the specified new value in a
-            transparent, case-preserving manner.
-          </p>
-          <p class="note">
-            Note: As of ARIA 1.2, all ARIA attributes exposed via IDL are defined as nullable {{DOMString}}s. This matches the current implementation of all major rendering engines. This specification
-            change should result in no implementation changes; it will merely represent the current reality of web engines. However, in a future draft, the ARIA Working Group intends to change several
-            ARIA attributes to non-nullable DOMStrings, and seek implementations. The proposed change will bring ARIA into alignment with the HTML’s usage of
-            <a data-cite="html/common-microsyntaxes.html#enumerated-attribute">enumerated attributes</a>.
-          </p>
+          <p>ARIA attributes [=reflect=] in IDL as defined in HTML.</p>
           <section class="informative" id="enumeration-example">
             <h4>Example Attribute Usage</h4>
             <aside class="example">
