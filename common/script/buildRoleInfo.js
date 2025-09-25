@@ -20,7 +20,3 @@ const scriptAddition =
 
 // HACK: eval!
 eval(scriptWithoutRespecUI + scriptAddition);
-
-//NOTEs & Questions:
-// * we can execute ariaAttributeReference but can't access roleInfo since it's currently const. We could make aria.js a module and import it properly here; or we could have ariaAttributeReference return it (or make it global again).
-// * can we match serialization of current output in browser? Right now, roleInfo.js doesn't escape all strings but this will. Also, do we want to generate JSON?
