@@ -1,5 +1,3 @@
-
-
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
@@ -60,9 +58,21 @@ function buildAllSpecs() {
   }
 }
 
+// Helper: Install npm dependencies
+function installDependencies() {
+  try {
+    console.log("Installing npm dependencies...");
+    execSync("npm install", { stdio: "inherit", cwd: process.cwd() });
+  } catch (e) {
+    console.error("Failed to install dependencies:", e.message);
+    throw e;
+  }
+}
+
 // Main orchestrator
 async function main() {
   try {
+    installDependencies();
     rewriteRootEDLinks();
     rewriteSubdirEDLinks();
     buildAllSpecs();
