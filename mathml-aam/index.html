@@ -1,0 +1,1451 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MathML Accessibility API Mappings 1.0</title>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="defer"></script>
+    <script src="../common/script/resolveReferences.js" class="remove"></script>
+    <script src="../common/biblio.js" class="remove" defer="defer"></script>
+    <script src="../common/script/participants.js" class="remove"></script>
+    <script class="remove">
+      // See https://github.com/w3c/respec/wiki/ for how to configure ReSpec
+      var respecConfig = {
+        github: "w3c/w3c/mathml-aam",
+        doJsonLd: true,
+        lint: true,
+
+        specStatus: "ED",
+        shortName: "mathml-aam-1.0",
+        edDraftURI: "https://w3c.github.io/mathml-aam/",
+        github: "w3c/mathml-aam",
+        copyrightStart: "2020",
+
+        group: "aria",
+
+        editors: [
+          { name: "James Nurthen", company: "Adobe", companyURL: "https://www.adobe.com/", w3cid: 37155 },
+          { name: "Neil Soiffer", company: "Invited Expert", w3cid: 35698 },
+        ],
+
+        formerEditors: [
+          { name: "Joanmarie Diggs", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 68182, note: "Editor until August 2023" },
+          { name: "Alexander Surkov", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 51089, note: "Editor until August 2023" },
+          { name: "Michael Cooper", company: "W3C", companyURL: "https://www.w3.org", note: "Editor until August 2023" },
+        ],
+
+        ariaSpecURLs: {
+          ED: "https://w3c.github.io/aria/",
+          FPWD: "https://www.w3.org/TR/wai-aria-1.3/",
+          WD: "https://www.w3.org/TR/wai-aria-1.3/",
+          CR: "https://www.w3.org/TR/wai-aria-1.3/",
+          REC: "https://www.w3.org/TR/wai-aria-1.3/",
+        },
+        accNameURLs: {
+          ED: "https://w3c.github.io/accname/",
+          WD: "https://www.w3.org/TR/accname-1.2/",
+          FPWD: "https://www.w3.org/TR/accname-1.2/",
+          CR: "https://www.w3.org/TR/accname-1.2/",
+          REC: "https://www.w3.org/TR/accname-1.2/",
+        },
+        coreMappingURLs: {
+          ED: "https://w3c.github.io/core-aam/",
+          WD: "https://www.w3.org/TR/core-aam-1.2/",
+          FPWD: "https://www.w3.org/TR/core-aam-1.2/",
+          CR: "https://www.w3.org/TR/core-aam-1.2/",
+          REC: "https://www.w3.org/TR/core-aam-1.2/",
+        },
+        dpubModURLs: {
+          ED: "https://w3c.github.io/dpub-aria/",
+          FPWD: "https://www.w3.org/TR/dpub-aria-1.1/",
+          WD: "https://www.w3.org/TR/dpub-aria-1.1/",
+          REC: "https://www.w3.org/TR/dpub-aria-1.1/",
+        },
+        graphicsMappingModURLs: {
+          ED: "https://w3c.github.io/graphics-aam/",
+          FPWD: "https://www.w3.org/TR/graphics-aam-1.0/",
+          WD: "https://www.w3.org/TR/graphics-aam-1.0/",
+          CR: "https://www.w3.org/TR/graphics-aam-1.0/",
+          PR: "https://www.w3.org/TR/graphics-aam-1.0/",
+          REC: "https://www.w3.org/TR/graphics-aam-1.0/",
+        },
+        graphicsModURLs: {
+          ED: "https://w3c.github.io/graphics-aria/",
+          FPWD: "https://www.w3.org/TR/graphics-aria/",
+          WD: "https://www.w3.org/TR/graphics-aria/",
+          REC: "https://www.w3.org/TR/graphics-aria/",
+        },
+        htmlMappingURLs: {
+          ED: "https://w3c.github.io/html-aam/",
+          FPWD: "https://www.w3.org/TR/html-aam-1.0/",
+          WD: "https://www.w3.org/TR/html-aam/",
+          REC: "https://www.w3.org/TR/html-aam/",
+        },
+        preProcess: [linkCrossReferences, getParticipants],
+        postProcess: [],
+        definitionMap: [],
+        xref: ["dom", "core-aam", "accname", "wai-aria", "infra"],
+      };
+    </script>
+  </head>
+
+  <body>
+    <section id="abstract">
+      <p>
+        The MathML Accessibility API Mappings (MathML-AAM) specification defines how [=user agents=] map Mathematical Markup Language (MathML) [[MathML3]] to platform <a>accessibility APIs</a>. It
+        extends the Core Accessibility API Mappings (CORE-AAM) specification [[CORE-AAM-1.2]].
+      </p>
+      <p>
+        This specification is intended for user agent developers responsible for MathML accessibility in their product. The goal of this specification is to maximize the accessibility of MathML
+        content by ensuring each <a>assistive technology</a> receives MathML content with the <a>roles</a>, <a>states</a>, and [=ARIA/properties=] it expects.
+      </p>
+      <p>
+        At the present time, this specification contains mappings for the subset of MathML contained in the MathML Core specification [[MathML-Core]]. The reason why is that this subset contains the
+        [=elements=] and [=attributes=] from MathML which are exposed to <a>assistive technologies</a> via platform <a>accessibility APIs</a>.
+      </p>
+      <p>
+        The MathML-AAM is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the <a href="http://www.w3.org/WAI/intro/aria.php">WAI-ARIA Overview</a>.
+      </p>
+    </section>
+    <section id="sotd">
+      <p>This document is a work in progress.</p>
+      <p>
+        To provide feedback, please <a href="https://github.com/w3c/mathml-aam/issues/">create or comment on an issue</a> in the <abbr title="World Wide Web Consortium">W3C</abbr> MathML Accessibility
+        API Mappings GitHub repository. If this is not feasible, send email to <a href="mailto:public-aria@w3.org?subject=MathML-AAM%20public%20comment">public-aria@w3.org</a>.
+      </p>
+    </section>
+
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p></p>
+    </section>
+
+    <section id="conformance">
+      <p>The classification of a section as normative or non-normative applies to the entire section and all sub-sections of that section.</p>
+      <p>Normative sections provide requirements that authors and user agents, and assistive technologies MUST follow for an implementation to conform to this specification.</p>
+      <p>
+        Non-normative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such
+        recommendations in order to conform to this specification.
+      </p>
+
+      <section id="deprecated">
+        <h3>Deprecated</h3>
+        <p>There are currently no deprecated requirements.</p>
+      </section>
+    </section>
+
+    <section class="normative">
+      <h3>Mapping MathML to Accessibility APIs</h3>
+
+      <section id="mapping_general">
+        <h3>General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</h3>
+        <p>
+          User agents MUST conform to <a data-cite="CORE-AAM-1.2#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</a>
+          in [[!CORE-AAM-1.2]].
+        </p>
+      </section>
+
+      <section id="mapping_conflicts">
+        <h3>Conflicts between native semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></h3>
+        <p>
+          User agents MUST conform to <a data-cite="CORE-AAM-1.2#mapping_conflicts">Conflicts between native markup semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></a>
+          in [[!CORE-AAM-1.2]].
+        </p>
+      </section>
+
+      <section id="mapping_nodirect">
+        <h3>Exposing features that do not directly map to accessibility <abbr title="application programming interface">API</abbr></h3>
+        <p>User agents MUST conform to <a data-cite="CORE-AAM-1.2#mapping_nodirect">Exposing attributes that do not directly map to accessibility API properties</a> in [[!CORE-AAM-1.2]].</p>
+      </section>
+
+      <section>
+        <h3>MathML Element Mappings</h3>
+        <h4 id="el-annotation">`annotation`</h4>
+        <table class="data" aria-labelledby="el-annotation">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter5.html#mixing.elements.annotation">`annotation`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:annotation</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-annotation-xml">`annotation-xml`</h4>
+        <table class="data" aria-labelledby="el-annotation-xml">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter5.html#mixing.elements.annotation.xml">`annotation-xml`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:annotation-xml</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-maction">`maction`</h4>
+        <table class="data" aria-labelledby="el-maction">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.maction">`maction`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:maction</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-math">`math`</h4>
+        <table class="data" aria-labelledby="el-math">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="html/embedded-content-other.html#mathml">`math`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td><a class="core-mapping" href="#role-map-math">`math`</a> role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <div class="general">Use WAI-ARIA mapping</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-merror">`merror`</h4>
+        <table class="data" aria-labelledby="el-merror">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.merror">`merror`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:merror</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathRow</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mfrac">`mfrac`</h4>
+        <table class="data" aria-labelledby="el-mfrac">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mfrac">`mfrac`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_MATH_FRACTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mfrac</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathFraction</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathFractionNumerator</code> pointing to the first in-flow child<br />
+                  <code>AXMathFractionDenominator</code> pointing to the second in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mi">`mi`</h4>
+        <table class="data" aria-labelledby="el-mi">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mi">`mi`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mi</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathIdentifier</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mmultiscripts">`mmultiscripts`</h4>
+        <table class="data" aria-labelledby="el-mmultiscripts">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mmultiscripts">`mmultiscripts`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mmultiscripts</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathMultiscript</code></span
+                ><br />
+                <div class="attrs">
+                  AXAttributes:
+                  <ul>
+                    <li>
+                      <code>AXMathPostscripts</code> is an array of dictionaries of <code>AXMathSubscript</code> and <code>AXMathSupscript</code> pointing to postsubscript and postsupscript elements ,
+                      i.e. N and N + 1 in-flow children starting from the second in-flow child and preceeding
+                      <a data-cite="MathML3/chapter3.html#presm.mprescripts">`mprescripts`</a>
+                      element if any;
+                    </li>
+                    <li>
+                      <code>AXMathPrescripts</code> is an array of dictionaries of <code>AXMathSubscript</code> and <code>AXMathSupscript</code> pointing to presubscript and presupscript elements,
+                      i.e. N and N + 1 in-flow children starting after
+                      <a data-cite="MathML3/chapter3.html#presm.mprescripts">`mprescripts`</a>
+                      element if any or from index 1.
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mn">`mn`</h4>
+        <table class="data" aria-labelledby="el-mn">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mn">`mn`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:ms</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathNumber</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mo">`mo`</h4>
+        <table class="data" aria-labelledby="el-mo">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mo">`mo`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mo</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathOperator</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mover">`mover`</h4>
+        <table class="data" aria-labelledby="el-mover">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mover">`mover`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mover</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathUnderOver</code></span
+                ><br />
+                <span class="attrs">AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child <code>AXMathOver</code> pointing to the second in-flow child </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mpadded">`mpadded`</h4>
+        <table class="data" aria-labelledby="el-mpadded">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mpadded">`mpadded`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mpadded</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-phantom">`mphantom`</h4>
+        <table class="data" aria-labelledby="el-phantom">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mphantom">`mphantom`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mphantom</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathRow</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mprescripts">`mprescripts`</h4>
+        <table class="data" aria-labelledby="el-mprescripts">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mmultiscripts">`mprescripts`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mprescripts</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>Not mapped</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mroot">`mroot`</h4>
+        <table class="data" aria-labelledby="el-mroot">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mroot">`mroot`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_MATH_ROOT</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mroot</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathRoot</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathRootRadicand</code> is an array containing the first in-flow child as its unique element,<br />
+                  <code>AXMathRootIndex</code> pointing to the second in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mrow">`mrow`</h4>
+        <table class="data" aria-labelledby="el-mrow">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mrow">`mrow`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mrow</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathRow</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-ms">`ms`</h4>
+        <table class="data" aria-labelledby="el-ms">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.ms">`ms`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:ms</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>nil</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mspace">`mspace`</h4>
+        <table class="data" aria-labelledby="el-mspace">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mspace">`mspace`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>Not mapped</td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>Not mapped</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-msqrt">`msqrt`</h4>
+        <table class="data" aria-labelledby="el-msqrt">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mroot">`msqrt`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_MATH_ROOT</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mroot</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathSquareRoot</code></span
+                ><br />
+                <span class="attrs">AXAttributes: <code>AXMathRootRadicand</code> is an array containing the in-flow children </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mstyle">`mstyle`</h4>
+        <table class="data" aria-labelledby="el-mstyle">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mstyle">`mstyle`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mstyle</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathRow</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-msub">`msub`</h4>
+        <table class="data" aria-labelledby="el-msub">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.msub">`msub`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:msub</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathSubscriptSuperscript</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child<br />
+                  <code>AXMathSubscript</code> pointing to the second in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-msubsup">`msubsup`</h4>
+        <table class="data" aria-labelledby="el-msubsup">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.msubsup">`msubsup`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:msubsup</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathSubscriptSuperscript</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child <code>AXMathSubscript</code> pointing to the second in-flow child<br />
+                  <code>AXMathSuperscript</code> pointing to the third in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-msup">`msup`</h4>
+        <table class="data" aria-labelledby="el-msup">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.msup">`msup`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:msup</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathSubscriptSuperscript</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child<br />
+                  <code>AXMathSuperscript</code> pointing to the second in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mtable">`mtable`</h4>
+        <table class="data" aria-labelledby="el-mtable">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mtable">`mtable`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_TABLE</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mtable</code></span
+                ><br />
+                <span class="iface">Interface(s): <code>AtkTable</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathTable</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mtd">`mtd`</h4>
+        <table class="data" aria-labelledby="el-mtd">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mtd">`mtd`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_TABLE_CELL</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mtd</code></span
+                ><br />
+                <span class="iface">Interface(s): <code>AtkTableCell</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathTableCell</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mtext">`mtext`</h4>
+        <table class="data" aria-labelledby="el-mtext">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mtext">`mtext`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_STATIC</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mtext</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathText</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-mtr">`mtr`</h4>
+        <table class="data" aria-labelledby="el-mtr">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mtr">`mtr`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_TABLE_ROW</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:mtr</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathTableRow</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-munder">`munder`</h4>
+        <table class="data" aria-labelledby="el-munder">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.munder">`munder`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:munder</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathUnderOver</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child<br />
+                  <code>AXMathUnder</code> pointing to the second in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-munderover">`munderover`</h4>
+        <table class="data" aria-labelledby="el-munderover">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.munderover">`munderover`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:munderover</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>AXMathUnderOver</code></span
+                ><br />
+                <span class="attrs"
+                  >AXAttributes: <code>AXMathBase</code> pointing to the first in-flow child<br />
+                  <code>AXMathUnder</code> pointing to the second in-flow child<br />
+                  <code>AXMathOver</code> pointing to the third in-flow child
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-none">`none`</h4>
+        <table class="data" aria-labelledby="el-none">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.mmultiscripts">`none`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:none</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>TBD</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="el-semantics">`semantics`</h4>
+        <table class="data" aria-labelledby="el-semantics">
+          <tbody>
+            <tr>
+              <th>MathML Specification</th>
+              <td>
+                <a data-cite="MathML3/chapter3.html#presm.semantics">`semantics`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.1]]</th>
+              <td>No corresponding role</td>
+            </tr>
+            <tr>
+              <th>MSAA + IAccessible2</th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="User Interface Automation">UIA</abbr></th>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+              <td>
+                <span class="role">Role: <code>ATK_ROLE_SECTION</code></span
+                ><br />
+                <span class="objattr">Object Attribute: <code>tag:semantics</code></span>
+              </td>
+            </tr>
+            <tr>
+              <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+              <td>
+                <span class="role">AXRole: <code>NSAccessibilityGroupRole</code></span
+                ><br />
+                <span class="subrole">AXSubrole: <code>TBD</code></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section class="appendix" id="changelog">
+      <h2>Change Log</h2>
+      <section>
+        <h2>Substantive changes since the last public working draft</h2>
+        <ul>
+          <!-- EdNote: After each WD publish, move contents of this list into the next one below. -->
+        </ul>
+      </section>
+      <section>
+        <h2>Substantive changes since the creation of this specification</h2>
+        <ul></ul>
+      </section>
+    </section>
+    <section class="appendix informative section" id="acknowledgements">
+      <h3>Acknowledgments</h3>
+      <p>The following people contributed to the development of this document.</p>
+      <ul id="gh-contributors"></ul>
+      <section class="section" id="ack_group">
+        <h4>ARIA WG participants at the time of publication</h4>
+        <ul>
+          <!-- List of participants is injected here -->
+        </ul>
+      </section>
+
+      <div data-include="../common/acknowledgements/funders.html" data-include-replace="true"></div>
+    </section>
+  </body>
+</html>

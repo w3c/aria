@@ -30,6 +30,9 @@ corresponding changes in validators.
 * [Listbox Group Children Must Be Option](listbox-group-children-must-be-option.html)
   * @axe-core/cli: [Results](listbox-group-children-must-be-option-axe.json), [bug](https://github.com/dequelabs/axe-core-npm/issues/313)
   * validator.nu: [Results](listbox-group-children-must-be-option-vnu.json)
+* [aria-expanded no longer supported on listbox](listbox-aria-expanded-not-supported.html)
+  * @axe-core/cli: [Results](listbox-aria-expanded-not-supported-axe.json), [bug](https://github.com/dequelabs/axe-core/issues/4433)
+  * validator.nu: [Results](listbox-aria-expanded-not-supported-vnu.json), [bug](https://github.com/validator/validator/issues/1716)
 * [Menuitemcheckbox Owned By Menu](menuitemcheckbox-owned-by-menu.html)
   * @axe-core/cli: [Results](menuitemcheckbox-owned-by-menu-axe.json)
   * validator.nu: [Results](menuitemcheckbox-owned-by-menu-vnu.json)
@@ -98,7 +101,7 @@ link to the bug you filed. See what was done above for Name Prohibited for @axe-
 ### Using @axe-core/cli
 
 * Documentation: [@axe-core/cli](https://www.npmjs.com/package/@axe-core/cli)
-* Issue tracker: https://github.com/dequelabs/axe-core-npm
+* Issue tracker: https://github.com/dequelabs/axe-core
 
 #### General Tips
 * Run a single test with no arguments to see all the errors:
@@ -154,13 +157,13 @@ inside the `my-test-files` directory.
 
 ```
 cd my-test-files
-python -m SimpleHTTPServer
+python -m http.server
 ```
 
 Having done the above, the URL is `http://localhost:8000/foo.html` and the following should work:
 
 ```
-axe http://localhost:8000/foo.html --rules aria-allowed-attr
+axe http://localhost:8000/foo.html --tags cat.aria
 ```
 
 ### Using Validator.nu 
