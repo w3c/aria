@@ -231,6 +231,49 @@ The ARIA repositories share a common set of resources to reduce redundancy. Shar
 
 Todo: special characteristics table classes etc. used by the script
 
+### Assistive Technology Implementation Guidance
+
+The ARIA specification includes optional Assistive Technology (AT) guidance sections for roles, states, and properties that require implementation guidance beyond the normative accessibility API mappings. These sections provide implementation recommendations specifically for assistive technology developers.
+
+#### When to Add AT Guidance
+
+AT guidance should be added when:
+
+1. **Complex user interaction patterns** - When a role or state involves multi-step interactions or complex navigation patterns
+2. **Implementation variations** - When different assistive technologies might reasonably implement features differently
+3. **User experience considerations** - When specific UX patterns would benefit users with disabilities
+4. **Platform-specific behavior** - When behavior should differ across platforms (desktop, mobile, web)
+5. **Common implementation mistakes** - When implementers frequently make specific errors that impact usability
+
+#### Structure and Content Requirements
+
+AT guidance sections should:
+
+1. **Use proper heading hierarchy** - Main section header should be `<h5>`, subsections should be `<h6>`
+2. **Follow RFC 2119 keywords** - Use MUST, SHOULD, MAY appropriately for normative guidance
+3. **Be platform-specific when needed** - Separate subsections for different platforms or AT types
+4. **Include concrete examples** - Provide specific implementation examples where helpful
+5. **Focus on user benefit** - Explain how the guidance improves the user experience
+
+#### Implementation
+
+Add AT guidance sections using the following structure:
+
+```html
+<section class="at-guidance">
+    <h5>Assistive Technology Guidance</h5>
+    <p>General guidance that applies to all assistive technologies...</p>
+    
+    <h6>Screen Reader Implementation</h6>
+    <p>Specific guidance for screen reader implementation...</p>
+    
+    <h6>Voice Control Implementation</h6>
+    <p>Specific guidance for voice control software...</p>
+</section>
+```
+
+The `.at-guidance` class provides visual styling to distinguish these sections in the rendered specification. The content should be placed immediately after the role/state/property definition but before any examples or related sections.
+
 ### Editors' Drafts
 
 Official editors' drafts are published to  [https://w3c.github.io/<shortName>/], where `shortName` is the value of `respecConfig.shortName` for each of the specs. This URIs are suitable for public references. Documents published to those locations are *static* snapshots from the Respec processor. This is to minimize load time for consumers of these drafts. Editors' drafts are automatically updated (if there are no errors) by GitHub actions run when commits are pushed to the main branch.
