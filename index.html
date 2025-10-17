@@ -16670,6 +16670,7 @@ button.ariaPressed; // null</pre
         <h3>Presentational Roles Conflict Resolution</h3>
         <p>There are a number of ways presentational role conflicts are resolved.</p>
         <p>User agents MUST NOT expose [=elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
+		<h4>Option 1</h4>
         <ul>
           <li>
             If an element is focusable, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element
@@ -16700,6 +16701,33 @@ button.ariaPressed; // null</pre
               &lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
             </pre>
           </li>
+        </ul>
+        <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
+		<h4>Option 2</h4>
+		<ul>
+          <li>
+            If an element is focusable, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element
+            is <a>operable</a>.
+          </li>
+          <li>
+            If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its
+            explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
+          </li>
+		  <li>
+			If an element wi th an explicit presentational role has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element’s implicit role.
+		  	<p class="note">Some <a>global</a> WAI-ARIA states and properties are <a>prohibited</a> on certain roles. These states and properties are still considered global for the purposes of Presentational Role Conflict resolution.</p>
+            <p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element is not in a presentational state.</p>
+            <pre class="example highlight">
+              <span class="comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
+              &lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+              <span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
+              &lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
+            </pre>
+		  </li>
+		  <li>
+			<p>If an element with an inherited presentational role but also an explicit non-presentational role, has only non-global, role-specific WAI-ARIA states or properties, then user agents MUST ignore the inherited presentational role and instead expose the element’s explicit role.</p>
+		  	<p class="note">In the other cases, if an element has only non-global, role-specific WAI-ARIA states or properties, the element's role MUST NOT be exposed</p>
+		  </li>
         </ul>
         <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
       </section>
