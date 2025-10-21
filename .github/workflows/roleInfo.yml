@@ -1,0 +1,26 @@
+name: roleInfo update
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  roleInfo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "latest"
+      - run: npm i linkedom
+      - run: node ./common/script/buildRoleInfo.js > ./common/script/roleInfo.js
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - run: git add ./common/script/roleInfo.js
+      - run: |
+         git diff-index --quiet HEAD ./common/script/roleInfo.js || git commit -m'chore: update roleInfo.js'
+      - run: git push
