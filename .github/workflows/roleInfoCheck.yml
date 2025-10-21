@@ -1,0 +1,22 @@
+name: roleInfo PR check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  roleInfo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "latest"
+      - run: npm i linkedom prettier@3.6.0
+      - run: node ./common/script/buildRoleInfo.js > ./common/script/roleInfo.js
+      - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
+      - run: git diff --exit-code
