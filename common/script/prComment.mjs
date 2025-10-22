@@ -5,42 +5,6 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { fileURLToPath } from "url";
 
-// --- PLACEHOLDER: Netlify Auth Setup ---
-// If running in CI, use process.env.NETLIFY_AUTH_TOKEN or GitHub secrets
-// Example: const netlifyAuthToken = process.env.NETLIFY_AUTH_TOKEN;
-// You can set this secret in your GitHub Actions workflow and pass it to the script
-// For local testing, you may use a .env file or export the variable manually
-// const netlifyAuthToken = process.env.NETLIFY_AUTH_TOKEN || "";
-
-// Check and wait for Netlify
-const netlifySite = "staging-aria"; // Netlify site name
-async function isNetlifyDeploySuccessful(prNumber) {
-  const apiUrl = `https://api.netlify.com/api/v1/sites/${netlifySite}/deploys`;
-
-  // --- PLACEHOLDER: Add Netlify Auth Header if needed ---
-  // Example:
-  // const headers = netlifyAuthToken ? { Authorization: `Bearer ${netlifyAuthToken}` } : {};
-  // const response = await axios.get(apiUrl, { headers });
-
-  try {
-    // For now, no auth header is used. Add it above if your Netlify API requires authentication.
-    const response = await axios.get(apiUrl);
-    // Find the deploy for this PR
-    const prDeploy = response.data.find(deploy => {
-      // Netlify context for PR deploys is 'deploy-preview' and branch is 'deploy-preview-<prNumber>'
-      return (
-        deploy.context === "deploy-preview" &&
-        deploy.branch === `deploy-preview-${prNumber}`
-      );
-    });
-    if (!prDeploy) return false;
-    return prDeploy.state === "ready";
-  } catch (e) {
-    console.error("Error checking Netlify deploy status:", e.message);
-    return false;
-  }
-}
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -83,13 +47,6 @@ const { repo, pull_request_number, token, update_pr, build_specs } = args;
 async function updatePRDescription(markdownContent) {
   if (!update_pr) return;
 
-  // Check Netlify deploy status first
-  const deployOk = await isNetlifyDeploySuccessful(pull_request_number);
-  if (!deployOk) {
-    console.log("Netlify deploy not successful. PR description will not be updated.");
-    return;
-  }
-
   try {
     // Get current PR description
     const prResponse = await axios.get(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}`, {
@@ -129,6 +86,7 @@ ${cleanedBody}`.trim();
 
 // Define the base URLs
 // Use Netlify site and context to build preview URL
+const netlifySite = "wai-aria";
 const netlifyContext = "deploy-preview";
 const previewBaseURL = `https://${netlifyContext}-${pull_request_number}--${netlifySite}.netlify.app`;
 const EDBaseURL = `https://w3c.github.io`;

@@ -8,24 +8,19 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Build site
-        run:
-          sudo apt-get update
-          sudo apt-get upgrade -y
-          sudo apt-get install -y chromium-browser libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 libcups2 libx11-xcb1 xdg-utils
-          npm run build
+      - name: Checkout repo
+        uses: actions/checkout@v5
       - name: Deploy site to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: .
+          publish-dir: "./public"
           # production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
+          enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true
+          netlify-config-path: ./netlify.toml
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -35,22 +30,20 @@ jobs:
     needs: build-and-deploy
     if: ${{ needs.build-and-deploy.result == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - name: Checkout repo
+        uses: actions/checkout@v5
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 'latest'
+          node-version: "latest"
 
       - name: Install dependencies
-        run: npm install axios yargs
+        run: npm install
 
       - name: Generate preview links and update PR
         run: |
-          node common/script/prLinks.mjs \
+          node common/script/prComment.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
             --token ${{ secrets.GITHUB_TOKEN }} \
