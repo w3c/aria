@@ -25,7 +25,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+        timeout-minutes: 5
 
   update-pr-links:
     needs: build-and-deploy
@@ -46,6 +46,9 @@ jobs:
 
       - name: Generate preview links and update PR
         run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          sudo apt-get install -y chromium-browser libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 libcups2 libx11-xcb1 xdg-utils
           node common/script/prLinks.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
