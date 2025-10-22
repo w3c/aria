@@ -11,7 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build site
-        run: npm run build
+        run:
+          sudo apt-get update
+          sudo apt-get upgrade -y
+          sudo apt-get install -y chromium-browser libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 libcups2 libx11-xcb1 xdg-utils
+          npm run build
       - name: Deploy site to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -46,9 +50,6 @@ jobs:
 
       - name: Generate preview links and update PR
         run: |
-          sudo apt-get update
-          sudo apt-get upgrade -y
-          sudo apt-get install -y chromium-browser libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 libcups2 libx11-xcb1 xdg-utils
           node common/script/prLinks.mjs \
             --repo ${{ github.repository }} \
             --pull_request_number ${{ github.event.pull_request.number }} \
