@@ -59,65 +59,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
--          node-version: "latest"
-+          node-version: "18"
-+          cache: 'npm'
--        with:
--          node-version: "latest"
-+        # ...existing code...
+          node-version: "latest"
+          cache: 'npm'
 
       - name: Install dependencies
--        run: npm ci
-+        run: |
-+          # install root deps
-+          npm ci
-+          # install deps for common/ if present (so common/script/prComment.mjs has its deps)
-+          if [ -f common/package.json ]; then
-+            npm ci --prefix common
-+          fi
-
-      - name: Update PR coment with preview and diff links
-        run: |
-          node common/script/prComment.mjs \
-            --repo ${{ github.repository }} \
-            --pull_request_number ${{ github.event.pull_request.number }} \
-            --token ${{ secrets.GITHUB_TOKEN }} \
-            --update_pr
-```name: Preview
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  build-and-deploy:
-    # ...existing code...
-  update-pr-links:
-    needs: build-and-deploy
-    if: ${{ needs.build-and-deploy.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v5
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
--          node-version: "latest"
-+          node-version: "18"
-+          cache: 'npm'
--        with:
--          node-version: "latest"
-+        # ...existing code...
-
-      - name: Install dependencies
-        run: npm ci axios 
-      - name: Update PR coment with preview and diff links
-        run: |
-          node common/script/prComment.mjs \
-            --repo ${{ github.repository }} \
-            --pull_request_number ${{ github.event.pull_request.number }} \
-            --token ${{ secrets.GITHUB_TOKEN }} \
-            --update_pr
+        run: npm ci
       - name: Update PR coment with preview and diff links
         run: |
           node common/script/prComment.mjs \
