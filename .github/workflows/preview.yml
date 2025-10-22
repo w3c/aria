@@ -33,29 +33,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v5
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "latest"
 
-      - name: Install dependencies
-        run: npm ci
-name: Preview
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  build-and-deploy:
-    # ...existing code...
-  update-pr-links:
-    needs: build-and-deploy
-    if: ${{ needs.build-and-deploy.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v5
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -63,8 +41,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
-      - name: Update PR coment with preview and diff links
+        run: |
+          npm ci
+      - name: Update PR comment with preview and diff links
         run: |
           node common/script/prComment.mjs \
             --repo ${{ github.repository }} \
