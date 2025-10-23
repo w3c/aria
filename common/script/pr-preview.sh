@@ -18,3 +18,4 @@ npx respec -s graphics-aam/index.html -o graphics-aam/index.html --localhost
 npx respec -s graphics-aria/index.html -o graphics-aria/index.html --localhost
 npx respec -s svg-aam/index.html -o svg-aam/index.html --localhost
 npx respec -s mathml-aam/index.html -o mathml-aam/index.html --localhost
+npx respec -s pdf-aam/index.html -o pdf-aam/index.html --localhost
