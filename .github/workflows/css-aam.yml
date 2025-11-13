@@ -34,18 +34,17 @@ jobs:
       - name: Copy common
         run: |
           mkdir aria/css-aam/common
-          cp -r aria/common/** aria/css-aam/common/
+          cp -r aria/common/** aria/css-aam/common/    
           sed -i 's|\.\./common|common|g' aria/css-aam/index.html
       - uses: w3c/spec-prod@v2
         with:
           TOOLCHAIN: respec
           SOURCE: aria/css-aam/index.html
           DESTINATION: aria/css-aam/index.html
-          W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN_HTML_AAM }}
-          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
-          # W3C_NOTIFICATIONS_CC: "${{ secrets.CC }}"
-          W3C_BUILD_OVERRIDE: |
-            specStatus: WD
+          # W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN_pdf_aam }}
+          # W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-aria-admin/2018Sep/0011.html
+          # W3C_BUILD_OVERRIDE: |
+          #   specStatus: WD
           ARTIFACT_NAME: css-aam
       - name: Checkout css-aam repo
         uses: actions/checkout@v5
@@ -59,7 +58,7 @@ jobs:
           name: css-aam
       - name: Copy files
         run: |
-          cp -r aria.gh/aria/css-aam/** css-aam/
+          cp -r index.html css-aam/
       - name: Push new files to child repo
         run: |
           git config user.name "github-actions[bot]"
