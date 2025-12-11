@@ -344,7 +344,7 @@
         </p>
         <p>
           Speech-based command and control systems can benefit from <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics like the <code>role</code> attribute to assist in
-          conveying audio information to the user. For example, upon encountering an element with a role of <rref>menu</rref> with child elements of role <rref>menuitem</rref> each containing text
+          conveying audio information to the user. For example, upon encountering an element with a role of <rref>menu</rref> with <a>accessibility children</a> of role <rref>menuitem</rref> each containing text
           content representing a different flavor, a speech system might state to the user, "Select one of three choices: chocolate, strawberry, or vanilla."
         </p>
         <p>
@@ -1053,7 +1053,7 @@
                   </p>
                   <p class="note">The inability to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element indicates an author error.</p>
                 </li>
-                <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the child element itself.</li>
+                <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the <a>accessibility child</a> itself.</li>
               </ol>
             </li>
             <li>
@@ -1175,13 +1175,12 @@
         <section id="mustContain">
           <h3>Allowed Accessibility Child Roles</h3>
           <p>
-            A list of roles which are allowed on an <a>accessibility child</a> (simplified as "child") of the element with this <a>role</a>. Authors MUST only add child element with allowed roles. For
-            example, an element with the role <rref>list</rref> can own child elements with the role <rref>listitem</rref>, but cannot own elements with the role <rref>option</rref>.
+            A list of roles which are allowed on an <a>accessibility child</a> of the element with this <a>role</a>. Authors MUST only add <a>accessibility children</a> with allowed roles. For
+            example, an element with the role <rref>list</rref> allows <a>accessibility children</a> with the role <rref>listitem</rref>, but does not allow <a>accessibility children</a> with the role <rref>option</rref>.
           </p>
-          <p>To determine whether an element is the <a>child</a> of an element, <a>user agents</a> MUST ignore any intervening elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
           <p>
-            Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an allowed child of a
-            <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s allowed child <code>listitem</code>.
+            Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an <a href="#mustContain">allowed accessibility child</a> of a
+            <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s <a href="#mustContain">allowed accessibility child</a> <code>listitem</code>.
           </p>
           <p class="note">
             A role that has 'allowed accessibility child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given
@@ -1189,7 +1188,7 @@
           </p>
           <p class="note">
             An element with a <a href="#subclassroles">subclass role</a> of the 'allowed accessibility child role' does not fulfill this requirement. For example, the <rref>listbox</rref> role allows
-            a child element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a child element with a role of
+            an <a>accessibility child</a> using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding an <a>accessibility child</a> with a role of
             <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> allows children with <rref>option</rref> or <rref>group</rref> roles.
           </p>
           <p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
@@ -3837,7 +3836,7 @@
             <p>
               Because <a>assistive technologies</a> that have a reading mode default to that mode for all elements except for those with either a <rref>widget</rref> or <rref>application</rref> role,
               the only circumstance where the <code>document</code> role is useful for changing assistive technology behavior is when the element with role <code>document</code> is a
-              <a>focusable</a> child element of a <rref>widget</rref> or <rref>application</rref>. For example, given an <rref>application</rref> element which contains some static rich text, the
+              <a>focusable</a> <a>accessibility child</a> of a <rref>widget</rref> or <rref>application</rref>. For example, given an <rref>application</rref> element which contains some static rich text, the
               author can apply role <code>document</code> to the element containing the text and give it a <code>tabindex</code> of <code>0</code>. When a screen reader user presses the Tab key and
               places focus on the <code>document</code> element, the user will be able to read the text with the screen reader's reading cursor.
             </p>
@@ -7029,7 +7028,7 @@
   &lt;foo&gt; More Sample Content &lt;/foo&gt;
 &lt;/foo&gt;</pre>
             <p class="note">
-              There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with specific allowed children for which this situation is applicable (e.g., feeds and
+              There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with specific <a href="#mustContain">allowed accessibility children</a> for which this situation is applicable (e.g., feeds and
               listboxes), but tables and lists are the most common real-world cases in which the none/presentation inheritance is likely to apply.
             </p>
             <p>
@@ -14825,7 +14824,7 @@ button.ariaPressed; // null</pre
               <abbr title="Document Object Model">DOM</abbr>.
             </p>
             <p>
-              If an element has both <pref>aria-owns</pref> and <abbr title="Document Object Model">DOM</abbr> children then the order of the child elements with respect to the parent/child
+              If an element has both <pref>aria-owns</pref> and <abbr title="Document Object Model">DOM</abbr> children then the order of the <a>accessibility children</a> with respect to the parent/child
               relationship is the <abbr title="Document Object Model">DOM</abbr> children first, then the elements referenced in <pref>aria-owns</pref>. If the author intends that the
               <abbr title="Document Object Model">DOM</abbr> children are not first, then list the DOM children in <pref>aria-owns</pref> in the desired order. Authors SHOULD NOT use
               <pref>aria-owns</pref> as a replacement for the <abbr title="Document Object Model">DOM</abbr> hierarchy. If the relationship is represented in the DOM, do not use
@@ -16202,7 +16201,7 @@ button.ariaPressed; // null</pre
         <h2>Relationships in the Accessibility Tree</h2>
         <p>The following terms are used to describe relationships between <abbr title="Document Object Model">DOM</abbr> elements.</p>
         <p>
-          The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that
+          The <dfn data-export="" data-lt="accessibility child|owned child">accessibility children</dfn> of a DOM element are all of the children of that
           element's corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):
         </p>
         <ul>
@@ -16728,7 +16727,7 @@ button.ariaPressed; // null</pre
             element is <a>operable</a>.
           </li>
           <li>
-            If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its
+            If an <a href="#mustContain">allowed accessibility child</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its
             explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
           </li>
           <li>
