@@ -16668,9 +16668,9 @@ button.ariaPressed; // null</pre
       </section>
       <section id="conflict_resolution_presentation_none">
         <h3>Presentational Roles Conflict Resolution</h3>
+		<h4>Option 1</h4>
         <p>There are a number of ways presentational role conflicts are resolved.</p>
         <p>User agents MUST NOT expose [=elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
-		<h4>Option 1</h4>
         <ul>
           <li>
             If an element is focusable, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element
@@ -16704,14 +16704,17 @@ button.ariaPressed; // null</pre
         </ul>
         <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
 		<h4>Option 2</h4>
+		<p>A presentational role conflict occurs when an element is assigned a presentational role, either explicitly or implicitly, but something about the element requires it to be semantic instead.</p>
+        <p>There are a number of ways presentational role conflicts are resolved.</p>
+        <p>User agents MUST NOT expose [=elements=] having explicit or inherited presentational role in the accessibility tree (descendant elements of such elements MAY still be exposed), with these exceptions:</p>
 		<ul>
           <li>
             If an element is focusable, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element
             is <a>operable</a>.
-          </li>
-          <li>
-            If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its
-            explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
+			<pre class="example highlight">
+              <span class="comment">&lt;!-- 1. [role="none"] is ignored because the element is focusable --&gt;</span>
+              &lt;button role="none"&gt; Sample Content &lt;/h1&gt;
+            </pre>
           </li>
 		  <li>
 			If an element with an explicit presentational role has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element’s implicit role.
@@ -16724,11 +16727,20 @@ button.ariaPressed; // null</pre
               &lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
             </pre>
 		  </li>
-		  <li>
-			<p>If an element with an inherited presentational role but also an explicit non-presentational role, has only non-global, role-specific WAI-ARIA states or properties, then user agents MUST ignore the inherited presentational role and instead expose the element’s explicit role.</p>
-		  </li>
         </ul>
+		<p>These exceptions apply only when the element raising the conflict does not have a <a href="#mustContain">Required Accessibility Parent Roles</a>.</p>
         <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
+		<p class="note">
+            If a <a href="#mustContain">Required Accessibility Parent Roles</a> has an explicit presentational role, it does not trigger a presentational role conflict, as user agents MUST expose the element using its explicit role. 
+			If exposing that explicit role results in a malformed accessibility tree, the behavior is undefined.
+			<pre class="example highlight">
+              <span class="comment">&lt;!-- 1. ul is exposed as presentational and [role="listitem"] is exposed as listitem --&gt;</span>
+&lt;ul role="none"&gt;
+  &lt;div role="listitem"&gt; Sample Content &lt;/li&gt;
+  ...
+&lt;/ul&gt;
+            </pre>
+	  	</p>
       </section>
     </section>
     <section id="idl-interface" class="normative">
