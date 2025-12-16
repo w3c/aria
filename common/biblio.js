@@ -2,6 +2,11 @@ respecConfig.localBiblio = {
     "ACCNAME-AAM": {
         aliasOf: "ACCNAME-AAM-1.1",
     },
+    "Android-Accessibility-API": {
+        title: "Android Accessibility API",
+        href: "https://developer.android.com/guide/topics/ui/accessibility",
+        publisher: "Google"
+    },
     "ARIA-PRACTICES": {
         aliasOf: "WAI-ARIA-PRACTICES-1.2",
     },
