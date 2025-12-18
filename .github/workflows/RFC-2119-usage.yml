@@ -9,20 +9,8 @@ jobs:
   check_pr:
     runs-on: ubuntu-latest
     steps:
-    - name: Check PR diff for RFC-2119 keywords
-      id: rfc_check
+    - name: Check PR
       uses: JJ/github-pr-contains-action@releases/v10
-      continue-on-error: true
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{github.token}}
         diffDoesNotContain: " must | must not | shall | shall not | should | should not | may"
-
-    - name: Warning if check found keywords
-      if: always()
-      run: |
-        # If the previous step failed (return code != 0), throw a workflow warning but don't fail
-        if [ "${{ steps.rfc_check.outcome }}" != "success" ]; then
-          echo "::warning::PR diff contains RFC-2119 keywords (must, shall, should or may). Please review."
-        else
-          echo "No RFC-2119 keywords found."
-        fi
