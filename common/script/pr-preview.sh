@@ -21,23 +21,23 @@ mkdir -p public/mathml-aam
 mkdir -p public/pdf-aam
 
 # build all specs
-npx respec -s index.html -o public/index.html --localhost
+npx respec -s index.html -o public/index.html --localhost --disable-sandbox
 echo "Built ARIA"
-npx respec -s accname/index.html -o public/accname/index.html --localhost
+npx respec -s accname/index.html -o public/accname/index.html --localhost --disable-sandbox
 echo "Built AccName"
-npx respec -s core-aam/index.html -o public/core-aam/index.html --localhost
+npx respec -s core-aam/index.html -o public/core-aam/index.html --localhost --disable-sandbox
 echo "Built Core AAM"
-npx respec -s dpub-aam/index.html -o public/dpub-aam/index.html --localhost
+npx respec -s dpub-aam/index.html -o public/dpub-aam/index.html --localhost --disable-sandbox
 echo "Built DPub AAM"
-npx respec -s dpub-aria/index.html -o public/dpub-aria/index.html --localhost
+npx respec -s dpub-aria/index.html -o public/dpub-aria/index.html --localhost --disable-sandbox
 echo "Built DPUB ARIA"
-npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localhost
+npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localhost --disable-sandbox
 echo "Built graphics AAM"
-npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost
+npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
 echo "Built graphics ARIA"
-npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost
+npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost --disable-sandbox
 echo "Built SVG AAM"
-npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost
+npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost --disable-sandbox
 echo "Built mathml-aam"
-npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost
+npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost --disable-sandbox
 echo "Built PDF AAM"
