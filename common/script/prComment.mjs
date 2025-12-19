@@ -92,7 +92,7 @@ ${cleanedBody}`.trim();
 // Define the base URLs
 // Use Netlify site and context to build preview URL
 // Get Netlify site name from environment variable or default to 'wai-aria'
-const netlifySite = process.env.SITE_NAME || process.env.NETLIFY_SITE_NAME || 'wai-aria';
+const netlifySite = process.env.SITE_NAME || 'wai-aria';
 // Get Netlify context from environment variable or default to 'deploy-preview'
 const netlifyContext = process.env.CONTEXT || process.env.NETLIFY_CONTEXT || 'deploy-preview';
 const previewBaseURL = `https://${netlifyContext}-${pull_request_number}--${netlifySite}.netlify.app`;
