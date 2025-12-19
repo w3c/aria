@@ -10,12 +10,18 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "latest"
       
+      - name: Install additional dependencies
+        run: npm install axios yargs respec
+      
+
       - name: Build site
         run: bash ./common/script/pr-preview.sh
         env:
@@ -38,9 +44,6 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 5
 
-      - name: Install additional dependencies
-        run: npm install axios yargs
-      
       - name: Update PR comment with preview and diff links
         run: |
           node common/script/prComment.mjs \
