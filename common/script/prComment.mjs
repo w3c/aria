@@ -8,25 +8,25 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Parse command-line arguments
+// Parse command-line arguments with fallbacks to GitHub Actions environment variables
 const args = yargs(hideBin(process.argv))
   .option("repo", {
     alias: "r",
     type: "string",
     description: "GitHub repository in the format owner/repo",
-    demandOption: true,
+    default: process.env.GITHUB_REPOSITORY,
   })
   .option("pull_request_number", {
     alias: "pr",
     type: "number",
     description: "Pull request number",
-    demandOption: true,
+    default: process.env.PR_NUMBER ? parseInt(process.env.PR_NUMBER) : undefined,
   })
   .option("token", {
     alias: "t",
     type: "string",
     description: "GitHub personal access token",
-    demandOption: true,
+    default: process.env.GITHUB_TOKEN,
   })
   .option("build_specs", {
     alias: "b",
@@ -40,9 +40,14 @@ const args = yargs(hideBin(process.argv))
     description: "Update the PR description with preview links",
     default: false,
   })
+  .option("base_ref", {
+    type: "string",
+    description: "Base branch reference for git diff",
+    default: process.env.GITHUB_BASE_REF || "main",
+  })
   .help().argv;
 
-const { repo, pull_request_number, token, update_pr, build_specs } = args;
+const { repo, pull_request_number, token, update_pr, build_specs, base_ref } = args;
 
 async function updatePRDescription(markdownContent) {
   if (!update_pr) return;
@@ -86,25 +91,22 @@ ${cleanedBody}`.trim();
 
 // Define the base URLs
 // Use Netlify site and context to build preview URL
-const netlifySite = "wai-aria";
-const netlifyContext = "deploy-preview";
+// Get Netlify site name from environment variable or default to 'wai-aria'
+const netlifySite = process.env.SITE_NAME || process.env.NETLIFY_SITE_NAME || 'wai-aria';
+// Get Netlify context from environment variable or default to 'deploy-preview'
+const netlifyContext = process.env.CONTEXT || process.env.NETLIFY_CONTEXT || 'deploy-preview';
 const previewBaseURL = `https://${netlifyContext}-${pull_request_number}--${netlifySite}.netlify.app`;
-const EDBaseURL = `https://w3c.github.io`;
+// Extract repo owner and name from the repo parameter (format: owner/repo)
+const repoOwner = repo.split('/')[0];
+const repoName = repo.split('/')[1];
+const EDBaseURL = `https://${repoOwner}.github.io/${repoName}`;
 
 async function getChangedFiles() {
+  const { execSync } = await import('child_process');
   try {
-    // Build headers conditionally - only include Authorization if token is provided
-    const headers = {};
-    if (token) {
-      headers.Authorization = `token ${token}`;
-    }
-
-    // Fetch the list of changed files from the GitHub API
-    const response = await axios.get(`https://api.github.com/repos/${repo}/pulls/${pull_request_number}/files`, {
-      headers,
-    });
-
-    const files = response.data.map((file) => file.filename);
+    // Use git diff to get changed files
+    const diffOutput = execSync(`git diff --name-only origin/${base_ref}...HEAD`, { encoding: 'utf-8' });
+    const files = diffOutput.split('\n').filter(Boolean);
 
     // Filter to only include index.html files
     const specSources = files.filter(file => 
@@ -118,11 +120,12 @@ async function getChangedFiles() {
       // Build ED URL based on file path
       let EDUrl;
       if (file === 'index.html') {
-        EDUrl = `${EDBaseURL}/aria/`;
+        // Main spec: https://w3c.github.io/aria/
+        EDUrl = `${EDBaseURL}/`;
       } else if (file.endsWith('/index.html')) {
-        // Extract directory name for subdirectory index.html files
+        // Child specs: https://w3c.github.io/core-aam/ (not /aria/core-aam/)
         const dirName = file.split('/').slice(-2, -1)[0];
-        EDUrl = `${EDBaseURL}/${dirName}/`;
+        EDUrl = `https://${repoOwner}.github.io/${dirName}/`;
       }
       
       const diffUrl = `https://services.w3.org/htmldiff?doc1=${encodeURIComponent(EDUrl)}&doc2=${encodeURIComponent(previewUrl)}`;
@@ -137,7 +140,7 @@ async function getChangedFiles() {
         specName = dirName;
       }
       
-      return `- [${specName} preview](${previewUrl}) ([diff](${diffUrl}))`;
+      return `- [${specName} preview](${previewUrl}) &mdash; [${specName} diff](${diffUrl})`;
     }).join("\n");
 
     // Output the Markdown list

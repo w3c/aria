@@ -10,10 +10,19 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      
+      - name: Build site
+        run: bash ./common/script/pr-preview.sh
+      
       - name: Deploy site to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: "./"
+          publish-dir: "./public"
           # production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.pull_request.title }}
@@ -27,22 +36,9 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 5
 
-  update-pr-links:
-    needs: build-and-deploy
-    if: ${{ needs.build-and-deploy.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "latest"
-
-      - name: Install dependencies
-        run: |
-          npm install axios yargs
+      - name: Install additional dependencies
+        run: npm install axios yargs
+      
       - name: Update PR comment with preview and diff links
         run: |
           node common/script/prComment.mjs \
