@@ -16,7 +16,8 @@ jobs:
           publish-dir: "./"
           # production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: ${{ github.event.pull_request.title }}
+          alias: deploy-preview-${{ github.event.number }}
           enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true
@@ -38,11 +39,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "latest"
-          cache: 'npm'
 
       - name: Install dependencies
         run: |
-          npm i
+          npm install axios yargs
       - name: Update PR comment with preview and diff links
         run: |
           node common/script/prComment.mjs \
