@@ -1,0 +1,53 @@
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      
+      - name: Install additional dependencies
+        run: npm install axios yargs
+
+      - name : Install respec globally
+        run : npm install -g respec
+
+      - name: Build site
+        run: bash ./common/script/pr-preview.sh
+      
+      - name: Deploy site to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: "./public"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: ${{ github.event.pull_request.title }}
+          alias: deploy-preview-${{ github.event.number }}
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
+
+      - name: Update PR comment with preview and diff links
+        env:
+          SITE_NAME: staging-aria
+        run: |
+          node common/script/prComment.mjs \
+            --repo ${{ github.repository }} \
+            --pull_request_number ${{ github.event.pull_request.number }} \
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --update_pr
