@@ -125,7 +125,7 @@ async function getChangedFiles() {
       } else if (file.endsWith('/index.html')) {
         // Child specs: https://w3c.github.io/core-aam/ (not /aria/core-aam/)
         const dirName = file.split('/').slice(-2, -1)[0];
-        EDUrl = `https://${repoOwner}.github.io/${dirName}/`;
+        EDUrl = `https://w3c.github.io/${dirName}/`;
       }
       
       const diffUrl = `https://services.w3.org/htmldiff?doc1=${encodeURIComponent(EDUrl)}&doc2=${encodeURIComponent(previewUrl)}`;
