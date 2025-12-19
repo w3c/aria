@@ -68,7 +68,7 @@ async function updatePRDescription(markdownContent) {
 
     // Create new body with preview links prepended
     const newBody = `🚀 **Netlify Preview**:
-🔄 **Changed Pages**:
+🔄 **this PR updates the following sspecs**:
 ${markdownContent}
 
 ${cleanedBody}`.trim();
