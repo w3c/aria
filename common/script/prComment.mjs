@@ -113,6 +113,12 @@ async function getChangedFiles() {
       file === 'index.html' || file.endsWith('/index.html')
     );
 
+    // Skip if no index files were changed
+    if (specSources.length === 0) {
+      console.log('No index.html files changed in this PR. Skipping preview generation.');
+      return;
+    }
+
     // Build the Markdown list with preview URLs and diff links
     const markdownList = specSources.map((file) => {
       const previewUrl = `${previewBaseURL}/${file}`;
