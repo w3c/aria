@@ -4738,15 +4738,19 @@
           <rdef>group</rdef>
           <div class="role-description">
             <p>A set of user interface <a>objects</a> that is not intended to be included in a page summary or table of contents by <a>assistive technologies</a>.</p>
-            <p>Contrast with <rref>region</rref>, which is a grouping of user interface objects that will be included in a page summary or table of contents.</p>
+            <p>
+              Contrast with <rref>region</rref>, which is a grouping of user interface objects that will be included in a page summary or table of contents. If a section is significant enough to 
+	      warrant inclusion in the web page's table of contents, the author SHOULD assign it a <a>role</a> of<rref>region</rref> or a <a href="#landmark_roles">standard landmark role</a>.
+	    </p>
             <p>
               Authors SHOULD use a <code>group</code> to form a logical collection of items in a <a>widget</a>, such as children in a tree widget forming a collection of siblings in a hierarchy.
-              However, when a <code>group</code> is used in the context of a <rref>listbox</rref>, for example, authors MUST limit its children to <rref>option</rref> elements. Therefore, proper
-              handling of <code>group</code> by authors and assistive technologies is determined by the context in which it is provided.
-            </p>
-            <p>
-              Authors MAY nest <code>group</code> elements. If a section is significant enough to warrant inclusion in the web page's table of contents, the author SHOULD assign it a <a>role</a> of
-              <rref>region</rref> or a <a href="#landmark_roles">standard landmark role</a>.
+	      Authors MAY nest <code>group</code> elements.
+	    </p>
+	    <p>
+	      The proper handling of <code>group</code> by authors and assistive technologies is determined by the context in which it is provided. For example, when a <code>group</code> is the 
+	      <a>accessibility child</a> of a <code>menu</code> or <code>menubar</code>, authors MAY nest additional <code>group</code> elements. However, the <a>accessibility children</a> of the 
+	      innermost <code>group</code> MUST be limited to <code>menuitem</code>, <code>menuitemcheckbox</code>, <code>menuitemradio</code> and <code>separator</code> elements. Whereas when a 
+	      <code>group</code> is the accessibility child of a <code>listbox</code>, authors MUST NOT nest any <code>group</code> and MUST limit the groups <a>accessibility children</a> to <code>option</code> elements.
             </p>
           </div>
           <table class="def">
@@ -6182,6 +6186,13 @@
             </p>
             <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menu</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
+            <p class="note">
+	      The <code>menu</code> <a>role</a> allows only roles <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, and <rref>separator</rref> as
+              <a>accessibility children</a>. These roles may be nested within structural elements with roles <rref>generic</rref>, <rref>group</rref>, or <rref>none</rref> that sit between them and the 
+	      <code>menu</code>. This allows authors to organize menus logically using groups or to style them using generic containers. However, aside from <rref>group</rref>, no other semantically 
+	      meaningful roles may intervene between the allowed child roles and the <code>menu</code>. This structure mirrors the concept of "accessibility children", but explicitly permits 
+	      <rref>group</rref> in addition to <rref>generic</rref> and <rref>none</rref> as intervening elements.
+            </p>
           </div>
           <table class="def">
             <caption>
@@ -6227,9 +6238,7 @@
                 <td class="role-mustcontain">
                   <ul>
                     <!-- keep in sync with #menubar -->
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitem</rref></li>
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitemradio</rref></li>
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitemcheckbox</rref></li>
+                    <li><rref>group</rref> as intervening role</li>
                     <li><rref>menuitem</rref></li>
                     <li><rref>menuitemcheckbox</rref></li>
                     <li><rref>menuitemradio</rref></li>
@@ -6286,6 +6295,13 @@
             </p>
             <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menubar</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
+            <p class="note">
+	      The <code>menubar</code> <a>role</a> allows only roles <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, and <rref>separator</rref> as
+              <a>accessibility children</a>. These roles may be nested within structural elements with roles <rref>generic</rref>, <rref>group</rref>, or <rref>none</rref> that sit between them and the 
+	      <code>menubar</code>. This allows authors to organize menubars logically using groups or to style them using generic containers. However, aside from <rref>group</rref>, no other semantically 
+	      meaningful roles may intervene between the allowed child roles and the <code>menubar</code>. This structure mirrors the concept of "accessibility children", but explicitly permits 
+	      <rref>group</rref> in addition to <rref>generic</rref> and <rref>none</rref> as intervening elements.
+            </p>
           </div>
           <table class="def">
             <caption>
@@ -6327,9 +6343,7 @@
                 <td class="role-mustcontain">
                   <ul>
                     <!-- keep in sync with #menu -->
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitem</rref></li>
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitemradio</rref></li>
-                    <li><rref>group</rref> with <a>accessibility child</a> <rref>menuitemcheckbox</rref></li>
+                    <li><rref>group</rref> as intervening role</li>
                     <li><rref>menuitem</rref></li>
                     <li><rref>menuitemcheckbox</rref></li>
                     <li><rref>menuitemradio</rref></li>
@@ -6381,8 +6395,8 @@
           <div class="role-description">
             <p>An option in a set of choices contained by a <rref>menu</rref> or <rref>menubar</rref>.</p>
             <p>
-              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitem</code> are <a>accessibility children</a> of an element with role <rref>menu</rref>, <rref>menubar</rref>, or an element
-              with role <rref>group</rref> that is an <a>accessibility child</a> of an element with role <rref>menu</rref> or <rref>menubar</rref>.
+              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitem</code> have an <a>accessibility ancestor</a> with role <rref>menu</rref>, <rref>menubar</rref>, with only elements of
+              role <rref>generic</rref>, <rref>group</rref>, and <rref>none</rref> intervening.
             </p>
             <p>
               Authors MAY disable a menu item with the <sref>aria-disabled</sref> attribute. If the menu item has its <pref>aria-haspopup</pref> attribute set to <code>true</code>, it indicates that
@@ -6439,6 +6453,7 @@
                   <ul>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
+                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>group</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menu</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menubar</rref></li>
                   </ul>
@@ -6501,8 +6516,8 @@
           <div class="role-description">
             <p>A <rref>menuitem</rref> with a checkable state whose possible <span>values</span> are <code>true</code>, <code>false</code>, or <code>mixed</code>.</p>
             <p>
-              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitemcheckbox</code> are <a>accessibility children</a> of an element with role <rref>menu</rref>, <rref>menubar</rref>, or an
-              element with role <rref>group</rref> that is an <a>accessibility child</a> of an element with role <rref>menu</rref> or <rref>menubar</rref>.
+              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitemcheckbox</code> have an <a>accessibility ancestor</a> with role <rref>menu</rref> or <rref>menubar</rref>, with only
+              elements of role <rref>generic</rref>, <rref>group</rref>, and <rref>none</rref> intervening.
             </p>
             <p>
               The <sref>aria-checked</sref> <a>attribute</a> of a <code>menuitemcheckbox</code> indicates whether the menu item is checked (<code>true</code>), unchecked (<code>false</code>), or
@@ -6555,6 +6570,7 @@
                   <ul>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
+                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>group</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menu</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menubar</rref></li>
                   </ul>
@@ -6613,8 +6629,8 @@
           <div class="role-description">
             <p>A checkable <rref>menuitem</rref> in a set of elements with the same role, only one of which can be checked at a time.</p>
             <p>
-              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitemradio</code> are <a>accessibility children</a> of an element with role <rref>menu</rref>, <rref>menubar</rref>, or an
-              element with role <rref>group</rref> that is an <a>accessibility child</a> of an element with role <rref>menu</rref> or <rref>menubar</rref>.
+              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitemradio</code> have an <a>accessibility ancestor</a> with role <rref>menu</rref>, <rref>menubar</rref>, with only elements
+              of role <rref>generic</rref>, <rref>group</rref>, and <rref>none</rref> intervening.
             </p>
             <p>
               Authors SHOULD enforce that only one <code>menuitemradio</code> in a group can be checked at the same time. When one item in the group is checked, the previously checked item becomes
@@ -6672,6 +6688,7 @@
                   <ul>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
+                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>group</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menu</rref></li>
                     <li><rref>group</rref> with <a>accessibility parent</a> <rref>menubar</rref></li>
                   </ul>
@@ -16201,6 +16218,10 @@ button.ariaPressed; // null</pre
       <section id="tree_relationships">
         <h2>Relationships in the Accessibility Tree</h2>
         <p>The following terms are used to describe relationships between <abbr title="Document Object Model">DOM</abbr> elements.</p>
+        <p>
+          The <dfn data-export="" data-lt="accessibility ancestor|accessibility ancestors">accessibility ancestors</dfn> of a DOM element are all DOM elements of which the given DOM element is an
+          <a>accessibility descendant</a>.
+        </p>
         <p>
           The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that
           element's corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):
