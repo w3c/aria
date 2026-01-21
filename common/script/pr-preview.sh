@@ -3,19 +3,44 @@
 # build relative links to ARIA spec
 find . -maxdepth 1 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/|ED: "./|g' {} +
 
-# build lins to ARIA from chil specs
+# build lins to ARIA from child specs
 find . -mindepth 2 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/aria/|ED: "/|g' {} +
 
 # build relative links for child specs
 find . -mindepth 2 -type f -name "index.html" -exec perl -pi -e 's|ED: "https://w3c\.github\.io/(?!aria)|ED: "/|g' {} +
+
+# make output directory
+mkdir -p public/accname
+mkdir -p public/core-aam
+mkdir -p public/dpub-aam
+mkdir -p public/dpub-aria
+mkdir -p public/graphics-aam
+mkdir -p public/graphics-aria
+mkdir -p public/html-aam
+mkdir -p public/svg-aam
+mkdir -p public/mathml-aam
+mkdir -p public/pdf-aam
+
 # build all specs
-npx respec -s index.html -o index.html --localhost
-npx respec -s accname/index.html -o accname/index.html --localhost
-npx respec -s core-aam/index.html -o core-aam/index.html --localhost
-npx respec -s dpub-aam/index.html -o dpub-aam/index.html --localhost
-npx respec -s dpub-aria/index.html -o dpub-aria/index.html --localhost
-npx respec -s graphics-aam/index.html -o graphics-aam/index.html --localhost
-npx respec -s graphics-aria/index.html -o graphics-aria/index.html --localhost
-npx respec -s svg-aam/index.html -o svg-aam/index.html --localhost
-npx respec -s mathml-aam/index.html -o mathml-aam/index.html --localhost
-npx respec -s pdf-aam/index.html -o pdf-aam/index.html --localhost
+npx respec -s index.html -o public/index.html --localhost --disable-sandbox
+echo "Built ARIA"
+npx respec -s accname/index.html -o public/accname/index.html --localhost --disable-sandbox
+echo "Built AccName"
+npx respec -s core-aam/index.html -o public/core-aam/index.html --localhost --disable-sandbox
+echo "Built Core AAM"
+npx respec -s dpub-aam/index.html -o public/dpub-aam/index.html --localhost --disable-sandbox
+echo "Built DPub AAM"
+npx respec -s dpub-aria/index.html -o public/dpub-aria/index.html --localhost --disable-sandbox
+echo "Built DPUB ARIA"
+npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localhost --disable-sandbox
+echo "Built graphics AAM"
+npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
+echo "Built graphics ARIA"
+npx respec -s html-aam/index.html -o public/html-aam/index.html --localhost --disable-sandbox
+echo "Built HTML AAM"
+npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost --disable-sandbox
+echo "Built SVG AAM"
+npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost --disable-sandbox
+echo "Built mathml-aam"
+npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost --disable-sandbox
+echo "Built PDF AAM"
