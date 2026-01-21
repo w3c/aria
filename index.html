@@ -344,8 +344,8 @@
         </p>
         <p>
           Speech-based command and control systems can benefit from <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> semantics like the <code>role</code> attribute to assist in
-          conveying audio information to the user. For example, upon encountering an element with a role of <rref>menu</rref> with child elements of role <rref>menuitem</rref> each containing text
-          content representing a different flavor, a speech system might state to the user, "Select one of three choices: chocolate, strawberry, or vanilla."
+          conveying audio information to the user. For example, upon encountering an element with a role of <rref>menu</rref> with <a>accessibility children</a> of role <rref>menuitem</rref> each
+          containing text content representing a different flavor, a speech system might state to the user, "Select one of three choices: chocolate, strawberry, or vanilla."
         </p>
         <p>
           <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> is intended to be used as a supplement for native language semantics, not a replacement. When the host language provides a
@@ -1053,7 +1053,7 @@
                   </p>
                   <p class="note">The inability to set <abbr title="Document Object Model">DOM</abbr> focus to the containing element indicates an author error.</p>
                 </li>
-                <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the child element itself.</li>
+                <li>Otherwise, the user agent MAY attempt to set <abbr title="Document Object Model">DOM</abbr> focus to the <a>accessibility child</a> itself.</li>
               </ol>
             </li>
             <li>
@@ -1175,13 +1175,14 @@
         <section id="mustContain">
           <h3>Allowed Accessibility Child Roles</h3>
           <p>
-            A list of roles which are allowed on an <a>accessibility child</a> (simplified as "child") of the element with this <a>role</a>. Authors MUST only add child element with allowed roles. For
-            example, an element with the role <rref>list</rref> can own child elements with the role <rref>listitem</rref>, but cannot own elements with the role <rref>option</rref>.
+            A list of roles which are allowed on an <a>accessibility child</a> of the element with this <a>role</a>. Authors MUST only add <a>accessibility children</a> with allowed roles. For
+            example, an element with the role <rref>list</rref> allows <a>accessibility children</a> with the role <rref>listitem</rref>, but does not allow <a>accessibility children</a> with the role
+            <rref>option</rref>.
           </p>
-          <p>To determine whether an element is the <a>child</a> of an element, <a>user agents</a> MUST ignore any intervening elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
           <p>
-            Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an allowed child of a
-            <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s allowed child <code>listitem</code>.
+            Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an
+            <a href="#mustContain">allowed accessibility child</a> of a <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s
+            <a href="#mustContain">allowed accessibility child</a> <code>listitem</code>.
           </p>
           <p class="note">
             A role that has 'allowed accessibility child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given
@@ -1189,64 +1190,65 @@
           </p>
           <p class="note">
             An element with a <a href="#subclassroles">subclass role</a> of the 'allowed accessibility child role' does not fulfill this requirement. For example, the <rref>listbox</rref> role allows
-            a child element using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding a child element with a role of
-            <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> allows children with <rref>option</rref> or <rref>group</rref> roles.
+            an <a>accessibility child</a> using the <rref>option</rref> or <rref>group</rref> role. Although the <rref>group</rref> role is the superclass of <rref>row</rref>, adding an
+            <a>accessibility child</a> with a role of <rref>row</rref> will not fulfill the requirement that <rref>listbox</rref> allows children with <rref>option</rref> or <rref>group</rref> roles.
           </p>
           <p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
-          <p class="note">Examples of valid ways to mark up allowed accessibility child roles include:</p>
-          <ol>
-            <li>
-              Direct DOM child:
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight html">
-&lt;div role="listbox"&gt;
-	&lt;div role="option"&gt;option text&lt;/div&gt;
-&lt;/div&gt;</pre
-              >
-            </li>
-            <li>
-              DOM child with generics intervening:
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight html">
-&lt;div role="listbox"&gt;
-	&lt;div&gt;
-		&lt;div role="option"&gt;option text&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/div&gt;</pre
-              >
-            </li>
-            <li>
-              Direct <code>aria-owns</code> relationship:
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight html">
-&lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
-&lt;div role="option" id="id1"&gt;option text&lt;/div&gt;</pre
-              >
-            </li>
-            <li>
-              <code>aria-owns</code> relationship with generics intervening:
-              <!-- ReSpec needs these examples to be unindented. -->
-              <pre class="example highlight html">
-&lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
-&lt;div id="id1"&gt;
-	&lt;div&gt;
-		&lt;div role="option"&gt;option text&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/div&gt;</pre
-              >
-            </li>
-          </ol>
+          <div class="note">
+            <p>Examples of valid ways to mark up allowed accessibility child roles include:</p>
+            <ol>
+              <li>
+                Direct DOM child:
+                <!-- ReSpec needs these examples to be unindented. -->
+                <pre class="example highlight html">
+  &lt;div role="listbox"&gt;
+    &lt;div role="option"&gt;option text&lt;/div&gt;
+  &lt;/div&gt;</pre
+                >
+              </li>
+              <li>
+                DOM child with generics intervening:
+                <!-- ReSpec needs these examples to be unindented. -->
+                <pre class="example highlight html">
+  &lt;div role="listbox"&gt;
+    &lt;div&gt;
+      &lt;div role="option"&gt;option text&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</pre
+                >
+              </li>
+              <li>
+                Direct <code>aria-owns</code> relationship:
+                <!-- ReSpec needs these examples to be unindented. -->
+                <pre class="example highlight html">
+  &lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
+  &lt;div role="option" id="id1"&gt;option text&lt;/div&gt;</pre
+                >
+              </li>
+              <li>
+                <code>aria-owns</code> relationship with generics intervening:
+                <!-- ReSpec needs these examples to be unindented. -->
+                <pre class="example highlight html">
+  &lt;div role="listbox" aria-owns="id1"&gt;&lt;/div&gt;
+  &lt;div id="id1"&gt;
+    &lt;div&gt;
+      &lt;div role="option"&gt;option text&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</pre
+                >
+              </li>
+            </ol>
+          </div>
         </section>
         <section id="scope">
           <h3>Required Accessibility Parent Role</h3>
           <p>
-            The required <a>accessibility parent</a> (simplified as "parent") role defines the container where this <a>role</a> is allowed. If a role has a required accessibility parent, authors MUST
-            ensure that an element with the role is an <a>accessibility child</a> of an element with the required accessibility parent role. For example, an element with role <code>listitem</code> is
-            only meaningful when it is a child of an element with role <code>list</code>.
+            Lists all roles that are allowed for the <a>accessibility parent</a> of an element with the current <a>role</a>. If the list is not empty, authors MUST ensure that an element with the
+            current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an
+            element with role <code>list</code>.
           </p>
-          <p>To determine whether an element has a parent with the required role, <a>user agents</a> MUST ignore any elements with the role <rref>generic</rref> or <rref>none</rref>.</p>
-          <p>Also, <a>user agents</a> SHOULD ignore the role if it occurs outside the context of a required accessibility parent role.</p>
-          <p class="note">An element with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
+          <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list.</p>
+          <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
         </section>
         <section id="namecalculation">
           <h3>Name From</h3>
@@ -1473,9 +1475,7 @@
           <ul>
             <li><rref>alert</rref></li>
             <li><rref>log</rref></li>
-            <li><rref>marquee</rref></li>
             <li><rref>status</rref></li>
-            <li><rref>timer</rref></li>
           </ul>
         </section>
         <section id="window_roles">
@@ -3863,10 +3863,10 @@
             </p>
             <p>
               Because <a>assistive technologies</a> that have a reading mode default to that mode for all elements except for those with either a <rref>widget</rref> or <rref>application</rref> role,
-              the only circumstance where the <code>document</code> role is useful for changing assistive technology behavior is when the element with role <code>document</code> is a
-              <a>focusable</a> child element of a <rref>widget</rref> or <rref>application</rref>. For example, given an <rref>application</rref> element which contains some static rich text, the
-              author can apply role <code>document</code> to the element containing the text and give it a <code>tabindex</code> of <code>0</code>. When a screen reader user presses the Tab key and
-              places focus on the <code>document</code> element, the user will be able to read the text with the screen reader's reading cursor.
+              the only circumstance where the <code>document</code> role is useful for changing assistive technology behavior is when the element with role <code>document</code> is a <a>focusable</a>
+              <a>accessibility child</a> of a <rref>widget</rref> or <rref>application</rref>. For example, given an <rref>application</rref> element which contains some static rich text, the author
+              can apply role <code>document</code> to the element containing the text and give it a <code>tabindex</code> of <code>0</code>. When a screen reader user presses the Tab key and places
+              focus on the <code>document</code> element, the user will be able to read the text with the screen reader's reading cursor.
             </p>
           </div>
           <table class="def">
@@ -5686,7 +5686,7 @@
         <div class="role" id="log">
           <rdef>log</rdef>
           <div class="role-description">
-            <p>A type of <a>live region</a> where new information is added in meaningful order and old information can disappear. See related <rref>marquee</rref>.</p>
+            <p>A type of <a>live region</a> where new information is added in meaningful order and old information can disappear.</p>
             <p>
               Examples include chat logs, messaging history, game log, or an error log. In contrast to other live regions, in this <a>role</a> there is a <a>relationship</a> between the arrival of new
               items in the log and the reading order. The log contains a meaningful sequence and new information is added only to the end of the log, not at arbitrary points.
@@ -5963,12 +5963,8 @@
         <div class="role" id="marquee">
           <rdef>marquee</rdef>
           <div class="role-description">
-            <p>A type of <a>live region</a> where non-essential information changes frequently. See related <rref>log</rref>.</p>
-            <p>
-              Common usages of <code>marquee</code> include stock tickers and ad banners. The primary difference between a <code>marquee</code> and a <rref>log</rref> is that logs usually have a
-              meaningful order or sequence of important content changes.
-            </p>
-            <p>Elements with the role <code>marquee</code> have an implicit <pref>aria-live</pref> value of <code>off</code>.</p>
+            <p>A section of content where non-essential information changes frequently.</p>
+            <p>Common usages of <code>marquee</code> include stock tickers and ad banners.</p>
           </div>
           <table class="def">
             <caption>
@@ -7056,8 +7052,8 @@
   &lt;foo&gt; More Sample Content &lt;/foo&gt;
 &lt;/foo&gt;</pre>
             <p class="note">
-              There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with specific allowed children for which this situation is applicable (e.g., feeds and
-              listboxes), but tables and lists are the most common real-world cases in which the none/presentation inheritance is likely to apply.
+              There are other <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles with specific <a href="#mustContain">allowed accessibility children</a> for which this situation
+              is applicable (e.g., feeds and listboxes), but tables and lists are the most common real-world cases in which the none/presentation inheritance is likely to apply.
             </p>
             <p>
               For any element with an explicit or inherited role of <rref>none</rref>/<rref>presentation</rref>, user agents MUST apply an inherited role of <rref>none</rref> to all
@@ -11105,12 +11101,11 @@
         <div class="role" id="timer">
           <rdef>timer</rdef>
           <div class="role-description">
-            <p>A type of <a>live region</a> containing a numerical counter which indicates an amount of elapsed time from a start point, or the time remaining until an end point.</p>
+            <p>A section of content containing a numerical counter which indicates an amount of elapsed time from a start point, or the time remaining until an end point.</p>
             <p>
               The text contents of the timer <a>object</a> indicate the current time measurement, and are updated as that amount changes. The timer value is not necessarily machine parsable, but
               authors SHOULD update the text contents at fixed intervals, except when the timer is paused or reaches an end-point.
             </p>
-            <p>Elements with the role <code>timer</code> have an implicit <pref>aria-live</pref> value of <code>off</code>.</p>
           </div>
           <table class="def">
             <caption>
@@ -11182,10 +11177,6 @@
               <tr>
                 <th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
                 <td class="role-presentational-inherited"> </td>
-              </tr>
-              <tr>
-                <th class="implicit-values-head" scope="row">Implicit Value for Role:</th>
-                <td class="implicit-values">Default for <pref>aria-live</pref> is <code class="default">off</code>.</td>
               </tr>
             </tbody>
           </table>
@@ -12127,8 +12118,8 @@ button.ariaPressed; // null</pre
           <p>
             This section contains [=attributes=] specific to <a>live regions</a> in rich internet applications. These attributes MAY be applied to any <a>element</a>. The purpose of these attributes
             is to indicate that content changes might occur without the element having focus, and to provide <a>assistive technologies</a> with information on how to process those content updates.
-            Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a ticker section that lists updating stock quotes.
-            User agents MAY ignore changes triggered by direct user action on an <a>element</a> inside a live region (e.g., editing the value of a text field).
+            Some <a>roles</a> specify a default value for the <pref>aria-live</pref> attribute specific to that role. An example of a live region is a chat log that lists incoming chat meessages. User
+            agents MAY ignore changes triggered by direct user action on an <a>element</a> inside a live region (e.g., editing the value of a text field).
           </p>
           <ul>
             <li><pref>aria-atomic</pref></li>
@@ -14492,7 +14483,7 @@ button.ariaPressed; // null</pre
               notify the user of relevant modifications to the live region, and could potentially clear the speech queue of previous updates.
             </p>
             <p>
-              Priority levels (<code>none</code>, <code>polite</code>, <code>assertive</code>) act as an ordering mechanism for updates and serve as a recommendation to user agents or assistive
+              Priority levels (<code>off</code>, <code>polite</code>, <code>assertive</code>) act as an ordering mechanism for updates and serve as a recommendation to user agents or assistive
               technologies. The value can be overridden by user agents, assistive technologies, or the user. For example, if assistive technologies can determine that a change occurred in response to
               a key press or a mouse click, the assistive technologies might present that change immediately even if the value of the <pref>aria-live</pref> attribute states otherwise.
             </p>
@@ -14570,7 +14561,7 @@ button.ariaPressed; // null</pre
               </tr>
               <tr>
                 <th class="value-name" scope="row"><strong class="default">off (default)</strong></th>
-                <td class="value-description">Indicates that updates to the region should not be presented to the user unless the user is currently focused on that region.</td>
+                <td class="value-description">Indicates that updates to the region will not be presented to the user.</td>
               </tr>
               <tr>
                 <th class="value-name" scope="row">polite</th>
@@ -14852,8 +14843,8 @@ button.ariaPressed; // null</pre
               <abbr title="Document Object Model">DOM</abbr>.
             </p>
             <p>
-              If an element has both <pref>aria-owns</pref> and <abbr title="Document Object Model">DOM</abbr> children then the order of the child elements with respect to the parent/child
-              relationship is the <abbr title="Document Object Model">DOM</abbr> children first, then the elements referenced in <pref>aria-owns</pref>. If the author intends that the
+              If an element has both <pref>aria-owns</pref> and <abbr title="Document Object Model">DOM</abbr> children then the order of the <a>accessibility children</a> with respect to the
+              parent/child relationship is the <abbr title="Document Object Model">DOM</abbr> children first, then the elements referenced in <pref>aria-owns</pref>. If the author intends that the
               <abbr title="Document Object Model">DOM</abbr> children are not first, then list the DOM children in <pref>aria-owns</pref> in the desired order. Authors SHOULD NOT use
               <pref>aria-owns</pref> as a replacement for the <abbr title="Document Object Model">DOM</abbr> hierarchy. If the relationship is represented in the DOM, do not use
               <pref>aria-owns</pref>.
@@ -16163,7 +16154,7 @@ button.ariaPressed; // null</pre
           </li>
           <li>
             Elements with <rref>none</rref> or <rref>presentation</rref> as the first role in the role attribute. However, their exclusion is conditional. In addition, the element's descendants and
-            text content are generally included. These exceptions and conditions are documented in the <a href="#presentation">presentation (role)</a> section.
+            text content are generally included. These exceptions and conditions are documented in the <a href="#none">none (role)</a> section.
           </li>
         </ul>
         <p>If not already excluded from the accessibility tree per the above rules, user agents SHOULD NOT include the following elements in the accessibility tree:</p>
@@ -16229,8 +16220,8 @@ button.ariaPressed; // null</pre
         <h2>Relationships in the Accessibility Tree</h2>
         <p>The following terms are used to describe relationships between <abbr title="Document Object Model">DOM</abbr> elements.</p>
         <p>
-          The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that
-          element's corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):
+          The <dfn data-export="" data-lt="accessibility child|owned child">accessibility children</dfn> of a DOM element are all of the children of that element's corresponding
+          <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):
         </p>
         <ul>
           <li>The <abbr title="Document Object Model">DOM</abbr> children of the <a>element</a>.</li>
@@ -16755,8 +16746,8 @@ button.ariaPressed; // null</pre
             element is <a>operable</a>.
           </li>
           <li>
-            If an <a href="#mustContain">allowed child element</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with its
-            explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
+            If an <a href="#mustContain">allowed accessibility child</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with
+            its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
           </li>
           <li>
             If an element has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role.
