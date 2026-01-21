@@ -6333,6 +6333,116 @@
             </p>
           </div>
         </section>
+
+        <section id="mapping_generic_role">
+          <h3>Role Mapping for Generic Host Language Elements</h3>
+          <p>
+            ARIA 1.2 introduced a new <a class="role-reference" href="#generic"><code>generic</code></a> role, intended for host language elements without a specific or consistent user interface
+            semantic meaning.
+          </p>
+          <p>
+            Generic elements are often used by web authors for a variety of custom grouping, stylistic, and functional containers. Examples of such elements include <code>&lt;div&gt;</code> and
+            <code>&lt;span&gt;</code> in <abbr title="Hypertext Markup Language">HTML</abbr>, and <code>&lt;g&gt;</code> in <abbr title="Scalable Vector Graphics">SVG</abbr>. Earlier versions of HTML
+            contained many generic elements associated with a default style renderings, such as <code>&lt;b&gt;</code>, <code>&lt;center&gt;</code>, and <code>&lt;blink&gt;</code>. While many of these
+            earlier style-based elements have been deprecated, elements such as <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code> and a number of other generic elements representing text-level semantics
+            remain.
+          </p>
+          <p>Implementations map style-based host language elements similarly or identically to other generic elements with the same applied styles. For example:</p>
+          <ul>
+            <li><code>&lt;b&gt;</code> is mapped the same as <code>&lt;span style="font-weight: bold;"&gt;</code></li>
+            <li><code>&lt;u&gt;</code> is mapped the same as <code>&lt;span style="text-decoration: underline;"&gt;</code></li>
+          </ul>
+          <p>Similarly, non-style generic elements are mapped similarly or identically to other generic elements when the same styles are applied. For example:</p>
+          <ul>
+            <li><code>&lt;span&gt;</code> is mapped the same as <code>&lt;div style="display: inline;"&gt;</code></li>
+            <li><code>&lt;div&gt;</code> is mapped the same as <code>&lt;span style="display: block;"&gt;</code></li>
+          </ul>
+          <div class="ednote" style="border: solid 2px red">
+            <p>Implementors, are the previous statements true in all, or is this unique by rendering engine?</p>
+          </div>
+
+          <div class="ednote" style="border: solid 2px red">
+            <p>
+              The following table won't be close to accurate in the first draft PR. I'm listing these out to solicit feedback from implementors as to whether this approach is reasonable for
+              documenting various mappings for the generic role.
+            </p>
+          </div>
+
+          <table class="map-table elements" id="generic-role-mapping-table">
+            <caption>
+              Platform-specific mapping characteristics of the
+              <a class="role-reference" href="#generic"><code>generic</code></a>
+              role.
+            </caption>
+            <thead>
+              <tr>
+                <th><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Role</th>
+                <th>MSAA + IAccessible2</th>
+                <th><abbr title="User Interface Automation">UIA</abbr></th>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
+                <th>
+                  <abbr title="macOS Accessibility Protocol">AX API</abbr><sup>[<a href="#ftn.note1">Note 1</a>]</sup>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="role-map-generic-bikeshed">
+                <!-- change 'bikeshed' here to soemthing other than CSS 'block' so as to not conflate the style property values with the layout concept -->
+                <th>
+                  <a class="role-reference" href="#generic"><code>generic</code></a
+                  >, rendered as a flow contents container (E.g. <code>&lt;div&gt;</code>)
+                </th>
+                <td class="role-msaa-ia2">
+                  <span class="property">Role: <code>ROLE_SYSTEM_GROUPING</code></span
+                  ><br />
+                  <span class="property">Role: <code>IA2_ROLE_SECTION</code></span>
+                </td>
+                <td class="role-uia">
+                  <span class="property">Control Type: <code>Group</code></span>
+                </td>
+                <td class="role-atk">
+                  <span class="property">Role: <code>ROLE_SECTION</code></span
+                  ><br />
+                </td>
+                <td class="role-axapi">
+                  <span class="property">AXRole: <code>AXGroup</code></span
+                  ><br />
+                  <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
+                  ><br />
+                </td>
+              </tr>
+              <tr id="role-map-generic-">
+                <th>
+                  <a class="role-reference" href="#generic"><code>generic</code></a
+                  >, rendered without affecting text or container style properties, and without any custom functionality (E.g. <code>&lt;span&gt;</code> with no styles or event handlers applied.)
+                </th>
+                <td class="role-msaa-ia2">Role: <code>IA2_ROLE_TEXT_FRAME</code></td>
+                <td class="role-uia">Control Type: <code>Text</code></td>
+                <td class="role-atk">Role: <code>ATK_ROLE_STATIC</code></td>
+                <td class="role-axapi">Not Mapped</td>
+              </tr>
+              <tr id="role-map-generic-text-style">
+                <th>
+                  <a class="role-reference" href="#generic"><code>generic</code></a
+                  >, rendered with only text style changes (E.g. <code>&lt;b&gt;</code> or <code>&lt;i&gt;</code>)
+                </th>
+                <td class="role-msaa-ia2">
+                  Role: <code>ROLE_SYSTEM_TEXT</code>. Exposed with applicable attributed text styles on the text container. E.g., <code>text-line-through-style:solid</code>
+                </td>
+                <td class="role-uia">Role: <code>Text</code>. Exposed with applicable attributed text styles on the text container. E.g., <code>FontWeight</code></td>
+                <td class="role-atk">Role: <code>ROLE_STATIC</code>. Exposed with applicable attributed text styles on the text container. E.g., <code>font-style:italic"</code></td>
+                <td class="role-axapi"><code>AXStaticText</code> with attributed text styles</td>
+              </tr>
+              <tr id="role-map-generic-text-style">
+                <th>more needed…</th>
+                <td class="role-msaa-ia2"></td>
+                <td class="role-uia"></td>
+                <td class="role-atk"></td>
+                <td class="role-axapi"></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
       </section>
 
       <section id="mapping_state-property">
