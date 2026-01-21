@@ -36,7 +36,7 @@ npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localh
 echo "Built graphics AAM"
 npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
 echo "Built graphics ARIA"
-npx respec -s html-aam/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
+npx respec -s html-aam/index.html -o public/html-aam/index.html --localhost --disable-sandbox
 echo "Built HTML AAM"
 npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost --disable-sandbox
 echo "Built SVG AAM"
