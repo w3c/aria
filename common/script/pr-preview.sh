@@ -16,6 +16,7 @@ mkdir -p public/dpub-aam
 mkdir -p public/dpub-aria
 mkdir -p public/graphics-aam
 mkdir -p public/graphics-aria
+mkdir -p public/html-aam
 mkdir -p public/svg-aam
 mkdir -p public/mathml-aam
 mkdir -p public/pdf-aam
@@ -35,6 +36,8 @@ npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localh
 echo "Built graphics AAM"
 npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
 echo "Built graphics ARIA"
+npx respec -s html-aam/index.html -o public/html-aam/index.html --localhost --disable-sandbox
+echo "Built HTML AAM"
 npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost --disable-sandbox
 echo "Built SVG AAM"
 npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost --disable-sandbox
