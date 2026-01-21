@@ -9,15 +9,18 @@ jobs:
   roleInfo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref }}
+          fetch-depth: 0  # Needed to compare with origin/main
+          token: ${{ secrets.W3CGRUNTBOT_TOKEN }}
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
           node-version: "latest"
-      - run: npm i linkedom
+      - run: npm i linkedom prettier@3.6.0
       - run: node ./common/script/buildRoleInfo.js > ./common/script/roleInfo.js
+      - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - run: git add ./common/script/roleInfo.js
