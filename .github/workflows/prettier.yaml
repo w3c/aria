@@ -11,12 +11,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Needed to compare with origin/main
+          token: ${{ secrets.W3CGRUNTBOT_TOKEN }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
 
@@ -26,20 +27,34 @@ jobs:
       - name: Get changed files and run Prettier
         id: run_prettier
         run: |
-          git fetch origin main
-
-          changed_files=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|json|css|html)$' || true)
+          # Compare with the previous commit to find changed files
+          changed_files=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(js|json|css|html)$' || true)
 
           if [[ -n "$changed_files" ]]; then
+            echo "Found changed files to format:"
+            echo "$changed_files"
+            
+            # Run prettier on the changed files
             echo "$changed_files" | xargs prettier --write --print-width 200
-      
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+            
+            # Check if prettier actually made any changes
+            if git diff --quiet && git diff --cached --quiet; then
+              echo "No formatting changes were made by Prettier"
+              echo "prettier_changes=false" >> "$GITHUB_OUTPUT"
+            else
+              echo "Prettier made formatting changes"
+              echo "prettier_changes=true" >> "$GITHUB_OUTPUT"
+            fi
+            
+            echo "prose_changes=true" >> "$GITHUB_OUTPUT"
           else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No JavaScript, JSON, CSS, or HTML files were changed in this commit."
+            echo "prose_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
       - name: Commit and push changes
-        if: steps.run_prettier.outputs.changed == 'true'
+        if: steps.run_prettier.outputs.prettier_changes == 'true'
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -47,9 +62,6 @@ jobs:
           git add .
           git commit -m "Chore: Format files with Prettier"
 
-          # Push to the same branch this workflow was triggered from
-          git push origin HEAD:${{ github.head_ref || github.ref_name }}
-
-      - name: No changes to commit
-        if: steps.run_prettier.outputs.changed == 'false'
-        run: echo "No changes to commit."
+          # Push to the main branch using PAT
+          git push origin HEAD:${{ github.ref_name }}
+          echo "Changes committed and pushed successfully"
