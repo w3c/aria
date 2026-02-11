@@ -172,7 +172,7 @@
 
         preProcess: [linkCrossReferences, getParticipants],
         postProcess: [ariaAttributeReferences],
-        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML"],
+        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML", "permissions-policy"],
         definitionMap: [],
       };
       function respecChangelogFilter(commit) {
@@ -16746,8 +16746,8 @@ button.ariaPressed; // null</pre
       </section>
     </section>
     <section id="idl-interface" class="normative">
-      <h2>IDL Interface</h2>
-      <p>Conforming user agents MUST implement the following IDL interface.</p>
+      <h2>IDL Interfaces</h2>
+      <p>Conforming user agents MUST implement the following IDL interfaces.</p>
       <section id="ARIAMixin" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
         <h2>Interface Mixin <dfn>ARIAMixin</dfn></h2>
         <pre class="idl" data-cite="webidl">
@@ -16808,6 +16808,54 @@ button.ariaPressed; // null</pre
       Element includes ARIAMixin;
 		</pre
         >
+      </section>
+      <section id="ARIANotifyMixin" class="normative" data-dfn-for="ARIANotifyMixin" data-link-for="ARIANotifyMixin">
+        <h2>Interface Mixin <dfn>ARIANotifyMixin</dfn></h2>
+        <pre class="idl" data-cite="webidl">
+          enum AriaNotifyPriority { "normal", "high" };
+
+          dictionary AriaNotificationOptions {
+            AriaNotifyPriority priority = "normal";
+          };
+          interface mixin ARIANotifyMixin {
+            undefined ariaNotify(DOMString announcement, optional AriaNotificationOptions options = {});
+          };
+          Element includes ARIANotifyMixin;
+          Document includes ARIANotifyMixin;
+        </pre>
+
+        <p>
+          The User Agent processing steps for the
+          <code><dfn method for="ARIANotifyMixin" >ariaNotify</dfn>(<var>announcement</var>, <var>options</var>)</code>
+          method are:
+        </p>
+        <ol>
+          <li>
+            <p>If the document is not [=allowed to use=] the feature identified by <a>"aria-notify"</a> abort these steps.</p>
+          </li>
+          <li>
+            <p>Let <var>node</var> be <code>this</code>.</p>
+          </li>
+          <li>
+            <p>Let <var>priority</var> be <var>options</var>["<code><a href="#dom-arianotificationoptions-priority">priority</a></code>"].</p>
+          </li>
+          <li>
+            <p>If <var>node</var> is <a href="#tree_exclusion">excluded from the accessibility tree</a>, then abort these steps.</p>
+          </li>
+          <li>
+            <p>Run the <a data-cite="core-aam-1.2#arianotify">aria notify steps</a> given <var>node</var>, <var>announcement</var>, and <var>priority</var>.</p>
+          </li>
+        </ol>
+
+        <section id="arianotify-permissions-policy">
+          <h3>Permissions Policy Integration</h3>
+          <p>This specification defines a [=policy-controlled feature=] identified by the string <code><dfn class="permission">"aria-notify"</dfn></code>.
+          It has a [=policy-controlled feature/default allowlist=] of <code class=permissionspolicy>"*"</code>.
+          </p>
+          <p class="note">
+            When disabled in a document, any notifications applied using <code>ariaNotify</code> within that document will not be sent.
+          </p>
+        </section>
       </section>
 
       <section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
