@@ -9299,12 +9299,33 @@
               <li>If <code>aria-valuemin</code> is missing or not a <a href="#valuetype_number">number</a>, it defaults to 0 (zero).</li>
               <li>If <code>aria-valuemax</code> is missing or not a <a href="#valuetype_number">number</a>, it defaults to 100.</li>
             </ul>
-            <p>
-              Authors MUST set the <pref>aria-valuenow</pref> attribute. If aria-valuenow is missing or has an unexpected value, browsers MAY implement the repair techniques specified in the
-              <a href="#authorErrorDefaultValuesTable">section describing handling author errors in states and properties</a>, which are equivalent to the repair techniques for
-              <code>&lt;input type="[^input/type/range^]"&gt;</code> in HTML.
-            </p>
+            <p>Authors MUST set either the <pref>aria-valuenow</pref> attribute, the <pref>aria-valuetext</pref> attribute, or both. If both the <code>aria-valuenow</code> and <code>aria-valuetext</code> attributes are missing or <code>aria-valuenow</code> has an unexpected value, <a>user agents</a> MAY implement the repair techniques specified in the <a href="#authorErrorDefaultValuesTable">section describing handling author errors in states and properties</a>, which are equivalent to the repair techniques for <code>&lt;input type="[^input/type/range^]"&gt;</code> in HTML. However, both <a>user agents</a> and <a>assistive technologies</a> SHOULD NOT expose a fallback value for <code>aria-valuenow</code> if the author has only specified the <code>aria-valuetext</code> attribute.</p>
             <p>Elements with the role <code>slider</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
+            <div class="note">
+              <p>It is usually advisable for a slider to express its current value as a parsable <a href="#valuetype_number">number</a> using <pref>aria-valuenow</pref>. However, there are use cases where <pref>aria-valuetext</pref> alone provides a superior user experience.</p>
+              <p>For example, pain can be measured along a range of values in which each value is most helpfully expressed by descriptive text rather than an unintuitive number.</p>
+            </div>
+            <pre class="example highlight">
+&lt;!-- Warning: this code example is incomplete. --&gt;
+&lt;div id="label"&gt;Pain rating&lt;/div&gt;
+&lt;div id="pain" role="slider" tabindex="0" aria-labelledby="label" aria-valuetext="No pain"&gt;
+  &lt;ol id="ratings" aria-hidden="true"&gt;
+    &lt;li&gt;No pain&lt;/li&gt;
+    &lt;li&gt;Hardly noticeable pain&lt;/li&gt;
+    &lt;li&gt;Somewhat distracting pain&lt;/li&gt;
+    &lt;li&gt;Pain interrupts some activities&lt;/li&gt;
+    &lt;li&gt;Pain prevents daily activities&lt;/li&gt;
+    &lt;li&gt;Unbearable pain, cannot do anything&lt;/li&gt;
+    &lt;li&gt;As bad as pain can be, nothing else matters&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  // Not shown: Custom Javascript to implement a fully conformant ARIA slider pattern.
+  // Also, the `aria-valuetext` attribute of `div#pain` will be dynamically updated with
+  // the user’s chosen pain value corresponding to the visible mark and label presented
+  // by `ol#ratings` (e.g., "Pain interrupts some activities").
+&lt;/script&gt;
+            </pre>
           </div>
           <table class="def">
             <caption>
@@ -9349,14 +9370,6 @@
               <tr>
                 <th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
                 <td class="role-mustcontain"> </td>
-              </tr>
-              <tr>
-                <th class="role-required-properties-head">Required States and Properties:</th>
-                <td class="role-required-properties">
-                  <ul>
-                    <li><pref>aria-valuenow</pref></li>
-                  </ul>
-                </td>
               </tr>
               <tr>
                 <th class="role-properties-head" scope="row">Supported States and Properties:</th>
