@@ -238,6 +238,26 @@
         </p>
       </section>
       <section>
+        <h3 id="plain-content">Plain Content</h3>
+        <p>
+          An element contains <dfn id="dfn-plain-content">plain content</dfn> when the element and all of its
+          <a class="termref" data-cite="wai-aria-1.2#dfn-accessibility-subtree">accessibility subtree</a> descendants
+          have roles limited to:
+          <a class="core-mapping" href="#role-map-generic">`generic`</a>,
+          <a class="core-mapping" href="#role-map-group">`group`</a>,
+          <a class="core-mapping" href="#role-map-paragraph">`paragraph`</a>,
+          <a class="core-mapping" href="#role-map-img">`img`</a>,
+          <a class="core-mapping" href="#role-map-none">`none`</a>,
+          or text.
+        </p>
+        <p>
+          Elements that contain any <a class="termref" data-cite="wai-aria-1.2#dfn-accessibility-subtree">accessibility subtree</a>
+          descendants with roles other than those listed above are considered to contain <dfn id="dfn-rich-content">rich content</dfn>.
+          This includes interactive elements (such as buttons, links, or form controls), semantic structures (such as tables, lists, or headings),
+          and landmark regions.
+        </p>
+      </section>
+      <section>
         <h3>HTML Element Role Mappings</h3>
         <ul>
           <li>
@@ -9350,6 +9370,10 @@
               </th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `IA2_RELATION_DESCRIBED_BY`;
+                otherwise `IA2_RELATION_DETAILS` points to popover element.
+                <a href="#att-command-popovers-comments">See Comments</a>.
                 <div class="objattrs"><span class="type">Object attributes:</span> `details-roles:popover`</div>
               </td>
             </tr>
@@ -9357,12 +9381,19 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, a described-by relation;
+                otherwise a details relation is made with the popover element.
+                <a href="#att-command-popovers-comments">See Comments</a>.
               </td>
             </tr>
             <tr>
               <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `RELATION_DESCRIBED_BY`;
+                otherwise `RELATION_DETAILS` points to popover element.
+                <a href="#att-command-popovers-comments">See Comments</a>.
                 <div class="objattrs"><span class="type">Object attributes:</span> `details-roles:popover`</div>
               </td>
             </tr>
@@ -9373,16 +9404,20 @@
               </td>
             </tr>
             <tr>
-              <th>Comments</th>
+              <th id="att-command-popovers-comments">Comments</th>
               <td>
                 <p>
-                  User Agents MUST expose an <a class="core-mapping" href="#ariaDetails">`aria-details`</a> relationship with the associated element (identified via the specified `commandfor`
+                  User Agents MUST expose a relation with the associated element (identified via the specified `commandfor`
                   attribute) <strong>except</strong> under the following conditions:
                 </p>
                 <ul>
                   <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
                   <li>The element is a descendant of the `popover` it is associated with.</li>
                 </ul>
+                <p>
+                  Author-provided `aria-describedby` or `aria-details` attributes on the invoking element take precedence over these implicit relations,
+                  even if their value is the empty string.
+                </p>
                 <p class="note">
                   A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> or is in the
                   <a data-cite="html/input.html#reset-button-state-(type=reset)">reset state</a> with a [=button/form owner=] cannot invoke a command.
@@ -13649,7 +13684,10 @@
                 <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
               </th>
               <td>
-                <span class="type">Relations:</span> `IA2_RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `IA2_RELATION_DESCRIPTION_FOR`;
+                otherwise `IA2_RELATION_DETAILS_FOR` points to invoking element.
+                <a href="#att-popover-comments">See Comments</a>.
                 <div class="objattrs">
                   <span class="type">Object attributes:</span>
                   <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
@@ -13659,14 +13697,18 @@
             <tr>
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
-                A details relation is made with the invoking element, if an invoking element exists which meets the conditions for necessitating a details relationship.
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, a described-by relation;
+                otherwise a details relation is made with the invoking element.
                 <a href="#att-popover-comments">See Comments</a>.
               </td>
             </tr>
             <tr>
               <th><span class="informative">[[ATK]]</span></th>
               <td>
-                <p><span class="type">Relations:</span> `RELATION_DETAILS_FOR` points to invoking element. <a href="#att-popover-comments">See Comments</a>.</p>
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `RELATION_DESCRIPTION_FOR`;
+                otherwise `RELATION_DETAILS_FOR` points to invoking element.
+                <a href="#att-popover-comments">See Comments</a>.
                 <div class="objattrs">
                   <span class="type">Object attributes:</span>
                   <code>ispopup: &lt;value></code> where <code>&lt;value></code> reflects the <a data-cite="html/popover.html#the-popover-attribute">popover</a> type.
@@ -13683,7 +13725,7 @@
             <tr>
               <th id="att-popover-comments">Comments</th>
               <td>
-                <p>User agents MUST NOT expose a details relation between a `popover` and its invoking element under the following conditions:</p>
+                <p>User agents MUST NOT expose a relation between a `popover` and its invoking element under the following conditions:</p>
                 <ul>
                   <li>when the `popover` is the next immediate accessibility sibling to the invoking element,</li>
                   <li>when the element has a `popovertargetaction=hide` attribute value,</li>
@@ -13692,10 +13734,6 @@
                 <p>
                   If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a> for all
                   <a data-cite="html/popover.html#the-popover-attribute">`popover` states</a>.
-                </p>
-                <p class="note">
-                  There are no unique mappings for the different `popover` states. Any accessibility mapping changes for the popover element would be the responsibility of the author. e.g., using
-                  different base HTML elements, attributes, or ARIA attributes to make such changes.
                 </p>
               </td>
             </tr>
@@ -13741,6 +13779,10 @@
               </th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `IA2_RELATION_DESCRIBED_BY`;
+                otherwise `IA2_RELATION_DETAILS` points to popover element.
+                <a href="#att-popovertarget-comments">See Comments</a>.
                 <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
               </td>
             </tr>
@@ -13748,12 +13790,19 @@
               <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, a described-by relation;
+                otherwise a details relation is made with the popover element.
+                <a href="#att-popovertarget-comments">See Comments</a>.
               </td>
             </tr>
             <tr>
               <th><span class="informative">[[ATK]]</span></th>
               <td>
                 <div class="general">Use WAI-ARIA mapping</div>
+                <span class="type">Relations:</span>
+                If <a data-cite="html/popover.html#attr-popover-hint-state">`popover=hint`</a> with <a href="#dfn-plain-content">plain content</a>, `RELATION_DESCRIBED_BY`;
+                otherwise `RELATION_DETAILS` points to popover element.
+                <a href="#att-popovertarget-comments">See Comments</a>.
                 <div class="general"><span class="type">Object attributes:</span> `details-roles:popover`</div>
               </td>
             </tr>
@@ -13764,11 +13813,10 @@
               </td>
             </tr>
             <tr>
-              <th>Comments</th>
+              <th id="att-popovertarget-comments">Comments</th>
               <td>
                 <p>
-                  User Agents MUST expose an <a class="core-mapping" href="#ariaDetails">`aria-details`</a> relation with the associated popover element <strong>except</strong> under the following
-                  conditions:
+                  User Agents MUST expose a relation with the associated popover element <strong>except</strong> under the following conditions:
                 </p>
                 <ul>
                   <li>The element's `popovertargetaction` attribute value is "`hide`"</li>
@@ -13776,6 +13824,9 @@
                   <li>The element's implicit or explicit `popovertargetaction` is the "`auto`" state and the element is a descendant of the `popover` it is associated with.</li>
                   <!-- accessibility sibling will be defined in the ARIA specification -->
                 </ul>
+                <p>
+                  Author-provided `aria-describedby` or `aria-details` attributes on the invoking element take precedence over these implicit relations.
+                </p>
                 <p class="note">A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> with a [=button/form owner=] cannot invoke a popover.</p>
               </td>
             </tr>
