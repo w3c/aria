@@ -1179,6 +1179,7 @@
             example, an element with the role <rref>list</rref> allows <a>accessibility children</a> with the role <rref>listitem</rref>, but does not allow <a>accessibility children</a> with the role
             <rref>option</rref>.
           </p>
+          <p>To determine whether an element is the <a>accessibility child</a> of an element, <a>user agents</a> MUST ignore any intervening elements with the role <rref>generic</rref> or <rref>none</rref> which are <a>transparent</a>.</p>
           <p>
             Descendants which are not children of an element ancestor are not constrained by <em>allowed accessibility child roles</em>. For example, an <code>image</code> is not an
             <a href="#mustContain">allowed accessibility child</a> of a <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s
@@ -1243,9 +1244,7 @@
         <section id="scope">
           <h3>Required Accessibility Parent Role</h3>
           <p>
-            Lists all roles that are allowed for the <a>accessibility parent</a> of an element with the current <a>role</a>. If the list is not empty, authors MUST ensure that an element with the
-            current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an
-            element with role <code>list</code>.
+            Lists all roles that are allowed for the <a>accessibility parent</a> of an element with the current <a>role</a>. If the list is not empty, authors MUST ensure that an element with the current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an element with role <code>list</code>.
           </p>
           <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list.</p>
           <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
@@ -16184,6 +16183,7 @@ button.ariaPressed; // null</pre
             <ul>
               <li>Elements that are currently focused, even if the element or one of its ancestor elements has its <sref>aria-hidden</sref> attribute set to <code>true</code>.</li>
               <li>Elements that are a valid target of an <pref>aria-activedescendant</pref> attribute.</li>
+              <li>Elements that have <a>live region</a> roles or attributes.</li>
             </ul>
           </li>
           <li>
@@ -16202,17 +16202,21 @@ button.ariaPressed; // null</pre
       <section id="tree_relationships">
         <h2>Relationships in the Accessibility Tree</h2>
         <p>The following terms are used to describe relationships between <abbr title="Document Object Model">DOM</abbr> elements.</p>
+        <p>A <dfn data-export="" data-lt="transparent|transparent element|transparent elements">transparent element</dfn> is an element that meets one of the following criteria:</p>
+        <ul>
+          <li>It has a role of <rref>presentation</rref> or <rref>none</rref>, and does not meet one of the exceptions documented in the <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a> section.</li>
+          <li>It is a <rref>generic</rref> element that does not have any attributes such as <pref>aria-live</pref> that would require it to be included in the accessibility tree, as covered in <a href="#tree_inclusion">Including Elements in the Accessibility Tree</a>.</li>
+        </ul>
         <p>
-          The <dfn data-export="" data-lt="accessibility child|owned child">accessibility children</dfn> of a DOM element are all of the children of that element's corresponding
-          <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed blow):
+          The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that
+          element's corresponding <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed below):
         </p>
         <ul>
           <li>The <abbr title="Document Object Model">DOM</abbr> children of the <a>element</a>.</li>
-          <li>All DOM descendants of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</li>
+          <li>All DOM descendants of the <a>element</a> with only <a>transparent elements</a> intervening.</li>
           <li>All DOM elements specified via an <pref>aria-owns</pref> relationship to the element.</li>
           <li>
-            All DOM descendants of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only elements of role <rref>generic</rref> or
-            <rref>none</rref> intervening.
+            All DOM descendants of an element with role <rref>generic</rref> or <rref>none</rref> specified via <pref>aria-owns</pref> with only <a>transparent elements</a> intervening.
           </li>
         </ul>
         <p>And excludes the following:</p>
@@ -16256,10 +16260,10 @@ button.ariaPressed; // null</pre
         </p>
         <ul>
           <li>The <abbr title="Document Object Model">DOM</abbr> parent of the <a>element</a>.</li>
-          <li>The DOM ancestor of the <a>element</a> with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.</li>
+          <li>The DOM ancestor of the <a>element</a> with only <a>transparent elements</a> intervening.</li>
           <li>A DOM element with <pref>aria-owns</pref> set to the DOM ID of the DOM element in question.</li>
           <li>
-            A DOM element with <pref>aria-owns</pref> set to the DOM ID of an ancestor of the DOM element in question, with only elements of role <rref>generic</rref> or <rref>none</rref> intervening.
+            A DOM element with <pref>aria-owns</pref> set to the DOM ID of an ancestor of the DOM element in question, with only <a>transparent elements</a> intervening.
           </li>
         </ul>
         <p>The following four examples all contain a <rref>listitem</rref> element with an accessibility parent of role <rref>list</rref>:</p>
