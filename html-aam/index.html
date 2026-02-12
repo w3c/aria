@@ -1285,6 +1285,83 @@
             </tr>
           </tbody>
         </table>
+
+        <h4 id="el-button-select-child">`button` as a child of a `select` element</h4>
+        <table aria-labelledby="el-button-select-child">
+          <tbody>
+            <tr>
+              <th>HTML Specification</th>
+              <td>
+                <a data-cite="HTML">`button`</a>
+              </td>
+            </tr>
+            <tr>
+              <th>[[wai-aria-1.2]]</th>
+              <td>
+                <div class="general">Not mapped. <a href="#el-button-select-child-comments">See comments</a>.</div>
+                <!-- a button that is a child of a select is not a typical "button" element.
+                     it does not serve as a submit, reset, or generic 'button' type. Rather,
+                     its purpose is directly tied to the rendering of a customized select
+                     serving as the visible indicator/styleable node to serve as the 
+                     invoking element for the select's listbox popup.
+                -->
+              </td>
+            </tr>
+            <tr>
+              <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+              <td class="role-computed">
+                <div class="general">Not mapped. <a href="#el-button-select-child-comments">See comments</a>.</div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
+              </th>
+              <td>
+                <div class="general"><a href="#el-button-select-child-comments">See comments</a></div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
+              <td>
+                <div class="general"><a href="#el-button-select-child-comments">See comments</a></div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://gnome.pages.gitlab.gnome.org/atk/">ATK</a></th>
+              <td>
+                <div class="general"><a href="#el-button-select-child-comments">See comments</a></div>
+              </td>
+            </tr>
+            <tr>
+              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
+              <td>
+                <div class="general"><a href="#el-button-select-child-comments">See comments</a></div>
+              </td>
+            </tr>
+            <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
+            <tr>
+              <th id="el-button-select-child-comments">Comments</th>
+              <td>
+                <p>
+                  User agents treat the child `button` element of a `select` element as inert. 
+                  The `select` and its child `button` part are meant to be considered a single item to users and in the user agent's accessibility tree.
+                </p>
+                <p>
+                  The <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of the subtree of the
+                  `button` element participates in the accessible value calculation of the `select` element. 
+                  See the <a href="#el-select-combobox">`select`<span class="el-context"> (with NO `multiple` attribute and NO `size` attribute having value greater than `1`)</span></a> for more information.
+                </p>
+                <p>
+                  User agents MAY warn developers that the use of global HTML or ARIA attributes, or attributes specific to the `button` element or ARIA's `button` role are not expected to be used on a `button` element in this context.
+                </p>
+                <p class=note>
+                  As this `button` element is inert, any use of global HTML or ARIA attributes, or attributes specific to the `button` element or ARIA's `button` role are not exposed to the user agent's accessibility API.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>    
         <h4 id="el-canvas">`canvas`</h4>
         <table class="data" aria-labelledby="el-canvas">
           <tbody>
@@ -6426,7 +6503,46 @@
             <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
             <tr>
               <th>Comments</th>
-              <td></td>
+              <td>
+                <p>To calculate the accessible value of a `select` element:</p>
+                <ol>
+                  <li>If `aria-valuetext` is specified on the `select` element, use the attribute's value, including the empty string.</li>
+                  <li>Else if there is a `button` part, calculate the accessible value from a non-empty string <a data-cite="accname-1.2/#mapping_additional_nd_te">text equivalent computation</a> of the subtree of that element.</li>
+                  <li>If the `select` element does not have an `aria-valuetext` attribute and has not calculated a usable value from its button part, then the accessible value is calculated from the accessible name of the selected `option` element, even if the accessible name of the selected `option` is the empty string.</li>
+                </ol>
+                <!-- provide a link to the ARIA spec when the https://github.com/w3c/aria/pull/2417 PR lands --> 
+
+                <p>
+                  The calculated role of the customizable `select` element's popup picker is a `listbox`, by default.</p>
+                <p>
+                  If authors include invalid elements (according to the the `select` element's content model) as descendants of the `select` element, and those invalid elements result in accessible objects being present as siblings in the accessibility tree to the valid descendent elements of the select, then user agents SHOULD expose the popup picker with the role of `dialog` in the modeless state.</p>
+
+                <p>
+                  In the event invalid elements are present, but are not rendered, then no user agent role repair is necessary.</p>
+                <p>
+                  In the event that invalid elements are present, but are empty, include only whitespace, or are only used as wrapping elements for the valid descendent element's of a select, then user agents SHOULD ignore these elements in the accessibility tree.
+                </p>
+
+                <div class=example>
+                  <p>In the following example the declared `article` elements are invalid per the `select` element's content model. But as each `article` element is empty, contains only whitespace, or contains only valid `option` elements, the `article` element's role can be ignored in the user agent's accessibility tree:</p>
+
+                  <pre><code>
+&lt;select>
+  &lt;button>&lt;selectedcontent>&lt;/selectedcontent>&lt;/button>
+  &lt;article> &lt;/article> <!-- empty / containing only white space so can be ignored -->
+  &lt;article> <!-- only contains option elements, so article role can be ignored -->
+    &lt;option>item 1
+    &lt;option>item 2
+  &lt;/article>
+  &lt;article hidden> foo &lt;/article> <!-- article is in the hidden state, so is ignored -->
+&lt;/select>
+                  </code></pre> 
+                </div>
+
+                <p class=note>Treating the picker as a `dialog` can help inform users that content beyond the expected elements of a `listbox` popup are present, as they can then inspect the content of the dialog with their assistive technology to discover such content.</p>
+
+                <p>See also <a href="#el-button-select-child">`button` element as a child of a `select` element.</p>
+              </td>
             </tr>
           </tbody>
         </table>
