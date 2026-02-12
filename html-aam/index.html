@@ -251,7 +251,8 @@
             specified which would require a more specific <a>minimum role</a> to be exposed.
           </li>
           <li>
-            Where an element is indicated as having &quot;No corresponding (WAI-ARIA) role&quot;, or is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role, user agents
+            Where an element is mapped to the <a class="core-mapping" href="#role-map-generic">`generic`</a>
+            or <a class="core-mapping" href="#role-map-none">`none`</a> roles, user agents
             MUST NOT expose the <a class="core-mapping" href="#ariaRoleDescription">`aria-roledescription`</a> property value in the <a class="termref">accessibility tree</a> unless the element has an
             explicit, conforming `role` attribute value which [[WAI-ARIA-1.2]] does not prohibit the use of `aria-roledescription`.
           </li>
@@ -832,18 +833,35 @@
             </tr>
           </tbody>
         </table>
-        <h4 id="el-autonomous-custom-element">autonomous custom element</h4>
-        <table class="data" aria-labelledby="el-autonomous-custom-element">
+        <h4 id="el-autonomous-custom-element">
+          autonomous custom elements
+          and
+          <span id="el-form-associated-custom-element">form-associated custom elements</span>
+        </h4>
+        <table aria-labelledby="el-autonomous-custom-element">
           <tbody>
             <tr>
               <th>HTML Specification</th>
               <td>
                 <a data-cite="HTML">autonomous custom element</a>
+                and
+                <a data-cite="html/custom-elements.html#custom-elements-face-example">form-associated custom element</a>
               </td>
             </tr>
             <tr>
               <th>[[wai-aria-1.2]]</th>
-              <td>If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</td>
+              <td>
+                <ul>
+                  <li>If the author assigned a conforming role using the `role` attribute, or by the custom element's internals: map to the specified role.</li>
+                  <li>else if the author assigned HTML attributes that result in a <a>minimum role</a>:  map to the minimum role.</li>
+                  <li>else if the custom element is focusable: map to the <a class="core-mapping" href="#role-map-group">`group`</a> role</li>
+                  <li>else if an author specifies a global ARIA attribute on the custom element that creates a relation with another element: map to the <a class="core-mapping" href="#role-map-group">`group`</a> role</li>
+                  <li>else if the custom element has no attached shadow root: map to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>else if the custom element has an `aria-live` attribute: map to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role</li>
+                  <li>else if element internals are used to set a global ARIA property: map to the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</li>
+                  <li>Otherwise, the custom element maps to the <a class="core-mapping" href="#role-map-none">`none`</a> role.</li>
+                </ul>
+              </td>
             </tr>
             <tr>
               <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
@@ -2591,56 +2609,6 @@
             <tr>
               <th>Comments</th>
               <td>If a <a class="core-mapping" href="#role-map-form-nameless">`form` has no accessible name</a>, do not expose the element as a landmark.</td>
-            </tr>
-          </tbody>
-        </table>
-        <h4 id="el-form-associated-custom-element">form-associated custom element</h4>
-        <table class="data" aria-labelledby="el-form-associated-custom-element">
-          <tbody>
-            <tr>
-              <th>HTML Specification</th>
-              <td>
-                <a data-cite="html/custom-elements.html#custom-elements-face-example">form-associated custom element</a>
-              </td>
-            </tr>
-            <tr>
-              <th>[[wai-aria-1.2]]</th>
-              <td>If the author assigned a conforming ARIA role using the `role` attribute, map to that role. Otherwise, the <a class="core-mapping" href="#role-map-generic">`generic`</a> role.</td>
-            </tr>
-            <tr>
-              <th><a data-cite="core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
-              <td class="role-computed"><div class="general">Use WAI-ARIA mapping</div></td>
-            </tr>
-            <tr>
-              <th>
-                <a href="https://msdn.microsoft.com/en-us/library/dd373608%28v=VS.85%29.aspx">MSAA</a> + <a href="http://accessibility.linuxfoundation.org/a11yspecs/ia2/docs/html/">IAccessible2</a>
-              </th>
-              <td>
-                <div class="general">Use WAI-ARIA mapping</div>
-              </td>
-            </tr>
-            <tr>
-              <th><a href="https://msdn.microsoft.com/en-us/library/ms726297%28v=VS.85%29.aspx">UIA</a></th>
-              <td>
-                <div class="general">Use WAI-ARIA mapping</div>
-              </td>
-            </tr>
-            <tr>
-              <th><span class="informative">[[ATK]]</span></th>
-              <td>
-                <div class="general">Use WAI-ARIA mapping</div>
-              </td>
-            </tr>
-            <tr>
-              <th><a href="https://developer.apple.com/reference/appkit/nsaccessibility">AX</a></th>
-              <td>
-                <div class="general">Use WAI-ARIA mapping</div>
-              </td>
-            </tr>
-            <!-- <th><a href="#accessible-name-and-description-computation">Naming Algorithm</a></th> -->
-            <tr>
-              <th>Comments</th>
-              <td></td>
             </tr>
           </tbody>
         </table>
@@ -8803,7 +8771,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
+              <td>Provides a <a>minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
@@ -10492,7 +10460,7 @@
             </tr>
             <tr>
               <th>Comments</th>
-              <td>Provides a <a href="termref">minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
+              <td>Provides a <a>minimum role</a> of <a class="core-mapping" href="#role-map-group">`group`</a>.</td>
             </tr>
           </tbody>
         </table>
