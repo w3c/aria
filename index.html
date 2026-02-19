@@ -172,7 +172,7 @@
 
         preProcess: [linkCrossReferences, getParticipants],
         postProcess: [ariaAttributeReferences],
-        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML"],
+        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML", "permissions-policy"],
         definitionMap: [],
       };
       function respecChangelogFilter(commit) {
@@ -2810,7 +2810,8 @@
             </p>
             <p>
               Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than
-              <rref>listbox</rref>, authors MUST specify an <pref>aria-haspopup</pref> value of <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref> that corresponds to the role of its popup.
+              <rref>listbox</rref>, authors MUST specify an <pref>aria-haspopup</pref> value of <rref>tree</rref>, <rref>grid</rref>, <rref>menu</rref>, or <rref>dialog</rref> that corresponds to the
+              role of its popup.
             </p>
             <p>
               If the user interface includes an additional icon that allows the visibility of the popup to be controlled via pointer and touch events, authors SHOULD ensure that element has role
@@ -10209,7 +10210,13 @@
               for details on implementing a tab set design pattern.
             </p>
             <p>Authors MUST ensure [=elements=] with <a>role</a> <rref>tab</rref> are <a>accessibility children</a> of an element with the role <rref>tablist</rref>.</p>
+            <!-- keep following paragraphs in sync with counterpart in #tabpanel -->
             <p>Authors MUST ensure that if a <code>tab</code> is active, a corresponding <code>tabpanel</code> that represents the active <code>tab</code> is rendered.</p>
+            <p>
+              Authors SHOULD associate a <code>tabpanel</code> <a>element</a> with its <rref>tab</rref>, by using the <pref>aria-controls</pref> attribute on the tab to reference the tab panel, and/or
+              by using the <pref>aria-labelledby</pref> attribute on the tab panel to reference the tab.
+            </p>
+            <!-- /end sync with counterpart in #tabpanel -->
             <p>Authors SHOULD ensure the <rref>tabpanel</rref> associated with the currently active tab is <a>perceivable</a> to the user.</p>
             <!-- keep following para synced with its counterpart in #tablist -->
             <p>
@@ -10543,10 +10550,13 @@
           <rdef>tabpanel</rdef>
           <div class="role-description">
             <p>A container for the resources associated with a <rref>tab</rref>, where each <rref>tab</rref> is contained in a <rref>tablist</rref>.</p>
+            <!-- keep following paragraphs in sync with counterpart in #tab -->
+            <p>Authors MUST ensure that if a <code>tab</code> is active, a corresponding <code>tabpanel</code> that represents the active <code>tab</code> is rendered.</p>
             <p>
               Authors SHOULD associate a <code>tabpanel</code> <a>element</a> with its <rref>tab</rref>, by using the <pref>aria-controls</pref> attribute on the tab to reference the tab panel, and/or
               by using the <pref>aria-labelledby</pref> attribute on the tab panel to reference the tab.
             </p>
+            <!-- /end sync with counterpart in #tab -->
             <!-- keep following para synced with its counterpart in #tablist -->
             <p>
               <rref>tablist</rref> elements are typically placed near, and usually preceding, a series of <rref>tabpanel</rref> elements. See the
@@ -11879,7 +11889,7 @@
               <code>undefined</code> is not expandable.
             </dd>
             <dt id="valuetype_idref">ID reference</dt>
-            <dd>Reference to the ID of another <a>element</a> in the same document</dd>
+            <dd>Reference to the ID of another <a>element</a> in the same document.</dd>
             <dt id="valuetype_idref_list">ID reference list</dt>
             <dd>A list of one or more ID references.</dd>
             <dt id="valuetype_integer">integer</dt>
@@ -16518,7 +16528,10 @@ button.ariaPressed; // null</pre
         </p>
         <section id="mapping_additional_relations_error_processing">
           <h3>ID Reference Error Processing</h3>
-          <p>[=user agents=] SHOULD ignore ID references that do not match the ID of another <a>element</a> in the same document.</p>
+          <p>
+            The author MAY set either an empty value or a value that does not match the ID of another <a>element</a> in the same document. This flexibility acknowledges the dynamic nature of modern
+            websites, where the DOM can be populated accordingly when necessary. [=user agents=] SHOULD ignore ID references that do not match the ID of another <a>element</a> in the same document.
+          </p>
           <p>
             It is the author's responsibility to ensure that IDs are unique. If more than one element has the same ID, the user agent SHOULD use the first element found with the given ID. The behavior
             will be the same as <code>getElementById</code>.
@@ -16746,8 +16759,8 @@ button.ariaPressed; // null</pre
       </section>
     </section>
     <section id="idl-interface" class="normative">
-      <h2>IDL Interface</h2>
-      <p>Conforming user agents MUST implement the following IDL interface.</p>
+      <h2>IDL Interfaces</h2>
+      <p>Conforming user agents MUST implement the following IDL interfaces.</p>
       <section id="ARIAMixin" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
         <h2>Interface Mixin <dfn>ARIAMixin</dfn></h2>
         <pre class="idl" data-cite="webidl">
@@ -16808,6 +16821,56 @@ button.ariaPressed; // null</pre
       Element includes ARIAMixin;
 		</pre
         >
+      </section>
+      <section id="ARIANotifyMixin" class="normative" data-dfn-for="ARIANotifyMixin" data-link-for="ARIANotifyMixin">
+        <h2>Interface Mixin <dfn>ARIANotifyMixin</dfn></h2>
+        <pre class="idl" data-cite="webidl">
+          enum AriaNotifyPriority { "normal", "high" };
+
+          dictionary AriaNotificationOptions {
+            AriaNotifyPriority priority = "normal";
+          };
+          interface mixin ARIANotifyMixin {
+            undefined ariaNotify(DOMString announcement, optional AriaNotificationOptions options = {});
+          };
+          Element includes ARIANotifyMixin;
+          Document includes ARIANotifyMixin;
+        </pre>
+
+        <p>
+          The User Agent processing steps for the
+          <code><dfn data-df-type="method" data-dfn-for="ARIANotifyMixin">ariaNotify</dfn>(<var>announcement</var>, <var>options</var>)</code>
+          method are:
+        </p>
+        <ol>
+          <li>
+            <p>If the document is not [=allowed to use=] the feature identified by <a>"aria-notify"</a> abort these steps.</p>
+          </li>
+          <li>
+            <p>Let <var>node</var> be <code>this</code>.</p>
+          </li>
+          <li>
+            <p>
+              Let <var>priority</var> be <var>options</var>["<code><a href="#dom-arianotificationoptions-priority">priority</a></code
+              >"].
+            </p>
+          </li>
+          <li>
+            <p>If <var>node</var> is <a href="#tree_exclusion">excluded from the accessibility tree</a>, then abort these steps.</p>
+          </li>
+          <li>
+            <p>Run the <a data-cite="core-aam-1.2#arianotify">aria notify steps</a> given <var>node</var>, <var>announcement</var>, and <var>priority</var>.</p>
+          </li>
+        </ol>
+
+        <section id="arianotify-permissions-policy">
+          <h3>Permissions Policy Integration</h3>
+          <p>
+            This specification defines a [=policy-controlled feature=] identified by the string <code><dfn class="permission">"aria-notify"</dfn></code
+            >. It has a [=policy-controlled feature/default allowlist=] of <code class="permissionspolicy">"*"</code>.
+          </p>
+          <p class="note">When disabled in a document, any notifications applied using <code>ariaNotify</code> within that document will not be sent.</p>
+        </section>
       </section>
 
       <section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
