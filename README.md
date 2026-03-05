@@ -49,7 +49,6 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
 * Portable Document Format Accessibility API Mappings (pdf-aam)
   * [Editor's Draft](https://w3c.github.io/pdf-aam/)
   * [Issue Repository](https://github.com/w3c/pdf-aam)
- 
 In addition to these specifications, there are other deliverables as specified in the [ARIA Charter](https://www.w3.org/2025/01/aria-charter.html). Please file issues in the repository specific to the specification or deliverable to which the issue applies.
 
 ## Ancillary Documentation related to the above Specifications
