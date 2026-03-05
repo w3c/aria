@@ -1,14 +1,14 @@
 
 # Open Issues in Browser Accessibility Heuristics
 
-The following is an incomplete, running list of known heuristics in browser that result in potentially different behavior. The goal of this list is provide insights into existing behavior (for spec authors or implementors), and possibly consider these for standardization and specification.
+The following is an incomplete, running list of known heuristics in browsers that could result in potentially different behavior. The goal of this list is provide insights into existing behavior (for spec authors or browser engine implementors), and possibly to consider these for reconciliation, standardization, and specification.
 
 
 ## Examples of Browser Heuristics Already Added to Accesibility Specs
 
 ### Ignoring aria-hidden when applied to the root or document elements
 
-One pre-existing example is how engines now ignore aria-hidden in certain scenarios where it's clearly an author mistake.
+One pre-existing example is how [engines now ignore `aria-hidden` in certain scenarios](https://w3c.github.io/aria/#aria-hidden) where it's clearly an author mistake.
 
 > To prevent authors erroneously hiding entire window-rendered documents only to those using assistive technology, user agents MUST NOT expose the hidden state to assistive technologies if it is specified on the root element or the host language element that represents the contents of the primary document in view.
 
@@ -32,7 +32,7 @@ Some analysis has been performed in the following issue(s).
 
 
 
-### Author anti-pattern workaround: 
+### Author anti-pattern workaround: clickable non-clickables
 
 Whether to expose DOM click handlers (e.g. as "clickable") on traditionally non-clickable roles where the event is registered with body event delegation. Some analysis has been performed in the following issue(s).
 
