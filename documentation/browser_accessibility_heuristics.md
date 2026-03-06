@@ -35,9 +35,17 @@ Some analysis has been performed in the following issue(s).
 ### Author anti-pattern workaround: clickable non-clickables
 
 Whether to expose DOM click handlers (e.g. as "clickable") on traditionally non-clickable roles where the event is registered with body event delegation. Some analysis has been performed in the following issue(s).
-
 - https://github.com/w3c/html-aam/issues/599
 
+Nurthen also found that Chrome accounts for a similar author error by changing non-linked `<a>` elements to links (computed role) if there is a click listener.
+
+```cpp
+if (IsA<HTMLAnchorElement>(GetNode()) || IsA<SVGAElement>(GetNode())) {
+    // Assume that an anchor element is a Role::kLink if it has an href or a
+    // click event listener.
+    if (GetNode()->IsLink() || IsClickable())
+      return ax::mojom::blink::Role::kLink;
+```
 
 ### aria-modal can be ignored when demonstrably erroneous
 
