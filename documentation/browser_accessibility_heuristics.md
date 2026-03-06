@@ -39,6 +39,11 @@ Whether to expose DOM click handlers (e.g. as "clickable") on traditionally non-
 - https://github.com/w3c/html-aam/issues/599
 
 
+# aria-modal can be ignored when demonstrably erroneous
+
+An example from 2005 is misuse of the aria-modal attribute. [Some pages from a major online retailer](https://www.applevis.com/forum/macos-mac-apps/amazon-mac-lately), included a modal dialog that was erroneously persistent. This prevented a lot of VO-based navigation from working. Thankfully the retailer fixed some or all of these instances, but it was impactful enough that Apple plans to [shipped a WebKit change](https://bugs.webkit.org/show_bug.cgi?id=236585) preventing web authors from being able to cause quite such an egregious disruption again.
+
+
 # Elements with zero width/height bounds may be ignored.
 
 - it's also possible some may ignore certain elements with 1x1 bounds
