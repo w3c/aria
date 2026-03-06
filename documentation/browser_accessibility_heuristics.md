@@ -44,12 +44,6 @@ Whether to expose DOM click handlers (e.g. as "clickable") on traditionally non-
 - it's also possible some may ignore certain elements with 1x1 bounds
 
 
-# Elements with zero width/height bounds may be ignored.
-
-- it's also possible some may ignore certain elements with 1x1 bounds
-- cross-implementation WPT testing required once accessibility bounds are exposed through `getAccessibilityProperties`
-
-
 ### More to be listed…
 
 - TBD
