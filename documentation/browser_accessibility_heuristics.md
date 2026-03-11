@@ -13,7 +13,7 @@ One pre-existing example is how [engines now ignore `aria-hidden` in certain sce
 > To prevent authors erroneously hiding entire window-rendered documents only to those using assistive technology, user agents MUST NOT expose the hidden state to assistive technologies if it is specified on the root element or the host language element that represents the contents of the primary document in view.
 
 
-## Browser Accessiblity Heuristics Not Yet Added to Specs
+## Browser Accessibility Heuristics Not Yet Added to Specs
 
 ### Data Table vs Layout Table Heuristics
 
@@ -49,7 +49,7 @@ if (IsA<HTMLAnchorElement>(GetNode()) || IsA<SVGAElement>(GetNode())) {
 
 ### aria-modal can be ignored when demonstrably erroneous
 
-An example from 2005 is misuse of the aria-modal attribute. [Some pages from a major online retailer](https://www.applevis.com/forum/macos-mac-apps/amazon-mac-lately), included a modal dialog that was erroneously persistent. This prevented a lot of VO-based navigation from working. Thankfully the retailer fixed some or all of these instances, but it was impactful enough that Apple plans to [shipped a WebKit change](https://bugs.webkit.org/show_bug.cgi?id=236585) preventing web authors from being able to cause quite such an egregious disruption again.
+An example from 2005 is misuse of the aria-modal attribute. [Some pages from a major online retailer](https://www.applevis.com/forum/macos-mac-apps/amazon-mac-lately), included a modal dialog that was erroneously persistent. This prevented a lot of VO-based navigation from working. Thankfully the retailer fixed some or all of these instances, but it was impactful enough that Apple [shipped a WebKit change](https://bugs.webkit.org/show_bug.cgi?id=236585) preventing web authors from being able to cause quite such an egregious disruption again.
 
 
 # Elements with zero width/height bounds may be ignored.
