@@ -653,32 +653,3 @@ function ariaAttributeReferences() {
 
     updateReferences(document);  // NOTE: global from resolveReferences.js
 }
-
-require(["core/pubsubhub"], function (respecEvents) {
-    const button = respecUI.addCommand(
-        "Save roles as JSON",
-        showAriaSave,
-        null,
-        "☁️"
-    );
-
-    function showAriaSave() {
-        const json = JSON.stringify(roleInfo, null, "  ");
-        const href =
-            "data:text/html;charset=utf-8," +
-            "/* This file is generated - do not modify */\nvar roleInfo = " +
-            encodeURIComponent(json);
-        const ariaUI = document.createElement("div");
-        ariaUI.classList.add("respec-save-buttons");
-        ariaUI.innerHTML = `
-        <a href="${href}" download="roleInfo.json" class="respec-save-button">Save JSON</a>
-      `;
-        respecUI.freshModal("Save Aria roles as JSON", ariaUI, button);
-        ariaUI.querySelector("a").focus();
-    }
-    respecEvents.sub("end", function (msg) {
-        if (msg == "w3c/conformance") {
-            ariaAttributeReferences();
-        }
-    });
-});
