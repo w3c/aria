@@ -80,6 +80,7 @@ When preparing GitHub pull requests:
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
 * Keep it up-to-date with the base branch, for example by selecting "rebase" under the "Update branch options" menu on the GitHub web interface.
+* Run prettier to preserve spec formatting. For consistency, please use `--print-width 200`.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
 

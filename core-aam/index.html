@@ -53,13 +53,14 @@
             w3cid: 107953,
           },
           {
-            name: "Alexander Surkov",
-            company: "Igalia, S.L.",
-            companyURL: "https://www.igalia.com",
-            w3cid: 51089,
+            name: "Cynthia Shelly",
+            company: "W3C Invited Expert",
+            mailto: "buphie@gmail.com",
+            w3cid: 11897,
           },
         ],
         formerEditors: [
+          { name: "Alexander Surkov", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 51089, note: "Editor until August 2025" },
           { name: "Joanmarie Diggs", company: "Igalia, S.L.", companyURL: "https://www.igalia.com", w3cid: 68182, note: "Editor until October 2022" },
           { name: "Richard Schwerdtfeger", company: "Knowbility", companyURL: "https://www.knowbility.org/", w3cid: 2460, note: "Editor until October 2017" },
           { name: "Joseph Scheuhammer", company: "Inclusive Design Research Centre, OCAD University", companyURL: "http://idrc.ocad.ca", w3cid: 42279, note: "Editor until May 2017" },
@@ -93,6 +94,12 @@
             companyURL: "https://www.igalia.com",
             note: "MSAA, IAccessible2",
             w3cid: 51089,
+          },
+          {
+            name: "David Tseng",
+            company: "Google LLC",
+            note: "Android Accessibility API",
+            w3cid: "134489",
           },
         ],
 
@@ -161,13 +168,6 @@
           WD: "https://www.w3.org/TR/html-aam/",
           REC: "https://www.w3.org/TR/html-aam/",
         },
-        practicesURLs: {
-          ED: "https://www.w3.org/WAI/ARIA/apg/",
-          WD: "https://www.w3.org/WAI/ARIA/apg/",
-          FPWD: "https://www.w3.org/WAI/ARIA/apg/",
-          CR: "https://www.w3.org/WAI/ARIA/apg/",
-          REC: "https://www.w3.org/WAI/ARIA/apg/",
-        },
 
         preProcess: [linkCrossReferences, getParticipants],
         postProcess: [addPlatformMaintainers],
@@ -202,6 +202,10 @@
           >comment archive</a
         >). In-progress updates to the document may be viewed in the <a href="http://w3c.github.io/core-aam/">publicly visible editors' draft</a>.
       </p>
+      <p>
+        <strong>Living specification</strong> &mdash; This document is maintained as a living specification. For the latest normative version, visit
+        <a href="https://www.w3.org/TR/core-aam-1.2/">Core Accessibility API Mappings</a>.
+      </p>
     </section>
     <section id="intro" class="informative">
       <h2>Introduction</h2>
@@ -217,10 +221,9 @@
         </li>
         <li>
           <cite
-            ><a href="http://www.w3.org/TR/wai-aria-practices/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite
-          >
-          [[WAI-ARIA-PRACTICES-1.2]], describes how web content developers can develop accessible rich internet applications using <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>.
-          It provides detailed advice and examples directed primarily to web application developers, yet also useful to user agent and developers of assistive technologies.
+            ><a href="https://www.w3.org/WAI/ARIA/apg/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices Guide</a></cite
+          >, describes how web content developers can develop accessible rich internet applications using <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>. It provides detailed
+          advice and examples directed primarily to web application developers, yet also useful to user agent and developers of assistive technologies.
         </li>
         <li>
           <cite
@@ -253,6 +256,9 @@
           <li><cite>User Interface Automation</cite> [[UI-AUTOMATION]]</li>
           <li><cite>ATK - Accessibility Toolkit</cite> [[ATK]] and <cite>Assistive Technology Service Provider Interface</cite> [[AT-SPI]], referred to hereafter as "ATK/AT-SPI"</li>
           <li><cite>macOS Accessibility Protocol</cite> [[AXAPI]]</li>
+          <li>
+            <cite><a href="https://developer.android.com/reference/android/view/accessibility/package-summary">Android</a></cite> [[Android-Accessibility-API]]
+          </li>
         </ul>
         <p>
           The <cite><a href="http://www.w3.org/TR/wai-aria-implementation/">WAI-ARIA 1.0 User Agent Implementation Guide</a></cite> included mappings for [[UIA-EXPRESS]], also known as IAccessibleEx,
@@ -336,6 +342,15 @@
           </p>
         </section>
         <section>
+          <h5>Android Accessibility API</h5>
+          <p>
+            Android accessibility services and applications both express user interface elements as a tree of <code>AccessibilityNodeInfo</code> objects. Accessibility services receive events,
+            traverse the <code>AccessibilityNodeInfo</code> tree, retrieve properties, and perform actions on a node. Conversely, Android applications build the <code>AccessibilityNodeInfo</code> tree
+            indirectly by constructing views or composables, or directly via an <code>AccessibilityNodeProvider</code>. They then subsequently fire events, and handle actions.
+          </p>
+          <p>For WAI-ARIA implementers, of particular interest is the mapping into properties, actions, and events on <code>AccessibilityNodeInfo</code> and <code>AccessibilityEvent</code>.</p>
+        </section>
+        <section>
           <h5>Accessible Names and Descriptions</h5>
           <p>
             Each platform accessibility API includes a way to assign and retrieve <a class="termref" data-cite="accname-1.2#dfn-accessible-name">accessible name</a> and
@@ -360,26 +375,17 @@
             <a class="state-reference" href="#aria-description"><code>aria-description</code></a> or <a class="state-reference" href="#aria-describedby"><code>aria-describedby</code></a
             >, should be exposed in the <code>accessibilityCustomContent</code> API. Otherwise, it should be exposed as <code>AXHelp</code>.
           </p>
+          <p>In Android, accessible names map to a number of properties defined on <code>AccessibilityNodeInfo</code> such as content description, supplemental description, and text.</p>
           <p>For more detail, see the <a class="accname" href="">Accessible Name and Description Computation</a> specification.</p>
         </section>
       </section>
     </section>
     <section id="conformance">
-      <section>
-        <h3>RFC-2119 Keywords</h3>
-        <p>
-          RFC-2119 keywords are formatted in uppercase and contained in a <code>strong</code> element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this
-          format, they do not convey formal information in the RFC 2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.
-        </p>
-      </section>
-      <section>
-        <h3>Normative and Informative Sections</h3>
-        <p>The indication whether a section is normative or non-normative (informative) applies to the entire section including sub-sections.</p>
-        <p>
-          Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such
-          recommendations in order to conform to this specification.
-        </p>
-      </section>
+      <p>Normative sections provide requirements that user agents and assistive technologies MUST follow for an implementation to conform to this specification.</p>
+      <p>
+        Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow
+        such recommendations in order to conform to this specification.
+      </p>
       <section>
         <h3>Features Deprecated in WAI-ARIA</h3>
         <p>
@@ -389,33 +395,6 @@
           no longer be asked to continue support for those features.
         </p>
       </section>
-    </section>
-    <section class="informative" id="glossary">
-      <h2>Important Terms</h2>
-      <div>
-        <p>While some terms are defined in place, the following definitions are used throughout this document.</p>
-        <dl class="termlist">
-          <dt><dfn data-export="">Accessibility Subtree</dfn></dt>
-          <dd>
-            <p>
-              An [=accessible object=] in the <a>accessibility tree</a> and its descendants in that tree. It does not include objects which have relationships other than parent-child in that tree. For
-              example, it does not include objects linked via <a class="specref" href="#aria-flowto">aria-flowto</a> unless those objects are also descendants in the <a>accessibility tree</a>.
-            </p>
-          </dd>
-          <dt><dfn data-export="">Activation behavior</dfn></dt>
-          <dd>
-            <p>
-              The action taken when an <a>event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role. The role may be defined for that element by the
-              host language, or by author-defined variables, or both. The role for any given element may be a generic action, or may be unique to that element. For example, the activation behavior of
-              an <abbr title="Hypertext Markup Language">HTML</abbr> or <abbr title="Scalable Vector Graphics">SVG</abbr> <code>&lt;a&gt;</code> element shall be to cause the user agent to traverse
-              the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a
-              named window, or a new window); the activation behavior of an <abbr title="Hypertext Markup Language">HTML</abbr> <code>&lt;input&gt;</code> element with the <code>type</code> attribute
-              value <code>submit</code> shall be to send the values of the form elements to an author-defined <abbr title="Internationalized Resource Identifiers">IRI</abbr> by the author-defined
-              <abbr title="Hypertext Transfer Protocol">HTTP</abbr> method.
-            </p>
-          </dd>
-        </dl>
-      </div>
     </section>
     <section id="mapping">
       <h2>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2>
@@ -583,17 +562,19 @@
 &lt;a href="#" role="button"&gt; &lt;!-- computedrole returns "button" --&gt;</pre
             >
           </aside>
-          <p>
-            When an element has a role but is not contained in the required context (for example, an orphaned `listitem` without the required accessible parent of role `list`), User Agents MUST ignore
-            the role token, and return the `computedrole` as if the ignored role token had not been included.
+          <p class="note">
+            When an element has a role but is not contained in the required context (for example, an orphaned `listitem` without the required accessible parent of role `list`), this is an authoring
+            error, but the user agent behavior is not specified as a single rule. For most roles, user agents can either recover the error by ignoring the role, or respect the author's intended role
+            in scenarios deemed by the implementation to be harmless. Please note that this permissiveness in how engines treat author role errors might be overridden in a language-specific mapping
+            document such as [[HTML-AAM]].
           </p>
           <aside class="example">
             <!-- ReSpec needs these examples to be unindented. -->
             <pre>
-&lt;div role="listitem"&gt; &lt;!-- Author error: orphaned listitem. computedrole returns "generic" --&gt;
+&lt;div role="listitem"&gt; &lt;!-- Author error: orphaned listitem. computedrole is unspecified. --&gt;
 
 &lt;div role="list"&gt; &lt;!-- computedrole returns "list" --&gt;
-  &lt;div role="listitem"&gt; &lt;!-- computedrole returns "listitem" in the required context. --&gt;</pre
+  &lt;div role="listitem"&gt; &lt;!-- computedrole returns "listitem" in the appropriate context. --&gt;</pre
             >
           </aside>
           <p>
@@ -676,6 +657,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-alertdialog"><code>alertdialog</code></h4>
@@ -739,6 +726,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-application"><code>application</code></h4>
@@ -785,6 +778,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXWebApplication</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -839,6 +838,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXDocumentArticle</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -897,6 +902,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-blockquote"><code>blockquote</code></h4>
@@ -948,6 +959,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-button"><code>button</code> with default values for <code>aria-pressed</code> and <code>aria-haspopup</code></h4>
@@ -995,6 +1012,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-button-haspopup"><code>button</code> with non-<code>false</code> value for <code>aria-haspopup</code></h4>
@@ -1039,6 +1062,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1089,6 +1118,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-caption"><code>caption</code></h4>
@@ -1135,6 +1170,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1193,6 +1234,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-checkbox"><code>checkbox</code></h4>
@@ -1246,6 +1293,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-code"><code>code</code></h4>
@@ -1296,6 +1349,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXCodeStyleGroup</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1354,6 +1413,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-combobox"><code>combobox</code></h4>
@@ -1410,6 +1475,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-comment"><code>comment</code></h4>
@@ -1459,6 +1530,12 @@
                 <td>
                   <span class="property">AXRole: <code>AXGroup</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1517,6 +1594,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-contentinfo"><code>contentinfo</code></h4>
@@ -1573,6 +1656,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-definition"><code>definition</code></h4>
@@ -1621,6 +1710,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXDefinition</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1674,6 +1769,12 @@
                   <span class="property">AXAttributedStringForTextMarkerRange: contains <code>AXIsSuggestedDeletion = 1;</code> for all text contained in a <code>deletion</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-dialog"><code>dialog</code></h4>
@@ -1722,6 +1823,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-directory"><code>directory</code> (deprecated)</h4>
@@ -1766,6 +1873,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXContentList</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1814,6 +1927,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXDocument</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -1868,6 +1987,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-feed"><code>feed</code></h4>
@@ -1920,6 +2045,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-figure"><code>figure</code></h4>
@@ -1970,6 +2101,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2026,6 +2163,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-form-nameless"><code>form</code> without an accessible name</h4>
@@ -2067,6 +2210,12 @@
                 </th>
                 <td>
                   <span class="property">Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.</span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2116,6 +2265,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2191,6 +2346,12 @@
                   <span class="property">AXRowHeaderUIElements: a list of pointers to the rowheader elements</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-gridcell"><code>gridcell</code></h4>
@@ -2251,6 +2412,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-group"><code>group</code></h4>
@@ -2295,6 +2462,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXApplicationGroup</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2347,6 +2520,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-image"><code>image</code></h4>
@@ -2395,6 +2574,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2447,6 +2632,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-insertion"><code>insertion</code></h4>
@@ -2496,6 +2687,12 @@
                   <span class="property">AXSubrole: <code>AXInsertStyleGroup</code></span
                   ><br />
                   <span class="property">AXAttributedStringForTextMarkerRange: contains <code>AXIsSuggestedInsertion = 1;</code> for all text contained in a <code>insertion</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2553,6 +2750,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-list"><code>list</code></h4>
@@ -2599,6 +2802,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXContentList</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2659,6 +2868,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-listbox-in-combobox"><code>listbox</code> with an accessibility parent of <code>combobox</code></h4>
@@ -2717,6 +2932,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-listitem"><code>listitem</code></h4>
@@ -2767,6 +2988,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2833,6 +3060,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-main"><code>main</code></h4>
@@ -2885,6 +3118,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXLandmarkMain</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -2940,6 +3179,12 @@
                   <span class="property">AXAttributedStringForTextMarkerRange: contains <code>AXHighlight = 1;</code> for all text contained in a <code>mark</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-marquee"><code>marquee</code></h4>
@@ -2962,11 +3207,7 @@
                 <td>
                   <span class="property">Role: <code>ROLE_SYSTEM_ANIMATION</code></span
                   ><br />
-                  <span class="property">Object Attribute: <code>xml-roles:marquee</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>live:off</code></span>
+                  <span class="property">Object Attribute: <code>xml-roles:marquee</code></span>
                 </td>
               </tr>
               <tr>
@@ -2974,19 +3215,13 @@
                 <td>
                   <span class="property">Control Type: <code>Group</code></span
                   ><br />
-                  <span class="property">Localized Control Type: <code>marquee</code></span
-                  ><br />
-                  <span class="property">LiveSetting: <code>Off (0)</code></span>
+                  <span class="property">Localized Control Type: <code>marquee</code></span>
                 </td>
               </tr>
               <tr>
                 <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
                 <td>
-                  <span class="property">Role: <code>ROLE_MARQUEE</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>live:off</code></span>
+                  <span class="property">Role: <code>ROLE_MARQUEE</code></span>
                 </td>
               </tr>
               <tr>
@@ -2998,6 +3233,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXApplicationMarquee</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3046,6 +3287,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXDocumentMath</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3104,6 +3351,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-menubar"><code>menubar</code></h4>
@@ -3160,6 +3413,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-menuitem"><code>menuitem</code></h4>
@@ -3204,6 +3463,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3261,6 +3526,12 @@
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3322,6 +3593,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-meter"><code>meter</code></h4>
@@ -3376,6 +3653,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-navigation"><code>navigation</code></h4>
@@ -3428,6 +3711,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXLandmarkNavigation</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3488,6 +3777,12 @@
                   </p>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-note"><code>note</code></h4>
@@ -3534,6 +3829,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXDocumentNote</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3591,6 +3892,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-option-in-combobox"><code>option</code> inside <code>combobox</code></h4>
@@ -3646,6 +3953,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-paragraph"><code>paragraph</code></h4>
@@ -3692,6 +4005,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3752,6 +4071,12 @@
                   </p>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-progressbar"><code>progressbar</code></h4>
@@ -3808,6 +4133,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3867,6 +4198,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-radiogroup"><code>radiogroup</code></h4>
@@ -3911,6 +4248,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -3969,6 +4312,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-region-nameless"><code>region</code> without an accessible name</h4>
@@ -4010,6 +4359,12 @@
                 </th>
                 <td>
                   <span class="property">Do not expose the <a class="termref">element</a> as a landmark. Use the native host language role of the element instead.</span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4062,6 +4417,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-row-in-treegrid"><code>row</code> inside <code>treegrid</code></h4>
@@ -4112,6 +4473,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-rowgroup"><code>rowgroup</code></h4>
@@ -4153,6 +4520,12 @@
                 </th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4203,6 +4576,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4273,6 +4652,12 @@
                   </p>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-search"><code>search</code></h4>
@@ -4325,6 +4710,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXLandmarkSearch</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4385,6 +4776,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-sectionfooter"><code>sectionfooter</code></h4>
@@ -4435,6 +4832,12 @@
                   <span class="property">AXSubrole: <code>AXSectionFooter</code></span
                   ><br />
                   <span class="property">AXRoleDescription: <code>section footer</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4488,6 +4891,12 @@
                   <span class="property">AXRoleDescription: <code>section header</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-separator"><code>separator</code> (non-focusable)</h4>
@@ -4532,6 +4941,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4590,6 +5005,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-slider"><code>slider</code></h4>
@@ -4646,6 +5067,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-spinbutton"><code>spinbutton</code></h4>
@@ -4700,6 +5127,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4764,6 +5197,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-strong"><code>strong</code></h4>
@@ -4814,6 +5253,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXStrongStyleGroup</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -4868,6 +5313,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-suggestion"><code>suggestion</code></h4>
@@ -4920,6 +5371,12 @@
                   <span class="property">AXAttributedStringForTextMarkerRange: contains <code>AXIsSuggestion = 1;</code> for all text contained in a <code>suggestion</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-superscript"><code>superscript</code></h4>
@@ -4970,6 +5427,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXSuperscriptStyleGroup</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5035,6 +5498,12 @@
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-tab"><code>tab</code></h4>
@@ -5089,6 +5558,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXTabButton</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5152,6 +5627,12 @@
                   <span class="property">AXRowHeaderUIElements: a list of pointers to the rowheader elements</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-tablist"><code>tablist</code></h4>
@@ -5210,6 +5691,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-tabpanel"><code>tabpanel</code></h4>
@@ -5254,6 +5741,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXTabPanel</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5304,6 +5797,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXTerm</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5360,6 +5859,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-textbox-multiline"><code>textbox</code> when <code>aria-multiline</code> is <code>true</code></h4>
@@ -5412,6 +5917,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5468,6 +5979,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-timer"><code>timer</code></h4>
@@ -5488,13 +6005,7 @@
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
-                  <span class="property">Object Attribute: <code>xml-roles:timer</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live-role:timer</code></span>
+                  <span class="property">Object Attribute: <code>xml-roles:timer</code></span>
                 </td>
               </tr>
               <tr>
@@ -5502,21 +6013,13 @@
                 <td>
                   <span class="property">Control Type: <code>Group</code></span
                   ><br />
-                  <span class="property">Localized Control Type: <code>timer</code></span
-                  ><br />
-                  <span class="property">LiveSetting: <code>Off (0)</code></span>
+                  <span class="property">Localized Control Type: <code>timer</code></span>
                 </td>
               </tr>
               <tr>
                 <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
                 <td>
-                  <span class="property">Role: <code>ROLE_TIMER</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>live:off</code></span
-                  ><br />
-                  <span class="property">Object Attribute: <code>container-live-role:timer</code></span>
+                  <span class="property">Role: <code>ROLE_TIMER</code></span>
                 </td>
               </tr>
               <tr>
@@ -5528,6 +6031,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXApplicationTimer</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5576,6 +6085,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-tooltip"><code>tooltip</code></h4>
@@ -5620,6 +6135,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>AXUserInterfaceTooltip</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5676,6 +6197,12 @@
                   ><br />
                   <span class="property">AXSubrole: <code>&lt;nil&gt;</code></span
                   ><br />
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5738,6 +6265,12 @@
                   ><br />
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="role-map-treeitem"><code>treeitem</code></h4>
@@ -5789,6 +6322,12 @@
                   <span class="property">AXSubrole: <code>AXOutlineRow</code></span
                   ><br />
                   <span class="seealso">See also: <code>aria-checked</code> in the <a href="#mapping_state-property_table">State and Property Mapping Tables</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5891,6 +6430,12 @@
                   <span class="property">Property: <code>AXSelectedRows</code>: pointer to active descendant node</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaAtomicTrue"><code>aria-atomic</code>=<code>true</code></h4>
@@ -5941,6 +6486,12 @@
                   <span class="property">Property: <code>AXARIAAtomic</code>: <code>YES</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#mapping_events_visibility">Changes to document content or node visibility</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -5997,6 +6548,12 @@
                   <span class="seealso">See also: <a href="#mapping_events_visibility">Changes to document content or node visibility</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaAutocompleteInlineListBoth"><code>aria-autocomplete</code>=<code>inline</code>, <code>list</code>, or <code>both</code></h4>
@@ -6037,6 +6594,12 @@
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaAutocompleteNone"><code>aria-autocomplete</code>=<code>none</code></h4>
@@ -6071,6 +6634,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6108,6 +6677,12 @@
                   <span class="property">Property: AXBrailleLabel</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaBrailleroledescription"><code>aria-brailleroledescription</code></h4>
@@ -6143,6 +6718,12 @@
                   <span class="property">Property: AXBrailleRoleDescription</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaBrailleroledescriptionUndefined"><code>aria-brailleroledescription</code> is undefined or the empty string</h4>
@@ -6176,6 +6757,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6214,6 +6801,12 @@
                   <span class="property">Property: <code>AXElementBusy</code>: <code>YES</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaBusyFalse"><code>aria-busy</code>=<code>false</code></h4>
@@ -6248,6 +6841,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXElementBusy</code>: <code>NO</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6294,6 +6893,12 @@
                   <span class="property">Property: <code>AXMenuItemMarkChar</code>: <code>&#x2713;</code> for <code>menuitemcheckbox</code> and <code>menuitemradio</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaCheckedFalse"><code>aria-checked</code>=<code>false</code></h4>
@@ -6335,6 +6940,12 @@
                   <span class="property">Property: <code>AXValue</code>: <code>0</code></span
                   ><br />
                   <span class="property">Property: <code>AXMenuItemMarkChar</code>: <code>&lt;nil&gt;</code> for <code>menuitemcheckbox</code> and <code>menuitemradio</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6381,6 +6992,12 @@
                   <span class="property">Property: <code>AXMenuItemMarkChar</code>: <code>&lt;nil&gt;</code> for <code>menuitemcheckbox</code> and <code>menuitemradio</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaCheckedUndefined"><code>aria-checked</code> is undefined</h4>
@@ -6414,6 +7031,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6454,6 +7077,12 @@
                   <span class="property">Property: <code>AXARIAColumnCount</code>: <code>&lt;value&gt;</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaColIndex"><code>aria-colindex</code></h4>
@@ -6492,6 +7121,12 @@
                   <span class="property">Property: <code>AXARIAColumnIndex</code>: <code>&lt;value&gt;</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaColIndexText"><code>aria-colindextext</code></h4>
@@ -6525,6 +7160,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXColumnIndexDescription</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6563,6 +7204,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXColumnIndexRange.length</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6604,6 +7251,12 @@
                   <span class="property">Property: <code>AXLinkedUIElements</code>: pointers to accessible nodes matching IDREFs</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaCurrent"><code>aria-current</code> with non-<code>false</code> allowed value</h4>
@@ -6639,6 +7292,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXARIACurrent</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6678,6 +7337,12 @@
                   <span class="property">Property: <code>AXARIACurrent</code>: <code>true</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaCurrentUndefined"><code>aria-current</code> is <code>false</code> or undefined</h4>
@@ -6711,6 +7376,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6763,6 +7434,12 @@
                   - <span class="seealso">See also: <a href="#mapping_additional_nd">Name Computation</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaDescription"><code>aria-description</code></h4>
@@ -6808,6 +7485,12 @@
                   <span class="seealso">See also: <a href="#mapping_additional_nd">Name Computation</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaDetails"><code>aria-details</code></h4>
@@ -6845,6 +7528,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6885,6 +7574,12 @@
                   <span class="property">Property: <code>AXEnabled</code>: <code>NO</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaDisabledFalse"><code>aria-disabled</code>=<code>false</code></h4>
@@ -6919,6 +7614,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXEnabled</code>: <code>YES</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -6959,6 +7660,12 @@
                   <code>array AXDropEffects</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaDropeffectNone"><code>aria-dropeffect</code>=<code>none</code> (deprecated)</h4>
@@ -6995,6 +7702,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7036,6 +7749,12 @@
                   <span class="property">Property: <code>AXErrorMessageElements</code>: pointers to accessible nodes matching IDREFs</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaExpandedTrue"><code>aria-expanded</code>=<code>true</code></h4>
@@ -7072,6 +7791,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXExpanded</code>: <code>YES</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7112,6 +7837,12 @@
                   <span class="property">Property: <code>AXExpanded</code>: <code>NO</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaExpandedUndefined"><code>aria-expanded</code> is undefined</h4>
@@ -7145,6 +7876,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7186,6 +7923,12 @@
                   <span class="property">Property: <code>AXLinkedUIElements</code>: pointers to accessible nodes matching IDREFs</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaGrabbedTrue"><code>aria-grabbed</code>=<code>true</code></h4>
@@ -7220,6 +7963,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXGrabbed</code>: <code>YES</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7258,6 +8007,12 @@
                   <span class="property">Property: <code>AXGrabbed</code>: <code>NO</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaGrabbedUndefined"><code>aria-grabbed</code> is undefined</h4>
@@ -7291,6 +8046,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7338,6 +8099,12 @@
                   <span class="property">Action: <code>AXShowMenu</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaHaspopupFalse"><code>aria-haspopup</code>=<code>false</code></h4>
@@ -7373,6 +8140,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7421,6 +8194,12 @@
                   <span class="action">Action: <code>AXShowMenu</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaHaspopupGrid"><code>aria-haspopup</code>=<code>grid</code></h4>
@@ -7465,6 +8244,12 @@
                   <span class="property">Property: <code>AXPopupValue:grid</code></span
                   ><br />
                   <span class="action">Action: <code>AXShowMenu</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7513,6 +8298,12 @@
                   <span class="action">Action: <code>AXShowMenu</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaHaspopupMenu"><code>aria-haspopup</code>=<code>menu</code></h4>
@@ -7557,6 +8348,12 @@
                   <span class="property">Property: <code>AXPopupValue:menu</code></span
                   ><br />
                   <span class="action">Action: <code>AXShowMenu</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7605,6 +8402,12 @@
                   <span class="action">Action: <code>AXShowMenu</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaHiddenTrue"><code>aria-hidden</code>=<code>true</code> on unfocused element</h4>
@@ -7643,6 +8446,12 @@
                 <td>
                   <span class="property not-in-tree">Element SHOULD NOT be exposed</span><br />
                   <span class="seealso">See also: <a class="specref" href="#tree_inclusion">Including Elements in the Accessibility Tree in the WAI-ARIA specification</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7689,6 +8498,12 @@
                   <span class="seealso">See also: <a class="specref" href="#tree_inclusion">Including Elements in the Accessibility Tree in the WAI-ARIA specification</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaHiddenFalse"><code>aria-hidden</code>=<code>false</code></h4>
@@ -7723,6 +8538,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7765,6 +8586,12 @@
                   <span class="property">Property: <code>AXInvalid</code>: <code>true</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaInvalidFalse"><code>aria-invalid</code>=<code>false</code></h4>
@@ -7799,6 +8626,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXInvalid</code>: <code>false</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7841,6 +8674,12 @@
                   <span class="property">Property: <code>AXInvalid</code>: <code>&lt;value&gt;</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaInvalidUnrecognizedValue"><code>aria-invalid</code> with unrecognized value</h4>
@@ -7880,6 +8719,12 @@
                   <span class="property">Property: <code>AXInvalid</code>: <code>true</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaKeyshortcuts"><code>aria-keyshortcuts</code></h4>
@@ -7913,6 +8758,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXKeyShortcutsValue</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -7956,6 +8807,12 @@
                   <span class="property">Property: <code>AXTitle</code>: <code>&lt;value&gt;</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#mapping_additional_nd">Name Computation</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8010,6 +8867,12 @@
                   <span class="seealso">See also: <a href="#mapping_additional_nd">Name Computation</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaLevel"><code>aria-level</code> on non-<code>heading</code></h4>
@@ -8056,6 +8919,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaLevelHeading"><code>aria-level</code> on <code>heading</code></h4>
@@ -8091,6 +8960,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXValue</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8145,6 +9020,12 @@
                   <span class="seealso">See also: <a href="#mapping_events_visibility">Changes to document content or node visibility</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaLivePolite"><code>aria-live</code>=<code>polite</code></h4>
@@ -8197,6 +9078,12 @@
                   <span class="seealso">See also: <a href="#mapping_events_visibility">Changes to document content or node visibility</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaLiveOff"><code>aria-live</code>=<code>off</code></h4>
@@ -8244,6 +9131,12 @@
                   <span class="property">Property: <code>AXARIALive</code>: <code>&quot;off&quot;</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaModalTrue"><code>aria-modal</code>=<code>true</code></h4>
@@ -8282,6 +9175,12 @@
                   the <a class="termref">element</a> with <code>aria-modal="true"</code>. Only the tree whose root is that modal accessible object is exposed.
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaModalFalse"><code>aria-modal</code>=<code>false</code></h4>
@@ -8318,6 +9217,12 @@
                 <td>
                   Grow the accessibility tree such that the background content is exposed. No specific property is set on the <a class="termref">accessible object</a> that corresponds to the
                   <a class="termref">element</a> with <code>aria-modal="false"</code>.
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8364,6 +9269,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaMultilineFalse"><code>aria-multiline</code>=<code>false</code></h4>
@@ -8408,6 +9319,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaMultiselectableTrue"><code>aria-multiselectable</code>=<code>true</code></h4>
@@ -8449,9 +9366,15 @@
               <tr>
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
-                  <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span
+                  <span class="property">Property: <code>AXIsMultiSelectable</code>: <code>YES</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#mapping_events_selection">Selection</a> for details on accessibility events</span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8490,6 +9413,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8532,6 +9461,12 @@
                   <span class="property">Property: <code>AXOrientation</code>: <code>AXHorizontalOrientation</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaOrientationVertical"><code>aria-orientation</code>=<code>vertical</code></h4>
@@ -8572,6 +9507,12 @@
                   <span class="property">Property: <code>AXOrientation</code>: <code>AXVerticalOrientation</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaOrientationUndefined"><code>aria-orientation</code> is undefined</h4>
@@ -8606,6 +9547,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXOrientation</code>: <code>AXUnknownOrientation</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8657,6 +9604,12 @@
                   <span class="property">Property: <code>AXOwns</code>: pointers to accessible nodes matching IDREFs</span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaPlaceholder"><code>aria-placeholder</code></h4>
@@ -8690,6 +9643,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXPlaceholderValue</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8733,6 +9692,12 @@
                   <span class="property">Property: <code>AXARIAPosInSet</code>: <code>&lt;value&gt;</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#mapping_additional_position">Group Position</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8783,6 +9748,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaPressedMixed"><code>aria-pressed</code>=<code>mixed</code></h4>
@@ -8831,6 +9802,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaPressedFalse"><code>aria-pressed</code>=<code>false</code></h4>
@@ -8877,6 +9854,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaPressedUndefined"><code>aria-pressed</code> is undefined</h4>
@@ -8910,6 +9893,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -8964,6 +9953,12 @@
                   <span class="method">Method: <code>AXUIElementIsAttributeSettable(AXValue)</code>: <code>NO</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaReadonlyFalse"><code>aria-readonly</code>=<code>false</code></h4>
@@ -9011,6 +10006,12 @@
                   <span class="method">Method: <code>AXUIElementIsAttributeSettable(AXValue)</code>: <code>YES</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaReadonlyUnspecifiedOnGridcell"><code>aria-readonly</code> is unspecified on <code>gridcell</code></h4>
@@ -9056,6 +10057,12 @@
                   value on the <code>gridcell</code> as described for <a href="#ariaReadonlyTrue"><code>aria-readonly="true"</code></a> and
                   <a href="#ariaReadonlyFalse"><code>aria-readonly="false"</code></a
                   >.
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9107,6 +10114,12 @@
                   <span class="seealso">See also: <a href="#mapping_events_visibility">Changes to document content or node visibility</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaRequiredTrue"><code>aria-required</code>=<code>true</code></h4>
@@ -9141,6 +10154,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXRequired</code>: <code>YES</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9179,6 +10198,12 @@
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaRoleDescription"><code>aria-roledescription</code></h4>
@@ -9212,6 +10237,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXRoleDescription</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9255,6 +10286,12 @@
                   >
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaRowCount"><code>aria-rowcount</code></h4>
@@ -9291,6 +10328,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXARIARowCount</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9331,6 +10374,12 @@
                   <span class="property">Property: <code>AXARIARowIndex</code>: <code>&lt;value&gt;</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaRowIndexText"><code>aria-rowindextext</code></h4>
@@ -9364,6 +10413,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXRowIndexDescription</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9402,6 +10457,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXRowIndexRange.length</code>: <code>&lt;value&gt;</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9448,6 +10509,12 @@
                   <span class="property">Property: <code>AXSelected</code>: <code>YES</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaSelectedFalse"><code>aria-selected</code>=<code>false</code></h4>
@@ -9490,6 +10557,12 @@
                   <span class="property">Property: <code>AXSelected</code>: <code>NO</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaSelectedUndefined"><code>aria-selected</code> is undefined</h4>
@@ -9523,6 +10596,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9574,6 +10653,12 @@
                   <span class="seealso">See also: <a href="#mapping_additional_position">Group Position</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaSortAscending"><code>aria-sort</code>=<code>ascending</code></h4>
@@ -9613,6 +10698,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property">Property: <code>AXSortDirection</code>: <code>AXAscendingSortDirection</code></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9656,6 +10747,12 @@
                   <span class="property">Property: <code>AXSortDirection</code>: <code>AXDescendingSortDirection</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaSortOther"><code>aria-sort</code>=<code>other</code></h4>
@@ -9697,6 +10794,12 @@
                   <span class="property">Property: <code>AXSortDirection</code>: <code>AXUnknownSortDirection</code></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaSortNone"><code>aria-sort</code>=<code>none</code></h4>
@@ -9731,6 +10834,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9776,6 +10885,12 @@
                   <span class="seealso">See also: <a href="#document-handling_author-errors_states-properties" class="specref">Handling Author Errors for States and Properties</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaValueMin"><code>aria-valuemin</code></h4>
@@ -9817,6 +10932,12 @@
                   <span class="property">Property: <code>AXMinValue</code>: <code>&lt;value&gt;</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#document-handling_author-errors_states-properties" class="specref">Handling Author Errors for States and Properties</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -9863,6 +10984,12 @@
                   <span class="seealso">See also: <a href="#document-handling_author-errors_states-properties" class="specref">Handling Author Errors for States and Properties</a></span>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="ariaValueText"><code>aria-valuetext</code></h4>
@@ -9906,6 +11033,12 @@
                   <span class="property">Property: <code>AXValueDescription</code>: <code>&lt;value&gt;</code></span
                   ><br />
                   <span class="seealso">See also: <a href="#document-handling_author-errors_states-properties" class="specref">Handling Author Errors for States and Properties</a></span>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10155,6 +11288,12 @@
                   <p>In addition: <code>AXSelectedChildrenChanged</code></p>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-busy"><code>aria-busy</code> (state)</h4>
@@ -10189,6 +11328,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXElementBusyChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10227,6 +11372,12 @@
                   <code>AXValueChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-current"><code>aria-current</code> (state)</h4>
@@ -10263,6 +11414,12 @@
                   <code>AXCurrentStateChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-disabled"><code>aria-disabled</code> (state)</h4>
@@ -10295,6 +11452,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXDisabledStateChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10333,6 +11496,12 @@
                   <code>AXDescribedByChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-dropeffect"><code>aria-dropeffect</code> (property, deprecated)</h4>
@@ -10367,6 +11536,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXDropEffectChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10407,6 +11582,12 @@
                   <code>AXRowCountChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-grabbed"><code>aria-grabbed</code> (state, deprecated)</h4>
@@ -10442,6 +11623,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXGrabbedStateChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10482,6 +11669,12 @@
                   <code>AXUIElementCreated</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-invalid"><code>aria-invalid</code> (state)</h4>
@@ -10516,6 +11709,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXInvalidStatusChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10555,6 +11754,12 @@
                   <code>AXLabelCreated</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-pressed"><code>aria-pressed</code> (state)</h4>
@@ -10589,6 +11794,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXPressedStateChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10627,6 +11838,12 @@
                   <code>AXReadOnlyStatusChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-required"><code>aria-required</code></h4>
@@ -10663,6 +11880,12 @@
                   <code>AXRequiredStatusChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-selected"><code>aria-selected</code> (state)</h4>
@@ -10689,6 +11912,12 @@
               <tr>
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>See section <a href="#mapping_events_selection">Selection</a> for details.</td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -10726,6 +11955,12 @@
                   <code>AXValueChanged</code>
                 </td>
               </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
+                </td>
+              </tr>
             </tbody>
           </table>
           <h4 id="event-aria-valuetext"><code>aria-valuetext</code></h4>
@@ -10760,6 +11995,12 @@
                 <th><abbr title="macOS Accessibility Protocol">AX API</abbr> Notification</th>
                 <td>
                   <code>AXValueChanged</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Android</th>
+                <td>
+                  <p>TBD</p>
                 </td>
               </tr>
             </tbody>
@@ -10809,7 +12050,12 @@
               </tr>
             </tbody>
           </table>
-          <p>Fire these events for node changes where the node in question is an element and has an <a class="termref">accessible object</a>:</p>
+          <p>
+            Fire the following events for node changes where the node in question is an element and has an <a class="termref">accessible object</a>. The
+            <dfn data-export="" data-lt="accessibility subtree">accessibility subtree</dfn> of a node is its <a class="termref">accessible object</a> in the <a>accessibility tree</a> and all of it's
+            <a>accessibility descendants</a>. It does not include objects which have relationships other than parent-child in that tree. For example, it does not include objects linked via
+            <a class="specref" href="#aria-flowto">aria-flowto</a> unless those objects are also descendants in the <a>accessibility tree</a>.
+          </p>
           <table class="data">
             <caption>
               Table of document change scenarios and events to be fired in each
@@ -11210,6 +12456,133 @@
       </section>
     </section>
 
+    <section id="mapping_algorithms">
+      <h2>Algorithms</h2>
+      <p>
+        Some <abbr title="Application Programming Interfaces">APIs</abbr> provide methods which require specific algorithms to be followed. The following sections provide the algorithm mapping tables
+        for these methods.
+      </p>
+      <h3>ARIANotifyMixin Algorithm Mapping Tables</h3>
+      <p>
+        The <code>ARIANotifyMixin</code> provides a method for announcing content to assistive technologies. The following algorithm mappings specify how these announcements will be implemented across
+        different accessibility APIs to ensure consistent behavior for users of assistive technologies.
+      </p>
+      <h4 id="arianotifymixin-map-arianotify">ariaNotify</h4>
+      <p>To <code>aria notify</code> given <var>node</var>, <var>announcement</var>, and <var>priority</var>:</p>
+      <table aria-labelledby="arianotifymixin-map-arianotify" class="data">
+        <tbody>
+          <tr>
+            <th>ARIA Specification</th>
+            <td>
+              <a class="method-reference" href="#arianotify"><code>aria notify</code></a>
+            </td>
+          </tr>
+          <tr>
+            <th>Preconditions</th>
+            <td>
+              <p>If <var>node</var> is <a class="specref" href="#tree_exclusion">excluded from the accessibility tree</a>, then abort these steps.</p>
+            </td>
+          </tr>
+          <tr>
+            <th>Language</th>
+            <td>
+              <p>User agents and assistive technologies MUST determine the language of the announcement by taking the first valid BCP&nbsp;47 language tag from the following sources:</p>
+              <ol>
+                <li>
+                  The <var>node</var>'s nearest ancestor element's <code>lang</code> attribute (including
+                  <var>node</var>
+                  itself).
+                </li>
+                <li>The document element's <code>lang</code> attribute (including when called on the document).</li>
+                <li>A user agent or platform default.</li>
+              </ol>
+              <p>Assistive technologies MUST present the announcement using that language (for example, voice, pronunciation rules, braille table).</p>
+            </td>
+          </tr>
+          <tr>
+            <th>MSAA + IAccessible2</th>
+            <td>
+              <p>No implementation specified (<a href="#arianotify-fallback-note">see fallback note</a>).</p>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="User Interface Automation">UIA</abbr></th>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>NotificationProcessing_ImportantAll</code> if <var>priority</var> is "high", otherwise <code>NotificationProcessing_All</code>.</p>
+                </li>
+                <li>
+                  <p>
+                    Call <code>UiaRaiseNotificationEvent</code> with <var>node</var>, <code>NotificationKind_ActionCompleted</code>, <var>mapped_priority</var>, <var>announcement</var>, and the empty
+                    string.
+                  </p>
+                </li>
+              </ol>
+              <p class="note">
+                If the platform accessibility implementation determines that <var>node</var> is not represented in the UIA
+                <a href="https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-treeoverview#control-view">Control view</a> or
+                <a href="https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-treeoverview#content-view">Content view</a>, user agents SHOULD instead raise the notification event on the
+                nearest ancestor that is represented as a UIA Control. If no such ancestor exists, user agents SHOULD raise it on the document root (which is expected to be in one of these views) to
+                ensure assistive technologies that ignore events on elements not in the Control or Content view receive the notification.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="Accessibility Toolkit">ATK</abbr></th>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>Atk.Live.ATK_LIVE_ASSERTIVE</code> if <var>priority</var> is "high", otherwise <code>Atk.Live.ATK_LIVE_POLITE</code>.</p>
+                </li>
+                <li>
+                  <p>Call <code>g_signal_emit_by_name</code> with <var>node</var>, <code>"notification"</code>, <var>announcement</var>, and <var>mapped_priority</var>.</p>
+                </li>
+              </ol>
+              <p>On older Linux accessibility stacks prior to ATK 2.50.0, user agents MAY use the fallback; <a href="#arianotify-fallback-note">see fallback note</a>.</p>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr></th>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>ATSPI_LIVE_ASSERTIVE</code> if <var>priority</var> is "high", otherwise <code>ATSPI_LIVE_POLITE</code>.</p>
+                </li>
+                <li>
+                  <p>Send a DBUS signal <code>ATSPI_DBUS_INTERFACE_EVENT_OBJECT</code> with <var>node</var>, <code>"announcement"</code>, <var>announcement</var>, and <var>mapped_priority</var>.</p>
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <th><abbr title="macOS Accessibility Protocol">AX API</abbr></th>
+            <td>
+              <ol>
+                <li>
+                  <p>Let <var>mapped_priority</var> be <code>NSAccessibilityPriorityHigh</code> if <var>priority</var> is "high", otherwise <code>NSAccessibilityPriorityMedium</code>.</p>
+                </li>
+                <li>
+                  <p>Let <var>userInfo</var> be a <code>NSDictionary</code> with the following keys:</p>
+                  <ol>
+                    <li><code>NSAccessibilityAnnouncementKey</code> as <var>announcement</var></li>
+                    <li><code>NSAccessibilityPriorityKey</code> as <var>mapped_priority</var></li>
+                  </ol>
+                </li>
+                <li>
+                  <p>Call <code>NSAccessibilityPostNotificationWithUserInfo</code> with <var>node</var>, <var>NSAccessibilityAnnouncementRequestedNotification</var>, and <var>userInfo</var>.</p>
+                </li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p id="arianotify-fallback-note" class="note">
+        When no suitable platform notification API is available (for example, older Linux accessibility stacks prior to ATK 2.50.0 that lack the newer notification signal, or on Windows when the user
+        agent is not able to use UIA), a user agent MAY synthesize a temporary, assistive-technology-only live region in its accessibility tree to convey an <code>aria notify</code> announcement. Such
+        fallback nodes are not exposed to or detectable by web content and this behavior is not required.
+      </p>
+    </section>
     <section>
       <h2>Privacy considerations</h2>
       <p>

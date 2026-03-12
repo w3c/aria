@@ -129,13 +129,6 @@
           WD: "https://www.w3.org/TR/html-aam/",
           REC: "https://www.w3.org/TR/html-aam/",
         },
-        practicesURLs: {
-          ED: "https://www.w3.org/WAI/ARIA/apg/",
-          WD: "https://www.w3.org/WAI/ARIA/apg/",
-          FPWD: "https://www.w3.org/WAI/ARIA/apg/",
-          CR: "https://www.w3.org/WAI/ARIA/apg/",
-          REC: "https://www.w3.org/WAI/ARIA/apg/",
-        },
         preProcess: [linkCrossReferences, getParticipants],
         postProcess: [addPlatformMaintainers],
         //Pointing to the 1.2 versions but should remove the version in the publishing branch
@@ -272,21 +265,13 @@
       </div>
     </section>
     <section id="conformance">
-      <section>
-        <h3>RFC-2119 Keywords</h3>
-        <p>
-          RFC-2119 keywords are formatted in uppercase and in bold type font. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC
-          2119 sense, and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.
-        </p>
-      </section>
-      <section>
-        <h3>Normative and Informative Sections</h3>
-        <p>The indication whether a section is normative or non-normative (informative) applies to the entire section including sub-sections.</p>
-        <p>
-          Informative sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow such
-          recommendations in order to conform to this specification.
-        </p>
-      </section>
+      <p>
+        Normative sections provide requirements that authors, user agents and assistive technologies MUST follow for an implementation to conform to this specification.
+      </p>
+      <p>
+        Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow
+        such recommendations in order to conform to this specification.
+      </p>
     </section>
     <section id="mapping_additional_nd" class="normative" data-cite="dom">
       <h2>Name and Description</h2>
@@ -536,8 +521,8 @@
                         <li id="comp_labelledby_set_current">
                           <span id="step2B.ii.a"><!-- Don't link to this legacy numbered ID. --></span>Set the <code>current node</code> to the node referenced by the IDREF.
                         </li>
-                        <li id="comp_labelledby_recursion">
-                          <span id="step2B.ii.b"><!-- Don't link to this legacy numbered ID. --></span><em>LabelledBy Recursion:</em> Compute the text alternative of the
+                        <li id="comp_labelledby_traversal">
+                          <span id="step2B.ii.b"><!-- Don't link to this legacy numbered ID. --></span><em>LabelledBy Traversal:</em> Compute the text alternative of the
                           <code>current node</code> beginning with the overall <a href="#comp_computation">Computation</a> step. Set the <code>result</code> to that text alternative.
                         </li>
                         <li id="comp_labelledby_append">
@@ -551,7 +536,7 @@
                   </ol>
                   <div>
                     <p>
-                      The result of <a href="#comp_labelledby_recursion">LabelledBy Recursion</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that
+                      The result of <a href="#comp_labelledby_traversal">LabelledBy Traversal</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that
                       <a class="termref">user agents</a> MUST include all nodes in the subtree as part of the <a class="termref">accessible name</a> or <a class="termref">accessible description</a>,
                       when the node referenced by <code>aria-labelledby</code> or <code>aria-describedby</code> is hidden.
                     </p>
@@ -612,8 +597,8 @@
                   <code>aria-label</code> [=attribute=] whose value is not undefined, not the empty string, nor, when trimmed of [=ascii whitespace|whitespace=], is not the empty string:
                   <ol class="acc-ol">
                     <li>
-                      If traversal of the <code>current node</code> is due to recursion <strong>and</strong> the <code>current node</code> is an embedded control, ignore <code>aria-label</code> and
-                      skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
+                      If traversal of the <code>current node</code> is due to <a href="#comp_name_from_content_for_each_child">Name From Content descendant node recursion</a> <strong>and</strong> the
+                      <code>current node</code> is an embedded control, ignore <code>aria-label</code> and skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
                     </li>
                     <li>Otherwise, return the value of <code>aria-label</code>.</li>
                   </ol>
@@ -640,7 +625,7 @@
                   <span id="step2E"><!-- Don't link to this legacy numbered ID. --></span><em>Host Language Label:</em> Otherwise, if the <code>current node</code>'s native markup provides an
                   [=attribute=] (e.g. <code>alt</code>) or [=element=] (e.g. HTML <code>label</code> or SVG <code>title</code>) that defines a text alternative, return that alternative in the form of
                   a <code>flat string</code> as defined by the host language (e.g., <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation">HTML-AAM</a>), unless the
-                  <code>current node</code> is exposed as presentational (<code>role="presentation"</code> or <code>role="none"</code>).
+                  <code>current node</code> is exposed as presentational (<code>role="presentation"</code> or <code>role="none"</code>, <code>alt=""</code>).
                   <div class="note">
                     Important! The accessible name for native HTML elements may be calculated differently depending on host language. Make sure to review
                     <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation">HTML-AAM</a> for more information.
@@ -665,8 +650,13 @@
                       <span id="step2F.ii"><!-- Don't link to this legacy numbered ID. --></span><em>Name From Generated Content:</em> Check for
                       <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The
                       <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/selectors-3/#gen-content"><code>::before</code> and <code>::after</code></a> pseudo elements
-                      [[!CSS2]] can provide textual content for [=element|elements=] that have a content model.
+                      [[!CSS2]] can provide textual content for [=element|elements=] that have a content model, in addition to the
+                      <a href="https://www.w3.org/TR/css-pseudo-4/#selectordef-marker"><code>::marker</code></a> pseudo element.
                       <ol class="acc-ol">
+                        <li id="comp_name_from_content_pseudo_element_marker">
+                          For <code>::marker</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to
+                          the textual content of the <code>current node</code> if the <code>current node</code> supports <code>::marker</code>.
+                        </li>
                         <li id="comp_name_from_content_pseudo_element_before">
                           For <code>::before</code> pseudo elements, <a class="termref">User agents</a> MUST prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space,
                           to the textual content of the <code>current node</code>.
