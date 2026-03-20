@@ -341,7 +341,7 @@ const buildInheritedStatesProperties = function (item) {
 
   const sortedList = reducedList.sort((a, b) => {
     if (a.name === b.name) {
-      // Ensure deprecated false properties occur last (if we have multiple inheriance but disagreeing)
+      // Ensure deprecated false properties occur last (if we have multiple inheritance but disagreeing)
       // this ensures below that the property is not marked as deprecated (cf. below)
       if (a.deprecated !== b.deprecated) {
         return a.deprecated ? 1 : (b.deprecated ? -1 : 0);
