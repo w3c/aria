@@ -56,6 +56,11 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
 
 In addition to these specifications, there are other deliverables as specified in the [ARIA Charter](https://www.w3.org/2025/01/aria-charter.html). Please file issues in the repository specific to the specification or deliverable to which the issue applies.
 
+## Ancillary Documentation related to the above Specifications
+
+* Running list of [browser accessibility heuristics](documentation/browser_accessibility_heuristics.md) that are not specified or are partially specified.
+
+
 ## Contributing to this Repository
 
 Please review the [ARIA Process Document](documentation/process.md) for information about how the working group tracks issues and pull request.
