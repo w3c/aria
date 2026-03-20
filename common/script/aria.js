@@ -340,23 +340,21 @@ const buildInheritedStatesProperties = function (item) {
   const reducedList = [...new Set(myList)];
 
   const sortedList = reducedList.sort((a, b) => {
-    if (a.name == b.name) {
-      //TODO: BUG: deprecated states&props do not actually appear at end
-      // NOTE: removing if (a.deprecated !== b.deprecated) seems to fix this
-      // Ensure deprecated false properties occur first
+    if (a.name === b.name) {
+      // Ensure deprecated false properties occur last (if we have multiple inheriance but disagreeing)
+      // this ensures below that the property is not marked as deprecated (cf. below)
       if (a.deprecated !== b.deprecated) {
-        return a.deprecated ? 1 : b.deprecated ? -1 : 0;
+        return a.deprecated ? 1 : (b.deprecated ? -1 : 0);
       }
     }
     return a.name.localeCompare(b.name);
   }, []);
 
   const uniquePropNames = new Set(sortedList.map((prop) => prop.name));
-  // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem.
-  // TODO: is it just luck that the not-deprecated state is listed first? (see same comment below)
+  // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem. (Cf. comments above and below)
   const output = [...uniquePropNames]
     .map((propName) => {
-      const property = sortedList.find((p) => p.name === propName); // TODO: is it just luck that the not-deprecated state is listed first?
+      const property = sortedList.find((p) => p.name === propName); // Note: not-deprecated property is listed first (due to sorting, cf. above)
       const isState = property.is === "state";
       const suffix = isState ? " (state)" : "";
       const tag = isState ? "sref" : "pref";
