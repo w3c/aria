@@ -344,7 +344,7 @@ const buildInheritedStatesProperties = function (item) {
       // Ensure deprecated false properties occur last (if we have multiple inheritance but disagreeing)
       // this ensures below that the property is not marked as deprecated (cf. below)
       if (a.deprecated !== b.deprecated) {
-        return a.deprecated ? 1 : (b.deprecated ? -1 : 0);
+        return a.deprecated ? 1 : b.deprecated ? -1 : 0;
       }
     }
     return a.name.localeCompare(b.name);
