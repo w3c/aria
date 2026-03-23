@@ -482,12 +482,7 @@ const renderStateOrProperty = function (propList, descendantRoles, item) {
     // We only want to include these one time, so filter out the subroles.
     if (!descendantRoles[role]) return;
     descendantRoles[role].forEach((subrole) => {
-      if (subrole.indexOf(propList[item.name].roles) === -1) inheritedRoles.add(subrole);
-      // TODO: the if-check doesn't make sense
-      // Should it be the other way around? I.e.
-      // if (propList[item.name].roles.indexOf(subrole) === -1)
-      //     inheritedRoles.add(subrole);
-      // But this changes the spec, adding some, removing other entries
+      if (propList[item.name].roles.indexOf(subrole) === -1) inheritedRoles.add(subrole);
     });
   });
 
