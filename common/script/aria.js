@@ -87,7 +87,7 @@ const rewriteRdef = function (item) {
   dRef.setAttribute("role", "definition");
   const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
-  h4.remove();
+  h4?.remove();// NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -104,7 +104,7 @@ const renderStatesAndPropertiesHeadings = function (propList, item) {
   // Replace pdef/sdef with HTML
   const h4 = item.previousElementSibling;// NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
-  h4.remove();
+  h4?.remove();// NOTE: guard for buildRoleInfo.js
 };
 
 /**
