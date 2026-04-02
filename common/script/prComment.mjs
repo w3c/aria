@@ -113,7 +113,14 @@ async function getChangedFiles() {
       file === 'index.html' || file.endsWith('/index.html')
     );
 
-    // Skip if no index files were changed
+    // Changes to common/script/ should trigger main ARIA spec diff
+    const jsFilesChanged = files.some(file => file.endsWith('.js'));
+    if (jsFilesChanged && !specSources.includes('index.html')) {
+      console.log('JS files changed — including main ARIA spec (index.html) in preview generation.');
+      specSources.unshift('index.html');
+    }
+
+    // Skip if nothing's changed
     if (specSources.length === 0) {
       console.log('No index.html files changed in this PR. Skipping preview generation.');
       return;
