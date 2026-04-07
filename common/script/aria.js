@@ -87,7 +87,7 @@ const rewriteRdef = function (item) {
   dRef.setAttribute("role", "definition");
   const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
-  h4?.remove();// NOTE: guard for buildRoleInfo.js
+  h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -102,9 +102,9 @@ const renderStatesAndPropertiesHeadings = function (propList, item) {
   dRef.id = "desc-" + title; // TODO: too much of a side-effect?
   dRef.setAttribute("role", "definition"); // TODO: ditto?
   // Replace pdef/sdef with HTML
-  const h4 = item.previousElementSibling;// NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
+  const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
-  h4?.remove();// NOTE: guard for buildRoleInfo.js
+  h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -131,12 +131,12 @@ const renderIndexGlobalStatesAndProperties = (globalSP) => {
       const tagName = isState ? "sref" : "pref";
       return `<li><${tagName} ${item.prohibited ? "data-prohibited " : ""}${item.deprecated ? "data-deprecated " : ""}${
         isState ? `title="${item.name}"` : ""
-        }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
+      }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
         // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
         // TODO: cf. buildStatesProperties() and buildRoleInfoPropList() which have extra logic for title set here)
 
         item.prohibited ? " (Except where prohibited)" : ""
-        }${item.deprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
+      }${item.deprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
     })
     .join("");
   const globalStatesPropertiesPlaceholder = document.querySelector("#global_states .placeholder");
@@ -537,7 +537,6 @@ function ariaAttributeReferences() {
   rdefs.forEach(buildRoleInfoPropList.bind(null, roleInfo, propList));
 
   rdefs.forEach(rewriteRdef);
-
 
   // TODO: test this on a page where `skipIndex` is truthy
   if (!skipIndex) {
