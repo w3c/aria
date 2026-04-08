@@ -70,28 +70,6 @@ const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
 
 /**
  *
- * @param {HTMLElement} container - parent of sdef or pdef or rdef
- */
-const rewriteDefContainer = (container) => {
-  // if we are in a div, convert that div to a section
-  // TODO:
-  // a) seems to be always the case.
-  // b) Why don't we author the spec this way?
-  if (container.nodeName.toLowerCase() == "div") {
-    // change the enclosing DIV to a section with notoc
-    const sec = document.createElement("section");
-    [...container.attributes].forEach(function (attr) {
-      sec.setAttribute(attr.name, attr.value);
-    });
-    sec.classList.add("notoc");
-    const theContents = container.innerHTML;
-    sec.innerHTML = theContents;
-    container.parentNode.replaceChild(sec, container);
-  }
-};
-
-/**
- *
  * @param {HTMLElement} item - rdef element
  */
 const rewriteRdef = function (item) {
@@ -107,7 +85,9 @@ const rewriteRdef = function (item) {
   const dRef = item.nextElementSibling;
   dRef.id = "desc-" + title;
   dRef.setAttribute("role", "definition");
+  const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
+  h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -122,7 +102,9 @@ const renderStatesAndPropertiesHeadings = function (propList, item) {
   dRef.id = "desc-" + title; // TODO: too much of a side-effect?
   dRef.setAttribute("role", "definition"); // TODO: ditto?
   // Replace pdef/sdef with HTML
+  const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
+  h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -519,12 +501,10 @@ function ariaAttributeReferences() {
   // process the document before anything else is done
   // first get the properties
   const pdefsAndsdefs = document.querySelectorAll("pdef, sdef");
-  const pdefsAndsdefsContainer = [...pdefsAndsdefs].map((node) => node.parentNode);
 
   pdefsAndsdefs.forEach(buildPropList.bind(null, propList));
   pdefsAndsdefs.forEach(buildGlobalStatesAndPropertiesList.bind(null, propList, globalSP));
   pdefsAndsdefs.forEach(renderStatesAndPropertiesHeadings.bind(null, propList));
-  pdefsAndsdefsContainer.forEach(rewriteDefContainer);
 
   if (!skipIndex) {
     // Generate index of states and properties
@@ -544,7 +524,6 @@ function ariaAttributeReferences() {
   //
 
   const rdefs = document.querySelectorAll("rdef");
-  const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
   const subRoles = buildSubRoles(rdefs);
 
@@ -553,8 +532,6 @@ function ariaAttributeReferences() {
   rdefs.forEach(buildRoleInfoPropList.bind(null, roleInfo, propList));
 
   rdefs.forEach(rewriteRdef);
-
-  rdefsContainer.forEach(rewriteDefContainer);
 
   // TODO: test this on a page where `skipIndex` is truthy
   if (!skipIndex) {
