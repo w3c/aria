@@ -70,40 +70,20 @@ const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
 
 /**
  *
- * @param {HTMLElement} item - rdef element
+ * @param {HTMLElement} node - rdef/sdef/pdef element
  */
-const rewriteRdef = function (item) {
-  // TODO: merge with renderStatesAndPropertiesHeadings() but that creates different HTML
-  const content = item.innerHTML;
-  let title = item.getAttribute("title") || content;
-  let type = "role";
-  const abstract = item.parentNode.querySelector(".role-abstract");
+const rewriteDef = function (node) {
+  let type = '';
+  if (node.tagName === 'RDEF') type = 'role';
+  const abstract = node.parentNode.querySelector(".role-abstract");
   if (abstract?.innerText === "True") {
-    //NOTE: optional chaining b/c synonym roles do not have characteristics tables
+    //NOTE: optional chaining because synonym roles and sdef/pdef won't have .role-abstract anywhere
     type = "abstract role";
   }
-  const dRef = item.nextElementSibling;
-  dRef.id = "desc-" + title;
-  dRef.setAttribute("role", "definition");
-  const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
-  item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
-  h4?.remove(); // NOTE: guard for buildRoleInfo.js
-};
-
-/**
- * Replaces sdef/pdef with desired HTML
- * @param {Object} propList -
- * @param {HTMLElement} item - sdef or pdef, from nodeList.forEach
- */
-const renderStatesAndPropertiesHeadings = function (propList, item) {
-  const title = item.getAttribute("title") || item.innerHTML;
-  const itemEntry = propList[title];
-  const dRef = item.nextElementSibling;
-  dRef.id = "desc-" + title; // TODO: too much of a side-effect?
-  dRef.setAttribute("role", "definition"); // TODO: ditto?
-  // Replace pdef/sdef with HTML
-  const h4 = item.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${item} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
-  item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
+  if (node.tagName === 'SDEF') type = 'state';
+  if (node.tagName === 'PDEF') type = 'property';
+  const h4 = node.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${node} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
+  node.outerHTML = `<h4><code>${node.innerHTML}</code> ${type}`;
   h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
@@ -509,7 +489,7 @@ function ariaAttributeReferences() {
 
   pdefsAndsdefs.forEach(buildPropList.bind(null, propList));
   pdefsAndsdefs.forEach(buildGlobalStatesAndPropertiesList.bind(null, propList, globalSP));
-  pdefsAndsdefs.forEach(renderStatesAndPropertiesHeadings.bind(null, propList));
+  pdefsAndsdefs.forEach(rewriteDef);
 
   if (!skipIndex) {
     // Generate index of states and properties
@@ -536,7 +516,7 @@ function ariaAttributeReferences() {
 
   rdefs.forEach(buildRoleInfoPropList.bind(null, roleInfo, propList));
 
-  rdefs.forEach(rewriteRdef);
+  rdefs.forEach(rewriteDef);
 
   // TODO: test this on a page where `skipIndex` is truthy
   if (!skipIndex) {
