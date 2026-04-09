@@ -73,15 +73,15 @@ const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
  * @param {HTMLElement} node - rdef/sdef/pdef element
  */
 const rewriteDef = function (node) {
-  let type = '';
-  if (node.tagName === 'RDEF') type = 'role';
+  let type = "";
+  if (node.tagName === "RDEF") type = "role";
   const abstract = node.parentNode.querySelector(".role-abstract");
   if (abstract?.innerText === "True") {
     //NOTE: optional chaining because synonym roles and sdef/pdef won't have .role-abstract anywhere
     type = "abstract role";
   }
-  if (node.tagName === 'SDEF') type = 'state';
-  if (node.tagName === 'PDEF') type = 'property';
+  if (node.tagName === "SDEF") type = "state";
+  if (node.tagName === "PDEF") type = "property";
   const h4 = node.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${node} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
   node.outerHTML = `<h4><code>${node.innerHTML}</code> ${type}`;
   h4?.remove(); // NOTE: guard for buildRoleInfo.js
