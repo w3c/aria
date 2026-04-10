@@ -43,32 +43,6 @@ const buildPropList = function (propList, item) {
 };
 
 /**
- * Populates globalSP for given sdef/pdef
- * @param {Object} propList -
- * @param {Object} globalSP -
- * @param {HTMLElement} item - from nodeList.forEach
- */
-const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
-  const title = item.getAttribute("title") || item.innerHTML;
-  const container = item.parentElement;
-  const itemEntry = propList[title];
-
-  const applicabilityText = container.querySelector("." + itemEntry.is + "-applicability").innerText;
-  const isDefault = applicabilityText === "All elements of the base markup";
-  const isProhibited = applicabilityText === "All elements of the base markup except for some roles or elements that prohibit its use";
-  const isDeprecated = applicabilityText === "Use as a global deprecated in ARIA 1.2";
-  // NOTE: the only other value for applicabilityText appears to be "Placeholder"
-  if (isDefault || isProhibited || isDeprecated) {
-    globalSP.push(
-      Object.assign(itemEntry, {
-        prohibited: isProhibited,
-        deprecated: isDeprecated,
-      }),
-    );
-  }
-};
-
-/**
  *
  * @param {HTMLElement} node - rdef/sdef/pdef element
  */
@@ -97,34 +71,6 @@ const renderIndexStatesAndProperties = (propList) => {
     .map((item) => `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`)
     .join("");
   indexStatePropPlaceholder.outerHTML = `<dl id="index_state_prop">${indexStatePropContent}</dl>`;
-};
-
-/**
- * Generate index of global states and properties
- * @param {Object} globalSP
- */
-const renderIndexGlobalStatesAndProperties = (globalSP) => {
-  const globalStatesPropertiesContent = globalSP
-    .map((item) => {
-      // TODO: This is the only use of globalSP - why does it not just consist of the markup we create here in this loop?
-      const isState = item.is === "state";
-      const tagName = isState ? "sref" : "pref";
-      return `<li><${tagName} ${item.prohibited ? "data-prohibited " : ""}${item.deprecated ? "data-deprecated " : ""}${
-        isState ? `title="${item.name}"` : ""
-      }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
-        // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
-        // TODO: cf. buildStatesProperties() and buildRoleInfoPropList() which have extra logic for title set here)
-
-        item.prohibited ? " (Except where prohibited)" : ""
-      }${item.deprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
-    })
-    .join("");
-  const globalStatesPropertiesPlaceholder = document.querySelector("#global_states .placeholder");
-  globalStatesPropertiesPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
-
-  // Populate role=roletype properties with global properties
-  const roletypePropsPlaceholder = document.querySelector("#roletype td.role-properties span.placeholder");
-  roletypePropsPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
 };
 
 /**
@@ -470,7 +416,6 @@ const renderRoleChildren = ([role, subroleSet]) => {
  */
 function ariaAttributeReferences() {
   const propList = {};
-  const globalSP = [];
 
   let skipIndex = 0;
   const myURL = document.URL;
@@ -483,15 +428,11 @@ function ariaAttributeReferences() {
   const pdefsAndsdefs = document.querySelectorAll("pdef, sdef");
 
   pdefsAndsdefs.forEach(buildPropList.bind(null, propList));
-  pdefsAndsdefs.forEach(buildGlobalStatesAndPropertiesList.bind(null, propList, globalSP));
   pdefsAndsdefs.forEach(rewriteDef);
 
   if (!skipIndex) {
     // Generate index of states and properties
     renderIndexStatesAndProperties(propList);
-
-    // Generate index of global states and properties
-    renderIndexGlobalStatesAndProperties(globalSP);
   }
 
   // what about roles?
