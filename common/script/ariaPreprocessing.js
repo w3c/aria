@@ -3,7 +3,7 @@
  * @param {HTMLElement} globalStatesPlaceholder - placeholder in #global_states
  * @param {HTMLElement} roletypePropsPlaceholder - placeholder in #roletype
  * @param {HTMLElement} def - sdef or pdef element NOTE: from forEach loop
- * @returns 
+ * @returns
  */
 const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePropsPlaceholder, def) => {
   const container = def.parentElement;
@@ -15,14 +15,15 @@ const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePr
   if (!(isDefault || isProhibited || isDeprecated)) return;
   const isState = def.tagName === "SDEF";
   const refTagName = isState ? "sref" : "pref";
-  const htmlString = `<li><${refTagName} ${isProhibited ? "data-prohibited " : ""}${isDeprecated ? "data-deprecated " : ""}${isState ? `title="${def.innerHTML}"` : ""
-    }>${def.innerHTML}${isState ? " (state)" : ""}</${refTagName}>${
+  const htmlString = `<li><${refTagName} ${isProhibited ? "data-prohibited " : ""}${isDeprecated ? "data-deprecated " : ""}${
+    isState ? `title="${def.innerHTML}"` : ""
+  }>${def.innerHTML}${isState ? " (state)" : ""}</${refTagName}>${
     // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
     isProhibited ? " (Except where prohibited)" : ""
-    }${isDeprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
-  globalStatesPlaceholder.insertAdjacentHTML('beforeend', htmlString);
-  roletypePropsPlaceholder.insertAdjacentHTML('beforeend', htmlString);
-}
+  }${isDeprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
+  globalStatesPlaceholder.insertAdjacentHTML("beforeend", htmlString);
+  roletypePropsPlaceholder.insertAdjacentHTML("beforeend", htmlString);
+};
 
 /**
  * Rewrites rdef/sdef/pdef elements to valid HTML markup
@@ -51,8 +52,8 @@ var ariaPreprocessing = () => {
   const globalStatesPlaceholder = document.querySelector('#global_states ul[data-aria-preprocess="placeholder"]');
   const roletypePropsPlaceholder = document.querySelector('#roletype ul[data-aria-preprocess="placeholder"]');
   document.querySelectorAll("pdef, sdef").forEach(buildGlobalStatesAndPropertiesLists.bind(null, globalStatesPlaceholder, roletypePropsPlaceholder));
-  globalStatesPlaceholder.removeAttribute('data-aria-preprocess');
-  roletypePropsPlaceholder.removeAttribute('data-aria-preprocess');
+  globalStatesPlaceholder.removeAttribute("data-aria-preprocess");
+  roletypePropsPlaceholder.removeAttribute("data-aria-preprocess");
   // run rewriteDefContainer()
   document.querySelectorAll("rdef, sdef, pdef").forEach(rewriteDefContainer);
-}
+};
