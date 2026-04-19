@@ -8,9 +8,10 @@ let updateReferences = () => {};
 document.URL = "";
 
 const script = fs.readFileSync("./common/script/aria.js").toString();
+const prescript = fs.readFileSync("./common/script/ariaPreprocessing.js").toString();
 
-// HACK call ariaAttributeReferences() and log out roleInfo with prefix
-const scriptAddition = 'ariaAttributeReferences();console.log("/* This file is generated - do not modify */ var roleInfo = "+JSON.stringify(roleInfo, null, 2));';
+// HACK call ariaPreprocessing(), ariaAttributeReferences(), and log out roleInfo with prefix
+const scriptAddition = 'ariaPreprocessing();ariaAttributeReferences();console.log("/* This file is generated - do not modify */ var roleInfo = "+JSON.stringify(roleInfo, null, 2));';
 
 // HACK: eval!
-eval(script + scriptAddition);
+eval(prescript + script + scriptAddition);
