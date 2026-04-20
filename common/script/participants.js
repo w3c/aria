@@ -48,5 +48,5 @@ function getParticipants() {
         usersList.appendChild(fragment);
     }
 
-    insertUsersInfoIntoDocument();
+    return insertUsersInfoIntoDocument();
 }
