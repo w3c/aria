@@ -8,6 +8,9 @@ on:
 jobs:
   roleInfo:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -25,5 +28,7 @@ jobs:
       - run: git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - run: git add ./common/script/roleInfo.js
       - run: |
+         git fetch origin main
+         git rebase origin/main
          git diff-index --quiet HEAD ./common/script/roleInfo.js || git commit -m'chore: update roleInfo.js'
       - run: git push
