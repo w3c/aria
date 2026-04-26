@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# build relative links to ARIA spec
-find . -maxdepth 1 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/|ED: "./|g' {} +
+# build relative links from ARIA spec to ARIA spec itself
+find . -maxdepth 1 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/aria/|ED: "./|g' {} +
 
-# build lins to ARIA from child specs
+# Build relative links from ARIA spec to child specs
+find . -maxdepth 1 -type f -name "index.html" -exec perl -pi -e 's|ED: "https://w3c\.github\.io/(?!aria)|ED: "./|g' {} +
+
+# build lins from child specs to ARIA spec
 find . -mindepth 2 -type f -name "index.html" -exec sed -i 's|ED: "https://w3c\.github\.io/aria/|ED: "/|g' {} +
 
-# build relative links for child specs
+# build relative links from child specs to child specs
 find . -mindepth 2 -type f -name "index.html" -exec perl -pi -e 's|ED: "https://w3c\.github\.io/(?!aria)|ED: "/|g' {} +
 
 # make output directory
