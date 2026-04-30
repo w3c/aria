@@ -3,7 +3,7 @@ name: roleInfo update
 on:
   push:
     branches:
-      - main
+      - gh-pages
 
 jobs:
   roleInfo:
@@ -12,6 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: main
           fetch-depth: 0  # Needed to compare with origin/main
           token: ${{ secrets.W3CGRUNTBOT_TOKEN }}
       - name: Use Node.js
@@ -19,8 +20,10 @@ jobs:
         with:
           node-version: "latest"
       - run: npm i linkedom prettier@3.6.0
-      - run: node ./common/script/buildRoleInfo.js > ./common/script/roleInfo.js
+      - run: git checkout gh-pages index.html # checkout (respec'ed) aria spec from gh-pages (WARNING: changes get staged!)
+      - run: node ./common/script/buildRoleInfo.js  # build roleInfo.js
       - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
+      - run: git reset index.html # reset spec source (to avoid comittting, cf. wanrning above)
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - run: git add ./common/script/roleInfo.js
