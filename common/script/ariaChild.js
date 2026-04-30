@@ -504,6 +504,24 @@ function ariaAttributeReferences() {
 
         updateReferences(document);
 
+        var parseNameRequiredCell = function (cell) {
+            var caveatNode = cell && cell.querySelector("span.role-namerequired-caveat");
+            var caveat = ((caveatNode ? caveatNode.innerText : "") || "").trim();
+            var clone = cell && cell.cloneNode(true);
+            if (clone) {
+                Array.prototype.slice.call(clone.querySelectorAll("span.role-namerequired-caveat")).forEach(function (node) {
+                    node.remove();
+                });
+            }
+            var primary = ((clone ? clone.innerText : "") || "").trim();
+
+            return {
+                primary: primary,
+                caveat: caveat,
+                combined: (primary + " " + caveat).trim(),
+            };
+        };
+
         // prune out unused rows throughout the document
 
         Array.prototype.slice
@@ -513,7 +531,9 @@ function ariaAttributeReferences() {
                 )
             )
             .forEach(function (item) {
-                var content = item.innerText;
+                var content = item.classList.contains("role-namerequired")
+                    ? parseNameRequiredCell(item).primary
+                    : item.innerText;
                 if (content.length === 1 || content.length === 0) {
                     // there is no item - remove the row
                     item.parentNode.parentNode.removeChild(item.parentNode);
