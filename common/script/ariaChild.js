@@ -440,7 +440,7 @@ function ariaAttributeReferences() {
                                 );
                             })
                             .forEach(function (subrole) {
-                                myList.push(chlidren);
+                                myList.push(children);
                             });
                     });
 
