@@ -166,10 +166,10 @@ The set of class values currently defined are:
 * `dpub`: other DPUB-ARIA references
 * `graphics-role-reference`: Graphics-ARIA role definitions
 * `graphics-property-reference`: Graphics-ARIA property definitions
-* `graphics-state-reference: Graphics-ARIA state definitions
+* `graphics-state-reference`: Graphics-ARIA state definitions
 * `graphics-role-mapping`: Graphics role mapping
 * `graphics-property-mapping`: GRAPHICS property mapping
-* `graphics-state-mapping`: GRAPHICS staet mapping
+* `graphics-state-mapping`: GRAPHICS state mapping
 * `graphics-mapping`: other GRAPHIC mapping references
 * `graphics`: other Graphics-ARIA references
 * `practices`: ARIA Practices
