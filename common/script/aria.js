@@ -133,6 +133,25 @@ const buildStatesProperties = function (item) {
 };
 
 /**
+ * Parse a role-namerequired cell while excluding caveat span text.
+ * @param {HTMLTableCellElement} cell
+ * @returns {{ primary: string, caveat: string, combined: string }}
+ */
+const parseNameRequiredCell = (cell) => {
+  const caveatNode = cell?.querySelector("span.role-namerequired-caveat");
+  const caveat = (caveatNode?.innerText || "").trim();
+  const clone = cell?.cloneNode(true);
+  clone?.querySelectorAll("span.role-namerequired-caveat").forEach((node) => node.remove());
+  const primary = (clone?.innerText || "").trim();
+
+  return {
+    primary,
+    caveat,
+    combined: `${primary} ${caveat}`.trim(),
+  };
+};
+
+/**
  *
  * @param {String} indexTest - string to decide if this index needs it
  * @param {HTMLElement} rdef - rdef node
@@ -151,7 +170,8 @@ const renderIndexEntry = (indexTest, rdef) => {
   }
   if (!isAbstract && roleFromNode) {
     const content = rdef.innerText;
-    const isRequired = roleFromNode.closest("table").querySelector(".role-namerequired")?.innerText === "True";
+    const nameRequiredCell = roleFromNode.closest("table").querySelector("td.role-namerequired");
+    const isRequired = parseNameRequiredCell(nameRequiredCell).primary === "True";
     if (roleFromNode.textContent.indexOf(indexTest) !== -1) return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${isRequired ? " (name required)" : ""}</li>`; // TODO: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
   }
 };
@@ -287,7 +307,7 @@ const pruneUnusedRows = () => {
       ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values",
     )
     .forEach(function (item) {
-      var content = item.innerText;
+      var content = item.classList.contains("role-namerequired") ? parseNameRequiredCell(item).primary : item.innerText;
       if (content.length === 1 || content.length === 0) {
         // there is no item - remove the row
         item.parentNode.parentNode.removeChild(item.parentNode);
