@@ -20,6 +20,7 @@ mkdir -p public/html-aam
 mkdir -p public/svg-aam
 mkdir -p public/mathml-aam
 mkdir -p public/pdf-aam
+mkdir -p public/css-aam
 
 # build all specs
 npx respec -s index.html -o public/index.html --localhost --disable-sandbox
@@ -44,3 +45,5 @@ npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost 
 echo "Built mathml-aam"
 npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost --disable-sandbox
 echo "Built PDF AAM"
+npx respec -s css-aam/index.html -o public/css-aam/index.html --localhost --disable-sandbox
+echo "Built CSS  AAM"

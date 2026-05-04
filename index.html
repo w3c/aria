@@ -5,6 +5,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta name="color-scheme" content="light dark" />
     <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove"></script>
+    <script class="remove" src="common/script/ariaPreprocessing.js"></script>
     <script class="remove" src="common/script/aria.js"></script>
     <script src="common/script/resolveReferences.js" class="remove"></script>
     <script src="common/script/participants.js" class="remove"></script>
@@ -170,9 +171,9 @@
           REC: "https://www.w3.org/TR/html-aam/",
         },
 
-        preProcess: [linkCrossReferences, getParticipants],
+        preProcess: [ariaPreprocessing, linkCrossReferences, getParticipants],
         postProcess: [ariaAttributeReferences],
-        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML"],
+        xref: ["dom", "accname-1.2", "core-aam-1.2", "infra", "HTML", "permissions-policy"],
         definitionMap: [],
       };
       function respecChangelogFilter(commit) {
@@ -788,9 +789,7 @@
           language.
         </p>
         <p>
-          If a CSS selector includes a WAI-ARIA attribute (e.g., <code class="highlight css">input[aria-invalid="true"]</code>), user agents MUST update the visual display of any elements matching (or
-          no longer matching) the selector any time the attribute is added/changed/removed in the <abbr title="Document Object Model">DOM</abbr>. The user agent MAY alter the mapping of the host
-          language features into an <a>accessibility <abbr title="Application Programming Interface">API</abbr></a
+          User agents MAY alter the mapping of host language features into an <a>accessibility <abbr title="Application Programming Interface">API</abbr></a
           >, but the user agent MUST NOT alter the <abbr title="Document Object Model">DOM</abbr> in order to remap <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> markup into host
           language features.
         </p>
@@ -900,13 +899,10 @@
           User agents map both managed and unmanaged states to the platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>.
         </p>
         <p>
-          Most modern user agents support
-          <cite
-            ><a href="https://www.w3.org/TR/css3-selectors/#attribute-selectors"><abbr title="Cascading Style Sheets">CSS</abbr> attribute selectors</a></cite
-          >
-          ([[CSS3-SELECTORS]]), and can allow the author to create <abbr title="User Interface">UI</abbr> changes based on <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute
-          information, reducing the amount of scripts necessary to achieve equivalent functionality. In the following example, a <abbr title="Cascading Style Sheets">CSS</abbr> selector is used to
-          determine whether or not the text is bold and an image of a check mark is shown, based on the value of the <sref>aria-checked</sref> attribute.
+          Most modern user agents support CSS [=attribute selectors=] ([[SELECTORS-4]]) and allow the author to create <abbr title="User Interface">UI</abbr> changes based on
+          <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> attribute information, reducing the amount of scripts necessary to achieve equivalent functionality. In the following
+          example, a <abbr title="Cascading Style Sheets">CSS</abbr> selector is used to determine whether or not the text is bold and an image of a check mark is shown, based on the value of the
+          <sref>aria-checked</sref> attribute.
         </p>
         <pre class="example highlight css">
 [aria-checked=&quot;true&quot;] { font-weight: bold; }
@@ -964,7 +960,7 @@
             Authors SHOULD ensure that all interactive [=elements=] are <a>focusable</a> and that all parts of composite widgets are either focusable or have a documented alternative method to achieve
             their function.
           </p>
-          <p>Authors MUST manage focus on the following container roles:</p>
+          <p>Authors MUST manage focus for the expected interactive elements of the following container roles:</p>
           <ul>
             <li><rref>grid</rref></li>
             <li><rref>listbox</rref></li>
@@ -992,7 +988,7 @@
             it has keyboard focus. The author cannot use <code>:<span class="css-selector">focus</span></code> to style the currently active descendant since the actual focus is on the container.
           </p>
           <p>
-            More information on managing focus can be found in the <a href="https://www.w3.org/WAI/ARIA/apg/keyboard-interface">Developing a Keyboard Interface</a> section of the
+            More information on managing focus can be found in the <a href="https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/">Developing a Keyboard Interface</a> section of the
             <cite><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Authoring Practices</cite>.
           </p>
         </section>
@@ -2810,7 +2806,8 @@
             </p>
             <p>
               Elements with the role <code>combobox</code> have an implicit <pref>aria-haspopup</pref> value of <code>listbox</code>. If the <code>combobox</code> popup element has a role other than
-              <rref>listbox</rref>, authors MUST specify an <pref>aria-haspopup</pref> value of <rref>tree</rref>, <rref>grid</rref>, or <rref>dialog</rref> that corresponds to the role of its popup.
+              <rref>listbox</rref>, authors MUST specify an <pref>aria-haspopup</pref> value of <rref>tree</rref>, <rref>grid</rref>, <rref>menu</rref>, or <rref>dialog</rref> that corresponds to the
+              role of its popup.
             </p>
             <p>
               If the user interface includes an additional icon that allows the visibility of the popup to be controlled via pointer and touch events, authors SHOULD ensure that element has role
@@ -4459,7 +4456,7 @@
               <rref>rowgroup</rref>, or <code>grid</code>.
             </p>
             <p>
-              To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants of a <code>grid</code> as described in <a href="#managingfocus">Managing Focus</a>. When a user is navigating
+              To be <a>keyboard accessible</a>, authors MUST manage focus of descendants of a <code>grid</code> as described in <a href="#managingfocus">Managing Focus</a>. When a user is navigating
               the <code>grid</code> content with a keyboard, authors SHOULD set focus as follows:
             </p>
             <ul>
@@ -4737,8 +4734,8 @@
         <div class="role" id="group">
           <rdef>group</rdef>
           <div class="role-description">
-            <p>A set of user interface <a>objects</a> that is not intended to be included in a page summary or table of contents by <a>assistive technologies</a>.</p>
-            <p>Contrast with <rref>region</rref>, which is a grouping of user interface objects that will be included in a page summary or table of contents.</p>
+            <p>A set of user interface <a>objects</a> and information that is not intended to be included in a page summary or table of contents by <a>assistive technologies</a>.</p>
+            <p>Contrast with <rref>region</rref>, which is a grouping of user interface objects and information that will be included in a page summary or table of contents.</p>
             <p>
               Authors SHOULD use a <code>group</code> to form a logical collection of items in a <a>widget</a>, such as children in a tree widget forming a collection of siblings in a hierarchy.
               However, when a <code>group</code> is used in the context of a <rref>listbox</rref>, for example, authors MUST limit its children to <rref>option</rref> elements. Therefore, proper
@@ -5461,7 +5458,7 @@
               elements whose <a>role</a> is <rref>group</rref> which in turn contain children whose <a>role</a> is <rref>option</rref>.
             </p>
             <p>
-              To be <a>keyboard accessible</a>, authors SHOULD manage focus of <rref>option</rref> descendants for all instances of this <a>role</a>, as described in
+              To be <a>keyboard accessible</a>, authors MUST manage focus of <rref>option</rref> descendants for all instances of this <a>role</a>, as described in
               <a href="#managingfocus">Managing Focus</a>.
             </p>
             <p>Elements with the role <code>listbox</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
@@ -6176,7 +6173,7 @@
               The <code>menu</code> <a>role</a> is appropriate when a set of menu items is presented in a manner similar to a popup menu. For instance, a menu could be used to represent a context menu
               for its invoking element, or it would be used to render sub-menus for items of a <rref>menubar</rref> or another <code>menu</code> popup.
             </p>
-            <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+            <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menu</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
           </div>
           <table class="def">
@@ -6280,7 +6277,7 @@
               The <code>menubar</code> <a>role</a> is used to create a menu bar similar to those found in Windows, Mac, and Gnome desktop applications. A menu bar is used to create a consistent set of
               frequently used commands. Authors SHOULD ensure that <code>menubar</code> interaction is similar to the typical menu bar interaction in a desktop graphical user interface.
             </p>
-            <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+            <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menubar</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
           </div>
           <table class="def">
@@ -7803,6 +7800,19 @@
               Authors SHOULD provide an accessible name for a <code>radiogroup</code>, which can be done with the <pref>aria-label</pref> or <pref>aria-labelledby</pref> attribute. Authors SHOULD
               reference a visible label with <pref>aria-labelledby</pref> if a visible label is present for the <code>radiogroup</code>.
             </p>
+            <div class="note" title="Radiogroups containing other non-radio content">
+              <p>
+                While a <code>radiogroup</code> is primarily meant to group and thus associate related <code>radio</code> buttons, a <code>radiogroup</code> can contain other non-<code>radio</code>
+                button elements. For instance, descriptive text beyond what serves as the radio button's label, or even in some cases, form controls or other information that are enabled, revealed or
+                both when a specific radio button has been chosen (checked).
+              </p>
+              <p>
+                However, including non-radio button content into a <code>radiogroup</code> is not without its potential UX drawbacks. As it is generally expected to use arrow keys to navigate between
+                radio buttons, any non-radio button content could go unnoticed by some users, as arrowing through the radio buttons would mean that any other tabbable elements (e.g., hyperlinks or
+                other form fields) would be skipped. When creating a <code>radiogroup</code> with other arbitrary content, consider if the non-radio content could be just as impactful if it was
+                presented as an immediate sibling <em>after</em> the <code>radiogroup</code>.
+              </p>
+            </div>
           </div>
           <table class="def">
             <caption>
@@ -8106,7 +8116,7 @@
               </tr>
               <tr>
                 <th class="role-properties-head" scope="row">Supported States and Properties:</th>
-                <td class="role-properties"><span class="placeholder">Placeholder for global states and properties</span></td>
+                <td class="role-properties"><ul data-aria-preprocess="placeholder"></ul></td>
               </tr>
               <tr>
                 <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
@@ -10209,7 +10219,13 @@
               for details on implementing a tab set design pattern.
             </p>
             <p>Authors MUST ensure [=elements=] with <a>role</a> <rref>tab</rref> are <a>accessibility children</a> of an element with the role <rref>tablist</rref>.</p>
+            <!-- keep following paragraphs in sync with counterpart in #tabpanel -->
             <p>Authors MUST ensure that if a <code>tab</code> is active, a corresponding <code>tabpanel</code> that represents the active <code>tab</code> is rendered.</p>
+            <p>
+              Authors SHOULD associate a <code>tabpanel</code> <a>element</a> with its <rref>tab</rref>, by using the <pref>aria-controls</pref> attribute on the tab to reference the tab panel, and/or
+              by using the <pref>aria-labelledby</pref> attribute on the tab panel to reference the tab.
+            </p>
+            <!-- /end sync with counterpart in #tabpanel -->
             <p>Authors SHOULD ensure the <rref>tabpanel</rref> associated with the currently active tab is <a>perceivable</a> to the user.</p>
             <!-- keep following para synced with its counterpart in #tablist -->
             <p>
@@ -10431,7 +10447,7 @@
           <rdef>tablist</rdef>
           <div class="role-description">
             <p>A list of <rref>tab</rref> [=elements=], which are references to <rref>tabpanel</rref> elements.</p>
-            <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+            <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
 
             <!-- keep following para synced with its counterpart in #tab -->
             <p>
@@ -10543,10 +10559,13 @@
           <rdef>tabpanel</rdef>
           <div class="role-description">
             <p>A container for the resources associated with a <rref>tab</rref>, where each <rref>tab</rref> is contained in a <rref>tablist</rref>.</p>
+            <!-- keep following paragraphs in sync with counterpart in #tab -->
+            <p>Authors MUST ensure that if a <code>tab</code> is active, a corresponding <code>tabpanel</code> that represents the active <code>tab</code> is rendered.</p>
             <p>
               Authors SHOULD associate a <code>tabpanel</code> <a>element</a> with its <rref>tab</rref>, by using the <pref>aria-controls</pref> attribute on the tab to reference the tab panel, and/or
               by using the <pref>aria-labelledby</pref> attribute on the tab panel to reference the tab.
             </p>
+            <!-- /end sync with counterpart in #tab -->
             <!-- keep following para synced with its counterpart in #tablist -->
             <p>
               <rref>tablist</rref> elements are typically placed near, and usually preceding, a series of <rref>tabpanel</rref> elements. See the
@@ -11311,13 +11330,18 @@
                 <td class="role-inherited">Placeholder</td>
               </tr>
               <tr>
-                <th class="role-namefrom-head" scope="row">Name From:</th>
-                <td class="role-namefrom">
+                <th class="role-disallowed-head" scope="row">Prohibited States and Properties:</th>
+                <td class="role-disallowed">
                   <ul>
-                    <li>contents</li>
-                    <li>author</li>
+                    <li><pref>aria-braillelabel</pref></li>
+                    <li><pref>aria-label</pref></li>
+                    <li><pref>aria-labelledby</pref></li>
                   </ul>
                 </td>
+              </tr>
+              <tr>
+                <th class="role-namefrom-head" scope="row">Name From:</th>
+                <td class="role-namefrom">prohibited</td>
               </tr>
               <tr>
                 <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
@@ -11342,7 +11366,7 @@
           <rdef>tree</rdef>
           <div class="role-description">
             <p>A <rref>widget</rref> that allows the user to select one or more items from a hierarchically organized collection.</p>
-            <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+            <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>tree</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
           </div>
           <table class="def">
@@ -11449,7 +11473,7 @@
               <pref>aria-readonly</pref> to <code>true</code> on the <rref>gridcell</rref> element. However, if a <code>treegrid</code> presents a collection of elements that do not support
               <pref>aria-readonly</pref>, such as a collection of <rref>link</rref> elements, it is not necessary for the author to specify a value for <pref>aria-readonly</pref>.
             </p>
-            <p>To be <a>keyboard accessible</a>, authors SHOULD manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
+            <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
           </div>
           <table class="def">
             <caption>
@@ -11879,7 +11903,7 @@
               <code>undefined</code> is not expandable.
             </dd>
             <dt id="valuetype_idref">ID reference</dt>
-            <dd>Reference to the ID of another <a>element</a> in the same document</dd>
+            <dd>Reference to the ID of another <a>element</a> in the same document.</dd>
             <dt id="valuetype_idref_list">ID reference list</dt>
             <dd>A list of one or more ID references.</dd>
             <dt id="valuetype_integer">integer</dt>
@@ -12039,7 +12063,7 @@ button.ariaPressed; // null</pre
           supported by all roles and by all base markup elements unless otherwise prohibited. If a role prohibits use of any global states or properties, those states or properties are listed as
           prohibited in the characteristics table included in the section that defines the role.
         </p>
-        <p class="placeholder">Placeholder for global states and properties</p>
+        <ul data-aria-preprocess="placeholder"></ul>
       </section>
       <section id="state_prop_taxonomy">
         <h2>Taxonomy of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> States and Properties</h2>
@@ -16518,7 +16542,10 @@ button.ariaPressed; // null</pre
         </p>
         <section id="mapping_additional_relations_error_processing">
           <h3>ID Reference Error Processing</h3>
-          <p>[=user agents=] SHOULD ignore ID references that do not match the ID of another <a>element</a> in the same document.</p>
+          <p>
+            The author MAY set either an empty value or a value that does not match the ID of another <a>element</a> in the same document. This flexibility acknowledges the dynamic nature of modern
+            websites, where the DOM can be populated accordingly when necessary. [=user agents=] SHOULD ignore ID references that do not match the ID of another <a>element</a> in the same document.
+          </p>
           <p>
             It is the author's responsibility to ensure that IDs are unique. If more than one element has the same ID, the user agent SHOULD use the first element found with the given ID. The behavior
             will be the same as <code>getElementById</code>.
@@ -16532,17 +16559,6 @@ button.ariaPressed; // null</pre
             is an author error and will not match any element in the <abbr title="Document Object Model">DOM</abbr>.
           </p>
         </section>
-      </section>
-      <section id="document-handling_css-selectors">
-        <h3>CSS Selectors</h3>
-        <p class="note">This section might be removed in a future version.</p>
-        <p>
-          Support for <a class="termref">attribute</a> selectors MUST include <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. For example,
-          <samp>.fooMenuItem[aria-haspopup=&quot;true&quot;]</samp> would select all [=elements=] with class <code>fooMenuItem</code>, and
-          <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> property <pref>aria-haspopup</pref> with value of <code>true</code>. The presentation MUST be updated for dynamic changes
-          to <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> attributes. This allows authors to match styling with
-          <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a>semantics</a>.
-        </p>
       </section>
     </section>
     <section id="document-handling_author-errors">
@@ -16746,8 +16762,8 @@ button.ariaPressed; // null</pre
       </section>
     </section>
     <section id="idl-interface" class="normative">
-      <h2>IDL Interface</h2>
-      <p>Conforming user agents MUST implement the following IDL interface.</p>
+      <h2>IDL Interfaces</h2>
+      <p>Conforming user agents MUST implement the following IDL interfaces.</p>
       <section id="ARIAMixin" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
         <h2>Interface Mixin <dfn>ARIAMixin</dfn></h2>
         <pre class="idl" data-cite="webidl">
@@ -16808,6 +16824,56 @@ button.ariaPressed; // null</pre
       Element includes ARIAMixin;
 		</pre
         >
+      </section>
+      <section id="ARIANotifyMixin" class="normative" data-dfn-for="ARIANotifyMixin" data-link-for="ARIANotifyMixin">
+        <h2>Interface Mixin <dfn>ARIANotifyMixin</dfn></h2>
+        <pre class="idl" data-cite="webidl">
+          enum AriaNotifyPriority { "normal", "high" };
+
+          dictionary AriaNotificationOptions {
+            AriaNotifyPriority priority = "normal";
+          };
+          interface mixin ARIANotifyMixin {
+            undefined ariaNotify(DOMString announcement, optional AriaNotificationOptions options = {});
+          };
+          Element includes ARIANotifyMixin;
+          Document includes ARIANotifyMixin;
+        </pre>
+
+        <p>
+          The User Agent processing steps for the
+          <code><dfn data-df-type="method" data-dfn-for="ARIANotifyMixin">ariaNotify</dfn>(<var>announcement</var>, <var>options</var>)</code>
+          method are:
+        </p>
+        <ol>
+          <li>
+            <p>If the document is not [=allowed to use=] the feature identified by <a>"aria-notify"</a> abort these steps.</p>
+          </li>
+          <li>
+            <p>Let <var>node</var> be <code>this</code>.</p>
+          </li>
+          <li>
+            <p>
+              Let <var>priority</var> be <var>options</var>["<code><a href="#dom-arianotificationoptions-priority">priority</a></code
+              >"].
+            </p>
+          </li>
+          <li>
+            <p>If <var>node</var> is <a href="#tree_exclusion">excluded from the accessibility tree</a>, then abort these steps.</p>
+          </li>
+          <li>
+            <p>Run the <a data-cite="core-aam-1.2#arianotify">aria notify steps</a> given <var>node</var>, <var>announcement</var>, and <var>priority</var>.</p>
+          </li>
+        </ol>
+
+        <section id="arianotify-permissions-policy">
+          <h3>Permissions Policy Integration</h3>
+          <p>
+            This specification defines a [=policy-controlled feature=] identified by the string <code><dfn class="permission">"aria-notify"</dfn></code
+            >. It has a [=policy-controlled feature/default allowlist=] of <code class="permissionspolicy">"*"</code>.
+          </p>
+          <p class="note">When disabled in a document, any notifications applied using <code>ariaNotify</code> within that document will not be sent.</p>
+        </section>
       </section>
 
       <section id="accessibilityroleandproperties-correspondence" class="normative" data-dfn-for="ARIAMixin" data-link-for="ARIAMixin">
