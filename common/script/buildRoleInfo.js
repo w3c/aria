@@ -5,8 +5,8 @@ import { parseHTML } from "linkedom";
 const __dirname = import.meta.dirname;
 
 // NOTE: this script expects compiled respec output (e.g. gh-pages branch). 
-// If you are working on this file, you will need to run, e.g. get a copy from gh-pages or
-// run `$ npx respec --src index.html --out index.html`
+// If you are working on this file, you will need to run respec first.
+// E.g. get a copy from gh-pages or run `$ npx respec --src index.html --out index.html`
 const inputFilename = path.resolve('index.html');
 const outputFilename = path.join(__dirname, "roleInfo.js");
 
@@ -129,8 +129,6 @@ const generateRoleInfoEntry = (roleSection) => {
 
     value.localprops.sort((a, b) => a.name < b.name);
 
-    const localPropNames = value.localprops.map(prop => prop.name);
-
     if (currentyBroken.indexOf(key) > -1) return; //TODO: remove this HACK (cf. above)
 
     value.allprops = structuredClone(value.localprops); //TODO: why do we duplicate them? Does ariaChild.js need this duplication? (I understand its "allprops" but just "inherited" seems cleaner.)
@@ -138,7 +136,6 @@ const generateRoleInfoEntry = (roleSection) => {
         link => {
             const name = link.textContent.split(' ')[0]; //TODO: hack because roletype has (state) inside link (as the only role to have that), cf. TODO: in ariaPreprocessing.js
             const prop = structuredClone(statesAndProps[name]);
-            if (localPropNames.indexOf(prop.name) > -1) prop.deprecated = false; // NOTE: ignores the fact that localProps may be disallowed (which is ok at time of writing)
             if (link.closest('.role-disallowed')) prop["disallowed"] = true;
             value.allprops.push(prop);
         }
