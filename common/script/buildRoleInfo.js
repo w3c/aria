@@ -31,80 +31,6 @@ document.querySelectorAll('#states_and_properties :is(.state, .property)').forEa
 const roleInfo = {};
 
 
-// TODO: remove this HACK (which reproduces most of the current broken state, cf. its use below)
-const currentyBroken = [
-    "alertdialog",
-    "application",
-    "banner",
-    "blockquote",
-    "button",
-    "caption",
-    "code",
-    "columnheader",
-    "combobox",
-    "comment",
-    "complementary",
-    "contentinfo",
-    "definition",
-    "deletion",
-    "directory",
-    "emphasis",
-    "feed",
-    "figure",
-    "form",
-    "generic",
-    "heading",
-    "image",
-    "img",
-    "insertion",
-    "link",
-    "listbox",
-    "log",
-    "main",
-    "mark",
-    "marquee",
-    "math",
-    "menubar",
-    "menuitemcheckbox",
-    "menuitemradio",
-    "meter",
-    "navigation",
-    "none",
-    "note",
-    "paragraph",
-    "presentation",
-    "progressbar",
-    "radio",
-    "radiogroup",
-    "region",
-    "row",
-    "rowgroup",
-    "rowheader",
-    "scrollbar",
-    "search",
-    "searchbox",
-    "sectionfooter",
-    "sectionheader",
-    "separator",
-    "slider",
-    "spinbutton",
-    "strong",
-    "subscript",
-    "suggestion",
-    "superscript",
-    "switch",
-    "tab",
-    "tablist",
-    "tabpanel",
-    "term",
-    "time",
-    "timer",
-    "toolbar",
-    "tooltip",
-    "treegrid",
-    "treeitem"
-]
-
 const generateRoleInfoEntry = (roleSection) => {
     const key = roleSection.id;
     const value = {};
@@ -128,8 +54,6 @@ const generateRoleInfoEntry = (roleSection) => {
     // TODO: why localprops separately? (localprops are duplicated in allprops; maybe property)
 
     value.localprops.sort((a, b) => a.name < b.name);
-
-    if (currentyBroken.indexOf(key) > -1) return; //TODO: remove this HACK (cf. above)
 
     value.allprops = structuredClone(value.localprops); //TODO: why do we duplicate them? Does ariaChild.js need this duplication? (I understand its "allprops" but just "inherited" seems cleaner.)
     roleSection.querySelectorAll('.role-inherited :is(.property-reference, .state-reference)').forEach(
