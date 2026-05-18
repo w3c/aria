@@ -43,86 +43,22 @@ const buildPropList = function (propList, item) {
 };
 
 /**
- * Populates globalSP for given sdef/pdef
- * @param {Object} propList -
- * @param {Object} globalSP -
- * @param {HTMLElement} item - from nodeList.forEach
- */
-const buildGlobalStatesAndPropertiesList = function (propList, globalSP, item) {
-  const title = item.getAttribute("title") || item.innerHTML;
-  const container = item.parentElement;
-  const itemEntry = propList[title];
-
-  const applicabilityText = container.querySelector("." + itemEntry.is + "-applicability").innerText;
-  const isDefault = applicabilityText === "All elements of the base markup";
-  const isProhibited = applicabilityText === "All elements of the base markup except for some roles or elements that prohibit its use";
-  const isDeprecated = applicabilityText === "Use as a global deprecated in ARIA 1.2";
-  // NOTE: the only other value for applicabilityText appears to be "Placeholder"
-  if (isDefault || isProhibited || isDeprecated) {
-    globalSP.push(
-      Object.assign(itemEntry, {
-        prohibited: isProhibited,
-        deprecated: isDeprecated,
-      }),
-    );
-  }
-};
-
-/**
  *
- * @param {HTMLElement} container - parent of sdef or pdef or rdef
+ * @param {HTMLElement} node - rdef/sdef/pdef element
  */
-const rewriteDefContainer = (container) => {
-  // if we are in a div, convert that div to a section
-  // TODO:
-  // a) seems to be always the case.
-  // b) Why don't we author the spec this way?
-  if (container.nodeName.toLowerCase() == "div") {
-    // change the enclosing DIV to a section with notoc
-    const sec = document.createElement("section");
-    [...container.attributes].forEach(function (attr) {
-      sec.setAttribute(attr.name, attr.value);
-    });
-    sec.classList.add("notoc");
-    const theContents = container.innerHTML;
-    sec.innerHTML = theContents;
-    container.parentNode.replaceChild(sec, container);
-  }
-};
-
-/**
- *
- * @param {HTMLElement} item - rdef element
- */
-const rewriteRdef = function (item) {
-  // TODO: merge with renderStatesAndPropertiesHeadings() but that creates different HTML
-  const content = item.innerHTML;
-  let title = item.getAttribute("title") || content;
-  let type = "role";
-  const abstract = item.parentNode.querySelector(".role-abstract");
+const rewriteDef = function (node) {
+  let type = "";
+  if (node.tagName === "RDEF") type = "role";
+  const abstract = node.parentNode.querySelector(".role-abstract");
   if (abstract?.innerText === "True") {
-    //NOTE: optional chaining b/c synonym roles do not have characteristics tables
+    //NOTE: optional chaining because synonym roles and sdef/pdef won't have .role-abstract anywhere
     type = "abstract role";
   }
-  const dRef = item.nextElementSibling;
-  dRef.id = "desc-" + title;
-  dRef.setAttribute("role", "definition");
-  item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
-};
-
-/**
- * Replaces sdef/pdef with desired HTML
- * @param {Object} propList -
- * @param {HTMLElement} item - sdef or pdef, from nodeList.forEach
- */
-const renderStatesAndPropertiesHeadings = function (propList, item) {
-  const title = item.getAttribute("title") || item.innerHTML;
-  const itemEntry = propList[title];
-  const dRef = item.nextElementSibling;
-  dRef.id = "desc-" + title; // TODO: too much of a side-effect?
-  dRef.setAttribute("role", "definition"); // TODO: ditto?
-  // Replace pdef/sdef with HTML
-  item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
+  if (node.tagName === "SDEF") type = "state";
+  if (node.tagName === "PDEF") type = "property";
+  const h4 = node.previousElementSibling; // NOTE: ariaPreprocessing.js inserts h4's before ${node} which respec later rewrites into something more complex (cf. TODOs in ariaPreprocessing.js)
+  node.outerHTML = `<h4><code>${node.innerHTML}</code> ${type}`;
+  h4?.remove(); // NOTE: guard for buildRoleInfo.js
 };
 
 /**
@@ -135,34 +71,6 @@ const renderIndexStatesAndProperties = (propList) => {
     .map((item) => `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`)
     .join("");
   indexStatePropPlaceholder.outerHTML = `<dl id="index_state_prop">${indexStatePropContent}</dl>`;
-};
-
-/**
- * Generate index of global states and properties
- * @param {Object} globalSP
- */
-const renderIndexGlobalStatesAndProperties = (globalSP) => {
-  const globalStatesPropertiesContent = globalSP
-    .map((item) => {
-      // TODO: This is the only use of globalSP - why does it not just consist of the markup we create here in this loop?
-      const isState = item.is === "state";
-      const tagName = isState ? "sref" : "pref";
-      return `<li><${tagName} ${item.prohibited ? "data-prohibited " : ""}${item.deprecated ? "data-deprecated " : ""}${
-        isState ? `title="${item.name}"` : ""
-      }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
-        // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
-        // TODO: cf. buildStatesProperties() and buildRoleInfoPropList() which have extra logic for title set here)
-
-        item.prohibited ? " (Except where prohibited)" : ""
-      }${item.deprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
-    })
-    .join("");
-  const globalStatesPropertiesPlaceholder = document.querySelector("#global_states .placeholder");
-  globalStatesPropertiesPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
-
-  // Populate role=roletype properties with global properties
-  const roletypePropsPlaceholder = document.querySelector("#roletype td.role-properties span.placeholder");
-  roletypePropsPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
 };
 
 /**
@@ -340,10 +248,9 @@ const buildInheritedStatesProperties = function (item) {
   const reducedList = [...new Set(myList)];
 
   const sortedList = reducedList.sort((a, b) => {
-    if (a.name == b.name) {
-      //TODO: BUG: deprecated states&props do not actually appear at end
-      // NOTE: removing if (a.deprecated !== b.deprecated) seems to fix this
-      // Ensure deprecated false properties occur first
+    if (a.name === b.name) {
+      // Ensure deprecated false properties occur last (if we have multiple inheritance but disagreeing)
+      // this ensures below that the property is not marked as deprecated (cf. below)
       if (a.deprecated !== b.deprecated) {
         return a.deprecated ? 1 : b.deprecated ? -1 : 0;
       }
@@ -352,11 +259,10 @@ const buildInheritedStatesProperties = function (item) {
   }, []);
 
   const uniquePropNames = new Set(sortedList.map((prop) => prop.name));
-  // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem.
-  // TODO: is it just luck that the not-deprecated state is listed first? (see same comment below)
+  // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem. (Cf. comments above and below)
   const output = [...uniquePropNames]
     .map((propName) => {
-      const property = sortedList.find((p) => p.name === propName); // TODO: is it just luck that the not-deprecated state is listed first?
+      const property = sortedList.find((p) => p.name === propName); // Note: not-deprecated property is listed first (due to sorting, cf. above)
       const isState = property.is === "state";
       const suffix = isState ? " (state)" : "";
       const tag = isState ? "sref" : "pref";
@@ -484,12 +390,7 @@ const renderStateOrProperty = function (propList, descendantRoles, item) {
     // We only want to include these one time, so filter out the subroles.
     if (!descendantRoles[role]) return;
     descendantRoles[role].forEach((subrole) => {
-      if (subrole.indexOf(propList[item.name].roles) === -1) inheritedRoles.add(subrole);
-      // TODO: the if-check doesn't make sense
-      // Should it be the other way around? I.e.
-      // if (propList[item.name].roles.indexOf(subrole) === -1)
-      //     inheritedRoles.add(subrole);
-      // But this changes the spec, adding some, removing other entries
+      if (propList[item.name].roles.indexOf(subrole) === -1) inheritedRoles.add(subrole);
     });
   });
 
@@ -515,7 +416,6 @@ const renderRoleChildren = ([role, subroleSet]) => {
  */
 function ariaAttributeReferences() {
   const propList = {};
-  const globalSP = [];
 
   let skipIndex = 0;
   const myURL = document.URL;
@@ -526,19 +426,13 @@ function ariaAttributeReferences() {
   // process the document before anything else is done
   // first get the properties
   const pdefsAndsdefs = document.querySelectorAll("pdef, sdef");
-  const pdefsAndsdefsContainer = [...pdefsAndsdefs].map((node) => node.parentNode);
 
   pdefsAndsdefs.forEach(buildPropList.bind(null, propList));
-  pdefsAndsdefs.forEach(buildGlobalStatesAndPropertiesList.bind(null, propList, globalSP));
-  pdefsAndsdefs.forEach(renderStatesAndPropertiesHeadings.bind(null, propList));
-  pdefsAndsdefsContainer.forEach(rewriteDefContainer);
+  pdefsAndsdefs.forEach(rewriteDef);
 
   if (!skipIndex) {
     // Generate index of states and properties
     renderIndexStatesAndProperties(propList);
-
-    // Generate index of global states and properties
-    renderIndexGlobalStatesAndProperties(globalSP);
   }
 
   // what about roles?
@@ -551,7 +445,6 @@ function ariaAttributeReferences() {
   //
 
   const rdefs = document.querySelectorAll("rdef");
-  const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
   const subRoles = buildSubRoles(rdefs);
 
@@ -559,9 +452,7 @@ function ariaAttributeReferences() {
 
   rdefs.forEach(buildRoleInfoPropList.bind(null, roleInfo, propList));
 
-  rdefs.forEach(rewriteRdef);
-
-  rdefsContainer.forEach(rewriteDefContainer);
+  rdefs.forEach(rewriteDef);
 
   // TODO: test this on a page where `skipIndex` is truthy
   if (!skipIndex) {

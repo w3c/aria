@@ -7970,7 +7970,29 @@
     name: "tooltip",
     fragID: "tooltip",
     parentRoles: ["section"],
-    localprops: [],
+    localprops: [
+      {
+        is: "property",
+        name: "aria-braillelabel",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-label",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-labelledby",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+    ],
   },
   tree: {
     name: "tree",
