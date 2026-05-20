@@ -18,6 +18,10 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
   * [Spec](core-aam/index.html)
   * [Editor's Draft](https://w3c.github.io/core-aam/)
   * [Issue Repository](https://github.com/w3c/core-aam)
+* CSS Accessibility API Mappings (css-aam)
+  * [Spec](css-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/css-aam/)
+  * [Issue Repository](https://github.com/w3c/css-aam)
 * HTML Accessibility API Mappings (html-aam)
   * [Spec](html-aam/index.html)
   * [Editor's Draft](https://w3c.github.io/html-aam/)
@@ -166,10 +170,10 @@ The set of class values currently defined are:
 * `dpub`: other DPUB-ARIA references
 * `graphics-role-reference`: Graphics-ARIA role definitions
 * `graphics-property-reference`: Graphics-ARIA property definitions
-* `graphics-state-reference: Graphics-ARIA state definitions
+* `graphics-state-reference`: Graphics-ARIA state definitions
 * `graphics-role-mapping`: Graphics role mapping
 * `graphics-property-mapping`: GRAPHICS property mapping
-* `graphics-state-mapping`: GRAPHICS staet mapping
+* `graphics-state-mapping`: GRAPHICS state mapping
 * `graphics-mapping`: other GRAPHIC mapping references
 * `graphics`: other Graphics-ARIA references
 * `practices`: ARIA Practices
