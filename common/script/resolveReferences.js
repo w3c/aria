@@ -255,7 +255,7 @@ function updateReferences(base) {
         .call(base.querySelectorAll("pref, sref, rref"))
         .forEach(function (item) {
             // what are we referencing?
-            var content = item.innerText;
+            var content = item.textContent;
             var usedTitle = false;
             var ref = item.getAttribute("title");
             if (!ref) {
