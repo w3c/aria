@@ -29,7 +29,7 @@ Open questions:
 * Whether to leave repositories open for issue tracking
 * Are modifications necessary for pr-preview?
 * What will we do with open PRs?
-* Do we want to take the time to change some old branch mnaming and usage? HTML-aam still uses gh-pages as the main branch.
+* Do we want to take the time to change some old branch naming and usage? HTML-aam still uses gh-pages as the main branch.
 
 Example of monorepos:
 * https://github.com/w3c/epub-specs
