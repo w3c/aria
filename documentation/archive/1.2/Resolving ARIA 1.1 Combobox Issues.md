@@ -143,7 +143,7 @@ An expanded combobox renders only two elements that are intrinsically related by
 This is similar to other ARIA widgets that conditionally display a secondary element, such as disclosures and menu buttons.
 Those patterns do not superimpose a semantic grouping container; doing so would add authoring complexity without improving the experience for end users.
 
-If ARIA 1.2 does not eliminate the container from the combobox specification, then it could help resolve this problem by adding a normative statement that says assistive technologies SHOULD NOT expose the container to users. This would align with prohibitting accessible names on the container.
+If ARIA 1.2 does not eliminate the container from the combobox specification, then it could help resolve this problem by adding a normative statement that says assistive technologies SHOULD NOT expose the container to users. This would align with prohibiting accessible names on the container.
 
 ### Resolving problems with Screen reader presentation of ARIA 1.1 combobox input
 
