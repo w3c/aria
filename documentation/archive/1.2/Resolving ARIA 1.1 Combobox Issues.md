@@ -189,7 +189,7 @@ The ARIA 1.1 combobox pattern is relatively complex due to the fact that there a
 This has been a source of author errors.
 At least one screen reader developer is identifying such errors as a significant concern.
 
-Short of eliminating the container, there is no clear way to mitigate this other than to encourage browsers to correct author errors when populating the accessibility tree. Of course, checkers can help prevent the errors from getting out in the wild. But, that will not remove the necessaty of robust error correction.
+Short of eliminating the container, there is no clear way to mitigate this other than to encourage browsers to correct author errors when populating the accessibility tree. Of course, checkers can help prevent the errors from getting out in the wild. But, that will not remove the necessity of robust error correction.
 
 ## Summary of resolution options
 
