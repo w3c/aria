@@ -5,9 +5,9 @@ Please read the [ARIA WG Process Document](process.md)
 # ARIA Meeting Information
 ## Inter Relay Chat(IRC)
 ### Access via IRC Cloud
-* [IRC Cloud ARIA Channel URL](https://www.irccloud.com/irc/w3.org/channel/aria) 
-* Hostname:irc.irccloud.com
-* Port:6697(check secure port)
+* [IRC Cloud ARIA Channel URL](https://www.irccloud.com/irc/irc.w3.org/channel/aria) 
+* Hostname:irc.w3.org
+* Port:6679(check secure port)
 * Add your nickname and more
 * Go to channel #aria
 

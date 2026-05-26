@@ -1,0 +1,187 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta lang="en" />
+    <title>img role for SVG elements</title>    
+    <style>
+        body {
+            max-width: 30em;
+            margin: auto;
+            padding: 0.5em;
+            font-family: serif;
+        }
+        figure svg {
+            display: block;
+            width: 100%;
+            height: 12em;
+            margin: 0 auto 1em;
+            overflow: visible
+        }
+        .overlay-text {
+            text-anchor: end;
+            font: bold 175% sans-serif;
+            fill: lightSkyBlue;
+            stroke: royalBlue;
+        }
+        .annotation {
+            fill: none;
+            stroke: deepPink;
+            stroke-width: 6px;
+            stroke-linejoin: round;
+        }
+        marker .annotation {
+            stroke-width: 1px;
+        }
+        marker {
+            overflow: visible;
+        }
+        figcaption, .caption {
+            font-style: italic;
+        }
+        figure {
+            display: block;
+            margin: 1em 2em;
+            background-color: #DBE4F0;
+            color: midnightBlue;
+            padding: 0.5em 1em;
+        }
+        :link {
+            color: midnightBlue;
+        }
+        @media (max-width: 25em) {
+            figure {
+                margin: 0.5em 0;
+                padding: 0.5em;
+            }
+        }
+        @media (min-width: 50em) {
+            body {max-width: 60em;}
+            body > * {width: 28em;}
+            figure {
+                float: right;
+                margin: 0;
+                margin-left: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <figure id="fig1" role="figure region">
+        <svg role="graphics-document">
+            <title>Repeating versus reflecting linear gradients</title>
+            <desc>
+                The graphic shows two gradient patterns,
+                annotated with text labels and arrows.
+                Both gradients use the same series of color stops,
+                starting dark, slowly shifting to light, 
+                then quickly dark again.
+                This cycle covers one-quarter of the width of the graphic,
+                starting on the left.
+                The two gradients differ in their repeat cycles.
+            </desc>
+            <defs>
+                <linearGradient id="repeat" x2="25%" spreadMethod="repeat">
+                    <stop offset="0"   stop-color="black" />
+                    <stop offset="0.8" stop-color="white" />
+                    <stop offset="1"   stop-color="black" />
+                </linearGradient>
+                <linearGradient id="reflect" spreadMethod="reflect"
+                                xlink:href="#repeat" />
+                <marker id="arrow-head" refX="3" refY="2"
+                        markerHeight="4">
+                    <path class="annotation" d="M0,0 2.5,2 0,4" />
+                </marker>
+                <marker id="arrow-tail" refY="1.5">
+                    <path class="annotation" d="M0.5,0 0.5,3" />
+                </marker>
+                <line class="annotation" id="gradient-vector" 
+                      x2="25%"
+                      marker-start="url(#arrow-tail)"
+                      marker-end="url(#arrow-head)"/>
+            </defs>
+            <g role="graphics-object" aria-labelledby="repeat-label">
+                <desc>
+                    The gradient stretches across the top half of 
+                    the graphic.
+                    Each cycle of the gradient repeats exactly,
+                    and is emphasized by a left-to-right arrow.
+                </desc>
+                <rect width="100%" height="50%" fill="url(#repeat)" />
+                <use y="30%" xlink:href="#gradient-vector" >
+                    <title>1st cycle</title>
+                    <desc>left-to-right arrow, starting from x="0"</desc>
+                </use>
+                <use y="30%" x="25%" xlink:href="#gradient-vector" >
+                    <title>2nd cycle</title>
+                    <desc>left-to-right arrow, starting from x="25%"</desc>
+                </use>
+                <use y="30%" x="50%" xlink:href="#gradient-vector" >
+                    <title>3rd cycle</title>
+                    <desc>left-to-right arrow, starting from x="50%"</desc>
+                </use>
+                <use y="30%" x="75%" xlink:href="#gradient-vector" >
+                    <title>4th cycle</title>
+                    <desc>left-to-right arrow, starting from x="75%"</desc>
+                </use>
+                <text id="repeat-label" class="overlay-text" 
+                      aria-label="spreadMethod='repeat'"
+                      dy="1em" dx="-0.2em" x="100%"
+                      >repeat</text>
+            </g>            
+            <g role="graphics-object" aria-labelledby="reflect-label">
+                <desc>
+                    The gradient stretches across the bottom half of 
+                    the graphic.
+                    Each cycle of the gradient alternates direction,
+                    left-to-right then right-to-left,
+                    as do the arrows that emphasize the pattern.
+                </desc>
+                <rect y="50%" width="100%" height="50%" fill="url(#reflect)" />
+                </rect>
+                <use y="70%" xlink:href="#gradient-vector" >
+                    <title>1st cycle</title>
+                    <desc>left-to-right arrow, starting from x="0"</desc>
+                </use>
+                <use y="70%" x="-50%" transform="scale(-1,1)"
+                     xlink:href="#gradient-vector" >
+                    <title>2nd cycle, reflected</title>
+                    <desc>right-to-left arrow, ending at x="25%"</desc>
+                </use>
+                <use y="70%" x="50%" xlink:href="#gradient-vector" >
+                    <title>3rd cycle</title>
+                    <desc>left-to-right arrow, starting from x="50%"</desc>
+                </use>
+                <use y="70%" x="-100%" transform="scale(-1,1)"
+                     xlink:href="#gradient-vector" >
+                    <title>4th cycle, reflected</title>
+                    <desc>right-to-left arrow, ending at x="75%"</desc>
+                </use>
+                <text id="reflect-label" class="overlay-text" 
+                      aria-label="spreadMethod='reflect'"
+                      dy="-0.2em" dx="-0.2em" x="100%" y="100%"
+                      >reflect</text>
+            </g>
+        </svg>
+        <figcaption>Figure 1: spreadMethod options for
+            repeating SVG gradients</figcaption>
+    </figure>
+    <p>A repeating SVG gradient is defined using the
+        <code>spreadMethod</code> attribute.  
+        <a href="#fig1">Figure 1</a> compares the two
+        possible variations.
+    </p>
+    <p>
+        A value of <code>repeat</code> causes the color stops
+        to repeat in the same order, from beginning to end.  
+        In contrast, a value of <code>reflect</code>
+        causes the order and spacing of colors 
+        to alternate in each repeat.</p>
+    <p>Both of the gradients in <a href="#fig1">Figure 1</a> 
+        repeat the sequence of color stops four times,
+        as indicated by the arrows.  
+        However, in the reflected gradient every second
+        cycle is reversed, as shown by the arrows pointing
+        in the opposite direction.</p>
+</body>
+</html>
