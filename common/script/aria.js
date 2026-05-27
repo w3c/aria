@@ -50,7 +50,7 @@ const rewriteDef = function (node) {
   let type = "";
   if (node.tagName === "RDEF") type = "role";
   const abstract = node.parentNode.querySelector(".role-abstract");
-  if (abstract?.innerText === "True") {
+  if (abstract?.textContent === "True") {
     //NOTE: optional chaining because synonym roles and sdef/pdef won't have .role-abstract anywhere
     type = "abstract role";
   }
@@ -287,8 +287,8 @@ const pruneUnusedRows = () => {
       ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values",
     )
     .forEach(function (item) {
-      var content = item.innerText;
-      if (content.length === 1 || content.length === 0) {
+      const content = item.textContent.trim();
+      if (!content) {
         // there is no item - remove the row
         item.parentNode.parentNode.removeChild(item.parentNode);
       } else if (

@@ -15,8 +15,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "latest"
-      - run: npm i linkedom prettier@3.6.0
-      - run: node ./common/script/buildRoleInfo.js > ./common/script/roleInfo.js
+          node-version: "lts/*"
+      - run: npm i linkedom prettier@3.6.0 respec
+      - run: npx respec --src index.html --out index.html --localhost
+      - run: node ./common/script/buildRoleInfo.js
       - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
+      - run: git checkout index.html
       - run: git diff --exit-code
