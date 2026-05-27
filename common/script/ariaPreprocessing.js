@@ -15,7 +15,7 @@ const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePr
   if (!(isDefault || isProhibited || isDeprecated)) return;
   const isState = def.tagName === "SDEF";
   const refTagName = isState ? "sref" : "pref";
-  const htmlString = `<li><${refTagName} ${isProhibited ? "data-prohibited " : ""}${isDeprecated ? "data-deprecated " : ""}${
+  const htmlString = `<li${isProhibited ? ` data-prohibited="${def.innerHTML}"` : ""}${isDeprecated ? ` data-deprecated="${def.innerHTML}"` : ""}><${refTagName} ${isProhibited ? "data-prohibited " : ""}${isDeprecated ? "data-deprecated " : ""}${
     isState ? `title="${def.innerHTML}"` : ""
   }>${def.innerHTML}${isState ? " (state)" : ""}</${refTagName}>${
     // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
