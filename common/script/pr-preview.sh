@@ -23,27 +23,27 @@ mkdir -p public/pdf-aam
 mkdir -p public/css-aam
 
 # build all specs
-npx respec -s index.html -o public/index.html --localhost --disable-sandbox
+npx respec -s index.html -o public/index.html --localhost
 echo "Built ARIA"
-npx respec -s accname/index.html -o public/accname/index.html --localhost --disable-sandbox
+npx respec -s accname/index.html -o public/accname/index.html --localhost
 echo "Built AccName"
-npx respec -s core-aam/index.html -o public/core-aam/index.html --localhost --disable-sandbox
+npx respec -s core-aam/index.html -o public/core-aam/index.html --localhost
 echo "Built Core AAM"
-npx respec -s dpub-aam/index.html -o public/dpub-aam/index.html --localhost --disable-sandbox
+npx respec -s dpub-aam/index.html -o public/dpub-aam/index.html --localhost
 echo "Built DPub AAM"
-npx respec -s dpub-aria/index.html -o public/dpub-aria/index.html --localhost --disable-sandbox
+npx respec -s dpub-aria/index.html -o public/dpub-aria/index.html --localhost
 echo "Built DPUB ARIA"
-npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localhost --disable-sandbox
+npx respec -s graphics-aam/index.html -o public/graphics-aam/index.html --localhost
 echo "Built graphics AAM"
-npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost --disable-sandbox
+npx respec -s graphics-aria/index.html -o public/graphics-aria/index.html --localhost
 echo "Built graphics ARIA"
-npx respec -s html-aam/index.html -o public/html-aam/index.html --localhost --disable-sandbox
+npx respec -s html-aam/index.html -o public/html-aam/index.html --localhost
 echo "Built HTML AAM"
-npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost --disable-sandbox
+npx respec -s svg-aam/index.html -o public/svg-aam/index.html --localhost
 echo "Built SVG AAM"
-npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost --disable-sandbox
+npx respec -s mathml-aam/index.html -o public/mathml-aam/index.html --localhost
 echo "Built mathml-aam"
-npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost --disable-sandbox
+npx respec -s pdf-aam/index.html -o public/pdf-aam/index.html --localhost
 echo "Built PDF AAM"
-npx respec -s css-aam/index.html -o public/css-aam/index.html --localhost --disable-sandbox
+npx respec -s css-aam/index.html -o public/css-aam/index.html --localhost
 echo "Built CSS  AAM"

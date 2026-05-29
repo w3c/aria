@@ -8,6 +8,9 @@ on:
 jobs:
   roleInfo:
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -18,8 +21,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "latest"
-      - run: npm i linkedom prettier@3.6.0
+          node-version: "lts/*"
+      - run: npm i linkedom prettier@3.6.0 respec
       - run: git checkout gh-pages index.html # checkout (respec'ed) aria spec from gh-pages (WARNING: changes get staged!)
       - run: node ./common/script/buildRoleInfo.js  # build roleInfo.js
       - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
