@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -18,11 +20,8 @@ jobs:
         with:
           node-version: "lts/*"
       
-      - name: Install additional dependencies
-        run: npm install axios yargs
-
-      - name : Install respec globally
-        run : npm install -g respec
+      - name: Install dependencies
+        run: npm install axios yargs respec
 
       - name: Build site
         run: bash ./common/script/pr-preview.sh
