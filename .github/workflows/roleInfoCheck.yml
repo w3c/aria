@@ -10,6 +10,8 @@ on:
 jobs:
   roleInfo:
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
     steps:
       - uses: actions/checkout@v6
       - name: Use Node.js
@@ -17,7 +19,7 @@ jobs:
         with:
           node-version: "lts/*"
       - run: npm i linkedom prettier@3.6.0 respec
-      - run: npx respec --src index.html --out index.html --localhost --no-sandbox
+      - run: npx respec --src index.html --out index.html --localhost
       - run: node ./common/script/buildRoleInfo.js
       - run: npx prettier --write --print-width 200 ./common/script/roleInfo.js
       - run: git checkout index.html

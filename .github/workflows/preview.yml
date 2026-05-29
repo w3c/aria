@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -22,15 +24,7 @@ jobs:
         run: npm install axios yargs respec
 
       - name: Build site
-        run: |
-          if [ -x /usr/bin/google-chrome-stable ]; then
-            export PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-          elif [ -x /usr/bin/google-chrome ]; then
-            export PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
-          elif [ -x /usr/bin/chromium-browser ]; then
-            export PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-          fi
-          bash ./common/script/pr-preview.sh
+        run: bash ./common/script/pr-preview.sh
       
       - name: Deploy site to Netlify
         uses: nwtgck/actions-netlify@v3.0
