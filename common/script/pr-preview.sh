@@ -23,7 +23,7 @@ mkdir -p public/pdf-aam
 mkdir -p public/css-aam
 
 # build all specs
-npx respec -s index.html -o public/index.html --localhost
+npx respec -s index.html -o public/index.html --localhost --timeout 100
 echo "Built ARIA"
 npx respec -s accname/index.html -o public/accname/index.html --localhost
 echo "Built AccName"
