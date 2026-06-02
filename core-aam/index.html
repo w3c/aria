@@ -6448,10 +6448,10 @@
         <section id="computed_accessibility_properties">
           <h2>Computed Accessibility Properties</h2>
           <p>
-            The computed accessibility properties of an element are a cross-platform key/value pairs of strings that represent the states and attributes of any </a>accessible object<a> in the <a>accessibility tree</a>. The computed accessibility properties is used primarily for the purposes of developer tools and specification conformance and interoperability testing.
+            The computed accessibility properties of an element are a cross-platform key/value pairs of strings that represent the states and attributes of any <a>accessible object</a> in the <a>accessibility tree</a>. The computed accessibility properties are used primarily for the purposes of developer tools, specification conformance, and interoperability testing.
           </p>
           <p>
-            For all ARIA states and properties that do not have a value that is a <a>ID Reference</a> or <a>ID Reference List</a>, the key of the computed accessibility property is the name of the state or property after <code>aria-</code>. For all host languages with states and properties that map to an ARIA state and property, the key of the computed accessibility property is the same as the ARIA state and property.
+            The key of the computed accessibility property is the name of the state or property after <code>aria-</code> for all ARIA states and properties that do not have a value that is a <a>ID Reference</a> or <a>ID Reference List</a>. For all host languages with states and properties that map to an ARIA state and property, the key of the computed accessibility property is the same as the ARIA state and property.
           </p>
           <p>
             Similarly, the value of the computed accessibility property is the ARIA state or attribute's value when the ARIA state or attribute is a valid value. Any host language state or property that maps to the ARIA state or property similarly should use the ARIA value.
@@ -6459,7 +6459,7 @@
           <aside class="example">
             <!-- ReSpec needs these examples to be unindented. -->
             <pre>
-TODO: examples:
+TODO: examples
 1. aria-checked
 2. checked on an input
 3. aria-multiselectable
@@ -6467,18 +6467,26 @@ TODO: examples:
             >
           </aside>
           <p>
-             When the state or property is required on a role but not present, expose the property with the appropriate <a>Fallback values for missing required attributes</a>.
+             When the state or property is required on a role but the attribute is missing, undefined, or set to a invalid token, user agents MUST expose the property with the appropriate <a>fallback values for missing required attributes</a>. When a state or property has a <a>default value for role</a> and the attribute is missing, undefined, or set to a invalid token, user agents MUST expose the default value for the role.
           </p>
           <aside class="example">
             <!-- ReSpec needs these examples to be unindented. -->
             <pre>
 TODO: examples
-1. missing aria-checked
-</pre
+1. missing aria-checked on checkbox -- fallback value of "false"
+2. missing aria-live on alert diablog -- implicit value of "assertive"</pre
             >
           </aside>
           <p>
-            When the state or property is both (1) not required on a given role and (2) missing, undefined, or set to a invalid token, it should not appear in the computed accessibility properties. TODO: Is this true even when the state or property default of something other than undefined? For example, aria-busy, aria-atomic, aria-disabled, aria-modal, aria-readonly have a default value of "false" and that is mapped here. aria-multiline and aria-required have a default value of "false" but are not mapped here. 
+            When the state or property does not have a default value other than undefined, is not required on a given role, and is missing, undefined, or set to a invalid token, user agents MUST NOT include it the computed accessibility properties. When a state or property has a default value other than undefined and is supported but not required on a given role, user agents MAY include it in the computed accessibility properties.
+            <pre>
+TODO: examples
+1. aria-description on button -- user agents MUST not include in computed accessibility properties
+2. aria-autocomplete on combobox has default of "none" -- user agent MAY include in the computed accessibility properties.
+
+Note: Many true false booleans have a default of "false", like aria-atomic, aria-busy, aria-disabled, aria-required, aria-multiselectable... All of these fall under the "MAY" be included.
+</pre
+            >
           </p>
         </section>
         <section id="mapping_state-property_table">
@@ -6508,7 +6516,7 @@ TODO: examples
               <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  TODO
+                  Not mapped, or, referenced element should have `focus: true` ?
                 </td>
               </tr>
               <tr>
@@ -6615,7 +6623,7 @@ TODO: examples
               <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  <code>atomic: false</code><br />TODO: do browsers actually surface this?
+                  <code>atomic: false</code>
                 </td>
               </tr>
               <tr>
@@ -6970,7 +6978,7 @@ TODO: examples
               <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  <code>busy: false</code><br />TODO: do browsers expose this?
+                  <code>busy: false</code>
                 </td>
               </tr>
               <tr>
@@ -7428,7 +7436,7 @@ TODO: examples
               <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  No exposed property. <br /> TODO: verify.
+                  TODO: No exposed property?
                 </td>
               </tr>
               <tr>
