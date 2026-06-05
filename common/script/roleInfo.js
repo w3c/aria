@@ -7,6 +7,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -181,6 +188,13 @@
     parentRoles: ["alert", "dialog"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -451,6 +465,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -622,6 +643,13 @@
       {
         is: "property",
         name: "aria-setsize",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -804,6 +832,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -978,6 +1013,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -1213,6 +1255,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -1374,6 +1423,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -1395,6 +1451,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -1652,6 +1715,13 @@
       {
         is: "property",
         name: "aria-rowspan",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -1919,6 +1989,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -2080,6 +2157,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -2101,6 +2185,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -2288,6 +2379,13 @@
       {
         is: "property",
         name: "aria-sort",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -2667,6 +2765,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -2813,6 +2918,13 @@
     parentRoles: ["widget"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -3034,6 +3146,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -3208,6 +3327,13 @@
     parentRoles: ["landmark"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -3415,6 +3541,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -3582,6 +3715,13 @@
     parentRoles: ["landmark"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -3759,6 +3899,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -3780,6 +3927,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -3957,6 +4111,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -3978,6 +4139,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -4154,6 +4322,13 @@
     parentRoles: ["window"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -4339,6 +4514,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -4513,6 +4695,13 @@
     parentRoles: ["structure"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -4690,6 +4879,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -4711,6 +4907,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -4889,6 +5092,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -5063,6 +5273,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -5241,6 +5458,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -5416,6 +5640,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -5451,6 +5682,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -5652,6 +5890,13 @@
       {
         is: "property",
         name: "aria-readonly",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -5968,6 +6213,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -6187,6 +6439,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -6371,6 +6630,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -6545,6 +6811,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -6745,6 +7018,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -6913,6 +7193,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -6934,6 +7221,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -7110,6 +7404,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -7331,6 +7632,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -7491,6 +7799,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -7740,6 +8055,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-activedescendant",
         required: false,
         disallowed: false,
@@ -7945,6 +8267,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -8119,6 +8448,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -8297,6 +8633,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -8472,6 +8815,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -8493,6 +8843,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -8671,6 +9028,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -8847,6 +9211,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -9021,6 +9392,13 @@
     parentRoles: ["select"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-activedescendant",
@@ -9211,6 +9589,13 @@
     parentRoles: ["menu"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-activedescendant",
@@ -9474,6 +9859,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -9646,6 +10038,13 @@
         is: "state",
         name: "aria-checked",
         required: true,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
         disallowed: false,
         deprecated: false,
       },
@@ -9863,6 +10262,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -10075,6 +10481,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -10270,6 +10683,13 @@
     parentRoles: ["landmark"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -10491,6 +10911,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -10644,6 +11071,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -10879,6 +11313,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -11054,6 +11495,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -11075,6 +11523,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -11258,6 +11713,13 @@
     parentRoles: ["range", "widget"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -11507,6 +11969,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -11734,6 +12203,13 @@
       {
         is: "property",
         name: "aria-required",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -11973,6 +12449,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -12147,6 +12630,13 @@
     parentRoles: ["landmark"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -12324,6 +12814,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -12492,6 +12989,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -12783,6 +13287,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-activedescendant",
         required: false,
         disallowed: false,
@@ -12964,6 +13475,13 @@
     parentRoles: ["structure"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -13165,6 +13683,13 @@
       {
         is: "property",
         name: "aria-sort",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -13481,6 +14006,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -13657,6 +14189,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -13831,6 +14370,13 @@
     parentRoles: ["textbox"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-activedescendant",
@@ -14051,6 +14597,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -14225,6 +14778,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -14403,6 +14963,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -14577,6 +15144,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -14764,6 +15338,13 @@
       {
         is: "property",
         name: "aria-orientation",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -15032,6 +15613,13 @@
       {
         is: "property",
         name: "aria-valuetext",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -15320,6 +15908,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -15595,6 +16190,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-activedescendant",
         required: false,
         disallowed: false,
@@ -15762,6 +16364,13 @@
     parentRoles: ["section"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -15939,6 +16548,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -15960,6 +16576,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -16138,6 +16761,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -16313,6 +16943,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -16334,6 +16971,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -16511,6 +17155,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -16532,6 +17183,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -16709,6 +17367,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -16730,6 +17395,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -16918,6 +17590,13 @@
         is: "state",
         name: "aria-checked",
         required: true,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
         disallowed: false,
         deprecated: false,
       },
@@ -17205,6 +17884,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -17390,6 +18076,13 @@
       {
         is: "property",
         name: "aria-rowcount",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -17601,6 +18294,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-activedescendant",
         required: false,
         disallowed: false,
@@ -17784,6 +18484,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -17959,6 +18666,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -17980,6 +18694,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -18285,6 +19006,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -18439,6 +19167,13 @@
     localprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-braillelabel",
         required: false,
         disallowed: true,
@@ -18460,6 +19195,13 @@
       },
     ],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: true,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-braillelabel",
@@ -18636,6 +19378,13 @@
     parentRoles: ["status"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-atomic",
@@ -18823,6 +19572,13 @@
       {
         is: "property",
         name: "aria-orientation",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -19055,6 +19811,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -19267,6 +20030,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-activedescendant",
         required: false,
         disallowed: false,
@@ -19441,6 +20211,13 @@
     parentRoles: ["grid", "tree"],
     localprops: [],
     allprops: [
+      {
+        is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
       {
         is: "property",
         name: "aria-activedescendant",
@@ -19711,6 +20488,13 @@
       },
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -19908,6 +20692,13 @@
     allprops: [
       {
         is: "property",
+        name: "aria-actions",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
         name: "aria-atomic",
         required: false,
         disallowed: false,
@@ -20093,6 +20884,13 @@
       {
         is: "property",
         name: "aria-modal",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-actions",
         required: false,
         disallowed: false,
         deprecated: false,
