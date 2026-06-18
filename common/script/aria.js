@@ -152,7 +152,9 @@ const renderIndexEntry = (indexTest, rdef) => {
   if (!isAbstract && roleFromNode) {
     const content = rdef.innerText;
     const isRequired = roleFromNode.closest("table").querySelector(".role-namerequired")?.innerText === "True";
-    if (roleFromNode.textContent.indexOf(indexTest) !== -1) return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${isRequired ? " (name required)" : ""}</li>`; // TODO: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
+    if (!roleFromNode.innerHTML.includes(indexTest)) return;  // NOTE: it's either the exact string or contains LI with exact string. TODO: feels brittle. e.g. adding data-${indexTest} for selector may be better.
+    const synonymRoles = [...container.querySelectorAll('[data-role-synonyms] rref')].map(node => node.outerHTML);
+    return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${isRequired ? " (name required)" : ""}${synonymRoles.length > 0 ? ` (synonymous: ${synonymRoles.join(', ')})` : ''}</li>`;
   }
 };
 
