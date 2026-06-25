@@ -15206,13 +15206,6 @@
     localprops: [
       {
         is: "property",
-        name: "aria-valuenow",
-        required: true,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
         name: "aria-errormessage",
         required: false,
         disallowed: false,
@@ -15262,13 +15255,6 @@
       },
     ],
     allprops: [
-      {
-        is: "property",
-        name: "aria-valuenow",
-        required: true,
-        disallowed: false,
-        deprecated: false,
-      },
       {
         is: "property",
         name: "aria-errormessage",
@@ -15461,6 +15447,13 @@
       {
         is: "property",
         name: "aria-roledescription",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-valuenow",
         required: false,
         disallowed: false,
         deprecated: false,
