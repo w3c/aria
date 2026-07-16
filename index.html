@@ -12197,8 +12197,21 @@ button.ariaPressed; // null</pre
               <li>User Agents SHOULD use the accessible names of elements referenced by <code>aria-actions</code> to determine the names of actions that are exposed in a platform accessibility API.</li>
               <li>User Agents MUST NOT expose <code>aria-actions</code> if the Author MUST's are not followed.</li>
             </ul>
+            <p>In order to allow users to invoke actions while remaining on the referencing element, browsers MUST do the following steps to manage focus once an action is invoke via the <code>aria-actions</code> API:</p>
+            <ol>
+              <li>
+                 If the referenced action node is focusable and receives focus as a result of an <code>aria-actions</code> invocation:
+                <ul>
+                  <li>Allow the DOM focus events to fire on the referenced action node as a result of invoking it.</li>
+                  <li>Do not fire the <a>desktop focus event</a>.</li>
+                </ul>
+              </li>
+              <li>If focus is moved either programmatically or via a user interaction, handle that focus change as normal, and do not perform any further <code>aria-actions</code> focus steps.</li>
+              <li>If focus has not moved, the browser MUST move DOM focus back to the referencing element, again without firing a <a>desktop focus event</a>.</li>
+              <li>If the referencing element can no longer be focused, the browser MAY keep focus on the referenced action element and fire a <a>desktop focus event</a>.</li>
+            </ol>
           </div>
-          <table class="property-features">
+          <table class="def">
             <caption>Characteristics:</caption>
             <thead>
               <tr>
