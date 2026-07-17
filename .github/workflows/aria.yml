@@ -1,19 +1,24 @@
-name: aria ED
+name: aria
 on:
   push:
-    branches: [main]
+    branches:
+      - 'main'
     paths:
-    - 'common/**'
-    - index.html
+      - 'common/**'
+      - 'index.html'
+      - '.github/workflows/aria.yml'
   workflow_dispatch:
+
+concurrency:
+  group: gh-pages-push
+  queue: max
+
 jobs:
-  main:
-    name: ARIA ED
+  update-aria:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: w3c/spec-prod@v2
         with:
           GH_PAGES_BRANCH: gh-pages
+          BUILD_FAIL_ON: nothing
