@@ -76,3 +76,32 @@ Start with [Running the WPT Tests for ARIA and Related Specs](./wpt.md).
 
 For detailed guidance on writing tests for the purposes of accessibility interoperability, please visit: [Accessibility Interop Project Overview and Contribution Guidelines](https://github.com/web-platform-tests/interop-accessibility/wiki/Accessibility-Interop-Project-Overview-and-Contribution-Guidelines).
 
+## Web Platform Accessibility Testing Initiatives
+
+There are several concurrent initiatives towards testing various aspects of the web platform accessibility stack:
+
+### Acacia
+
+Acacia tests platform accessibility API mappings directly, as well as testing the internal accessibility tree:
+- Acacia GitHub repo: https://github.com/Igalia/acacia
+- Acacia goal and overview from Igalia: https://notes.igalia.com/s/UCAZ3KYIo
+
+### Accessibility Compat Data (ACD)
+
+Accessibility Compat Data (ACD) is a project to document how web platform features are supported by assistive technologies (AT) across different browsers:
+- ACD GitHub repo: https://github.com/lolaslab/accessibility-compat-data
+
+### ARIA-AT
+
+The ARIA-AT project aims to empower equal inclusion by realizing interoperability for AT users:
+- ARIA-AT homepage: https://aria-at.w3.org
+
+### Additional WebDriver Accessibility Test Accessors Using Web Platform Tests (WPT)
+
+Using WPT, more robust testing of browser-computed accessibility properties is possible by extending WebDriver with additional accessibility test accessors:
+- `Get Accessibility Properties For Element`
+- `Get Accessibility Properties For Accessibility Node`
+
+To this end, this approach helps realize greater accessibility interoperability through WebDriver and Web Platform Tests. For more information:
+- "Get Accessibility Properties" WebDriver PR: https://github.com/w3c/webdriver/pull/1960
+- "Get Accessibility Properties" ARIA PR: https://github.com/w3c/aria/pull/2800
