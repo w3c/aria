@@ -1,0 +1,1595 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="generator" content="ReSpec 37.1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+span.example-title{text-transform:none}
+:is(aside,div).example,div.illegal-example{padding:.5em;margin:1em 0;position:relative;clear:both}
+div.illegal-example{color:red}
+div.illegal-example p{color:#000}
+aside.example div.example{border-left-width:.1em;border-color:#999;background:#fff}
+</style>
+<style>
+.issue-label{text-transform:initial}
+.warning>p:first-child{margin-top:0}
+.warning{padding:.5em;border-left-width:.5em;border-left-style:solid}
+span.warning{padding:.1em .5em .15em}
+.issue.closed span.issue-number{text-decoration:line-through}
+.issue.closed span.issue-number::after{content:" (Closed)";font-size:smaller}
+.warning{border-color:#f11;border-color:var(--warning-border,#f11);border-width:.2em;border-style:solid;background:#fbe9e9;background:var(--warning-bg,#fbe9e9);color:#000;color:var(--text,#000)}
+.warning-title:before{content:"⚠";font-size:1.3em;float:left;padding-right:.3em;margin-top:-.3em}
+li.task-list-item{list-style:none}
+input.task-list-item-checkbox{margin:0 .35em .25em -1.6em;vertical-align:middle}
+.issue a.respec-gh-label{padding:5px;margin:0 2px 0 2px;font-size:10px;text-transform:none;text-decoration:none;font-weight:700;border-radius:4px;position:relative;bottom:2px;border:none;display:inline-block}
+</style>
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;background:var(--indextable-hover-bg,#fff);color:#000;color:var(--text,#000);box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);box-shadow:0 1em 3em -.4em var(--tocsidebar-shadow,rgba(0,0,0,.3)),0 0 1px 1px var(--tocsidebar-shadow,rgba(0,0,0,.05));border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;border-bottom-color:var(--indextable-hover-bg,#fff);top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1;border-bottom-color:var(--indextable-hover-bg,#a2a9b1)}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;color:var(--text,#000);margin-top:.25em}
+.dfn-panel ul a[href]{color:#333;color:var(--text,#333)}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel .marker.cddl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+    
+<title>Accessible Name and Description Computation 1.2</title>
+    
+    
+    
+    
+    
+    
+    
+    
+<style>
+
+      ol.acc-ol {
+        counter-reset: acclist;
+        list-style: none;
+        padding-left: 32px;
+      }
+
+      ol.acc-ol > li {
+        counter-increment: acclist;
+      }
+
+      ol.acc-ol > li:before {
+        content: counters(acclist, ".") " ";
+        font-weight: bold;
+      }
+
+      ol.note-list,
+      ol.note-list li {
+        list-style: decimal;
+      }
+    
+</style>
+  
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+@media (prefers-color-scheme:dark){
+#references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+}
+body:has(input[name=color-scheme][value=dark]:checked) #references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+cite .bibref{font-style:italic}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2):has(+a.self-link){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+body:has(input[name=color-scheme][value=light]:checked),head:not(:has(meta[name=color-scheme][content~=dark]))+body{color-scheme:light}
+body:has(input[name=color-scheme][value=dark]:checked){color-scheme:dark}
+</style>
+<meta name="color-scheme" content="light">
+<meta name="revision" content="2013385037a4f8a1380e8acd0afa4cd2d21e6b32">
+<meta name="description" content="This document describes how user agents determine the names and
+        descriptions of accessible objects
+        from web content languages. This information is in turn exposed through
+        accessibility APIs so that assistive technologies can identify these objects and present
+        their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different
+        accessibility APIs and helps to ensure that this information appears in a manner consistent with author intent.">
+<style>
+.hljs,body:has(input[name=color-scheme][value=light]:checked) .hljs,head:not(:has(meta[name=color-scheme][content~=dark]))+body .hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
+@media (prefers-color-scheme:dark){
+.hljs{
+  --base: #282c34;
+  --mono-1: #abb2bf;
+  --mono-2: #818896;
+  --mono-3: #5c6370;
+  --hue-1: #56b6c2;
+  --hue-2: #61aeee;
+  --hue-3: #c678dd;
+  --hue-4: #98c379;
+  --hue-5: #e06c75;
+  --hue-5-2: #be5046;
+  --hue-6: #d19a66;
+  --hue-6-2: #e6c07b;
+}
+}
+body:has(input[name=color-scheme][value=dark]:checked) .hljs{
+  --base: #282c34;
+  --mono-1: #abb2bf;
+  --mono-2: #818896;
+  --mono-3: #5c6370;
+  --hue-1: #56b6c2;
+  --hue-2: #61aeee;
+  --hue-3: #c678dd;
+  --hue-4: #98c379;
+  --hue-5: #e06c75;
+  --hue-5-2: #be5046;
+  --hue-6: #d19a66;
+  --hue-6-2: #e6c07b;
+}
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;color:var(--mono-1,#383a42);background:#fafafa;background:var(--base,#fafafa)}
+.hljs-comment,.hljs-quote{color:#717277;color:var(--mono-3,#717277);font-style:italic}
+.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4;color:var(--hue-3,#a626a4)}
+.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#ca4706;color:var(--hue-5,#ca4706);font-weight:700}
+.hljs-literal{color:#0b76c5;color:var(--hue-1,#0b76c5)}
+.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string{color:#42803c;color:var(--hue-4,#42803c)}
+.hljs-built_in,.hljs-class .hljs-title{color:#9a6a01;color:var(--hue-6-2,#9a6a01)}
+.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801;color:var(--hue-6,#986801)}
+.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#336ae3;color:var(--hue-2,#336ae3)}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:700}
+.hljs-link{text-decoration:underline}
+</style>
+<style>
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
+</style>
+<style>
+var[data-type]{position:relative}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#222;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "github": {
+    "repoURL": "w3c/accname",
+    "pullsURL": "https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Aaccname%22",
+    "commitHistoryURL": "https://github.com/w3c/aria/commits/main/accname/"
+  },
+  "doJsonLd": true,
+  "lint": true,
+  "specStatus": "ED",
+  "shortName": "accname-1.2",
+  "copyrightStart": "2014",
+  "prevRecURI": "https://www.w3.org/TR/accname/",
+  "edDraftURI": "https://w3c.github.io/accname/",
+  "editors": [
+    {
+      "name": "Bryan Garaventa",
+      "company": "Invited Expert",
+      "companyURL": "https://github.com/whatsock",
+      "w3cid": 67215
+    },
+    {
+      "name": "Melanie Sumner",
+      "company": "Invited Expert",
+      "companyURL": "https://github.com/melsumner",
+      "w3cid": 125865
+    }
+  ],
+  "formerEditors": [
+    {
+      "name": "Michael Cooper",
+      "company": "W3C",
+      "companyURL": "https://www.w3.org/",
+      "w3cid": 34017
+    },
+    {
+      "name": "Joanmarie Diggs",
+      "company": "Igalia, S.L.",
+      "companyURL": "https://www.igalia.com/",
+      "w3cid": 68182,
+      "note": "Editor until March 2021"
+    },
+    {
+      "name": "Richard Schwerdtfeger",
+      "company": "Knowbility",
+      "companyURL": "https://knowbility.org/",
+      "w3cid": 2460,
+      "note": "Editor until October 2017"
+    },
+    {
+      "name": "Joseph Scheuhammer",
+      "company": "Inclusive Design Research Centre, OCAD University",
+      "companyURL": "https://idrc.ocadu.ca/",
+      "w3cid": 42279,
+      "note": "Editor until May 2017"
+    },
+    {
+      "name": "James Craig",
+      "company": "Apple Inc.",
+      "companyURL": "https://www.apple.com/accessibility/",
+      "w3cid": 42459,
+      "note": "Editor until May 2016"
+    },
+    {
+      "name": "Andi Snow-Weaver",
+      "company": "IBM",
+      "companyURL": "https://www.ibm.com/",
+      "w3cid": 35445,
+      "note": "Editor until December 2012"
+    },
+    {
+      "name": "Aaron Leventhal",
+      "company": "IBM",
+      "companyURL": "https://www.ibm.com/",
+      "w3cid": 34329,
+      "note": "Editor until January 2009"
+    }
+  ],
+  "group": "aria",
+  "tocIntroductory": true,
+  "ariaSpecURLs": {
+    "ED": "https://w3c.github.io/aria/",
+    "FPWD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "WD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "CR": "https://www.w3.org/TR/wai-aria-1.3/",
+    "REC": "https://www.w3.org/TR/wai-aria-1.3/"
+  },
+  "accNameURLs": {
+    "ED": "https://w3c.github.io/accname/",
+    "WD": "https://www.w3.org/TR/accname-1.2/",
+    "FPWD": "https://www.w3.org/TR/accname-1.2/",
+    "CR": "https://www.w3.org/TR/accname-1.2/",
+    "REC": "https://www.w3.org/TR/accname-1.2/"
+  },
+  "coreMappingURLs": {
+    "ED": "https://w3c.github.io/core-aam/",
+    "WD": "https://www.w3.org/TR/core-aam-1.2/",
+    "FPWD": "https://www.w3.org/TR/core-aam-1.2/",
+    "CR": "https://www.w3.org/TR/core-aam-1.2/",
+    "REC": "https://www.w3.org/TR/core-aam-1.2/"
+  },
+  "dpubModURLs": {
+    "ED": "https://w3c.github.io/dpub-aria/",
+    "FPWD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "WD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "REC": "https://www.w3.org/TR/dpub-aria-1.1/"
+  },
+  "graphicsMappingModURLs": {
+    "ED": "https://w3c.github.io/graphics-aam/",
+    "FPWD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "WD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "CR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "PR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "REC": "https://www.w3.org/TR/graphics-aam-1.0/"
+  },
+  "graphicsModURLs": {
+    "ED": "https://w3c.github.io/graphics-aria/",
+    "FPWD": "https://www.w3.org/TR/graphics-aria/",
+    "WD": "https://www.w3.org/TR/graphics-aria/",
+    "REC": "https://www.w3.org/TR/graphics-aria/"
+  },
+  "htmlMappingURLs": {
+    "ED": "https://w3c.github.io/html-aam/",
+    "FPWD": "https://www.w3.org/TR/html-aam-1.0/",
+    "WD": "https://www.w3.org/TR/html-aam/",
+    "REC": "https://www.w3.org/TR/html-aam/"
+  },
+  "preProcess": [
+    null,
+    null
+  ],
+  "postProcess": [
+    null
+  ],
+  "xref": [
+    "dom",
+    "core-aam-1.2",
+    "wai-aria-1.2",
+    "infra"
+  ],
+  "gitRevision": "2013385037a4f8a1380e8acd0afa4cd2d21e6b32",
+  "publishISODate": "2026-08-05T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 05 August 2026"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head>
+
+  <body class="h-entry" data-cite="dom core-aam-1.2 wai-aria-1.2 infra"><div class="head">
+    <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
+  </a></p>
+    <h1 id="title" class="title">Accessible Name and Description Computation 1.2</h1> 
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2026-08-05">05 August 2026</time></p>
+    <details open="">
+      <summary>More details about this document</summary>
+      <dl>
+        <dt>This version:</dt><dd>
+                <a class="u-url" href="https://w3c.github.io/accname/">https://w3c.github.io/accname/</a>
+              </dd>
+        <dt>Latest published version:</dt><dd>
+                <a href="https://www.w3.org/TR/accname-1.2/">https://www.w3.org/TR/accname-1.2/</a>
+              </dd>
+        <dt>Latest editor's draft:</dt><dd><a href="https://w3c.github.io/accname/">https://w3c.github.io/accname/</a></dd>
+        <dt>History:</dt><dd>
+                    <a href="https://www.w3.org/standards/history/accname-1.2/">https://www.w3.org/standards/history/accname-1.2/</a>
+                  </dd><dd>
+                    <a href="https://github.com/w3c/aria/commits/main/accname/">Commit history</a>
+                  </dd>
+        
+        
+        
+        
+        <dt>Latest Recommendation:</dt><dd><a href="https://www.w3.org/TR/accname/">https://www.w3.org/TR/accname/</a></dd>
+        <dt>
+                Editors:
+              </dt><dd class="editor p-author h-card vcard" data-editor-id="67215">
+    <span class="p-name fn">Bryan Garaventa</span> (<a class="p-org org h-org" href="https://github.com/whatsock">Invited Expert</a>)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="125865">
+    <span class="p-name fn">Melanie Sumner</span> (<a class="p-org org h-org" href="https://github.com/melsumner">Invited Expert</a>)
+  </dd>
+        <dt>
+                Former editors:
+              </dt><dd class="editor p-author h-card vcard" data-editor-id="34017">
+    <span class="p-name fn">Michael Cooper</span> (<a class="p-org org h-org" href="https://www.w3.org/">W3C</a>)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="68182">
+    <span class="p-name fn">Joanmarie Diggs</span> (<a class="p-org org h-org" href="https://www.igalia.com/">Igalia, S.L.</a>) (Editor until March 2021)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="2460">
+    <span class="p-name fn">Richard Schwerdtfeger</span> (<a class="p-org org h-org" href="https://knowbility.org/">Knowbility</a>) (Editor until October 2017)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="42279">
+    <span class="p-name fn">Joseph Scheuhammer</span> (<a class="p-org org h-org" href="https://idrc.ocadu.ca/">Inclusive Design Research Centre, OCAD University</a>) (Editor until May 2017)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="42459">
+    <span class="p-name fn">James Craig</span> (<a class="p-org org h-org" href="https://www.apple.com/accessibility/">Apple Inc.</a>) (Editor until May 2016)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="35445">
+    <span class="p-name fn">Andi Snow-Weaver</span> (<a class="p-org org h-org" href="https://www.ibm.com/">IBM</a>) (Editor until December 2012)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="34329">
+    <span class="p-name fn">Aaron Leventhal</span> (<a class="p-org org h-org" href="https://www.ibm.com/">IBM</a>) (Editor until January 2009)
+  </dd>
+        
+        <dt>Feedback:</dt><dd>
+        <a href="https://github.com/w3c/accname/">GitHub w3c/accname</a>
+        (<a href="https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Aaccname%22">pull requests</a>,
+        <a href="https://github.com/w3c/accname/issues/new/choose">new issue</a>,
+        <a href="https://github.com/w3c/accname/issues/">open issues</a>)
+      </dd>
+        
+        
+      </dl>
+    </details>
+    
+    
+    <p class="copyright">
+    <a href="https://www.w3.org/policies/#copyright">Copyright</a>
+    ©
+    2014-2026
+    
+    <a href="https://www.w3.org/">World Wide Web Consortium</a>.
+    <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup>
+    <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>,
+    <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and
+    <a rel="license" href="https://www.w3.org/copyright/software-license-2023/" title="W3C Software and Document Notice and License">permissive document license</a> rules apply.
+  </p>
+    <hr title="Separator for header">
+  </div>
+    <section id="abstract" class="introductory"><h2>Abstract</h2>
+      <p>
+        This document describes how <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> determine the <a class="termref informative internalDFN" data-lt="accessible name" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-1">names</a> and
+        <a class="termref informative internalDFN" data-lt="accessible description" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-1">descriptions</a> of <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessible-object">accessible objects</a>
+        from web content languages. This information is in turn exposed through
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> so that <a class="termref informative internalDFN" href="#dfn-assistive-technologies" data-link-type="dfn" id="ref-for-dfn-assistive-technologies-1">assistive technologies</a> can identify these objects and present
+        their names or descriptions to users. Documenting the algorithm through which names and descriptions are to be determined promotes interoperable exposure of these properties among different
+        accessibility <abbr title="Application Programming Interfaces">APIs</abbr> and helps to ensure that this information appears in a manner consistent with author intent.
+      </p>
+      <p>
+        The accessible name and description computation specification defines support that applies across multiple content technologies. This includes accessible name and description provided by
+        general-purpose
+        <cite><a href="https://www.w3.org/TR/wai-aria-1.2/"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr></a></cite>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA</a></cite>] <a class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>, <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-state">states</a>, and <a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-property">properties</a> as well as features specific to individual content languages.
+      </p>
+      <p>
+        This document updates and will eventually supersede the accessible name and description guidance in the
+        <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1</a> [<cite><a class="bibref" data-link-type="biblio" href="#bib-accname-1-1" title="Accessible Name and Description Computation 1.1">ACCNAME-1.1</a></cite>] <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation. It is part of the
+        <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite described in the
+        <a href="https://www.w3.org/WAI/intro/aria.php"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.
+      </p>
+    </section>
+    <section id="sotd" class="introductory"><h2>Status of This Document</h2><p><em>This section describes the status of this
+      document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr>
+      publications and the latest revision of this technical report can be found
+      in the
+      <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> standards and drafts index</a>.</em></p><p>
+    This document was published by the <a href="https://www.w3.org/groups/wg/aria">Accessible Rich Internet Applications Working Group</a> as
+    an Editor's Draft. 
+  </p><p>Publication as
+  an Editor's Draft does not imply endorsement
+  by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p><p>
+    This is a draft document and may be updated, replaced, or obsoleted by other
+    documents at any time. It is inappropriate to cite this document as other
+    than a work in progress.
+    
+  </p><p>
+    
+        This document was produced by a group
+        operating under the
+        <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
+          Policy</a>.
+      
+    
+                <abbr title="World Wide Web Consortium">W3C</abbr> maintains a
+                <a rel="disclosure" href="https://www.w3.org/groups/wg/aria/ipr">public list of any patent disclosures</a>
+          made in connection with the deliverables of
+          the group; that page also includes
+          instructions for disclosing a patent. An individual who has actual
+          knowledge of a patent that the individual believes contains
+          <a href="https://www.w3.org/policies/patent-policy/#def-essential">Essential Claim(s)</a>
+          must disclose the information in accordance with
+          <a href="https://www.w3.org/policies/patent-policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+        
+  </p><p>
+                      This document is governed by the
+                      <a id="w3c_process_revision" href="https://www.w3.org/policies/process/20250818/">18 August 2025 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+                    </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#intro"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#terms"><bdi class="secno">2. </bdi>Important Terms</a></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">3. </bdi>Conformance</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional_nd"><bdi class="secno">4. </bdi>Name and Description</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#mapping_additional_nd_name"><bdi class="secno">4.1 </bdi>Name Computation</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional_nd_description"><bdi class="secno">4.2 </bdi>Description Computation</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional_nd_te"><bdi class="secno">4.3 </bdi>Text Equivalent Computation</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#terminology"><bdi class="secno">4.3.1 </bdi>Terminology</a></li><li class="tocline"><a class="tocxref" href="#computation-steps"><bdi class="secno">4.3.2 </bdi>Computation steps</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#accessible-name-and-description-mapping"><bdi class="secno">5. </bdi>Accessible Name and Description Mapping</a></li><li class="tocline"><a class="tocxref" href="#appendices"><bdi class="secno">6. </bdi>Appendices</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#changelog"><bdi class="secno">6.1 </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-last-public-working-draft"><bdi class="secno">6.1.1 </bdi>Substantive changes since the last public working draft</a></li><li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-accessible-name-and-description-computation-1-1-recommendation"><bdi class="secno">6.1.2 </bdi>Substantive changes since the <span class="formerLink">Accessible Name and Description Computation 1.1 Recommendation</span></a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">6.2 </bdi>Acknowledgments</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#ack_group"><bdi class="secno">6.2.1 </bdi>ARIA WG participants at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_funders"><bdi class="secno">6.2.2 </bdi>Enabling funders</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">A.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">A.2 </bdi>Informative references</a></li></ol></li></ol></nav>
+    <section id="intro" class="informative"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#intro" aria-label="Permalink for Section 1."></a></div><p><em>This section is non-normative.</em></p>
+      
+      <p>
+        <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> acquire information from the <abbr title="Document Object Model">DOM</abbr>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-dom" title="DOM Standard">DOM</a></cite>] and create a parallel structure called the
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-tree">accessibility tree</a>, made up of <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessible-object">accessible objects</a>. An accessible object provides information about its <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found">role</a>,
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-state">states</a>, and <a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-property">properties</a>. An example is an accessible object whose role is <code>menuitem</code>, is currently in an <code>enabled</code> state, with a
+        <code>haspopup</code> property, indicating that it leads to a sub-menu.
+      </p>
+      <p>
+        The two properties of accessible objects described in this document are its <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-2">accessible name</a> and <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-2">accessible description</a>. The name is a short label
+        that provides information about the purpose of the object. An example of an accessible name for a menu item is <code>New</code>, signifying that the menu item provides for the creation of new
+        documents, windows, and so on.
+      </p>
+      <p>
+        The description is a short explanation that further clarifies the nature of the accessible object. It is not always necessary to provide a description if the name is sufficient, but it can
+        help a user better understand the use of the object.
+      </p>
+      <p>
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> currently support flat, unstructured strings for accessible names and descriptions. The result
+        of the name/description computation is thus a flat string.
+      </p>
+      <p>
+        The terms "accessible name" and "accessible description" are used to emphasize that they are properties of <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessible-object">accessible objects</a> as exposed by
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-api">Accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. However, they are frequently referred to hereafter as simply "name" and "description".
+      </p>
+    </section>
+    <section class="informative" id="terms"><div class="header-wrapper"><h2 id="x2-important-terms"><bdi class="secno">2. </bdi>Important Terms</h2><a class="self-link" href="#terms" aria-label="Permalink for Section 2."></a></div><p><em>This section is non-normative.</em></p>
+      
+      <div>
+        <p>While some terms are defined in place, the following definitions are used throughout this document.</p>
+        <dl class="termlist">
+          <dt><dfn data-lt="assistive technologies|assistive technology|Assistive Technologies" data-noexport="" id="dfn-assistive-technologies" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Assistive Technologies</dfn></dt>
+          <dd>
+            <p>Hardware and/or software that:</p>
+            <ul>
+              <li>relies on services provided by a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agent</a> to retrieve and render Web content</li>
+              <li>works with a user agent or web content itself through the use of <abbr title="Application Programming Interfaces">APIs</abbr>, and</li>
+              <li>provides services beyond those offered by the user agent to facilitate user interaction with web content by people with disabilities</li>
+            </ul>
+            <p>This definition may differ from that used in other documents.</p>
+            <p>Examples of assistive technologies that are important in the context of this document include the following:</p>
+            <ul>
+              <li>screen magnifiers, which are used to enlarge and improve the visual readability of rendered text and images;</li>
+              <li>screen readers, which are most-often used to convey information through synthesized speech or a refreshable Braille display;</li>
+              <li>text-to-speech software, which is used to convert text into synthetic speech;</li>
+              <li>speech recognition software, which is used to allow spoken control and dictation;</li>
+              <li>alternate input technologies (including head pointers, on-screen keyboards, single switches, and sip/puff devices), which are used to simulate the keyboard;</li>
+              <li>alternate pointing devices, which are used to simulate mouse pointing and clicking.</li>
+            </ul>
+          </dd>
+          <dt><dfn data-export="" id="dfn-accessible-description" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Accessible Description</dfn></dt>
+          <dd>
+            <p>
+              An accessible description provides additional information, related to an interface element, that complements the <a href="#dfn-accessible-name" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessible-name-3">accessible name</a>. The accessible description might or might not be
+              visually perceivable.
+            </p>
+          </dd>
+          <dt><dfn data-export="" data-plurals="accessible names" id="dfn-accessible-name" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Accessible Name</dfn></dt>
+          <dd>
+            <p>
+              The accessible name is the name of a user interface element. Each platform <a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-api">accessibility <abbr title="application programming interface">API</abbr></a> provides the accessible name
+              property. The value of the accessible name may be derived from a visible (e.g., the visible text on a button) or invisible (e.g., the text alternative that describes an icon) property of
+              the user interface element. See related <a href="#dfn-accessible-description" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accessible-description-3">accessible description</a>.
+            </p>
+            <p>
+              A simple use for the accessible name property may be illustrated by an "OK" button. The text "OK" is the accessible name. When the button receives focus, assistive
+              technologies may concatenate the platform's role description with the accessible name. For example, a screen reader may speak "push-button OK" or "OK button". The
+              order of concatenation and specifics of the role description (e.g., "button", "push-button", "clickable button") are determined by platform
+              <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-accessibility-api">accessibility <abbr title="Application Programming Interface">API</abbr></a>s or <a href="#dfn-assistive-technologies" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-assistive-technologies-2">assistive technologies</a>.
+            </p>
+          </dd>
+          <dt><dfn data-noexport="" id="dfn-tooltip-attribute" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Tooltip attribute</dfn></dt>
+          <dd>
+            <p>Any host language attribute that would result in a user agent generating a tooltip such as in response to a mouse hover in desktop user agents.</p>
+          </dd>
+        </dl>
+      </div>
+    </section>
+    <section id="conformance"><div class="header-wrapper"><h2 id="x3-conformance"><bdi class="secno">3. </bdi>Conformance</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 3."></a></div><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
+        The key words <em class="rfc2119">MAY</em>, <em class="rfc2119">MUST</em>, and <em class="rfc2119">MUST NOT</em> in this document
+        are to be interpreted as described in
+        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
+        when, and only when, they appear in all
+        capitals, as shown here.
+      </p>
+      <p>Normative sections provide requirements that authors, user agents and assistive technologies <em class="rfc2119">MUST</em> follow for an implementation to conform to this specification.</p>
+      <p>
+        Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow
+        such recommendations in order to conform to this specification.
+      </p>
+    </section>
+    <section id="mapping_additional_nd" class="normative" data-cite="dom"><div class="header-wrapper"><h2 id="x4-name-and-description"><bdi class="secno">4. </bdi>Name and Description</h2><a class="self-link" href="#mapping_additional_nd" aria-label="Permalink for Section 4."></a></div>
+      
+      <p>
+        The starting point of the name and description computation is a <abbr title="Document Object Model">DOM</abbr> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a>. The output is a flat, unstructured string that can be as simple as a
+        single word, or a string of space-separated tokens. Examples include <code>Save</code> and <code>Reload from disk</code>.
+      </p>
+      <p>
+        An important factor is the <a data-link-type="dfn" data-lt="element" href="https://dom.spec.whatwg.org/#concept-element">element's</a> <a class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">role</a>, that determines which content contributes to the name string. Roles have a <code>nameFrom</code>
+        <abbr title="Resource Description Framework">RDF</abbr> property, with three possible values:
+      </p>
+      <dl class="runin">
+        <dt>author</dt>
+        <dd>
+          name is generated from values provided by the author in explicit markup features such as the
+          <code>aria-label</code> and <code>aria-labelledby</code> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a>, or a host language labeling mechanism, such as the <code>alt</code> or <code>title</code> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> in
+          <abbr title="Hypertext Markup Language">HTML</abbr>, or the <code>desc</code> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> in <abbr title="Scalable Vector Graphics">SVG</abbr>.
+        </dd>
+        <dt>contents</dt>
+        <dd>
+          name is generated from the <a data-link-type="dfn" data-lt="exclusive Text node" href="https://dom.spec.whatwg.org/#exclusive-text-node">text nodes</a> associated with the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a>. Although this may be allowed in addition to "author" in some <a class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>,
+          "content" is used only if higher priority "author" features are not provided. Priority is defined by the <a href="#mapping_additional_nd_te">text equivalent computation</a> algorithm.
+        </dd>
+        <dt>prohibited</dt>
+        <dd>
+          the element has no name. Authors <em class="rfc2119" title="MUST NOT"><em class="rfc2119">MUST NOT</em></em> use the <a href="https://w3c.github.io/aria/#aria-label" class="property-reference"><code>aria-label</code></a> or
+          <a href="https://w3c.github.io/aria/#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a> attributes to name the element.
+        </dd>
+      </dl>
+      <p>
+        The <cite><a class="specref" href="https://w3c.github.io/aria/#">Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr>) 1.2</a></cite>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA</a></cite>] specification provides lists of
+        <a class="specref" href="https://w3c.github.io/aria/#namefromauthor">roles that support name from author</a>, <a class="specref" href="https://w3c.github.io/aria/#namefromcontent">roles that support name from content</a> and
+        <a class="specref" href="https://w3c.github.io/aria/#namefromprohibited">roles that cannot be named</a>.
+      </p>
+      <section id="mapping_additional_nd_name"><div class="header-wrapper"><h3 id="x4-1-name-computation"><bdi class="secno">4.1 </bdi>Name Computation</h3><a class="self-link" href="#mapping_additional_nd_name" aria-label="Permalink for Section 4.1"></a></div>
+        
+        <p>
+          <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> <em class="rfc2119">MUST</em> compute an <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-4">accessible name</a> using the rules outlined below in the section titled
+          <a href="#mapping_additional_nd_te">Text Equivalent Computation</a>.
+        </p>
+      </section>
+
+      <section id="mapping_additional_nd_description"><div class="header-wrapper"><h3 id="x4-2-description-computation"><bdi class="secno">4.2 </bdi>Description Computation</h3><a class="self-link" href="#mapping_additional_nd_description" aria-label="Permalink for Section 4.2"></a></div>
+        
+        <p>
+          The following table provides the order of precedence for markup that can be applied to compute an <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-4">accessible description</a>. <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> <em class="rfc2119">MUST</em> use
+          the first applicable entry from the table where the listed conditions are met, as described in the last column. The user agent <em class="rfc2119">MUST NOT</em> use any markup other that the first relevant markup
+          found, even if that markup results in an empty description:
+        </p>
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Precedence</th>
+              <th>Attribute</th>
+              <th>Applicable conditions</th>
+              <th>How used to compute description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td>
+                <a class="property-reference" href="https://w3c.github.io/aria/#aria-describedby"><code>aria-describedby</code></a> attribute
+              </td>
+              <td>Use on any element</td>
+              <td><a href="#mapping_additional_nd_name">Name computation</a> on all nodes referenced by aria-describedby on the element, concatenated, and separated by a space character</td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td>
+                <a class="property-reference" href="https://w3c.github.io/aria/#aria-description"><code>aria-description</code></a> attribute
+              </td>
+              <td>Use on any element</td>
+              <td>As a flat string</td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td>host language features which participate in the description calculation</td>
+              <td>
+                Unique host language features <em class="rfc2119">MAY</em> participate in the description computation for an element, only if they were not already used for the accessible name of the applicable element. See
+                <a href="https://www.w3.org/TR/html-aam-1.0/#accdesc-computation"><abbr title="Hypertext Markup Language">HTML</abbr> AAM: Accessible Description Computation</a>
+                for the <abbr title="Hypertext Markup Language">HTML</abbr> elements which meet this condition.
+              </td>
+              <td>Either a <a href="#mapping_additional_nd_te">text equivalent computation</a> of the host language element, or the string value of the host language attribute.</td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td>host language tooltip attribute or equivalent feature (e.g., <abbr title="Hypertext Markup Language">HTML</abbr> <code>title</code> attribute)</td>
+              <td>
+                <ul>
+                  <li>Any element</li>
+                  <li>Only use if not already used for the accessible name of this node</li>
+                </ul>
+              </td>
+              <td>As a flat string</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="mapping_additional_nd_te" data-cite="dom"><div class="header-wrapper"><h3 id="x4-3-text-equivalent-computation"><bdi class="secno">4.3 </bdi>Text Equivalent Computation</h3><a class="self-link" href="#mapping_additional_nd_te" aria-label="Permalink for Section 4.3"></a></div>
+        
+        <p>
+          The text equivalent computation is used by both the <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-5">accessible name</a> and <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-5">accessible description</a>. There are different rules provided for several
+          different types of <a data-link-type="dfn" data-lt="element" href="https://dom.spec.whatwg.org/#concept-element">elements</a>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node">nodes</a>, and combinations of markup. Text alternatives are built up, when appropriate, from all the relevant content contained within an
+          <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a>. This is accomplished via steps 2.2 and 2.6, which are recursive, using the full set of rules to retrieve text from its own children or nodes it references.
+        </p>
+        <p>
+          The purpose of the computation is to create a <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-perceivable">perceivable</a> label or description for alternative presentations, in the form of a flat string of space separated textual
+          tokens.
+        </p>
+        <section id="terminology"><div class="header-wrapper"><h4 id="x4-3-1-terminology"><bdi class="secno">4.3.1 </bdi>Terminology</h4><a class="self-link" href="#terminology" aria-label="Permalink for Section 4.3.1"></a></div>
+          
+          <dl>
+            <dt>Root node</dt>
+            <dd>The <abbr title="Document Object Model">DOM</abbr> <a data-link-type="dfn" data-lt="nodes" href="https://dom.spec.whatwg.org/#concept-node">node</a> or <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> for which the text alternative is sought.</dd>
+            <dt>Current node</dt>
+            <dd>
+              The <abbr title="Document Object Model">DOM</abbr> <a data-link-type="dfn" data-lt="nodes" href="https://dom.spec.whatwg.org/#concept-node">node</a> currently traversed to compute the <code>root node</code>'s text equivalent. Initially, the <code>current node</code> is
+              the <code>root node</code>, but at later stages is either some descendant of the <code>root node</code>, or another referenced node.
+            </dd>
+            <dt>Rendered child nodes</dt>
+            <dd>The <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node">nodes</a> that are rendered as child nodes of a given node when taking <a data-link-type="dfn" data-lt="shadow root" href="https://dom.spec.whatwg.org/#concept-shadow-root">shadow roots</a> and <a data-link-type="dfn" data-lt="slot" href="https://dom.spec.whatwg.org/#concept-slot">slots</a> into consideration.</dd>
+            <dt>Flat string</dt>
+            <dd>
+              A string of characters where all carriage returns, newlines, tabs, and form-feeds are replaced with a single space, and multiple spaces are reduced to a single space. The string contains
+              only character data; it does not contain any markup.
+            </dd>
+            <dt>Total accumulated text</dt>
+            <dd>The text equivalent computed up to, but not including the <code>current node</code>.</dd>
+            <dt>Accumulated text</dt>
+            <dd>Text accumulated at a step or sequence of steps described below. It is temporary storage for those steps.</dd>
+            <dt>Result</dt>
+            <dd>The text equivalent computed at one of the steps described below.</dd>
+            <dt>Append the result, without a space, to X</dt>
+            <dd>
+              <ul>
+                <li>If X is empty, copy the <code>result</code> to X.</li>
+                <li>If X is non-empty, copy the <code>result</code> to the end of X.</li>
+              </ul>
+            </dd>
+            <dt>Append the result, with a space, to X</dt>
+            <dd>
+              <ul>
+                <li>If X is empty, copy the <code>result</code> to X.</li>
+                <li>If X is non-empty, add a space to the end of X and then copy the <code>result</code> to X after the space.</li>
+              </ul>
+            </dd>
+            <dt>Prepend result, without a space, to X</dt>
+            <dd>
+              <ul>
+                <li>If X is empty, copy the <code>result</code> to X.</li>
+                <li>If X is non-empty, copy the <code>result</code> to the start of X.</li>
+              </ul>
+            </dd>
+            <dt>Prepend the result, with a space, to X</dt>
+            <dd>
+              <ul>
+                <li>If X is empty, copy the <code>result</code> to X.</li>
+                <li>If X is non-empty, copy the <code>result</code> to the start of X, and add a space after the copy.</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+        <section id="computation-steps"><div class="header-wrapper"><h4 id="x4-3-2-computation-steps"><bdi class="secno">4.3.2 </bdi>Computation steps</h4><a class="self-link" href="#computation-steps" aria-label="Permalink for Section 4.3.2"></a></div>
+          
+          <p>The text alternative for a given element is computed as follows:</p>
+          <ol class="acc-ol">
+            <li id="comp_init">
+              <span id="step1"></span><em>Initialization:</em> Set the <code>root node</code> to the given element, the <code>current node</code> to the
+              <code>root node</code>, and the <code>total accumulated text</code> to the empty string (""). If the <code>root node</code>'s role prohibits naming, return the empty string ("").
+            </li>
+            <li id="comp_computation">
+              <span id="step2"></span><em>Computation:</em> Compute the text alternative for the <code>current node</code>:
+              <ol class="acc-ol">
+                <li id="comp_hidden_not_referenced">
+                  <span id="step2A"></span><em>Hidden Not Referenced:</em> If the <code>current node</code> is
+                  <span class="informative"><a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-hidden">hidden</a></span> <strong>and is</strong>:
+                  <ol class="acc-ol">
+                    <li><strong>Not</strong> part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directly referenced by that relation was hidden.</li>
+                    <li>
+                      <strong>Nor</strong> part of a native host language text alternative <a class="termref informative" data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> (e.g. <code>label</code> in <abbr title="Hypertext Markup Language">HTML</abbr>) or
+                      <a class="termref informative" data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> traversal, where the root of that traversal was hidden.
+                    </li>
+                  </ol>
+                  Return the empty string.
+                  <div class="note" role="note" id="issue-container-generatedID"><div class="note-title marker" id="h-note"><span>Note</span></div><div class="">
+                    <p>It's important to clarify the broad definition of hidden for the purposes of accessible name calculation:</p>
+                    <ol class="note-list">
+                      <li>
+                        Nodes with <abbr title="Cascading Style Sheets">CSS</abbr> properties <code>display:none</code>, <code>visibility:hidden</code>, <code>visibility:collapse</code> or <code>content-visibility:hidden</code>: They are
+                        considered hidden, as they match the guidelines "not perceivable" and "explicitly hidden".
+                      </li>
+                      <li>
+                        Nodes with <abbr title="Cascading Style Sheets">CSS</abbr> properties <code>opacity:0</code> or <code>filter:opacity(0%)</code>, or similar <abbr title="Scalable Vector Graphics">SVG</abbr> mechanisms: They are not considered hidden. Text hidden with these methods
+                        can still be selected or copied, and user agents still expose it in their accessibility trees.
+                      </li>
+                      <li>Nodes with the <code>aria-hidden="true"</code> property: it is considered hidden, matching the "explicitly hidden" guideline.</li>
+                      <li>Nodes hidden off screen or behind another object: they are not considered hidden. They are exposed in the accessibility tree and they can even name on-screen objects.</li>
+                    </ol>
+                  </div></div>
+                  <div class="note" role="note" id="issue-container-generatedID-0"><div class="note-title marker" id="h-note-0"><span>Note</span></div><div class="">
+                    <p>
+                      By default, <a class="termref informative internalDFN" href="#dfn-assistive-technologies" data-link-type="dfn" id="ref-for-dfn-assistive-technologies-3">assistive technologies</a> do not relay hidden information, but an author can explicitly override that and include hidden text as part of the
+                      <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-6">accessible name</a> or <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-6">accessible description</a> by using <code>aria-labelledby</code> or <code>aria-describedby</code>.
+                    </p>
+                  </div></div>
+                  <aside class="example" id="example-1"><div class="marker">
+    <a class="self-link" href="#example-1">Example<bdi> 1</bdi></a>
+  </div>
+                    <p>
+                      The following examples show the meaning of the clause "Not part of an <code>aria-labelledby</code> or <code>aria-describedby</code> traversal, where the node directy referenced
+                      by that relation was hidden.".
+                    </p>
+                    <p>
+                      First, <code>element1</code>'s <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-7">accessible name</a> is "hello" because, although <code>element3</code> is hidden, it is part of an
+                      <code>aria-labelledby</code> traversal started in <code>element2</code>, which is hidden too.
+                    </p>
+                    <div class="example" id="example-1-0">
+        <div class="marker">
+    <a class="self-link" href="#example-1-0">Example<bdi></bdi></a>
+  </div> <pre class="highlight"><code aria-busy="false" class="hljs abnf">&lt;element1 id<span class="hljs-operator">=</span><span class="hljs-string">"el1"</span> role<span class="hljs-operator">=</span><span class="hljs-string">"button"</span> aria-labelledby<span class="hljs-operator">=</span><span class="hljs-string">"el2"</span> /&gt;
+  &lt;element2 id<span class="hljs-operator">=</span><span class="hljs-string">"el2"</span> class<span class="hljs-operator">=</span><span class="hljs-string">"hidden"</span>&gt;
+    &lt;element3 id<span class="hljs-operator">=</span><span class="hljs-string">"el3"</span> class<span class="hljs-operator">=</span><span class="hljs-string">"hidden"</span>&gt;hello&lt;/element3&gt;
+  &lt;/element2&gt;</code></pre>
+      </div>
+                  </aside>
+                  <aside class="example" id="example-2"><div class="marker">
+    <a class="self-link" href="#example-2">Example<bdi> 2</bdi></a>
+  </div>
+                    <p>
+                      Conversely, <code>element1</code> has no <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-8">accessible name</a> if <code>element3</code> is hidden and it is part of an <code>aria-labelledby</code> traversal
+                      started in <code>element2</code>, but <code>element2</code> is not hidden.
+                    </p>
+                    <pre class="highlight"><code aria-busy="false" class="hljs abnf">&lt;element1 id<span class="hljs-operator">=</span><span class="hljs-string">"el1"</span> role<span class="hljs-operator">=</span><span class="hljs-string">"button"</span> aria-labelledby<span class="hljs-operator">=</span><span class="hljs-string">"el2"</span> /&gt;
+&lt;element2 id<span class="hljs-operator">=</span><span class="hljs-string">"el2"</span>&gt;
+  &lt;element3 id<span class="hljs-operator">=</span><span class="hljs-string">"el3"</span> class<span class="hljs-operator">=</span><span class="hljs-string">"hidden"</span>&gt;hello&lt;/element3&gt;
+&lt;/element2&gt;</code></pre>
+                  </aside>
+                </li>
+                <li id="comp_labelledby">
+                  <span id="step2B"></span><em>LabelledBy:</em> Otherwise, if the <code>current node</code> has an
+                  <code>aria-labelledby</code> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> that contains at least one valid IDREF, and the <code>current node</code> is not already part of an ongoing <code>aria-labelledby</code> or
+                  <code>aria-describedby</code> traversal, process its IDREFs in the order they occur:
+                  <ol class="acc-ol">
+                    <li id="comp_labelledby_reset">
+                      <span id="step2B.i"></span> Set the <code>accumulated text</code> to the empty string.
+                    </li>
+                    <li id="comp_labelledby_foreach">
+                      <span id="step2B.ii"></span>For each IDREF:
+                      <ol class="acc-ol">
+                        <li id="comp_labelledby_set_current">
+                          <span id="step2B.ii.a"></span>Set the <code>current node</code> to the node referenced by the IDREF.
+                        </li>
+                        <li id="comp_labelledby_traversal">
+                          <span id="step2B.ii.b"></span><em>LabelledBy Traversal:</em> Compute the text alternative of the
+                          <code>current node</code> beginning with the overall <a href="#comp_computation">Computation</a> step. Set the <code>result</code> to that text alternative.
+                        </li>
+                        <li id="comp_labelledby_append">
+                          <span id="step2B.ii.c"></span>Append a space character and the <code>result</code> to the <code>accumulated text</code>.
+                        </li>
+                      </ol>
+                    </li>
+                    <li id="comp_labelledby_return">
+                      <span id="step2B.iii"></span>Return the <code>accumulated text</code> if it is not the empty string ("").
+                    </li>
+                  </ol>
+                  <div>
+                    <p>
+                      The result of <a href="#comp_labelledby_traversal">LabelledBy Traversal</a> in combination with <a href="#comp_hidden_not_referenced">Hidden Not Referenced</a> means that
+                      <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> <em class="rfc2119">MUST</em> include all nodes in the subtree as part of the <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-9">accessible name</a> or <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-7">accessible description</a>,
+                      when the node referenced by <code>aria-labelledby</code> or <code>aria-describedby</code> is hidden.
+                    </p>
+                    <aside class="example" id="example-3"><div class="marker">
+    <a class="self-link" href="#example-3">Example<bdi> 3</bdi></a>
+  </div>
+                      <p>
+                        The following example shows the meaning of the clause "… and the <code>current node</code> is not already part of an <code>aria-labelledby</code> traversal …" .
+                      </p>
+                      <ol class="note-list">
+                        <li>
+                          <code>element1</code>'s <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-10">accessible name</a> is "hello" because this is a first traversal of its <code>aria-labelledby</code>, leading to
+                          <code>element3</code>.
+                        </li>
+                        <li>
+                          <code>element2</code> has no <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-11">accessible name</a>. The computation involves a first traversal of its <code>aria-labelledby</code> leading to
+                          <code>element1</code>, but <code>element1</code>'s <code>aria-labelledby</code> is not subsequently followed.
+                        </li>
+                      </ol>
+                      <pre class="highlight"><code aria-busy="false" class="hljs abnf">&lt;element1 id<span class="hljs-operator">=</span><span class="hljs-string">"el1"</span> aria-labelledby<span class="hljs-operator">=</span><span class="hljs-string">"el3"</span> /&gt;
+&lt;element2 id<span class="hljs-operator">=</span><span class="hljs-string">"el2"</span> aria-labelledby<span class="hljs-operator">=</span><span class="hljs-string">"el1"</span> /&gt;
+&lt;element3 id<span class="hljs-operator">=</span><span class="hljs-string">"el3"</span>&gt; hello &lt;/element3&gt;</code></pre>
+                    </aside>
+                  </div>
+                </li>
+                <li id="comp_embedded_control">
+                  <span id="step2C"></span><em>Embedded Control:</em> Otherwise, if the <code>current node</code> is a control embedded within the label
+                  (e.g. any element directly referenced by <code>aria-labelledby</code>) for another <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.2/#dfn-widget">widget</a>, where the user can adjust the embedded control's value, then return
+                  the embedded control as part of the text alternative in the following manner:
+                  <ol class="acc-ol">
+                    <li id="comp_embedded_control_textbox"><em>Textbox:</em> If the embedded control has role <a class="role-reference" href="https://w3c.github.io/aria/#textbox">textbox</a>, return its value.</li>
+                    <li id="comp_embedded_control_combobox_or_listbox">
+                      <em>Combobox/Listbox:</em> If the embedded control has role <a class="role-reference" href="https://w3c.github.io/aria/#combobox">combobox</a> or <a class="role-reference" href="https://w3c.github.io/aria/#listbox">listbox</a>,
+                      return the text alternative of the chosen <a class="role-reference" href="https://w3c.github.io/aria/#option">option</a>.
+                    </li>
+                    <li id="comp_embedded_control_range">
+                      <em>Range:</em> If the embedded control has role <a class="role-reference" href="https://w3c.github.io/aria/#range">range</a> (e.g., a <a class="role-reference" href="https://w3c.github.io/aria/#spinbutton">spinbutton</a> or
+                      <a class="role-reference" href="https://w3c.github.io/aria/#slider">slider</a>):
+                      <ol class="acc-ol">
+                        <li id="comp_embedded_control_range_valuetext">If the <code>aria-valuetext</code> property is present, return its value,</li>
+                        <li id="comp_embedded_control_range_valuenow">Otherwise, if the <code>aria-valuenow</code> property is present, return its value,</li>
+                        <li id="comp_embedded_control_range_host_language_value">Otherwise, use the value as specified by a host language attribute.</li>
+                      </ol>
+                    </li>
+                  </ol>
+                  <aside class="example" id="example-4"><div class="marker">
+    <a class="self-link" href="#example-4">Example<bdi> 4</bdi></a>
+  </div>
+                    <p>
+                      Consider a <a class="role-reference" href="https://w3c.github.io/aria/#checkbox">check box</a> label that contains a text input field: "Flash the screen [input] times". If the input field has the value
+                      "5", the complete label is "Flash the screen 5 times", e.g.:
+                    </p>
+                    <pre class="highlight"><code aria-busy="false" class="hljs abnf">&lt;label for<span class="hljs-operator">=</span><span class="hljs-string">"flash"</span>&gt;
+  &lt;input type<span class="hljs-operator">=</span><span class="hljs-string">"checkbox"</span> id<span class="hljs-operator">=</span><span class="hljs-string">"flash"</span>&gt;
+  Flash the screen &lt;span tabindex<span class="hljs-operator">=</span><span class="hljs-string">"0"</span> role<span class="hljs-operator">=</span><span class="hljs-string">"textbox"</span> aria-label<span class="hljs-operator">=</span><span class="hljs-string">"number of times"</span> contenteditable&gt;<span class="hljs-number">5</span>&lt;/span&gt; times.
+&lt;/label&gt;</code></pre>
+                  </aside>
+                </li>
+                <li id="comp_label">
+                  <span id="step2D"></span><em>AriaLabel:</em> Otherwise, if the <code>current node</code> is not a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-slot">slot</a> element and has an
+                  <code>aria-label</code> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> whose value is not undefined, not the empty string, nor, when trimmed of <a data-link-type="dfn" data-lt="ascii whitespace" href="https://infra.spec.whatwg.org/#ascii-whitespace">whitespace</a>, is not the empty string:
+                  <ol class="acc-ol">
+                    <li>
+                      If traversal of the <code>current node</code> is due to <a href="#comp_name_from_content_for_each_child">Name From Content descendant node recursion</a> <strong>and</strong> the
+                      <code>current node</code> is an embedded control, ignore <code>aria-label</code> and skip to rule <a href="#comp_embedded_control">Embedded Control</a>.
+                    </li>
+                    <li>Otherwise, return the value of <code>aria-label</code>.</li>
+                  </ol>
+                  <aside class="example" id="example-5"><div class="marker">
+    <a class="self-link" href="#example-5">Example<bdi> 5</bdi></a>
+  </div>
+                    <p>
+                      The following example shows the interaction of <code>aria-labelledby</code> and <code>aria-label</code> when a <a data-link-type="dfn" data-lt="nodes" href="https://dom.spec.whatwg.org/#concept-node">node</a> has an <code>aria-labelledby</code> that refers to
+                      itself. The <code>&lt;span role="button"&gt;</code> elements have the <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-12">accessible names</a> "Delete Documentation.pdf" and "Delete HolidayLetter.pdf",
+                      respectively.
+                    </p>
+                    <div class="example" id="example-5-0">
+        <div class="marker">
+    <a class="self-link" href="#example-5-0">Example<bdi></bdi></a>
+  </div> <pre class="highlight"><code aria-busy="false" class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Files<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"file_row1"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"./files/Documentation.pdf"</span>&gt;</span>Documentation.pdf<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"del_row1"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Delete"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"del_row1 file_row1"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"file_row2"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"./files/HolidayLetter.pdf"</span>&gt;</span>HolidayLetter.pdf<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"del_row2"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Delete"</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"del_row2 file_row2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+      </div>
+                  </aside>
+                </li>
+                <li id="comp_host_language_label">
+                  <span id="step2E"></span><em>Host Language Label:</em> Otherwise, if the <code>current node</code>'s native markup provides an
+                  <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> (e.g. <code>alt</code>) or <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> (e.g. <abbr title="Hypertext Markup Language">HTML</abbr> <code>label</code> or <abbr title="Scalable Vector Graphics">SVG</abbr> <code>title</code>) that defines a text alternative, return that alternative in the form of
+                  a <code>flat string</code> as defined by the host language (e.g., <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation"><abbr title="Hypertext Markup Language">HTML</abbr>-AAM</a>), unless the
+                  <code>current node</code> is exposed as presentational (<code>role="presentation"</code> or <code>role="none"</code>, <code>alt=""</code>).
+                  <div class="note" role="note" id="issue-container-generatedID-1"><div class="note-title marker" id="h-note-1"><span>Note</span></div><div class="">
+                    Important! The accessible name for native <abbr title="Hypertext Markup Language">HTML</abbr> elements may be calculated differently depending on host language. Make sure to review
+                    <a href="https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation"><abbr title="Hypertext Markup Language">HTML</abbr>-AAM</a> for more information.
+                  </div></div>
+                  <div class="note" role="note" id="issue-container-generatedID-2"><div class="note-title marker" id="h-note-2"><span>Note</span></div><div class="">
+                    <p>
+                      For example, in <abbr title="Hypertext Markup Language">HTML</abbr>, the <code>img</code> element's <code>alt</code> attribute defines a text alternative string, and the
+                      <code>label</code> element provides text for the referenced form element. In <abbr title="SVG2">SVG2</abbr>, the <code>desc</code> and <code>title</code> elements provide a
+                      description of their parent element.
+                    </p>
+                  </div></div>
+                </li>
+                <li id="comp_name_from_content">
+                  <span id="step2F"></span><em>Name From Content:</em> Otherwise, if the <code>current node's</code> <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-0">role</a> allows
+                  <a class="specref" href="https://w3c.github.io/aria/#namefromcontent">name from content</a>, or if the <code>current node</code> is referenced by <code>aria-labelledby</code>, <code>aria-describedby</code>, or
+                  is a native host language text alternative <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> (e.g. <code>label</code> in <abbr title="Hypertext Markup Language">HTML</abbr>), or is a descendant of a native host language text alternative <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a>:
+                  <ol class="acc-ol">
+                    <li id="comp_name_from_content_reset">
+                      <span id="step2F.i"></span><em>Name From Content Reset:</em> Set the <code>accumulated text</code> to the empty string.
+                    </li>
+                    <li id="comp_name_from_content_pseudo_element">
+                      <span id="step2F.ii"></span><em>Name From Generated Content:</em> Check for
+                      <abbr title="Cascading Style Sheets">CSS</abbr> generated textual content associated with the <code>current node</code> and include it in the <code>accumulated text</code>. The
+                      <abbr title="Cascading Style Sheets">CSS</abbr> <a href="https://www.w3.org/TR/selectors-3/#gen-content"><code>::before</code> and <code>::after</code></a> pseudo elements
+                      [<cite><a class="bibref" data-link-type="biblio" href="#bib-css2" title="Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification">CSS2</a></cite>] can provide textual content for <a data-link-type="dfn" data-lt="element" href="https://dom.spec.whatwg.org/#concept-element">elements</a> that have a content model, in addition to the
+                      <a href="https://www.w3.org/TR/css-pseudo-4/#selectordef-marker"><code>::marker</code></a> pseudo element.
+                      <ol class="acc-ol">
+                        <li id="comp_name_from_content_pseudo_element_marker">
+                          For <code>::marker</code> pseudo elements, <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> <em class="rfc2119">MUST</em> prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space,
+                          to the textual content of the <code>current node</code> if the <code>current node</code> supports <code>::marker</code>.
+                        </li>
+                        <li id="comp_name_from_content_pseudo_element_before">
+                          For <code>::before</code> pseudo elements, <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> <em class="rfc2119">MUST</em> prepend <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space,
+                          to the textual content of the <code>current node</code>.
+                        </li>
+                        <li id="comp_name_from_content_pseudo_element_after">
+                          For <code>::after</code> pseudo elements, <a class="termref informative" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> <em class="rfc2119">MUST</em> append <abbr title="Cascading Style Sheets">CSS</abbr> textual content, without a space, to
+                          the textual content of the <code>current node</code>.
+                        </li>
+                      </ol>
+                    </li>
+                    
+                    <li id="comp_name_from_content_find_child">
+                      <em>Determine Child Nodes:</em> Determine the <code>rendered child nodes</code> of the <code>current node</code>:
+                      <ol class="acc-ol">
+                        <li id="comp_name_from_content_find_child_has_shadow_root">
+                          If the <code>current node</code> has an attached <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-shadow-root">shadow root</a>, set the <code>rendered child nodes</code> to be the child nodes of the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-shadow-root">shadow root</a>.
+                        </li>
+                        <li id="comp_name_from_content_find_child_is_slot">
+                          Otherwise, if the <code>current node</code> is a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-slot">slot</a> with <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#slot-assigned-nodes">assigned nodes</a>, set the <code>rendered child nodes</code> to be the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#slot-assigned-nodes">assigned nodes</a> of the
+                          <code>current node</code>.
+                        </li>
+                        <li id="comp_name_from_content_find_child_otherwise">Otherwise, set the <code>rendered child nodes</code> to be the child nodes of the <code>current node</code>.</li>
+                      </ol>
+                    </li>
+                    <li id="comp_name_from_content_for_each_child">
+                      <span id="step2F.iii"></span><em>Name From Each Child:</em> For each <code>rendered child node</code> of the
+                      <code>current node</code>:
+                      <ol class="acc-ol">
+                        <li id="comp_name_from_content_for_each_child_set_current">
+                          <span id="step2F.iii.a"></span>Set the <code>current node</code> to the <code>rendered child node</code>.
+                        </li>
+                        <li id="comp_name_from_content_for_each_child_recursion">
+                          <span id="step2F.iii.b"></span>Compute the text alternative of the <code>current node</code> beginning with the overall
+                          <a href="#comp_computation">Computation</a> step. Set the <code>result</code> to that text alternative.
+                        </li>
+                        <li id="comp_for_each_child_append">
+                          <span id="step2F.iii.c"></span>Append the <code>result</code> to the <code>accumulated text</code>.
+                        </li>
+                      </ol>
+                    </li>
+                    <li id="comp_name_from_content_return">
+                      <span id="step2F.iv"></span>Return the <code>accumulated text</code> if it is not the empty string ("").
+                    </li>
+                  </ol>
+                  <p>
+                    <strong>Important</strong>: Each <a data-link-type="dfn" data-lt="nodes" href="https://dom.spec.whatwg.org/#concept-node">node</a> in the subtree is consulted only once. If text has been collected from a descendant, but is referenced by another IDREF in some
+                    descendant node, then that second, or subsequent, reference is not followed. This is done to avoid infinite loops.
+                  </p>
+                  <div class="note" role="note" id="issue-container-generatedID-3"><div class="note-title marker" id="h-note-3"><span>Note</span></div><div class="">
+                    <p>
+                      This step can apply to the child nodes themselves, which means the computation is recursive and results in text collected from all the elements in the <code>current node</code>'s
+                      subtree, no matter how deep it is. However, any given descendant <a data-link-type="dfn" data-lt="nodes" href="https://dom.spec.whatwg.org/#concept-node">node's</a> text alternative can result from higher precedent markup described in steps B through D above,
+                      where "Namefrom: author" attributes provide the text alternative for the entire subtree.
+                    </p>
+                  </div></div>
+                  <div class="note" role="note" id="note-concatenate-inline-contents-with-space"><div class="note-title marker" id="h-note-4"><span>Note</span></div><div class="">
+                    <p>
+                      18 January 2024: The ARIA Working Group is considering the feasibility of joining text strings with and without spaces, depending on the <abbr title="Cascading Style Sheets">CSS</abbr> <code>display</code> value of the
+                      <code>current node</code>, and its adjacent nodes and pseudo-elements. The ongoing discussion is in <a href="https://github.com/w3c/accname/issues/225">AccName #225</a>.
+                    </p>
+                  </div></div>
+                </li>
+                <li id="comp_text_node">
+                  <span id="step2G"></span><em>Text Node:</em> Otherwise, if the <code>current node</code> is a <a data-link-type="dfn" data-lt="exclusive Text node" href="https://dom.spec.whatwg.org/#exclusive-text-node">text node</a>, return
+                  its textual contents.
+                </li>
+                <li id="comp_recursive_name_from_content">
+                  <span id="step2H"></span><em>Recursive Name From Content:</em> Otherwise, if the <code>current node</code> is a descendant of an
+                  element whose <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-13">Accessible Name</a> or <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-8">Accessible Description</a> is being computed, and contains descendants, proceed to
+                  <a href="#comp_name_from_content_reset">Name From Content Reset</a>.
+                </li>
+                <li id="comp_tooltip">
+                  <span id="step2I"></span><em>Tooltip:</em> Otherwise, if the <code>current node</code> has a <a class="termref informative internalDFN" href="#dfn-tooltip-attribute" data-link-type="dfn" id="ref-for-dfn-tooltip-attribute-1">Tooltip attribute</a>,
+                  return its value.
+                  <div class="note" role="note" id="issue-container-generatedID-4"><div class="note-title marker" id="h-note-5"><span>Note</span></div><div class="">
+                    <p>Tooltip attributes are used only if nothing else, including subtree content, has provided results.</p>
+                  </div></div>
+                </li>
+                <li id="comp_append">Append a space character and the <code>result</code> of each step above to the <code>total accumulated text</code>.</li>
+              </ol>
+            </li>
+            <li id="comp_complete">
+              After all steps are completed, the <code>total accumulated text</code> is used as the <a class="termref informative internalDFN" href="#dfn-accessible-name" data-link-type="dfn" id="ref-for-dfn-accessible-name-14">accessible name</a> or <a class="termref informative internalDFN" href="#dfn-accessible-description" data-link-type="dfn" id="ref-for-dfn-accessible-description-9">accessible description</a> of the
+              <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element">element</a> that initiated the computation.
+            </li>
+          </ol>
+        </section>
+      </section>
+    </section>
+    <section id="accessible-name-and-description-mapping"><div class="header-wrapper"><h2 id="x5-accessible-name-and-description-mapping"><bdi class="secno">5. </bdi>Accessible Name and Description Mapping</h2><a class="self-link" href="#accessible-name-and-description-mapping" aria-label="Permalink for Section 5."></a></div>
+      
+      <p>
+        Information concerning name and description accessibility <abbr title="Application Programming Interface">API</abbr> mappings, including relationships, such as labelled-by/label-for and described-by/description-for, is documented in the
+        <a href="https://w3c.github.io/core-aam/" class="core-mapping">Core Accessibility <abbr title="Application Programming Interface">API</abbr> Mappings</a> specification [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-2" title="Core Accessibility API Mappings 1.2">CORE-AAM-1.2</a></cite>]. See the mapping table entries for
+        <a class="core-mapping" href="https://w3c.github.io/core-aam/#ariaLabel"><code>aria-label</code></a>, <a class="core-mapping" href="https://w3c.github.io/core-aam/#ariaLabelledBy"><code>aria-labelledby</code></a>, and <a class="core-mapping" href="https://w3c.github.io/core-aam/#ariaDescribedBy"><code>aria-describedby</code></a>.
+      </p>
+    </section>
+    <section id="appendices"><div class="header-wrapper"><h2 id="x6-appendices"><bdi class="secno">6. </bdi>Appendices</h2><a class="self-link" href="#appendices" aria-label="Permalink for Section 6."></a></div>
+      
+      <section class="appendix" id="changelog"><div class="header-wrapper"><h3 id="x6-1-change-log"><bdi class="secno">6.1 </bdi>Change Log</h3><a class="self-link" href="#changelog" aria-label="Permalink for Appendix 6.1"></a></div>
+        
+        <section id="substantive-changes-since-the-last-public-working-draft"><div class="header-wrapper"><h4 id="x6-1-1-substantive-changes-since-the-last-public-working-draft"><bdi class="secno">6.1.1 </bdi>Substantive changes since the last public working draft</h4><a class="self-link" href="#substantive-changes-since-the-last-public-working-draft" aria-label="Permalink for Appendix 6.1.1"></a></div>
+          
+          <ul>
+            
+            <li><a href="https://github.com/w3c/accname/commit/67ca225">Add steps for shadow roots and slots</a> (<a href="https://github.com/w3c/accname/pull/167">#167</a>)</li>
+            <li><a href="https://github.com/w3c/accname/commit/b05bdac">Fixed handling of surrounding whitespace for <abbr title="Cascading Style Sheets">CSS</abbr> pseudo elements, inline and block level elements, and embedded widgets</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/681094c">update accname 'flash screen' example to use native clickable label element</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/881d960">Clarify description computation for aria-describedby</a> (<a href="https://github.com/w3c/accname/pull/177">#177</a>)</li>
+            <li><a href="https://github.com/w3c/accname/commit/81361ec">Add support for aria-description</a> (<a href="https://github.com/w3c/accname/pull/69">#69</a>)</li>
+            <li>
+              <a href="https://github.com/w3c/accname/commit/bb65de3">Temporary revert within step 2H to reference 2F.i instead of 2F until logic can be drafted to correctly handle roles that should not be traversed.</a>
+            </li>
+            <li><a href="https://github.com/w3c/accname/commit/c01d761">Remove label in Step 2E</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/3efa7de">Specify behavior when following a hidden subtree via aria-labelledby or -describedby</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/65a6358">add accessible name &amp; desc definitions</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/82a5087">* Move tooltip def to accname</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/a2a7039">removed menu button example from step 2C</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/8e1d42f">updated step 2c prose for consistency</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/ef5724a">reorder computation steps</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/fe3a05d">Only use accumulated text that is not empty ("")</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/1f451d6">add name from prohibited</a></li>
+            <li><a href="https://github.com/w3c/accname/commit/af10971">change normative references to informative in abstract</a></li>
+            <li>
+              <a href="https://github.com/w3c/accname/commit/45dbaa2">Update the algorithm to handle roles where naming is not supported</a> (<a href="https://github.com/w3c/accname/pull/53">#53</a>)
+            </li>
+          </ul>
+        </section>
+        <section id="substantive-changes-since-the-accessible-name-and-description-computation-1-1-recommendation"><div class="header-wrapper"><h4 id="x6-1-2-substantive-changes-since-the-accessible-name-and-description-computation-1-1-recommendation"><bdi class="secno">6.1.2 </bdi>Substantive changes since the <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Computation 1.1 Recommendation</a></h4><a class="self-link" href="#substantive-changes-since-the-accessible-name-and-description-computation-1-1-recommendation" aria-label="Permalink for Appendix 6.1.2"></a></div>
+          
+          <ul>
+            
+            <li>
+              27-June-2019: Add statement allowing for the possibility of naming being prohibited on the root node. Note: This change in and of itself has no implementation impact, but it allows other
+              specifications to optionally prohibit naming for a top-level element. Furthermore, even if this prohibition is made within a specification, that prohibition will not have any impact on
+              calculating name from contents.
+            </li>
+          </ul>
+        </section>
+      </section>
+      <section class="appendix informative section" id="acknowledgements"><div class="header-wrapper"><h3 id="x6-2-acknowledgments"><bdi class="secno">6.2 </bdi>Acknowledgments</h3><a class="self-link" href="#acknowledgements" aria-label="Permalink for Appendix 6.2"></a></div><p><em>This section is non-normative.</em></p>
+        
+        <p>The following people contributed to the development of this document.</p>
+        <ul id="gh-contributors"><li><a href="https://github.com/aleventhal">Aaron Leventhal</a></li><li><a href="https://github.com/adampage">Adam Page</a></li><li><a href="https://github.com/carmacleod">Carolyn MacLeod</a></li><li><a href="https://github.com/cyns">Cynthia Shelly</a></li><li><a href="https://github.com/daniel-montalvo">Daniel Montalvo</a></li><li><a href="https://github.com/jaragunde">Jacobo Aragunde Pérez</a></li><li><a href="https://github.com/a11ydoer">JaEun Jemma Ku</a></li><li><a href="https://github.com/cookiecrook">James Craig</a></li><li><a href="https://github.com/jnurthen">James Nurthen</a></li><li><a href="https://github.com/jasonkiss">Jason Kiss</a></li><li><a href="https://github.com/joanmarie">joanmarie</a></li><li><a href="https://github.com/klown">Joseph Scheuhammer</a></li><li><a href="https://github.com/kasperisager">Kasper Isager Dalsgarð</a></li><li><a href="https://github.com/marcoscaceres">Marcos Cáceres</a></li><li><a href="https://github.com/nolanlawson">Nolan Lawson</a></li><li><a href="https://github.com/OisinNolan">Oisín Nolan</a></li><li><a href="https://github.com/patrickhlauke">Patrick H. Lauke</a></li><li><a href="https://github.com/pkra">Peter Krautzberger</a></li><li><a href="https://github.com/plehegar">Philippe Le Hegaret</a></li><li><a href="https://github.com/richschwer">Richard Schwerdtfeger</a></li><li><a href="https://github.com/scottaohara">Scott O'Hara</a></li><li><a href="https://github.com/billybonks">Sebastien Stettler</a></li><li><a href="https://github.com/spectranaut">Valerie Young</a></li></ul>
+        <section class="section" id="ack_group"><div class="header-wrapper"><h4 id="x6-2-1-aria-wg-participants-at-the-time-of-publication"><bdi class="secno">6.2.1 </bdi>ARIA WG participants at the time of publication</h4><a class="self-link" href="#ack_group" aria-label="Permalink for Appendix 6.2.1"></a></div>
+          
+          <ul>
+            
+          <li>Rahim Abdi (Apple Inc.)</li><li>NAVYA AGARWAL (Adobe)</li><li>Joey Arhar (Google LLC)</li><li>Benjamin Beaudry (Microsoft Corporation)</li><li>Curt Bellew (Oracle Corporation)</li><li>Zoë Bijl (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Gautier Chomel (EDRLab)</li><li>Aleksandar Cindrikj (Netcetera)</li><li>Keith Cirkel (Mozilla Foundation)</li><li>Daniel Clark (Microsoft Corporation)</li><li>Sydney Coleman (Google LLC)</li><li>James Craig (Apple Inc.)</li><li>Chris Cuellar (Bocoup)</li><li>Diego Della Rossa (UsableNet)</li><li>Joanmarie Diggs (Igalia)</li><li>Tamsin Ewing (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Mayuri Faldu (Navy Federal Credit Union)</li><li>Betsy Fanning (PDF Association)</li><li>Steve Faulkner (TetraLogical Services Ltd)</li><li>Patrick Foster (axes4 GmbH)</li><li>Jane Fulton (Cisco)</li><li>Bryan Garaventa (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Matt Garrish (DAISY Consortium)</li><li>Doug Geoffray (Microsoft Corporation)</li><li>Ariella Gilmore (IBM Corporation)</li><li>Taylore Givens (Microsoft Corporation)</li><li>David Grogan (Google LLC)</li><li>Shirisha Gubba (Google LLC)</li><li>Jon Gunderson (University of Illinois)</li><li>Oliver Habersetzer (SAP SE)</li><li>Theo Hale (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Sunny Hardasani (Adobe)</li><li>Matthew Hardy (Adobe)</li><li>Chris Harrelson (Google LLC)</li><li>Sarah Higley (Microsoft Corporation)</li><li>Hans Hillen (TPGi)</li><li>takumi hiramatsu (Cybozu)</li><li>Stanley Hon (Microsoft Corporation)</li><li>Michael Jackson (Microsoft Corporation)</li><li>John Jansen (Microsoft Corporation)</li><li>Jilin Jiang (Ant Group Co., Ltd.)</li><li>Duff Johnson (PDF Association)</li><li>Summer Jones (Thomson Reuters Corp.)</li><li>Yuki Kamahori (Cybozu)</li><li>William Kilian (Kilian Codes LLC)</li><li>Matthew King (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Zachary Kinsey (TargetStream Technologies)</li><li>Daisuke Kobayashi (Cybozu)</li><li>Peter Krautzberger (krautzource UG)</li><li>Nina Krauß (SAP SE)</li><li>JaEun Jemma Ku (University of Illinois)</li><li>Steven Lambert (Deque Systems, Inc.)</li><li>Joe Lamyman (TetraLogical Services Ltd)</li><li>Christopher Land (Oracle Corporation)</li><li>Charles LaPierre (Benetech)</li><li>Patrick Lauke (TetraLogical Services Ltd)</li><li>Philip Lazarevic (Level Access)</li><li>Leo Lee (Microsoft Corporation)</li><li>Brett Lewis (TPGi)</li><li>Alison Maher (Microsoft Corporation)</li><li>Gurpreet Kaur Mangera (Rakuten Group, Inc.)</li><li>Mark McCarthy (University of Illinois)</li><li>Katie McDermott (See Me Please)</li><li>Eduardo Meza Etienne (Navy Federal Credit Union)</li><li>Clay Miller (Microsoft Corporation)</li><li>Hirotaka Minamida (Cybozu)</li><li>Daniel Montalvo (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Baldino Morelli (UsableNet)</li><li>Jacques Newman (Microsoft Corporation)</li><li>James Nurthen (Evinced Inc.)</li><li>Scott O'Hara (Microsoft Corporation)</li><li>Lola Odelola (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Neil Osman (Evinced Inc.)</li><li>Yusuke Oyama (Cybozu)</li><li>Adam Page (Hilton)</li><li>Michael Pennisi (Bocoup)</li><li>Giacomo Petri (UsableNet)</li><li>Noah Praskins (TPGi)</li><li>Lucas Radaelli (Google LLC)</li><li>Paul Rayius (PDFix-US)</li><li>Mark Rogers (Powermapper Software)</li><li>Adrian Roselli (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Marco Sabidussi (UsableNet)</li><li>Trisha Salas (Level Access)</li><li>Stefan Schnabel (SAP SE)</li><li>Harris Schneiderman (Deque Systems, Inc.)</li><li>Raymond Schwartz (Navy Federal Credit Union)</li><li>Davis Shaver (The Washington Post)</li><li>Cynthia Shelly (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Tzviya Siegman (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Avneesh Singh (DAISY Consortium)</li><li>Michael[tm] Smith (sideshowbarker) (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Francis Storr (Intel Corporation)</li><li>Nobukiyo Sugisaki (Cybozu)</li><li>Melanie Sumner (IBM Corporation)</li><li>Alexander Surkov (Igalia)</li><li>James Teh (Mozilla Foundation)</li><li>Roman Toda (Foxit software)</li><li>David Tseng (Google LLC)</li><li>Cybozu <abbr title="World Wide Web Consortium">W3C</abbr> (Cybozu)</li></ul>
+        </section>
+        <section class="section" id="ack_funders"><div class="header-wrapper"><h4 id="x6-2-2-enabling-funders"><bdi class="secno">6.2.2 </bdi>Enabling funders</h4><a class="self-link" href="#ack_funders" aria-label="Permalink for Appendix 6.2.2"></a></div>
+	
+	<p>This publication has been funded in part with U.S. Federal funds from the Department of Education, National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), initially under contract number ED-OSE-10-C-0067, then under contract number HHSP23301500054C, and now under HHS75P00120P00168. The content of this publication does not necessarily reflect the views or policies of the U.S. Department of Education, nor does mention of trade names, commercial products, or organizations imply endorsement by the U.S. Government.</p>
+</section>
+
+      </section>
+    </section>
+  
+
+<section id="references" class="appendix"><div class="header-wrapper"><h2 id="a-references"><bdi class="secno">A. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix A."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="a-1-normative-references"><bdi class="secno">A.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix A.1"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-core-aam-1-2">[CORE-AAM-1.2]</dt><dd>
+      <a href="https://www.w3.org/TR/core-aam-1.2/"><cite>Core Accessibility API Mappings 1.2</cite></a>. Valerie Young; Cynthia Shelly.  W3C. 2 July 2026. CRD. URL: <a href="https://www.w3.org/TR/core-aam-1.2/">https://www.w3.org/TR/core-aam-1.2/</a>
+    </dd><dt id="bib-css2">[CSS2]</dt><dd>
+      <a href="https://www.w3.org/TR/CSS2/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. Bert Bos; Tantek Çelik; Ian Hickson; Håkon Wium Lie.  W3C. 7 June 2011. W3C Recommendation. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+    </dd><dt id="bib-dom">[DOM]</dt><dd>
+      <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+    </dd><dt id="bib-html-aam-1-0">[html-aam-1.0]</dt><dd>
+      <a href="https://www.w3.org/TR/html-aam-1.0/"><cite>HTML Accessibility API Mappings 1.0</cite></a>. Scott O'Hara; Rahim Abdi.  W3C. 29 July 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/html-aam-1.0/">https://www.w3.org/TR/html-aam-1.0/</a>
+    </dd><dt id="bib-infra">[infra]</dt><dd>
+      <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
+    </dd><dt id="bib-rfc2119">[RFC2119]</dt><dd>
+      <a href="https://www.rfc-editor.org/info/rfc2119/"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc2119/">https://www.rfc-editor.org/info/rfc2119/</a>
+    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
+      <a href="https://www.rfc-editor.org/info/rfc8174/"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8174/">https://www.rfc-editor.org/info/rfc8174/</a>
+    </dd><dt id="bib-wai-aria">[WAI-ARIA]</dt><dd>
+      <a href="https://www.w3.org/TR/wai-aria-1.1/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.1</cite></a>. Joanmarie Diggs; Shane McCarron; Michael Cooper; Richard Schwerdtfeger; James Craig.  W3C. 14 December 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.1/">https://www.w3.org/TR/wai-aria-1.1/</a>
+    </dd></dl>
+  </section><section id="informative-references"><div class="header-wrapper"><h3 id="a-2-informative-references"><bdi class="secno">A.2 </bdi>Informative references</h3><a class="self-link" href="#informative-references" aria-label="Permalink for Appendix A.2"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-accname-1-1">[ACCNAME-1.1]</dt><dd>
+      <a href="https://www.w3.org/TR/accname-1.1/"><cite>Accessible Name and Description Computation 1.1</cite></a>. Joanmarie Diggs; Bryan Garaventa; Michael Cooper.  W3C. 18 December 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/accname-1.1/">https://www.w3.org/TR/accname-1.1/</a>
+    </dd><dt id="bib-wai-aria-1-2">[wai-aria-1.2]</dt><dd>
+      <a href="https://www.w3.org/TR/wai-aria-1.2/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.2</cite></a>. Joanmarie Diggs; James Nurthen; Michael Cooper; Carolyn MacLeod.  W3C. 6 June 2023. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.2/">https://www.w3.org/TR/wai-aria-1.2/</a>
+    </dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-assistive-technologies" aria-label="Links in this document to definition: Assistive Technologies">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-assistive-technologies" aria-label="Permalink for definition: Assistive Technologies. Activate to close this dialog.">Permalink</a>
+         
+        
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-assistive-technologies-1" title="§ Abstract">§ Abstract</a> 
+    </li><li>
+      <a href="#ref-for-dfn-assistive-technologies-2" title="§ 2. Important Terms">§ 2. Important Terms</a> 
+    </li><li>
+      <a href="#ref-for-dfn-assistive-technologies-3" title="§ 4.3.2 Computation steps">§ 4.3.2 Computation steps</a> 
+    </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-accessible-description" aria-label="Links in this document to definition: Accessible Description">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-accessible-description" aria-label="Permalink for definition: Accessible Description. Activate to close this dialog.">Permalink</a>
+        <span class="marker dfn-exported" title="Definition can be referenced by other specifications">exported</span> 
+        
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-accessible-description-1" title="§ Abstract">§ Abstract</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-description-2" title="§ 1. Introduction">§ 1. Introduction</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-description-3" title="§ 2. Important Terms">§ 2. Important Terms</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-description-4" title="§ 4.2 Description Computation">§ 4.2 Description Computation</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-description-5" title="§ 4.3 Text Equivalent Computation">§ 4.3 Text Equivalent Computation</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-description-6" title="§ 4.3.2 Computation steps">§ 4.3.2 Computation steps</a> <a href="#ref-for-dfn-accessible-description-7" title="Reference 2">(2)</a> <a href="#ref-for-dfn-accessible-description-8" title="Reference 3">(3)</a> <a href="#ref-for-dfn-accessible-description-9" title="Reference 4">(4)</a> 
+    </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-accessible-name" aria-label="Links in this document to definition: Accessible Name">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-accessible-name" aria-label="Permalink for definition: Accessible Name. Activate to close this dialog.">Permalink</a>
+        <span class="marker dfn-exported" title="Definition can be referenced by other specifications">exported</span> 
+        
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-accessible-name-1" title="§ Abstract">§ Abstract</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-name-2" title="§ 1. Introduction">§ 1. Introduction</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-name-3" title="§ 2. Important Terms">§ 2. Important Terms</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-name-4" title="§ 4.1 Name Computation">§ 4.1 Name Computation</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-name-5" title="§ 4.3 Text Equivalent Computation">§ 4.3 Text Equivalent Computation</a> 
+    </li><li>
+      <a href="#ref-for-dfn-accessible-name-6" title="§ 4.3.2 Computation steps">§ 4.3.2 Computation steps</a> <a href="#ref-for-dfn-accessible-name-7" title="Reference 2">(2)</a> <a href="#ref-for-dfn-accessible-name-8" title="Reference 3">(3)</a> <a href="#ref-for-dfn-accessible-name-9" title="Reference 4">(4)</a> <a href="#ref-for-dfn-accessible-name-10" title="Reference 5">(5)</a> <a href="#ref-for-dfn-accessible-name-11" title="Reference 6">(6)</a> <a href="#ref-for-dfn-accessible-name-12" title="Reference 7">(7)</a> <a href="#ref-for-dfn-accessible-name-13" title="Reference 8">(8)</a> <a href="#ref-for-dfn-accessible-name-14" title="Reference 9">(9)</a> 
+    </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-tooltip-attribute" aria-label="Links in this document to definition: Tooltip attribute">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-tooltip-attribute" aria-label="Permalink for definition: Tooltip attribute. Activate to close this dialog.">Permalink</a>
+         
+        
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-tooltip-attribute-1" title="§ 4.3.2 Computation steps">§ 4.3.2 Computation steps</a> 
+    </li>
+  </ul>
+    </div><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+/**
+ * @param {MouseEvent} ev
+ */
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const varElem = /** @type {HTMLElement} */ (ev.target);
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+/**
+ * @param {HTMLElement} target
+ */
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+/**
+ * @param {HTMLElement} varElem
+ */
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = /** @type {HTMLElement} */ (
+    varElem.closest(".algorithm, section")
+  );
+  if (!parent) return [];
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {string} highlightColor
+ */
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+/**
+ * @param {HTMLElement} elem
+ * @param {string} highlightColor
+ */
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement | null} */
+  let panel = null;
+  /**
+   * @param {KeyboardEvent|MouseEvent} event
+   */
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (
+      type === "keydown" &&
+      /** @type {KeyboardEvent} */ (event).key !== "Enter"
+    )
+      return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement | null} */
+        const dfn = target.closest("dfn, .index-term");
+        if (!dfn?.id) break;
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        if (!panel) break;
+        const coords = deriveCoordinates(
+          /** @type {MouseEvent|KeyboardEvent} */ (event)
+        );
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        if (panel) {
+          panel.style.left = "";
+          panel.style.top = "";
+          panel.classList.add("docked");
+        }
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+
+    const panel = /** @type {HTMLElement} */ (target.closest(".dfn-panel"));
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement | null} */
+    const caret = panel.querySelector(".caret");
+    if (caret) caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  /**
+   * @param {KeyboardEvent} event
+   */
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement | null} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
