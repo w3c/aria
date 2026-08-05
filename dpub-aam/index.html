@@ -1,0 +1,3565 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="generator" content="ReSpec 37.1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.issue-label{text-transform:initial}
+.warning>p:first-child{margin-top:0}
+.warning{padding:.5em;border-left-width:.5em;border-left-style:solid}
+span.warning{padding:.1em .5em .15em}
+.issue.closed span.issue-number{text-decoration:line-through}
+.issue.closed span.issue-number::after{content:" (Closed)";font-size:smaller}
+.warning{border-color:#f11;border-color:var(--warning-border,#f11);border-width:.2em;border-style:solid;background:#fbe9e9;background:var(--warning-bg,#fbe9e9);color:#000;color:var(--text,#000)}
+.warning-title:before{content:"⚠";font-size:1.3em;float:left;padding-right:.3em;margin-top:-.3em}
+li.task-list-item{list-style:none}
+input.task-list-item-checkbox{margin:0 .35em .25em -1.6em;vertical-align:middle}
+.issue a.respec-gh-label{padding:5px;margin:0 2px 0 2px;font-size:10px;text-transform:none;text-decoration:none;font-weight:700;border-radius:4px;position:relative;bottom:2px;border:none;display:inline-block}
+</style>
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;background:var(--indextable-hover-bg,#fff);color:#000;color:var(--text,#000);box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);box-shadow:0 1em 3em -.4em var(--tocsidebar-shadow,rgba(0,0,0,.3)),0 0 1px 1px var(--tocsidebar-shadow,rgba(0,0,0,.05));border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;border-bottom-color:var(--indextable-hover-bg,#fff);top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1;border-bottom-color:var(--indextable-hover-bg,#a2a9b1)}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;color:var(--text,#000);margin-top:.25em}
+.dfn-panel ul a[href]{color:#333;color:var(--text,#333)}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel .marker.cddl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+    
+<title>Digital Publishing Accessibility API Mappings 1.1</title>
+    
+    
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+@media (prefers-color-scheme:dark){
+#references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+}
+body:has(input[name=color-scheme][value=dark]:checked) #references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+cite .bibref{font-style:italic}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2):has(+a.self-link){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+body:has(input[name=color-scheme][value=light]:checked),head:not(:has(meta[name=color-scheme][content~=dark]))+body{color-scheme:light}
+body:has(input[name=color-scheme][value=dark]:checked){color-scheme:dark}
+</style>
+    
+    
+    
+    
+  
+<meta name="color-scheme" content="light">
+<meta name="revision" content="2013385037a4f8a1380e8acd0afa4cd2d21e6b32">
+<meta name="description" content="Digital Publishing Accessibility API Mappings (DPUB-AAM) defines how user agents map the Digital Publishing WAI-ARIA Module [dpub-aria-1.1] markup to platform
+        accessibility APIs. It is intended for developers who are responsible for accessibility in their user agent so that they can support the accessibility content produced for digital publishing.">
+<link rel="canonical" href="https://www.w3.org/TR/dpub-aam-1.1/">
+<script type="application/ld+json">{
+  "@context": [
+    "http://schema.org",
+    {
+      "@vocab": "http://schema.org/",
+      "@language": "en-US",
+      "w3p": "http://www.w3.org/2001/02pd/rec54#",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "datePublished": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date"
+      },
+      "inLanguage": {
+        "@language": null
+      },
+      "isBasedOn": {
+        "@type": "@id"
+      },
+      "license": {
+        "@type": "@id"
+      }
+    }
+  ],
+  "id": "https://www.w3.org/TR/dpub-aam-1.1/",
+  "type": [
+    "TechArticle",
+    "w3p:WD"
+  ],
+  "name": "Digital Publishing Accessibility API Mappings 1.1",
+  "inLanguage": "en-US",
+  "license": "https://www.w3.org/copyright/software-license-2023/",
+  "datePublished": "2026-08-05",
+  "copyrightHolder": {
+    "name": "World Wide Web Consortium",
+    "url": "https://www.w3.org/"
+  },
+  "discussionUrl": "https://github.com/w3c/dpub-aam/issues/",
+  "alternativeHeadline": "",
+  "isBasedOn": "",
+  "description": "Digital Publishing Accessibility API Mappings (DPUB-AAM) defines how user agents map the Digital Publishing WAI-ARIA Module [dpub-aria-1.1] markup to platform\n        accessibility APIs. It is intended for developers who are responsible for accessibility in their user agent so that they can support the accessibility content produced for digital publishing.",
+  "editor": [
+    {
+      "type": "Person",
+      "name": "Matt Garrish",
+      "worksFor": {
+        "name": "DAISY Consortium",
+        "url": "https://daisy.org"
+      }
+    },
+    {
+      "type": "Person",
+      "name": "Tzviya Siegman",
+      "url": "https://www.w3.org/staff/#tzviya",
+      "worksFor": {
+        "name": "W3C",
+        "url": "https://www.w3.org"
+      }
+    }
+  ],
+  "contributor": [],
+  "citation": [
+    {
+      "id": "https://www.w3.org/TR/dpub-aria-1.1/",
+      "type": "TechArticle",
+      "name": "Digital Publishing WAI-ARIA Module 1.1",
+      "url": "https://www.w3.org/TR/dpub-aria-1.1/",
+      "creator": [
+        {
+          "name": "Matt Garrish"
+        },
+        {
+          "name": "Tzviya Siegman"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://www.w3.org/TR/core-aam-1.1/",
+      "type": "TechArticle",
+      "name": "Core Accessibility API Mappings 1.1",
+      "url": "https://www.w3.org/TR/core-aam-1.1/",
+      "creator": [
+        {
+          "name": "Joanmarie Diggs"
+        },
+        {
+          "name": "Joseph Scheuhammer"
+        },
+        {
+          "name": "Richard Schwerdtfeger"
+        },
+        {
+          "name": "Michael Cooper"
+        },
+        {
+          "name": "Andi Snow-Weaver"
+        },
+        {
+          "name": "Aaron Leventhal"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://html.spec.whatwg.org/multipage/",
+      "type": "TechArticle",
+      "name": "HTML Standard",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "creator": [
+        {
+          "name": "Anne van Kesteren"
+        },
+        {
+          "name": "Domenic Denicola"
+        },
+        {
+          "name": "Dominic Farolino"
+        },
+        {
+          "name": "Ian Hickson"
+        },
+        {
+          "name": "Philip Jägenstedt"
+        },
+        {
+          "name": "Simon Pieters"
+        }
+      ],
+      "publisher": {
+        "name": "WHATWG"
+      }
+    },
+    {
+      "id": "https://www.w3.org/TR/accname-1.2/",
+      "type": "TechArticle",
+      "name": "Accessible Name and Description Computation 1.2",
+      "url": "https://www.w3.org/TR/accname-1.2/",
+      "creator": [
+        {
+          "name": "Bryan Garaventa"
+        },
+        {
+          "name": "Melanie Sumner"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://www.rfc-editor.org/info/rfc2119/",
+      "type": "TechArticle",
+      "name": "Key words for use in RFCs to Indicate Requirement Levels",
+      "url": "https://www.rfc-editor.org/info/rfc2119/",
+      "creator": [
+        {
+          "name": "S. Bradner"
+        }
+      ],
+      "publisher": {
+        "name": "IETF"
+      }
+    },
+    {
+      "id": "https://www.rfc-editor.org/info/rfc8174/",
+      "type": "TechArticle",
+      "name": "Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words",
+      "url": "https://www.rfc-editor.org/info/rfc8174/",
+      "creator": [
+        {
+          "name": "B. Leiba"
+        }
+      ],
+      "publisher": {
+        "name": "IETF"
+      }
+    },
+    {
+      "id": "https://www.w3.org/TR/core-aam-1.2/",
+      "type": "TechArticle",
+      "name": "Core Accessibility API Mappings 1.2",
+      "url": "https://www.w3.org/TR/core-aam-1.2/",
+      "creator": [
+        {
+          "name": "Valerie Young"
+        },
+        {
+          "name": "Cynthia Shelly"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://infra.spec.whatwg.org/",
+      "type": "TechArticle",
+      "name": "Infra Standard",
+      "url": "https://infra.spec.whatwg.org/",
+      "creator": [
+        {
+          "name": "Anne van Kesteren"
+        },
+        {
+          "name": "Domenic Denicola"
+        }
+      ],
+      "publisher": {
+        "name": "WHATWG"
+      }
+    },
+    {
+      "id": "https://www.w3.org/TR/wai-aria/",
+      "type": "TechArticle",
+      "name": "Accessible Rich Internet Applications (WAI-ARIA) 1.0",
+      "url": "https://www.w3.org/TR/wai-aria/",
+      "creator": [
+        {
+          "name": "James Craig"
+        },
+        {
+          "name": "Michael Cooper"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://www.w3.org/TR/fingerprinting-guidance/",
+      "type": "TechArticle",
+      "name": "Mitigating Browser Fingerprinting in Web Specifications",
+      "url": "https://www.w3.org/TR/fingerprinting-guidance/",
+      "creator": [
+        {
+          "name": "Nick Doty"
+        },
+        {
+          "name": "Tom Ritter"
+        }
+      ],
+      "publisher": {
+        "name": "W3C"
+      }
+    },
+    {
+      "id": "https://dom.spec.whatwg.org/",
+      "type": "TechArticle",
+      "name": "DOM Standard",
+      "url": "https://dom.spec.whatwg.org/",
+      "creator": [
+        {
+          "name": "Anne van Kesteren"
+        }
+      ],
+      "publisher": {
+        "name": "WHATWG"
+      }
+    }
+  ]
+}</script>
+<style>
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
+</style>
+<style>
+var[data-type]{position:relative}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#222;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "github": {
+    "repoURL": "w3c/dpub-aam",
+    "pullsURL": "https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Adpub-aam%22",
+    "commitHistoryURL": "https://github.com/w3c/aria/commits/main/dpub-aam/"
+  },
+  "doJsonLd": true,
+  "specStatus": "WD",
+  "shortName": "dpub-aam-1.1",
+  "implementationReportURI": "https://www.w3.org/2021/04/wpt-fyi-snapshot.html",
+  "copyrightStart": "2015",
+  "license": "w3c-software-doc",
+  "edDraftURI": "https://w3c.github.io/dpub-aam/",
+  "editors": [
+    {
+      "name": "Matt Garrish",
+      "company": "DAISY Consortium",
+      "companyURL": "https://daisy.org",
+      "w3cid": 51655
+    },
+    {
+      "name": "Tzviya Siegman",
+      "url": "https://www.w3.org/staff/#tzviya",
+      "company": "W3C",
+      "companyURL": "https://www.w3.org",
+      "w3cid": 65542
+    }
+  ],
+  "formerEditors": [
+    {
+      "name": "Joanmarie Diggs",
+      "mailto": "jdiggs@igalia.com",
+      "company": "Igalia, S.L.",
+      "companyURL": "https://www.igalia.com",
+      "w3cid": 68182,
+      "url": "mailto:jdiggs@igalia.com"
+    },
+    {
+      "name": "Richard Schwerdtfeger",
+      "mailto": "richschwer@gmail.com",
+      "company": "Knowbility",
+      "companyURL": "https://knowbility.org/",
+      "w3cid": 2460,
+      "url": "mailto:richschwer@gmail.com"
+    }
+  ],
+  "group": "aria",
+  "wgPublicList": "public-aria",
+  "tocIntroductory": true,
+  "ariaSpecURLs": {
+    "ED": "https://w3c.github.io/aria/",
+    "FPWD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "WD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "CR": "https://www.w3.org/TR/wai-aria-1.3/",
+    "REC": "https://www.w3.org/TR/wai-aria-1.3/"
+  },
+  "accNameURLs": {
+    "ED": "https://w3c.github.io/accname/",
+    "WD": "https://www.w3.org/TR/accname-1.2/",
+    "FPWD": "https://www.w3.org/TR/accname-1.2/",
+    "CR": "https://www.w3.org/TR/accname-1.2/",
+    "REC": "https://www.w3.org/TR/accname-1.2/"
+  },
+  "coreMappingURLs": {
+    "ED": "https://w3c.github.io/core-aam/",
+    "WD": "https://www.w3.org/TR/core-aam-1.2/",
+    "FPWD": "https://www.w3.org/TR/core-aam-1.2/",
+    "CR": "https://www.w3.org/TR/core-aam-1.2/",
+    "REC": "https://www.w3.org/TR/core-aam-1.2/"
+  },
+  "dpubModURLs": {
+    "ED": "https://w3c.github.io/dpub-aria/",
+    "FPWD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "WD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "REC": "https://www.w3.org/TR/dpub-aria-1.1/"
+  },
+  "graphicsMappingModURLs": {
+    "ED": "https://w3c.github.io/graphics-aam/",
+    "FPWD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "WD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "CR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "PR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "REC": "https://www.w3.org/TR/graphics-aam-1.0/"
+  },
+  "graphicsModURLs": {
+    "ED": "https://w3c.github.io/graphics-aria/",
+    "FPWD": "https://www.w3.org/TR/graphics-aria/",
+    "WD": "https://www.w3.org/TR/graphics-aria/",
+    "REC": "https://www.w3.org/TR/graphics-aria/"
+  },
+  "htmlMappingURLs": {
+    "ED": "https://w3c.github.io/html-aam/",
+    "FPWD": "https://www.w3.org/TR/html-aam-1.0/",
+    "WD": "https://www.w3.org/TR/html-aam/",
+    "REC": "https://www.w3.org/TR/html-aam/"
+  },
+  "preProcess": [
+    null,
+    null
+  ],
+  "postProcess": [],
+  "xref": [
+    "core-aam",
+    "wai-aria",
+    "dom",
+    "infra",
+    "accname"
+  ],
+  "lint": {
+    "privsec-section": false
+  },
+  "localBiblio": {
+    "ACCNAME-AAM": {
+      "aliasOf": "ACCNAME-AAM-1.1"
+    },
+    "Android-Accessibility-API": {
+      "title": "Android Accessibility API",
+      "href": "https://developer.android.com/guide/topics/ui/accessibility",
+      "publisher": "Google"
+    },
+    "ARIA-PRACTICES": {
+      "aliasOf": "WAI-ARIA-PRACTICES-1.2"
+    },
+    "CORE-AAM": {
+      "aliasOf": "CORE-AAM-1.1"
+    },
+    "DPUB-ARIA": {
+      "aliasOf": "DPUB-ARIA-1.0"
+    },
+    "GRAPHICS-ARIA": {
+      "aliasOf": "GRAPHICS-ARIA-1.0"
+    },
+    "GRAPHICS-AAM": {
+      "aliasOf": "GRAPHICS-AAM-1.0"
+    },
+    "EPUB-Content": {
+      "href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
+      "title": "EPUB Content Documents 3.1",
+      "publisher": "IDPF"
+    },
+    "HTML-AAM": {
+      "aliasOf": "HTML-AAM-1.0"
+    },
+    "MathML-Core": {
+      "href": "https://mathml-refresh.github.io/mathml-core/",
+      "title": "MathML Core",
+      "authors": [
+        "David Carlisle",
+        "Frédéric Wang"
+      ]
+    },
+    "SVG-AAM": {
+      "aliasOf": "SVG-AAM-1.0"
+    },
+    "SVG1": {
+      "aliasOf": "SVG"
+    },
+    "WAI-ARIA": {
+      "aliasOf": "WAI-ARIA-1.1"
+    }
+  },
+  "gitRevision": "2013385037a4f8a1380e8acd0afa4cd2d21e6b32",
+  "publishISODate": "2026-08-05T00:00:00.000Z",
+  "generatedSubtitle": "W3C Working Draft 05 August 2026"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-WD"></head>
+  <body class="h-entry" data-cite="core-aam wai-aria dom infra accname"><div class="head">
+    <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
+  </a></p>
+    <h1 id="title" class="title">Digital Publishing Accessibility API Mappings 1.1</h1> 
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#WD">W3C Working Draft</a> <time class="dt-published" datetime="2026-08-05">05 August 2026</time></p>
+    <details open="">
+      <summary>More details about this document</summary>
+      <dl>
+        <dt>This version:</dt><dd>
+                <a class="u-url" href="https://www.w3.org/TR/2026/WD-dpub-aam-1.1-20260805/">https://www.w3.org/TR/2026/WD-dpub-aam-1.1-20260805/</a>
+              </dd>
+        <dt>Latest published version:</dt><dd>
+                <a href="https://www.w3.org/TR/dpub-aam-1.1/">https://www.w3.org/TR/dpub-aam-1.1/</a>
+              </dd>
+        <dt>Latest editor's draft:</dt><dd><a href="https://w3c.github.io/dpub-aam/">https://w3c.github.io/dpub-aam/</a></dd>
+        <dt>History:</dt><dd>
+                    <a href="https://www.w3.org/standards/history/dpub-aam-1.1/">https://www.w3.org/standards/history/dpub-aam-1.1/</a>
+                  </dd><dd>
+                    <a href="https://github.com/w3c/aria/commits/main/dpub-aam/">Commit history</a>
+                  </dd>
+        
+        <dt>Implementation report:</dt><dd>
+                <a href="https://www.w3.org/2021/04/wpt-fyi-snapshot.html">https://www.w3.org/2021/04/wpt-fyi-snapshot.html</a>
+              </dd>
+        
+        
+        
+        <dt>
+                Editors:
+              </dt><dd class="editor p-author h-card vcard" data-editor-id="51655">
+    <span class="p-name fn">Matt Garrish</span> (<a class="p-org org h-org" href="https://daisy.org">DAISY Consortium</a>)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="65542">
+    <a class="u-url url p-name fn" href="https://www.w3.org/staff/#tzviya">Tzviya Siegman</a> (<a class="p-org org h-org" href="https://www.w3.org">W3C</a>)
+  </dd>
+        <dt>
+                Former editors:
+              </dt><dd class="editor p-author h-card vcard" data-editor-id="68182">
+    <a class="ed_mailto u-email email p-name" href="mailto:jdiggs@igalia.com">Joanmarie Diggs</a> (<a class="p-org org h-org" href="https://www.igalia.com">Igalia, S.L.</a>)
+  </dd><dd class="editor p-author h-card vcard" data-editor-id="2460">
+    <a class="ed_mailto u-email email p-name" href="mailto:richschwer@gmail.com">Richard Schwerdtfeger</a> (<a class="p-org org h-org" href="https://knowbility.org/">Knowbility</a>)
+  </dd>
+        
+        <dt>Feedback:</dt><dd>
+        <a href="https://github.com/w3c/dpub-aam/">GitHub w3c/dpub-aam</a>
+        (<a href="https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Adpub-aam%22">pull requests</a>,
+        <a href="https://github.com/w3c/dpub-aam/issues/new/choose">new issue</a>,
+        <a href="https://github.com/w3c/dpub-aam/issues/">open issues</a>)
+      </dd><dd><a href="mailto:public-aria@w3.org?subject=%5Bdpub-aam-1.1%5D%20YOUR%20TOPIC%20HERE">public-aria@w3.org</a> with subject line <kbd>[dpub-aam-1.1] <em>… message topic …</em></kbd> (<a rel="discussion" href="https://lists.w3.org/Archives/Public/public-aria">archives</a>)</dd>
+        
+        
+      </dl>
+    </details>
+    
+    
+    <p class="copyright">
+    <a href="https://www.w3.org/policies/#copyright">Copyright</a>
+    ©
+    2015-2026
+    
+    <a href="https://www.w3.org/">World Wide Web Consortium</a>.
+    <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup>
+    <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>,
+    <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and
+    <a rel="license" href="https://www.w3.org/copyright/software-license-2023/" title="W3C Software and Document Notice and License">permissive document license</a> rules apply.
+  </p>
+    <hr title="Separator for header">
+  </div>
+    <section id="abstract" class="introductory"><h2>Abstract</h2>
+      <p>
+        Digital Publishing Accessibility <abbr title="application programming interface">API</abbr> Mappings (DPUB-AAM) defines how <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> map the Digital Publishing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Module [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpub-aria-1-1" title="Digital Publishing WAI-ARIA Module 1.1">dpub-aria-1.1</a></cite>] markup to platform
+        <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a>. It is intended for developers who are responsible for accessibility in their user agent so that they can support the accessibility content produced for digital publishing.
+      </p>
+    </section>
+    <section id="sotd" class="introductory"><h2>Status of This Document</h2><p><em>This section describes the status of this
+      document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr>
+      publications and the latest revision of this technical report can be found
+      in the
+      <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> standards and drafts index</a>.</em></p>
+      <p>Future updates to this specification may incorporate <a href="https://www.w3.org/policies/process/20231103/#allow-new-features">new features</a>.</p>
+      <p>
+        <strong>Living specification</strong> — This document is maintained as a living specification. For the latest normative version, visit
+        <a href="https://www.w3.org/TR/dpub-aam/">Digital Publishing Accessibility <abbr title="application programming interface">API</abbr> Mappings</a>.
+      </p>
+    <p>
+    This document was published by the <a href="https://www.w3.org/groups/wg/aria">Accessible Rich Internet Applications Working Group</a> as
+    a Working Draft using the
+        <a href="https://www.w3.org/policies/process/20250818/#recs-and-notes">Recommendation
+          track</a>. 
+  </p><p>Publication as
+  a Working Draft does not imply endorsement
+  by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p><p>
+    This is a draft document and may be updated, replaced, or obsoleted by other
+    documents at any time. It is inappropriate to cite this document as other
+    than a work in progress.
+    
+  </p><p>
+    
+        This document was produced by a group
+        operating under the
+        <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
+          Policy</a>.
+      
+    
+                <abbr title="World Wide Web Consortium">W3C</abbr> maintains a
+                <a rel="disclosure" href="https://www.w3.org/groups/wg/aria/ipr">public list of any patent disclosures</a>
+          made in connection with the deliverables of
+          the group; that page also includes
+          instructions for disclosing a patent. An individual who has actual
+          knowledge of a patent that the individual believes contains
+          <a href="https://www.w3.org/policies/patent-policy/#def-essential">Essential Claim(s)</a>
+          must disclose the information in accordance with
+          <a href="https://www.w3.org/policies/patent-policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+        
+  </p><p>
+                      This document is governed by the
+                      <a id="w3c_process_revision" href="https://www.w3.org/policies/process/20250818/">18 August 2025 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+                    </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#intro"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformance</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#dpub-deprecated-roles"><bdi class="secno">2.1 </bdi>Roles deprecated in DPUB-ARIA</a></li></ol></li><li class="tocline"><a class="tocxref" href="#keyboard-focus"><bdi class="secno">3. </bdi>Supporting keyboard navigation</a></li><li class="tocline"><a class="tocxref" href="#mapping"><bdi class="secno">4. </bdi>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#mapping_general"><bdi class="secno">4.1 </bdi>General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</a></li></ol></li><li class="tocline"><a class="tocxref" href="#mapping_conflicts"><bdi class="secno">5. </bdi>Conflicts between native markup semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></a></li><li class="tocline"><a class="tocxref" href="#mapping_nodirect"><bdi class="secno">6. </bdi>Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a></li><li class="tocline"><a class="tocxref" href="#mapping_role"><bdi class="secno">7. </bdi>Role mapping</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#roleMappingGeneralRules"><bdi class="secno">7.1 </bdi>General Rules</a></li><li class="tocline"><a class="tocxref" href="#mapping_role_table"><bdi class="secno">7.2 </bdi>Role Mapping Tables</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#role-map-abstract"><bdi class="secno">7.2.1 </bdi><code>doc-abstract</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-acknowledgments"><bdi class="secno">7.2.2 </bdi><code>doc-acknowledgments</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-afterword"><bdi class="secno">7.2.3 </bdi><code>doc-afterword</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-appendix"><bdi class="secno">7.2.4 </bdi><code>doc-appendix</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-backlink"><bdi class="secno">7.2.5 </bdi><code>doc-backlink</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-biblioentry"><bdi class="secno">7.2.6 </bdi><code>doc-biblioentry</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-bibliography"><bdi class="secno">7.2.7 </bdi><code>doc-bibliography</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-biblioref"><bdi class="secno">7.2.8 </bdi><code>doc-biblioref</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-chapter"><bdi class="secno">7.2.9 </bdi><code>doc-chapter</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-colophon"><bdi class="secno">7.2.10 </bdi><code>doc-colophon</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-conclusion"><bdi class="secno">7.2.11 </bdi><code>doc-conclusion</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-cover"><bdi class="secno">7.2.12 </bdi><code>doc-cover</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-credit"><bdi class="secno">7.2.13 </bdi><code>doc-credit</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-credits"><bdi class="secno">7.2.14 </bdi><code>doc-credits</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-dedication"><bdi class="secno">7.2.15 </bdi><code>doc-dedication</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-endnote"><bdi class="secno">7.2.16 </bdi><code>doc-endnote</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-endnotes"><bdi class="secno">7.2.17 </bdi><code>doc-endnotes</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-epigraph"><bdi class="secno">7.2.18 </bdi><code>doc-epigraph</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-epilogue"><bdi class="secno">7.2.19 </bdi><code>doc-epilogue</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-errata"><bdi class="secno">7.2.20 </bdi><code>doc-errata</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-example"><bdi class="secno">7.2.21 </bdi><code>doc-example</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-footnote"><bdi class="secno">7.2.22 </bdi><code>doc-footnote</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-foreword"><bdi class="secno">7.2.23 </bdi><code>doc-foreword</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-glossary"><bdi class="secno">7.2.24 </bdi><code>doc-glossary</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-glossref"><bdi class="secno">7.2.25 </bdi><code>doc-glossref</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-index"><bdi class="secno">7.2.26 </bdi><code>doc-index</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-introduction"><bdi class="secno">7.2.27 </bdi><code>doc-introduction</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-noteref"><bdi class="secno">7.2.28 </bdi><code>doc-noteref</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-notice"><bdi class="secno">7.2.29 </bdi><code>doc-notice</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-pagebreak"><bdi class="secno">7.2.30 </bdi><code>doc-pagebreak</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-pagefooter"><bdi class="secno">7.2.31 </bdi><code>doc-pagefooter</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-pageheader"><bdi class="secno">7.2.32 </bdi><code>doc-pageheader</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-pagelist"><bdi class="secno">7.2.33 </bdi><code>doc-pagelist</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-part"><bdi class="secno">7.2.34 </bdi><code>doc-part</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-preface"><bdi class="secno">7.2.35 </bdi><code>doc-preface</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-prologue"><bdi class="secno">7.2.36 </bdi><code>doc-prologue</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-pullquote"><bdi class="secno">7.2.37 </bdi><code>doc-pullquote</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-qna"><bdi class="secno">7.2.38 </bdi><code>doc-qna</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-subtitle"><bdi class="secno">7.2.39 </bdi><code>doc-subtitle</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-tip"><bdi class="secno">7.2.40 </bdi><code>doc-tip</code></a></li><li class="tocline"><a class="tocxref" href="#role-map-toc"><bdi class="secno">7.2.41 </bdi><code>doc-toc</code></a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#translatable-values"><bdi class="secno">8. </bdi>Translatable Values</a></li><li class="tocline"><a class="tocxref" href="#mapping_state-property"><bdi class="secno">9. </bdi>State and Property Mapping</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional"><bdi class="secno">10. </bdi>Special Processing Requiring Additional Computation</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#mapping_additional_nd"><bdi class="secno">10.1 </bdi>Name and Description</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional_relations"><bdi class="secno">10.2 </bdi>Relations</a></li><li class="tocline"><a class="tocxref" href="#mapping_additional_position"><bdi class="secno">10.3 </bdi>Group Position</a></li></ol></li><li class="tocline"><a class="tocxref" href="#mapping_actions"><bdi class="secno">11. </bdi>Actions</a></li><li class="tocline"><a class="tocxref" href="#mapping_events"><bdi class="secno">12. </bdi>Events</a></li><li class="tocline"><a class="tocxref" href="#security-considerations"><bdi class="secno">13. </bdi>Security Considerations</a></li><li class="tocline"><a class="tocxref" href="#privacy-considerations"><bdi class="secno">14. </bdi>Privacy Considerations</a></li><li class="tocline"><a class="tocxref" href="#appendices"><bdi class="secno">A. </bdi>Appendices</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#changelog"><bdi class="secno">A.1 </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#recent-changes"><bdi class="secno">A.1.1 </bdi>Substantive changes since the <span class="formerLink">First Public Working Draft</span></a></li><li class="tocline"><a class="tocxref" href="#older-changes"><bdi class="secno">A.1.2 </bdi>Other substantive changes since <span class="formerLink">Digital Publishing Accessibility <abbr title="application programming interface">API</abbr> Mappings 1.0</span></a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">A.2 </bdi>Acknowledgments</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#ack_group"><bdi class="secno">A.2.1 </bdi>ARIA WG participants at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_funders"><bdi class="secno">A.2.2 </bdi>Enabling funders</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">B. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">B.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">B.2 </bdi>Informative references</a></li></ol></li></ol></nav>
+    <section id="intro" class="informative"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#intro" aria-label="Permalink for Section 1."></a></div><p><em>This section is non-normative.</em></p>
+      
+
+      <p>
+        The implementation of this specification in user agents enables authors to produce more accessible e-books by conveying structural book constructs that are used by the digital publishing
+        industry to assistive technologies. It does this by extending the <cite><a href="https://www.w3.org/TR/core-aam-1.1/">Core Accessibility <abbr title="application programming interface">API</abbr> Mappings 1.1</a></cite> [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>] and the
+        <cite><a href="https://www.w3.org/TR/accname-1.2/">Accessible Name and Description Computation 1.2</a></cite> [<cite><a class="bibref" data-link-type="biblio" href="#bib-accname-1-2" title="Accessible Name and Description Computation 1.2">ACCNAME-1.2</a></cite>] specifications for user agents. It provides Accessibility <abbr title="application programming interface">API</abbr>
+        Mapping guidance for the roles defined in the Digital Publishing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Module.
+      </p>
+
+      <p>
+        The DPUB-AAM is part of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> suite that is described in the
+        <a href="https://www.w3.org/WAI/standards-guidelines/aria/"><abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> Overview</a>.
+      </p>
+    </section>
+    <section id="conformance" class="normative"><div class="header-wrapper"><h2 id="x2-conformance"><bdi class="secno">2. </bdi>Conformance</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 2."></a></div><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
+        The key words <em class="rfc2119">MUST</em> and <em class="rfc2119">SHOULD</em> in this document
+        are to be interpreted as described in
+        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
+        when, and only when, they appear in all
+        capitals, as shown here.
+      </p>
+      <p>Normative sections provide requirements that user agents and assistive technologies <em class="rfc2119">MUST</em> follow for an implementation to conform to this specification.</p>
+      <p>
+        Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow
+        such recommendations in order to conform to this specification.
+      </p>
+      <section id="dpub-deprecated-roles"><div class="header-wrapper"><h3 id="x2-1-roles-deprecated-in-dpub-aria"><bdi class="secno">2.1 </bdi>Roles deprecated in DPUB-ARIA</h3><a class="self-link" href="#dpub-deprecated-roles" aria-label="Permalink for Section 2.1"></a></div>
+        
+
+        <p>
+          The DPUB-ARIA specification [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpub-aria-1-1" title="Digital Publishing WAI-ARIA Module 1.1">dpub-aria-1.1</a></cite>] lists some roles as deprecated. Although this means authors are encouraged not to use these roles, it is expected that the roles could still be
+          used in legacy content. Therefore, it is important that user agents continue to map these roles to accessibility <abbr title="Application Programming Interfaces">APIs</abbr>, and doing so is part of conformance to this specification. When future
+          versions of the DPUB-ARIA specification change such roles from deprecated to removed, they will be removed from the mappings as well and user agents will no longer be asked to continue
+          support for those roles.
+        </p>
+      </section>
+    </section>
+    <section class="section" id="keyboard-focus"><div class="header-wrapper"><h2 id="x3-supporting-keyboard-navigation"><bdi class="secno">3. </bdi>Supporting keyboard navigation</h2><a class="self-link" href="#keyboard-focus" aria-label="Permalink for Section 3."></a></div>
+      
+
+      <p>
+        Enabling keyboard navigation in web applications is a necessary step toward making accessible web applications possible. Conforming <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> <em class="rfc2119">MUST</em> conform to
+        <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#keyboard-focus">Supporting Keyboard Navigation</a> requirements in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+      </p>
+    </section>
+    <section id="mapping"><div class="header-wrapper"><h2 id="x4-mapping-wai-aria-to-accessibility-apis"><bdi class="secno">4. </bdi>Mapping <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> to accessibility <abbr title="Application Programming Interfaces">APIs</abbr></h2><a class="self-link" href="#mapping" aria-label="Permalink for Section 4."></a></div>
+      
+
+      <section id="mapping_general"><div class="header-wrapper"><h3 id="x4-1-general-rules-for-exposing-wai-aria-semantics"><bdi class="secno">4.1 </bdi>General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</h3><a class="self-link" href="#mapping_general" aria-label="Permalink for Section 4.1"></a></div>
+        
+
+        <p>This section <em class="rfc2119">MUST</em> conform to <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_general">General rules for exposing <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> semantics</a> in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].</p>
+      </section>
+    </section>
+    <section id="mapping_conflicts"><div class="header-wrapper"><h2 id="x5-conflicts-between-native-markup-semantics-and-wai-aria"><bdi class="secno">5. </bdi>Conflicts between native markup semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></h2><a class="self-link" href="#mapping_conflicts" aria-label="Permalink for Section 5."></a></div>
+      
+
+      <p>User agents <em class="rfc2119">MUST</em> conform to <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_conflicts">Conflicts between native markup semantics and <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr></a> in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].</p>
+    </section>
+    <section id="mapping_nodirect"><div class="header-wrapper"><h2 id="x6-exposing-attributes-that-do-not-directly-map-to-accessibility-api-properties"><bdi class="secno">6. </bdi>Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</h2><a class="self-link" href="#mapping_nodirect" aria-label="Permalink for Section 6."></a></div>
+      
+
+      <p>
+        User agents <em class="rfc2119">MUST</em> conform to
+        <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_nodirect">Exposing attributes that do not directly map to accessibility <abbr title="application programming interface">API</abbr> properties</a>
+        in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+      </p>
+    </section>
+    <section id="mapping_role"><div class="header-wrapper"><h2 id="x7-role-mapping"><bdi class="secno">7. </bdi>Role mapping</h2><a class="self-link" href="#mapping_role" aria-label="Permalink for Section 7."></a></div>
+      
+
+      <p>
+        Platform <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-accessibility-api">accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> traditionally have had a finite set of predefined <a class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a> that
+        are expected by <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria/#assistive-technology">assistive technologies</a> on that platform and only one or two roles are usually exposed. In contrast,
+        <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> allows multiple roles to be specified as an ordered set of space-separated valid role tokens. The additional roles are
+        fallback roles similar to the concept of specifying multiple fonts in case the first choice font type is not supported.
+      </p>
+
+      <section id="roleMappingGeneralRules"><div class="header-wrapper"><h3 id="x7-1-general-rules"><bdi class="secno">7.1 </bdi>General Rules</h3><a class="self-link" href="#roleMappingGeneralRules" aria-label="Permalink for Section 7.1"></a></div>
+        
+
+        <p>
+          User agents <em class="rfc2119">MUST</em> conform to the Role Mapping <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#roleMappingGeneralRules">General Rules</a> accessibility <abbr title="application programming interface">API</abbr> computational requirements in
+          [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+        </p>
+      </section>
+
+      <section id="mapping_role_table"><div class="header-wrapper"><h3 id="x7-2-role-mapping-tables"><bdi class="secno">7.2 </bdi>Role Mapping Tables</h3><a class="self-link" href="#mapping_role_table" aria-label="Permalink for Section 7.2"></a></div>
+        
+
+        <div class="note" role="note" id="issue-container-generatedID"><div class="note-title marker" id="h-note"><span>Note</span></div><p class="">
+          Translators: For label text associated with the following table and its toggle buttons, see the <code>mappingTableLabels</code> object in the <code>&lt;head&gt;</code> section of this
+          document.
+        </p></div>
+
+        <p>
+          This section defines how <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> digital publishing roles map to platform accessibility <abbr title="Application Programming Interfaces">APIs</abbr>. Elements having roles with a prefix value of <code>doc-</code>, that are not listed in this
+          role mapping table, have no normative mappings.
+        </p>
+
+        <section id="doc-abstract"><div class="header-wrapper"><h4 id="role-map-abstract"><bdi class="secno">7.2.1 </bdi><code>doc-abstract</code></h4><a class="self-link" href="#role-map-abstract" aria-label="Permalink for Section 7.2.1"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-abstract">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-abstract"><code>doc-abstract</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-abstract</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_SECTION</code></li>
+                    <li>Object attribute <code>xml-roles:doc-abstract</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>abstract</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-abstract</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "abstract" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-acknowledgments"><div class="header-wrapper"><h4 id="role-map-acknowledgments"><bdi class="secno">7.2.2 </bdi><code>doc-acknowledgments</code></h4><a class="self-link" href="#role-map-acknowledgments" aria-label="Permalink for Section 7.2.2"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-acknowledgments">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-acknowledgments"><code>doc-acknowledgments</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-acknowledgments</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-acknowledgments</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>acknowledgements</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>acknowledgements</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>
+                    Expose <code><code>ROLE_LANDMARK</code></code> and object attribute <code>xml-roles:doc-acknowledgments</code>.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "acknowledgements" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-afterword"><div class="header-wrapper"><h4 id="role-map-afterword"><bdi class="secno">7.2.3 </bdi><code>doc-afterword</code></h4><a class="self-link" href="#role-map-afterword" aria-label="Permalink for Section 7.2.3"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-afterword">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-afterword"><code>doc-afterword</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-afterword</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-afterword</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>afterword</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>afterword</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-afterword</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "afterword" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-appendix"><div class="header-wrapper"><h4 id="role-map-appendix"><bdi class="secno">7.2.4 </bdi><code>doc-appendix</code></h4><a class="self-link" href="#role-map-appendix" aria-label="Permalink for Section 7.2.4"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-appendix">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-appendix"><code>doc-appendix</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-appendix</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-appendix</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>appendix</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>appendix</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-appendix</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "appendix" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-backlink"><div class="header-wrapper"><h4 id="role-map-backlink"><bdi class="secno">7.2.5 </bdi><code>doc-backlink</code></h4><a class="self-link" href="#role-map-backlink" aria-label="Permalink for Section 7.2.5"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-backlink">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-backlink"><code>doc-backlink</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-backlink</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <ul>
+                    <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                    <li><code>STATE_LINKED</code> on all descendants</li>
+                  </ul>
+                  <p>IAccessible2:</p>
+                  <ul>
+                    <li>Object attribute <code>xml-roles:doc-backlink</code>.</li>
+                    <li><code>AccessibleHypertext</code> interface</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>backlink</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-backlink</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXLink</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'link'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "back" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-biblioentry"><div class="header-wrapper"><h4 id="role-map-biblioentry"><bdi class="secno">7.2.6 </bdi><code>doc-biblioentry</code></h4><a class="self-link" href="#role-map-biblioentry" aria-label="Permalink for Section 7.2.6"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-biblioentry">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-biblioentry"><code>doc-biblioentry</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-biblioentry</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p>
+                    <code>ROLE_SYSTEM_LISTITEM</code> +
+                    <code>STATE_SYSTEM_READONLY</code>
+                  </p>
+                  <p>IAccessible2:</p>
+                  <p>Object attribute <code>xml-roles:doc-biblioentry</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>biblioentry</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LIST_ITEM</code> and object attribute <code>xml-roles:doc-bilioentry</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-bibliography"><div class="header-wrapper"><h4 id="role-map-bibliography"><bdi class="secno">7.2.7 </bdi><code>doc-bibliography</code></h4><a class="self-link" href="#role-map-bibliography" aria-label="Permalink for Section 7.2.7"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-bibliography">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-biblioentry"><code>doc-bibliography</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-bibliography</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-bibliography</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>bibliography</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>biblography</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-bibliography</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "bibliography" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-biblioref"><div class="header-wrapper"><h4 id="role-map-biblioref"><bdi class="secno">7.2.8 </bdi><code>doc-biblioref</code></h4><a class="self-link" href="#role-map-biblioref" aria-label="Permalink for Section 7.2.8"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-biblioref">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-biblioref"><code>doc-biblioref</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-biblioref</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <ul>
+                    <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                    <li><code>STATE_LINKED</code> on all descendants</li>
+                  </ul>
+                  <p>IAccessible2:</p>
+                  <ul>
+                    <li>Object attribute <code>xml-roles:doc-biblioref</code>.</li>
+                    <li><code>AccessibleHypertext</code> interface</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>biblioref</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-biblioref</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXLink</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'link'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "bibliography" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-chapter"><div class="header-wrapper"><h4 id="role-map-chapter"><bdi class="secno">7.2.9 </bdi><code>doc-chapter</code></h4><a class="self-link" href="#role-map-chapter" aria-label="Permalink for Section 7.2.9"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-chapter">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-chapter"><code>doc-chapter</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-chapter</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-chapter</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>chapter</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>chapter</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:chapter</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkChapter</code></li>
+                    <li>AXRoleDescription: <code>'chapter'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-colophon"><div class="header-wrapper"><h4 id="role-map-colophon"><bdi class="secno">7.2.10 </bdi><code>doc-colophon</code></h4><a class="self-link" href="#role-map-colophon" aria-label="Permalink for Section 7.2.10"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-colophon">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-colophon"><code>doc-colophon</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-colophon</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2: Object attribute <code>xml-roles:doc-colophon</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>colophon</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-colophon</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "colophon" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-conclusion"><div class="header-wrapper"><h4 id="role-map-conclusion"><bdi class="secno">7.2.11 </bdi><code>doc-conclusion</code></h4><a class="self-link" href="#role-map-conclusion" aria-label="Permalink for Section 7.2.11"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-conclusion">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-conclusion"><code>doc-conclusion</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-conclusion</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-conclusion</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>conclusion</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>conclusion</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-conclusion</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "conclusion" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-cover"><div class="header-wrapper"><h4 id="role-map-cover"><bdi class="secno">7.2.12 </bdi><code>doc-cover</code></h4><a class="self-link" href="#role-map-cover" aria-label="Permalink for Section 7.2.12"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-cover">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-cover"><code>doc-cover</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-cover</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>ROLE_SYSTEM_GRAPHIC</code></p>
+                  <p>IAccessible2: Object attribute <code>xml-roles:doc-cover</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>Control Type is <code>Image</code></td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>expose <code>ROLE_IMAGE</code> and object attribute <code>xml-roles:doc-cover</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXImage</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'cover image'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-credit"><div class="header-wrapper"><h4 id="role-map-credit"><bdi class="secno">7.2.13 </bdi><code>doc-credit</code></h4><a class="self-link" href="#role-map-credit" aria-label="Permalink for Section 7.2.13"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-credit">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-cover"><code>doc-credit</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-credit</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute
+                  <code>xml-roles:doc-credit</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>credit</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-credit</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-credits"><div class="header-wrapper"><h4 id="role-map-credits"><bdi class="secno">7.2.14 </bdi><code>doc-credits</code></h4><a class="self-link" href="#role-map-credits" aria-label="Permalink for Section 7.2.14"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-credits">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-credits"><code>doc-credits</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-credits</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-credits</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>credits</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>credits</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-credits</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "credits" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-dedication"><div class="header-wrapper"><h4 id="role-map-dedication"><bdi class="secno">7.2.15 </bdi><code>doc-dedication</code></h4><a class="self-link" href="#role-map-dedication" aria-label="Permalink for Section 7.2.15"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-dedication">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-dedication"><code>doc-dedication</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-dedication</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute
+                  <code>xml-roles:doc-dedication</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>dedication</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-dedication</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "dedication" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-endnote"><div class="header-wrapper"><h4 id="role-map-endnote"><bdi class="secno">7.2.16 </bdi><code>doc-endnote</code></h4><a class="self-link" href="#role-map-endnote" aria-label="Permalink for Section 7.2.16"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-endnote">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-endnote"><code>doc-endnote</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-endnote</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p>
+                    <code>ROLE_SYSTEM_LISTITEM</code> +
+                    <code>STATE_SYSTEM_READONLY</code>
+                  </p>
+                  <p>IAccessible2:</p>
+                  <p>Object attribute <code>xml-roles:doc-endnote</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>endnote</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LIST_ITEM</code> and object attribute <code>xml-roles:doc-endnote</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-endnotes"><div class="header-wrapper"><h4 id="role-map-endnotes"><bdi class="secno">7.2.17 </bdi><code>doc-endnotes</code></h4><a class="self-link" href="#role-map-endnotes" aria-label="Permalink for Section 7.2.17"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-endnotes">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-endnote"><code>doc-endnotes</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-endnotes</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-endnotes</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>endnotes</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>endnotes</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-endnotes</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "end notes" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-epigraph"><div class="header-wrapper"><h4 id="role-map-epigraph"><bdi class="secno">7.2.18 </bdi><code>doc-epigraph</code></h4><a class="self-link" href="#role-map-epigraph" aria-label="Permalink for Section 7.2.18"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-epigraph">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-epigraph"><code>doc-epigraph</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-epigraph</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute
+                  <code>xml-roles:doc-epigraph</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>epigraph</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-epigraph</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "epigraph" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-epilogue"><div class="header-wrapper"><h4 id="role-map-epilogue"><bdi class="secno">7.2.19 </bdi><code>doc-epilogue</code></h4><a class="self-link" href="#role-map-epilogue" aria-label="Permalink for Section 7.2.19"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-epilogue">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-epilogue"><code>doc-epilogue</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-epilogue</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-epilogue</code>.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>epilogue</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>epilogue</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-epilogue</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "epilog" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-errata"><div class="header-wrapper"><h4 id="role-map-errata"><bdi class="secno">7.2.20 </bdi><code>doc-errata</code></h4><a class="self-link" href="#role-map-errata" aria-label="Permalink for Section 7.2.20"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-errata">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-cover"><code>doc-errata</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-errata</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-errata</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>errata</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>errata</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-errata</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "errata" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-example"><div class="header-wrapper"><h4 id="role-map-example"><bdi class="secno">7.2.21 </bdi><code>doc-example</code></h4><a class="self-link" href="#role-map-example" aria-label="Permalink for Section 7.2.21"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-example">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-cover"><code>doc-example</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-example</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute
+                  <code>xml-roles:doc-example</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>example</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-example</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "example" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-footnote"><div class="header-wrapper"><h4 id="role-map-footnote"><bdi class="secno">7.2.22 </bdi><code>doc-footnote</code></h4><a class="self-link" href="#role-map-footnote" aria-label="Permalink for Section 7.2.22"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-footnote">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-footnote"><code>doc-footnote</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-footnote</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  <p>Expose IAccessible2:</p>
+                  <ul>
+                    <li><code>IA2_ROLE_FOOTNOTE</code></li>
+                    <li>Object attribute: <code>xml-roles:doc-footnote</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>footnote</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_FOOTNOTE</code> and object attribute <code>xml-roles:doc-footnote</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "footnote" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-foreword"><div class="header-wrapper"><h4 id="role-map-foreword"><bdi class="secno">7.2.23 </bdi><code>doc-foreword</code></h4><a class="self-link" href="#role-map-foreword" aria-label="Permalink for Section 7.2.23"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-foreword">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-foreword"><code>doc-foreword</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-foreword</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-foreword</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>foreword</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>foreword</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-foreword</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "foreword" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-glossary"><div class="header-wrapper"><h4 id="role-map-glossary"><bdi class="secno">7.2.24 </bdi><code>doc-glossary</code></h4><a class="self-link" href="#role-map-glossary" aria-label="Permalink for Section 7.2.24"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-glossary">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-glossary"><code>doc-glossary</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-glossary</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-glossary</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>glossary</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>glossary</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-glossary</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "glossary" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-glossref"><div class="header-wrapper"><h4 id="role-map-glossref"><bdi class="secno">7.2.25 </bdi><code>doc-glossref</code></h4><a class="self-link" href="#role-map-glossref" aria-label="Permalink for Section 7.2.25"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-glossref">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-glossref"><code>doc-glossref</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-glossref</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <ul>
+                    <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                    <li><code>STATE_LINKED</code> on all descendants</li>
+                  </ul>
+                  <p>IAccessible2:</p>
+                  <ul>
+                    <li>Object attribute <code>xml-roles:doc-glossref</code>.</li>
+                    <li><code>AccessibleHypertext</code> interface</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>glossref</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-glossref</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXLink</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'link'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "glossary" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-index"><div class="header-wrapper"><h4 id="role-map-index"><bdi class="secno">7.2.26 </bdi><code>doc-index</code></h4><a class="self-link" href="#role-map-index" aria-label="Permalink for Section 7.2.26"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-index">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-index"><code>doc-index</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-index</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-index</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>index</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>index</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-index</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkNavigation</code></li>
+                    <li>AXRoleDescription: <code>'navigation'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "index" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-introduction"><div class="header-wrapper"><h4 id="role-map-introduction"><bdi class="secno">7.2.27 </bdi><code>doc-introduction</code></h4><a class="self-link" href="#role-map-introduction" aria-label="Permalink for Section 7.2.27"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-introduction">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-introduction"><code>doc-introduction</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-introduction</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-introduction</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>introduction</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>introduction</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-introduction</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "introduction" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-noteref"><div class="header-wrapper"><h4 id="role-map-noteref"><bdi class="secno">7.2.28 </bdi><code>doc-noteref</code></h4><a class="self-link" href="#role-map-noteref" aria-label="Permalink for Section 7.2.28"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-noteref">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-noteref"><code>doc-noteref</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-noteref</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <ul>
+                    <li><code>ROLE_SYSTEM_LINK</code> + <code>STATE_LINKED</code></li>
+                    <li><code>STATE_LINKED</code> on all descendants</li>
+                  </ul>
+                  <p>IAccessible2:</p>
+                  <ul>
+                    <li>Object attribute <code>xml-roles:doc-noteref</code>.</li>
+                    <li><code>AccessibleHypertext</code> interface</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>noteref</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LINK</code> and object attribute <code>xml-roles:doc-noteref</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXLink</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'link'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "note" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-notice"><div class="header-wrapper"><h4 id="role-map-notice"><bdi class="secno">7.2.29 </bdi><code>doc-notice</code></h4><a class="self-link" href="#role-map-notice" aria-label="Permalink for Section 7.2.29"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-notice">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-notice"><code>doc-notice</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-notice</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_NOTE</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute <code>xml-roles:doc-notice</code>.
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>notice</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_COMMENT</code> and object attribute <code>xml-roles:doc-notice</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXDocumentNote</code></li>
+                    <li>AXRoleDescription: <code>'note'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-pagebreak"><div class="header-wrapper"><h4 id="role-map-pagebreak"><bdi class="secno">7.2.30 </bdi><code>doc-pagebreak</code></h4><a class="self-link" href="#role-map-pagebreak" aria-label="Permalink for Section 7.2.30"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-pagebreak">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-pagebreak"><code>doc-pagebreak</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-pagebreak</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>ROLE_SYSTEM_SEPARATOR</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute <code>xml-roles:doc-pagebreak</code>.
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>pagebreak</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SEPARATOR</code> and object attribute <code>xml-roles:doc-pagebreak</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXSplitter</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'splitter'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "page break" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-pagefooter"><div class="header-wrapper"><h4 id="role-map-pagefooter"><bdi class="secno">7.2.31 </bdi><code>doc-pagefooter</code></h4><a class="self-link" href="#role-map-pagefooter" aria-label="Permalink for Section 7.2.31"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-pagefooter">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-pagefooter"><code>doc-pagefooter</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-pagefooter</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_FOOTER</code></li>
+                    <li>Object attribute <code>xml-roles:doc-pagefooter</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Control Pattern: <code>Annotation</code></li>
+                    <li><code>Annotation.AnnotationTypeId</code>: <code>Footer</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  Expose
+                  <p><code>ROLE_FOOTER</code> and object attribute <code>xml-roles:doc-pagefooter</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "footer" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-pageheader"><div class="header-wrapper"><h4 id="role-map-pageheader"><bdi class="secno">7.2.32 </bdi><code>doc-pageheader</code></h4><a class="self-link" href="#role-map-pageheader" aria-label="Permalink for Section 7.2.32"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-pageheader">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-pageheader"><code>doc-pageheader</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-pageheader</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_HEADER</code></li>
+                    <li>Object attribute <code>xml-roles:doc-pageheader</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Control Pattern: <code>Annotation</code></li>
+                    <li><code>Annotation.AnnotationTypeId</code>: <code>Header</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  Expose
+                  <p><code>ROLE_HEADER</code> and object attribute <code>xml-roles:doc-pageheader</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>&lt;nil&gt;</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "header" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-pagelist"><div class="header-wrapper"><h4 id="role-map-pagelist"><bdi class="secno">7.2.33 </bdi><code>doc-pagelist</code></h4><a class="self-link" href="#role-map-pagelist" aria-label="Permalink for Section 7.2.33"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-pagelist">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-pagelist"><code>doc-pagelist</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-pagelist</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-pagelist</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>pagelist</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>pagelist</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  Expose
+                  <p><code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-pagelist</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkNavigation</code></li>
+                    <li>AXRoleDescription: <code>'navigation'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "page list" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-part"><div class="header-wrapper"><h4 id="role-map-part"><bdi class="secno">7.2.34 </bdi><code>doc-part</code></h4><a class="self-link" href="#role-map-part" aria-label="Permalink for Section 7.2.34"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-part">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-part"><code>doc-part</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-part</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-part</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>part</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>part</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-part</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "part" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-preface"><div class="header-wrapper"><h4 id="role-map-preface"><bdi class="secno">7.2.35 </bdi><code>doc-preface</code></h4><a class="self-link" href="#role-map-preface" aria-label="Permalink for Section 7.2.35"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-preface">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-preface"><code>doc-preface</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-preface</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARKi</code></li>
+                    <li>Object attribute <code>xml-roles:doc-preface</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>preface</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>preface</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-preface</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "preface" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-prologue"><div class="header-wrapper"><h4 id="role-map-prologue"><bdi class="secno">7.2.36 </bdi><code>doc-prologue</code></h4><a class="self-link" href="#role-map-prologue" aria-label="Permalink for Section 7.2.36"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-prologue">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-prologue"><code>doc-prologue</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-prologue</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-prologue</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>prologue</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>prologue</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-prologue</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkRegion</code></li>
+                    <li>AXRoleDescription: <code>'region'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "prolog" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-pullquote"><div class="header-wrapper"><h4 id="role-map-pullquote"><bdi class="secno">7.2.37 </bdi><code>doc-pullquote</code></h4><a class="self-link" href="#role-map-pullquote" aria-label="Permalink for Section 7.2.37"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-pullquote">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-pullquote"><code>doc-pullquote</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-pullquote</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_SECTION</code></li>
+                    <li>Object attribute <code>xml-roles:doc-pullquote</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>pullquote</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-pullquote</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "pull quote" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-qna"><div class="header-wrapper"><h4 id="role-map-qna"><bdi class="secno">7.2.38 </bdi><code>doc-qna</code></h4><a class="self-link" href="#role-map-qna" aria-label="Permalink for Section 7.2.38"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-qna">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-qna"><code>doc-qna</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-qna</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_SECTION</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute
+                  <code>xml-roles:doc-qna</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>qna</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_SECTION</code> and object attribute <code>xml-roles:doc-qna</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXApplicationGroup</code></li>
+                    <li>AXRoleDescription: <code>'group'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "Q&amp;A" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-subtitle"><div class="header-wrapper"><h4 id="role-map-subtitle"><bdi class="secno">7.2.39 </bdi><code>doc-subtitle</code></h4><a class="self-link" href="#role-map-subtitle" aria-label="Permalink for Section 7.2.39"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-subtitle">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-subtitle"><code>doc-subtitle</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-subtitle</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_HEADING</code></li>
+                    <li>Object attribute <code>xml-roles:doc-subtitle</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>subtitle</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_HEADING</code> and object attribute <code>xml-roles:doc-subtitle</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXHeading</code></li>
+                    <li>AXSubrole: <code>AXSubtitle</code></li>
+                    <li>AXRoleDescription: <code>'subtitle'</code></li>
+                    <li>AXCustomContent: <code>{}</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-tip"><div class="header-wrapper"><h4 id="role-map-tip"><bdi class="secno">7.2.40 </bdi><code>doc-tip</code></h4><a class="self-link" href="#role-map-tip" aria-label="Permalink for Section 7.2.40"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-tip">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-tip"><code>doc-tip</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-tip</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose
+                  <p><code>IA2_ROLE_NOTE</code></p>
+                  <p>IAccessible2:</p>
+                  Object attribute <code>xml-roles:doc-tip</code>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>tip</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_COMMENT</code> and object attribute <code>xml-roles:doc-tip</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXDocumentNote</code></li>
+                    <li>AXRoleDescription: <code>'note'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "tip" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="doc-toc"><div class="header-wrapper"><h4 id="role-map-toc"><bdi class="secno">7.2.41 </bdi><code>doc-toc</code></h4><a class="self-link" href="#role-map-toc" aria-label="Permalink for Section 7.2.41"></a></div>
+          
+          <table class="data" aria-labelledby="role-map-toc">
+            <tbody>
+              <tr>
+                <th>DPUB-ARIA Specification</th>
+                <td>
+                  <a class="dpub-role-reference" href="https://www.w3.org/TR/dpub-aria-1.1/#doc-toc"><code>doc-toc</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th><a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.2/#roleMappingComputedRole">Computed Role</a></th>
+                <td><code>doc-toc</code></td>
+              </tr>
+              <tr>
+                <th>MSAA + IAccessible2 Role + Other IAccessible2 Features</th>
+                <td>
+                  Expose IAccessible2:
+                  <ul>
+                    <li><code>IA2_ROLE_LANDMARK</code></li>
+                    <li>Object attribute <code>xml-roles:doc-toc</code></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="User Interface Automation">UIA</abbr> Control Type + Other Features</th>
+                <td>
+                  <ul>
+                    <li>Control Type is <code>Text</code></li>
+                    <li>Localized Control Type is '<code>toc</code>'</li>
+                    <li>Landmark Type is <code>Custom</code></li>
+                    <li>Localized Landmark Type is '<code>toc</code>'</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> Role</th>
+                <td>
+                  <p>Expose <code>ROLE_LANDMARK</code> and object attribute <code>xml-roles:doc-toc</code>.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr></th>
+                <td>
+                  <ul>
+                    <li>AXRole: <code>AXGroup</code></li>
+                    <li>AXSubrole: <code>AXLandmarkNavigation</code></li>
+                    <li>AXRoleDescription: <code>'navigation'</code></li>
+                    <li>AXCustomContent: <code>{ label: "type", value: "table of contents" }</code></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+    </section>
+    <section id="translatable-values"><div class="header-wrapper"><h2 id="x8-translatable-values"><bdi class="secno">8. </bdi>Translatable Values</h2><a class="self-link" href="#translatable-values" aria-label="Permalink for Section 8."></a></div>
+      
+
+      <p>
+        The HTML specification states that other specifications can define <a href="https://html.spec.whatwg.org/multipage/dom.html#translatable-attributes">translatable attributes</a> [<cite><a class="bibref" data-link-type="biblio" href="#bib-html" title="HTML Standard">html</a></cite>]. The
+        language and directionality of each attribute value is the same as the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/dom.html#language">language</a> and <a href="https://html.spec.whatwg.org/multipage/dom.html#the-directionality">directionality</a> of
+        the element [<cite><a class="bibref" data-link-type="biblio" href="#bib-html" title="HTML Standard">html</a></cite>].
+      </p>
+
+      <p>To be understandable by assistive technology users, the following <code>role</code> mapping values intended for human consumption <em class="rfc2119">SHOULD</em> be translated when a page is localized:</p>
+
+      <ul>
+        <li>AXRoleDescription</li>
+        <li>the <code>value</code> property of AXCustomContent</li>
+        <li>Localized Control Type</li>
+        <li>Localized Landmark Type</li>
+      </ul>
+    </section>
+    <section id="mapping_state-property"><div class="header-wrapper"><h2 id="x9-state-and-property-mapping"><bdi class="secno">9. </bdi>State and Property Mapping</h2><a class="self-link" href="#mapping_state-property" aria-label="Permalink for Section 9."></a></div>
+      
+
+      <p>
+        This section describes how to expose <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-state">states</a> and object
+        <a class="termref informative" href="https://www.w3.org/TR/wai-aria/#dfn-property">properties</a>. User agents <em class="rfc2119">MUST</em> conform to the
+        <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_state-property">State and Property Mapping</a> accessibility <abbr title="application programming interface">API</abbr> computational requirements in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+      </p>
+    </section>
+    <section id="mapping_additional"><div class="header-wrapper"><h2 id="x10-special-processing-requiring-additional-computation"><bdi class="secno">10. </bdi>Special Processing Requiring Additional Computation</h2><a class="self-link" href="#mapping_additional" aria-label="Permalink for Section 10."></a></div>
+      
+
+      <section id="mapping_additional_nd"><div class="header-wrapper"><h3 id="x10-1-name-and-description"><bdi class="secno">10.1 </bdi>Name and Description</h3><a class="self-link" href="#mapping_additional_nd" aria-label="Permalink for Section 10.1"></a></div>
+        
+
+        <p>
+          When computing an <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/accname-1.2/#dfn-accessible-name">accessible name</a> or <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/accname-1.2/#dfn-accessible-description">accessible description</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> <em class="rfc2119">MUST</em> conform to the section titled
+          <a class="accname" href="https://www.w3.org/TR/accname-1.2/#mapping_additional_nd_te">Text Alternative Computation</a> of the [<cite><a class="bibref" data-link-type="biblio" href="#bib-accname-1-2" title="Accessible Name and Description Computation 1.2">ACCNAME-1.2</a></cite>] specification.
+        </p>
+      </section>
+
+      <section id="mapping_additional_relations"><div class="header-wrapper"><h3 id="x10-2-relations"><bdi class="secno">10.2 </bdi>Relations</h3><a class="self-link" href="#mapping_additional_relations" aria-label="Permalink for Section 10.2"></a></div>
+        
+
+        <p>
+          User agents <em class="rfc2119">MUST</em> conform to the <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_additional_relations">Relation</a> accessibility <abbr title="application programming interface">API</abbr> computational requirements in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+        </p>
+      </section>
+
+      <section id="mapping_additional_position"><div class="header-wrapper"><h3 id="x10-3-group-position"><bdi class="secno">10.3 </bdi>Group Position</h3><a class="self-link" href="#mapping_additional_position" aria-label="Permalink for Section 10.3"></a></div>
+        
+
+        <p>
+          User agents <em class="rfc2119">MUST</em> conform to the <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_additional_position">Group Position</a> accessibility <abbr title="application programming interface">API</abbr> computational requirements in
+          [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].
+        </p>
+      </section>
+    </section>
+    <section id="mapping_actions"><div class="header-wrapper"><h2 id="x11-actions"><bdi class="secno">11. </bdi>Actions</h2><a class="self-link" href="#mapping_actions" aria-label="Permalink for Section 11."></a></div>
+      
+
+      <p>User agents <em class="rfc2119">MUST</em> conform to the <a class="core-mapping" href="https://www.w3.org/TR/core-aam-1.1/#mapping_actions">Actions</a> accessibility <abbr title="application programming interface">API</abbr> computational requirements in [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>].</p>
+    </section>
+    <section id="mapping_events"><div class="header-wrapper"><h2 id="x12-events"><bdi class="secno">12. </bdi>Events</h2><a class="self-link" href="#mapping_events" aria-label="Permalink for Section 12."></a></div>
+      
+
+      <p>
+        <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> fire <a class="termref informative" data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event">events</a> for user actions, <abbr title="Accessible Rich Internet Application">WAI-ARIA</abbr> <a class="termref informative" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-state">state</a> changes, changes to
+        document content or node visibility, changes in selection, and operation of menus. Conforming <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agents</a> <em class="rfc2119">MUST</em> support the [<cite><a class="bibref" data-link-type="biblio" href="#bib-core-aam-1-1" title="Core Accessibility API Mappings 1.1">CORE-AAM-1.1</a></cite>]
+        <a class="core=mappings" href="https://www.w3.org/TR/core-aam-1.1/#mapping_events">Events</a> mappings.
+      </p>
+    </section>
+    <section class="informative" id="security-considerations"><div class="header-wrapper"><h2 id="x13-security-considerations"><bdi class="secno">13. </bdi>Security Considerations</h2><a class="self-link" href="#security-considerations" aria-label="Permalink for Section 13."></a></div><p><em>This section is non-normative.</em></p>
+      
+
+      <p>This specification introduces no new security considerations.</p>
+    </section>
+    <section class="informative" id="privacy-considerations"><div class="header-wrapper"><h2 id="x14-privacy-considerations"><bdi class="secno">14. </bdi>Privacy Considerations</h2><a class="self-link" href="#privacy-considerations" aria-label="Permalink for Section 14."></a></div><p><em>This section is non-normative.</em></p>
+      
+
+      <p>
+        In accordance with <a href="https://w3ctag.github.io/design-principles/#do-not-expose-use-of-assistive-tech">Web Platform Design Principles</a>, this specification provides no programatic
+        interface to determine if information is being used by assistive technologies. However, this specification does allow an author to present different information to users of assistive
+        technologies from the information available to users who do not use assistive technologies. This is possible using many features of the DPUB-ARIA specification, just as this is possible using
+        many other parts of the web technology stack. This content disparity could be abused to perform <a href="https://www.w3.org/TR/fingerprinting-guidance/#active-0">active fingerprinting</a> of users of assistive
+        technologies.
+      </p>
+    </section>
+    <section id="appendices" class="appendix"><div class="header-wrapper"><h2 id="a-appendices"><bdi class="secno">A. </bdi>Appendices</h2><a class="self-link" href="#appendices" aria-label="Permalink for Appendix A."></a></div>
+      
+
+      <section class="appendix" id="changelog"><div class="header-wrapper"><h3 id="a-1-change-log"><bdi class="secno">A.1 </bdi>Change Log</h3><a class="self-link" href="#changelog" aria-label="Permalink for Appendix A.1"></a></div>
+        
+
+        <section id="recent-changes"><div class="header-wrapper"><h4 id="a-1-1-substantive-changes-since-the-first-public-working-draft"><bdi class="secno">A.1.1 </bdi>Substantive changes since the <a href="https://www.w3.org/TR/2021/WD-dpub-aam-1.1-20211130/">First Public Working Draft</a></h4><a class="self-link" href="#recent-changes" aria-label="Permalink for Appendix A.1.1"></a></div>
+          
+
+          <ul>
+            <li>01-Dec-2023: Removed the mappings that implied doc-biblioentry and doc-endnote on listitem descendants doc-bibliograph and doc-endnotes, respectively.</li>
+            <li>10-Jan-2023: Added section on translatable values.</li>
+            <li>04-Jan-2023: Fixed incorrect doc-pagebreak role mentioned in <abbr title="Accessibility Toolkit">ATK</abbr>/<abbr title="Assistive Technology - Service Provider Interface">AT-SPI</abbr> mapping for doc-preface.</li>
+            <li>04-Jan-2023: Updated <abbr title="Mac OS X Accessibility Protocol">Mac AX API</abbr> mappings to add AXCustomContent fields.</li>
+          </ul>
+        </section>
+
+        <section id="older-changes"><div class="header-wrapper"><h4 id="a-1-2-other-substantive-changes-since-digital-publishing-accessibility-api-mappings-1-0"><bdi class="secno">A.1.2 </bdi>Other substantive changes since <a href="https://www.w3.org/TR/2017/REC-dpub-aam-1.0-20171214/">Digital Publishing Accessibility <abbr title="application programming interface">API</abbr> Mappings 1.0</a></h4><a class="self-link" href="#older-changes" aria-label="Permalink for Appendix A.1.2"></a></div>
+          
+          <ul>
+            <li>20-Sep-2021: Added mappings for doc-pageheader and doc-pagefooter roles.</li>
+          </ul>
+        </section>
+      </section>
+
+      <section class="appendix informative section" id="acknowledgements"><div class="header-wrapper"><h3 id="a-2-acknowledgments"><bdi class="secno">A.2 </bdi>Acknowledgments</h3><a class="self-link" href="#acknowledgements" aria-label="Permalink for Appendix A.2"></a></div><p><em>This section is non-normative.</em></p>
+        
+
+        <p>The following people contributed to the development of this document:</p>
+        <ul id="gh-contributors"><li><a href="https://github.com/boggydigital">Bogdan Brinza</a></li><li><a href="https://github.com/daniel-montalvo">Daniel Montalvo</a></li><li><a href="https://github.com/deniak">Denis Ah-Kang</a></li><li><a href="https://github.com/cookiecrook">James Craig</a></li><li><a href="https://github.com/jnurthen">James Nurthen</a></li><li><a href="https://github.com/joanmarie">joanmarie</a></li><li><a href="https://github.com/klown">Joseph Scheuhammer</a></li><li><a href="https://github.com/pkra">Peter Krautzberger</a></li><li><a href="https://github.com/richschwer">Richard Schwerdtfeger</a></li><li><a href="https://github.com/spectranaut">Valerie Young</a></li></ul>
+        <section class="section" id="ack_group"><div class="header-wrapper"><h4 id="a-2-1-aria-wg-participants-at-the-time-of-publication"><bdi class="secno">A.2.1 </bdi>ARIA WG participants at the time of publication</h4><a class="self-link" href="#ack_group" aria-label="Permalink for Appendix A.2.1"></a></div>
+          
+          <ul>
+            
+          <li>Rahim Abdi (Apple Inc.)</li><li>NAVYA AGARWAL (Adobe)</li><li>Joey Arhar (Google LLC)</li><li>Benjamin Beaudry (Microsoft Corporation)</li><li>Curt Bellew (Oracle Corporation)</li><li>Zoë Bijl (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Gautier Chomel (EDRLab)</li><li>Aleksandar Cindrikj (Netcetera)</li><li>Keith Cirkel (Mozilla Foundation)</li><li>Daniel Clark (Microsoft Corporation)</li><li>Sydney Coleman (Google LLC)</li><li>James Craig (Apple Inc.)</li><li>Chris Cuellar (Bocoup)</li><li>Diego Della Rossa (UsableNet)</li><li>Joanmarie Diggs (Igalia)</li><li>Tamsin Ewing (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Mayuri Faldu (Navy Federal Credit Union)</li><li>Betsy Fanning (PDF Association)</li><li>Steve Faulkner (TetraLogical Services Ltd)</li><li>Patrick Foster (axes4 GmbH)</li><li>Jane Fulton (Cisco)</li><li>Bryan Garaventa (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Matt Garrish (DAISY Consortium)</li><li>Doug Geoffray (Microsoft Corporation)</li><li>Ariella Gilmore (IBM Corporation)</li><li>Taylore Givens (Microsoft Corporation)</li><li>David Grogan (Google LLC)</li><li>Shirisha Gubba (Google LLC)</li><li>Jon Gunderson (University of Illinois)</li><li>Oliver Habersetzer (SAP SE)</li><li>Theo Hale (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Sunny Hardasani (Adobe)</li><li>Matthew Hardy (Adobe)</li><li>Chris Harrelson (Google LLC)</li><li>Sarah Higley (Microsoft Corporation)</li><li>Hans Hillen (TPGi)</li><li>takumi hiramatsu (Cybozu)</li><li>Stanley Hon (Microsoft Corporation)</li><li>Michael Jackson (Microsoft Corporation)</li><li>John Jansen (Microsoft Corporation)</li><li>Jilin Jiang (Ant Group Co., Ltd.)</li><li>Duff Johnson (PDF Association)</li><li>Summer Jones (Thomson Reuters Corp.)</li><li>Yuki Kamahori (Cybozu)</li><li>William Kilian (Kilian Codes LLC)</li><li>Matthew King (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Zachary Kinsey (TargetStream Technologies)</li><li>Daisuke Kobayashi (Cybozu)</li><li>Peter Krautzberger (krautzource UG)</li><li>Nina Krauß (SAP SE)</li><li>JaEun Jemma Ku (University of Illinois)</li><li>Steven Lambert (Deque Systems, Inc.)</li><li>Joe Lamyman (TetraLogical Services Ltd)</li><li>Christopher Land (Oracle Corporation)</li><li>Charles LaPierre (Benetech)</li><li>Patrick Lauke (TetraLogical Services Ltd)</li><li>Philip Lazarevic (Level Access)</li><li>Leo Lee (Microsoft Corporation)</li><li>Brett Lewis (TPGi)</li><li>Alison Maher (Microsoft Corporation)</li><li>Gurpreet Kaur Mangera (Rakuten Group, Inc.)</li><li>Mark McCarthy (University of Illinois)</li><li>Katie McDermott (See Me Please)</li><li>Eduardo Meza Etienne (Navy Federal Credit Union)</li><li>Clay Miller (Microsoft Corporation)</li><li>Hirotaka Minamida (Cybozu)</li><li>Daniel Montalvo (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Baldino Morelli (UsableNet)</li><li>Jacques Newman (Microsoft Corporation)</li><li>James Nurthen (Evinced Inc.)</li><li>Scott O'Hara (Microsoft Corporation)</li><li>Lola Odelola (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Neil Osman (Evinced Inc.)</li><li>Yusuke Oyama (Cybozu)</li><li>Adam Page (Hilton)</li><li>Michael Pennisi (Bocoup)</li><li>Giacomo Petri (UsableNet)</li><li>Noah Praskins (TPGi)</li><li>Lucas Radaelli (Google LLC)</li><li>Paul Rayius (PDFix-US)</li><li>Mark Rogers (Powermapper Software)</li><li>Adrian Roselli (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Marco Sabidussi (UsableNet)</li><li>Trisha Salas (Level Access)</li><li>Stefan Schnabel (SAP SE)</li><li>Harris Schneiderman (Deque Systems, Inc.)</li><li>Raymond Schwartz (Navy Federal Credit Union)</li><li>Davis Shaver (The Washington Post)</li><li>Cynthia Shelly (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Tzviya Siegman (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Avneesh Singh (DAISY Consortium)</li><li>Michael[tm] Smith (sideshowbarker) (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Francis Storr (Intel Corporation)</li><li>Nobukiyo Sugisaki (Cybozu)</li><li>Melanie Sumner (IBM Corporation)</li><li>Alexander Surkov (Igalia)</li><li>James Teh (Mozilla Foundation)</li><li>Roman Toda (Foxit software)</li><li>David Tseng (Google LLC)</li><li>Cybozu <abbr title="World Wide Web Consortium">W3C</abbr> (Cybozu)</li></ul>
+        </section>
+        <section class="section" id="ack_funders"><div class="header-wrapper"><h4 id="a-2-2-enabling-funders"><bdi class="secno">A.2.2 </bdi>Enabling funders</h4><a class="self-link" href="#ack_funders" aria-label="Permalink for Appendix A.2.2"></a></div>
+	
+	<p>This publication has been funded in part with U.S. Federal funds from the Department of Education, National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), initially under contract number ED-OSE-10-C-0067, then under contract number HHSP23301500054C, and now under HHS75P00120P00168. The content of this publication does not necessarily reflect the views or policies of the U.S. Department of Education, nor does mention of trade names, commercial products, or organizations imply endorsement by the U.S. Government.</p>
+</section>
+
+      </section>
+    </section>
+  
+
+<section id="references" class="appendix"><div class="header-wrapper"><h2 id="b-references"><bdi class="secno">B. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix B."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="b-1-normative-references"><bdi class="secno">B.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix B.1"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-accname-1-2">[ACCNAME-1.2]</dt><dd>
+      <a href="https://www.w3.org/TR/accname-1.2/"><cite>Accessible Name and Description Computation 1.2</cite></a>. Bryan Garaventa; Melanie Sumner.  W3C. 29 May 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/accname-1.2/">https://www.w3.org/TR/accname-1.2/</a>
+    </dd><dt id="bib-core-aam-1-1">[CORE-AAM-1.1]</dt><dd>
+      <a href="https://www.w3.org/TR/core-aam-1.1/"><cite>Core Accessibility API Mappings 1.1</cite></a>. Joanmarie Diggs; Joseph Scheuhammer; Richard Schwerdtfeger; Michael Cooper; Andi Snow-Weaver; Aaron Leventhal.  W3C. 14 December 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/core-aam-1.1/">https://www.w3.org/TR/core-aam-1.1/</a>
+    </dd><dt id="bib-core-aam-1-2">[core-aam-1.2]</dt><dd>
+      <a href="https://www.w3.org/TR/core-aam-1.2/"><cite>Core Accessibility API Mappings 1.2</cite></a>. Valerie Young; Cynthia Shelly.  W3C. 2 July 2026. CRD. URL: <a href="https://www.w3.org/TR/core-aam-1.2/">https://www.w3.org/TR/core-aam-1.2/</a>
+    </dd><dt id="bib-dpub-aria-1-1">[dpub-aria-1.1]</dt><dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.1/"><cite>Digital Publishing WAI-ARIA Module 1.1</cite></a>. Matt Garrish; Tzviya Siegman.  W3C. 12 June 2025. W3C Recommendation. URL: <a href="https://www.w3.org/TR/dpub-aria-1.1/">https://www.w3.org/TR/dpub-aria-1.1/</a>
+    </dd><dt id="bib-html">[html]</dt><dd>
+      <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Dominic Farolino; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+    </dd><dt id="bib-infra">[infra]</dt><dd>
+      <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
+    </dd><dt id="bib-rfc2119">[RFC2119]</dt><dd>
+      <a href="https://www.rfc-editor.org/info/rfc2119/"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc2119/">https://www.rfc-editor.org/info/rfc2119/</a>
+    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
+      <a href="https://www.rfc-editor.org/info/rfc8174/"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8174/">https://www.rfc-editor.org/info/rfc8174/</a>
+    </dd></dl>
+  </section><section id="informative-references"><div class="header-wrapper"><h3 id="b-2-informative-references"><bdi class="secno">B.2 </bdi>Informative references</h3><a class="self-link" href="#informative-references" aria-label="Permalink for Appendix B.2"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-dom">[dom]</dt><dd>
+      <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+    </dd><dt id="bib-fingerprinting-guidance">[fingerprinting-guidance]</dt><dd>
+      <a href="https://www.w3.org/TR/fingerprinting-guidance/"><cite>Mitigating Browser Fingerprinting in Web Specifications</cite></a>. Nick Doty; Tom Ritter.  W3C. 25 September 2025. W3C Working Group Note. URL: <a href="https://www.w3.org/TR/fingerprinting-guidance/">https://www.w3.org/TR/fingerprinting-guidance/</a>
+    </dd><dt id="bib-wai-aria">[wai-aria]</dt><dd>
+      <a href="https://www.w3.org/TR/wai-aria/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.0</cite></a>. James Craig; Michael Cooper et al.  W3C. 20 March 2014. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria/">https://www.w3.org/TR/wai-aria/</a>
+    </dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+/**
+ * @param {MouseEvent} ev
+ */
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const varElem = /** @type {HTMLElement} */ (ev.target);
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+/**
+ * @param {HTMLElement} target
+ */
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+/**
+ * @param {HTMLElement} varElem
+ */
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = /** @type {HTMLElement} */ (
+    varElem.closest(".algorithm, section")
+  );
+  if (!parent) return [];
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {string} highlightColor
+ */
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+/**
+ * @param {HTMLElement} elem
+ * @param {string} highlightColor
+ */
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement | null} */
+  let panel = null;
+  /**
+   * @param {KeyboardEvent|MouseEvent} event
+   */
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (
+      type === "keydown" &&
+      /** @type {KeyboardEvent} */ (event).key !== "Enter"
+    )
+      return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement | null} */
+        const dfn = target.closest("dfn, .index-term");
+        if (!dfn?.id) break;
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        if (!panel) break;
+        const coords = deriveCoordinates(
+          /** @type {MouseEvent|KeyboardEvent} */ (event)
+        );
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        if (panel) {
+          panel.style.left = "";
+          panel.style.top = "";
+          panel.classList.add("docked");
+        }
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+
+    const panel = /** @type {HTMLElement} */ (target.closest(".dfn-panel"));
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement | null} */
+    const caret = panel.querySelector(".caret");
+    if (caret) caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  /**
+   * @param {KeyboardEvent} event
+   */
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement | null} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
