@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -14,21 +16,18 @@ jobs:
           fetch-depth: 0
       
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "lts/*"
       
-      - name: Install additional dependencies
-        run: npm install axios yargs
-
-      - name : Install respec globally
-        run : npm install -g respec
+      - name: Install dependencies
+        run: npm install axios yargs respec
 
       - name: Build site
         run: bash ./common/script/pr-preview.sh
       
       - name: Deploy site to Netlify
-        uses: nwtgck/actions-netlify@v3.0
+        uses: nwtgck/actions-netlify@v4.0
         with:
           publish-dir: "./public"
           github-token: ${{ secrets.GITHUB_TOKEN }}
