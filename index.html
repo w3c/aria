@@ -16842,6 +16842,9 @@ button.ariaPressed; // null</pre
       </section>
       <section id="ARIANotifyMixin" class="normative" data-dfn-for="ARIANotifyMixin" data-link-for="ARIANotifyMixin">
         <h2>Interface Mixin <dfn>ARIANotifyMixin</dfn></h2>
+        <p>
+          The ariaNotify API allows authors to provide notifications for accessibility. The <code>ariaNotify</code> method accepts a string as a first parameter and a configuration object as a second (optional) parameter.
+        </p>
         <pre class="idl" data-cite="webidl">
           enum AriaNotifyPriority { "normal", "high" };
 
@@ -16854,7 +16857,26 @@ button.ariaPressed; // null</pre
           Element includes ARIANotifyMixin;
           Document includes ARIANotifyMixin;
         </pre>
-
+        <p>Since ariaNotify doesn't allow to specify the language of the notification, the notification inherits that of its containing element</p>
+        <p>For cases where the language of the notification differs from that of its containing element, authors can specify  a courier element and add language markup to convey the language.</p>
+        <aside class="example">
+          <p>
+            The original page language is English, but there is a notification in Spanish.
+          </p>
+          <!-- ReSpec needs these examples to be unindented. -->
+          <pre class="example highlight html">
+        &lt;p&gt;Text in English, the original language of the page.&lt;/p&gt;
+        &lt;span class="spanish-notification" lang="es"&gt;&lt;/span&gt;
+        &lt;button class="spanish-notification-trigger"&gt;Spanish notification trigger&lt;/button&gt;
+        &lt;script&gt;
+          document.ariaNotify('some text string that inherits the English language defined on the html element');
+          const spanishElement =  document.querySelector('.spanish-notification');
+          const spanishElementTrigger = document.querySelector('.spanish-notification-trigger');
+          spanishElementTrigger.addEventListener('click', () =&gt; {
+            spanishElement.ariaNotify('Este texto debería leerse con la voz en español');  
+          });
+        &lt;/script&gt;
+        </aside>
         <p>
           The User Agent processing steps for the
           <code><dfn data-df-type="method" data-dfn-for="ARIANotifyMixin">ariaNotify</dfn>(<var>announcement</var>, <var>options</var>)</code>
@@ -17244,7 +17266,11 @@ el.getAttribute("aria-label"); // Returns "Publish"</pre
     </section>
     <section class="informative">
       <h2>Security Considerations</h2>
-      <p>This specification introduces no new security considerations.</p>
+      <p>
+        The <a>"aria-notify"</a> permissions policy has a default allowlist of "*". This relaxes the Permision Policy default because requiring embedders to opt in for each frame would leave announcements coming
+        from third-party content inaccessible by default. Authors who want tighter control can still restrict the "aria-notify" policy explicitly, for example with
+        <code>&lt;iframe allow="aria-notify 'none'"&gt;</code> or <code>Permissions-Policy: aria-notify=(self)</code>.
+      </p>
     </section>
     <section class="informative">
       <h2>Privacy Considerations</h2>
