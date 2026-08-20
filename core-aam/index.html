@@ -6450,15 +6450,16 @@
           <p>
             The computed accessibility properties are a set of platform-independent key/value pairs of strings that represent the states and properties of any <a href="#dfn-accessible-object" class="specref">accessible object</a> in the <a>accessibility tree</a>. The computed accessibility properties are exposed primarily for the purposes of developer tools, specification conformance, and interoperability testing. Because the term <a href="#dfn-accessible-object" class="specref">accessible object</a> is used to refer to a node in a specific platform accessibility API, and the computed accessibility properties are properties of an intermediate platform-independent, implementation-defined abstraction used to back the various platform APIs, the term <dfn>accessibility node</dfn> will be used to refer to a node with the computed accessibility properties defined here. The tree of <a>accessibility nodes</a> follows the same rules as the <a>accessibility tree</a> and it is an exactly parallel structure to the platform accessibility API trees except where the Core-AAM specifies a difference for a specific accessibility API.
           </p>
-          <section id="computed_accessibility_properties_aria_states_and_properties">
+          <section id="computed_accessibility_properties_from_aria">
             <h3>Computed Accessibility Properties derived from ARIA States and Attributes</h3>
             <p>
-              To see if an ARIA state or property should be surfaced, and the name of the key and it's expected value, check the "Computed Accessibility Property" row of the tables below. Not all ARIA states and properties will be surfaced in the computed accessibility properties. If a host language feature maps to an ARIA state or property, use the key and value specified here. However, the final value in the accessibility tree can be affected by multiple things, including but not limited to the following: default IDL values for the DOM attribute, default ARIA values when used on specific ARIA roles, and host language features with conflicting semantics, depending on whether the host language overrides the ARIA value. These final computed properties values do not always align with IDL reflection of the ARIA attribute.
+              To see if an ARIA state or property should be surfaced, and the name of the key and its expected value, check the "Computed Accessibility Property" row of the tables below. Not all ARIA states and properties will be surfaced in the computed accessibility properties. If a host language feature maps to an ARIA state or property, use the key and value specified here. However, the final value in the accessibility tree can be affected by multiple things, including but not limited to the following: default IDL values for the DOM attribute, default ARIA values when used on specific ARIA roles, and host language features with conflicting semantics, depending on whether the host language overrides the ARIA value. These final computed properties values do not always align with IDL reflection of the ARIA attribute.
             </p>
+            <p>For both of the following examples, the computed accessibility properties will include `checked: true`.</p>
             <aside class="example">
-              <p>For both of the following examples, the computed accessibility properties will include `checked: true`.</p><pre>
-&lt;div ro  le=checkbox aria-checked=true&gt;&lt;/div&gt;
-&lt;input   type="checkbox" checked /&gt;</pre>
+              <pre>
+&lt;div role=checkbox aria-checked=true&gt;&lt;/div&gt;
+&lt;input type="checkbox" checked /&gt;</pre>
             </aside>
             <p>
                When the ARIA state or property is required on a role but the attribute is missing, undefined, or set to an invalid token, user agents MUST expose the property with the appropriate <a href="#authorErrorDefaultValuesTable" class="specref">fallback values for missing required attributes</a>. When an ARIA state or property has a <a href="#implictValueForRole" class="specref">implicit value for role</a> and the attribute is missing, undefined, or set to an invalid token, user agents MUST expose the default value for the role.
@@ -6473,15 +6474,15 @@
               When the ARIA state or property does not have a default value other than undefined, is not required on a given role, and is missing, undefined, or set to an invalid token, user agents MUST NOT include it in the computed accessibility properties. When a state or property has a default value other than undefined, is supported but not required on a given role, and is not mapped on any platforms, user agents MUST NOT include it in the computed accessibility properties. If the state or property with the previous conditions is mapped on one or more platforms, user agents MAY include it in the computed accessibility properties.
             <aside class="example">
               <ol>
-                <li><pre>&lt;div role=button&gt;&lt;/div&gt;</pre> <a href="#aria-description" class="specref">`aria-description`</a> does not have a default value and it is allowed but not required on a <a href="#button" class="specref">`button`</a>, therefore the computed accessibility properties will not include `aria-description` .</li>
-                <li><pre>&lt;div role=textbox&gt;&lt;/div&gt;</pre> <a href="#aria-required" class="specref">`aria-required`</a> has a default value of `false` (not `undefined`) and it is allowed but not required on a <a href="#textbox" class="specref">`textbox`</a>, therefore the computed accessibility properties may include `aria-required: false`.</li>
+                <li><pre>&lt;div role=button&gt;&lt;/div&gt;</pre> <a href="#aria-description" class="specref">`aria-description`</a> does not have a default value and it is allowed but not required on a <a href="#button" class="specref">`button`</a>, therefore the computed accessibility properties will not include `description`.</li>
+                <li><pre>&lt;div role=textbox&gt;&lt;/div&gt;</pre> <a href="#aria-required" class="specref">`aria-required`</a> has a default value of `false` (not `undefined`) and it is allowed but not required on a <a href="#textbox" class="specref">`textbox`</a>, therefore the computed accessibility properties may include `required: false`.</li>
               </ol>
             </aside>
             </p>
           </section>
-          <section id="computed_accessibility_properties_aria_states_and_properties">
+          <section id="additional_computed_accessibility_properties">
             <h3>Additional Computed Accessibility Properties</h3>
-            <p>For the purposes developer tools, specification conformance, and interoperability testing, the set of Computed Accessibility Properties exposed for an accessible object also includes information about the relationship between <a>accessibility nodes</a> in the <a>accessibility tree</a>. In order to surface this information, the term <dfn>accessibility node ID</dfn> is used to refer to a implementation-defined unique ID used as a handle to an <a>accessibility node</a>. (TODO: add something about the stability of this ID? How long it should be available for?) The following keys and values MUST be included in the Computed Accessibility Properties:</p>
+            <p>For the purposes of developer tools, specification conformance, and interoperability testing, the set of Computed Accessibility Properties exposed for an accessible object also includes information about the relationship between <a>accessibility nodes</a> in the <a>accessibility tree</a>. In order to surface this information, the term <dfn>accessibility node ID</dfn> is used to refer to an implementation-defined unique ID used as a handle to an <a>accessibility node</a>. (TODO: add something about the stability of this ID? How long it should be available for?) The following keys and values MUST be included in the Computed Accessibility Properties:</p>
             <dl>
               <dt>
                 <dfn>accessibilityID</dfn>
@@ -7663,7 +7664,7 @@
               <!-- <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  <code>description: &lt;value&gt;</code> where value is calculated according to the <a>Accessible Name and Description specification<a>.
+                  <code>description: &lt;value&gt;</code> where value is calculated according to the <a>Accessible Name and Description specification</a>.
                 </td>
               </tr> -->
               <tr>
@@ -7725,7 +7726,7 @@
               <tr>
                 <th>Computed Accessibility Property</th>
                 <td>
-                  <code>description: &lt;value&gt;</code>
+                  <code>description: &lt;value&gt;</code> where value is calculated according to the <a>Accessible Name and Description specification</a>
                 </td>
               </tr>
               <tr>
@@ -10679,8 +10680,8 @@
               </tr>
               <!-- <tr>
                 <th>Computed Accessibility Property</th>
-                  <code>relevant: &lt;value&gt;</code>
                 <td>
+                  <code>relevant: &lt;value&gt;</code>
                 </td>
               </tr> -->
               <tr>
