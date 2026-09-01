@@ -201,7 +201,7 @@ const buildRoleInfoPropList = function (roleInfo, propList, item) {
  * @returns
  */
 const buildAllprops = function (role) {
-  // TODO: pkra would like to use sets here but allprops part of roleInfo serializaton
+  // TODO: pkra would like to use sets here but allprops part of roleInfo serialization
   const ref = roleInfo[role];
   if (!ref) {
     msg.pub("error", "No role definition for " + role);
