@@ -117,5 +117,7 @@ The following links have way too much information, but here they are for complet
 * [Graphics-ARIA](https://github.com/w3c/graphics-aria)
 * [Graphics-AAM](https://github.com/w3c/graphics-aam)
   * Contains mappings between Graphics-ARIA and platform accessibility APIs.
+* [PDF-AAM](https://github.com/w3c/pdf-aam)
+  * Contains mappings between PDF Logical Structure Elements (PLSEs) and platform accessibility APIs. 
 
 
