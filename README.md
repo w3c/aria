@@ -267,7 +267,7 @@ While the script was originally built to support the ariaChild.js script in ARIA
 
 A GitHub action will update roleInfo.js on each update of the ARIA Editor's draft. Another GitHub action will check if pull requests will introduce changes. 
 
-If changes are expected, pull request authors (or reviewers) should check the diff in the action's log; it can be helpful to add it as a comment to the pull request discussion. As a pull request author, you may update roleInfo.js yourself but you do not have to.
+If changes are expected, pull request authors (or reviewers) should check the diff in the action's log. Since that UI is not very accessible, it is be helpful to add it as a comment to the pull request discussion. As a pull request author, you may update roleInfo.js as part of the PR but you do not have to.
 
 ### Style guidelines
 
