@@ -257,10 +257,17 @@ Note that this template uses the aria/script/ariaChild.js script.  That script k
 information from the core ARIA specification into the extension spec so that new roles, states, and properties
 are well integrated into the overall ARIA taxonomy.
 
-The ariaChild.js script relies upon an input script (aria/script/roleInfo.js).  As of today, that file is not automatically generated.
-If you want to ensure the file is up to date, access the core ARIA spec with the special query string "#saveRoles"
-from a browser on a client that has write access to the copy of the extension spec you are editing. When the dialog appears, click
-the save button and tell your browser to save the roleInfo.js file into the [common/script](./common/script directory.
+### roleInfo.js
+
+The roleInfo.js script (aria/script/roleInfo.js) provides a JSON structure representing the characteristics tables in the ARIA specification. Each entry is an object containing the role's name, its section's ID in the spec, its parent roles, locally specified states and properties, and inherited states and properties. 
+
+While the script was originally built to support the ariaChild.js script in ARIA Extension Specs (which still use it), its scope has been widened to support other programmatic uses. If you would like additional information to be exposed in roleInfo.js, please file an issue on the ARIA issue tracker.
+
+#### updating roleInfo.js
+
+A GitHub action will update roleInfo.js on each update of the ARIA Editor's draft. Another GitHub action will check if pull requests will introduce changes. 
+
+If changes are expected, pull request authors (or reviewers) should check the diff in the action's log. Since that UI is not very accessible, it is be helpful to add it as a comment to the pull request discussion. As a pull request author, you may update roleInfo.js as part of the PR but you do not have to.
 
 ### Style guidelines
 
