@@ -269,7 +269,7 @@ const buildInheritedStatesProperties = function (item) {
       const suffix = isState ? " (state)" : "";
       const tag = isState ? "sref" : "pref";
       const req = property.required ? " <strong>(required)</strong>" : "";
-      const dep = property.deprecated ? " <strong>(deprecated on this role in ARIA 1.2)</strong>" : "";
+      const dep = property.deprecated ? " <strong>(deprecated on this role since ARIA 1.2)</strong>" : "";
 
       return `<li><${tag}>${property.name}</${tag}>${suffix}${req}${dep}</li>\n`;
     })
@@ -358,7 +358,7 @@ const renderStateOrProperty = function (propList, descendantRoles, item) {
   // Current values for placeholderText:
   // * "All elements of the base markup"
   // * "Placeholder"
-  // * "Use as a global deprecated in ARIA 1.2"
+  // * "Global use deprecated since ARIA 1.2"
   // * "All elements of the base markup except for some roles or elements that prohibit its use"
   // TODO: Maybe use a data attribute instead?
 
@@ -378,7 +378,7 @@ const renderStateOrProperty = function (propList, descendantRoles, item) {
   }
 
   // Otherwise, i.e.,
-  // Cases: placeholderText "Placeholder" or "Use as a global deprecated in ARIA 1.2"
+  // Cases: placeholderText "Placeholder" or "Global use deprecated since ARIA 1.2"
 
   // populate placeholder
   placeholder.innerHTML = `<ul>\n${item.roles.map((role) => `<li><rref>${role}</rref></li>\n`).join("")}</ul>\n`;

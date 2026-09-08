@@ -291,7 +291,7 @@ function ariaAttributeReferences() {
                   output += " (Except where prohibited)";
                 }
                 if (role.deprecated) {
-                  output += " (Global use deprecated in ARIA 1.2)";
+                  output += " (Global use deprecated since ARIA 1.2)";
                 }
                 output += "</li>\n";
                 prev = role.name;

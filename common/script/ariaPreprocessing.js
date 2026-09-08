@@ -10,7 +10,7 @@ const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePr
   const applicabilityText = container.querySelector(".state-applicability, .property-applicability").innerText;
   const isDefault = applicabilityText === "All elements of the base markup";
   const isProhibited = applicabilityText === "All elements of the base markup except for some roles or elements that prohibit its use";
-  const isDeprecated = applicabilityText === "Use as a global deprecated in ARIA 1.2";
+  const isDeprecated = applicabilityText === "Global use deprecated since ARIA 1.2";
   // NOTE: the only other value for applicabilityText appears to be "Placeholder"
   if (!(isDefault || isProhibited || isDeprecated)) return;
   const isState = def.tagName === "SDEF";
@@ -20,7 +20,7 @@ const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePr
   }>${def.innerHTML}${isState ? " (state)" : ""}</${refTagName}>${
     // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
     isProhibited ? " (Except where prohibited)" : ""
-  }${isDeprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
+  }${isDeprecated ? " (Global use deprecated since ARIA 1.2)" : ""}</li>\n`;
   globalStatesPlaceholder.insertAdjacentHTML("beforeend", htmlString);
   roletypePropsPlaceholder.insertAdjacentHTML("beforeend", htmlString);
 };
