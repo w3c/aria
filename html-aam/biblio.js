@@ -1,4 +1,6 @@
-var localBiblio = {
+respecConfig.localBiblio = {
+	...respecConfig.localBiblio,
+
 	// Correct reference for ATK
 	"ATK": {
 		"href": "https://gitlab.gnome.org/GNOME/at-spi2-core/",

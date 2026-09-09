@@ -18,6 +18,10 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
   * [Spec](core-aam/index.html)
   * [Editor's Draft](https://w3c.github.io/core-aam/)
   * [Issue Repository](https://github.com/w3c/core-aam)
+* CSS Accessibility API Mappings (css-aam)
+  * [Spec](css-aam/index.html)
+  * [Editor's Draft](https://w3c.github.io/css-aam/)
+  * [Issue Repository](https://github.com/w3c/css-aam)
 * HTML Accessibility API Mappings (html-aam)
   * [Spec](html-aam/index.html)
   * [Editor's Draft](https://w3c.github.io/html-aam/)
@@ -52,6 +56,11 @@ This repository contains the main deliverable of the ARIA Working Group, Accessi
 
 In addition to these specifications, there are other deliverables as specified in the [ARIA Charter](https://www.w3.org/2025/01/aria-charter.html). Please file issues in the repository specific to the specification or deliverable to which the issue applies.
 
+## Ancillary Documentation related to the above Specifications
+
+* Running list of [browser accessibility heuristics](documentation/browser_accessibility_heuristics.md) that are not specified or are partially specified.
+
+
 ## Contributing to this Repository
 
 Please review the [ARIA Process Document](documentation/process.md) for information about how the working group tracks issues and pull request.
@@ -80,6 +89,7 @@ When preparing GitHub pull requests:
 * Provide a complete summary and description for each pull request. The Working Group needs to understand the rationale for proposed changes. This description may need to be very detailed in some cases, or may be quite brief, for example if providing a change to address a spelling issue.
 * Following the editorial documentation below will help prepare a pull request that is ready for inclusion with minimal editing.
 * Keep it up-to-date with the base branch, for example by selecting "rebase" under the "Update branch options" menu on the GitHub web interface.
+* Run prettier to preserve spec formatting. For consistency, please use `--print-width 200`.
 
 When a pull request is accepted by the Working Group, an editor will integrate changes. Pull requests and issues that are accepted by the working group will be merged into the source documents and the commenter will receive a notification from GitHub that the pull request was accepted.
 
@@ -160,10 +170,10 @@ The set of class values currently defined are:
 * `dpub`: other DPUB-ARIA references
 * `graphics-role-reference`: Graphics-ARIA role definitions
 * `graphics-property-reference`: Graphics-ARIA property definitions
-* `graphics-state-reference: Graphics-ARIA state definitions
+* `graphics-state-reference`: Graphics-ARIA state definitions
 * `graphics-role-mapping`: Graphics role mapping
 * `graphics-property-mapping`: GRAPHICS property mapping
-* `graphics-state-mapping`: GRAPHICS staet mapping
+* `graphics-state-mapping`: GRAPHICS state mapping
 * `graphics-mapping`: other GRAPHIC mapping references
 * `graphics`: other Graphics-ARIA references
 * `practices`: ARIA Practices
