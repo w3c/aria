@@ -81,6 +81,9 @@ Open the minutes link in a new tab, and check that they look ok (may need to ref
 If all is well, email minutes link to group (I usually just reply to the agenda email).
 If anything is missing, add it, and then `rrsagent, make minutes` again.
 
+Another bookmarkable resource for IRC Meetings (may duplicate some of the info above)
+- [W3C ARIA WG IRC Scribe cheatsheet (Zakim, RRSAgent, etc.)](https://docs.google.com/document/d/1m3TO8LhYyo_gQ3cOp1Mb4_GaPKVCgHj_92XCrh5a-UU/) 
+
 The following links have way too much information, but here they are for completeness:
 - https://www.w3.org/wiki/IRC
 - https://www.w3.org/2002/03/RRSAgent
