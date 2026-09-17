@@ -50,7 +50,7 @@ const rewriteDef = function (node) {
   let type = "";
   if (node.tagName === "RDEF") type = "role";
   const abstract = node.parentNode.querySelector(".role-abstract");
-  if (abstract?.innerText === "True") {
+  if (abstract?.textContent === "True") {
     //NOTE: optional chaining because synonym roles and sdef/pdef won't have .role-abstract anywhere
     type = "abstract role";
   }
@@ -152,7 +152,9 @@ const renderIndexEntry = (indexTest, rdef) => {
   if (!isAbstract && roleFromNode) {
     const content = rdef.innerText;
     const isRequired = roleFromNode.closest("table").querySelector(".role-namerequired")?.innerText === "True";
-    if (roleFromNode.textContent.indexOf(indexTest) !== -1) return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${isRequired ? " (name required)" : ""}</li>`; // TODO: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
+    if (!roleFromNode.innerHTML.includes(indexTest)) return; // NOTE: it's either the exact string or contains LI with exact string. TODO: feels brittle. e.g. adding data-${indexTest} for selector may be better.
+    const synonymRoles = [...container.querySelectorAll("[data-role-synonyms] rref")].map((node) => node.outerHTML);
+    return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${isRequired ? " (name required)" : ""}${synonymRoles.length > 0 ? ` (synonymous: ${synonymRoles.join(", ")})` : ""}</li>`;
   }
 };
 
@@ -287,8 +289,8 @@ const pruneUnusedRows = () => {
       ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values",
     )
     .forEach(function (item) {
-      var content = item.innerText;
-      if (content.length === 1 || content.length === 0) {
+      const content = item.textContent.trim();
+      if (!content) {
         // there is no item - remove the row
         item.parentNode.parentNode.removeChild(item.parentNode);
       } else if (
