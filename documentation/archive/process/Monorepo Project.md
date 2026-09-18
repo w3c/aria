@@ -19,7 +19,7 @@ We will move after the recharter:
 ARIA [Monorepo](https://github.com/w3c/aria/tree/monorepo) branch starts off with a basic structure + some demo GitHub workflows for publication.
 Open questions:
 * What other specs use a monorepo, what is their insight on this proposal?
-  * [ePub Working Group](https://github.com/w3c/epub-specs) is currently using a "monorepo" approach. Publlishing ever-green specs is doable with current [specprod options](https://w3c.github.io/spec-prod/#options). Daniel will set up a proposal for handling our specs.
+  * [ePub Working Group](https://github.com/w3c/epub-specs) is currently using a "monorepo" approach. Publishing ever-green specs is doable with current [specprod options](https://w3c.github.io/spec-prod/#options). Daniel will set up a proposal for handling our specs.
 * How to publish the different specifications from one repo
    * How to publish evergreen vs versioned specifications
      * Daniel suggests that we use automated publication for ever-green specs but we keep using manual publication for versioned specs. Most transition requests need to happen manually anyway.
@@ -29,7 +29,7 @@ Open questions:
 * Whether to leave repositories open for issue tracking
 * Are modifications necessary for pr-preview?
 * What will we do with open PRs?
-* Do we want to take the time to change some old branch mnaming and usage? HTML-aam still uses gh-pages as the main branch.
+* Do we want to take the time to change some old branch naming and usage? HTML-aam still uses gh-pages as the main branch.
 
 Example of monorepos:
 * https://github.com/w3c/epub-specs
