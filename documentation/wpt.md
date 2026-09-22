@@ -94,7 +94,7 @@ Note: Chrome does not give a similar Security prompt. I presume it stops the ses
 - Check the META.yml file in those directories to find the primary reviewers. 
 - Review [/wai-aria/scripts/aria-utils.js](https://github.com/web-platform-tests/wpt/blob/master/wai-aria/scripts/aria-utils.js), as this contains a few convenience methods many of the other tests use.
 - WPT doesn't require an Issue for every PR, but you're welcome (encouraged) to file WPT Issues in the relevant spec repository. (E.g., /w3c/aria/issues/new for a new ARIA WPT test, rather than /web-platform-tests/wpt/issues/new).
-- Some issues are being tracked elsewhere, for example, the [Interop 2023 Accessibilty Investigation](https://github.com/web-platform-tests/interop-accessibility/issues)
+- Some issues are being tracked elsewhere, for example, the [Interop 2023 Accessibility Investigation](https://github.com/web-platform-tests/interop-accessibility/issues)
 - Additional info in the [ARIA "Tests" documentation](./tests.md)
 
 
@@ -108,7 +108,7 @@ When you write a new test in WPT, or update an existing one, wait for the PR Che
 
 Once you select a test result:
 
-1. Click on the Details link for either safari or chrome. (At the time of this writing, firefox was not running most of the accessibilty tests in WPT)
+1. Click on the Details link for either safari or chrome. (At the time of this writing, firefox was not running most of the accessibility tests in WPT)
 2. On the results page, click "Visual comparison of the results"… Explore these results similar to the CI listings on wpt.fyi
 3. Once you get down to an individual test run, you may also wish to enabled the "Show Details" switch to see the log messages for each failing subtest.
 
