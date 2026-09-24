@@ -18,6 +18,8 @@ Newly opened PRs are "triaged" at the next ARIA meeting. At triage, it is decide
 
 Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
+> **Automated clean-up:** Draft PRs that have had no activity for more than 6 months are automatically closed by a weekly GitHub Actions workflow. A comment is posted on the PR before it is closed. Authors or maintainers can reopen the PR at any time to continue work.
+
 PR Labels:
 - `spec:aria`, `spec:accname`, `spec:core-aam`, `spec:html-aam`, `spec:<spec-short-hand>` should be used for all specs which have changes in this PR. 
 - `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
