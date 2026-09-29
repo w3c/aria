@@ -37,9 +37,9 @@ The validator tests belong in the [validator-test directory](https://github.com/
 
 ### ARIA "user agent MUST"
 
-Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have yet have all the TestDriver interfaces required to write many of these tests. WPT TestDriver (through WebDriver) gives us access to `computedrole` and `comutedlabel`, so we are now adding various role tests (ARIA, HTML-AAM, etc.) and name computation tests (AccName). The IDL interface is also testable in WPT.
+Ideally, we should have a test suite to test all "user agent MUST" statements, but we do not have yet have all the TestDriver interfaces required to write many of these tests. WPT TestDriver (through WebDriver) gives us access to `computedrole` and `comutedlabel`, so we are now adding various role tests (ARIA, HTML-AAM, etc.) and name computation tests (AccName). The IDL interface is also testable in WPT, in addition to the [platform accessibility API mappings (AAMs)](https://web-platform-tests.org/writing-tests/aamtest.html).
 
-If a change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test once the PR is ready for merge. 
+If a change adds or changes a "user agent must" or "user agent must not" statement, please add a issue describing the test once the PR is ready for merge.
 
 ### ARIA IDL Interface Tests
 
@@ -66,7 +66,7 @@ When the IDL Interface section is updated, these tests should be update accordin
 - [Results of AccName tests in WPT](https://wpt.fyi/results/accname?label=master&label=experimental&aligned)
 - [Source of AccName tests in WPT](https://github.com/web-platform-tests/wpt/tree/master/accname)
 
-### Interop 2023 Accessibility Investigation 
+### Interop 2023 Accessibility Investigation
 
 Many of the automated tests in listed above started as a [Accessibility Investigation](https://github.com/web-platform-tests/interop-2023-accessibility-testing) for Web Platform Tests Interop 2023. Revew the [Issues List](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues) and [Scoring Criteria](https://github.com/web-platform-tests/interop-2023-accessibility-testing/issues/3) for more detail.
 
@@ -79,12 +79,6 @@ For detailed guidance on writing tests for the purposes of accessibility interop
 ## Web Platform Accessibility Testing Initiatives
 
 There are several concurrent initiatives towards testing various aspects of the web platform accessibility stack:
-
-### Acacia
-
-Acacia tests platform accessibility API mappings directly, as well as testing the internal accessibility tree:
-- Acacia GitHub repo: https://github.com/Igalia/acacia
-- Acacia goal and overview from Igalia: https://notes.igalia.com/s/UCAZ3KYIo
 
 ### Accessibility Compat Data (ACD)
 
