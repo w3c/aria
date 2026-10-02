@@ -16782,12 +16782,12 @@ button.ariaPressed; // null</pre
         <ul>
           <li>
 			If an element is <a>focusable</a>, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>. 
-			However, if the implicit role has a <a href="#scope">Required Accessibility Parent Role</a> and the element's required accessibility parent has a <rref>none</rref> or <rref>presentation</rref> role, user agents MAY 
-			instead expose the element with role <rref>generic</rref>, so that the element remains operable without exposing a role that is missing its required context.
+			However, if the implicit role has a <a href="#scope">Required Accessibility Parent Role</a> and the element's required accessibility parent has a <rref>none</rref> or <rref>presentation</rref> role, user agents 
+			MUST NOT expose the element with its implicit role, and MAY instead expose the element with role <rref>generic</rref>, so that the element remains operable without exposing a role that is missing its required context.
 			<pre class="example highlight">
 <span class="comment">&lt;!-- 1. [role="none"] is ignored because the element is focusable --&gt;</span>
-&lt;button role="none"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 2. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. Because it is focusable, it is exposed, but with role generic, since its required accessibility parent has a presentational role --&gt;</span>
+&lt;button role="none"&gt; Sample Content &lt;/button&gt;
+<span class="comment">&lt;!-- 2. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. Even though it is focusable, its implicit role is not exposed, because its required accessibility parent has a presentational role. User agents may expose it with role generic --&gt;</span>
 &lt;table role="none"&gt;
 	&lt;tr&gt;
 		&lt;td tabindex="0"&gt;Content&lt;/td&gt;	
@@ -16796,8 +16796,9 @@ button.ariaPressed; // null</pre
             </pre>
           </li>
 		  <li>
-			If an element with an explicit presentational role has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role, 
-			except when the implicit role requires a <a href="#mustContain">Required Accessibility Parent Role</a> that is not exposed by user agents because the required ancestor has a <rref>none</rref> or <rref>presentation</rref> role.
+			If an element with an explicit presentational role has <a>global</a> WAI-ARIA attributes, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role. 
+			However, if the implicit role has a <a href="#scope">Required Accessibility Parent Role</a> and the element's required accessibility parent has a <rref>none</rref> or <rref>presentation</rref> role, user agents MUST NOT
+			expose the element with its implicit role.
 		  	<p class="note">Some <a>global</a> WAI-ARIA attributes are <a>prohibited</a> on certain roles. These attributes are still considered global for the purposes of Presentational Role Conflict resolution.</p>
             <p>For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element does not have an explicit or inherited role of <rref>none</rref> or <rref>presentation</rref>.</p>
             <pre class="example highlight">
