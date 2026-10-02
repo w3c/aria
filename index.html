@@ -16781,12 +16781,13 @@ button.ariaPressed; // null</pre
         <p>User agents MUST NOT <a>expose</a> [=elements=] having explicit or inherited presentational role in the accessibility tree (descendant elements of such elements MAY still be exposed), with these exceptions:</p>
         <ul>
           <li>
-			If an element is <a>focusable</a>, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>, 
-			except when the implicit role requires a <a href="#mustContain">Required Accessibility Parent Role</a> that is not exposed by user agents because the required ancestor has a <rref>none</rref> or <rref>presentation</rref> role.
+			If an element is <a>focusable</a>, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the element is <a>operable</a>. 
+			However, if the implicit role has a <a href="#scope">Required Accessibility Parent Role</a> and the element's required accessibility parent has a <rref>none</rref> or <rref>presentation</rref> role, user agents MAY 
+			instead expose the element with role <rref>generic</rref>, so that the element remains operable without exposing a role that is missing its required context.
 			<pre class="example highlight">
 <span class="comment">&lt;!-- 1. [role="none"] is ignored because the element is focusable --&gt;</span>
 &lt;button role="none"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 2. &lt;td&gt; inherits [role="none"] from &lt;ul role=none&gt; and the inherited presentational role is not ignored even though the element is focusable, because the required ancestor has a presentational role --&gt;</span>
+<span class="comment">&lt;!-- 2. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. Because it is focusable, it is exposed, but with role generic, since its required accessibility parent has a presentational role --&gt;</span>
 &lt;table role="none"&gt;
 	&lt;tr&gt;
 		&lt;td tabindex="0"&gt;Content&lt;/td&gt;	
@@ -16804,11 +16805,17 @@ button.ariaPressed; // null</pre
 &lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
 <span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
 &lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 3. &lt;td&gt; inherits [role="none"] from &lt;ul role=none&gt; and the inherited presentational role is not ignored even though the element has a global WAI-ARIA attribute, because the required ancestor has a presentational role --&gt;</span>
+<span class="comment">&lt;!-- 3. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. The presentational role is inherited, not explicit, so the global aria-describedby attribute does not cause it to be ignored --&gt;</span>
 &lt;table role="none"&gt;
 	&lt;tr&gt;
 		&lt;td aria-describedby="comment-1"&gt;Content&lt;/td&gt;	
 	&lt;/tr&gt;
+&lt;/table&gt;
+<span class="comment">&lt;!-- 4. &lt;td&gt; has an explicit [role="none"] and the global aria-describedby attribute, which would normally cause [role="none"] to be ignored and the implicit 'cell' role to be exposed. However, a 'cell' requires a 'row' parent, and the &lt;tr&gt; inherits [role="none"] from &lt;table role="none"&gt;, so it is not exposed as a row and [role="none"] is not ignored --&gt;</span>
+&lt;table role="none"&gt;
+  &lt;tr&gt;
+    &lt;td role="none" aria-describedby="comment-1"&gt;Content&lt;/td&gt;
+  &lt;/tr&gt;
 &lt;/table&gt;
             </pre>
 		  </li>
