@@ -6543,6 +6543,7 @@
     name: "image",
     fragID: "image",
     parentRoles: ["section"],
+    synonymRoles: ["img"],
     localprops: [],
     allprops: [
       {
@@ -10444,6 +10445,7 @@
     name: "none",
     fragID: "none",
     parentRoles: ["structure"],
+    synonymRoles: ["presentation"],
     localprops: [
       {
         is: "property",
@@ -13428,20 +13430,6 @@
         disallowed: false,
         deprecated: false,
       },
-      {
-        is: "property",
-        name: "aria-valuemax",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemin",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
     ],
     allprops: [
       {
@@ -13461,20 +13449,6 @@
       {
         is: "property",
         name: "aria-orientation",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemax",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemin",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -13636,6 +13610,20 @@
       {
         is: "property",
         name: "aria-roledescription",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-valuemax",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-valuemin",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -15246,20 +15234,6 @@
         disallowed: false,
         deprecated: false,
       },
-      {
-        is: "property",
-        name: "aria-valuemax",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemin",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
     ],
     allprops: [
       {
@@ -15300,20 +15274,6 @@
       {
         is: "property",
         name: "aria-readonly",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemax",
-        required: false,
-        disallowed: false,
-        deprecated: false,
-      },
-      {
-        is: "property",
-        name: "aria-valuemin",
         required: false,
         disallowed: false,
         deprecated: false,
@@ -15461,6 +15421,20 @@
       {
         is: "property",
         name: "aria-roledescription",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-valuemax",
+        required: false,
+        disallowed: false,
+        deprecated: false,
+      },
+      {
+        is: "property",
+        name: "aria-valuemin",
         required: false,
         disallowed: false,
         deprecated: false,

@@ -36,6 +36,9 @@ const generateRoleInfoEntry = (roleSection) => {
   value.fragID = key; //TODO: [minor] is this duplication really worth it? Role names should be valid IDREFS, no?
   value.parentRoles = [];
   roleSection.querySelectorAll(".role-parent .role-reference").forEach((node) => value.parentRoles.push(node.textContent));
+  let synonymRoles = [];
+  roleSection.querySelectorAll("[data-role-synonyms] .role-reference").forEach((node) => synonymRoles.push(node.textContent));
+  if (synonymRoles.length > 0) value.synonymRoles = synonymRoles;
   value.localprops = [];
 
   roleSection.querySelectorAll(":is(.role-required-properties, .role-properties, .role-disallowed) :is(.property-reference, .state-reference)").forEach((link) => {

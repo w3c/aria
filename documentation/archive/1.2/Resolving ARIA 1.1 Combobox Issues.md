@@ -65,7 +65,7 @@ As described above, ARIA 1.1 specifies the combobox structure to be a combobox c
 
 More detail is provided about each of the following problems in sections below. Each of these problems has spawned multiple issues against the ARIA spec.
 
-1. Naming: In code, there are 3 parts that can be named -- the combobox, the input, and the popup. On the screen, there is only one thing rendered that needs an accessible name -- the input. The spec says to name only the container. But, the spec does not require the browser to compute a name for the input from the container, which leads to an unlabeled input fieled, violating WCAG. Thus, authors tend to name all three parts, which creates verbosity problems that are difficult for screen reader developers to mitigate.
+1. Naming: In code, there are 3 parts that can be named -- the combobox, the input, and the popup. On the screen, there is only one thing rendered that needs an accessible name -- the input. The spec says to name only the container. But, the spec does not require the browser to compute a name for the input from the container, which leads to an unlabeled input field, violating WCAG. Thus, authors tend to name all three parts, which creates verbosity problems that are difficult for screen reader developers to mitigate.
 2. Screen reader presentation of the container: The container is sometimes being partially rendered by screen readers as a group. This adds elements to the screen reader experience that do not exist on screen and do not add value. In fact, it can be confusing for screen reader users because these extra grouping elements have never previously been part of how screen readers present comboboxes.
 3. Screen reader presentation of the input: The ARIA spec says the wrapper has the `combobox` role but does not state what the role of the input should be. This is critical because the input is what gets focused. The spec needs to tell screen readers how the input should be conveyed to users.
 4. Lack of `select` support: There is a type of combobox that does not include a textbox. HTML:select@size=1 is one example of this. This type of control cannot be created using the ARIA 1.1 combobox definition.
@@ -143,7 +143,7 @@ An expanded combobox renders only two elements that are intrinsically related by
 This is similar to other ARIA widgets that conditionally display a secondary element, such as disclosures and menu buttons.
 Those patterns do not superimpose a semantic grouping container; doing so would add authoring complexity without improving the experience for end users.
 
-If ARIA 1.2 does not eliminate the container from the combobox specification, then it could help resolve this problem by adding a normative statement that says assistive technologies SHOULD NOT expose the container to users. This would align with prohibitting accessible names on the container.
+If ARIA 1.2 does not eliminate the container from the combobox specification, then it could help resolve this problem by adding a normative statement that says assistive technologies SHOULD NOT expose the container to users. This would align with prohibiting accessible names on the container.
 
 ### Resolving problems with Screen reader presentation of ARIA 1.1 combobox input
 
@@ -189,7 +189,7 @@ The ARIA 1.1 combobox pattern is relatively complex due to the fact that there a
 This has been a source of author errors.
 At least one screen reader developer is identifying such errors as a significant concern.
 
-Short of eliminating the container, there is no clear way to mitigate this other than to encourage browsers to correct author errors when populating the accessibility tree. Of course, checkers can help prevent the errors from getting out in the wild. But, that will not remove the necessaty of robust error correction.
+Short of eliminating the container, there is no clear way to mitigate this other than to encourage browsers to correct author errors when populating the accessibility tree. Of course, checkers can help prevent the errors from getting out in the wild. But, that will not remove the necessity of robust error correction.
 
 ## Summary of resolution options
 

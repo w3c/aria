@@ -4,7 +4,7 @@
 The following is an incomplete, running list of known heuristics in browsers that could result in potentially different behavior. The goal of this list is provide insights into existing behavior (for spec authors or browser engine implementors), and possibly to consider these for reconciliation, standardization, and specification.
 
 
-## Examples of Browser Heuristics Already Added to Accesibility Specs
+## Examples of Browser Heuristics Already Added to Accessibility Specs
 
 ### Ignoring aria-hidden when applied to the root or document elements
 
