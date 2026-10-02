@@ -1180,10 +1180,13 @@
             <a href="#mustContain">allowed accessibility child</a> of a <code>list</code>, but it is a valid descendant if it is also a descendant of the <code>list</code>'s
             <a href="#mustContain">allowed accessibility child</a> <code>listitem</code>.
           </p>
-          <p>A role listed as an <dfn data-export="" data-lt="intervening|intervening role|intervening roles">intervening role</dfn> is allowed as an <a>accessibility child</a>, 
-			  but is not itself evaluated against this list. Instead, the <a>accessibility children</a> of an element with an intervening role are evaluated against this list as if they were 
-			  accessibility children of the element with the current <a>role</a>. This applies recursively, so elements with an intervening role can be nested. Unlike elements with role <rref>generic</rref> 
-			  or <rref>none</rref>, an element with an intervening role remains an accessibility child in the <a>accessibility tree</a>.</p>
+          <p>A role listed in the Allowed Accessibility Child Roles as an <dfn data-export="" data-lt="intervening|intervening role|intervening roles">intervening role</dfn> is allowed as an 
+			  <a>accessibility child</a>, and its own <a>accessibility children</a> are also checked against the same list, as if they were accessibility children of the element whose list is 
+			  being checked. If elements with an intervening role are nested, this applies at every level.</p>
+          <p>For example, <rref>menu</rref> lists <rref>group</rref> as an intervening role. In <code>menu &gt; group &gt; group &gt; menuitem</code>, both <code>group</code> elements and the 
+			  <code>menuitem</code> are checked against the Allowed Accessibility Child Roles of the <code>menu</code>.</p>
+          <p>Unlike elements with role <rref>generic</rref> or <rref>none</rref>, an element with an intervening role is still an accessibility child of its parent in the <a>accessibility tree</a>. 
+			  It only extends the Allowed Accessibility Child Roles of that parent to its own accessibility children.</p>
           <p class="note">
             A role that has 'allowed accessibility child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given
             role. See <a href="#scope">required accessibility parent roles</a> for requirements about the context where elements of a given role will be contained.
@@ -1262,8 +1265,8 @@
             current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an
             element with role <code>list</code>.
           </p>
-          <p>If a role is listed as an <a>intervening role</a>, an element with the current <a>role</a> can be an <a>accessibility child</a> of an element with that intervening role, provided that 
-			  the element with the intervening role, or the closest of any nested elements with that role, is itself an accessibility child of an element with a role from this list.</p>
+          <p>If a role is listed as an <a>intervening role</a>, an element with the current <a>role</a> can be an <a>accessibility child</a> of an element with that intervening role, provided that the 
+			  element with the intervening role, or the outermost one if such elements are nested, is itself an accessibility child of an element with a role from this list that is not an intervening role.</p>
           <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list.</p>
           <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
         </section>
@@ -4760,7 +4763,7 @@
             <p>Authors SHOULD use a <code>group</code> to form a logical collection of items in a <a>widget</a>, such as the children of a <rref>treeitem</rref> forming a collection of siblings in a hierarchy.
 	            Authors MAY nest <code>group</code> elements. However, when a <code>group</code> is used in the context of a <rref>listbox</rref>, for example, authors MUST limit its children to <rref>option</rref> 
 				elements. Therefore, proper handling of <code>group</code> by authors and assistive technologies is determined by the context in which it is provided.</p>
-            <p class="note">In a <rref>menu</rref> or <rref>menubar</rref>, a <code>group</code> is an <a>intervening</a> element. Its <a>accessibility children</a> are subject to the same restrictions as the 
+            <p class="note">In a <rref>menu</rref> or <rref>menubar</rref>, <code>group</code> is an <a>intervening role</a>. Its <a>accessibility children</a> are subject to the same restrictions as the 
 				accessibility children of the <code>menu</code> or <code>menubar</code>, so they are limited to <rref>group</rref>, <rref>menuitem</rref>, <rref>menuitemcheckbox</rref>, <rref>menuitemradio</rref>, and 
 				<rref>separator</rref>.</p>
           </div>
@@ -6194,7 +6197,7 @@
             <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menu</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
             <div class="note">
-				<p>Authors can organize the items of a <code>menu</code> into one or more levels of <rref>group</rref> elements. Each <code>group</code> is an <a>intervening</a> element, 
+				<p>Authors can organize the items of a <code>menu</code> into one or more levels of <rref>group</rref> elements. Each <code>group</code> has an <a>intervening role</a>, 
 					so its accessibility children are subject to the same restrictions as those of the <code>menu</code>. For example, an element with role <rref>button</rref> or <rref>textbox</rref> 
 					is not allowed as an accessibility child of such a <code>group</code>, even if the <code>group</code> also contains <rref>menuitem</rref> elements.</p>
             	<p>In the following example, the nested <code>group</code> and the <rref>menuitem</rref> elements are allowed, but the <code>button</code> is not, because it is an <a>accessibility child</a> 
@@ -6258,7 +6261,7 @@
                 <td class="role-mustcontain">
                   <ul>
                     <!-- keep in sync with #menubar -->
-                    <li><rref>group</rref> as intervening role</li>
+                    <li><rref>group</rref> as <a>intervening role</a></li>
                     <li><rref>menuitem</rref></li>
                     <li><rref>menuitemcheckbox</rref></li>
                     <li><rref>menuitemradio</rref></li>
@@ -6316,7 +6319,7 @@
             <p>To be <a>keyboard accessible</a>, authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>.</p>
             <p>Elements with the role <code>menubar</code> have an implicit <pref>aria-orientation</pref> value of <code>horizontal</code>.</p>
             <div class="note">
-				<p>Authors can organize the items of a <code>menubar</code> into one or more levels of <rref>group</rref> elements. Each <code>group</code> is an <a>intervening</a> element, 
+				<p>Authors can organize the items of a <code>menubar</code> into one or more levels of <rref>group</rref> elements. Each <code>group</code> has an <a>intervening role</a>, 
 					so its accessibility children are subject to the same restrictions as those of the <code>menubar</code>. For example, an element with role <rref>button</rref> or <rref>textbox</rref> 
 					is not allowed as an accessibility child of such a <code>group</code>, even if the <code>group</code> also contains <rref>menuitem</rref> elements.</p>
             	<p>In the following example, the nested <code>group</code> and the <rref>menuitem</rref> elements are allowed, but the <code>button</code> is not, because it is an <a>accessibility child</a> 
@@ -6376,7 +6379,7 @@
                 <td class="role-mustcontain">
                   <ul>
                     <!-- keep in sync with #menu -->
-                    <li><rref>group</rref> as intervening role</li>
+                    <li><rref>group</rref> as <a>intervening role</a></li>
                     <li><rref>menuitem</rref></li>
                     <li><rref>menuitemcheckbox</rref></li>
                     <li><rref>menuitemradio</rref></li>
@@ -6428,7 +6431,7 @@
           <div class="role-description">
             <p>An option in a set of choices contained by a <rref>menu</rref> or <rref>menubar</rref>.</p>
             <p>
-              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitem</code> have an <a>accessibility ancestor</a> with role <rref>menu</rref>, <rref>menubar</rref>, with only elements of
+              Authors MUST ensure [=elements=] with <a>role</a> <code>menuitem</code> have an <a>accessibility ancestor</a> with role <rref>menu</rref> or <rref>menubar</rref>, with only elements of
               role <rref>generic</rref>, <rref>group</rref>, and <rref>none</rref> intervening.
             </p>
             <p>
@@ -6484,9 +6487,9 @@
                 <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
                 <td class="role-scope">
                   <ul>
+					<li><rref>group</rref> as <a>intervening role</a></li>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
-					<li><rref>group</rref> as <a>intervening role</a></li>
                   </ul>
                 </td>
               </tr>
@@ -6599,11 +6602,9 @@
                 <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
                 <td class="role-scope">
                   <ul>
+					<li><rref>group</rref> as <a>intervening role</a></li>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>group</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>menu</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>menubar</rref></li>
                   </ul>
                 </td>
               </tr>
@@ -6717,11 +6718,9 @@
                 <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
                 <td class="role-scope">
                   <ul>
+					<li><rref>group</rref> as <a>intervening role</a></li>
                     <li><rref>menu</rref></li>
                     <li><rref>menubar</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>group</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>menu</rref></li>
-                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>menubar</rref></li>
                   </ul>
                 </td>
               </tr>
