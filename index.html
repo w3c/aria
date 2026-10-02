@@ -1182,11 +1182,10 @@
           </p>
           <p>A role listed in the Allowed Accessibility Child Roles as an <dfn data-export="" data-lt="intervening|intervening role|intervening roles">intervening role</dfn> is allowed as an 
 			  <a>accessibility child</a>, and its own <a>accessibility children</a> are also checked against the same list, as if they were accessibility children of the element whose list is 
-			  being checked. If elements with an intervening role are nested, this applies at every level.</p>
-          <p>For example, <rref>menu</rref> lists <rref>group</rref> as an intervening role. In <code>menu &gt; group &gt; group &gt; menuitem</code>, both <code>group</code> elements and the 
+			  being checked. If elements with an intervening role are nested, this applies at every level. For example, <rref>menu</rref> lists <rref>group</rref> as an intervening role. In <code>menu &gt; group &gt; group &gt; menuitem</code>, both <code>group</code> elements and the 
 			  <code>menuitem</code> are checked against the Allowed Accessibility Child Roles of the <code>menu</code>.</p>
           <p>Unlike elements with role <rref>generic</rref> or <rref>none</rref>, an element with an intervening role is still an accessibility child of its parent in the <a>accessibility tree</a>. 
-			  It only extends the Allowed Accessibility Child Roles of that parent to its own accessibility children.</p>
+			  It only extends the Allowed Accessibility Child Roles of the role whose list is being checked to its own accessibility children.</p>
           <p class="note">
             A role that has 'allowed accessibility child roles' does not imply the reverse relationship. Elements with roles in this list do not always have to be found within elements of the given
             role. See <a href="#scope">required accessibility parent roles</a> for requirements about the context where elements of a given role will be contained.
@@ -1267,7 +1266,7 @@
           </p>
           <p>If a role is listed as an <a>intervening role</a>, an element with the current <a>role</a> can be an <a>accessibility child</a> of an element with that intervening role, provided that the 
 			  element with the intervening role, or the outermost one if such elements are nested, is itself an accessibility child of an element with a role from this list that is not an intervening role.</p>
-          <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list.</p>
+          <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list, or if it is an <a>intervening role</a> and the condition above is not met.</p>
           <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
         </section>
         <section id="namecalculation">
@@ -16288,7 +16287,7 @@ button.ariaPressed; // null</pre
           <a>accessibility descendant</a>.
         </p>
         <p>
-          The <dfn data-export="" data-lt="accessibility child|owned child|child element|child|children|child elements">accessibility children</dfn> of a DOM element are all of the children of that element's corresponding
+          The <dfn data-export="" data-lt="accessibility child|owned child">accessibility children</dfn> of a DOM element are all of the children of that element's corresponding
           <a>accessible object</a> in the <a>accessibility tree</a>. In terms of the DOM, that includes the following (with exclusions listed below):
 
         </p>
