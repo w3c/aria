@@ -1,6 +1,6 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 <meta charset="UTF-8">
-<meta name="generator" content="ReSpec 35.1.0">
+<meta name="generator" content="ReSpec 37.4.1">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -36,6 +36,7 @@ dfn{cursor:pointer}
 .dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
 .dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
 .dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel .marker.cddl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
 .dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
 .dfn-panel a[href]:hover{border-bottom-width:1px}
 .dfn-panel ul{padding:0}
@@ -46,10 +47,59 @@ dfn{cursor:pointer}
     
 <title>WAI-ARIA Graphics Module</title>
     
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+@media (prefers-color-scheme:dark){
+#references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+}
+body:has(input[name=color-scheme][value=dark]:checked) #references :target{background:color-mix(in srgb, #eaf3ff 15%, transparent)}
+cite .bibref{font-style:italic}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(:where(#toc>h2,#abstract>h2,#sotd>h2,.head>h2)):has(+a.self-link){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(:where(#toch2))+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.8;text-decoration:none}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§"}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h2,h3)+a.self-link::before{color:var(--heading-text)}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+body:has(input[name=color-scheme][value=light]:checked),head:not(:has(meta[name=color-scheme][content~=dark]))+body{color-scheme:light}
+body:has(input[name=color-scheme][value=dark]:checked){color-scheme:dark}
+</style>
     
     
     
-<link href="../common/css/common.css" rel="stylesheet" type="text/css">
     
     
     
@@ -73,61 +123,43 @@ dfn{cursor:pointer}
     
 </style>
   
-<style id="respec-mainstyle">
-@keyframes pop{
-0%{transform:scale(1,1)}
-25%{transform:scale(1.25,1.25);opacity:.75}
-100%{transform:scale(1,1)}
-}
-a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
-a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
-a.bibref{text-decoration:none}
-.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
-.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
-@supports not (text-decoration:red wavy underline){
-.respec-offending-element:not(pre){display:inline-block}
-.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
-}
-#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
-cite .bibref{font-style:normal}
-a[href].orcid{padding-left:4px;padding-right:4px}
-a[href].orcid>svg{margin-bottom:-2px}
-ol.tof,ul.tof{list-style:none outside none}
-.caption{margin-top:.5em;font-style:italic}
-#issue-summary>ul{column-count:2}
-#issue-summary li{list-style:none;display:inline-block}
-details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
-details.respec-tests-details>*{padding-right:2em}
-details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
-details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
-details.respec-tests-details>ul{width:100%;margin-top:-.3em}
-details.respec-tests-details>li{padding-left:1em}
-.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
-aside.example .marker>a.self-link{color:inherit}
-.header-wrapper{display:flex;align-items:baseline}
-:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
-:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
-:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
-:is(h2,h3)+a.self-link{top:-.2em}
-:is(h4,h5,h6)+a.self-link::before{color:#000}
-@media (max-width:767px){
-dd{margin-left:0}
-}
-@media print{
-.removeOnSave{display:none}
-}
-</style>
 <meta name="color-scheme" content="light">
-<meta name="revision" content="8e1ab5cb40f1fe60e88cd421fd3bbf95613a82d7">
 <meta name="description" content="Assistive technologies need semantic information about the structures and expected behaviors of a document in order to convey appropriate information to persons with disabilities. This
         specification defines a WAI-ARIA 1.1 [WAI-ARIA-1.1] module of core roles
         specific to web graphics. These semantics allow an author to express the logical structure of the graphic to assistive technologies in order improve accessibility of graphics. Assistive
         technologies could then enable semantic navigation and adapt styling and interactive features, to provide an optimal experience for the audience. These features complement the graphics and
         document structure elements defined by HTML [HTML52] and SVG [SVG2].">
 <style>
-.hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
+.hljs,body:has(input[name=color-scheme][value=light]:checked) .hljs,head:not(:has(meta[name=color-scheme][content~=dark]))+body .hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
 @media (prefers-color-scheme:dark){
-.hljs{--base:#282c34;--mono-1:#abb2bf;--mono-2:#818896;--mono-3:#5c6370;--hue-1:#56b6c2;--hue-2:#61aeee;--hue-3:#c678dd;--hue-4:#98c379;--hue-5:#e06c75;--hue-5-2:#be5046;--hue-6:#d19a66;--hue-6-2:#e6c07b}
+.hljs{
+  --base: #282c34;
+  --mono-1: #abb2bf;
+  --mono-2: #818896;
+  --mono-3: #5c6370;
+  --hue-1: #56b6c2;
+  --hue-2: #61aeee;
+  --hue-3: #c678dd;
+  --hue-4: #98c379;
+  --hue-5: #e06c75;
+  --hue-5-2: #be5046;
+  --hue-6: #d19a66;
+  --hue-6-2: #e6c07b;
+}
+}
+body:has(input[name=color-scheme][value=dark]:checked) .hljs{
+  --base: #282c34;
+  --mono-1: #abb2bf;
+  --mono-2: #818896;
+  --mono-3: #5c6370;
+  --hue-1: #56b6c2;
+  --hue-2: #61aeee;
+  --hue-3: #c678dd;
+  --hue-4: #98c379;
+  --hue-5: #e06c75;
+  --hue-5-2: #be5046;
+  --hue-6: #d19a66;
+  --hue-6-2: #e6c07b;
 }
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;color:var(--mono-1,#383a42);background:#fafafa;background:var(--base,#fafafa)}
 .hljs-comment,.hljs-quote{color:#717277;color:var(--mono-3,#717277);font-style:italic}
@@ -143,7 +175,24 @@ dd{margin-left:0}
 .hljs-link{text-decoration:underline}
 </style>
 <style>
-var{position:relative;cursor:pointer}
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
+</style>
+<style>
+var[data-type]{position:relative}
 var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
 var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
 var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#222;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
@@ -151,13 +200,18 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 </style>
 <script id="initialUserConfig" type="application/json">{
   "trace": true,
-  "github": "https://github.com/w3c/graphics-aria/",
+  "github": {
+    "repoURL": "w3c/graphics-aria",
+    "pullsURL": "https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Agraphics-aria%22",
+    "commitHistoryURL": "https://github.com/w3c/aria/commits/main/graphics-aria/"
+  },
   "doJsonLd": true,
   "specStatus": "ED",
   "shortName": "graphics-aria-1.0",
   "copyrightStart": "2015",
   "previousPublishDate": "2015-12-03",
   "previousMaturity": "WD",
+  "edDraftURI": "https://w3c.github.io/aria/graphics-aria/",
   "editors": [
     {
       "name": "Amelia Bellamy-Royds",
@@ -242,13 +296,53 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "maxTocLevel": 4,
   "ariaSpecURLs": {
     "ED": "https://w3c.github.io/aria/",
-    "FPWD": "https://www.w3.org/TR/wai-aria-1.1/",
-    "WD": "https://www.w3.org/TR/wai-aria-1.1/",
-    "CR": "https://www.w3.org/TR/wai-aria-1.1/",
-    "PR": "https://www.w3.org/TR/wai-aria-1.1/",
-    "REC": "https://www.w3.org/TR/wai-aria-1.1/"
+    "FPWD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "WD": "https://www.w3.org/TR/wai-aria-1.3/",
+    "CR": "https://www.w3.org/TR/wai-aria-1.3/",
+    "REC": "https://www.w3.org/TR/wai-aria-1.3/"
+  },
+  "accNameURLs": {
+    "ED": "https://w3c.github.io/aria/accname/",
+    "WD": "https://www.w3.org/TR/accname-1.2/",
+    "FPWD": "https://www.w3.org/TR/accname-1.2/",
+    "CR": "https://www.w3.org/TR/accname-1.2/",
+    "REC": "https://www.w3.org/TR/accname-1.2/"
+  },
+  "coreMappingURLs": {
+    "ED": "https://w3c.github.io/aria/core-aam/",
+    "WD": "https://www.w3.org/TR/core-aam-1.2/",
+    "FPWD": "https://www.w3.org/TR/core-aam-1.2/",
+    "CR": "https://www.w3.org/TR/core-aam-1.2/",
+    "REC": "https://www.w3.org/TR/core-aam-1.2/"
+  },
+  "dpubModURLs": {
+    "ED": "https://w3c.github.io/aria/dpub-aria/",
+    "FPWD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "WD": "https://www.w3.org/TR/dpub-aria-1.1/",
+    "REC": "https://www.w3.org/TR/dpub-aria-1.1/"
+  },
+  "graphicsMappingModURLs": {
+    "ED": "https://w3c.github.io/aria/graphics-aam/",
+    "FPWD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "WD": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "CR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "PR": "https://www.w3.org/TR/graphics-aam-1.0/",
+    "REC": "https://www.w3.org/TR/graphics-aam-1.0/"
+  },
+  "graphicsModURLs": {
+    "ED": "https://w3c.github.io/graphics-aria/",
+    "FPWD": "https://www.w3.org/TR/graphics-aria/",
+    "WD": "https://www.w3.org/TR/graphics-aria/",
+    "REC": "https://www.w3.org/TR/graphics-aria/"
+  },
+  "htmlMappingURLs": {
+    "ED": "https://w3c.github.io/aria/html-aam/",
+    "FPWD": "https://www.w3.org/TR/html-aam-1.0/",
+    "WD": "https://www.w3.org/TR/html-aam/",
+    "REC": "https://www.w3.org/TR/html-aam/"
   },
   "preProcess": [
+    null,
     null
   ],
   "postProcess": [
@@ -256,48 +350,103 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   ],
   "definitionMap": [],
   "xref": [
-    "core-aam",
+    "core-aam-1.2",
     "accname",
-    "wai-aria"
+    "wai-aria-1.3",
+    "DOM",
+    "HTML",
+    "infra"
   ],
-  "gitRevision": "8e1ab5cb40f1fe60e88cd421fd3bbf95613a82d7",
-  "publishISODate": "2024-06-12T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 12 June 2024"
+  "localBiblio": {
+    "ACCNAME-AAM": {
+      "aliasOf": "ACCNAME-AAM-1.1"
+    },
+    "Android-Accessibility-API": {
+      "title": "Android Accessibility API",
+      "href": "https://developer.android.com/guide/topics/ui/accessibility",
+      "publisher": "Google"
+    },
+    "ARIA-PRACTICES": {
+      "aliasOf": "WAI-ARIA-PRACTICES-1.2"
+    },
+    "CORE-AAM": {
+      "aliasOf": "CORE-AAM-1.1"
+    },
+    "DPUB-ARIA": {
+      "aliasOf": "DPUB-ARIA-1.0"
+    },
+    "GRAPHICS-ARIA": {
+      "aliasOf": "GRAPHICS-ARIA-1.0"
+    },
+    "GRAPHICS-AAM": {
+      "aliasOf": "GRAPHICS-AAM-1.0"
+    },
+    "EPUB-Content": {
+      "href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
+      "title": "EPUB Content Documents 3.1",
+      "publisher": "IDPF"
+    },
+    "HTML-AAM": {
+      "aliasOf": "HTML-AAM-1.0"
+    },
+    "MathML-Core": {
+      "href": "https://mathml-refresh.github.io/mathml-core/",
+      "title": "MathML Core",
+      "authors": [
+        "David Carlisle",
+        "Frédéric Wang"
+      ]
+    },
+    "SVG-AAM": {
+      "aliasOf": "SVG-AAM-1.0"
+    },
+    "SVG1": {
+      "aliasOf": "SVG"
+    },
+    "WAI-ARIA": {
+      "aliasOf": "WAI-ARIA-1.1"
+    }
+  },
+  "publishISODate": "2026-10-08T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 08 October 2026"
 }</script>
-<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head>
-  <body class="h-entry" data-cite="core-aam accname wai-aria"><div class="head">
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED">
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/dark.css" disabled=""></head>
+  <body class="h-entry" data-cite="core-aam-1.2 accname wai-aria-1.3 DOM HTML infra"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WAI-ARIA Graphics Module</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-06-12">12 June 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2026-10-08">08 October 2026</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
         <dt>This version:</dt><dd>
-                <a class="u-url" href="https://w3c.github.io/graphics-aria/">https://w3c.github.io/graphics-aria/</a>
-              </dd>
+                  <a class="u-url" href="https://w3c.github.io/aria/graphics-aria/">https://w3c.github.io/aria/graphics-aria/</a>
+                </dd>
         <dt>Latest published version:</dt><dd>
-                <a href="https://www.w3.org/TR/graphics-aria-1.0/">https://www.w3.org/TR/graphics-aria-1.0/</a>
-              </dd>
-        <dt>Latest editor's draft:</dt><dd><a href="https://w3c.github.io/graphics-aria/">https://w3c.github.io/graphics-aria/</a></dd>
+                  <a href="https://www.w3.org/TR/graphics-aria-1.0/">https://www.w3.org/TR/graphics-aria-1.0/</a>
+                </dd>
+        <dt>Latest editor's draft:</dt><dd><a href="https://w3c.github.io/aria/graphics-aria/">https://w3c.github.io/aria/graphics-aria/</a></dd>
         <dt>History:</dt><dd>
-                    <a href="https://www.w3.org/standards/history/graphics-aria-1.0/">https://www.w3.org/standards/history/graphics-aria-1.0/</a>
-                  </dd><dd>
-                    <a href="https://github.com/w3c/graphics-aria/commits/">Commit history</a>
-                  </dd>
+                        <a href="https://www.w3.org/standards/history/graphics-aria-1.0/">https://www.w3.org/standards/history/graphics-aria-1.0/</a>
+                      </dd><dd>
+                        <a href="https://github.com/w3c/aria/commits/main/graphics-aria/">Commit history</a>
+                      </dd>
         
         
         
         
         
-        <dt>Editors:</dt><dd class="editor p-author h-card vcard" data-editor-id="75809">
+        <dt>
+                  Editors:
+                </dt><dd class="editor p-author h-card vcard" data-editor-id="75809">
     <a class="ed_mailto u-email email p-name" href="mailto:amelia.bellamy.royds@gmail.com">Amelia Bellamy-Royds</a>
   </dd><dd class="editor p-author h-card vcard" data-editor-id="37155">
     <span class="p-name fn">James Nurthen</span> (<a class="p-org org h-org" href="https://www.adobe.com/">Adobe</a>)
   </dd>
         <dt>
-                Former editors:
-              </dt><dd class="editor p-author h-card vcard" data-editor-id="68182">
+                  Former editors:
+                </dt><dd class="editor p-author h-card vcard" data-editor-id="68182">
     <span class="p-name fn">Joanmarie Diggs</span> (<a class="p-org org h-org" href="https://www.igalia.com">Igalia, S.L.</a>) (Editor until August 2023)
   </dd><dd class="editor p-author h-card vcard" data-editor-id="34017">
     <span class="p-name fn">Michael Cooper</span> (<a class="p-org org h-org" href="http://www.w3.org">w3c</a>) (Editor until August 2023)
@@ -306,7 +455,9 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </dd><dd class="editor p-author h-card vcard" data-editor-id="2460">
     <a class="ed_mailto u-email email p-name" href="mailto:richschwer@gmail.com">Rich Schwerdtfeger</a> (<a class="p-org org h-org" href="https://knowbility.org/">Knowbility</a>) (until August 2017)
   </dd>
-        <dt>Authors:</dt><dd class="editor p-author h-card vcard" data-editor-id="75809">
+        <dt>
+                  Authors:
+                </dt><dd class="editor p-author h-card vcard" data-editor-id="75809">
     <a class="ed_mailto u-email email p-name" href="mailto:amelia.bellamy.royds@gmail.com">Amelia Bellamy-Royds</a>
   </dd><dd class="editor p-author h-card vcard" data-editor-id="73593">
     <a class="ed_mailto u-email email p-name" href="mailto:fesch@us.ibm.com">Fred Esch</a> (<a class="p-org org h-org" href="https://www.ibm.com/">IBM Corporation</a>)
@@ -317,7 +468,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </dd>
         <dt>Feedback:</dt><dd>
         <a href="https://github.com/w3c/graphics-aria/">GitHub w3c/graphics-aria</a>
-        (<a href="https://github.com/w3c/graphics-aria/pulls/">pull requests</a>,
+        (<a href="https://github.com/w3c/aria/pulls?q=is%3Apr+is%3Aopen+label%3A%22spec%3Agraphics-aria%22">pull requests</a>,
         <a href="https://github.com/w3c/graphics-aria/issues/new/choose">new issue</a>,
         <a href="https://github.com/w3c/graphics-aria/issues/">open issues</a>)
       </dd>
@@ -330,7 +481,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p class="copyright">
     <a href="https://www.w3.org/policies/#copyright">Copyright</a>
     ©
-    2015-2024
+    2015-2026
     
     <a href="https://www.w3.org/">World Wide Web Consortium</a>.
     <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup>
@@ -343,7 +494,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <section id="abstract" class="introductory"><h2>Abstract</h2>
       <p>
         Assistive technologies need semantic information about the structures and expected behaviors of a document in order to convey appropriate information to persons with disabilities. This
-        specification defines a <a href="https://w3c.github.io/aria/" class="specref"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 1.1</a> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>] module of core <a data-lt="role" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a>
+        specification defines a <a href="https://w3c.github.io/aria/" class="specref"><abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> 1.1</a> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>] module of core <a data-lt="role" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>
         specific to web graphics. These semantics allow an author to express the logical structure of the graphic to assistive technologies in order improve accessibility of graphics. Assistive
         technologies could then enable semantic navigation and adapt styling and interactive features, to provide an optimal experience for the audience. These features complement the graphics and
         document structure elements defined by HTML [<cite><a class="bibref" data-link-type="biblio" href="#bib-html52" title="HTML 5.2">HTML52</a></cite>] and <abbr title="Scalable Vector Graphics">SVG</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-svg2" title="Scalable Vector Graphics (SVG) 2">SVG2</a></cite>].
@@ -356,8 +507,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <section id="sotd" class="introductory"><h2>Status of This Document</h2><p><em>This section describes the status of this
       document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr>
       publications and the latest revision of this technical report can be found
-      in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
-      https://www.w3.org/TR/.</em></p>
+      in the
+      <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> standards and drafts index</a>.</em></p>
       <p>
         This is an Editor's Draft of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics Module 1.0 by the
         <a href="https://www.w3.org/WAI/PF/svg-a11y-tf/"><abbr title="Scalable Vector Graphics">SVG</abbr> Accessibility Taskforce</a>, a joint task force of the
@@ -379,35 +530,36 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p>
     This document was published by the <a href="https://www.w3.org/groups/wg/aria">Accessible Rich Internet Applications Working Group</a> as
     an Editor's Draft. 
-  </p><p>Publication as an Editor's Draft does not
-  imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p><p>
-    This is a draft document and may be updated, replaced or obsoleted by other
+  </p><p>Publication as
+  an Editor's Draft does not imply endorsement
+  by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p><p>
+    This is a draft document and may be updated, replaced, or obsoleted by other
     documents at any time. It is inappropriate to cite this document as other
-    than work in progress.
+    than a work in progress.
     
   </p><p>
     
         This document was produced by a group
         operating under the
-        <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
+        <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
           Policy</a>.
       
     
-                <abbr title="World Wide Web Consortium">W3C</abbr> maintains a
-                <a rel="disclosure" href="https://www.w3.org/groups/wg/aria/ipr">public list of any patent disclosures</a>
-          made in connection with the deliverables of
-          the group; that page also includes
-          instructions for disclosing a patent. An individual who has actual
-          knowledge of a patent which the individual believes contains
-          <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a>
-          must disclose the information in accordance with
-          <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
-        
+                    <abbr title="World Wide Web Consortium">W3C</abbr> maintains a
+                    <a rel="disclosure" href="https://www.w3.org/groups/wg/aria/ipr">public list of any patent disclosures</a>
+            made in connection with the deliverables of
+            the group; that page also includes
+            instructions for disclosing a patent. An individual who has actual
+            knowledge of a patent that the individual believes contains
+            <a href="https://www.w3.org/policies/patent-policy/#def-essential">Essential Claim(s)</a>
+            must disclose the information in accordance with
+            <a href="https://www.w3.org/policies/patent-policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
   </p><p>
-                      This document is governed by the
-                      <a id="w3c_process_revision" href="https://www.w3.org/2023/Process-20231103/">03 November 2023 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
-                    </p></section>
-    <nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#target-audience"><bdi class="secno">1.1 </bdi>Target Audience</a></li><li class="tocline"><a class="tocxref" href="#ua-support"><bdi class="secno">1.2 </bdi>User Agent Support</a></li><li class="tocline"><a class="tocxref" href="#co-evolution"><bdi class="secno">1.3 </bdi>Co-Evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Host Languages</a></li><li class="tocline"><a class="tocxref" href="#authoring_practices"><bdi class="secno">1.4 </bdi>Authoring Practices</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authoring_tools"><bdi class="secno">1.4.1 </bdi>Authoring Tools</a></li><li class="tocline"><a class="tocxref" href="#authoring_testing"><bdi class="secno">1.4.2 </bdi>Testing Practices and Tools</a></li></ol></li><li class="tocline"><a class="tocxref" href="#at_support"><bdi class="secno">1.5 </bdi>Assistive Technologies</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformance</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#conformance-0"><bdi class="secno">2.1 </bdi>Conformance</a></li></ol></li><li class="tocline"><a class="tocxref" href="#roles"><bdi class="secno">3. </bdi>Graphics Roles</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#role_definitions"><bdi class="secno">3.1 </bdi>Definition of Roles</a></li><li class="tocline"><a class="tocxref" href="#role_other"><bdi class="secno">3.2 </bdi>Other Roles for Graphics</a></li></ol></li><li class="tocline"><a class="tocxref" href="#state_prop"><bdi class="secno">4. </bdi>States and Properties</a></li><li class="tocline"><a class="tocxref" href="#changelog"><bdi class="secno">A. </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-last-public-working-draft"><bdi class="secno">A.1 </bdi>Substantive changes since the <span class="formerLink">last public working draft</span></a></li><li class="tocline"><a class="tocxref" href="#other-substantive-changes-since-the-first-public-working-draft"><bdi class="secno">A.2 </bdi>Other substantive changes since the <span class="formerLink">First Public Working Draft</span></a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">B. </bdi>Acknowledgments</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#ack_svga11y"><bdi class="secno">B.1 </bdi>Participants active in the <abbr title="Scalable Vector Graphics">SVG</abbr> accessibility task force at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_group"><bdi class="secno">B.2 </bdi>Participants active in the ARIA WG at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_funders"><bdi class="secno">B.3 </bdi>Enabling funders</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">C. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">C.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">C.2 </bdi>Informative references</a></li></ol></li></ol></nav>
+                          This document is governed by the
+                          <a id="w3c_process_revision" href="https://www.w3.org/policies/process/20250818/">18 August 2025 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+                        </p></section>
+    <nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#target-audience"><bdi class="secno">1.1 </bdi>Target Audience</a></li><li class="tocline"><a class="tocxref" href="#ua-support"><bdi class="secno">1.2 </bdi>User Agent Support</a></li><li class="tocline"><a class="tocxref" href="#co-evolution"><bdi class="secno">1.3 </bdi>Co-Evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Host Languages</a></li><li class="tocline"><a class="tocxref" href="#authoring_practices"><bdi class="secno">1.4 </bdi>Authoring Practices</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#authoring_tools"><bdi class="secno">1.4.1 </bdi>Authoring Tools</a></li><li class="tocline"><a class="tocxref" href="#authoring_testing"><bdi class="secno">1.4.2 </bdi>Testing Practices and Tools</a></li></ol></li><li class="tocline"><a class="tocxref" href="#at_support"><bdi class="secno">1.5 </bdi>Assistive Technologies</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformance</a></li><li class="tocline"><a class="tocxref" href="#roles"><bdi class="secno">3. </bdi>Graphics Roles</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#role_definitions"><bdi class="secno">3.1 </bdi>Definition of Roles</a></li><li class="tocline"><a class="tocxref" href="#role_other"><bdi class="secno">3.2 </bdi>Other Roles for Graphics</a></li></ol></li><li class="tocline"><a class="tocxref" href="#state_prop"><bdi class="secno">4. </bdi>States and Properties</a></li><li class="tocline"><a class="tocxref" href="#changelog"><bdi class="secno">A. </bdi>Change Log</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#substantive-changes-since-the-last-public-working-draft"><bdi class="secno">A.1 </bdi>Substantive changes since the <span class="formerLink">last public working draft</span></a></li><li class="tocline"><a class="tocxref" href="#other-substantive-changes-since-the-first-public-working-draft"><bdi class="secno">A.2 </bdi>Other substantive changes since the <span class="formerLink">First Public Working Draft</span></a></li></ol></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">B. </bdi>Acknowledgments</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#ack_svga11y"><bdi class="secno">B.1 </bdi>Participants active in the <abbr title="Scalable Vector Graphics">SVG</abbr> accessibility task force at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_group"><bdi class="secno">B.2 </bdi>Participants active in the ARIA WG at the time of publication</a></li><li class="tocline"><a class="tocxref" href="#ack_funders"><bdi class="secno">B.3 </bdi>Enabling funders</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">C. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">C.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">C.2 </bdi>Informative references</a></li></ol></li></ol></nav>
     <section class="informative" id="introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></div><p><em>This section is non-normative.</em></p>
       
       <p>
@@ -416,7 +568,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         assistive technologies, similar to native platform applications, without requiring authors to include platform dependencies.
       </p>
       <p>
-        This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>] designed to support graphics. The goals of this specification
+        This specification is a modular extension of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>] designed to support graphics. The goals of this specification
         include:
       </p>
       <ul>
@@ -444,14 +596,14 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       <section id="target-audience"><div class="header-wrapper"><h3 id="x1-1-target-audience"><bdi class="secno">1.1 </bdi>Target Audience</h3><a class="self-link" href="#target-audience" aria-label="Permalink for Section 1.1"></a></div>
         
         <p>
-          This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, consisting of graphics-specific element <a data-lt="role" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a>. It impacts several audiences:
+          This specification defines a module of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> for graphics, consisting of graphics-specific element <a data-lt="role" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>. It impacts several audiences:
         </p>
         <ul>
           <li>
-            <a data-lt="user agent" class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics
+            <a data-lt="user agent" data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">User agents</a> that process content containing <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and graphics
             <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> features;
           </li>
-          <li><a data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-assistive-technologies">Assistive technologies</a> that provide specialized reading experiences to users with disabilities;</li>
+          <li><a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.3/#assistive-technology">Assistive technologies</a> that provide specialized reading experiences to users with disabilities;</li>
           <li>Authors of web graphics;</li>
           <li>Authoring tools that help authors create conforming graphics; and</li>
           <li>
@@ -466,8 +618,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       <section id="ua-support"><div class="header-wrapper"><h3 id="x1-2-user-agent-support"><bdi class="secno">1.2 </bdi>User Agent Support</h3><a class="self-link" href="#ua-support" aria-label="Permalink for Section 1.2"></a></div>
         
         <p>
-          This module follows the general <a href="https://www.w3.org/TR/wai-aria-1.1/#ua-support">User Agent support principles</a> defined in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]. The roles defined here do not
-          require any change in behavior by user agents other than in the information exposed to the <a data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-accessibility-api">accessibility <abbr title="application programming interface">API</abbr></a>. However, the semantics defined here provide the ability for user agents
+          This module follows the general <a href="https://www.w3.org/TR/wai-aria-1.1/#ua-support">User Agent support principles</a> defined in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]. The roles defined here do not
+          require any change in behavior by user agents other than in the information exposed to the <a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-accessibility-api">accessibility <abbr title="application programming interface">API</abbr></a>. However, the semantics defined here provide the ability for user agents
           to enhance the general user interface presented to readers. For example, a user agent may provide alternative keyboard navigation suitable to a graphical environment, or may allow users to
           extract a copy of a graphic from a larger document.
         </p>
@@ -478,8 +630,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         <p>
           The <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> Graphics module follows the model for
           <a href="https://www.w3.org/TR/wai-aria-1.1/#co-evolution">co-evolution of <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and host languages</a> defined in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>
-          [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]. It is intended to augment semantics in supporting languages like HTML [<cite><a class="bibref" data-link-type="biblio" href="#bib-html52" title="HTML 5.2">HTML52</a></cite>], <abbr title="Scalable Vector Graphics">SVG</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-svg2" title="Scalable Vector Graphics (SVG) 2">SVG2</a></cite>] and EPUB, or to be used as an accessibility enhancement technology in other
-          markup-based languages that do not explicitly include support for ARIA. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a> clarify semantics to assistive technologies when authors create new types of objects, via style
+          [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]. It is intended to augment semantics in supporting languages like HTML [<cite><a class="bibref" data-link-type="biblio" href="#bib-html52" title="HTML 5.2">HTML52</a></cite>], <abbr title="Scalable Vector Graphics">SVG</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-svg2" title="Scalable Vector Graphics (SVG) 2">SVG2</a></cite>] and EPUB, or to be used as an accessibility enhancement technology in other
+          markup-based languages that do not explicitly include support for ARIA. <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a> clarify semantics to assistive technologies when authors create new types of objects, via style
           and script, or use markup languages which describe the visual appearance of a document rather than its meaning.
         </p>
         <p>
@@ -497,10 +649,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           
           <p>
             Many of the requirements in the definitions of the <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> and Graphics
-            <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a data-lt="role" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a>, <a data-lt="state" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-state">states</a> and <a data-lt="property" class="respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-0">properties</a> can be checked
-            automatically during the development process, similar to other quality control processes used for validating code. To assist authors who are creating graphics, these tools can compare the
-            semantic structure of Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles from the <abbr title="Document Object Model">DOM</abbr> to that defined in this
-            specification and notify the author of errors or simply create templates that enforce that structure.
+            <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> <a data-lt="role" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>, <a data-lt="state" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-state">states</a> and <a data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-property">properties</a> can be checked automatically during
+            the development process, similar to other quality control processes used for validating code. To assist authors who are creating graphics, these tools can compare the semantic structure of
+            Graphics <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> roles from the <abbr title="Document Object Model">DOM</abbr> to that defined in this specification and notify
+            the author of errors or simply create templates that enforce that structure.
           </p>
         </section>
 
@@ -508,7 +660,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           
           <p>
             The accessibility of interactive content cannot be confirmed by static checks alone. Developers of interactive content should test for device-independent access to
-            <a data-lt="widget" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-widget">widgets</a> and applications, and should verify accessibility <abbr title="application programming interface">API</abbr> access to all content and changes during user
+            <a data-lt="widget" data-link-type="dfn" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-widget">widgets</a> and applications, and should verify accessibility <abbr title="application programming interface">API</abbr> access to all content and changes during user
             interaction.
           </p>
         </section>
@@ -518,7 +670,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         
         <p>
           Programmatic access to accessibility semantics is essential for assistive technologies. For more information, refer to the
-          <a href="https://www.w3.org/TR/wai-aria-1.1/#at_support">Assistive Technologies</a> section in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>].
+          <a href="https://www.w3.org/TR/wai-aria-1.1/#at_support">Assistive Technologies</a> section in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>].
         </p>
         <p>For the graphics roles in particular, two categories of assistive technology are particularly relevant, but have different needs:</p>
         <ul>
@@ -527,7 +679,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
             descriptions, preserving any meaningful structure and relationships between components.
           </li>
           <li>
-            Alternative graphical presentations, such as colour-adjusted displays, screen magnifiers, large print documents, or embossing printers with graphic support. These technologies need to
+            Alternative graphical presentations, such as color-adjusted displays, screen magnifiers, large print documents, or embossing printers with graphic support. These technologies need to
             distinguish between graphical features which are primarily decorative and those which are essential for conveying the meaning of the content.
           </li>
         </ul>
@@ -535,38 +687,25 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       </section>
     </section>
     <section class="normative" id="conformance"><div class="header-wrapper"><h2 id="x2-conformance"><bdi class="secno">2. </bdi>Conformance</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 2."></a></div><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
-        The key words <em class="rfc2119">MAY</em>, <em class="rfc2119">MUST</em>, <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">OPTIONAL</em>, <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">REQUIRED</em>, <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>, <em class="rfc2119">SHOULD</em>, and <em class="rfc2119">SHOULD NOT</em> in this document
+        The key words <em class="rfc2119">MUST</em>, <em class="rfc2119">SHOULD</em>, and <em class="rfc2119">SHOULD NOT</em> in this document
         are to be interpreted as described in
-        <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>
+        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
         [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
-        when, and only when, they appear in all capitals, as shown here.
-      </p>
-      <section id="conformance-0"><div class="header-wrapper"><h3 id="x2-1-conformance"><bdi class="secno">2.1 </bdi>Conformance</h3><a class="self-link" href="#conformance-0" aria-label="Permalink for Section 2.1"></a></div>
-      <p>
-        The main content of this specification is <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-1">normative</a> and defines requirements that impact conformance claims. Introductory material, appendices, sections marked as
-        "non-normative" and their subsections, diagrams, examples, and notes are <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-2">informative</a> (non-normative). Non-normative material provides advisory information to help
-        interpret the guidelines but does not create requirements that impact a conformance claim.
-      </p>
-      <p>
-        Normative sections provide requirements that <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-3">user agents</a> must follow for an implementation to conform to this specification. The keywords <em class="rfc2119"><em class="rfc2119">MUST</em></em>,
-        <em class="rfc2119"><em class="rfc2119">MUST NOT</em></em>, <em class="rfc2119"><em class="rfc2119">REQUIRED</em></em>, <em class="rfc2119"><em class="rfc2119">SHALL</em></em>, <em class="rfc2119"><em class="rfc2119">SHALL NOT</em></em>, <em class="rfc2119"><em class="rfc2119">SHOULD</em></em>,
-        <em class="rfc2119"><em class="rfc2119">RECOMMENDED</em></em>, <em class="rfc2119"><em class="rfc2119">MAY</em></em>, and <em class="rfc2119"><em class="rfc2119">OPTIONAL</em></em> in this document are to be interpreted as described in
-        <cite><a href="http://www.rfc-editor.org/rfc/rfc2119.txt">Keywords for use in RFCs to indicate requirement levels</a></cite> [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>]. RFC-2119 keywords are formatted in uppercase and
-        contained in an element with <code>class="rfc2119"</code>. When the keywords shown above are used, but do not share this format, they do not convey formal information in the RFC 2119 sense,
-        and are merely explanatory, i.e., informative. As much as possible, such usages are avoided in this specification.
+        when, and only when, they appear in all
+        capitals, as shown here.
       </p>
       <p>Normative sections provide requirements that authors, user agents and assistive technologies <em class="rfc2119">MUST</em> follow for an implementation to conform to this specification.</p>
       <p>
         Non-normative (informative) sections provide information useful to understanding the specification. Such sections may contain examples of recommended practice, but it is not required to follow
         such recommendations in order to conform to this specification.
       </p>
-    </section></section>
+    </section>
     <section class="normative" id="roles"><div class="header-wrapper"><h2 id="x3-graphics-roles"><bdi class="secno">3. </bdi>Graphics Roles</h2><a class="self-link" href="#roles" aria-label="Permalink for Section 3."></a></div>
       
       <p>
         This section defines additions to the
         <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>
-        <a class="termref informative" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">role</a> <a class="termref informative respec-offending-element" title="No matching definition found." id="respec-offender-no-matching-definition-found-4">taxonomy</a> and describes the characteristics and properties of all <a data-lt="role" class="termref informative" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a>. See
+        <a class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">role</a> taxonomy and describes the characteristics and properties of all <a data-lt="role" class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a>. See
         <a href="https://w3c.github.io/aria/#roles" class="specref">ARIA Roles</a> for descriptions of the fields provided by this module.
       </p>
       <p>
@@ -578,7 +717,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         element with this role should be treated transparently by assistive technologies, as if its children or text content were directly contained by its parent element. In addition, certain roles,
         such as <a href="https://w3c.github.io/aria/#img" class="role-reference"><code>img</code></a> or <a href="#graphics-symbol" class="role-reference"><code>graphics-symbol</code></a>, when assigned to a parent element, will cause all child <abbr title="Document Object Model">DOM</abbr> structure to be omitted from the accessibility tree. This is indicated by
         the "Children Presentational" value in the role characteristics table. Finally, the native semantics of the graphics language may also default to ignoring <abbr title="Document Object Model">DOM</abbr> structure that does not have
-        semantic data attached; for <abbr title="Scalable Vector Graphics">SVG</abbr>, this is defined in the <abbr title="Scalable Vector Graphics">SVG</abbr> Accessibility <abbr title="application programming interface">API</abbr> Mappings specification [<cite><a class="bibref" data-link-type="biblio" href="#bib-svg-aam-1.0" title="SVG Accessibility API Mappings">SVG-AAM-1.0</a></cite>].
+        semantic data attached; for <abbr title="Scalable Vector Graphics">SVG</abbr>, this is defined in the <abbr title="Scalable Vector Graphics">SVG</abbr> Accessibility <abbr title="application programming interface">API</abbr> Mappings specification [<cite><a class="bibref" data-link-type="biblio" href="#bib-svg-aam-1-0" title="SVG Accessibility API Mappings">SVG-AAM-1.0</a></cite>].
       </p>
       <p>
         In all cases, to be considered presentational, an element must not be interactive and must not be assigned any accessible properties or alternative text. A role of <code>none</code> or
@@ -589,8 +728,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         <p>
           Below is an alphabetical list of the
           <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>
-          <a data-lt="role" class="termref informative" data-type="dfn" href="https://www.w3.org/TR/wai-aria/#dfn-role">roles</a> defined in this specification. They would normally be used in combination with other roles defined in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> to annotate graphics within
-          documents and rich internet applications [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>].
+          <a data-lt="role" class="termref informative" data-link-type="dfn" data-cite-href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role" href="https://www.w3.org/TR/wai-aria-1.3/#dfn-role">roles</a> defined in this specification. They would normally be used in combination with other roles defined in <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> to annotate graphics within
+          documents and rich internet applications [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>].
         </p>
         
         <dl id="index_role" class="compact"><dt><a href="#graphics-document" class="role-reference">graphics-document</a></dt>
@@ -646,7 +785,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
               another, for example a bar chart that is embedded in a map or a matrix of chart panels should have a role of <code>graphics-document</code>. The nested document provides encapsulation;
               navigation between components of the inner and outer graphics should be explicit.
             </p>
-            <div class="note" role="note" id="issue-container-generatedID"><div role="heading" class="note-title marker" id="h-note" aria-level="4"><span>Note</span></div><div class="">
+            <div class="note" role="note" id="issue-container-generatedID"><div class="note-title marker" id="h-note"><span>Note</span></div><div class="">
               <p>
                 To support user agents and assistive technologies based on the ARIA 1.0 specification, authors may wish to include the <a href="https://w3c.github.io/aria/#document" class="role-reference"><code>document</code></a> role as a fallback value, in the form
                 <code>role="graphics-document document"</code>.
@@ -666,7 +805,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
      <span class="hljs-attr">role</span>=<span class="hljs-string">"graphics-document document"</span> &gt;</span>
      <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>A simple circuit<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
      <span class="hljs-tag">&lt;<span class="hljs-name">desc</span>&gt;</span>A circuit with one source, one switch, and one load<span class="hljs-tag">&lt;/<span class="hljs-name">desc</span>&gt;</span>
-     <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span>&gt;</span><span class="css">
+     <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span>&gt;</span><span class="language-css">
         <span class="hljs-comment">/* omitted */</span>
      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
      <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"battery-1"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"graphics-symbol img"</span>
@@ -682,7 +821,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
             </aside>
           </div>
-          <table class="role-features">
+          <table class="def">
             <caption>
               Characteristics:
             </caption>
@@ -780,7 +919,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
               Unlike a <a href="#graphics-document" class="role-reference"><code>graphics-document</code></a>, a <code>graphics-object</code> need not be self-contained, and it does not establish a new context for navigation. However, user agents and
               assistive technologies <em class="rfc2119">SHOULD</em> provide a way for users, particularly non-visual users, to navigate the nested structure of objects in a hierarchical manner, similar to nested lists.
             </p>
-            <div class="note" role="note" id="issue-container-generatedID-0"><div role="heading" class="note-title marker" id="h-note-0" aria-level="4"><span>Note</span></div><p class="">
+            <div class="note" role="note" id="issue-container-generatedID-0"><div class="note-title marker" id="h-note-0"><span>Note</span></div><p class="">
               To support user agents and assistive technologies based on the ARIA 1.0 specification, authors may wish to include the <a href="https://w3c.github.io/aria/#group" class="role-reference"><code>group</code></a> role as a fallback value, in the form
               <code>role="graphics-object group"</code>.
             </p></div>
@@ -874,7 +1013,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
             </aside>
             
           </div>
-          <table class="role-features">
+          <table class="def">
             <caption>
               Characteristics:
             </caption>
@@ -921,7 +1060,6 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <li><a href="https://w3c.github.io/aria/#aria-describedby" class="property-reference"><code>aria-describedby</code></a></li>
 <li><a href="https://w3c.github.io/aria/#aria-description" class="property-reference"><code>aria-description</code></a></li>
 <li><a href="https://w3c.github.io/aria/#aria-details" class="property-reference"><code>aria-details</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-disabled" class="state-reference"><code>aria-disabled (state)</code></a> (Global use deprecated in ARIA 1.2)</li>
 <li><a href="https://w3c.github.io/aria/#aria-dropeffect" class="property-reference"><code>aria-dropeffect</code></a></li>
 <li><a href="https://w3c.github.io/aria/#aria-errormessage" class="property-reference"><code>aria-errormessage</code></a> (Global use deprecated in ARIA 1.2)</li>
 <li><a href="https://w3c.github.io/aria/#aria-flowto" class="property-reference"><code>aria-flowto</code></a></li>
@@ -971,10 +1109,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
               graphic such as a chart or map. The symbol itself is an atomic object; children are presentational.
             </p>
             <p>
-              When used as part of a structured symbolic language, the <a href="https://w3c.github.io/aria/#aria-roledescription" class="property-reference"><code>aria-roledescription</code></a> property (introduced in ARIA 1.1 [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]) can be used to name the symbol type
+              When used as part of a structured symbolic language, the <a href="https://w3c.github.io/aria/#aria-roledescription" class="property-reference"><code>aria-roledescription</code></a> property (introduced in ARIA 1.1 [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>]) can be used to name the symbol type
               separately from the name and description for the particular instance of the symbol.
             </p>
-            <div class="note" role="note" id="issue-container-generatedID-1"><div role="heading" class="note-title marker" id="h-note-1" aria-level="4"><span>Note</span></div><p class="">
+            <div class="note" role="note" id="issue-container-generatedID-1"><div class="note-title marker" id="h-note-1"><span>Note</span></div><p class="">
               To support user agents and assistive technologies based on the ARIA 1.0 specification, authors may wish to include the <a href="https://w3c.github.io/aria/#img" class="role-reference"><code>img</code></a> role as a fallback value, in the form
               <code>role="graphics-symbol img"</code>, if that is not already the default semantic role for the element.
             </p></div>
@@ -999,16 +1137,16 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </div>
               <p>Within an <abbr title="Scalable Vector Graphics">SVG</abbr> diagram of an electrical circuit, the graphics that represent batteries, switches, and loads like this lightbulb are each symbols:</p>
               <object type="image/svg+xml" data="img/circuit-diagram.svg"></object>
-              <pre class="highlight" aria-busy="false"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"lightbulb-1"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"graphics-symbol img"</span>
-   <span class="hljs-attr">aria-roledescription</span>=<span class="hljs-string">"load"</span>
-   <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"lightbulb"</span>
-   <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"lightbulb-1 lightbulb-1-label"</span>
-   <span class="hljs-attr">transform</span>=<span class="hljs-string">"translate(180,50)"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"lightbulb-1-label"</span>
-        <span class="hljs-attr">x</span>=<span class="hljs-string">"-15"</span> <span class="hljs-attr">dy</span>=<span class="hljs-string">"0.5ex"</span> <span class="hljs-attr">text-anchor</span>=<span class="hljs-string">"end"</span> &gt;</span>10W<span class="hljs-tag">&lt;/<span class="hljs-name">text</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"10"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M0,-10 C0,8 5,8 5,0 C5,-8 0,-8 0,10"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span></code></pre>
+              <pre class="highlight" aria-busy="false"><code class="hljs abnf">&lt;g id<span class="hljs-operator">=</span><span class="hljs-string">"lightbulb-1"</span> role<span class="hljs-operator">=</span><span class="hljs-string">"graphics-symbol img"</span>
+   aria-roledescription<span class="hljs-operator">=</span><span class="hljs-string">"load"</span>
+   aria-label<span class="hljs-operator">=</span><span class="hljs-string">"lightbulb"</span>
+   aria-labelledby<span class="hljs-operator">=</span><span class="hljs-string">"lightbulb-1 lightbulb-1-label"</span>
+   transform<span class="hljs-operator">=</span><span class="hljs-string">"translate(180,50)"</span>&gt;
+    &lt;text id<span class="hljs-operator">=</span><span class="hljs-string">"lightbulb-1-label"</span>
+        x<span class="hljs-operator">=</span><span class="hljs-string">"-15"</span> dy<span class="hljs-operator">=</span><span class="hljs-string">"0.5ex"</span> text-anchor<span class="hljs-operator">=</span><span class="hljs-string">"end"</span> &gt;<span class="hljs-number">10</span>W&lt;/text&gt;
+    &lt;circle r<span class="hljs-operator">=</span><span class="hljs-string">"10"</span> /&gt;
+    &lt;path d<span class="hljs-operator">=</span><span class="hljs-string">"M0,-10 C0,8 5,8 5,0 C5,-8 0,-8 0,10"</span> /&gt;
+&lt;/g&gt;</code></pre>
               <p>
                 Note that the visible text must be included in the label for its parent symbol, in this example. As the child of a <a href="#graphics-symbol" class="role-reference"><code>graphics-symbol</code></a>, it is treated as presentational
                 content, and is therefore not accessible as a separate element of the graphic.
@@ -1056,7 +1194,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
             </aside>
           </div>
-          <table class="role-features">
+          <table class="def">
             <caption>
               Characteristics:
             </caption>
@@ -1082,36 +1220,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
               
               
               
-              <tr>
-                <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
-                <td class="role-inherited"><ul>
-<li><a href="https://w3c.github.io/aria/#aria-atomic" class="property-reference"><code>aria-atomic</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-braillelabel" class="property-reference"><code>aria-braillelabel</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-brailleroledescription" class="property-reference"><code>aria-brailleroledescription</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-busy" class="state-reference"><code>aria-busy (state)</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-controls" class="property-reference"><code>aria-controls</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-current" class="state-reference"><code>aria-current (state)</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-describedby" class="property-reference"><code>aria-describedby</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-description" class="property-reference"><code>aria-description</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-details" class="property-reference"><code>aria-details</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-disabled" class="state-reference"><code>aria-disabled (state)</code></a> (Global use deprecated in ARIA 1.2)</li>
-<li><a href="https://w3c.github.io/aria/#aria-dropeffect" class="property-reference"><code>aria-dropeffect</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-errormessage" class="property-reference"><code>aria-errormessage</code></a> (Global use deprecated in ARIA 1.2)</li>
-<li><a href="https://w3c.github.io/aria/#aria-flowto" class="property-reference"><code>aria-flowto</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-grabbed" class="state-reference"><code>aria-grabbed (state)</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-haspopup" class="property-reference"><code>aria-haspopup</code></a> (Global use deprecated in ARIA 1.2)</li>
-<li><a href="https://w3c.github.io/aria/#aria-hidden" class="state-reference"><code>aria-hidden (state)</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-invalid" class="state-reference"><code>aria-invalid (state)</code></a> (Global use deprecated in ARIA 1.2)</li>
-<li><a href="https://w3c.github.io/aria/#aria-keyshortcuts" class="property-reference"><code>aria-keyshortcuts</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-label" class="property-reference"><code>aria-label</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-labelledby" class="property-reference"><code>aria-labelledby</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-live" class="property-reference"><code>aria-live</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-owns" class="property-reference"><code>aria-owns</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-relevant" class="property-reference"><code>aria-relevant</code></a></li>
-<li><a href="https://w3c.github.io/aria/#aria-roledescription" class="property-reference"><code>aria-roledescription</code></a></li>
-</ul>
-</td>
-              </tr>
+              
               <tr>
                 <th class="role-namefrom-head" scope="row">Name From:</th>
                 <td class="role-namefrom">author</td>
@@ -1133,7 +1242,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       </section>
       <section id="role_other"><div class="header-wrapper"><h3 id="x3-2-other-roles-for-graphics"><bdi class="secno">3.2 </bdi>Other Roles for Graphics</h3><a class="self-link" href="#role_other" aria-label="Permalink for Section 3.2"></a></div>
         
-        <p>The following core ARIA roles, defined in ARIA 1.1 [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1.1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>], are also relevant for annotating graphics:</p>
+        <p>The following core ARIA roles, defined in ARIA 1.1 [<cite><a class="bibref" data-link-type="biblio" href="#bib-wai-aria-1-1" title="Accessible Rich Internet Applications (WAI-ARIA) 1.1">WAI-ARIA-1.1</a></cite>], are also relevant for annotating graphics:</p>
         <ul>
           <li>
             <a href="https://w3c.github.io/aria/#img" class="role-reference"><code>img</code></a> (image) defines a single graphic that is perceived as an indivisible whole. Unlike a <a href="#graphics-document" class="role-reference"><code>graphics-document</code></a>, an image cannot have navigable or interactive child
@@ -1325,6 +1434,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <section class="appendix informative section" id="acknowledgements"><div class="header-wrapper"><h2 id="b-acknowledgments"><bdi class="secno">B. </bdi>Acknowledgments</h2><a class="self-link" href="#acknowledgements" aria-label="Permalink for Appendix B."></a></div><p><em>This section is non-normative.</em></p>
       
       <p>The following people contributed to the development of this document.</p>
+      <ul id="gh-contributors"><li><a href="https://github.com/bpmcneilly">bpmcneilly</a></li><li><a href="https://github.com/carmacleod">Carolyn MacLeod</a></li><li><a href="https://github.com/daniel-montalvo">Daniel Montalvo</a></li><li><a href="https://github.com/iherman">Ivan Herman</a></li><li><a href="https://github.com/cookiecrook">James Craig</a></li><li><a href="https://github.com/joanmarie">joanmarie</a></li><li><a href="https://github.com/klown">Joseph Scheuhammer</a></li><li><a href="https://github.com/mattgarrish">Matt Garrish</a></li><li><a href="https://github.com/mcking65">Matt King</a></li><li><a href="https://github.com/plehegar">Philippe Le Hegaret</a></li><li><a href="https://github.com/prayagverma">Prayag Verma </a></li><li><a href="https://github.com/ricksbrown">R Brown</a></li><li><a href="https://github.com/richschwer">Richard Schwerdtfeger</a></li><li><a href="https://github.com/halindrome">Shane McCarron</a></li><li><a href="https://github.com/stevefaulkner">Steve Faulkner</a></li><li><a href="https://github.com/TzviyaSiegman">Tzviya</a></li><li><a href="https://github.com/spectranaut">Valerie Young</a></li></ul>
       <section class="section" id="ack_svga11y"><div class="header-wrapper"><h3 id="b-1-participants-active-in-the-svg-accessibility-task-force-at-the-time-of-publication"><bdi class="secno">B.1 </bdi>Participants active in the <abbr title="Scalable Vector Graphics">SVG</abbr> accessibility task force at the time of publication</h3><a class="self-link" href="#ack_svga11y" aria-label="Permalink for Appendix B.1"></a></div>
         
         <ul>
@@ -1341,24 +1451,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       <section class="section" id="ack_group"><div class="header-wrapper"><h3 id="b-2-participants-active-in-the-aria-wg-at-the-time-of-publication"><bdi class="secno">B.2 </bdi>Participants active in the ARIA WG at the time of publication</h3><a class="self-link" href="#ack_group" aria-label="Permalink for Appendix B.2"></a></div>
         
         <ul>
-          <li>David Bolter (Mozilla Foundation)</li>
-          <li>Michael Cooper (<abbr title="World Wide Web Consortium">W3C</abbr>/MIT)</li>
-          <li>James Craig (Apple Inc.)</li>
-          <li>Joanmarie Diggs (Igalia)</li>
-          <li>John Foliot (Invited Expert)</li>
-          <li>Christopher Gallelo (Microsoft Corporation)</li>
-          <li>Bryan Garaventa (SSB BART Group)</li>
-          <li>Jon Gunderson (University of Illinois at Urbana-Champaign)</li>
-          <li>Matthew King (IBM Corporation)</li>
-          <li>Dominic Mazzoni (Google, Inc.)</li>
-          <li>Shane McCarron (Invited Expert, Aptest)</li>
-          <li>James Nurthen (Oracle Corporation)</li>
-          <li>Janina Sajka (Invited Expert, The Linux Foundation)</li>
-          <li>Stefan Schnabel (SAP AG)</li>
-          <li>Lisa Seeman (Invited Expert)</li>
-          <li>Alexander Surkov (Mozilla Foundation)</li>
-          <li>Jason White (Educational Testing Service)</li>
-        </ul>
+          
+        <li>Rahim Abdi (Apple Inc.)</li><li>NAVYA AGARWAL (Adobe)</li><li>Joey Arhar (Google LLC)</li><li>Bernardo Barlach (Google LLC)</li><li>Benjamin Beaudry (Microsoft Corporation)</li><li>Zoë Bijl (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Gautier Chomel (EDRLab)</li><li>Aleksandar Cindrikj (Netcetera)</li><li>Keith Cirkel (Mozilla Foundation)</li><li>Daniel Clark (Microsoft Corporation)</li><li>James Craig (Apple Inc.)</li><li>Diego Della Rossa (UsableNet)</li><li>Joanmarie Diggs (Igalia)</li><li>Tamsin Ewing (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Mayuri Faldu (Navy Federal Credit Union)</li><li>Betsy Fanning (PDF Association)</li><li>Steve Faulkner (TetraLogical Services Ltd)</li><li>Patrick Foster (axes4 GmbH)</li><li>Jane Fulton (Cisco)</li><li>Bryan Garaventa (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Matt Garrish (DAISY Consortium)</li><li>Doug Geoffray (Microsoft Corporation)</li><li>Ariella Gilmore (IBM Corporation)</li><li>Taylore Givens (Microsoft Corporation)</li><li>David Grogan (Google LLC)</li><li>Shirisha Gubba (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Jon Gunderson (University of Illinois)</li><li>Oliver Habersetzer (SAP SE)</li><li>Theo Hale (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Sunny Hardasani (Adobe)</li><li>Matthew Hardy (Adobe)</li><li>Chris Harrelson (Google LLC)</li><li>Sarah Higley (Microsoft Corporation)</li><li>Hans Hillen (TPGi)</li><li>takumi hiramatsu (Cybozu)</li><li>Stanley Hon (Microsoft Corporation)</li><li>Michael Jackson (Microsoft Corporation)</li><li>John Jansen (Microsoft Corporation)</li><li>Jilin Jiang (Ant Group Co., Ltd.)</li><li>Duff Johnson (PDF Association)</li><li>Summer Jones (Thomson Reuters Corp.)</li><li>Yuki Kamahori (Cybozu)</li><li>William Kilian (Kilian Codes LLC)</li><li>Matthew King (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Zachary Kinsey (TargetStream Technologies)</li><li>Daisuke Kobayashi (Cybozu)</li><li>Peter Krautzberger (krautzource UG)</li><li>Nina Krauß (SAP SE)</li><li>JaEun Jemma Ku (University of Illinois)</li><li>Steven Lambert (Deque Systems, Inc.)</li><li>Joe Lamyman (TetraLogical Services Ltd)</li><li>Charles LaPierre (Benetech)</li><li>Patrick Lauke (TetraLogical Services Ltd)</li><li>Philip Lazarevic (Level Access)</li><li>Leo Lee (Microsoft Corporation)</li><li>Brett Lewis (TPGi)</li><li>Alison Maher (Microsoft Corporation)</li><li>Gurpreet Kaur Mangera (Rakuten Group, Inc.)</li><li>Mark McCarthy (University of Illinois)</li><li>Katie McDermott (See Me Please)</li><li>Eduardo Meza Etienne (Navy Federal Credit Union)</li><li>Clay Miller (Microsoft Corporation)</li><li>Hirotaka Minamida (Cybozu)</li><li>Daniel Montalvo (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Baldino Morelli (UsableNet)</li><li>Jacques Newman (Microsoft Corporation)</li><li>James Nurthen (Evinced Inc.)</li><li>Scott O'Hara (Microsoft Corporation)</li><li>Lola Odelola (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Neil Osman (Evinced Inc.)</li><li>Yusuke Oyama (Cybozu)</li><li>Adam Page (Hilton)</li><li>Michael Pennisi (Igalia)</li><li>Giacomo Petri (UsableNet)</li><li>Noah Praskins (TPGi)</li><li>Lucas Radaelli (Google LLC)</li><li>Paul Rayius (PDFix-US)</li><li>Mark Rogers (Powermapper Software)</li><li>Adrian Roselli (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Marco Sabidussi (UsableNet)</li><li>Trisha Salas (Level Access)</li><li>Stefan Schnabel (SAP SE)</li><li>Harris Schneiderman (Deque Systems, Inc.)</li><li>Raymond Schwartz (Navy Federal Credit Union)</li><li>Kyra Seevers (Google LLC)</li><li>Davis Shaver (The Washington Post)</li><li>Cynthia Shelly (<abbr title="World Wide Web Consortium">W3C</abbr> Invited Experts)</li><li>Tzviya Siegman (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Avneesh Singh (DAISY Consortium)</li><li>Michael[tm] Smith (sideshowbarker) (<abbr title="World Wide Web Consortium">W3C</abbr>)</li><li>Francis Storr (Intel Corporation)</li><li>Nobukiyo Sugisaki (Cybozu)</li><li>Melanie Sumner (IBM Corporation)</li><li>Alexander Surkov (Igalia)</li><li>James Teh (Mozilla Foundation)</li><li>Roman Toda (Foxit software)</li><li>David Tseng (Google LLC)</li><li>Cybozu <abbr title="World Wide Web Consortium">W3C</abbr> (Cybozu)</li><li>Tyler Wilcock (Apple Inc.)</li><li>Jan Williams (TPGi)</li></ul>
       </section>
       <section class="section" id="ack_funders"><div class="header-wrapper"><h3 id="b-3-enabling-funders"><bdi class="secno">B.3 </bdi>Enabling funders</h3><a class="self-link" href="#ack_funders" aria-label="Permalink for Appendix B.3"></a></div>
 	
@@ -1371,26 +1465,145 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <section id="references" class="appendix"><div class="header-wrapper"><h2 id="c-references"><bdi class="secno">C. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix C."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="c-1-normative-references"><bdi class="secno">C.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix C.1"></a></div>
     
     <dl class="bibliography"><dt id="bib-rfc2119">[RFC2119]</dt><dd>
-      <a href="https://www.rfc-editor.org/rfc/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>
+      <a href="https://www.rfc-editor.org/info/rfc2119/"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc2119/">https://www.rfc-editor.org/info/rfc2119/</a>
     </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
-      <a href="https://www.rfc-editor.org/rfc/rfc8174"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>
-    </dd><dt id="bib-svg-aam-1.0">[SVG-AAM-1.0]</dt><dd>
-      <a href="https://www.w3.org/TR/svg-aam-1.0/"><cite>SVG Accessibility API Mappings</cite></a>. Amelia Bellamy-Royds; Ian Pouncey.  W3C. 10 May 2018. W3C Working Draft. URL: <a href="https://www.w3.org/TR/svg-aam-1.0/">https://www.w3.org/TR/svg-aam-1.0/</a>
-    </dd><dt id="bib-wai-aria-1.1">[WAI-ARIA-1.1]</dt><dd>
+      <a href="https://www.rfc-editor.org/info/rfc8174/"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8174/">https://www.rfc-editor.org/info/rfc8174/</a>
+    </dd><dt id="bib-svg-aam-1-0">[SVG-AAM-1.0]</dt><dd>
+      <a href="https://www.w3.org/TR/svg-aam-1.0/"><cite>SVG Accessibility API Mappings</cite></a>. Cynthia Shelly; Mark Rogers.  W3C. 24 September 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/svg-aam-1.0/">https://www.w3.org/TR/svg-aam-1.0/</a>
+    </dd><dt id="bib-wai-aria-1-1">[WAI-ARIA-1.1]</dt><dd>
       <a href="https://www.w3.org/TR/wai-aria-1.1/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.1</cite></a>. Joanmarie Diggs; Shane McCarron; Michael Cooper; Richard Schwerdtfeger; James Craig.  W3C. 14 December 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.1/">https://www.w3.org/TR/wai-aria-1.1/</a>
     </dd></dl>
   </section><section id="informative-references"><div class="header-wrapper"><h3 id="c-2-informative-references"><bdi class="secno">C.2 </bdi>Informative references</h3><a class="self-link" href="#informative-references" aria-label="Permalink for Appendix C.2"></a></div>
     
     <dl class="bibliography"><dt id="bib-html52">[HTML52]</dt><dd>
       <a href="https://www.w3.org/TR/html52/"><cite>HTML 5.2</cite></a>. Steve Faulkner; Arron Eicholz; Travis Leithead; Alex Danilo; Sangwhan Moon.  W3C. 28 January 2021. W3C Recommendation. URL: <a href="https://www.w3.org/TR/html52/">https://www.w3.org/TR/html52/</a>
+    </dd><dt id="bib-infra">[infra]</dt><dd>
+      <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
     </dd><dt id="bib-svg2">[SVG2]</dt><dd>
-      <a href="https://www.w3.org/TR/SVG2/"><cite>Scalable Vector Graphics (SVG) 2</cite></a>. Amelia Bellamy-Royds; Bogdan Brinza; Chris Lilley; Dirk Schulze; David Storey; Eric Willigers.  W3C. 4 October 2018. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/SVG2/">https://www.w3.org/TR/SVG2/</a>
-    </dd><dt id="bib-wai-aria">[wai-aria]</dt><dd>
-      <a href="https://www.w3.org/TR/wai-aria/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.0</cite></a>. James Craig; Michael Cooper et al.  W3C. 20 March 2014. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria/">https://www.w3.org/TR/wai-aria/</a>
+      <a href="https://www.w3.org/TR/SVG2/"><cite>Scalable Vector Graphics (SVG) 2</cite></a>. Karl Dubost; Dirk Schulze; Divyansh Mangal; Virali Purbey.  W3C. 6 October 2026. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/SVG2/">https://www.w3.org/TR/SVG2/</a>
+    </dd><dt id="bib-wai-aria-1-3">[wai-aria-1.3]</dt><dd>
+      <a href="https://www.w3.org/TR/wai-aria-1.3/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.3</cite></a>. James Nurthen; Peter Krautzberger; Daniel Montalvo.  W3C. 4 June 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/wai-aria-1.3/">https://www.w3.org/TR/wai-aria-1.3/</a>
     </dd></dl>
   </section></section><p role="navigation" id="back-to-top">
     <a href="#title"><abbr title="Back to Top">↑</abbr></a>
-  </p><script id="respec-dfn-panel">(() => {
+  </p><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+/**
+ * @param {MouseEvent} ev
+ */
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const varElem = /** @type {HTMLElement} */ (ev.target);
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+/**
+ * @param {HTMLElement} target
+ */
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+/**
+ * @param {HTMLElement} varElem
+ */
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = /** @type {HTMLElement} */ (
+    varElem.closest(".algorithm, section")
+  );
+  if (!parent) return [];
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {string} highlightColor
+ */
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+/**
+ * @param {HTMLElement} elem
+ * @param {string} highlightColor
+ */
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
 // @ts-check
 if (document.respec) {
   document.respec.ready.then(setupPanel);
@@ -1405,8 +1618,11 @@ function setupPanel() {
 }
 
 function panelListener() {
-  /** @type {HTMLElement} */
+  /** @type {HTMLElement | null} */
   let panel = null;
+  /**
+   * @param {KeyboardEvent|MouseEvent} event
+   */
   return event => {
     const { target, type } = event;
 
@@ -1414,24 +1630,34 @@ function panelListener() {
 
     // For keys, we only care about Enter key to activate the panel
     // otherwise it's activated via a click.
-    if (type === "keydown" && event.key !== "Enter") return;
+    if (
+      type === "keydown" &&
+      /** @type {KeyboardEvent} */ (event).key !== "Enter"
+    )
+      return;
 
     const action = deriveAction(event);
 
     switch (action) {
       case "show": {
         hidePanel(panel);
-        /** @type {HTMLElement} */
+        /** @type {HTMLElement | null} */
         const dfn = target.closest("dfn, .index-term");
+        if (!dfn?.id) break;
         panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
-        const coords = deriveCoordinates(event);
+        if (!panel) break;
+        const coords = deriveCoordinates(
+          /** @type {MouseEvent|KeyboardEvent} */ (event)
+        );
         displayPanel(dfn, panel, coords);
         break;
       }
       case "dock": {
-        panel.style.left = null;
-        panel.style.top = null;
-        panel.classList.add("docked");
+        if (panel) {
+          panel.style.left = "";
+          panel.style.top = "";
+          panel.classList.add("docked");
+        }
         break;
       }
       case "hide": {
@@ -1482,7 +1708,8 @@ function deriveAction(event) {
     if (hitALink) {
       return target.classList.contains("self-link") ? "hide" : "dock";
     }
-    const panel = target.closest(".dfn-panel");
+
+    const panel = /** @type {HTMLElement} */ (target.closest(".dfn-panel"));
     return panel.classList.contains("docked") ? "hide" : "none";
   }
   if (document.querySelector(".dfn-panel:not([hidden])")) {
@@ -1526,9 +1753,9 @@ function displayPanel(dfn, panel, { x, y }) {
     const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
     const newCaretOffset = left - newLeft;
     panel.style.left = `${newLeft}px`;
-    /** @type {HTMLElement} */
+    /** @type {HTMLElement | null} */
     const caret = panel.querySelector(".caret");
-    caret.style.left = `${newCaretOffset}px`;
+    if (caret) caret.style.left = `${newCaretOffset}px`;
   }
 
   // As it's a dialog, we trap focus.
@@ -1577,6 +1804,9 @@ function trapFocus(panel, dfn) {
 function createTrapListener(anchors, panel, dfn) {
   const lastIndex = anchors.length - 1;
   let currentIndex = 0;
+  /**
+   * @param {KeyboardEvent} event
+   */
   return event => {
     switch (event.key) {
       // Hitting "Tab" traps us in a nice loop around elements.
@@ -1606,7 +1836,7 @@ function createTrapListener(anchors, panel, dfn) {
   };
 }
 
-/** @param {HTMLElement} panel */
+/** @param {HTMLElement | null} panel */
 function hidePanel(panel) {
   if (!panel) return;
   panel.hidden = true;
