@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getChangedSpecs } from "./changedSpecs.mjs";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
@@ -102,27 +103,12 @@ const repoName = repo.split('/')[1];
 const EDBaseURL = `https://${repoOwner}.github.io/${repoName}`;
 
 async function getChangedFiles() {
-  const { execSync } = await import('child_process');
   try {
-    // Use git diff to get changed files
-    const diffOutput = execSync(`git diff --name-only origin/${base_ref}...HEAD`, { encoding: 'utf-8' });
-    const files = diffOutput.split('\n').filter(Boolean);
-
-    // Filter to only include index.html files
-    const specSources = files.filter(file => 
-      file === 'index.html' || file.endsWith('/index.html')
-    );
-
-    // Changes to common/script/ should trigger main ARIA spec diff
-    const jsFilesChanged = files.some(file => file.endsWith('.js'));
-    if (jsFilesChanged && !specSources.includes('index.html')) {
-      console.log('JS files changed — including main ARIA spec (index.html) in preview generation.');
-      specSources.unshift('index.html');
-    }
+    const specSources = getChangedSpecs(`origin/${base_ref}`).map(spec => spec.source);
 
     // Skip if nothing's changed
     if (specSources.length === 0) {
-      console.log('No index.html files changed in this PR. Skipping preview generation.');
+      console.log('No specs affected by this PR. Skipping preview links.');
       return;
     }
 

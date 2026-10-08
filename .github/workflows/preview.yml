@@ -2,16 +2,59 @@ name: Preview
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
+  changed-specs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      specs: ${{ steps.changes.outputs.specs }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+      - name: Find changed specs
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node common/script/changedSpecs.mjs "$BASE_SHA" "$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: changed-specs
+    if: needs.changed-specs.outputs.specs != '[]'
+    name: Validate ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.changed-specs.outputs.specs) }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validation
+        uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: respec
+          SOURCE: ${{ matrix.source }}
+          BUILD_FAIL_ON: everything
+          VALIDATE_MARKUP: true
+          VALIDATE_WEBIDL: true
+          ARTIFACT_NAME: spec-validator-${{ matrix.name }}
+
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
       PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome'
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       
