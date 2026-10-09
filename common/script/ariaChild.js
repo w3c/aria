@@ -434,10 +434,3 @@ function ariaAttributeReferences() {
   }
 }
 
-require(["core/pubsubhub"], function (respecEvents) {
-  respecEvents.sub("end", function (msg) {
-    if (msg == "w3c/conformance") {
-      ariaAttributeReferences();
-    }
-  });
-});
