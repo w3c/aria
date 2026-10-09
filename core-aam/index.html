@@ -6445,6 +6445,107 @@
             </li>
           </ol>
         </section>
+        <section id="computed_accessibility_properties">
+          <h2>Computed Accessibility Properties</h2>
+          <p>
+            The <dfn>computed accessibility properties</dfn> are a set of platform-independent key/value pairs of strings that represent the states and properties of any <a href="#dfn-accessible-object" class="specref">accessible object</a> in the <a>accessibility tree</a>. The computed accessibility properties are exposed primarily for the purposes of developer tools, specification conformance, and interoperability testing.
+          </p>
+          <p>
+            The term <dfn>accessibility node</dfn> will be used to refer to a node with the computed accessibility properties defined here. These platform-independent, implementation-defined accessibility nodes are expected to back the platform-specific <a href="#dfn-accessible-object" class="specref">accessible objects</a> that a user agent exposes in supported <a class="termref">accessibility APIs</a>.
+The tree of <a>accessibility nodes</a> follows the same rules as the <a>accessibility tree</a> and it is an exactly parallel structure to the platform accessibility API trees except where the Core-AAM specifies a difference for a specific accessibility API.
+          </p>
+          <section id="computed_accessibility_properties_from_aria">
+            <h3>Computed Accessibility Properties derived from ARIA States and Attributes</h3>
+            <p>
+              To see if an ARIA state or property should be surfaced, and the name of the key and its expected value, check the "Computed Accessibility Property" row of the tables below. Not all ARIA states and properties will be surfaced in the computed accessibility properties. If a host language feature maps to an ARIA state or property, use the key and value specified here. However, the final value in the accessibility tree can be affected by multiple things, including but not limited to the following: default IDL property values for the DOM attribute, default ARIA values when used on specific ARIA roles, and host language features with conflicting semantics, depending on whether the host language overrides the ARIA value. These final computed property values do not always align with IDL reflection of the ARIA attribute.
+            </p>
+            <aside class="example">
+              <p>For both of the following examples, the computed accessibility properties will include `checked: true`.</p>
+              <ol>
+                <li><pre>&lt;div role=checkbox aria-checked=true&gt;&lt;/div&gt;</pre></li>
+                <li><pre>&lt;input type="checkbox" checked /&gt;</pre></li>
+              </ol>
+            </aside>
+            <p>
+               When the ARIA state or property is required on a role but the attribute is missing, undefined, or set to an invalid token, user agents MUST expose the property with the appropriate <a href="#authorErrorDefaultValuesTable" class="specref">fallback values for missing required attributes</a>.
+            </p>
+            <aside class="example">
+              <pre>&lt;div role=checkbox&gt;&lt;/div&gt;</pre> <a href="#aria-checked" class="specref">aria-checked</a> on a <a href="#checkbox" class="specref">checkbox</a> has the fallback value of `false`, therefore the computed accessibility value would be: `checked: false`.
+            </aside>
+            <p>
+              When an ARIA state or property has a <a href="#implictValueForRole" class="specref">implicit value for role</a> and the attribute is missing, undefined, or set to an invalid token, user agents MUST expose the default value for the role.
+            </p>
+            <aside class="example">
+              <pre>&lt;div role=tab&gt;&lt;/div&gt;</pre> <a href="#aria-selected" class="specref">`selected`</a> on a <a href="#tab" class="specref">tab</a> has the implicit value of `false`, therefore the computed accessibility property will be `selected: false`.
+            </aside>
+            <p>User agents MUST NOT include a specific state or property in computed accessibility properties under the following conditions:</p>
+            <ul>
+              <li>It is not required on the given role.</li>
+              <li>It does not have a default value other than undefined for the given role.</li>
+              <li>It is missing, undefined, or set to an invalid token.</li>
+            </ul>
+            <aside class="example">
+              <pre>&lt;div role=button&gt;&lt;/div&gt;</pre> <a href="#aria-description" class="specref">`aria-description`</a> does not have a default value and it is allowed but not required on a <a href="#button" class="specref">`button`</a>, therefore the computed accessibility properties will not include `description`.
+            </aside>
+            <p>Additionally, user agents MUST NOT include a specific state or property in computed accessibility properties under the following conditions:</p>
+            <ul>
+              <li>It is supported but not required on the given role.</li>
+              <li>It has a default value other than undefined for the given role.</li>
+              <li>It is missing, undefined, or set to an invalid token.</li>
+              <li>The default value for the state or property is not mapped on any platforms.</li>
+            </ul>
+            <p>User agents MAY include a specific state or property under the following conditions:</p>
+            <ul>
+              <li>It is supported but not required on the given role.</li>
+              <li>It has a default value other than undefined for the given role.</li>
+              <li>It is missing, undefined, or set to an invalid token.</li>
+              <li>The default value for the state or property is not mapped on one or more platforms.</li>
+            </ul>
+            <aside class="example">
+              <pre>&lt;div role=textbox&gt;&lt;/div&gt;</pre> <a href="#aria-required" class="specref">`aria-required`</a> has a default value of `false` (not `undefined`) and it is allowed but not required on a <a href="#textbox" class="specref">`textbox`</a>, therefore the computed accessibility properties may include `required: false`.
+            </aside>
+          </section>
+          <section id="additional_computed_accessibility_properties">
+            <h3>Additional Computed Accessibility Properties</h3>
+            <p>For the purposes of developer tools, specification conformance, and interoperability testing, the set of Computed Accessibility Properties exposed for an accessible object also includes information about the relationship between <a>accessibility nodes</a> in the <a>accessibility tree</a>. In order to surface this information, the term <dfn>accessibility node ID</dfn> is used to refer to an implementation-defined unique ID used as a handle to an <a>accessibility node</a>. (TODO: add something about the stability of this ID? How long it should be available for?) The following keys and values MUST be included in the Computed Accessibility Properties:</p>
+            <dl>
+              <dt>
+                <dfn>accessibilityID</dfn>
+              </dt>
+              <dd>
+                <p>
+                  The <a>accessibility node ID</a> of this <a>accessibility node</a>.
+                </p>
+              </dd>
+              <dt><dfn>parent</dfn></dt>
+              <dd>
+                <p>
+                  The <a>accessibility node ID</a> of the parent of this <a>accessibility node</a> in the <a>accessibility tree</a>.
+                </p>
+              </dd>
+              <dt>
+                <dfn>children</dfn>
+              </dt>
+              <dd>
+                <p>
+                  A list of <a>accessibility node IDs</a> representing the child nodes of this <a>accessibility node</a> in the <a>accessibility tree</a>.
+                </p>
+              </dd>
+            </dl>
+
+            <p>Additionally, other properties besides those derived from ARIA states and properties MUST be exposed in the computed accessibility properties. These include: </p>
+            <dl>
+              <dt>
+                role
+              </dt>
+              <dd>
+                <p>
+                  See <a>computed role</a>.
+                </p>
+              </dd>
+            </dl>
+          </section>
+        </section>
         <section id="mapping_state-property_table">
           <h3>State and Property Mapping Tables</h3>
           <section id="not_mapped">
@@ -6469,6 +6570,12 @@
                   <a class="property-reference" href="#aria-activedescendant"><code>aria-activedescendant</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>See <a href="#focus_state_event_table">Focus Changes</a>.</td>
@@ -6506,6 +6613,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6564,6 +6677,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6624,6 +6743,12 @@
                   >=<code>inline</code>, <code>list</code>, or <code>both</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6670,6 +6795,12 @@
                   >=<code>none</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6711,6 +6842,12 @@
                   <a class="property-reference" href="#aria-braillelabel"><code>aria-braillelabel</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6752,6 +6889,12 @@
                   <a class="property-reference" href="#aria-brailleroledescription"><code>aria-brailleroledescription</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6793,6 +6936,12 @@
                   <a class="property-reference" href="#aria-brailleroledescription"><code>aria-brailleroledescription</code></a> is undefined or the empty string
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6835,6 +6984,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6877,6 +7032,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -6917,6 +7078,12 @@
                 <td>
                   <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a
                   >=<code>true</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>checked: true</code>
                 </td>
               </tr>
               <tr>
@@ -6970,6 +7137,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>checked: false</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>STATE_SYSTEM_CHECKED</code> not exposed</span><br />
@@ -7016,6 +7189,12 @@
                 <td>
                   <a class="state-reference" href="#aria-checked"><code>aria-checked</code></a
                   >=<code>mixed</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>checked: mixed</code>
                 </td>
               </tr>
               <tr>
@@ -7068,6 +7247,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>checked</code>.
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
@@ -7108,6 +7293,12 @@
                   <a class="property-reference" href="#aria-colcount"><code>aria-colcount</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7152,6 +7343,12 @@
                   <a class="property-reference" href="#aria-colindex"><code>aria-colindex</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7196,6 +7393,12 @@
                   <a class="property-reference" href="#aria-colindextext"><code>aria-colindextext</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7237,6 +7440,12 @@
                   <a class="property-reference" href="#aria-colspan"><code>aria-colspan</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7281,6 +7490,12 @@
                   <a class="property-reference" href="#aria-controls"><code>aria-controls</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7326,6 +7541,12 @@
                   <a class="state-reference" href="#aria-current"><code>aria-current</code></a> with non-<code>false</code> allowed value
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7369,6 +7590,12 @@
                   <a class="state-reference" href="#aria-current"><code>aria-current</code></a> with unrecognized value
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7412,6 +7639,12 @@
                   <a class="state-reference" href="#aria-current"><code>aria-current</code></a> is <code>false</code> or undefined
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>current</code>.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7453,6 +7686,12 @@
                   <a class="property-reference" href="#aria-describedby"><code>aria-describedby</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7510,6 +7749,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>description: &lt;value&gt;</code> where value is calculated according to the <a>Accessible Name and Description specification</a>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">Property: <code>accDescription</code>: <code>&lt;value&gt;</code></span
@@ -7560,6 +7805,12 @@
                   <a class="property-reference" href="#aria-details"><code>aria-details</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7606,6 +7857,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7650,6 +7907,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7779,6 +8042,12 @@
                   <a class="property-reference" href="#aria-errormessage"><code>aria-errormessage</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7825,6 +8094,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7869,6 +8144,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7912,6 +8193,12 @@
                   <a class="state-reference" href="#aria-expanded"><code>aria-expanded</code></a> is undefined
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>expanded</code>.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7953,6 +8240,12 @@
                   <a class="property-reference" href="#aria-flowto"><code>aria-flowto</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -7999,6 +8292,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8041,6 +8340,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8082,6 +8387,12 @@
                   <a class="state-reference" href="#aria-grabbed"><code>aria-grabbed</code></a> is undefined
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>grabbed</code>.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8124,6 +8435,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8175,6 +8492,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8218,6 +8541,12 @@
                   >=<code>dialog</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8270,6 +8599,12 @@
                   >=<code>grid</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8322,6 +8657,12 @@
                   >=<code>listbox</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8374,6 +8715,12 @@
                   >=<code>menu</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8426,6 +8773,12 @@
                   >=<code>tree</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8478,6 +8831,12 @@
                   >=<code>true</code> on unfocused element
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  No exposed property.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8524,6 +8883,12 @@
                   >=<code>true</code> when element is focused or fires an accessibility event
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  No exposed property.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8574,6 +8939,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  No exposed property.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8616,6 +8987,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8662,6 +9039,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8704,6 +9087,12 @@
                   >=<code>spelling</code> or <code>grammar</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8749,6 +9138,12 @@
                   <a class="state-reference" href="#aria-invalid"><code>aria-invalid</code></a> with unrecognized value
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8794,6 +9189,12 @@
                   <a class="property-reference" href="#aria-keyshortcuts"><code>aria-keyshortcuts</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -8833,6 +9234,12 @@
                 <th>ARIA Specification</th>
                 <td>
                   <a class="property-reference" href="#aria-label"><code>aria-label</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>label: &lt;value&gt;</code>
                 </td>
               </tr>
               <tr>
@@ -8882,6 +9289,12 @@
                 <th>ARIA Specification</th>
                 <td>
                   <a class="property-reference" href="#aria-labelledby"><code>aria-labelledby</code></a>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>label: &lt;value&gt;</code> where value is calculated according to the <a>Accessible Name and Description specification<a>.
                 </td>
               </tr>
               <tr>
@@ -8943,6 +9356,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>level: &lt;value&gt;</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">Object Attribute: <code>level:&lt;value&gt;</code></span
@@ -8995,6 +9414,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>level: &lt;value&gt;</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">Object Attribute: <code>level:&lt;value&gt;</code></span>
@@ -9038,6 +9463,12 @@
                   >=<code>assertive</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9096,6 +9527,12 @@
                   >=<code>polite</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9154,6 +9591,12 @@
                   >=<code>off</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9207,6 +9650,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9251,6 +9700,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9293,6 +9748,12 @@
                 <td>
                   <a class="property-reference" href="#aria-multiline"><code>aria-multiline</code></a
                   >=<code>true</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>multiline: true</code>
                 </td>
               </tr>
               <tr>
@@ -9346,6 +9807,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>multiline: false</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>IA2_STATE_SINGLE_LINE</code></span
@@ -9395,6 +9862,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9447,6 +9920,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9489,6 +9968,12 @@
                 <td>
                   <a class="property-reference" href="#aria-orientation"><code>aria-orientation</code></a
                   >=<code>horizontal</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>orientation: horizontal</code>
                 </td>
               </tr>
               <tr>
@@ -9538,6 +10023,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>orientation: vertical</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>IA2_STATE_VERTICAL</code></span
@@ -9583,6 +10074,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>orientation</code>.
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
@@ -9624,6 +10121,12 @@
                   <a class="property-reference" href="#aria-owns"><code>aria-owns</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  No exposed property.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9679,6 +10182,12 @@
                   <a class="property-reference" href="#aria-placeholder"><code>aria-placeholder</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9720,6 +10229,12 @@
                   <a class="property-reference" href="#aria-posinset"><code>aria-posinset</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -9768,6 +10283,12 @@
                 <td>
                   <a class="state-reference" href="#aria-pressed"><code>aria-pressed</code></a
                   >=<code>true</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>pressed: true</code>
                 </td>
               </tr>
               <tr>
@@ -9825,6 +10346,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>pressed: mixed</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>STATE_SYSTEM_MIXED</code></span
@@ -9879,6 +10406,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>pressed: false</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>STATE_SYSTEM_PRESSED</code> not exposed</span><br />
@@ -9930,6 +10463,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>pressed</code>.
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped*</a></span>
@@ -9971,6 +10510,12 @@
                   >=<code>true</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10029,6 +10574,12 @@
                   >=<code>false</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10081,6 +10632,12 @@
                   <a class="property-reference" href="#aria-readonly"><code>aria-readonly</code></a> is unspecified on <code>gridcell</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>readonly: &lt;value&gt;</code> where <code>&lt;value&gt;</code> is calulated based on the inherit author-provided value for <code>aria-readonly</code> from the containing <code>grid</code> or <code>treegrid</code>.
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10134,6 +10691,12 @@
                   <a class="property-reference" href="#aria-relevant"><code>aria-relevant</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10191,6 +10754,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>required: true</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>IA2_STATE_REQUIRED</code></span>
@@ -10230,6 +10799,12 @@
                 <td>
                   <a class="property-reference" href="#aria-required"><code>aria-required</code></a
                   >=<code>false</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>required</code>.
                 </td>
               </tr>
               <tr>
@@ -10274,6 +10849,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>roledescription: &lt;value&gt;</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="method">Method: <code>localizedExtendedRole()</code>: <code>&lt;value&gt;</code></span>
@@ -10312,6 +10893,12 @@
                 <th>ARIA Specification</th>
                 <td>
                   <a class="property-reference" href="#aria-roledescription"><code>aria-roledescription</code></a> is undefined or the empty string
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>roledescription</code>.
                 </td>
               </tr>
               <tr>
@@ -10361,6 +10948,12 @@
                   <a class="property-reference" href="#aria-rowcount"><code>aria-rowcount</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10405,6 +10998,12 @@
                   <a class="property-reference" href="#aria-rowindex"><code>aria-rowindex</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10449,6 +11048,12 @@
                   <a class="property-reference" href="#aria-rowindextext"><code>aria-rowindextext</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10490,6 +11095,12 @@
                   <a class="property-reference" href="#aria-rowspan"><code>aria-rowspan</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10533,6 +11144,12 @@
                 <td>
                   <a class="state-reference" href="#aria-selected"><code>aria-selected</code></a
                   >=<code>true</code>
+                </td>
+              </tr>
+              <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>selected: true</code>
                 </td>
               </tr>
               <tr>
@@ -10586,6 +11203,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  <code>selected: false</code>
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property">State: <code>STATE_SYSTEM_SELECTABLE</code></span
@@ -10633,6 +11256,12 @@
                 </td>
               </tr>
               <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  Do not expose <code>selected</code>.
+                </td>
+              </tr>
+              <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
                   <span class="property not-mapped"><a href="#not_mapped">Not mapped</a></span>
@@ -10673,6 +11302,12 @@
                   <a class="property-reference" href="#aria-setsize"><code>aria-setsize</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10729,6 +11364,12 @@
                   >=<code>ascending</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10776,6 +11417,12 @@
                   >=<code>descending</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10823,6 +11470,12 @@
                   >=<code>other</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10870,6 +11523,12 @@
                   >=<code>none</code>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10911,6 +11570,12 @@
                   <a class="property-reference" href="#aria-valuemax"><code>aria-valuemax</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -10960,6 +11625,12 @@
                   <a class="property-reference" href="#aria-valuemin"><code>aria-valuemin</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -11009,6 +11680,12 @@
                   <a class="property-reference" href="#aria-valuenow"><code>aria-valuenow</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
@@ -11059,6 +11736,12 @@
                   <a class="property-reference" href="#aria-valuetext"><code>aria-valuetext</code></a>
                 </td>
               </tr>
+              <!-- <tr>
+                <th>Computed Accessibility Property</th>
+                <td>
+                  TBD
+                </td>
+              </tr> -->
               <tr>
                 <th>MSAA + IAccessible2</th>
                 <td>
