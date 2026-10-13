@@ -1,9 +1,9 @@
 # ARIA WG Process Document
 
 ## Issues
-1. An issue is made on an ARIA WG repository
+1. An issue is made on an ARIA WG repository.
 2. New issues are "triaged" at the next ARIA WG meeting. During triage, the following happens:
-   - The issues are moved to the appropriate issue tracking repo, if necessary
+   - The issues are moved to the appropriate issue tracking repo, if necessary.
    - A release label is added for purposes of prioritizing which year we expect to be able to resolve the problem or feature request.
    - WG members are assigned to the issue if appropriate.
    - If the issue clearly needs group discussion, the "agenda" label is added to the issue in order for the issue to be scheduled for discussion at a later meeting.
@@ -13,8 +13,8 @@
 ## Pull requests
 
 Newly opened PRs are "triaged" at the next ARIA meeting. At triage, the group decides:
-- Who should review the PR
-- If the PR needs extra discussion by the whole ARIA WG, the "agenda" label can be added.
+- who should review the PR
+- if the PR needs extra discussion by the whole ARIA WG, the "agenda" label can be added
 
 Draft PRs are not triaged at meeting and are considered not ready for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
@@ -25,18 +25,18 @@ PR Labels:
 
 ### Normative changes
 
-A "normative" change is change to the specification that is not editorial, that is, it will change the implementation of ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
+A "normative" change is a change to the specification that is not editorial, that is, it will change the implementation of ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
 
 #### Requirements for merging a normative PR
 1. **Consensus:** The change in the PR has been discussed in an ARIA WG meeting and the general direction of the change has been consensed on.
     - The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
 2. **Review:** Every normative PR needs 3 approving reviews from ARIA WG members, but depending on the complexity of the change, the ARIA WG may assign additional reviewers.
     - The reviewers should be made based on the text and meaning of the change, not on whether the checklist has been fulfilled.
-    - Any working group member can add themselves as a reviewer.
+    - Any Working Group member can add themselves as a reviewer.
     - Any one from the general public is allowed to review PRs in order to inform the ARIA WG of approval or concerns.
 3. **Tests:** If the change is testable, tests should be added to the validators directory or WPT repo before merging, or, if the PR owner does not have the expertise to write tests, issues should be file in the ARIA repository as a follow up. See [Aria Test Overview](tests.md).
-4. **APG:** If the PR will required changes to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
-5. **ACT Review:** If the PR will require [ACT rules](https://www.w3.org/WAI/standards-guidelines/act/rules/) changes, then the label "needs ACT review" must be added. This will trigger the process of triage and potentially review by the [ACT Task Force](https://www.w3.org/WAI/about/groups/task-forces/conformance-testing/). When the PR has been reviewed and concerns resolved, the ACT Task Force will mark the PR as approved by checking the box in the PR tracking list in the description of the PR. The label may be added at different times:
+4. **APG:** If the PR will require changes to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
+5. **ACT Review:** If the PR will require [ACT rules](https://www.w3.org/WAI/standards-guidelines/act/rules/) changes, then the label `needs ACT review` must be added. This will trigger the process of triage and potentially review by the [ACT Task Force](https://www.w3.org/WAI/about/groups/task-forces/conformance-testing/). When the PR has been reviewed and concerns resolved, the ACT Task Force will mark the PR as approved by checking the box in the PR tracking list in the description of the PR. The label may be added at different times:
     - If the change introduces an "authors must", or if the editors think the change will have a significant effect on authors, the label should be added the same time reviewers are requested.
     - If the change minimally affects authors, the label can be added when issues are opened on browsers.
 6. **Implementation:** If the change requires implementation changes, issues should be opened on the browser after the PR has been approved and tests have been authored.
@@ -66,7 +66,7 @@ Once tests have been written, open issues on the browsers with clear links to al
 
 When there is at least one implementation and implementation commitment from other browsers, merge!
 
-If the change introduce an author MUST requirement, then open issues on validators to inform them of the change. Validators include:
+If the change introduces an author MUST requirement, then open issues on validators to inform them of the change. Validators include:
 * https://github.com/dequelabs/axe-core/issues
 * https://github.com/validator/validator/issues
 
