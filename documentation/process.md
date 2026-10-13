@@ -3,42 +3,42 @@
 ## Issues
 1. An issue is made on an ARIA WG repository
 2. New issues are "triaged" at the next ARIA WG meeting. During triage, the following happens:
-   - The issues is moved to the appropriate issue tracking repo, if necessary
+   - The issues are moved to the appropriate issue tracking repo, if necessary
    - A release label is added for purposes of prioritizing which year we expect to be able to resolve the problem or feature request.
    - WG members are assigned to the issue if appropriate.
    - If the issue clearly needs group discussion, the "agenda" label is added to the issue in order for the issue to be scheduled for discussion at a later meeting.
 3. WG members can add the "agenda" label to any issue they feel needs more discussion in order to reach consensus.
 4. After the issue is discussed in a meeting, a WG member should be assigned to summarize the conclusion of the discussion in the issue and open a PR with relevant changes.
 
-## Pull Requests
+## Pull requests
 
-Newly opened PRs are "triaged" at the next ARIA meeting. At triage, it is decide:
+Newly opened PRs are "triaged" at the next ARIA meeting. At triage, the group decides:
 - Who should review the PR
 - If the PR needs extra discussion by the whole ARIA WG, the "agenda" label can be added.
 
-Draft PRs are not triaged at meeting and are considered not read for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
+Draft PRs are not triaged at meeting and are considered not ready for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
 PR Labels:
 - `spec:aria`, `spec:accname`, `spec:core-aam`, `spec:html-aam`, `spec:<spec-short-hand>` should be used for all specs which have changes in this PR. 
 - `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
 - `do not merge`: if a PR has approving reviews but there is some reason to wait for merging.
 
-### Normative Changes
+### Normative changes
 
-A "normative" change is change to the specification that is not editorial, that is, it will change the implementation of the ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
+A "normative" change is change to the specification that is not editorial, that is, it will change the implementation of ARIA in browsers (for example, adding a new attribute) OR it will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role).
 
-#### Requirements for merging a normative PR:
-1. **Consensus:** The change in the PR has been discussed in a ARIA WG meeting and the general direction of the change has been consensed on.
+#### Requirements for merging a normative PR
+1. **Consensus:** The change in the PR has been discussed in an ARIA WG meeting and the general direction of the change has been consensed on.
     - The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
 2. **Review:** Every normative PR needs 3 approving reviews from ARIA WG members, but depending on the complexity of the change, the ARIA WG may assign additional reviewers.
     - The reviewers should be made based on the text and meaning of the change, not on whether the checklist has been fulfilled.
     - Any working group member can add themselves as a reviewer.
     - Any one from the general public is allowed to review PRs in order to inform the ARIA WG of approval or concerns.
-3. **Tests:** If the change is testable, tests should be add to the validators directory or WPT repo before merging, or, if the PR owner does not have the expertise to write tests, issues should be file in the ARIA repository as a follow up. See [Aria Test Overview](tests.md).
+3. **Tests:** If the change is testable, tests should be added to the validators directory or WPT repo before merging, or, if the PR owner does not have the expertise to write tests, issues should be file in the ARIA repository as a follow up. See [Aria Test Overview](tests.md).
 4. **APG:** If the PR will required changes to the [APG](https://github.com/w3c/aria-practices), an issue on the APG should be made describing the change.
 5. **ACT Review:** If the PR will require [ACT rules](https://www.w3.org/WAI/standards-guidelines/act/rules/) changes, then the label "needs ACT review" must be added. This will trigger the process of triage and potentially review by the [ACT Task Force](https://www.w3.org/WAI/about/groups/task-forces/conformance-testing/). When the PR has been reviewed and concerns resolved, the ACT Task Force will mark the PR as approved by checking the box in the PR tracking list in the description of the PR. The label may be added at different times:
     - If the change introduces an "authors must", or if the editors think the change will have a significant effect on authors, the label should be added the same time reviewers are requested.
-    - If the change minimally effects authors, the label can be added when issues are opened on browsers.
+    - If the change minimally affects authors, the label can be added when issues are opened on browsers.
 6. **Implementation:** If the change requires implementation changes, issues should be opened on the browser after the PR has been approved and tests have been authored.
     - At least one implementation is required for merge. Implementation or implementation commitment from two browsers is required for merge.
 
@@ -50,15 +50,15 @@ Note: The fact that a PR requires implementation to merge is new as of 2022. We 
 
 #### Stages of a normative change
 
-##### Stage one: `Waiting for Review`
+##### Stage one: `waiting for review`
 
 In this stage, the normative change (sometimes spanning multiple specifications) should be written and reviewed. When changes have three approving reviews, we move to the next stage.
 
-##### Stage two: `Waiting for Tests`
+##### Stage two: `waiting for tests`
 
 Test should be written after the spec language is approved by three approving reviews. At this time, changes to test in WPT can land because the spec changes are considered finalized, but they must land with the ".tentative" file ending. Note: not all normative changes in ARIA are currently testable, so if they are not testable, tests are not required.
 
-##### Stage three: `Waiting for Implementations`
+##### Stage three: `waiting for implementations`
 
 Once tests have been written, open issues on the browsers with clear links to all relevant PRs and tests. Add the `waiting for implementations` label to the PR.
 
@@ -70,7 +70,7 @@ If the change introduce an author MUST requirement, then open issues on validato
 * https://github.com/dequelabs/axe-core/issues
 * https://github.com/validator/validator/issues
 
-### Editorial Changes
+### Editorial changes
 
 An "editorial" change is a change that is not normative. Editorial changes are things like grammar fixes, improvements to a section for improve readability or clarity, re-organization, the introduction of terms, etc.
 
@@ -83,7 +83,7 @@ Important branches in the ARIA repository:
 1. **main**: All new PRs should be open against the main branch.
 2. The next release branches, such as **1.3**. (At the time of current editing, Nov 4 2022, the 1.2 branch is called "stable".) 
 
-## Normative Change Checklist
+## Normative change checklist
 
 The "normative change checklist" list a kind of "to do list" for all the work that must happen in order for a change to be considered ready for merge. Check the box when there is a relevant issue or PR related to the item in the list, and link the relevant issue or PR. Some of the things in the list may not apply to your change, if they don't apply, check the box and write "n/a". If you aren't sure whether something applies, leave it unchecked.
 
