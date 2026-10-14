@@ -1264,9 +1264,47 @@
             current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an
             element with role <code>list</code>.
           </p>
-          <p>If a role is listed as an <a>intervening role</a>, an element with the current <a>role</a> can be an <a>accessibility child</a> of an element with that intervening role, provided that the 
-			  element with the intervening role, or the outermost one if such elements are nested, is itself an accessibility child of an element with a role from this list that is not an intervening role.</p>
-          <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list, or if it is an <a>intervening role</a> and the condition above is not met.</p>
+          <p>If a role is listed as an <a>intervening role</a>, an element with the current <a>role</a> can be an <a>accessibility child</a> of an element with that intervening role. However, the 
+			  outermost element with an intervening role must itself be an accessibility child of an element whose role is included in this list and is not an intervening role.</p>
+			<pre class="example highlight html"><span class="comment">&lt;!-- 1. Valid example - The outermost group is an accessibility child of menu, satisfying the required parent role for menuitem --&gt;</span>
+&lt;div role="menu"&gt;
+	&lt;div role="group"&gt;
+		&lt;div role="group"&gt;
+			&lt;div role="menuitem"&gt;Item&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+	</pre
+>
+		  <pre class="example highlight html"><span class="comment">&lt;!-- 2. Invalid example - The outermost group is NOT an accessibility child of an element with a role that satisfies the required parent role for menuitem --&gt;</span>
+&lt;div role="group"&gt;
+	&lt;div role="group"&gt;
+		&lt;div role="menuitem"&gt;Item&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+	</pre
+>
+          <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not included in the Required Accessibility Parent Roles list. If the accessibility parent 
+			has an <a>intervening role</a>, user agents SHOULD also ignore the current role if the outermost element with an intervening role is not an <a>accessibility child</a> of an element whose role 
+			is included in the Required Accessibility Parent Roles list and is not an intervening role.</p>
+			<pre class="example highlight html"><span class="comment">&lt;!-- 1. User agents should not ignore the menuitem role because the group is an intervening role and its outermost instance is an accessibility child of a menu, whose role is included in the Required Accessibility Parent Roles list and is not an intervening role --&gt;</span>
+&lt;div role="menu"&gt;
+  &lt;div role="group"&gt;
+    &lt;div role="group"&gt;
+      &lt;div role="menuitem"&gt;Item&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+	</pre
+>
+			<pre class="example highlight html"><span class="comment">&lt;!-- 1. User agents should ignore the element with role menuitem because the outermost element with role group is NOT an accessibility child of an element with a required parent role that is not an intervening role --&gt;</span>
+&lt;div role="group"&gt;
+  &lt;div role="group"&gt;
+    &lt;div role="menuitem"&gt;Item&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+	</pre
+>
           <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
         </section>
         <section id="namecalculation">
