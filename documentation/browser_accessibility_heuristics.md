@@ -51,8 +51,13 @@ if (IsA<HTMLAnchorElement>(GetNode()) || IsA<SVGAElement>(GetNode())) {
 
 An example from 2005 is misuse of the aria-modal attribute. [Some pages from a major online retailer](https://www.applevis.com/forum/macos-mac-apps/amazon-mac-lately), included a modal dialog that was erroneously persistent. This prevented a lot of VO-based navigation from working. Thankfully the retailer fixed some or all of these instances, but it was impactful enough that Apple [shipped a WebKit change](https://bugs.webkit.org/show_bug.cgi?id=236585) preventing web authors from being able to cause quite such an egregious disruption again.
 
+### Lists without any list-like attributes or styles are not exposed as lists in Safari.
 
-# Elements with zero width/height bounds may be ignored.
+- Safari-only... ARIA WG agreed to not author WPT tests that exercised this heuristic difference until after the issue was resolved.
+- Explanation here: https://x.com/cookiecrook/status/1337226933822603270 
+
+
+### Elements with zero width/height bounds may be ignored.
 
 - it's also possible some may ignore certain elements with 1x1 bounds
 
