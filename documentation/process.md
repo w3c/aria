@@ -21,7 +21,7 @@ PR Labels:
 - `waiting for implementations`: if a normative PR has been approved but there are no implementations yet, then use this flag to indicate it can be merged when the implementations are completed.
 - `do not merge`: if a PR has approving reviews and implementations but there is other some reason to wait for merging.
 - `*-tracker`: the group has asked the relevant horizontal group for review and is waiting for them to finish their review.
-- `*-needs-resolution:** the horizontal group has provided feedback that needs to be resolved before advancing through the REC Track.
+- `*-needs-resolution`: the horizontal group has provided feedback that needs to be resolved before advancing through the REC Track.
 
 ### Normative changes
 
