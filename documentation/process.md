@@ -41,7 +41,7 @@ The evergreen process allows for significant reduction of the necessary steps fo
 - If approved, the change is incorporated into the existing Recommendation.
 - If not approved, the change is brought back to the group for further refinement.
 
-This in practice diminishes the concept of Editor's Draft. PRs then should only be merged when  the group considers that the change is ready for AC review.
+This in practice diminishes the concept of Editor's Draft. Spec editors, Chairs, and Staff Contact should merge PRs only when the group considers that the change is ready for AC review.
 
 1. **Consensus:** The change in the PR has been discussed in an ARIA WG meeting and the group agrees the change is ready for Advisory Committee review.
     - The ARIA WG's consensus should be recorded in comments of the PR or in the comments of the issue that the PR resolves.
