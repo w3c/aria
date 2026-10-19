@@ -12,7 +12,7 @@
 
 ## Pull requests
 
-Newly opened PRs are "triaged" at the next ARIA meeting. At triage, the group decides who should review the PR. If the PR needs extra discussion by the whole ARIA WG, the `agenda` label can be added
+Newly opened PRs are triaged at the next ARIA meeting. At triage, the group decides who should review the PR. If the PR needs extra discussion by the whole ARIA WG, the `agenda` label can be added
 
 Draft PRs are not triaged at meeting and are considered not ready for review. If you want to prevent an approved PR from getting merged, add the `do not merge` label.
 
