@@ -2,7 +2,7 @@
 
 ## Issues
 1. An issue is made on an ARIA WG repository.
-2. New issues are "triaged" at the next ARIA WG meeting. During triage, the following happens:
+2. New issues are triaged at the next ARIA WG meeting. During triage, the following happens:
    - The issues are moved to the appropriate issue tracking repo, if necessary.
    - A release label is added for purposes of prioritizing which year we expect to be able to resolve the problem or feature request.
    - WG members are assigned to the issue if appropriate.
@@ -25,7 +25,7 @@ PR Labels:
 
 ### Normative changes
 
-A "normative" change is a change to the specification that:
+A normative change is a change to the specification that:
 
 - will change the implementation of ARIA in browsers (for example, adding a new attribute)
 - will change how ARIA can or should be used by web authors (for example, changing which attributes are allowed on a role)
@@ -36,7 +36,7 @@ Changes that are meant to clarify how to conform to ARIA (both for author and us
 
 The evergreen process allows for significant reduction of the necessary steps for a normative spec change to be included in the Recommendation.
 
-- The change (together with its proper annotation  that allows readers to understand its scope) is included in a "Recommendation with Proposed Amendments".
+- The change (together with its proper annotation  that allows readers to understand its scope) is included in a Last Call for Review of a Recommendation with Proposed Amendments.
 - The change is reviewed by the Advisory Committee. Generally we submit a batch with several changes, once per Charter period (every two years).
 - If approved, the change is incorporated into the existing Recommendation.
 - If not approved, the change is brought back to the group for further refinement.
@@ -75,7 +75,7 @@ In this stage, the normative change (sometimes spanning multiple specifications)
 
 ##### Stage two: `waiting for tests`
 
-Test should be written after the spec language is approved by three approving reviews. At this time, changes to test in WPT can land because the spec changes are considered finalized, but they must land with the ".tentative" file ending. Note: not all normative changes in ARIA are currently testable, so if they are not testable, tests are not required.
+Test should be written after the spec language is approved by three approving reviews. At this time, changes to test in WPT can land because the spec changes are considered finalized, but they must land with the `.tentative` file ending. Note: not all normative changes in ARIA are currently testable, so if they are not testable, tests are not required.
 
 ##### Stage 3: Horizontal Review:
 
@@ -95,7 +95,7 @@ If the change introduces an author MUST requirement, then open issues on validat
 
 ### Editorial changes
 
-An "editorial" change is a change that is not normative. Editorial changes are things like grammar fixes, improvements to a section for improving readability or clarity, re-organization, the introduction of terms, etc.
+An editorial change is a change that is not normative. Editorial changes are things like grammar fixes, improvements to a section for improving readability or clarity, re-organization, the introduction of terms, etc.
 
 1. A PR with only editorial changes MUST have "Editorial: " at the beginning of the PR's title.
 2. An editorial change PR needs at least two approving reviews to be merged, but another reviewer can be request if the change is complex.
@@ -109,7 +109,7 @@ Important branches in the ARIA repository:
 
 ## Normative change checklist
 
-The "normative change checklist" lists a kind of "to do list" for all the work that must happen in order for a change to be considered ready for merge. Check the box when there is a relevant issue or PR related to the item in the list, and link the relevant issue or PR. Some of the things in the list may not apply to your change, if they don't apply, check the box and write "n/a". If you aren't sure whether something applies, leave it unchecked.
+The normative change checklist lists a kind of to do list for all the work that must happen in order for a change to be considered ready for merge. Check the box when there is a relevant issue or PR related to the item in the list, and link the relevant issue or PR. Some of the things in the list may not apply to your change, if they don't apply, check the box and write "n/a". If you aren't sure whether something applies, leave it unchecked.
 
 The normative change checklist should be included in the PR template when you open a PR, if for some reason it is missing, you can copy it into the description of the PR:
 [Normative Change Checklist](https://github.com/w3c/aria/blob/main/.github/pull_request_template.md).
