@@ -7014,6 +7014,10 @@
               host-language-specific labeling elements for the presentational element. For example, a <code>table</code> element with a role of <rref>none</rref>/<rref>presentation</rref> will have
               the implicit native semantics of its <code>caption</code> element removed, because the caption is merely a label for the presentational table.
             </p>
+			<p>
+              Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements whose characteristics cause user agents to ignore the specified role, as described in 
+			  <a href="#conflict_resolution_presentation_none">Presentational Roles Conflict Resolution</a>.
+			</p>
             <p class="ednote">
               Information about <a href="#conflict_resolution_presentation_none">resolving conflicts in the none/presentation role</a> has been moved to
               <a href="#document-handling_author-errors">Handling Author Errors</a>
@@ -16751,38 +16755,51 @@ button.ariaPressed; // null</pre
       </section>
       <section id="conflict_resolution_presentation_none">
         <h3>Presentational Roles Conflict Resolution</h3>
-        <p>There are a number of ways presentational role conflicts are resolved.</p>
-        <p>User agents MUST NOT <a>expose</a> [=elements=] having explicit or inherited presentational role in the accessibility tree, with these exceptions:</p>
-        <ul>
-          <li>
-            If an element is <a>focusable</a>, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and expose the element with its implicit role, in order to ensure that the
-            element is <a>operable</a>.
-          </li>
-          <li>
-            If an <a href="#mustContain">allowed accessibility child</a> has an explicit non-presentational role, user agents MUST ignore an inherited presentational role and expose the element with
-            its explicit role. If the action of exposing the explicit role causes the accessibility tree to be malformed, the expected results are undefined.
-          </li>
-          <li>
-            If an element has <a>global</a> WAI-ARIA states or properties, user agents MUST ignore the <rref>none</rref>/<rref>presentation</rref> role and instead expose the element's implicit role.
-            However, if an element has only non-global, role-specific WAI-ARIA states or properties, the element MUST NOT be exposed unless the presentational role is inherited and an explicit
-            non-presentational role is applied.
-          </li>
-        </ul>
-        <p class="note">
-          Some <a>global</a> WAI-ARIA states and properties are <a>prohibited</a> on certain roles. These states and properties are still considered global for the purposes of Presentational Role
-          Conflict resolution.
-        </p>
-        <p>
-          For example, <pref>aria-describedby</pref> is a global attribute and would always be applied; <pref>aria-level</pref> is not a global attribute and would therefore only apply if the element
-          was not in a presentational state.
-        </p>
-        <pre class="example highlight html">
-<span class="comment">&lt;!-- 1. [role="none"] is ignored due to the global aria-describedby property. --&gt;</span>
-&lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
-<span class="comment">&lt;!-- 2. [role="none"] negates both the implicit 'heading' and the non-global aria-level. --&gt;</span>
-&lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
+		<p>A presentational role conflict occurs when an author specifies a role of <rref>none</rref> (or <rref>presentation</rref>) on an element, or on an ancestor from which the element inherits that role,
+            while the element also has characteristics that are invalid for that role.</p>
+        <p>User agents MUST ignore the presentational role if an element is <a>focusable</a>, or has an explicit presentational role and <a>global</a> WAI-ARIA states or properties, and expose the element as follows:</p>
+		<ul>
+          <li>If the element's implicit role has a <a href="#scope">Required Accessibility Parent Role</a> and the element's required accessibility parent has a <rref>none</rref> or <rref>presentation</rref> role, 
+            user agents MUST NOT expose the element's implicit role, and MAY instead expose the element with role <rref>generic</rref>.</li>
+		  <li>Otherwise, user agents MUST expose the element with its implicit role.</li>
+		</ul>
+		<p class="note">Some <a>global</a> WAI-ARIA attributes are <a>prohibited</a> on certain roles. These attributes are still considered global for the purposes of Presentational Role Conflict resolution.</p>
+		<pre class="example highlight html">
+<span class="comment">&lt;!-- 1. [role="none"] is ignored because the element is focusable --&gt;</span>
+&lt;button role="none"&gt; Sample Content &lt;/button&gt;
+<span class="comment">&lt;!-- 2. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. 
+Even though it is focusable, its implicit role is not exposed, because its required accessibility parent has a presentational role. 
+User agents can expose it with role generic --&gt;</span>
+&lt;table role="none"&gt;
+	&lt;tr&gt;
+		&lt;td tabindex="0"&gt;Content&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
 		</pre>
-        <p>Authors MUST NOT use <rref>presentation</rref> and <rref>none</rref> on elements where user agents will ignore that role because it conflicts with one of the above items.</p>
+		<pre class="example highlight html">
+<span class="comment">&lt;!-- 3. [role="none"] is ignored due to the global aria-describedby attribute. --&gt;</span>
+&lt;h1 role="none" aria-describedby="comment-1"&gt; Sample Content &lt;/h1&gt;
+<span class="comment">&lt;!-- 4. [role="none"] suppresses the element's implicit heading role. 
+Additionally, since aria-level is not a global WAI-ARIA attribute, it does not override the presentational
+role and is not exposed when that role applies. --&gt;</span>
+&lt;h1 role="none" aria-level="2"&gt; Sample Content &lt;/h1&gt;
+<span class="comment">&lt;!-- 5. &lt;td&gt; inherits [role="none"] from &lt;table role=none&gt;. 
+The presentational role is inherited, not explicit, so the global aria-describedby attribute does not cause it to be ignored --&gt;</span>
+&lt;table role="none"&gt;
+	&lt;tr&gt;
+		&lt;td aria-describedby="comment-1"&gt;Content&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+<span class="comment">&lt;!-- 6. &lt;td&gt; has an explicit [role="none"] and the global aria-describedby attribute, 
+which would normally cause [role="none"] to be ignored and the implicit 'cell' role to be exposed. 
+However, a 'cell' requires a 'row' parent, and the &lt;tr&gt; inherits [role="none"] from &lt;table role="none"&gt;,
+so it is not exposed as a row and [role="none"] is not ignored --&gt;</span>
+&lt;table role="none"&gt;
+  &lt;tr&gt;
+    &lt;td role="none" aria-describedby="comment-1"&gt;Content&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+		</pre>
       </section>
     </section>
     <section id="idl-interface" class="normative">
