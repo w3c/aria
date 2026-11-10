@@ -13,18 +13,14 @@ This includes the terms file and filters it to only output ones that are referen
 
 ## Bibliography
 
-The Respec processor loads a bibliography called [Specref](https://github.com/tobie/specref). This resource automatically includes most publications that have been published to the W3C Technical Reports page. While it is possible to request additions to this via pull requests, in practice to use references that are not in that database, it is easier to use a [`localBiblio`](https://github.com/w3c/respec/wiki/localBiblio). This allows the Respec configuration to load additional bibliographic entries, structured in the same way as in Specref.
+ReSpec now resolves most of the bibliography references through [SpecRef](https://www.specref.org/). Use existing SpecRef keys directly, including versioned keys when a particular specification version is required.
 
-Many of the supplementary bibliographic entries needed for the ARIA publications are common to several specifications. Therefore the bibliographic entries are all stored in [biblio.js](biblio.js). This is loaded with the other scripts at the top of the file with the following line:
+Add only references missing from SpecRef to the shared [biblio.js](biblio.js). Do not duplicate these entries in individual specification directories.
 
-```html
-<script src="../common/biblio.js" class="remove"></script>
-```
-
-In the respecConfig, instead of providing the set of bibliographic entries directly, simply reference the object created by that script:
+The script assigns `respecConfig.localBiblio` directly. Load it after defining `respecConfig`. Use `defer` when placing it before the inline configuration:
 
 ```html
-localBiblio: biblio,
+<script src="../common/biblio.js" class="remove" defer></script>
 ```
 
 ## Images, CSS, and Scripts
