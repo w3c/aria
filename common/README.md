@@ -6,11 +6,8 @@ Resources in the common files:
 
 ## Terms
 
-The specifications share a common set of term definitions, located in [terms.html](terms.html). Add and update terms there, keeping in mind your edits will affect all specifications. To use the terms, at the place you want the terms to be included, provide the following line:
+Most terms are in the main ARIA specification and should be linked to either using special classes (more of this below) or using respec functionality. If you want to add a term scoped across the whole ARIA suite, add it to the ARIA main spec. Only add terms to child specs if their scope is restricted to that particular spec.
 
-```html
-<div data-include="../common/terms.html" data-oninclude="restrictReferences"></div>
-```
 
 This includes the terms file and filters it to only output ones that are referenced in that particular specification.
 
