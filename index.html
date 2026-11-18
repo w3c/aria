@@ -867,7 +867,7 @@
         <ul>
           <li>an informative description of the role;</li>
           <li>hierarchical information about related roles (e.g., a <rref>searchbox</rref> is a type of <rref>textbox</rref>);</li>
-          <li>context of the role (e.g., a <rref>listitem</rref> is contained inside a <rref>list</rref>);</li>
+          <li>context of the role (e.g., a <rref>listitem</rref> is contained inside a <rref>list</rref> or <rref>listview</rref>);</li>
           <li>references to related concepts in other specifications;</li>
           <li>supported <a>states</a> and [=ARIA/properties=] for each role (e.g., a <rref>checkbox</rref> supports being checked via <sref>aria-checked</sref>).</li>
         </ul>
@@ -1247,8 +1247,8 @@
           <h3>Required Accessibility Parent Role</h3>
           <p>
             Lists all roles that are allowed for the <a>accessibility parent</a> of an element with the current <a>role</a>. If the list is not empty, authors MUST ensure that an element with the
-            current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>listitem</code> is only meaningful when it is a child of an
-            element with role <code>list</code>.
+            current role is an <a>accessibility child</a> of an element with a role from this list. For example, an element with role <code>menuitem</code> is only meaningful when it is a child of an
+            element with role <code>menu</code>.
           </p>
           <p><a>User agents</a> SHOULD ignore the current role if the role of the <a>accessibility parent</a> is not in this list.</p>
           <p class="note">An <a>accessibility parent</a> with the appropriate <a href="#implicit_semantics">implicit WAI-ARIA semantic</a> fulfills this requirement.</p>
@@ -1346,6 +1346,7 @@
             <li><rref>checkbox</rref></li>
             <li><rref>gridcell</rref></li>
             <li><rref>link</rref></li>
+            <li><rref>listitem</rref> (when a child of a <rref>listview</rref>)</li>
             <li><rref>menuitem</rref></li>
             <li><rref>menuitemcheckbox</rref></li>
             <li><rref>menuitemradio</rref></li>
@@ -1373,6 +1374,7 @@
             <li><rref>combobox</rref></li>
             <li><rref>grid</rref></li>
             <li><rref>listbox</rref></li>
+            <li><rref>listview</rref></li>
             <li><rref>menu</rref></li>
             <li><rref>menubar</rref></li>
             <li><rref>radiogroup</rref></li>
@@ -1406,7 +1408,7 @@
             <li><rref>image</rref> (synonymous: <rref>img</rref>)</li>
             <li><rref>insertion</rref></li>
             <li><rref>list</rref></li>
-            <li><rref>listitem</rref></li>
+            <li><rref>listitem</rref> (when a child of a <rref>list</rref>)</li>
             <li><rref>mark</rref></li>
             <li><rref>math</rref></li>
             <li><rref>meter</rref></li>
@@ -5436,7 +5438,7 @@
         <div class="role" id="listbox">
           <rdef>listbox</rdef>
           <div class="role-description">
-            <p>A <a>widget</a> that allows the user to select one or more items from a list of choices. See related <rref>combobox</rref> and <rref>list</rref>.</p>
+            <p>A <a>widget</a> that allows the user to select one or more items from a list of choices. See related <rref>combobox</rref>, <rref>listview</rref>, and <rref>list</rref>.</p>
             <p>
               Items within the list are static and, unlike standard HTML <code>select</code> [=elements=], can contain images. List boxes contain children whose <a>role</a> is <rref>option</rref> or
               elements whose <a>role</a> is <rref>group</rref> which in turn contain children whose <a>role</a> is <rref>option</rref>.
@@ -5550,12 +5552,18 @@
         <div class="role" id="listitem">
           <rdef>listitem</rdef>
           <div class="role-description">
-            <p>A single item in a list or directory.</p>
-            <p>Authors MUST ensure [=elements=] whose <a>role</a> is <code>listitem</code> are <a>accessibility children</a> of an <a>element</a> whose <a>role</a> is <rref>list</rref>.</p>
+            <p>A single item in a list, directory, or listview.</p>
+            <p>When a listitem is comtained within a <rref>list</rref>, it functions as a static document structure role that cannot be given an accessible name, similar to the HTML <code>&lt;[^li^]&gt;</code> element within a <code>&lt;[^ul^]&gt;</code> or <code>&lt;[^ol^]&gt;</code>.</p>
+            <p>When a listitem is contained within a <rref>listview</rref>, it behaves very differently: it is a widget role within a composite widget, similar to an <rref>option</rref> within a <rref>listbox</rref>. However, unlike an option, a listitem within a listview is not restricted by Children Presentational: true, and its <a>accessibility children</a> can include <a href="#widget_roles">widget roles</a>.</p>
+            <p>When a listitem is the <a>accessibility child</a> of a <rref>listview</rref> (or a <rref>group</rref> that is the child of a listview), authors MUST manage focus between listitems as described in the <a href="#managingfocus">Managing Focus</a> section.</p>
+            <p>Authors MUST ensure [=elements=] whose <a>role</a> is <code>listitem</code> are <a>accessibility children</a> of an <a>element</a> whose <a>role</a> is <rref>list</rref> or <rref>listview</rref>.</p>
+            <p class="note">
+              Since a listitem's behavior, content model, and supported states and properties differ greatly when contained within a list vs. listview, they are split into two separate characteristics tables.
+            </p>
           </div>
           <table class="def">
             <caption>
-              Characteristics:
+              Characteristics for listitem within a list:
             </caption>
             <thead>
               <tr>
@@ -5621,6 +5629,189 @@
               <tr>
                 <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
                 <td class="role-namerequired"> </td>
+              </tr>
+              <tr>
+                <th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+                <td class="role-namerequired-inherited"> </td>
+              </tr>
+              <tr>
+                <th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+                <td class="role-childpresentational"> </td>
+              </tr>
+              <tr>
+                <th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+                <td class="role-presentational-inherited"> </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="def">
+            <caption>
+              Characteristics for listitem within a listview:
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Characteristic</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="role-abstract-head" scope="row">Is Abstract:</th>
+                <td class="role-abstract"> </td>
+              </tr>
+              <tr>
+                <th class="role-parent-head" scope="row">Superclass Role:</th>
+                <td class="role-parent">
+                  <ul>
+                    <li><rref>section</rref></li>
+                    <li><rref>option</rref></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th class="role-children-head" scope="row">Subclass Roles:</th>
+                <td class="role-children">Placeholder</td>
+              </tr>
+              <tr>
+                <th class="role-related-head" scope="row">Related Concepts:</th>
+                <td class="role-related"></td>
+              </tr>
+              <tr>
+                <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
+                <td class="role-scope">
+                  <ul>
+                    <li><rref>listview</rref></li>
+                    <li><rref>group</rref> with <a>accessibility parent</a> <rref>listview</rref></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
+                <td class="role-mustcontain"> </td>
+              </tr>
+              <tr>
+                <th class="role-required-properties-head">Required States and Properties:</th>
+                <td class="role-required-properties"> </td>
+              </tr>
+              <tr>
+                <th class="role-properties-head" scope="row">Supported States and Properties:</th>
+                <td class="role-properties">
+                  <ul>
+                    <li><pref>aria-checked</pref></li>
+                    <li><pref>aria-posinset</pref></li>
+                    <li><pref>aria-selected</pref></li>
+                    <li><pref>aria-setsize</pref></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+                <td class="role-inherited">Placeholder</td>
+              </tr>
+              <tr>
+                <th class="role-namefrom-head" scope="row">Name From:</th>
+                <td class="role-namefrom">author</td>
+              </tr>
+              <tr>
+                <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+                <td class="role-namerequired"> </td>
+              </tr>
+              <tr>
+                <th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
+                <td class="role-namerequired-inherited"> </td>
+              </tr>
+              <tr>
+                <th class="role-childpresentational-head" scope="row">Children Presentational:</th>
+                <td class="role-childpresentational"> </td>
+              </tr>
+              <tr>
+                <th class="role-presentational-inherited-head" scope="row">Inherits Presentational:</th>
+                <td class="role-presentational-inherited"> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="role" id="listview">
+          <rdef>listview</rdef>
+          <div class="role-description">
+            <p>A <a>widget</a> containing keyboard-navigable <rref>listitem</rref> elements. It allows the user to navigate between and perform actions on the child <rref>listitems</rref>. See related <rref>list</rref> and <rref>listbox</rref>.</p>
+
+            <p>Unlike a static <rref>list</rref>, listview functions as a composite widget and authors MUST manage focus of descendants for all instances of this <a>role</a>, as described in <a href="#managingfocus">Managing Focus</a>. When a user is navigating listview content with a keyboard and encounter <rref>listitems</rref> that contain <a>widget</a> descendants, authors SHOULD do one of the following:</p>
+
+            <ul>
+              <li>Provide a keyboard mechanism to navigate to the active <rref>listitem</rref>'s descendants. For example, the <kbd>Enter</kbd> or <kbd>Tab</kbd> key might be used to move focus from the listitem element to its first focusable descendant. <kbd>Escape</kbd> might then be used to move focus back to the containing listitem to resume listview navigation.</li>
+              <li>Ensure all descendant widgets may be directly activated while focus is on their containing <rref>listitem</rref>. This could be combined with <pref>aria-actions</pref>, <pref>aria-keyshortcuts</pref>, or another method of programmatically exposing their existance.</li>
+            </ul>
+
+            <p>Listviews have similar accessibility API mappings to <rref>listbox</rref>, but unlike listbox they do not enforce selection on their items, items may perform non-selection behaviors when activated, and items do not enforce Children Presentational: true.</p>
+
+            <p>Listviews contain children whose <a>role</a> is <rref>listitem</rref> or elements whose <a>role</a> is <rref>group</rref> which in turn contain children whose <a>role</a> is <rref>listitem</rref>.</p>
+
+            <p>Elements with the role <code>listview</code> have an implicit <pref>aria-orientation</pref> value of <code>vertical</code>.</p>
+          </div>
+          <table class="def">
+            <caption>
+              Characteristics:
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Characteristic</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="role-abstract-head" scope="row">Is Abstract:</th>
+                <td class="role-abstract"> </td>
+              </tr>
+              <tr>
+                <th class="role-parent-head" scope="row">Superclass Role:</th>
+                <td class="role-parent"><rref>section</rref></td>
+              </tr>
+              <tr>
+                <th class="role-children-head" scope="row">Subclass Roles:</th>
+                <td class="role-children">Placeholder</td>
+              </tr>
+              <tr>
+                <th class="role-base-head" scope="row">Base Concept:</th>
+                <td class="role-base"> </td>
+              </tr>
+              <tr>
+                <th class="role-related-head" scope="row">Related Concepts:</th>
+                <td class="role-related"> </td>
+              </tr>
+              <tr>
+                <th class="role-scope-head" scope="row">Required Accessibility Parent Roles:</th>
+                <td class="role-scope"> </td>
+              </tr>
+              <tr>
+                <th class="role-mustcontain-head" scope="row">Allowed Accessibility Child Roles:</th>
+                <td class="role-mustcontain">
+                  <ul>
+                    <li><rref>group</rref> with <a>accessibility child</a> <rref>listitem</rref></li>
+                    <li><rref>listitem</rref></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th class="role-required-properties-head">Required States and Properties:</th>
+                <td class="role-required-properties"> </td>
+              </tr>
+              <tr>
+                <th class="role-properties-head" scope="row">Supported States and Properties:</th>
+                <td class="role-properties"> </td>
+              </tr>
+              <tr>
+                <th class="role-inherited-head" scope="row">Inherited States and Properties:</th>
+                <td class="role-inherited">Placeholder</td>
+              </tr>
+              <tr>
+                <th class="role-namefrom-head" scope="row">Name From:</th>
+                <td class="role-namefrom">author</td>
+              </tr>
+              <tr>
+                <th class="role-namerequired-head" scope="row">Accessible Name Required:</th>
+                <td class="role-namerequired">True</td>
               </tr>
               <tr>
                 <th class="role-namerequired-inherited-head" scope="row">Inherits Name Required:</th>
