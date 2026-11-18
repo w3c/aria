@@ -803,11 +803,11 @@
       <section id="ua_dom">
         <h2>All <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> in <abbr title="Document Object Model">DOM</abbr></h2>
         <p>
-          A conforming <a>user agent</a> which implements a document object model that does not conform to the W3C DOM specification MUST include the <a><code>role</code> attribute</a> and its
+          A conforming <a>user agent</a> which implements a document object model that does not conform to the [[[DOM]]] specification MUST include the <a><code>role</code> attribute</a> and its
           <a href="#roles_categorization">WAI-ARIA role values</a>, as well as the <a href="#states_and_properties">WAI-ARIA States and Properties</a> in the DOM as specified by the author, even
           though processing might affect how the elements are <a>exposed</a> to accessibility APIs. Doing so ensures that each <a><code>role</code> attribute</a> and all
           <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> states and properties, including their values, are in the document in an unmodified form so other tools, such as assistive
-          technologies, can access them. A conforming W3C <abbr title="Document Object Model">DOM</abbr> meets this criterion.
+          technologies, can access them. A conforming <abbr title="Document Object Model">DOM</abbr> meets this criterion.
         </p>
       </section>
       <section id="ua_domchanges">
@@ -6931,23 +6931,6 @@
 &lt;span&gt; Sample Content &lt;a href="...">let's go!&lt;/a> &lt;/span&gt;
 </pre>
             <p>
-              In HTML, the <code>&lt;img&gt;</code> <a>element</a> is treated as a single entity regardless of the type of image file. Consequently, using <code>role="none"</code> or
-              <code>role="presentation"</code> on an HTML <code>img</code> is equivalent to using <code>aria-hidden="true"</code>. In order to make the image contents accessible, authors can embed the
-              object using an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code> <a>element</a>, or use inline <abbr title="Scalable Vector Graphics">SVG</abbr> code, and follow the
-              accessibility guidelines for the image content.
-            </p>
-            <p>Authors SHOULD NOT provide a non-empty text alternative when the <code>none</code>/<code>presentation</code> role is applied to an image.</p>
-            <p>
-              In the following code sample, the containing <rref>img</rref> and is appropriately labeled by the caption paragraph. In this example the <code>img</code> element can be marked as
-              <rref>none</rref>/<rref>presentation</rref> because the role and the text alternatives are provided by the containing element.
-            </p>
-            <pre class="example highlight html">
-&lt;div role="img" aria-labelledby="caption"&gt;
-  &lt;img src="example.png" role="none" alt=""&gt;
-  &lt;p id="caption"&gt;A visible text caption labeling the image.&lt;/p&gt;
-&lt;/div&gt;</pre
-            >
-            <p>
               In the following code sample, because the anchor (HTML <code>a</code> element) is acting as the treeitem, the list item (HTML <code>li</code> element) is assigned an explicit
               <abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr> role of <rref>none</rref>/<rref>presentation</rref> to override the user agent's implicit native semantics for list
               items.
@@ -7412,7 +7395,7 @@
 					</tr>
 					<tr>
 						<th class="role-base-head" scope="row">Base Concept:</th>
-						<td class="role-base"><a href="https://www.w3.org/tr/html5/forms.html#password-state-(type=password)">HTML <code>input[type="password"]</code></a></td>
+						<td class="role-base"><a data-cite="html/input.html#password-state-(type=password)">HTML <code>input[type="password"]</code></a></td>
 					</tr>
 					<tr>
 						<th class="role-related-head" scope="row">Related Concepts:</th>
@@ -11993,7 +11976,7 @@ el.ariaBusy; // null
 el.ariaBusy = "true";
 el.ariaBusy; // "true"
 
-// Removal of content attribute results in missing value default: string "false".
+// Removal of content attribute results in a null value.
 el.removeAttribute("aria-busy");
 el.ariaBusy; // null
 
@@ -12234,7 +12217,7 @@ button.ariaPressed; // null</pre
                   >
                   [[SVG2]] and
                   <cite
-                    ><a href="https://www.w3.org/TR/dom/"><abbr title="Document Object Model">DOM</abbr></a></cite
+                    ><a href="https://dom.spec.whatwg.org/"><abbr title="Document Object Model">DOM</abbr></a></cite
                   >
                   [[DOM]] active
                 </td>
@@ -12262,8 +12245,8 @@ button.ariaPressed; // null</pre
               <pref>aria-relevant</pref> attribute.
             </p>
             <p>
-              Both <a>accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> and the <cite><a href="https://www.w3.org/TR/dom/">Document Object Model</a></cite> [[DOM]] provide
-              events to allow the assistive technologies to determine changed areas of the document.
+              Both <a>accessibility <abbr title="Application Programming Interfaces">APIs</abbr></a> and the <cite><a href="https://dom.spec.whatwg.org/">Document Object Model</a></cite> [[DOM]]
+              provide events to allow the assistive technologies to determine changed areas of the document.
             </p>
             <p>
               When the content of a <a>live region</a> changes, user agents SHOULD examine the changed <a>element</a> and traverse the ancestors to find the first element with
@@ -12620,7 +12603,7 @@ button.ariaPressed; // null</pre
 &lt;article aria-roledescription="slide" aria-brailleroledescription="sld" id="slide" aria-labelledby="slideheading"&gt;
 &lt;h1 id="slideheading">Quarterly Report&lt;/h1&gt;
 &lt;!-- remaining slide contents --&gt;
-&lt;/div&gt;</pre
+&lt;/article&gt;</pre
             >
             <p>In the previous examples, a braille screen reader user would read "sld Quarterly Report" rather than the more verbose "slide Quarterly Report."</p>
           </div>
@@ -13690,7 +13673,7 @@ button.ariaPressed; // null</pre
             <p>
               A typical message describes what is wrong and informs users what is required. For example, an error message might be,
               <q>Invalid time: the time must be between 9:00 AM and 5:00 PM.</q> The following example code shows markup for an initial valid state and for a subsequent invalid state. Note the changes
-              to <sref>aria-invalid</sref> on the text input <a>object</a>, and to <pref>aria-live</pref> on the <a>element</a> containing the text of the error message:
+              to <sref>aria-invalid</sref> on the text input <a>object</a>, and to the text content of the <a>element</a> containing the error message:
             </p>
             <pre class="example highlight html">
 				&lt;!-- Initial valid state --&gt;
@@ -16952,7 +16935,7 @@ so it is not exposed as a row and [role="none"] is not ignored --&gt;</span>
           <tr>
             <td><dfn>ariaActiveDescendantElement</dfn></td>
             <td><pref>aria-activedescendant</pref></td>
-            <td><a href="#valuetype_idref_list">ID reference list</a></td>
+            <td><a href="#valuetype_idref">ID reference</a></td>
           </tr>
           <tr>
             <td><dfn>ariaAtomic</dfn></td>
