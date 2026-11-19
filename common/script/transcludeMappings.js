@@ -2,21 +2,24 @@
 /* exported transcludeCoreMappings */
 
 /**
- * Replaces "Use WAI-ARIA mapping" placeholder cells in an AAM element mapping
- * table (e.g. HTML-AAM) with the platform mappings from the matching table in
+ * Replaces "Use WAI-ARIA mapping" placeholders in an AAM element mapping table
+ * (e.g. HTML-AAM) with the platform mappings from the matching table in
  * Core AAM, so that Core AAM remains the single source of truth.
  * See https://github.com/w3c/html-aam/issues/122
  *
- * Opt in per table with `data-transclude-core-mappings`. The Core AAM table to
- * use is taken from the `a.core-mapping` link in the table's WAI-ARIA row (it
- * must point at a `#role-map-*` id). Run this as a respec preProcess step
- * AFTER linkCrossReferences, which makes that link absolute.
+ * The Core AAM table to use is taken from the `a.core-mapping` link in the
+ * table's WAI-ARIA row, which must point at exactly one `#role-map-*` id.
+ * Tables whose WAI-ARIA row is conditional (links to several roles) or links to
+ * something else (e.g. a state or property) are left untouched. Run this as a
+ * respec preProcess step AFTER linkCrossReferences, which makes that link absolute.
  *
- * If anything cannot be resolved the placeholder text is left alone and
- * turned into a link to the Core AAM table.
+ * Only the placeholder itself is replaced, so any extra content the AAM adds
+ * to the same cell (e.g. relations) is preserved. If the Core AAM table cannot
+ * be loaded or lacks a matching row, the placeholder is turned into a link to
+ * the Core AAM table instead.
  */
 
-const PLACEHOLDER = /^\s*(Role:\s*)?Use WAI-ARIA mapping\s*$/i;
+const PLACEHOLDER = /Use WAI-ARIA mapping/i;
 
 // Identify a mapping row by its <th> text. Core AAM and the AAMs word these differently.
 const rowKey = (th) => {
@@ -38,6 +41,14 @@ const rowsByKey = (table) => {
     if (key && !map.has(key)) map.set(key, td);
   });
   return map;
+};
+
+// The href of the single Core AAM role mapping a table's WAI-ARIA row points to, or null if there is none or it is ambiguous.
+const coreMappingHref = (table) => {
+  const ariaRow = [...table.querySelectorAll("tr")].find((tr) => /wai-aria/i.test(tr.querySelector(":scope > th")?.textContent ?? ""));
+  if (!ariaRow) return null;
+  const hrefs = new Set([...ariaRow.querySelectorAll("a.core-mapping[href*='#role-map-']")].map((a) => a.getAttribute("href")));
+  return hrefs.size === 1 ? [...hrefs][0] : null;
 };
 
 const docCache = new Map();
@@ -64,8 +75,15 @@ const adoptContent = (srcCell, coreBaseURL) => {
   return clone.innerHTML;
 };
 
+// The child of `cell` (or `cell` itself) that holds the placeholder text, so only that part is replaced.
+const placeholderBlock = (cell) => {
+  if (!PLACEHOLDER.test(cell.textContent)) return null;
+  const child = [...cell.children].find((el) => PLACEHOLDER.test(el.textContent));
+  return child ?? cell;
+};
+
 async function transcludeCoreMappings() {
-  const tables = [...document.querySelectorAll("table[data-transclude-core-mappings]")];
+  const tables = [...document.querySelectorAll("table.data")].filter((t) => PLACEHOLDER.test(t.textContent) && coreMappingHref(t));
   if (!tables.length) return;
 
   const coreURL = respecConfig.coreMappingURLs ? respecConfig.coreMappingURLs[respecConfig.specStatus] : null;
@@ -84,25 +102,28 @@ async function transcludeCoreMappings() {
   }
 
   for (const table of tables) {
-    const link = table.querySelector("a.core-mapping[href*='#role-map-']");
-    const href = link && link.getAttribute("href");
-    const id = href && href.slice(href.indexOf("#") + 1);
+    const href = coreMappingHref(table);
+    const id = href.slice(href.indexOf("#") + 1);
     // Look the table up by aria-labelledby rather than "the heading's next sibling": published Core AAM wraps headings in div.header-wrapper.
-    const coreTable = coreDoc && id && coreDoc.querySelector(`table[aria-labelledby="${CSS.escape(id)}"]`);
+    const coreTable = coreDoc?.querySelector(`table[aria-labelledby="${CSS.escape(id)}"]`);
     const source = coreTable ? rowsByKey(coreTable) : null;
 
     for (const [key, cell] of rowsByKey(table)) {
-      if (!PLACEHOLDER.test(cell.textContent)) continue;
-      const replacement = source && source.get(key);
+      const block = placeholderBlock(cell);
+      if (!block) continue;
+      let replacement = source?.get(key);
+      // "Role: Use WAI-ARIA mapping" means only the role comes from ARIA; the AAM supplies the rest (e.g. an AXSubrole
+      // override), so copy just Core AAM's first line (role / control type) to avoid conflicting extra properties.
+      if (replacement && /^\s*Role:/i.test(block.textContent)) {
+        replacement = replacement.querySelector(".property");
+      }
       if (replacement) {
-        cell.innerHTML = `<div class="general">${adoptContent(replacement, coreURL)}</div>`;
-      } else if (href) {
+        block.outerHTML = `<div class="general">${adoptContent(replacement, coreURL)}</div>`;
+      } else {
         // Fallback (issue option 1): at least make the placeholder a link.
-        const target = cell.querySelector(".general, .role") || cell;
-        const text = target.textContent.trim();
-        target.innerHTML = `<a href="${href}">${text}</a>`;
+        const target = block.querySelector(".general, .role") ?? block;
+        target.innerHTML = `<a href="${href}">${target.textContent.trim()}</a>`;
       }
     }
-    table.removeAttribute("data-transclude-core-mappings");
   }
 }
