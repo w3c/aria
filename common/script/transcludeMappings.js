@@ -87,8 +87,9 @@ async function transcludeCoreMappings() {
     const link = table.querySelector("a.core-mapping[href*='#role-map-']");
     const href = link && link.getAttribute("href");
     const id = href && href.slice(href.indexOf("#") + 1);
-    const coreTable = coreDoc && id && coreDoc.getElementById(id) && coreDoc.getElementById(id).nextElementSibling;
-    const source = coreTable && coreTable.matches("table") ? rowsByKey(coreTable) : null;
+    // Look the table up by aria-labelledby rather than "the heading's next sibling": published Core AAM wraps headings in div.header-wrapper.
+    const coreTable = coreDoc && id && coreDoc.querySelector(`table[aria-labelledby="${CSS.escape(id)}"]`);
+    const source = coreTable ? rowsByKey(coreTable) : null;
 
     for (const [key, cell] of rowsByKey(table)) {
       if (!PLACEHOLDER.test(cell.textContent)) continue;
