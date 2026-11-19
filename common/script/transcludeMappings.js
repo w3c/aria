@@ -8,9 +8,10 @@
  * See https://github.com/w3c/html-aam/issues/122
  *
  * The Core AAM table to use is taken from the `a.core-mapping` link in the
- * table's WAI-ARIA row, which must point at exactly one `#role-map-*` id.
- * Tables whose WAI-ARIA row is conditional (links to several roles) or links to
- * something else (e.g. a state or property) are left untouched. Run this as a
+ * table's WAI-ARIA row: a role mapping (`#role-map-*`) for element tables, or a
+ * state/property mapping (e.g. `#ariaCheckedTrue`) for attribute tables. It must
+ * point at exactly one table. Tables whose WAI-ARIA row is conditional (links to
+ * several mappings) are left untouched. Run this as a
  * respec preProcess step AFTER linkCrossReferences, which makes that link absolute.
  *
  * Only the placeholder itself is replaced, so any extra content the AAM adds
@@ -47,7 +48,10 @@ const rowsByKey = (table) => {
 const coreMappingHref = (table) => {
   const ariaRow = [...table.querySelectorAll("tr")].find((tr) => /wai-aria/i.test(tr.querySelector(":scope > th")?.textContent ?? ""));
   if (!ariaRow) return null;
-  const hrefs = new Set([...ariaRow.querySelectorAll("a.core-mapping[href*='#role-map-']")].map((a) => a.getAttribute("href")));
+  // Element tables link to a role mapping (#role-map-*); attribute tables link to a state or property mapping (e.g. #ariaCheckedTrue).
+  let links = [...ariaRow.querySelectorAll("a.core-mapping[href*='#role-map-']")];
+  if (!links.length) links = [...ariaRow.querySelectorAll("a.core-mapping[href*='#']")];
+  const hrefs = new Set(links.map((a) => a.getAttribute("href")));
   return hrefs.size === 1 ? [...hrefs][0] : null;
 };
 
