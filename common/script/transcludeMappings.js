@@ -11,7 +11,8 @@
  * table's WAI-ARIA row: a role mapping (`#role-map-*`) for element tables, or a
  * state/property mapping (e.g. `#ariaCheckedTrue`) for attribute tables. It must
  * point at exactly one table. Tables whose WAI-ARIA row is conditional (links to
- * several mappings) are left untouched. Run this as a
+ * several mappings) are left untouched unless the table names the one to use
+ * with `data-core-mapping="#id"`. Run this as a
  * respec preProcess step AFTER linkCrossReferences, which makes that link absolute.
  *
  * Only the placeholder itself is replaced, so any extra content the AAM adds
@@ -46,6 +47,8 @@ const rowsByKey = (table) => {
 
 // The href of the single Core AAM role mapping a table's WAI-ARIA row points to, or null if there is none or it is ambiguous.
 const coreMappingHref = (table) => {
+  // An explicit data-core-mapping="#id" wins. Use it where the WAI-ARIA row lists several equivalent mappings (e.g. synonym roles).
+  if (table.dataset.coreMapping) return table.dataset.coreMapping;
   const ariaRow = [...table.querySelectorAll("tr")].find((tr) => /wai-aria/i.test(tr.querySelector(":scope > th")?.textContent ?? ""));
   if (!ariaRow) return null;
   // Element tables link to a role mapping (#role-map-*); attribute tables link to a state or property mapping (e.g. #ariaCheckedTrue).
@@ -106,11 +109,13 @@ async function transcludeCoreMappings() {
   }
 
   for (const table of tables) {
-    const href = coreMappingHref(table);
+    let href = coreMappingHref(table);
     const id = href.slice(href.indexOf("#") + 1);
+    if (href.startsWith("#")) href = coreURL + href; // an explicit data-core-mapping is a bare fragment
     // Look the table up by aria-labelledby rather than "the heading's next sibling": published Core AAM wraps headings in div.header-wrapper.
     const coreTable = coreDoc?.querySelector(`table[aria-labelledby="${CSS.escape(id)}"]`);
     const source = coreTable ? rowsByKey(coreTable) : null;
+    table.removeAttribute("data-core-mapping"); // authoring hook only; keep it out of the published output
 
     for (const [key, cell] of rowsByKey(table)) {
       const block = placeholderBlock(cell);
