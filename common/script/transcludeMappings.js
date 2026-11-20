@@ -127,7 +127,10 @@ async function transcludeCoreMappings() {
         replacement = replacement.querySelector(".property");
       }
       if (replacement) {
-        block.outerHTML = `<div class="general">${adoptContent(replacement, coreURL)}</div>`;
+        const html = `<div class="general">${adoptContent(replacement, coreURL)}</div>`;
+        // When the placeholder is the cell's own content, replace the contents, never the <td> itself.
+        if (block === cell) cell.innerHTML = html;
+        else block.outerHTML = html;
       } else {
         // Fallback (issue option 1): at least make the placeholder a link.
         const target = block.querySelector(".general, .role") ?? block;
