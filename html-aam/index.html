@@ -9348,6 +9348,10 @@
                   <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
                 </p>
                 <p>If the associated element is not a valid `popover` element: no `aria-expanded` mapping.</p>
+                <p>
+                  If the element also has a valid <a href="#att-interestfor-attribute">`interestfor`</a>-associated <a>"rich"</a> `popover` element: no `aria-expanded` mapping from `command` (see
+                  <a href="#att-interestfor-attribute">`interestfor`</a>).
+                </p>
               </td>
             </tr>
             <tr>
@@ -9387,7 +9391,8 @@
                 </p>
                 <ul>
                   <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
-                  <li>The element is a descendant of the `popover` it is associated with.</li>
+                  <li>The element is a descendant of the `popover` it is associated with,</li>
+                  <li>The invoking element also has a valid <a href="#att-interestfor-attribute">`interestfor`</a>-associated <a>"rich"</a> `popover` element.</li>
                 </ul>
                 <p class="note">
                   A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> or is in the
@@ -11667,7 +11672,7 @@
               <td>
                 <p>A popover is <dfn>"plain"</dfn> if it contains only elements with a computed role of generic, text and images.</p>
                 <p>A popover is <dfn>"rich"</dfn> if it is not "plain".</p>
-                <p>If the `interestfor`-associated element is invalid, or is not a not a popover: no `aria-expanded` mapping</p>
+                <p>If the `interestfor`-associated element is invalid, or is not a popover: no `aria-expanded` mapping.</p>
                 <p>
                   If the `interestfor`-associated element is an accessibility ancestor of the interest invoker:
                   <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
@@ -11722,6 +11727,22 @@
             <tr>
               <th>Comments</th>
               <td>
+                <p>
+                  If an element has both a valid `interestfor`-associated <a>"rich"</a> `popover` element and either a <a href="#att-command-popovers">`command`</a> (in a popover state) with
+                  <a href="#att-commandfor">`commandfor`</a> or a <a href="#att-popovertarget">`popovertarget`</a> attribute, user agents MUST apply the `interestfor` attribute mappings rather than
+                  the `command`/`commandfor` or `popovertarget` mappings. Specifically, the implicit `aria-expanded` state and <a class="core-mapping" href="#ariaDetails">`aria-details`</a>
+                  relationship MUST map to the `interestfor`-associated element rather than the `commandfor`- or `popovertarget`-associated element.
+                </p>
+                <p>
+                  If an element with an `interestfor`-associated <a>"rich"</a> `popover` element also has an explicit `aria-expanded` attribute with a valid value, user agents MUST expose the
+                  explicit `aria-expanded` attribute value instead of the implicit `aria-expanded` state from `interestfor`.
+                </p>
+                <p class="note">
+                  Authors should not use `interestfor` targeting a <a>"rich"</a> popover on an element that invokes a popover via
+                  <a href="#att-command-popovers">`command`</a>/<a href="#att-commandfor">`commandfor`</a> or <a href="#att-popovertarget">`popovertarget`</a>, or on an element that already has an
+                  explicit `aria-expanded` attribute in use for another purpose (such as a custom disclosure or custom popover). Because an interest invoker targeting a <a>"rich"</a> popover
+                  implicitly exposes `aria-expanded` for its target popover, combining it with another click-triggered popover or disclosure creates a conflict between the two expanded states.
+                </p>
               </td>
             </tr>
           </tbody>
@@ -13774,7 +13795,11 @@
                 <ul>
                   <li>when the `popover` is the next immediate accessibility sibling to the invoking element,</li>
                   <li>when the element has a `popovertargetaction=hide` attribute value,</li>
-                  <li>or when the element is a descendant of the `popover` and its `popovertarget` is the "`auto`" state.</li>
+                  <li>when the element is a descendant of the `popover` and its `popovertarget` is the "`auto`" state,</li>
+                  <li>
+                    or when the `popover` is not the <a href="#att-interestfor-attribute">`interestfor`</a>-associated element, and its invoking element has a valid
+                    <a href="#att-interestfor-attribute">`interestfor`</a>-associated <a>"rich"</a> `popover` element.
+                  </li>
                 </ul>
                 <p>
                   If specified on an element with an implicit role of `generic`, then the element's role instead maps to <a class="core-mapping" href="#role-map-group">`group`</a> for all
@@ -13819,6 +13844,10 @@
                     <a class="core-mapping" href="#ariaExpandedUndefined">`aria-expanded=undefined`</a>
                   </p>
                   <p>If the associated element is not a valid `popover` element: no `aria-expanded` mapping.</p>
+                  <p>
+                    If the element also has a valid <a href="#att-interestfor-attribute">`interestfor`</a>-associated <a>"rich"</a> `popover` element: no `aria-expanded` mapping from
+                    `popovertarget` (see <a href="#att-interestfor-attribute">`interestfor`</a>).
+                  </p>
                 </div>
               </td>
             </tr>
@@ -13860,7 +13889,8 @@
                 <ul>
                   <li>The element's `popovertargetaction` attribute value is "`hide`"</li>
                   <li>The associated popover element is the next immediate accessibility sibling to the invoking element,</li>
-                  <li>The element's implicit or explicit `popovertargetaction` is the "`auto`" state and the element is a descendant of the `popover` it is associated with.</li>
+                  <li>The element's implicit or explicit `popovertargetaction` is the "`auto`" state and the element is a descendant of the `popover` it is associated with,</li>
+                  <li>The invoking element also has a valid <a href="#att-interestfor-attribute">`interestfor`</a>-associated <a>"rich"</a> `popover` element.</li>
                   <!-- accessibility sibling will be defined in the ARIA specification -->
                 </ul>
                 <p class="note">A button that represents a <a data-cite="html/forms.html#concept-submit-button">submit button</a> with a [=button/form owner=] cannot invoke a popover.</p>
