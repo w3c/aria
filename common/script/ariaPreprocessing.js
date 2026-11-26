@@ -2,10 +2,13 @@
  * Generates list items in lists that include the global states and properties
  * @param {HTMLElement} globalStatesPlaceholder - placeholder in #global_states
  * @param {HTMLElement} roletypePropsPlaceholder - placeholder in #roletype
+ * @param {HTMLElement} roleNoneDisallowedAttributesList - placeholder in #none
  * @param {HTMLElement} def - sdef or pdef element NOTE: from forEach loop
  * @returns
  */
-const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePropsPlaceholder, def) => {
+
+
+const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePropsPlaceholder, roleNoneDisallowedAttributesList, def) => {
   const container = def.parentElement;
   const applicabilityText = container.querySelector(".state-applicability, .property-applicability").innerText;
   const isDefault = applicabilityText === "All elements of the base markup";
@@ -23,6 +26,8 @@ const buildGlobalStatesAndPropertiesLists = (globalStatesPlaceholder, roletypePr
   }${isDeprecated ? " (Global use deprecated in ARIA 1.2)" : ""}</li>\n`;
   globalStatesPlaceholder.insertAdjacentHTML("beforeend", htmlString);
   roletypePropsPlaceholder.insertAdjacentHTML("beforeend", htmlString);
+  // add it to role=none disallowed
+  roleNoneDisallowedAttributesList.insertAdjacentHTML('beforeend', `<li><${refTagName}>${def.innerHTML}</${refTagName}></li>\n`);
 };
 
 /**
@@ -51,7 +56,8 @@ var ariaPreprocessing = () => {
   // run buildGlobalStatesAndPropertiesLists()
   const globalStatesPlaceholder = document.querySelector('#global_states ul[data-aria-preprocess="placeholder"]');
   const roletypePropsPlaceholder = document.querySelector('#roletype ul[data-aria-preprocess="placeholder"]');
-  document.querySelectorAll("pdef, sdef").forEach(buildGlobalStatesAndPropertiesLists.bind(null, globalStatesPlaceholder, roletypePropsPlaceholder));
+  const roleNoneDisallowedAttributesList = document.querySelector('#none .role-disallowed ul');
+  document.querySelectorAll("pdef, sdef").forEach(buildGlobalStatesAndPropertiesLists.bind(null, globalStatesPlaceholder, roletypePropsPlaceholder, roleNoneDisallowedAttributesList));
   globalStatesPlaceholder.removeAttribute("data-aria-preprocess");
   roletypePropsPlaceholder.removeAttribute("data-aria-preprocess");
   // run rewriteDefContainer()

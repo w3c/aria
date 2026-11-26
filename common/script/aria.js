@@ -183,7 +183,7 @@ const buildRoleInfoPropList = function (roleInfo, propList, item) {
     propList[node.getAttribute("title") || node.innerText].roles.push(
       // TODO: cf.  renderIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText
       content,
-    ),
+    ) // maybe push roleInfo[content] instead? Cf. renderStateOrProperty()
   );
 
   roleInfo[content] = {
@@ -226,28 +226,29 @@ const buildAllprops = function (role) {
 const buildInheritedStatesProperties = function (item) {
   // BEGIN TODO: why can't we do, e.g.,
   // 1. in the main function: Object.keys(roleInfo).forEach(role=> buildAllprops(role)); (see also TODO: near where buildInheritedStatesProperties() is called)
-  //   - Then: let myList = item.allprops; (instead of myList = myList.concat(buildAllprops(role)))
+  //   - Then: let inheritedPropsList = item.allprops; (instead of inheritedPropsList = inheritedPropsList.concat(buildAllprops(role)))
   //   - NOTE: the HTML stays the same but the exported roleInfo isn't.
   //   - TODO: BUG? in the existing roleInfo allprops only occurs 30 times
-  let myList = [];
+  let inheritedPropsList = [];
   item.parentRoles.forEach(function (role) {
-    myList = myList.concat(buildAllprops(role));
+    inheritedPropsList = inheritedPropsList.concat(buildAllprops(role));
   });
   // END TODO
   // strip out any items that we have locally
-  // BEGIN TODO: why can't we do myList.filter( inherited => item.localprops.includes(local => local.name === inherited.name))?
+  // BEGIN TODO: why can't we do inheritedPropsList.filter( inherited => item.localprops.includes(local => local.name === inherited.name))?
   // or do something else to simplify this
-  if (item.localprops.length && myList.length) {
-    for (let j = myList.length - 1; j >= 0; j--) {
+  const inheritedPropsSet = new Set(inheritedPropsList);
+  if (item.localprops.length && inheritedPropsList.length) {
+    for (let j = inheritedPropsList.length - 1; j >= 0; j--) {
       item.localprops.forEach(function (x) {
-        if (x.name == myList[j].name) {
-          myList.splice(j, 1);
+        if (x.name == inheritedPropsList[j].name) {
+          inheritedPropsSet.delete(inheritedPropsList[j]);
         }
       });
     }
   }
 
-  const reducedList = [...new Set(myList)];
+  const reducedList = [...inheritedPropsSet];
 
   const sortedList = reducedList.sort((a, b) => {
     if (a.name === b.name) {
@@ -381,7 +382,9 @@ const renderStateOrProperty = function (propList, descendantRoles, item) {
   // Cases: placeholderText "Placeholder" or "Use as a global deprecated in ARIA 1.2"
 
   // populate placeholder
-  placeholder.innerHTML = `<ul>\n${item.roles.map((role) => `<li><rref>${role}</rref></li>\n`).join("")}</ul>\n`;
+
+  const allowedRoles = item.roles.filter(role => !roleInfo[role].localprops.find(prop => prop.name === item.name)?.disallowed); // NOTE: at time of writing only applies to role=none; we cannot filter for disallowed roles during buildRoleInfoPropList() because "Case: partially prohibited" (above) needs them listed.
+  placeholder.innerHTML = `<ul>\n${allowedRoles.map((role) => `<li><rref>${role}</rref></li>\n`).join("")}</ul>\n`;
 
   // also update any inherited roles
   const placeholderInheritedRoles = section.querySelector(".state-descendants, .property-descendants");
